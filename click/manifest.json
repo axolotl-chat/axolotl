@@ -1,0 +1,19 @@
+{
+    "name": "textsecure.jani",
+    "version": "0.1",
+    "description": "A TextSecure compatible messaging client for Ubuntu phones",
+    "title": "TextSecure client",
+    "architecture": "armhf",
+    "framework" : "ubuntu-sdk-14.10",
+    "hooks": {
+        "textsecure": {
+            "apparmor": "textsecure.json",
+            "desktop": "textsecure.desktop",
+            "urls": "textsecure.url-dispatcher",
+            "content-hub": "content-hub.json"
+        }
+    },
+    "maintainer": "Jani Monoses <jani@ubuntu.com>"
+}
+
+

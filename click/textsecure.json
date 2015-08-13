@@ -1,0 +1,13 @@
+{
+    "policy_groups": [
+        "networking",
+        "contacts",
+        "content_exchange",
+        "content_exchange_source",
+        "audio",
+        "video"
+    ],
+    "policy_version": 1.2
+}
+
+
