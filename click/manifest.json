@@ -7,7 +7,7 @@
     "framework" : "ubuntu-sdk-14.10",
     "hooks": {
         "textsecure": {
-            "apparmor": "textsecure.json",
+            "apparmor": "textsecure.apparmor",
             "desktop": "textsecure.desktop",
             "urls": "textsecure.url-dispatcher",
             "content-hub": "content-hub.json"
