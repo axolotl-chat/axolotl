@@ -10,7 +10,7 @@
             "apparmor": "textsecure.apparmor",
             "desktop": "textsecure.desktop",
             "urls": "textsecure.url-dispatcher",
-            "content-hub": "content-hub.json"
+            "content-hub": "textecure.content-hub"
         }
     },
     "maintainer": "Jani Monoses <jani@ubuntu.com>"
