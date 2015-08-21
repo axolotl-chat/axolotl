@@ -256,10 +256,10 @@ TelegramPage {
                 time: messagesModel.message(index).hTime
                 senderId: uid(messagesModel.tel)
                 senderName: outgoing? "You" : messagesModel.name
+                senderDisplayName: outgoing ? "" : senderName
                 mediaType: messagesModel.message(index).cType
 		/*
                 senderColor: Avatar.getColor(model.fromId)
-                senderDisplayName: (!isChat || outgoing) ? "" : getSenderDisplayName()
                 senderImage: {
                     if (isChat && !outgoing && !list.isInSelectionMode) {
                         return model.fromThumbnail;
