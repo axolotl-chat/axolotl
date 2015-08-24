@@ -10,7 +10,7 @@ Item {
     property string chatTitle: ""
     property string chatPhoto: ""
     property bool hasChatPhoto: chatPhoto !== ""
-    property string logo: Qt.resolvedUrl("../images/ic_ab_logo.png")
+    property string logo: Qt.resolvedUrl("../images/logo.png")
     property bool showFrame: hasChatId
 
     signal clicked();
