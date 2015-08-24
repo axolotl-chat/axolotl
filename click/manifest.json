@@ -13,6 +13,7 @@
             "content-hub": "textsecure.content-hub"
         }
     },
+    "icon": "qml/phoneui/images/logo.png",
     "maintainer": "Jani Monoses <jani@ubuntu.com>"
 }
 
