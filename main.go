@@ -111,7 +111,7 @@ func runBackend() {
 	}
 
 	if phone {
-		client.GetLocalContacts = getAddressBookContacts
+		client.GetLocalContacts = getAddressBookContactsFromDBus
 	} else {
 		client.GetLocalContacts = getDesktopContacts
 	}

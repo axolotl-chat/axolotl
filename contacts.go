@@ -14,8 +14,8 @@ func getDesktopContacts() ([]textsecure.Contact, error) {
 	return textsecure.ReadContacts(filepath.Join(configDir, "contacts.yml"))
 }
 
-// getAddgetAddressBookContacts gets the phone contacts via the address-book DBus service
-func getAddressBookContacts() ([]textsecure.Contact, error) {
+// getAddgetAddressBookContactsFromDBus gets the phone contacts via the address-book DBus service
+func getAddressBookContactsFromDBus() ([]textsecure.Contact, error) {
 	var o dbus.ObjectPath
 	var vcardContacts []string
 
@@ -39,6 +39,10 @@ func getAddressBookContacts() ([]textsecure.Contact, error) {
 		return nil, err
 	}
 
+	return parseVCards(vcardContacts)
+}
+
+func parseVCards(vcardContacts []string) ([]textsecure.Contact, error) {
 	contacts := make([]textsecure.Contact, len(vcardContacts))
 
 	i := 0
