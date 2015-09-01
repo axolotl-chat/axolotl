@@ -160,7 +160,7 @@ ListItemWithActions {
                         color: senderColor
                         visible: !isPhotoOrVideo
                         elide: Text.ElideRight
-                        text: isPhotoOrVideo ? "" : senderDisplayName
+                        text: isPhotoOrVideo ? "" : ""
 
                         Component.onCompleted: {
                             if (senderLabel.paintedWidth > units.gu(28)) {
