@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io/ioutil"
 	"path/filepath"
 	"strings"
 
@@ -58,4 +59,27 @@ func parseVCards(vcardContacts []string) ([]textsecure.Contact, error) {
 		i++
 	}
 	return contacts[:i], nil
+}
+
+// getAddgetAddressBookContactsFromContentHub gets the phone contacts via the content hub
+func getAddressBookContactsFromContentHub() ([]textsecure.Contact, error) {
+	if exists(contactsFile) && vcardPath == "" {
+		return textsecure.ReadContacts(contactsFile)
+	}
+	fileName := strings.Replace(vcardPath, "file://", "", 1)
+	b, err := ioutil.ReadFile(fileName)
+	if err != nil {
+		return nil, err
+	}
+	vcardContacts := strings.SplitAfter(string(b), "END:VCARD")
+	contacts, err := parseVCards(vcardContacts)
+	if err != nil {
+		return nil, err
+	}
+
+	err = textsecure.WriteContacts(contactsFile, contacts)
+	if err != nil {
+		return nil, err
+	}
+	return contacts, nil
 }

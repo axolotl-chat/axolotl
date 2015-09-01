@@ -188,6 +188,13 @@ TelegramPage {
         Scrollbar {
             flickableItem: contactListView
         }
+
+        Component.onCompleted: {
+            if (!textsecure.hasContacts) {
+                refreshContacts();
+            }
+        }
+
     }
 
     onGroupChatModeChanged: {
@@ -247,7 +254,11 @@ TelegramPage {
 	    console.log(t)
     }
 
+    ContactImport {
+        id: contactImporter
+    }
+
     function refreshContacts() {
-        textsecure.refreshContacts();
+        contactImporter.contactImportDialog()
     }
 }

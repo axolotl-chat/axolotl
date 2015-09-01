@@ -24,11 +24,12 @@ var (
 )
 
 var (
-	homeDir    string
-	configDir  string
-	configFile string
-	dataDir    string
-	storageDir string
+	homeDir      string
+	configDir    string
+	configFile   string
+	contactsFile string
+	dataDir      string
+	storageDir   string
 )
 
 func init() {
@@ -93,6 +94,7 @@ func setupEnvironment() {
 	}
 	homeDir = user.HomeDir
 	configDir = filepath.Join(homeDir, ".config/", appName)
+	contactsFile = filepath.Join(configDir, "contacts.yml")
 	os.MkdirAll(configDir, 0700)
 	dataDir = filepath.Join(homeDir, ".local", "share", appName)
 	storageDir = filepath.Join(dataDir, ".storage")
@@ -111,7 +113,7 @@ func runBackend() {
 	}
 
 	if phone {
-		client.GetLocalContacts = getAddressBookContactsFromDBus
+		client.GetLocalContacts = getAddressBookContactsFromContentHub
 	} else {
 		client.GetLocalContacts = getDesktopContacts
 	}
@@ -122,7 +124,10 @@ func runBackend() {
 		return
 	}
 
-	refreshContacts()
+	if exists(contactsFile) {
+		api.HasContacts = true
+		refreshContacts()
+	}
 
 	if err := textsecure.StartListening(); err != nil {
 		showError(err)
@@ -143,7 +148,9 @@ func main() {
 var engine *qml.Engine
 var win *qml.Window
 
-type textsecureAPI struct{}
+type textsecureAPI struct {
+	HasContacts bool
+}
 
 var api = &textsecureAPI{}
 
@@ -169,7 +176,10 @@ func (api *textsecureAPI) SendAttachment(to, message string, file string) error 
 	return textsecure.SendAttachment(to, message, r)
 }
 
-func (api *textsecureAPI) RefreshContacts() {
+var vcardPath string
+
+func (api *textsecureAPI) ContactsImported(path string) {
+	vcardPath = path
 	refreshContacts()
 }
 
