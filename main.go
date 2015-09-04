@@ -16,7 +16,7 @@ import (
 
 var appName = "textsecure.jani"
 
-var appVersion = "0.1.0"
+var appVersion = "0.2.0"
 
 var (
 	phone   bool
