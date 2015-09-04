@@ -183,7 +183,7 @@ func (api *textsecureAPI) ContactsImported(path string) {
 	refreshContacts()
 }
 
-// FIXME: members as splice
+// FIXME: receive members as splice, blocked by https://github.com/go-qml/qml/issues/137
 func (api *textsecureAPI) NewGroup(name string, members string) error {
 	m := strings.Split(members, ":")
 	return textsecure.NewGroup(name, m)
