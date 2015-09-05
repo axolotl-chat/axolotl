@@ -19,9 +19,7 @@ Group messaging, persistent storing of conversations and many other features of 
 Installation
 ------------
 
-The app is not yet in the store, due to it using a service reserved for vetted apps, see [Issue #4] (https://github.com/janimo/textsecure-qml/issues/4)
-
-Download a prebuilt click from the [releases page] (https://github.com/janimo/textsecure-qml/releases) or build the latest yourself
+Download the latest release from the app store or build it yourself
 
     ./build.sh rel
 
