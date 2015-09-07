@@ -51,12 +51,11 @@ func parseVCards(vcardContacts []string) ([]textsecure.Contact, error) {
 		di := vcard.NewDirectoryInfoReader(strings.NewReader(c))
 		vc := &vcard.VCard{}
 		vc.ReadFrom(di)
-		if len(vc.Telephones) == 0 {
-			continue
+		for t := 0; t < len(vc.Telephones); t++ {
+			contacts[i].Name = vc.FormattedName
+			contacts[i].Tel = strings.Replace(vc.Telephones[t].Number, " ", "", -1)
+			i++
 		}
-		contacts[i].Name = vc.FormattedName
-		contacts[i].Tel = strings.Replace(vc.Telephones[0].Number, " ", "", -1)
-		i++
 	}
 	return contacts[:i], nil
 }
