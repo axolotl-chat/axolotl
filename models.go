@@ -72,6 +72,7 @@ type Message struct {
 type Session struct {
 	Name     string
 	Tel      string
+	IsGroup  bool
 	Last     string
 	When     string
 	CType    int
@@ -94,7 +95,9 @@ func (s *Sessions) Get(tel string) *Session {
 	if ok {
 		return ses
 	}
-	s.m[tel] = &Session{Tel: tel, Name: telToName(tel)}
+	// FIXME: better session id/name separation, group ids may need to be exposed from the libraray;
+	// for now, consider anything not starting with '+' a group.
+	s.m[tel] = &Session{Tel: tel, Name: telToName(tel), IsGroup: tel[0] != '+'}
 	s.ind = append(s.ind, tel)
 	s.Len++
 	qml.Changed(s, &s.Len)

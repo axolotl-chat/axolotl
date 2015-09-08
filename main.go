@@ -38,7 +38,11 @@ func init() {
 }
 
 func messageHandler(msg *textsecure.Message) {
-	session := sessionsModel.Get(msg.Source())
+	s := msg.Group()
+	if s == "" {
+		s = msg.Source()
+	}
+	session := sessionsModel.Get(s)
 	var r io.Reader
 	if len(msg.Attachments()) > 0 {
 		r = msg.Attachments()[0]
@@ -157,7 +161,11 @@ var api = &textsecureAPI{}
 func (api *textsecureAPI) SendMessage(to, message string) error {
 	session := sessionsModel.Get(to)
 	session.Add(message, "", nil, true)
-	return textsecure.SendMessage(to, message)
+	if session.IsGroup {
+		return textsecure.SendGroupMessage(to, message)
+	} else {
+		return textsecure.SendMessage(to, message)
+	}
 }
 
 func (api *textsecureAPI) SendAttachment(to, message string, file string) error {
@@ -186,7 +194,13 @@ func (api *textsecureAPI) ContactsImported(path string) {
 // FIXME: receive members as splice, blocked by https://github.com/go-qml/qml/issues/137
 func (api *textsecureAPI) NewGroup(name string, members string) error {
 	m := strings.Split(members, ":")
-	return textsecure.NewGroup(name, m)
+	err := textsecure.NewGroup(name, m)
+	if err != nil {
+		return err
+	}
+	session := sessionsModel.Get(name)
+	session.Add("Group created with "+members, "", nil, true)
+	return nil
 }
 
 func runUI() error {
