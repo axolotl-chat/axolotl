@@ -44,7 +44,9 @@ func getAddressBookContactsFromDBus() ([]textsecure.Contact, error) {
 }
 
 func parseVCards(vcardContacts []string) ([]textsecure.Contact, error) {
-	contacts := make([]textsecure.Contact, len(vcardContacts))
+	// for now allocate space for 3 phones for each contact.
+	// FIXME: make it cleaner by using up only as much space as needed.
+	contacts := make([]textsecure.Contact, len(vcardContacts)*3)
 
 	i := 0
 	for _, c := range vcardContacts {
