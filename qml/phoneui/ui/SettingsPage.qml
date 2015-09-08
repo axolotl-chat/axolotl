@@ -16,6 +16,10 @@ TelegramPage {
         id: model
 
         ListItem.Header {
+		text: "TextSecure for Ubuntu Phone, version "+appVersion
+        }
+
+        ListItem.Header {
 		text: i18n.tr("Privacy")
         }
 

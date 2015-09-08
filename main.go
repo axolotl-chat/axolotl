@@ -208,6 +208,7 @@ func runUI() error {
 
 	initModels()
 	engine.Context().SetVar("textsecure", api)
+	engine.Context().SetVar("appVersion", appVersion)
 
 	component, err := engine.LoadFile(mainQml)
 	if err != nil {
