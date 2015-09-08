@@ -79,6 +79,7 @@ TelegramPage {
 
                 title: sessionsModel.session(index).name
                 messageDate: sessionsModel.session(index).when
+                isGroupChat: sessionsModel.session(index).isGroup
 
                 onItemClicked: {
                     mouse.accepted = true;
