@@ -51,7 +51,7 @@ TelegramPage {
 
     pageTitle: {
         if (groupChatMode) {
-            return i18n.tr("New group chat");
+            return i18n.tr("New group");
         } else if (addToGroupMode) {
             return i18n.tr("Add to group");
         } else {
@@ -97,7 +97,7 @@ TelegramPage {
             }
             height: isVisible ? units.gu(4) : 0
             opacity: isVisible ? 1.0 : 0.0
-            placeholderText: i18n.tr("Chat title")
+            placeholderText: i18n.tr("Group name")
 
             Behavior on height {
                 NumberAnimation { duration: 300 }
