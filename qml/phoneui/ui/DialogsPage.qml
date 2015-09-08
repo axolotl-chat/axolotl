@@ -75,9 +75,7 @@ TelegramPage {
 		dialogId: uid(sessionsModel.session(index).tel)
                 message: sessionsModel.session(index).last
                 mediaType: sessionsModel.session(index).cType
-                // this avoid to forward messages to secret chats, which don't support such
-                // feature
-                height: messagesToForward.length > 0 && isSecret ? 0 : units.gu(8)
+                height: messagesToForward.length > 0 ? 0 : units.gu(8)
 
                 title: sessionsModel.session(index).name
                 messageDate: sessionsModel.session(index).when

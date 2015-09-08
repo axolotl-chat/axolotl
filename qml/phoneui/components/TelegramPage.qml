@@ -26,7 +26,6 @@ Page {
     property int chatId: 0
     property string firstName: ""
     property string lastName: ""
-    property bool pageIsSecret: false
 
     property alias body: body.children
     property alias searchTerm: searchField.text
@@ -40,7 +39,6 @@ Page {
         chatPhoto: pageImage
         title: pageTitle
         subtitle: pageSubtitleAlt.length > 0 ? pageSubtitleAlt : pageSubtitle
-        isSecretChat: pageIsSecret
         isConnecting: !page.isConnected
         visible: !isSearching
         width: parent ? parent.width - units.gu(2) : undefined

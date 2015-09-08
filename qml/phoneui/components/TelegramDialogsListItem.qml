@@ -11,7 +11,6 @@ ListItemWithActions {
     property int peerId: 0
     property int peerType: 0
 
-    property bool isSecret: false
     property bool isOutgoing: false
     property bool isSent: false
     property bool isRead: false
@@ -23,7 +22,7 @@ ListItemWithActions {
     property int topMessageId: 0
     property int state: 0
 
-    property bool isGroupChat: false //TLInputPeer.TypeInputPeerChat == peerType
+    property bool isGroupChat: false
     property bool isMedia: ContentType.Unknown != mediaType
 
     property bool isTyping: false
@@ -87,13 +86,11 @@ ListItemWithActions {
         source: {
             if (isGroupChat) {
                 return Qt.resolvedUrl("../images/grouplist.png");
-            } else if (isSecret) {
-                return Qt.resolvedUrl("../images/ic_lock_green.png");
             } else {
                 return "";
             }
         }
-        visible: isGroupChat || isSecret
+        visible: isGroupChat
     }
 
     Text {
@@ -169,7 +166,7 @@ ListItemWithActions {
         id: titleText
         anchors {
             top: parent.top
-            left: isGroupChat || isSecret ? chatTypeIndicator.right : imageShape.right
+            left: isGroupChat ? chatTypeIndicator.right : imageShape.right
             leftMargin: isGroupChat ? units.dp(4) : units.gu(1)
             bottom: timeText.bottom
             right: sentIndicator.left
@@ -178,7 +175,7 @@ ListItemWithActions {
 
         font.pixelSize: FontUtils.sizeToPixels("large")
         font.weight: Font.DemiBold
-        color: isSecret ? TelegramColors.secret_green : TelegramColors.black
+        color: TelegramColors.black
         elide: Text.ElideRight
         text: title
     }

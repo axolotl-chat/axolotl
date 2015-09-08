@@ -24,7 +24,6 @@ ListItemWithActions {
     property string actionThumbnail: ""
 
     property int messageId: 0
-    property int ttl: 0
     property string message: ""
     property int messageDate: 0
     property int mediaType: 0
@@ -314,14 +313,12 @@ ListItemWithActions {
             var preview = photo !== "" ? photo : thumbnail
             properties = {
                 "senderName": senderName,
-                "photoPreviewSource": preview,
-                "pageIsSecret": ttl !== 0
+                "photoPreviewSource": preview
             };
         } else if (mediaType === ContentType.Videos) {
             properties = {
                 "senderName": senderName,
-                "videoPreviewSource": video,
-                "pageIsSecret": ttl !== 0
+                "videoPreviewSource": video
             };
         }
         pageStack.push(previewPage, properties);
