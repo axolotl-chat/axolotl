@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"io"
@@ -8,6 +9,7 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
+	"strconv"
 	"strings"
 
 	"github.com/janimo/textsecure"
@@ -74,6 +76,7 @@ func getConfig() (*textsecure.Config, error) {
 	}
 	config.StorageDir = storageDir
 	config.UserAgent = fmt.Sprintf("TextSecure %s for Ubuntu Phone", appVersion)
+	config.UnencryptedStorage = true
 	rootCA := filepath.Join(configDir, "rootCA.crt")
 	if exists(rootCA) {
 		config.RootCA = rootCA
@@ -123,6 +126,10 @@ func runBackend() {
 	}
 
 	err := textsecure.Setup(client)
+	if _, ok := err.(*strconv.NumError); ok {
+		showError(errors.New("Switching to unencrypted session store for now.\n On the phone rm -Rf /home/phablet/.local/share/textsecure.jani/.storage/\n This will reset your sessions and reregister your phone."))
+		return
+	}
 	if err != nil {
 		showError(err)
 		return
