@@ -135,6 +135,7 @@ TelegramPage {
 
                 userId: uid(contactsModel.contact(index).tel)
                 title: contactsModel.contact(index).name
+                subtitle: contactsModel.contact(index).tel
 
                 selected: contactListView.isSelected(contactDelegate)
                 selectionMode: groupChatMode

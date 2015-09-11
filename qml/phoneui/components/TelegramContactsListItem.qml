@@ -12,6 +12,7 @@ ListItemWithActions {
     property int userId: 0 // to get avatar if thumbnail not set
     property string photo: ""
     property string title: ""
+    property string subtitle: ""
     property bool isOnline: false
     property int lastSeen: 0
 
@@ -57,4 +58,22 @@ ListItemWithActions {
         text: title
     }
 
+    Text {
+        id: subtitleText
+        anchors {
+            top: titleText.bottom
+            topMargin: units.gu(0.5)
+            left: imageShape.right
+            leftMargin: units.gu(1.5)
+            right: parent.right
+            rightMargin: units.gu(1.5)
+        }
+        horizontalAlignment: TextInput.AlignLeft
+        verticalAlignment: TextInput.AlignVCenter
+
+        font.pixelSize: FontUtils.sizeToPixels("medium")
+        color: TelegramColors.grey
+        elide: Text.ElideRight
+        text: subtitle
+    }
 }
