@@ -39,18 +39,11 @@ TelegramPage {
             text: i18n.tr("Save")
             onTriggered: save()
             visible: saveAndShareVisible()
-        },
-        Action {
-            iconName: "share"
-            text: i18n.tr("Share")
-            onTriggered: share()
-            visible: saveAndShareVisible()
         }
-
     ]
 
     function saveAndShareVisible() {
-        return !pageIsSecret && (photoPreviewSource !== "" || videoPreviewSource !== "");
+        return (photoPreviewSource !== "" || videoPreviewSource !== "");
     }
 
     function save() {
@@ -66,24 +59,6 @@ TelegramPage {
             pageStack.push(picker, {
                 "url": videoPreviewSource,
                 "handler": ContentHandler.Destination,
-                "contentType": ContentType.Videos
-            });
-        }
-    }
-
-    function share() {
-        singleMediaViewer.reset();
-
-        if (photoPreviewSource !== "") {
-            pageStack.push(picker, {
-                "url": photoPreviewSource,
-                "handler": ContentHandler.Share,
-                "contentType": ContentType.Pictures
-            });
-        } else if (videoPreviewSource !== "") {
-            pageStack.push(picker, {
-                "url": videoPreviewSource,
-                "handler": ContentHandler.Share,
                 "contentType": ContentType.Videos
             });
         }
@@ -118,12 +93,6 @@ TelegramPage {
                     .arg(Qt.resolvedUrl(videoPreviewSource)).arg(previewPage.width), "file:///")
         }
 */
-    }
-
-    Component.onCompleted: {
-    }
-
-    Component.onDestruction: {
     }
 
     onBigPhotoUpdated: {
