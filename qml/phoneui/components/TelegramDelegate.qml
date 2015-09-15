@@ -320,6 +320,8 @@ ListItemWithActions {
                 "senderName": senderName,
                 "videoPreviewSource": video
             };
+        } else {
+            return
         }
         pageStack.push(previewPage, properties);
     }
