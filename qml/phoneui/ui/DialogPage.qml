@@ -40,7 +40,7 @@ TelegramPage {
                 z: 3
                 delegate: ListItems.Standard {
                     iconFrame: false
-                    icon: Qt.resolvedUrl(action.iconSource)
+                    iconSource: Qt.resolvedUrl(action.iconSource)
                     focus: false
                     text: action.text
                 }
