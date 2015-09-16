@@ -3,7 +3,6 @@ import Ubuntu.Content 0.1
 
 Item {
 	function getMediaTypeString(mediaType) {
-		console.log("get mediatype", mediaType)
 		switch (mediaType) {
 			case ContentType.Pictures:
 			return "Photo"
