@@ -41,8 +41,8 @@ Item {
         asynchronous: true
         fillMode: Image.PreserveAspectCrop
 
-        sourceSize.width: messageDelegate.width
-        sourceSize.height: 0 // scale accordingly
+        sourceSize.width: 200
+        sourceSize.height: 200
         source: Qt.resolvedUrl(thumbnail)
 
         onStatusChanged:  {
