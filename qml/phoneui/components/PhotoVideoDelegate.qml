@@ -35,6 +35,15 @@ Item {
         property bool isLandscape: false
         property real aspectRatio: 1
 
+        ActivityIndicator {
+            id: ai
+            anchors {
+                fill: parent
+            }
+            visible: running
+            running: thumbnailImage.status != Image.Ready
+        }
+
         anchors {
             fill: parent
         }
