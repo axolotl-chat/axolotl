@@ -319,6 +319,7 @@ TelegramPage {
                 senderName: outgoing? "You" : messagesModel.name
                 senderDisplayName: outgoing ? "" : senderName
                 mediaType: messagesModel.message(ii).cType
+                thumbnail: mediaType === ContentType.Pictures? "image://ts/"+messagesModel.tel+":"+ii:""
 		/*
                 senderColor: Avatar.getColor(model.fromId)
                 senderImage: {
@@ -327,7 +328,6 @@ TelegramPage {
                     }
                     return "";
                 }
-                thumbnail: isAction ? "" : model.thumbnail
                 photo: model.photo
                 video: model.video
                 document: model.document
