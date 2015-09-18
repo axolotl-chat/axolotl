@@ -2,6 +2,7 @@ package main
 
 import (
 	"io"
+	"io/ioutil"
 	"strings"
 	"time"
 
@@ -67,6 +68,7 @@ type Message struct {
 	Time     time.Time
 	HTime    string
 	CType    int
+	Att      []byte
 }
 
 type Session struct {
@@ -111,7 +113,7 @@ var sessionsModel = &Sessions{
 
 func (s *Session) Message(i int) *Message {
 	//FIXME when is index -1 ?
-	if i == -1 {
+	if i == -1 || i >= len(s.messages) {
 		return &Message{}
 	}
 	return s.messages[i]
@@ -147,13 +149,22 @@ func contentType(att io.Reader) (int, io.Reader) {
 }
 
 func (s *Session) Add(text string, from string, att io.Reader, outgoing bool) {
-	ctype, _ := contentType(att)
+	ctype, att := contentType(att)
+	b := []byte{}
+	if att != nil {
+		var err error
+		b, err = ioutil.ReadAll(att)
+		if err != nil {
+			showError(err)
+		}
+	}
 	message := &Message{Text: text,
 		Outgoing: outgoing,
 		Time:     time.Now(),
 		From:     from,
 		HTime:    humanize.Time(time.Now()),
 		CType:    ctype,
+		Att:      b,
 	}
 	s.messages = append([]*Message{message}, s.messages...)
 	s.Last = text
