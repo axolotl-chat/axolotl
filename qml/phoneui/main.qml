@@ -140,6 +140,12 @@ MainView {
 		pageStack.push(dialogPage, properties);
 	}
 
+	function forwardMessages(messages) {
+		var properties = { messagesToForward: messages };
+		console.log(messages)
+		pageStack.push(dialogsPage, properties);
+	}
+
 	function uid(tel) {
 		return parseInt(tel.substring(3))
 	}
