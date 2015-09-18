@@ -297,7 +297,8 @@ TelegramPage {
             listModel: messagesModel.len
             listDelegate: TelegramDelegate {
                 id: delegate
-		outgoing: messagesModel.message(index).outgoing
+		property int ii: messagesModel.len - 1 - index
+                outgoing: messagesModel.message(ii).outgoing
 		isAction: false
                 isSent: false
                 isRead: false
@@ -312,13 +313,12 @@ TelegramPage {
 
 		messageId: model.id
 		*/
-                message: messagesModel.message(index).text
-//		messageDate: messagesModel.message(index).timestamp
-                time: messagesModel.message(index).hTime
+                message: messagesModel.message(ii).text
+                time: messagesModel.message(ii).hTime
                 senderId: uid(messagesModel.tel)
                 senderName: outgoing? "You" : messagesModel.name
                 senderDisplayName: outgoing ? "" : senderName
-                mediaType: messagesModel.message(index).cType
+                mediaType: messagesModel.message(ii).cType
 		/*
                 senderColor: Avatar.getColor(model.fromId)
                 senderImage: {

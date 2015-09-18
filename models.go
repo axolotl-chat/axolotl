@@ -166,7 +166,7 @@ func (s *Session) Add(text string, from string, att io.Reader, outgoing bool) {
 		CType:    ctype,
 		Att:      b,
 	}
-	s.messages = append([]*Message{message}, s.messages...)
+	s.messages = append(s.messages, message)
 	s.Last = text
 	s.Len++
 	s.When = s.messages[0].HTime
