@@ -1,9 +1,13 @@
 package main
 
 import (
+	"bytes"
 	"errors"
 	"flag"
 	"fmt"
+	"image"
+	_ "image/jpeg"
+	_ "image/png"
 	"io"
 	"log"
 	"os"
@@ -212,6 +216,24 @@ func (api *textsecureAPI) NewGroup(name string, members string) error {
 
 func runUI() error {
 	engine = qml.NewEngine()
+
+	engine.AddImageProvider("ts", func(id string, width, height int) image.Image {
+		s := strings.Split(id, ":")
+		tel := s[0]
+		i, _ := strconv.Atoi(s[1])
+		ses := sessionsModel.Get(tel)
+		att := ses.messages[i].Att
+		if att == nil {
+			return image.NewAlpha(image.Rectangle{})
+		}
+		r := bytes.NewBuffer(att)
+		img, _, err := image.Decode(r)
+		if err != nil {
+			return image.NewAlpha(image.Rectangle{})
+
+		}
+		return img
+	})
 
 	initModels()
 	engine.Context().SetVar("textsecure", api)
