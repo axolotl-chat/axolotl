@@ -192,7 +192,11 @@ func (api *textsecureAPI) SendAttachment(to, message string, file string) error 
 		return err
 	}
 	defer r.Close()
-	return textsecure.SendAttachment(to, message, r)
+	if session.IsGroup {
+		return textsecure.SendGroupAttachment(to, message, r)
+	} else {
+		return textsecure.SendAttachment(to, message, r)
+	}
 }
 
 var vcardPath string
