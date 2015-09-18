@@ -14,6 +14,67 @@ TelegramPage {
 
     title: messagesModel.name
 
+    property bool isChat: messagesModel.isGroup
+
+    property var messagesToForward: []
+
+    onHeaderClicked: {
+        Qt.inputMethod.hide();
+
+        var userId = uid(messagesModel.tel)
+        isChat ? openGroupProfile(userId)
+               : openProfile(userId);
+    }
+
+    property list<Action> defaultActions: [
+        Action {
+            iconName: "stock_contact"
+            text: isChat ? i18n.tr("Group Info") : i18n.tr("Profile Info")
+            onTriggered: {
+                Qt.inputMethod.hide();
+                headerClicked();
+            }
+        }
+    ]
+
+    property list<Action> selectionActions: [
+        Action {
+            iconName: "select"
+            text: i18n.tr("Select all")
+            onTriggered: {
+                if (list.selectedItems.count === list.listModel.count) {
+                    list.clearSelection()
+                } else {
+                    list.selectAll()
+                }
+            }
+        },
+        Action {
+            id: copySelectedAction
+            iconName: "edit-copy"
+            text: i18n.tr("Copy")
+            onTriggered: list.copySelected()
+        },
+        Action {
+            id: forwardSelectedAction
+            iconName: "next"
+            text: i18n.tr("Forward")
+            visible: true
+            onTriggered: list.forwardSelected()
+        },
+        Action {
+            id: multiDeleteAction
+            iconName: "delete"
+            text: i18n.tr("Delete")
+            onTriggered: list.deleteSelected()
+        }
+    ]
+
+    head.actions: list.isInSelectionMode ? selectionActions : defaultActions
+
+    isInSelectionMode: list.isInSelectionMode
+    onSelectionCanceled: list.cancelSelection()
+
     body: Item {
 
         anchors {
@@ -286,6 +347,15 @@ TelegramPage {
                     openProfile(model.fwdFromId);
                 }
 
+                leftSideActions: [
+                    Action {
+                        iconName: "delete"
+                        text: i18n.tr("Delete")
+                        visible: isConnected
+                        onTriggered: {
+                        }
+                    }
+                ]
                 rightSideActions: [
                      Action {
                         iconName: "reload"
