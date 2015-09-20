@@ -171,12 +171,19 @@ var api = &textsecureAPI{}
 
 func (api *textsecureAPI) SendMessage(to, message string) error {
 	session := sessionsModel.Get(to)
-	session.Add(message, "", nil, true)
-	if session.IsGroup {
-		return textsecure.SendGroupMessage(to, message)
-	} else {
-		return textsecure.SendMessage(to, message)
-	}
+	m := session.Add(message, "", nil, true)
+	go func() error {
+		var err error
+		if session.IsGroup {
+			err = textsecure.SendGroupMessage(to, message)
+		} else {
+			err = textsecure.SendMessage(to, message)
+		}
+		m.IsSent = true
+		qml.Changed(m, &m.IsSent)
+		return err
+	}()
+	return nil
 }
 
 func (api *textsecureAPI) SendAttachment(to, message string, file string) error {
@@ -186,17 +193,23 @@ func (api *textsecureAPI) SendAttachment(to, message string, file string) error 
 		return err
 	}
 	defer r.Close()
-	session.Add(message, "", r, true)
+	m := session.Add(message, "", r, true)
 	r, err = os.Open(file)
 	if err != nil {
 		return err
 	}
-	defer r.Close()
-	if session.IsGroup {
-		return textsecure.SendGroupAttachment(to, message, r)
-	} else {
-		return textsecure.SendAttachment(to, message, r)
-	}
+	go func() error {
+		var err error
+		if session.IsGroup {
+			err = textsecure.SendGroupAttachment(to, message, r)
+		} else {
+			err = textsecure.SendAttachment(to, message, r)
+		}
+		m.IsSent = true
+		qml.Changed(m, &m.IsSent)
+		return err
+	}()
+	return nil
 }
 
 var vcardPath string

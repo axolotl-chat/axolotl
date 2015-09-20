@@ -300,8 +300,8 @@ TelegramPage {
 		property int ii: messagesModel.len - 1 - index
                 outgoing: messagesModel.message(ii).outgoing
 		isAction: false
-                isSent: false
-                isRead: false
+                isSent: messagesModel.message(ii).isSent
+                isRead: messagesModel.message(ii).isRead
 		/*
                 actionType: model.actionType
                 actionTitle: model.actionTitle

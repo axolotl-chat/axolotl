@@ -69,6 +69,8 @@ type Message struct {
 	HTime    string
 	CType    int
 	Att      []byte
+	IsSent   bool
+	IsRead   bool
 }
 
 type Session struct {
@@ -148,10 +150,10 @@ func contentType(att io.Reader) (int, io.Reader) {
 	return ct, r
 }
 
-func (s *Session) Add(text string, from string, att io.Reader, outgoing bool) {
+func (s *Session) Add(text string, from string, att io.Reader, outgoing bool) *Message {
 	ctype, att := contentType(att)
 	b := []byte{}
-	if att != nil {
+	if att != nil && ctype == ContentTypePictures {
 		var err error
 		b, err = ioutil.ReadAll(att)
 		if err != nil {
@@ -175,6 +177,7 @@ func (s *Session) Add(text string, from string, att io.Reader, outgoing bool) {
 	qml.Changed(s, &s.When)
 	qml.Changed(s, &s.Len)
 	qml.Changed(s, &s.CType)
+	return message
 }
 
 // updateTimestamps keeps the timestamps of the last message of each session

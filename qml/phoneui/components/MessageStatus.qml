@@ -48,7 +48,6 @@ Item {
             z: 1
             fillMode: Image.PreserveAspectFit
             source: {
-                    return Qt.resolvedUrl("../images/Checks2_2x_white.png");
                 if (!isSent) {
                     return Qt.resolvedUrl("../images/msg_clock_white.png");
                 } else if (!isRead) {
