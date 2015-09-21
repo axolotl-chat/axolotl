@@ -57,6 +57,19 @@ func messageHandler(msg *textsecure.Message) {
 	session.Add(msg.Message(), msg.Source(), r, false)
 }
 
+func receiptHandler(source string, devID uint32, timestamp uint64) {
+	s := sessionsModel.Get(source)
+	for i := len(s.messages) - 1; i >= 0; i-- {
+		m := s.messages[i]
+		if m.Timestamp == timestamp {
+			m.IsRead = true
+			qml.Changed(m, &m.IsRead)
+			return
+		}
+	}
+	log.Println("Message with timestamp %d not found\n", timestamp)
+}
+
 func exists(path string) bool {
 	_, err := os.Stat(path)
 	return err == nil
@@ -121,6 +134,7 @@ func runBackend() {
 		GetVerificationCode: getVerificationCode,
 		GetStoragePassword:  getStoragePassword,
 		MessageHandler:      messageHandler,
+		ReceiptHandler:      receiptHandler,
 		RegistrationDone:    registrationDone,
 	}
 
