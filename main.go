@@ -15,6 +15,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/janimo/textsecure"
 	"gopkg.in/qml.v1"
@@ -144,8 +145,11 @@ func runBackend() {
 		refreshContacts()
 	}
 
-	if err := textsecure.StartListening(); err != nil {
-		showError(err)
+	for {
+		if err := textsecure.StartListening(); err != nil {
+			log.Println(err)
+			time.Sleep(3 * time.Second)
+		}
 	}
 }
 
