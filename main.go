@@ -173,22 +173,22 @@ type textsecureAPI struct {
 
 var api = &textsecureAPI{}
 
-func sendMessage(to, message string, group bool, att io.Reader) {
+func sendMessage(to, message string, group bool, att io.Reader) uint64 {
 	var err error
-
+	var ts uint64
 	for {
 		err = nil
 		if att == nil {
 			if group {
 				err = textsecure.SendGroupMessage(to, message)
 			} else {
-				err = textsecure.SendMessage(to, message)
+				err, ts = textsecure.SendMessage(to, message)
 			}
 		} else {
 			if group {
 				err = textsecure.SendGroupAttachment(to, message, att)
 			} else {
-				err = textsecure.SendAttachment(to, message, att)
+				err, ts = textsecure.SendAttachment(to, message, att)
 			}
 		}
 		if err == nil {
@@ -198,14 +198,16 @@ func sendMessage(to, message string, group bool, att io.Reader) {
 		//If sending failed, try again after a while
 		time.Sleep(3 * time.Second)
 	}
+	return ts
 }
 
 func (api *textsecureAPI) SendMessage(to, message string) error {
 	session := sessionsModel.Get(to)
 	m := session.Add(message, "", nil, true)
 	go func() {
-		sendMessage(to, message, session.IsGroup, nil)
+		ts := sendMessage(to, message, session.IsGroup, nil)
 		m.IsSent = true
+		m.Timestamp = ts
 		qml.Changed(m, &m.IsSent)
 	}()
 	return nil
@@ -224,8 +226,9 @@ func (api *textsecureAPI) SendAttachment(to, message string, file string) error 
 		return err
 	}
 	go func() {
-		sendMessage(to, message, session.IsGroup, r)
+		ts := sendMessage(to, message, session.IsGroup, r)
 		m.IsSent = true
+		m.Timestamp = ts
 		qml.Changed(m, &m.IsSent)
 	}()
 	return nil
