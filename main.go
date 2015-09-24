@@ -61,7 +61,7 @@ func receiptHandler(source string, devID uint32, timestamp uint64) {
 	s := sessionsModel.Get(source)
 	for i := len(s.messages) - 1; i >= 0; i-- {
 		m := s.messages[i]
-		if m.Timestamp == timestamp {
+		if m.SentAt == timestamp {
 			m.IsRead = true
 			qml.Changed(m, &m.IsRead)
 			return
@@ -221,7 +221,7 @@ func (api *textsecureAPI) SendMessage(to, message string) error {
 	go func() {
 		ts := sendMessage(to, message, session.IsGroup, nil)
 		m.IsSent = true
-		m.Timestamp = ts
+		m.SentAt = ts
 		qml.Changed(m, &m.IsSent)
 	}()
 	return nil
@@ -242,7 +242,7 @@ func (api *textsecureAPI) SendAttachment(to, message string, file string) error 
 	go func() {
 		ts := sendMessage(to, message, session.IsGroup, r)
 		m.IsSent = true
-		m.Timestamp = ts
+		m.SentAt = ts
 		qml.Changed(m, &m.IsSent)
 	}()
 	return nil
