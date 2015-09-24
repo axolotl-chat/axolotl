@@ -229,13 +229,26 @@ func (api *textsecureAPI) SendMessage(to, message string) error {
 	return nil
 }
 
+// Do not allow sending attachments larger than 100M for now
+var maxAttachmentSize int64 = 100 * 1024 * 1024
+
 func (api *textsecureAPI) SendAttachment(to, message string, file string) error {
+	fi, err := os.Stat(file)
+	if err != nil {
+		return err
+	}
+	if fi.Size() > maxAttachmentSize {
+		showError(errors.New("Attachment too large, not sending"))
+		return nil
+	}
+
 	session := sessionsModel.Get(to)
 	r, err := os.Open(file)
 	if err != nil {
 		return err
 	}
 	defer r.Close()
+
 	m := session.Add(message, "", r, true)
 	r, err = os.Open(file)
 	if err != nil {
