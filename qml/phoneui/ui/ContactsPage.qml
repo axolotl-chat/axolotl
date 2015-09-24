@@ -35,7 +35,7 @@ TelegramPage {
             onTriggered: searchPressed()
         },
         Action {
-	    iconName: "reload"
+            iconName: "reload"
             text: i18n.tr("Refresh")
             onTriggered: refreshContacts()
         }
@@ -98,6 +98,11 @@ TelegramPage {
             height: isVisible ? units.gu(4) : 0
             opacity: isVisible ? 1.0 : 0.0
             placeholderText: i18n.tr("Group name")
+            Keys.onReturnPressed: {
+                Qt.inputMethod.commit();
+                contactListView.createGroup();
+            }
+
 
             Behavior on height {
                 NumberAnimation { duration: 300 }
@@ -163,12 +168,15 @@ TelegramPage {
             }
 
             onSelectionDone: {
+                createGroup();
+            }
+
+            function createGroup() {
                 createChat(sels);
 
                 groupChatMode = false;
                 groupChatTitleTextField.text = "";
             }
-
             function selectionToggled(contact) {
                 var a = contactListView.sela
                 var i = a.indexOf(contact)
@@ -251,17 +259,17 @@ TelegramPage {
     function openSimpleChat(contact) {
         Qt.inputMethod.hide();
         searchFinished();
-	openChatById(contact.name, contact.tel);
+        openChatById(contact.name, contact.tel);
     }
 
     function openGroupChat(contacts) {
-	textsecure.newGroup(groupChatTitleTextField.text, contacts)
+        textsecure.newGroup(groupChatTitleTextField.text, contacts)
         searchFinished();
         pageStack.pop();
     }
 
     function onSearchTermChanged(t) {
-	    console.log(t)
+            console.log(t)
     }
 
     ContactImport {
