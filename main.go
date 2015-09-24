@@ -69,7 +69,7 @@ func receiptHandler(source string, devID uint32, timestamp uint64) {
 			return
 		}
 	}
-	log.Println("Message with timestamp %d not found\n", timestamp)
+	log.Printf("Message with timestamp %d not found\n", timestamp)
 }
 
 func exists(path string) bool {
