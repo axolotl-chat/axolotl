@@ -196,15 +196,15 @@ func sendMessage(to, message string, group bool, att io.Reader) uint64 {
 		err = nil
 		if att == nil {
 			if group {
-				err = textsecure.SendGroupMessage(to, message)
+				ts, err = textsecure.SendGroupMessage(to, message)
 			} else {
-				err, ts = textsecure.SendMessage(to, message)
+				ts, err = textsecure.SendMessage(to, message)
 			}
 		} else {
 			if group {
-				err = textsecure.SendGroupAttachment(to, message, att)
+				ts, err = textsecure.SendGroupAttachment(to, message, att)
 			} else {
-				err, ts = textsecure.SendAttachment(to, message, att)
+				ts, err = textsecure.SendAttachment(to, message, att)
 			}
 		}
 		if err == nil {
