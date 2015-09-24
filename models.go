@@ -75,6 +75,15 @@ type Message struct {
 	IsRead     bool
 }
 
+func (m *Message) Info() string {
+	timeFormat := time.RFC1123Z
+	s := "Sent: " + time.Unix(int64(m.SentAt/1000), 0).Format(timeFormat)
+	if m.ReceivedAt != 0 {
+		s += "\nReceived: " + time.Unix(int64(m.ReceivedAt/1000), 0).Format(timeFormat)
+	}
+	return s
+}
+
 type Session struct {
 	Name     string
 	Tel      string

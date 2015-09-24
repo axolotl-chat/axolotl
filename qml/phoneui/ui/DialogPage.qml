@@ -42,11 +42,21 @@ TelegramPage {
             iconName: "select"
             text: i18n.tr("Select all")
             onTriggered: {
-                if (list.selectedItems.count === list.listModel.count) {
+                if (list.selectedItems.count === list.listModel) {
                     list.clearSelection()
+                    list.selectionClear()
                 } else {
                     list.selectAll()
+                    list.selectionAll()
                 }
+            }
+        },
+        Action {
+            iconName: "info"
+            text: i18n.tr("Message Info")
+            visible: list.selectedItems.count === 1
+            onTriggered: {
+                    console.log(messagesModel.message(list.sela[0]).info())
             }
         },
         Action {
@@ -73,7 +83,10 @@ TelegramPage {
     head.actions: list.isInSelectionMode ? selectionActions : defaultActions
 
     isInSelectionMode: list.isInSelectionMode
-    onSelectionCanceled: list.cancelSelection()
+    onSelectionCanceled: {
+            list.cancelSelection()
+            list.selectionClear()
+    }
 
     body: Item {
 
@@ -277,6 +290,8 @@ TelegramPage {
 
         MultipleSelectionListView {
             id: list
+            property string sels
+            property var sela: []
             verticalLayoutDirection: ListView.BottomToTop
             anchors {
                 top: parent.top
@@ -316,7 +331,7 @@ TelegramPage {
                 message: messagesModel.message(ii).text
                 time: messagesModel.message(ii).hTime
                 senderId: uid(messagesModel.tel)
-                senderName: outgoing? "You" : messagesModel.name
+                senderName: outgoing? "You" : messagesModel.message(ii).from
                 senderDisplayName: outgoing ? "" : senderName
                 mediaType: messagesModel.message(ii).cType
                 thumbnail: mediaType === ContentType.Pictures? "image://ts/"+messagesModel.tel+":"+ii:""
@@ -391,12 +406,14 @@ TelegramPage {
                 onItemPressAndHold: {
                     list.startSelection()
                     if (list.isInSelectionMode) {
+                        list.selectionToggled(ii)
                         list.selectItem(delegate)
                     }
                 }
 
                 onItemClicked: {
                     if (list.isInSelectionMode && !isAction) {
+                        list.selectionToggled(ii)
                         if (selected) {
                             list.deselectItem(delegate)
                         } else {
@@ -406,6 +423,30 @@ TelegramPage {
                 }
 
                 locked: !isConnected || isAction
+            }
+
+            function selectionToggled(index) {
+                var a = list.sela
+                var i = a.indexOf(index)
+                if (i == -1) {
+                    a.push(index)
+                } else {
+                    a.splice(i, 1)
+                }
+
+                a.sort(function(a,b) {return a-b})
+                list.sels = a.join(":")
+            }
+
+            function selectionClear() {
+                list.sela = []
+            }
+
+            function selectionAll() {
+                list.sela = []
+                for (var i = 0; i < messagesModel.len; i++) {
+                    list.sela.push(i)
+                }
             }
 
             function copySelected() {
