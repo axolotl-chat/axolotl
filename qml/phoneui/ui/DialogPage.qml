@@ -330,8 +330,8 @@ TelegramPage {
 		*/
                 message: messagesModel.message(ii).text
                 time: messagesModel.message(ii).hTime
-                senderId: uid(messagesModel.tel)
-                senderName: outgoing? "You" : messagesModel.message(ii).from
+                senderId: uid(messagesModel.message(ii).from)
+                senderName: outgoing? "You" : messagesModel.message(ii).name()
                 senderDisplayName: outgoing ? "" : senderName
                 mediaType: messagesModel.message(ii).cType
                 thumbnail: mediaType === ContentType.Pictures? "image://ts/"+messagesModel.tel+":"+ii:""

@@ -84,6 +84,10 @@ func (m *Message) Info() string {
 	return s
 }
 
+func (m *Message) Name() string {
+	return telToName(m.From)
+}
+
 type Session struct {
 	Name     string
 	Tel      string
