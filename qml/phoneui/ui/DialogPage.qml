@@ -28,11 +28,12 @@ TelegramPage {
 
     property list<Action> defaultActions: [
         Action {
-            iconName: "stock_contact"
-            text: isChat ? i18n.tr("Group Info") : i18n.tr("Profile Info")
+            iconName: "contact-group"
+            text: i18n.tr("Group Info")
+            visible: isChat
             onTriggered: {
                 Qt.inputMethod.hide();
-                headerClicked();
+                showGroupInfo()
             }
         }
     ]
@@ -527,6 +528,11 @@ TelegramPage {
         if (text.length === 0) return;
         textsecure.sendMessage(messagesModel.tel, text);
         message.text = "";
+    }
+
+    function showGroupInfo() {
+        var properties = {'text':textsecure.groupInfo(messagesModel.name)}
+        PopupUtils.open(Qt.resolvedUrl("dialogs/GroupInfoDialog.qml"), dialogPage, properties)
     }
 
     Timer {

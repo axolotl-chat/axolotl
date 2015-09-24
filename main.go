@@ -270,16 +270,31 @@ func (api *textsecureAPI) ContactsImported(path string) {
 	refreshContacts()
 }
 
+var groups = map[string]*textsecure.Group{}
+
 // FIXME: receive members as splice, blocked by https://github.com/go-qml/qml/issues/137
 func (api *textsecureAPI) NewGroup(name string, members string) error {
 	m := strings.Split(members, ":")
-	err := textsecure.NewGroup(name, m)
+	group, err := textsecure.NewGroup(name, m)
 	if err != nil {
+		showError(err)
 		return err
 	}
 	session := sessionsModel.Get(name)
 	session.Add("Group created with "+members, "", nil, true)
+	groups[name] = group
 	return nil
+
+}
+
+func (api *textsecureAPI) GroupInfo(name string) string {
+	s := ""
+	if g, ok := groups[name]; ok {
+		for _, t := range g.Members {
+			s += telToName(t) + "\n\n"
+		}
+	}
+	return s
 }
 
 func runUI() error {

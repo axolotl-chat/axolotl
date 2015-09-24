@@ -33,6 +33,9 @@ func telToName(tel string) string {
 			return c.Name
 		}
 	}
+	if tel == config.Tel {
+		return "Me"
+	}
 	return tel
 }
 
