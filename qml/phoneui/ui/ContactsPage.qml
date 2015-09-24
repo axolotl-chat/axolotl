@@ -110,6 +110,7 @@ TelegramPage {
         MultipleSelectionListView {
             id: contactListView
             property string sels : ""
+            property var sela: []
             anchors {
                 top: groupChatTitleTextField.visible ? groupChatTitleTextField.bottom : parent.top
                 topMargin: groupChatTitleTextField.isVisible ? units.gu(1) : 0
@@ -141,13 +142,9 @@ TelegramPage {
                 selectionMode: groupChatMode
 
                 onItemClicked: {
-			//contactListView.sels.push(contactsModel.contact(index).tel)
-			contactListView.sels = contactListView.sels + ":" + contactsModel.contact(index).tel;
                     if (contactListView.isInSelectionMode) {
+                        contactListView.selectionToggled(contactsModel.contact(index).tel);
                         if (!contactListView.selectItem(contactDelegate)) {
-                            contactListView.deselectItem(contactDelegate);
-                        } else if (contactListView.selectedItems.count >= 201) {
-                            // TODO Find a cleaner way.
                             contactListView.deselectItem(contactDelegate);
                         }
                         contactListView.refreshSubtitle();
@@ -166,10 +163,22 @@ TelegramPage {
             }
 
             onSelectionDone: {
-                createChat(sels.substring(1));
+                createChat(sels);
 
                 groupChatMode = false;
                 groupChatTitleTextField.text = "";
+            }
+
+            function selectionToggled(contact) {
+                var a = contactListView.sela
+                var i = a.indexOf(contact)
+                if (i == -1) {
+                    a.push(contact)
+                } else {
+                    a.splice(i, 1)
+                }
+
+                contactListView.sels = a.join(":")
             }
 
             function refreshSubtitle() {
