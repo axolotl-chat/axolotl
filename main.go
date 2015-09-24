@@ -54,7 +54,9 @@ func messageHandler(msg *textsecure.Message) {
 	if len(msg.Attachments()) > 0 {
 		r = msg.Attachments()[0]
 	}
-	session.Add(msg.Message(), msg.Source(), r, false)
+	m := session.Add(msg.Message(), msg.Source(), r, false)
+	m.SentAt = msg.Timestamp()
+	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
 }
 
 func receiptHandler(source string, devID uint32, timestamp uint64) {

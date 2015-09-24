@@ -62,16 +62,17 @@ var settingsModel = &Setting{
 // Model for existing chat sessions
 
 type Message struct {
-	From     string
-	Text     string
-	Outgoing bool
-	Time     time.Time
-	SentAt   uint64
-	HTime    string
-	CType    int
-	Att      []byte
-	IsSent   bool
-	IsRead   bool
+	From       string
+	Text       string
+	Outgoing   bool
+	Time       time.Time
+	SentAt     uint64
+	ReceivedAt uint64
+	HTime      string
+	CType      int
+	Att        []byte
+	IsSent     bool
+	IsRead     bool
 }
 
 type Session struct {
