@@ -1,5 +1,6 @@
 import QtQuick 2.2
 import Ubuntu.Components 1.1
+import Ubuntu.Components.Popups 1.0
 import Ubuntu.Content 0.1
 
 import 'components'
@@ -70,10 +71,6 @@ MainView {
 			PreviewPage {}
 		}
 
-		ErrorPage {
-			id: errorPage
-		}
-
 		Component.onCompleted: initialize()
 	}
 
@@ -94,8 +91,8 @@ MainView {
 	}
 
 	function error(errorMsg) {
-		errorPage.message = errorMsg
-		pageStack.push(errorPage)
+		var properties = {'text':errorMsg}
+		PopupUtils.open(Qt.resolvedUrl("ui/dialogs/ErrorMessageDialog.qml"), root, properties)
 	}
 
 	function openSettings() {
