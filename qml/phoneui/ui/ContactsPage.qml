@@ -269,7 +269,7 @@ TelegramPage {
     }
 
     function onSearchTermChanged(t) {
-            console.log(t)
+        textsecure.filterContacts(t)
     }
 
     ContactImport {

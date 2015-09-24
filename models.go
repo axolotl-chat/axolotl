@@ -52,6 +52,20 @@ func refreshContacts() {
 	qml.Changed(contactsModel, &contactsModel.Len)
 }
 
+func (api *textsecureAPI) FilterContacts(sub string) {
+	sub = strings.ToUpper(sub)
+
+	fc := []textsecure.Contact{}
+	for _, c := range contactsModel.contacts {
+		if strings.Contains(strings.ToUpper(telToName(c.Tel)), sub) {
+			fc = append(fc, c)
+		}
+	}
+
+	cm := &Contacts{fc, len(fc)}
+	engine.Context().SetVar("contactsModel", cm)
+}
+
 // Model for application settings
 
 type Setting struct {
