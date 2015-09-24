@@ -56,9 +56,7 @@ TelegramPage {
             iconName: "info"
             text: i18n.tr("Message Info")
             visible: list.selectedItems.count === 1
-            onTriggered: {
-                    console.log(messagesModel.message(list.sela[0]).info())
-            }
+            onTriggered: showMessageInfo()
         },
         Action {
             id: copySelectedAction
@@ -533,6 +531,11 @@ TelegramPage {
     function showGroupInfo() {
         var properties = {'text':textsecure.groupInfo(messagesModel.name)}
         PopupUtils.open(Qt.resolvedUrl("dialogs/GroupInfoDialog.qml"), dialogPage, properties)
+    }
+
+    function showMessageInfo() {
+        var properties = {'text': messagesModel.message(list.sela[0]).info()}
+        PopupUtils.open(Qt.resolvedUrl("dialogs/MessageInfoDialog.qml"), dialogPage, properties)
     }
 
     Timer {
