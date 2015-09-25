@@ -71,11 +71,16 @@ MainView {
 			PreviewPage {}
 		}
 
+		Component {
+			id: introPage
+			IntroPage {}
+		}
+
 		Component.onCompleted: initialize()
 	}
 
 	function initialize() {
-		pageStack.push(dialogsPage)
+		pageStack.push(introPage)
 	}
 
 	function getPhoneNumber() {
