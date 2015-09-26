@@ -9,12 +9,12 @@ Currently it is very basic and recommended for curious users and developers only
 What works
 -----------
 
-Phone registration, contact discovery, text messages, sending photo and video attachments.
+Phone registration, contact discovery, direct and group text messages, photo and video attachments.
 
 What is missing
 ---------------
 
-Group messaging, persistent storing of conversations and many other features of the Android app. There are bugs and UI/UX quirks.
+Persistent storing of conversations and many other features of the Android app. There are bugs and UI/UX quirks.
 
 Installation
 ------------
