@@ -117,32 +117,29 @@ type Session struct {
 }
 
 type Sessions struct {
-	m   map[string]*Session
-	ind []string
-	Len int
+	sessions []*Session
+	Len      int
 }
 
 func (s *Sessions) Session(i int) *Session {
-	return s.m[s.ind[i]]
+	return s.sessions[i]
 }
 
 func (s *Sessions) Get(tel string) *Session {
-	ses, ok := s.m[tel]
-	if ok {
-		return ses
+	for _, ses := range s.sessions {
+		if ses.Tel == tel {
+			return ses
+		}
 	}
 	// FIXME: better session id/name separation, group ids may need to be exposed from the libraray;
 	// for now, consider anything not starting with '+' a group.
-	s.m[tel] = &Session{Tel: tel, Name: telToName(tel), IsGroup: tel[0] != '+'}
-	s.ind = append(s.ind, tel)
-	s.Len++
-	qml.Changed(s, &s.Len)
-	return s.m[tel]
+	ses := &Session{Tel: tel, Name: telToName(tel), IsGroup: tel[0] != '+'}
+	s.sessions = append(s.sessions, ses)
+	return ses
 }
 
 var sessionsModel = &Sessions{
-	m:   make(map[string]*Session),
-	ind: make([]string, 0),
+	sessions: make([]*Session, 0),
 }
 
 func (s *Session) Message(i int) *Message {
@@ -212,6 +209,10 @@ func (s *Session) Add(text string, from string, att io.Reader, outgoing bool) *M
 	qml.Changed(s, &s.When)
 	qml.Changed(s, &s.Len)
 	qml.Changed(s, &s.CType)
+	if len(s.messages) == 1 {
+		sessionsModel.Len++
+		qml.Changed(sessionsModel, &sessionsModel.Len)
+	}
 	return message
 }
 
@@ -220,7 +221,7 @@ func (s *Session) Add(text string, from string, att io.Reader, outgoing bool) *M
 func updateTimestamps() {
 	for {
 		time.Sleep(1 * time.Minute)
-		for _, s := range sessionsModel.m {
+		for _, s := range sessionsModel.sessions {
 			if s.Len == 0 {
 				continue
 			}
