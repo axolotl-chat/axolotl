@@ -179,6 +179,9 @@ func contentType(att io.Reader) (int, io.Reader) {
 	if strings.HasPrefix(mt, "video") {
 		ct = ContentTypeVideos
 	}
+	if strings.HasPrefix(mt, "audio") {
+		ct = ContentTypeMusic
+	}
 	return ct, r
 }
 

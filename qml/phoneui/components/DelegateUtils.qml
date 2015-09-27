@@ -8,6 +8,8 @@ Item {
 			return "Photo"
 			case ContentType.Videos:
 			return "Video"
+			case ContentType.Music:
+			return "Audio"
 			default:
 			return "Text";
 		}
