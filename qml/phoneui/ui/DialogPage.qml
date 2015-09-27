@@ -134,7 +134,7 @@ TelegramPage {
                 }
                 actions: ActionList {
                     Action {
-                        iconSource: "../images/ic_attach_gallery.png"
+                        iconName:"image-x-generic-symbolic"
                         text: i18n.tr("Photo")
                         onTriggered: {
                             attachPopover.hide();
@@ -142,7 +142,7 @@ TelegramPage {
                         }
                     }
                     Action {
-                        iconSource: "../images/ic_attach_video.png"
+                        iconName:"video-x-generic-symbolic"
                         text: i18n.tr("Video")
                         onTriggered: {
                             message.forceActiveFocus();
@@ -151,7 +151,7 @@ TelegramPage {
                         }
                     }
                     Action {
-                        iconSource: "../images/ic_ab_doc.png"
+                        iconName:"text-x-generic-symbolic"
                         text: i18n.tr("File")
                         onTriggered: {
                             message.forceActiveFocus();
