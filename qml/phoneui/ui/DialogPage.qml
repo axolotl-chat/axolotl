@@ -151,6 +151,15 @@ TelegramPage {
                         }
                     }
                     Action {
+                        iconName:"audio-x-generic-symbolic"
+                        text: i18n.tr("Audio")
+                        onTriggered: {
+                            message.forceActiveFocus();
+                            attachPopover.hide();
+                            requestMedia(ContentType.Music);
+                        }
+                    }
+                    Action {
                         iconName:"text-x-generic-symbolic"
                         text: i18n.tr("File")
                         onTriggered: {
