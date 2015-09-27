@@ -17,6 +17,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/dustin/go-humanize"
 	"github.com/janimo/textsecure"
 	"gopkg.in/qml.v1"
 )
@@ -55,8 +56,12 @@ func messageHandler(msg *textsecure.Message) {
 		r = msg.Attachments()[0]
 	}
 	m := session.Add(msg.Message(), msg.Source(), r, false)
-	m.SentAt = msg.Timestamp()
 	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
+	m.SentAt = msg.Timestamp()
+	m.HTime = humanize.Time(time.Unix(0, int64(1000000*m.SentAt)))
+	qml.Changed(m, &m.HTime)
+	session.When = m.HTime
+	qml.Changed(session, &session.When)
 }
 
 func receiptHandler(source string, devID uint32, timestamp uint64) {
@@ -225,8 +230,12 @@ func (api *textsecureAPI) SendMessage(to, message string) error {
 	go func() {
 		ts := sendMessage(to, message, session.IsGroup, nil, false)
 		m.IsSent = true
-		m.SentAt = ts
 		qml.Changed(m, &m.IsSent)
+		m.SentAt = ts
+		m.HTime = humanize.Time(time.Unix(0, int64(1000000*m.SentAt)))
+		qml.Changed(m, &m.HTime)
+		session.When = m.HTime
+		qml.Changed(session, &session.When)
 	}()
 	return nil
 }

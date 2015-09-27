@@ -82,7 +82,6 @@ type Message struct {
 	From       string
 	Text       string
 	Outgoing   bool
-	Time       time.Time
 	SentAt     uint64
 	ReceivedAt uint64
 	HTime      string
@@ -211,19 +210,15 @@ func (s *Session) Add(text string, from string, att io.Reader, outgoing bool) *M
 	}
 	message := &Message{Text: text,
 		Outgoing: outgoing,
-		Time:     time.Now(),
 		From:     from,
-		HTime:    humanize.Time(time.Now()),
 		CType:    ctype,
 		Att:      b,
 	}
 	s.messages = append(s.messages, message)
 	s.Last = text
 	s.Len++
-	s.When = s.messages[0].HTime
 	s.CType = s.messages[0].CType
 	qml.Changed(s, &s.Last)
-	qml.Changed(s, &s.When)
 	qml.Changed(s, &s.Len)
 	qml.Changed(s, &s.CType)
 	if len(s.messages) == 1 {
@@ -234,7 +229,8 @@ func (s *Session) Add(text string, from string, att io.Reader, outgoing bool) *M
 }
 
 // updateTimestamps keeps the timestamps of the last message of each session
-// updated in human readable form
+// updated in human readable form.
+// FIXME: make this lazier, to only update timestamps the user sees at the moment
 func updateTimestamps() {
 	for {
 		time.Sleep(1 * time.Minute)
@@ -242,12 +238,12 @@ func updateTimestamps() {
 			if s.Len == 0 {
 				continue
 			}
-			s.When = s.messages[0].HTime
-			qml.Changed(s, &s.When)
 			for _, m := range s.messages {
-				m.HTime = humanize.Time(m.Time)
+				m.HTime = humanize.Time(time.Unix(0, int64(1000000*m.SentAt)))
 				qml.Changed(m, &m.HTime)
 			}
+			s.When = s.messages[len(s.messages)-1].HTime
+			qml.Changed(s, &s.When)
 		}
 	}
 }
