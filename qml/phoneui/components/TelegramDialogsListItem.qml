@@ -174,7 +174,7 @@ ListItemWithActions {
         verticalAlignment: TextInput.AlignVCenter
 
         font.pixelSize: FontUtils.sizeToPixels("large")
-        font.weight: Font.DemiBold
+        //font.weight: Font.DemiBold
         color: TelegramColors.black
         elide: Text.ElideRight
         text: title
