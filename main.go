@@ -189,12 +189,14 @@ type textsecureAPI struct {
 
 var api = &textsecureAPI{}
 
-func sendMessage(to, message string, group bool, att io.Reader) uint64 {
+func sendMessage(to, message string, group bool, att io.Reader, end bool) uint64 {
 	var err error
 	var ts uint64
 	for {
 		err = nil
-		if att == nil {
+		if end {
+			ts, err = textsecure.EndSession(to, "TERMINATE")
+		} else if att == nil {
 			if group {
 				ts, err = textsecure.SendGroupMessage(to, message)
 			} else {
@@ -221,7 +223,7 @@ func (api *textsecureAPI) SendMessage(to, message string) error {
 	session := sessionsModel.Get(to)
 	m := session.Add(message, "", nil, true)
 	go func() {
-		ts := sendMessage(to, message, session.IsGroup, nil)
+		ts := sendMessage(to, message, session.IsGroup, nil, false)
 		m.IsSent = true
 		m.SentAt = ts
 		qml.Changed(m, &m.IsSent)
@@ -255,7 +257,19 @@ func (api *textsecureAPI) SendAttachment(to, message string, file string) error 
 		return err
 	}
 	go func() {
-		ts := sendMessage(to, message, session.IsGroup, r)
+		ts := sendMessage(to, message, session.IsGroup, r, false)
+		m.IsSent = true
+		m.SentAt = ts
+		qml.Changed(m, &m.IsSent)
+	}()
+	return nil
+}
+
+func (api *textsecureAPI) EndSession(tel string) error {
+	session := sessionsModel.Get(tel)
+	m := session.Add("Secure session ended.", "", nil, true)
+	go func() {
+		ts := sendMessage(tel, "", false, nil, true)
 		m.IsSent = true
 		m.SentAt = ts
 		qml.Changed(m, &m.IsSent)

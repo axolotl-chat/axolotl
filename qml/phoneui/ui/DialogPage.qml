@@ -28,6 +28,21 @@ TelegramPage {
 
     property list<Action> defaultActions: [
         Action {
+            iconName: "lock"
+            text: i18n.tr("End session")
+            visible: !isChat
+            onTriggered: {
+                PopupUtils.open(Qt.resolvedUrl("dialogs/ConfirmationDialog.qml"),
+                    dialogPage, {
+                        title: i18n.tr("End secure session confirmation"),
+                        text: i18n.tr("Are you sure you want to end this secure session?"),
+                        onAccept: function() {
+                            textsecure.endSession(messagesModel.tel)
+                        }
+                })
+            }
+        },
+        Action {
             iconName: "contact-group"
             text: i18n.tr("Group Info")
             visible: isChat
