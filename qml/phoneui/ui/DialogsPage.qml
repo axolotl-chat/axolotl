@@ -119,6 +119,10 @@ TelegramPage {
         DelegateUtils {
             id: delegateUtils
         }
-
     }
+
+    function onSearchTermChanged(t) {
+        textsecure.filterSessions(t)
+    }
+
 }

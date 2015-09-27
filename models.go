@@ -150,6 +150,23 @@ func (s *Session) Message(i int) *Message {
 	return s.messages[i]
 }
 
+func (api *textsecureAPI) FilterSessions(sub string) {
+	sub = strings.ToUpper(sub)
+
+	sm := &Sessions{
+		sessions: make([]*Session, 0),
+	}
+
+	for _, s := range sessionsModel.sessions {
+		if strings.Contains(strings.ToUpper(telToName(s.Tel)), sub) {
+			sm.sessions = append(sm.sessions, s)
+			sm.Len++
+		}
+	}
+
+	engine.Context().SetVar("sessionsModel", sm)
+}
+
 //Mirror the Ubuntu.Content QML library constants
 //type ContentType int
 
