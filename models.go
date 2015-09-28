@@ -2,7 +2,7 @@ package main
 
 import (
 	"io"
-	"io/ioutil"
+	"os"
 	"strings"
 	"time"
 
@@ -79,14 +79,14 @@ var settingsModel = &Setting{
 // Model for existing chat sessions
 
 type Message struct {
-	From       string
-	Text       string
+	From       string `db:"source"`
+	Text       string `db:"message"`
 	Outgoing   bool
 	SentAt     uint64
 	ReceivedAt uint64
 	HTime      string
 	CType      int
-	Att        []byte
+	Attachment string
 	IsSent     bool
 	IsRead     bool
 }
@@ -198,21 +198,17 @@ func contentType(att io.Reader) (int, io.Reader) {
 	return ct, r
 }
 
-func (s *Session) Add(text string, from string, att io.Reader, outgoing bool) *Message {
-	ctype, att := contentType(att)
-	b := []byte{}
-	if att != nil && ctype == ContentTypePictures {
-		var err error
-		b, err = ioutil.ReadAll(att)
-		if err != nil {
-			showError(err)
-		}
+func (s *Session) Add(text string, from string, file string, outgoing bool) *Message {
+	ctype := ContentTypeMessage
+	if file != "" {
+		f, _ := os.Open(file)
+		ctype, _ = contentType(f)
 	}
 	message := &Message{Text: text,
-		Outgoing: outgoing,
-		From:     from,
-		CType:    ctype,
-		Att:      b,
+		Outgoing:   outgoing,
+		From:       from,
+		CType:      ctype,
+		Attachment: file,
 	}
 	s.messages = append(s.messages, message)
 	s.Last = text

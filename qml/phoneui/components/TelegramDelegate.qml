@@ -35,9 +35,7 @@ ListItemWithActions {
     property string senderImage: ""
     property string time: ""
     property string thumbnail: ""
-    property bool hasThumbnail: thumbnail != ""
-    property string photo: ""
-    property string video: ""
+    property string attachment: ""
     property string document: ""
     property string documentFileName: ""
     property int documentSize: 0
@@ -47,9 +45,10 @@ ListItemWithActions {
 
     property bool isVideo: mediaType === ContentType.Videos
     property bool isPhoto: mediaType === ContentType.Pictures
+    property bool isAudio: mediaType === ContentType.Music
     property bool isDocument: mediaType == ContentType.All
-    property bool isMedia: isVideo || isPhoto || isDocument
-    property bool isPhotoOrVideo: isVideo || isPhoto
+    property bool isMedia: isVideo || isPhoto || isAudio || isDocument
+    property bool isPhotoOrVideo: isVideo || isPhoto || isAudio
     property bool needsDownload: false //isVideo && model.video === "" || isPhoto && model.photo === "" || isDocument && model.document === ""
     property bool isDownloading: false
     property variant progress: undefined
@@ -306,19 +305,22 @@ ListItemWithActions {
         }
     }
 
-
     function openPreview() {
         var properties;
         if (mediaType === ContentType.Pictures) {
-            var preview = photo !== "" ? photo : thumbnail
             properties = {
                 "senderName": senderName,
-                "photoPreviewSource": preview
+                "photoPreviewSource": attachment
             };
         } else if (mediaType === ContentType.Videos) {
             properties = {
                 "senderName": senderName,
-                "videoPreviewSource": video
+                "videoPreviewSource": attachment
+            };
+        } else if (mediaType === ContentType.Music) {
+            properties = {
+                "senderName": senderName,
+                "audioPreviewSource": attachment
             };
         } else {
             return

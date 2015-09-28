@@ -358,6 +358,7 @@ TelegramPage {
                 senderDisplayName: outgoing ? "" : senderName
                 mediaType: messagesModel.message(ii).cType
                 thumbnail: list.getThumbnail(ii)
+                attachment: messagesModel.message(ii).attachment
 		/*
                 senderColor: Avatar.getColor(model.fromId)
                 senderImage: {
@@ -451,7 +452,7 @@ TelegramPage {
             function getThumbnail(ii) {
                         var mediaType = messagesModel.message(ii).cType
                         if (mediaType === ContentType.Pictures) {
-                                return "image://ts/"+messagesModel.tel+":"+ii
+                                return messagesModel.message(ii).attachment
                         }
                         if (mediaType === ContentType.Videos) {
                                 return "image://theme/video-x-generic-symbolic"

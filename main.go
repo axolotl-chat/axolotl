@@ -1,11 +1,11 @@
 package main
 
 import (
-	"bytes"
+	"crypto/rand"
+	"encoding/hex"
 	"errors"
 	"flag"
 	"fmt"
-	"image"
 	_ "image/jpeg"
 	_ "image/png"
 	"io"
@@ -38,11 +38,35 @@ var (
 	contactsFile string
 	dataDir      string
 	storageDir   string
+	attachDir    string
 )
 
 func init() {
 	flag.BoolVar(&phone, "phone", false, "Indicate the app runs on the Ubuntu phone")
 	flag.StringVar(&mainQml, "qml", "qml/phoneui/main.qml", "The qml file to load.")
+}
+
+func saveAttachment(r io.Reader) (string, error) {
+	id := make([]byte, 16)
+	_, err := io.ReadFull(rand.Reader, id)
+	if err != nil {
+		return "", err
+	}
+
+	fn := filepath.Join(attachDir, hex.EncodeToString(id))
+	f, err := os.OpenFile(fn, os.O_WRONLY|os.O_CREATE, 0600)
+	if err != nil {
+		return "", err
+	}
+	defer f.Close()
+
+	_, err = io.Copy(f, r)
+	if err != nil {
+		return "", err
+
+	}
+
+	return fn, nil
 }
 
 func messageHandler(msg *textsecure.Message) {
@@ -52,10 +76,16 @@ func messageHandler(msg *textsecure.Message) {
 	}
 	session := sessionsModel.Get(s)
 	var r io.Reader
+	var err error
+	f := ""
 	if len(msg.Attachments()) > 0 {
 		r = msg.Attachments()[0]
+		f, err = saveAttachment(r)
+		if err != nil {
+			log.Printf("Error saving %s\n", err.Error())
+		}
 	}
-	m := session.Add(msg.Message(), msg.Source(), r, false)
+	m := session.Add(msg.Message(), msg.Source(), f, false)
 	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
 	m.SentAt = msg.Timestamp()
 	m.HTime = humanize.Time(time.Unix(0, int64(1000000*m.SentAt)))
@@ -129,6 +159,8 @@ func setupEnvironment() {
 	contactsFile = filepath.Join(configDir, "contacts.yml")
 	os.MkdirAll(configDir, 0700)
 	dataDir = filepath.Join(homeDir, ".local", "share", appName)
+	attachDir = filepath.Join(dataDir, "attachments")
+	os.MkdirAll(attachDir, 0700)
 	storageDir = filepath.Join(dataDir, ".storage")
 }
 
@@ -226,7 +258,7 @@ func sendMessage(to, message string, group bool, att io.Reader, end bool) uint64
 
 func (api *textsecureAPI) SendMessage(to, message string) error {
 	session := sessionsModel.Get(to)
-	m := session.Add(message, "", nil, true)
+	m := session.Add(message, "", "", true)
 	go func() {
 		ts := sendMessage(to, message, session.IsGroup, nil, false)
 		m.IsSent = true
@@ -260,7 +292,7 @@ func (api *textsecureAPI) SendAttachment(to, message string, file string) error 
 	}
 	defer r.Close()
 
-	m := session.Add(message, "", r, true)
+	m := session.Add(message, "", file, true)
 	r, err = os.Open(file)
 	if err != nil {
 		return err
@@ -276,7 +308,7 @@ func (api *textsecureAPI) SendAttachment(to, message string, file string) error 
 
 func (api *textsecureAPI) EndSession(tel string) error {
 	session := sessionsModel.Get(tel)
-	m := session.Add("Secure session ended.", "", nil, true)
+	m := session.Add("Secure session ended.", "", "", true)
 	go func() {
 		ts := sendMessage(tel, "", false, nil, true)
 		m.IsSent = true
@@ -304,7 +336,7 @@ func (api *textsecureAPI) NewGroup(name string, members string) error {
 		return err
 	}
 	session := sessionsModel.Get(name)
-	session.Add("Group created with "+members, "", nil, true)
+	session.Add("Group created with "+members, "", "", true)
 	groups[name] = group
 	return nil
 
@@ -322,25 +354,6 @@ func (api *textsecureAPI) GroupInfo(name string) string {
 
 func runUI() error {
 	engine = qml.NewEngine()
-
-	engine.AddImageProvider("ts", func(id string, width, height int) image.Image {
-		s := strings.Split(id, ":")
-		tel := s[0]
-		i, _ := strconv.Atoi(s[1])
-		ses := sessionsModel.Get(tel)
-		att := ses.messages[i].Att
-		if att == nil {
-			return image.NewAlpha(image.Rectangle{})
-		}
-		r := bytes.NewBuffer(att)
-		img, _, err := image.Decode(r)
-		if err != nil {
-			return image.NewAlpha(image.Rectangle{})
-
-		}
-		return img
-	})
-
 	initModels()
 	engine.Context().SetVar("textsecure", api)
 	engine.Context().SetVar("appVersion", appVersion)
