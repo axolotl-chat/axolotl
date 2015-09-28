@@ -48,10 +48,10 @@ Item {
             fill: parent
         }
         asynchronous: true
-        fillMode: Image.PreserveAspectCrop
+        fillMode: Image.PreserveAspectFit
 
-        sourceSize.width: 200
-        sourceSize.height: 200
+        sourceSize.width: 128
+        sourceSize.height: 128
         source: Qt.resolvedUrl(thumbnail)
 
         onStatusChanged:  {

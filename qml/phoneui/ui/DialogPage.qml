@@ -357,7 +357,7 @@ TelegramPage {
                 senderName: outgoing? "You" : messagesModel.message(ii).name()
                 senderDisplayName: outgoing ? "" : senderName
                 mediaType: messagesModel.message(ii).cType
-                thumbnail: mediaType === ContentType.Pictures? "image://ts/"+messagesModel.tel+":"+ii:""
+                thumbnail: list.getThumbnail(ii)
 		/*
                 senderColor: Avatar.getColor(model.fromId)
                 senderImage: {
@@ -447,6 +447,20 @@ TelegramPage {
 
                 locked: !isConnected || isAction
             }
+
+            function getThumbnail(ii) {
+                        var mediaType = messagesModel.message(ii).cType
+                        if (mediaType === ContentType.Pictures) {
+                                return "image://ts/"+messagesModel.tel+":"+ii
+                        }
+                        if (mediaType === ContentType.Videos) {
+                                return "image://theme/video-x-generic-symbolic"
+                        }
+                        if (mediaType === ContentType.Music) {
+                                return "image://theme/audio-x-generic-symbolic"
+                        }
+                        return ""
+                }
 
             function selectionToggled(index) {
                 var a = list.sela
