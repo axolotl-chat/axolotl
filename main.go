@@ -85,7 +85,11 @@ func messageHandler(msg *textsecure.Message) {
 			log.Printf("Error saving %s\n", err.Error())
 		}
 	}
-	m := session.Add(msg.Message(), msg.Source(), f, false)
+	text := msg.Message()
+	if msg.Flags() == textsecure.EndSessionFlag {
+		text = sessionEnded
+	}
+	m := session.Add(text, msg.Source(), f, false)
 	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
 	m.SentAt = msg.Timestamp()
 	m.HTime = humanize.Time(time.Unix(0, int64(1000000*m.SentAt)))
@@ -306,9 +310,11 @@ func (api *textsecureAPI) SendAttachment(to, message string, file string) error 
 	return nil
 }
 
+var sessionEnded = "Secure session ended."
+
 func (api *textsecureAPI) EndSession(tel string) error {
 	session := sessionsModel.Get(tel)
-	m := session.Add("Secure session ended.", "", "", true)
+	m := session.Add(sessionEnded, "", "", true)
 	go func() {
 		ts := sendMessage(tel, "", false, nil, true)
 		m.IsSent = true
