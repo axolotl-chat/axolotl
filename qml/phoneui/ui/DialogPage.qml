@@ -151,7 +151,7 @@ TelegramPage {
                         }
                     }
                     Action {
-                        iconName:"audio-x-generic-symbolic"
+                        iconName:"audio-speakers-symbolic"
                         text: i18n.tr("Audio")
                         onTriggered: {
                             message.forceActiveFocus();
@@ -458,7 +458,7 @@ TelegramPage {
                                 return "image://theme/video-x-generic-symbolic"
                         }
                         if (mediaType === ContentType.Music) {
-                                return "image://theme/audio-x-generic-symbolic"
+                                return "image://theme/audio-speakers-symbolic"
                         }
                         return ""
                 }
