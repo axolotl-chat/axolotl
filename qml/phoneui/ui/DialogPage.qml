@@ -29,13 +29,13 @@ TelegramPage {
     property list<Action> defaultActions: [
         Action {
             iconName: "lock"
-            text: i18n.tr("End session")
+            text: i18n.tr("Reset secure session")
             visible: !isChat
             onTriggered: {
                 PopupUtils.open(Qt.resolvedUrl("dialogs/ConfirmationDialog.qml"),
                     dialogPage, {
-                        title: i18n.tr("End secure session confirmation"),
-                        text: i18n.tr("Are you sure you want to end this secure session?"),
+                        title: i18n.tr("Reset secure session confirmation"),
+                        text: i18n.tr("Are you sure you want to reset this secure session?"),
                         onAccept: function() {
                             textsecure.endSession(messagesModel.tel)
                         }
