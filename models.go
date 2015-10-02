@@ -79,6 +79,8 @@ var settingsModel = &Setting{
 // Model for existing chat sessions
 
 type Message struct {
+	ID         int64
+	SID        int64
 	From       string `db:"source"`
 	Text       string `db:"message"`
 	Outgoing   bool
@@ -105,14 +107,16 @@ func (m *Message) Name() string {
 }
 
 type Session struct {
-	Name     string
-	Tel      string
-	IsGroup  bool
-	Last     string
-	When     string
-	CType    int
-	messages []*Message
-	Len      int
+	ID        int64
+	Name      string
+	Tel       string
+	IsGroup   bool
+	Last      string
+	Timestamp uint64
+	When      string
+	CType     int
+	messages  []*Message
+	Len       int
 }
 
 type Sessions struct {
@@ -134,6 +138,7 @@ func (s *Sessions) Get(tel string) *Session {
 	// for now, consider anything not starting with '+' a group.
 	ses := &Session{Tel: tel, Name: telToName(tel), IsGroup: tel[0] != '+'}
 	s.sessions = append(s.sessions, ses)
+	saveSession(ses)
 	return ses
 }
 
@@ -205,6 +210,7 @@ func (s *Session) Add(text string, from string, file string, outgoing bool) *Mes
 		ctype, _ = contentType(f)
 	}
 	message := &Message{Text: text,
+		SID:        s.ID,
 		Outgoing:   outgoing,
 		From:       from,
 		CType:      ctype,
@@ -221,6 +227,7 @@ func (s *Session) Add(text string, from string, file string, outgoing bool) *Mes
 		sessionsModel.Len++
 		qml.Changed(sessionsModel, &sessionsModel.Len)
 	}
+	updateSession(s)
 	return message
 }
 

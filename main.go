@@ -94,8 +94,11 @@ func messageHandler(msg *textsecure.Message) {
 	m.SentAt = msg.Timestamp()
 	m.HTime = humanize.Time(time.Unix(0, int64(1000000*m.SentAt)))
 	qml.Changed(m, &m.HTime)
+	session.Timestamp = m.SentAt
 	session.When = m.HTime
 	qml.Changed(session, &session.When)
+	saveMessage(m)
+	updateSession(session)
 }
 
 func receiptHandler(source string, devID uint32, timestamp uint64) {
@@ -105,6 +108,7 @@ func receiptHandler(source string, devID uint32, timestamp uint64) {
 		if m.SentAt == timestamp {
 			m.IsRead = true
 			qml.Changed(m, &m.IsRead)
+			updateMessageRead(m)
 			return
 		}
 	}
@@ -166,6 +170,7 @@ func setupEnvironment() {
 	attachDir = filepath.Join(dataDir, "attachments")
 	os.MkdirAll(attachDir, 0700)
 	storageDir = filepath.Join(dataDir, ".storage")
+	setupDB()
 }
 
 func runBackend() {
@@ -263,15 +268,19 @@ func sendMessage(to, message string, group bool, att io.Reader, end bool) uint64
 func (api *textsecureAPI) SendMessage(to, message string) error {
 	session := sessionsModel.Get(to)
 	m := session.Add(message, "", "", true)
+	saveMessage(m)
 	go func() {
 		ts := sendMessage(to, message, session.IsGroup, nil, false)
+		m.SentAt = ts
+		session.Timestamp = m.SentAt
 		m.IsSent = true
 		qml.Changed(m, &m.IsSent)
-		m.SentAt = ts
 		m.HTime = humanize.Time(time.Unix(0, int64(1000000*m.SentAt)))
 		qml.Changed(m, &m.HTime)
 		session.When = m.HTime
 		qml.Changed(session, &session.When)
+		updateMessageSent(m)
+		updateSession(session)
 	}()
 	return nil
 }
@@ -306,6 +315,8 @@ func (api *textsecureAPI) SendAttachment(to, message string, file string) error 
 		m.IsSent = true
 		m.SentAt = ts
 		qml.Changed(m, &m.IsSent)
+		saveMessage(m)
+		updateSession(session)
 	}()
 	return nil
 }
@@ -319,7 +330,10 @@ func (api *textsecureAPI) EndSession(tel string) error {
 		ts := sendMessage(tel, "", false, nil, true)
 		m.IsSent = true
 		m.SentAt = ts
+		session.Timestamp = m.SentAt
 		qml.Changed(m, &m.IsSent)
+		updateMessageSent(m)
+		updateSession(session)
 	}()
 	return nil
 }
