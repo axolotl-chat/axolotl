@@ -26,6 +26,7 @@ Item {
     property bool showThumbnail: true
 
     property bool isVideo: videoPreviewSource !== ""
+    property bool isAudio: audioPreviewSource !== ""
     property bool userInteracting: pinchInProgress || flickable.sizeScale != 1.0
     property bool fullyZoomed: flickable.sizeScale == zoomPinchArea.maximumZoom
     property bool fullyUnzoomed: flickable.sizeScale == zoomPinchArea.minimumZoom
@@ -53,6 +54,8 @@ Item {
         if (viewer.isVideo) {
             // Intentionally pausing, not stopping, as resuming is faster.
             videoPreview.pause();
+        } else if (viewer.isAudio) {
+            audioOutput.pause();
         } else {
             zoomOut();
         }
@@ -61,7 +64,7 @@ Item {
     ActivityIndicator {
         id: activityIndicator
         anchors.centerIn: parent
-        visible: running && !viewer.isVideo
+        visible: running && !viewer.isVideo && !viewer.isAudio
         running: image.status != Image.Ready
     }
 
@@ -77,7 +80,7 @@ Item {
         property var center
 
         onPinchStarted: {
-            if (viewer.isVideo) return;
+            if (viewer.isVideo || viewer.isAudio) return;
 
             active = true;
             initialZoom = flickable.sizeScale;
@@ -85,7 +88,7 @@ Item {
             zoomIn(center.x, center.y, initialZoom);
         }
         onPinchUpdated: {
-            if (viewer.isVideo) return;
+            if (viewer.isVideo || viewer.isAudio) return;
 
             var zoomFactor = MathUtils.clamp(initialZoom * pinch.scale, minimumZoom, maximumZoom);
             flickable.sizeScale = zoomFactor;
@@ -170,16 +173,40 @@ Item {
                     visible: videoPreviewSource !== ""
                     source: videoPreview
                 }
+
+                Icon {
+                    id: background
+                    visible: isAudio
+                    width: parent.width
+                    name: "audio-speakers-symbolic"
+                }
+
+                Audio {
+                    id: audioOutput
+                    property bool isPlaying: playbackState === MediaPlayer.PlayingState
+                    source: audioPreviewSource
+                    onStopped: playIcon.name = "media-playback-start"
+                }
             }
 
             Icon {
+                id: playIcon
                 width: units.gu(5)
                 height: units.gu(5)
                 anchors.centerIn: parent
                 name: "media-playback-start"
-                color: "white"
+                color: "black"
                 opacity: 0.8
-                visible: viewer.isVideo && !videoPreview.isPlaying && !activityIndicator.visible
+                visible: (viewer.isAudio || viewer.isVideo) && !activityIndicator.visible
+            }
+
+            Label {
+                anchors.top: playIcon.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                color: "black"
+                font.pixelSize: 30
+                text: Math.floor(audioOutput.position/audioOutput.duration * 100)+" %"
+                visible: audioOutput.isPlaying
             }
 
             MouseArea {
@@ -187,6 +214,12 @@ Item {
                 onDoubleClicked: {
                     clickTimer.stop();
 
+                    if (viewer.isAudio) {
+                        // Rewind.
+                        audioOutput.stop();
+                        audioOutput.play();
+                        return;
+                    }
                     if (viewer.isVideo) {
                         // Rewind.
                         videoPreview.stop();
@@ -207,8 +240,16 @@ Item {
                     id: clickTimer
                     interval: 150
                     onTriggered: {
+                        if (viewer.isAudio) {
+                            audioOutput.isPlaying ? audioOutput.pause() : audioOutput.play();
+                        }
                         if (viewer.isVideo) {
                             videoPreview.isPlaying ? videoPreview.pause() : videoPreview.play();
+                        }
+                        if (videoPreview.isPlaying || audioOutput.isPlaying) {
+                                playIcon.name = "media-playback-pause"
+                        } else {
+                                playIcon.name = "media-playback-start"
                         }
                         viewer.clicked();
                     }

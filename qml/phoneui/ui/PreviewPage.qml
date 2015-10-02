@@ -25,6 +25,7 @@ TelegramPage {
     property int chatId: 0
     property string senderName: ""
     property string photoPreviewSource: ""
+    property string audioPreviewSource: ""
     property string videoPreviewSource: ""
 
     signal bigPhotoUpdated(var id, string bigPhotoUrl);
