@@ -219,7 +219,7 @@ func (s *Session) Add(text string, from string, file string, outgoing bool) *Mes
 	s.messages = append(s.messages, message)
 	s.Last = text
 	s.Len++
-	s.CType = s.messages[0].CType
+	s.CType = ctype
 	qml.Changed(s, &s.Last)
 	qml.Changed(s, &s.Len)
 	qml.Changed(s, &s.CType)
