@@ -6,7 +6,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dustin/go-humanize"
 	"github.com/janimo/textsecure"
 	"github.com/janimo/textsecure/vendor/magic"
 	"gopkg.in/qml.v1"
@@ -242,7 +241,7 @@ func updateTimestamps() {
 				continue
 			}
 			for _, m := range s.messages {
-				m.HTime = humanize.Time(time.Unix(0, int64(1000000*m.SentAt)))
+				m.HTime = humanizeTimestamp(m.SentAt)
 				qml.Changed(m, &m.HTime)
 			}
 			s.When = s.messages[len(s.messages)-1].HTime

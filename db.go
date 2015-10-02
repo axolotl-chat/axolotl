@@ -3,9 +3,7 @@ package main
 import (
 	"os"
 	"path/filepath"
-	"time"
 
-	"github.com/dustin/go-humanize"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -125,7 +123,7 @@ func loadMessagesFromDB() error {
 		return err
 	}
 	for _, s := range allSessions {
-		s.When = humanize.Time(time.Unix(0, int64(1000000*s.Timestamp)))
+		s.When = humanizeTimestamp(s.Timestamp)
 		sessionsModel.sessions = append(sessionsModel.sessions, s)
 		sessionsModel.Len++
 		err = db.Select(&s.messages, messagesSelectWhere, s.ID)

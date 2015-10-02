@@ -92,7 +92,7 @@ func messageHandler(msg *textsecure.Message) {
 	m := session.Add(text, msg.Source(), f, false)
 	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
 	m.SentAt = msg.Timestamp()
-	m.HTime = humanize.Time(time.Unix(0, int64(1000000*m.SentAt)))
+	m.HTime = humanizeTimestamp(m.SentAt)
 	qml.Changed(m, &m.HTime)
 	session.Timestamp = m.SentAt
 	session.When = m.HTime
@@ -265,6 +265,10 @@ func sendMessage(to, message string, group bool, att io.Reader, end bool) uint64
 	return ts
 }
 
+func humanizeTimestamp(ts uint64) string {
+	return humanize.Time(time.Unix(0, int64(1000000*ts)))
+}
+
 func (api *textsecureAPI) SendMessage(to, message string) error {
 	session := sessionsModel.Get(to)
 	m := session.Add(message, "", "", true)
@@ -275,7 +279,7 @@ func (api *textsecureAPI) SendMessage(to, message string) error {
 		session.Timestamp = m.SentAt
 		m.IsSent = true
 		qml.Changed(m, &m.IsSent)
-		m.HTime = humanize.Time(time.Unix(0, int64(1000000*m.SentAt)))
+		m.HTime = humanizeTimestamp(m.SentAt)
 		qml.Changed(m, &m.HTime)
 		session.When = m.HTime
 		qml.Changed(session, &session.When)
