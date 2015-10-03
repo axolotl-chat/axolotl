@@ -70,9 +70,10 @@ func saveAttachment(r io.Reader) (string, error) {
 }
 
 func messageHandler(msg *textsecure.Message) {
-	s := msg.Group()
-	if s == "" {
-		s = msg.Source()
+	s := msg.Source()
+	gr := msg.Group()
+	if gr != nil {
+		s = msg.Group().Name
 	}
 	session := sessionsModel.Get(s)
 	var r io.Reader
@@ -88,6 +89,12 @@ func messageHandler(msg *textsecure.Message) {
 	text := msg.Message()
 	if msg.Flags() == textsecure.EndSessionFlag {
 		text = sessionReset
+	}
+	if gr != nil && gr.Flags == textsecure.GroupLeaveFlag {
+		text = msg.Source() + " left the group."
+	}
+	if gr != nil && gr.Flags == textsecure.GroupUpdateFlag {
+		text = "Group updated."
 	}
 	m := session.Add(text, msg.Source(), f, false)
 	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
