@@ -69,15 +69,18 @@ func saveAttachment(r io.Reader) (string, error) {
 	return fn, nil
 }
 
-func messageHandler(msg *textsecure.Message) {
-	s := msg.Source()
-	gr := msg.Group()
-	if gr != nil {
-		s = msg.Group().Name
+func groupUpdateMsg(tels []string, title string) string {
+	s := ""
+	for _, t := range tels {
+		s += telToName(t) + ", "
 	}
-	session := sessionsModel.Get(s)
+	return s[:len(s)-2] + " joined the group. Title is now '" + title + "'."
+}
+
+func messageHandler(msg *textsecure.Message) {
 	var r io.Reader
 	var err error
+
 	f := ""
 	if len(msg.Attachments()) > 0 {
 		r = msg.Attachments()[0]
@@ -86,16 +89,41 @@ func messageHandler(msg *textsecure.Message) {
 			log.Printf("Error saving %s\n", err.Error())
 		}
 	}
+
 	text := msg.Message()
 	if msg.Flags() == textsecure.EndSessionFlag {
 		text = sessionReset
 	}
+
+	gr := msg.Group()
+
 	if gr != nil && gr.Flags == textsecure.GroupLeaveFlag {
 		text = msg.Source() + " left the group."
 	}
 	if gr != nil && gr.Flags == textsecure.GroupUpdateFlag {
-		text = "Group updated."
+		text = groupUpdateMsg(gr.Members, gr.Name)
 	}
+
+	if gr != nil && gr.Flags != 0 {
+		_, ok := groups[gr.Hexid]
+		groups[gr.Hexid] = &GroupRecord{
+			GroupID: gr.Hexid,
+			Members: strings.Join(gr.Members, ","),
+			Name:    gr.Name,
+		}
+		if ok {
+			updateGroup(groups[gr.Hexid])
+		} else {
+
+			saveGroup(groups[gr.Hexid])
+		}
+	}
+
+	s := msg.Source()
+	if gr != nil {
+		s = gr.Hexid
+	}
+	session := sessionsModel.Get(s)
 	m := session.Add(text, msg.Source(), f, false)
 	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
 	m.SentAt = msg.Timestamp()
@@ -177,7 +205,9 @@ func setupEnvironment() {
 	attachDir = filepath.Join(dataDir, "attachments")
 	os.MkdirAll(attachDir, 0700)
 	storageDir = filepath.Join(dataDir, ".storage")
-	setupDB()
+	if err := setupDB(); err != nil {
+		showError(err)
+	}
 }
 
 func runBackend() {
@@ -356,19 +386,26 @@ func (api *textsecureAPI) ContactsImported(path string) {
 	refreshContacts()
 }
 
-var groups = map[string]*textsecure.Group{}
+var groups = map[string]*GroupRecord{}
 
 // FIXME: receive members as splice, blocked by https://github.com/go-qml/qml/issues/137
 func (api *textsecureAPI) NewGroup(name string, members string) error {
-	m := strings.Split(members, ":")
+	m := strings.Split(members, ",")
 	group, err := textsecure.NewGroup(name, m)
 	if err != nil {
 		showError(err)
 		return err
 	}
-	session := sessionsModel.Get(name)
-	session.Add("Group created with "+members, "", "", true)
-	groups[name] = group
+
+	groups[group.Hexid] = &GroupRecord{
+		GroupID: group.Hexid,
+		Name:    name,
+		Members: members,
+	}
+	saveGroup(groups[group.Hexid])
+	session := sessionsModel.Get(group.Hexid)
+	session.Add(groupUpdateMsg(m, name), "", "", true)
+
 	return nil
 
 }
@@ -376,7 +413,7 @@ func (api *textsecureAPI) NewGroup(name string, members string) error {
 func (api *textsecureAPI) GroupInfo(name string) string {
 	s := ""
 	if g, ok := groups[name]; ok {
-		for _, t := range g.Members {
+		for _, t := range strings.Split(g.Members, ",") {
 			s += telToName(t) + "\n\n"
 		}
 	}

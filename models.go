@@ -27,6 +27,9 @@ func (c *Contacts) Contact(i int) textsecure.Contact {
 
 //HACK
 func telToName(tel string) string {
+	if g, ok := groups[tel]; ok {
+		return g.Name
+	}
 	for _, c := range contactsModel.contacts {
 		if c.Tel == tel {
 			return c.Name
@@ -133,11 +136,7 @@ func (s *Sessions) Get(tel string) *Session {
 			return ses
 		}
 	}
-	// FIXME: better session id/name separation, group ids may need to be exposed from the libraray;
-	// for now, consider anything not starting with '+' a group.
 	ses := &Session{Tel: tel, Name: telToName(tel), IsGroup: tel[0] != '+'}
-	s.sessions = append(s.sessions, ses)
-	saveSession(ses)
 	return ses
 }
 
@@ -151,6 +150,14 @@ func (s *Session) Message(i int) *Message {
 		return &Message{}
 	}
 	return s.messages[i]
+}
+
+type GroupRecord struct {
+	ID      int64
+	GroupID string
+	Name    string
+	Members string
+	Avatar  []byte
 }
 
 func (api *textsecureAPI) FilterSessions(sub string) {
@@ -223,8 +230,10 @@ func (s *Session) Add(text string, from string, file string, outgoing bool) *Mes
 	qml.Changed(s, &s.Len)
 	qml.Changed(s, &s.CType)
 	if len(s.messages) == 1 {
+		sessionsModel.sessions = append(sessionsModel.sessions, s)
 		sessionsModel.Len++
 		qml.Changed(sessionsModel, &sessionsModel.Len)
+		saveSession(s)
 	}
 	updateSession(s)
 	return message

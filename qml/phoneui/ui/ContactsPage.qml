@@ -186,7 +186,7 @@ TelegramPage {
                     a.splice(i, 1)
                 }
 
-                contactListView.sels = a.join(":")
+                contactListView.sels = a.join(",")
             }
 
             function refreshSubtitle() {

@@ -21,11 +21,10 @@ var (
 	messagesInsert      = "INSERT INTO messages (sid, source, message, outgoing, sentat, receivedat, ctype, attachment, issent, isread) VALUES (:sid, :source, :message, :outgoing, :sentat, :receivedat, :ctype, :attachment, :issent, :isread)"
 	messagesSelectWhere = "SELECT * FROM messages WHERE sid = ?"
 
-/*
-	groupsSchema = "CREATE TABLE IF NOT EXISTS groups (id INTEGER PRIMARY KEY, groupid INTEGER, title TEXT, members TEXT, avatar BLOB, avatarid INTEGER, avatar_key BLOB, avatar_content_type TEXT, relay TEXT, active INTEGER DEFAULT 1)"
-	groupsInsert = "INSERT INTO groups (groupid, title, members, active) VALUES (:groupid, :title, :members, :active)"
-	groupsUpdate = "UPDATE groups SET members = :members, title = :title, WHERE groupid = :groupid"
-*/
+	groupsSchema = "CREATE TABLE IF NOT EXISTS groups (id INTEGER PRIMARY KEY, groupid TEXT, name TEXT, members TEXT, avatar BLOB, avatarid INTEGER, avatar_key BLOB, avatar_content_type TEXT, relay TEXT, active INTEGER DEFAULT 1)"
+	groupsInsert = "INSERT OR REPLACE INTO groups (groupid, name, members, avatar) VALUES (:groupid, :name, :members, :avatar)"
+	groupsUpdate = "UPDATE groups SET members = :members, name = :name, avatar = :avatar WHERE groupid = :groupid"
+	groupsSelect = "SELECT groupid, name, members, avatar FROM groups"
 )
 
 func setupDB() error {
@@ -52,12 +51,12 @@ func setupDB() error {
 	if err != nil {
 		return err
 	}
-	/*
-		_, err = db.Exec(groupsSchema)
-		if err != nil {
-			return err
-		}
-	*/
+
+	_, err = db.Exec(groupsSchema)
+	if err != nil {
+		return err
+	}
+
 	return loadMessagesFromDB()
 }
 
@@ -74,6 +73,21 @@ func saveSession(s *Session) error {
 
 	s.ID = id
 	return err
+}
+
+func saveGroup(g *GroupRecord) error {
+	res, err := db.NamedExec(groupsInsert, g)
+	if err != nil {
+		return err
+	}
+
+	id, err := res.LastInsertId()
+	if err != nil {
+		return err
+	}
+
+	g.ID = id
+	return nil
 }
 
 func saveMessage(m *Message) error {
@@ -115,10 +129,28 @@ func updateSession(s *Session) error {
 	return err
 }
 
+func updateGroup(g *GroupRecord) error {
+	_, err := db.NamedExec(groupsUpdate, g)
+	if err != nil {
+		return err
+	}
+	return err
+}
+
 var allSessions []*Session
+var allGroups []*GroupRecord
 
 func loadMessagesFromDB() error {
-	err := db.Select(&allSessions, sessionsSelect)
+	err := db.Select(&allGroups, groupsSelect)
+	if err != nil {
+		return err
+	}
+	for _, g := range allGroups {
+		groups[g.GroupID] = g
+
+	}
+
+	err = db.Select(&allSessions, sessionsSelect)
 	if err != nil {
 		return err
 	}

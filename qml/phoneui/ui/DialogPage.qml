@@ -568,7 +568,7 @@ TelegramPage {
     }
 
     function showGroupInfo() {
-        var properties = {'text':textsecure.groupInfo(messagesModel.name)}
+        var properties = {'text':textsecure.groupInfo(messagesModel.tel)}
         PopupUtils.open(Qt.resolvedUrl("dialogs/GroupInfoDialog.qml"), dialogPage, properties)
     }
 
