@@ -1,25 +1,34 @@
 # TextSecure client for the Ubuntu Phone
 
-This is a preliminary source code release of a TextSecure compatible client for the Ubuntu Phone, written in Go and QML.
-It builds upon the [Go textsecure package] (https://github.com/janimo/textsecure) and modified/hacked versions of the
+This is a TextSecure compatible client for the Ubuntu Phone, written in Go and QML.
+It builds upon the [Go textsecure package] (https://github.com/janimo/textsecure) and modified versions of the
 Telegram for Ubuntu Phone QML interface.
 
-Currently it is very basic and recommended for curious users and developers only.
+Currently it is very basic and recommended for curious users and developers.
 
 What works
 -----------
 
-Phone registration, contact discovery, direct and group text messages, photo and video attachments.
+ * Phone registration
+ * Contact discovery
+ * Direct and group messages
+ * Photo, video, audio and contact attachments in both direct and group mode
+ * Preview for photo and audio attachments
+ * Storing conversations
 
 What is missing
 ---------------
 
-Persistent storing of conversations and many other features of the Android app. There are bugs and UI/UX quirks.
+ * Most settings that are available in the Android app
+ * Encrypted store option
+ * Desktop client provisioning/syncing
+
+There are still bugs and UI/UX quirks.
 
 Installation
 ------------
 
-Download the latest release from the app store or build it yourself
+Download the latest release from the app store or build it yourself (you'll need docker running)
 
     ./build.sh rel
 
