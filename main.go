@@ -98,7 +98,7 @@ func messageHandler(msg *textsecure.Message) {
 	gr := msg.Group()
 
 	if gr != nil && gr.Flags == textsecure.GroupLeaveFlag {
-		text = msg.Source() + " left the group."
+		text = telToName(msg.Source()) + " has left the group."
 	}
 	if gr != nil && gr.Flags == textsecure.GroupUpdateFlag {
 		text = groupUpdateMsg(gr.Members, gr.Name)
