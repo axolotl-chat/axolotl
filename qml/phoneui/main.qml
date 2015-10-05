@@ -149,6 +149,6 @@ MainView {
 	}
 
 	function uid(tel) {
-		return parseInt(tel.substring(3))
+		return parseInt(tel.substring(3, 10), 16)
 	}
 }
