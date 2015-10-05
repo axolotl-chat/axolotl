@@ -1,7 +1,9 @@
 package main
 
 import (
+	"errors"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -41,6 +43,23 @@ func getAddressBookContactsFromDBus() ([]textsecure.Contact, error) {
 	}
 
 	return parseVCards(vcardContacts)
+}
+
+func phoneFromVCardFile(file string) (string, error) {
+	r, err := os.Open(file)
+	if err != nil {
+		return "", err
+	}
+	defer r.Close()
+
+	di := vcard.NewDirectoryInfoReader(r)
+	vc := &vcard.VCard{}
+	vc.ReadFrom(di)
+	if len(vc.Telephones) > 0 {
+		return vc.Telephones[0].Number, nil
+	}
+
+	return "", errors.New("No phone number for contact.")
 }
 
 func parseVCards(vcardContacts []string) ([]textsecure.Contact, error) {

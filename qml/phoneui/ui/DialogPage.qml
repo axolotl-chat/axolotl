@@ -160,6 +160,15 @@ TelegramPage {
                         }
                     }
                     Action {
+                        iconName:"contact"
+                        text: i18n.tr("Contact")
+                        onTriggered: {
+                            message.forceActiveFocus();
+                            attachPopover.hide();
+                            requestMedia(ContentType.Contacts);
+                        }
+                    }
+                    Action {
                         iconName:"text-x-generic-symbolic"
                         text: i18n.tr("File")
                         onTriggered: {
@@ -593,16 +602,20 @@ TelegramPage {
 
         repeat: false
         onTriggered: {
+            if (/vcf$/.test(path)) {
+                textsecure.sendContactAttachment(messagesModel.tel, message.text, path)
+            }else {
                 textsecure.sendAttachment(messagesModel.tel, message.text, path)
-                message.text = "";
-                busy = false
-                stop();
+            }
+            message.text = "";
+            busy = false
+            stop();
         }
     }
 
     function sendAttachment(path) {
-	    console.log("Sending attachment", path)
-	    sendAttachmentTimer.send(path)
+        console.log("Sending attachment", path)
+        sendAttachmentTimer.send(path)
     }
 
 }

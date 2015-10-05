@@ -326,6 +326,15 @@ func (api *textsecureAPI) SendMessage(to, message string) error {
 	return nil
 }
 
+func (api *textsecureAPI) SendContactAttachment(to, message string, file string) error {
+	phone, err := phoneFromVCardFile(file)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	return api.SendMessage(to, phone)
+}
+
 // Do not allow sending attachments larger than 100M for now
 var maxAttachmentSize int64 = 100 * 1024 * 1024
 
