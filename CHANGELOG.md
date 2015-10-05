@@ -1,3 +1,15 @@
+0.3.0 (Oct 5 2015)
+-------------------
+
+* Persist conversations by saving sessions to SQLite and attachments to files.
+  Storage is bound to change format and is currently unencrypted.
+  Things may get lost on upgrades until it stabilizes.
+* Improved group messaging.
+* Allow resetting the session (to debug or to get rid of corrupted sessions).
+* Support sending and playback of audio attachments.
+* Add session search.
+* Show send timestamps instead of receive timestamps on messages and sessions.
+
 0.2.6 (Sep 25 2015)
 ------------------
 
@@ -15,7 +27,7 @@
 ------------------
 
  * Make sending messages asynchronous, so they don't block the UI.
- * Show sending/sent/delivered status on outgoint messages.
+ * Show sending/sent/delivered status on outgoing messages.
  * Handle network disconnections.
 
 0.2.4 (Sep 18 2015)
