@@ -397,6 +397,7 @@ func (api *textsecureAPI) NewGroup(name string, members string) error {
 		return err
 	}
 
+	members = members + "," + config.Tel
 	groups[group.Hexid] = &GroupRecord{
 		GroupID: group.Hexid,
 		Name:    name,
@@ -404,7 +405,7 @@ func (api *textsecureAPI) NewGroup(name string, members string) error {
 	}
 	saveGroup(groups[group.Hexid])
 	session := sessionsModel.Get(group.Hexid)
-	session.Add(groupUpdateMsg(m, name), "", "", true)
+	session.Add(groupUpdateMsg(append(m, config.Tel), name), "", "", true)
 
 	return nil
 
