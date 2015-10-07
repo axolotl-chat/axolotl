@@ -4,7 +4,7 @@
     "description": "A TextSecure compatible messaging client for Ubuntu phones",
     "title": "TextSecure client",
     "architecture": "armhf",
-    "framework" : "ubuntu-sdk-14.10",
+    "framework" : "ubuntu-sdk-15.04",
     "hooks": {
         "textsecure": {
             "apparmor": "textsecure.apparmor",
