@@ -114,7 +114,6 @@ func messageHandler(msg *textsecure.Message) {
 		if ok {
 			updateGroup(groups[gr.Hexid])
 		} else {
-
 			saveGroup(groups[gr.Hexid])
 		}
 	}
@@ -132,6 +131,10 @@ func messageHandler(msg *textsecure.Message) {
 	session.Timestamp = m.SentAt
 	session.When = m.HTime
 	qml.Changed(session, &session.When)
+	if gr != nil && gr.Flags == textsecure.GroupUpdateFlag {
+		session.Name = gr.Name
+		qml.Changed(session, &session.Name)
+	}
 	saveMessage(m)
 	updateSession(session)
 }

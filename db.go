@@ -123,7 +123,7 @@ func updateMessageRead(m *Message) error {
 }
 
 func updateSession(s *Session) error {
-	_, err := db.NamedExec("UPDATE sessions SET timestamp = :timestamp, ctype = :ctype, last = :last WHERE id = :id", s)
+	_, err := db.NamedExec("UPDATE sessions SET name = :name, timestamp = :timestamp, ctype = :ctype, last = :last WHERE id = :id", s)
 	if err != nil {
 		return err
 	}
