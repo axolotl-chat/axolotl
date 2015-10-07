@@ -184,15 +184,6 @@ TelegramPage {
                             requestMedia(ContentType.Contacts);
                         }
                     }
-                    Action {
-                        iconName:"text-x-generic-symbolic"
-                        text: i18n.tr("File")
-                        onTriggered: {
-                            message.forceActiveFocus();
-                            attachPopover.hide();
-                            requestMedia(ContentType.All);
-                        }
-                    }
                 }
             }
         }
