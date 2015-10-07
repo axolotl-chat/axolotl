@@ -25,6 +25,7 @@ var (
 	groupsInsert = "INSERT OR REPLACE INTO groups (groupid, name, members, avatar) VALUES (:groupid, :name, :members, :avatar)"
 	groupsUpdate = "UPDATE groups SET members = :members, name = :name, avatar = :avatar WHERE groupid = :groupid"
 	groupsSelect = "SELECT groupid, name, members, avatar FROM groups"
+	groupsDelete = "DELETE FROM groups WHERE groupid = ?"
 )
 
 func setupDB() error {
@@ -134,6 +135,11 @@ func updateGroup(g *GroupRecord) error {
 	if err != nil {
 		return err
 	}
+	return err
+}
+
+func deleteGroup(hexid string) error {
+	_, err := db.Exec(groupsDelete, hexid)
 	return err
 }
 

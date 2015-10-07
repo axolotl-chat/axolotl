@@ -50,6 +50,22 @@ TelegramPage {
                 Qt.inputMethod.hide();
                 showGroupInfo()
             }
+        },
+        Action {
+            iconName: "system-log-out"
+            text: i18n.tr("Leave group")
+            visible: isChat
+            onTriggered: {
+                Qt.inputMethod.hide();
+                PopupUtils.open(Qt.resolvedUrl("dialogs/ConfirmationDialog.qml"),
+                    dialogPage, {
+                        title: i18n.tr("Leave group?"),
+                        text: i18n.tr("Are you sure you want to leave this group?"),
+                        onAccept: function() {
+                            textsecure.leaveGroup(messagesModel.tel)
+                        }
+                })
+            }
         }
     ]
 

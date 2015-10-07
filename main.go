@@ -420,9 +420,17 @@ func (api *textsecureAPI) NewGroup(name string, members string) error {
 
 }
 
-func (api *textsecureAPI) GroupInfo(name string) string {
+func (api *textsecureAPI) LeaveGroup(hexid string) error {
+	err := textsecure.LeaveGroup(hexid)
+	if err != nil {
+		return err
+	}
+	return deleteGroup(hexid)
+}
+
+func (api *textsecureAPI) GroupInfo(hexid string) string {
 	s := ""
-	if g, ok := groups[name]; ok {
+	if g, ok := groups[hexid]; ok {
 		for _, t := range strings.Split(g.Members, ",") {
 			s += telToName(t) + "\n\n"
 		}
