@@ -66,6 +66,19 @@ TelegramPage {
                         }
                 })
             }
+        },
+        Action {
+            iconName: "contact-new"
+            text: i18n.tr("Update group")
+            visible: isChat
+            onTriggered: {
+                Qt.inputMethod.hide();
+                var properties = {
+                    addToGroupMode: true,
+                    groupTitle: messagesModel.name
+                }
+                pageStack.push(contactsPage, properties);
+            }
         }
     ]
 

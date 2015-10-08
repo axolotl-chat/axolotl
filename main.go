@@ -417,10 +417,66 @@ func (api *textsecureAPI) NewGroup(name string, members string) error {
 	}
 	saveGroup(groups[group.Hexid])
 	session := sessionsModel.Get(group.Hexid)
-	session.Add(groupUpdateMsg(append(m, config.Tel), name), "", "", true)
+	msg := session.Add(groupUpdateMsg(append(m, config.Tel), name), "", "", true)
+	saveMessage(msg)
 
 	return nil
 
+}
+
+// membersUnion perfoms a set union of two contact sets represented as
+// comma separated strings.
+func membersUnion(aa, bb string) string {
+
+	if bb == "" {
+		return aa
+	}
+
+	as := strings.Split(aa, ",")
+	bs := strings.Split(bb, ",")
+
+	rs := as
+	for _, b := range bs {
+		found := false
+		for _, a := range as {
+			if a == b {
+				found = true
+				break
+			}
+		}
+		if !found {
+			rs = append(rs, b)
+		}
+	}
+	return strings.Join(rs, ",")
+}
+
+func (api *textsecureAPI) UpdateGroup(hexid, name string, members string) error {
+	g, ok := groups[hexid]
+	if !ok {
+		return fmt.Errorf("Unknown group id %s\n", hexid)
+	}
+	members = membersUnion(g.Members, members)
+	m := strings.Split(members, ",")
+	group, err := textsecure.UpdateGroup(hexid, name, m)
+	if err != nil {
+		showError(err)
+		return err
+	}
+
+	groups[group.Hexid] = &GroupRecord{
+		GroupID: group.Hexid,
+		Name:    name,
+		Members: members,
+	}
+	updateGroup(groups[group.Hexid])
+	session := sessionsModel.Get(group.Hexid)
+	msg := session.Add(groupUpdateMsg(m, name), "", "", true)
+	saveMessage(msg)
+	session.Name = name
+	qml.Changed(session, &session.Name)
+	updateSession(session)
+	return nil
 }
 
 func (api *textsecureAPI) LeaveGroup(hexid string) error {

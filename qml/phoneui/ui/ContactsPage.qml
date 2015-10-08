@@ -14,12 +14,13 @@ TelegramPage {
     // These values are passed on page creation.
     property bool groupChatMode: false
     property bool addToGroupMode: false
+    property alias groupTitle: groupChatTitleTextField.text
     property bool blockUserMode: false
     property int groupChatId: -1
     property string groupChatTitle: ""
 
     property alias isSelectingGroup: contactListView.isInSelectionMode
-    property bool isGroupCountSatisfied: contactListView.selectedItems.count > 1
+    property bool isGroupCountSatisfied: addToGroupMode || contactListView.selectedItems.count > 1
     property var actionsNone: []
     property list<Action> actionsSearch: [
         Action {
@@ -53,7 +54,7 @@ TelegramPage {
         if (groupChatMode) {
             return i18n.tr("New group");
         } else if (addToGroupMode) {
-            return i18n.tr("Add to group");
+            return i18n.tr("Update group");
         } else {
             return i18n.tr("Contacts");
         }
@@ -84,7 +85,7 @@ TelegramPage {
 
         TextField {
             // Use height and opacity, we can't animate on visibility.
-            property bool isVisible: contactListView.selectedItems.count > 1
+            property bool isVisible: contactsPage.addToGroupMode || contactListView.selectedItems.count > 1
 
             id: groupChatTitleTextField
             anchors {
@@ -100,7 +101,7 @@ TelegramPage {
             placeholderText: i18n.tr("Group name")
             Keys.onReturnPressed: {
                 Qt.inputMethod.commit();
-                contactListView.createGroup();
+                contactListView.updateOrCreateGroup();
             }
 
 
@@ -144,7 +145,7 @@ TelegramPage {
                 subtitle: contactsModel.contact(index).tel
 
                 selected: contactListView.isSelected(contactDelegate)
-                selectionMode: groupChatMode
+                selectionMode: groupChatMode || addToGroupMode
 
                 onItemClicked: {
                     if (contactListView.isInSelectionMode) {
@@ -168,7 +169,21 @@ TelegramPage {
             }
 
             onSelectionDone: {
-                createGroup();
+                updateOrCreateGroup()
+            }
+
+            function updateOrCreateGroup() {
+                if (contactsPage.addToGroupMode) {
+                    contactListView.updateGroup();
+                } else {
+                    contactListView.createGroup();
+                }
+            }
+
+            function updateGroup() {
+                textsecure.updateGroup(messagesModel.tel, groupChatTitleTextField.text, sels)
+                searchFinished();
+                pageStack.pop();
             }
 
             function createGroup() {
@@ -192,10 +207,6 @@ TelegramPage {
             function refreshSubtitle() {
                 var count = contactListView.selectedItems.count;
                 if (groupChatMode && count > 0) {
-                    var maxMembers = 200;
-                    // TRANSLATORS: the first argument refers to the number of members
-                    // on a group conversation. The second one refers to the maximum
-                    // number of members that are supporte for groups (currently 200).
                     pageSubtitle = i18n.tr("%1 members").arg(count);
                 } else {
                     pageSubtitle = "";
@@ -215,15 +226,17 @@ TelegramPage {
 
     }
 
-    onGroupChatModeChanged: {
-        if (groupChatMode) {
+    function modeChanged() {
+        if (groupChatMode || addToGroupMode) {
             contactListView.startSelection();
-            // onSelectedItemsChanged not working? So, call this:
         } else {
             contactListView.cancelSelection();
         }
         contactListView.refreshSubtitle();
     }
+
+    onGroupChatModeChanged: modeChanged()
+    onAddToGroupModeChanged: modeChanged()
 
     function createChatPressed() {
         Qt.inputMethod.commit();
