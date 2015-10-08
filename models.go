@@ -234,6 +234,7 @@ func (s *Session) Add(text string, from string, file string, outgoing bool) *Mes
 		sessionsModel.Len++
 		qml.Changed(sessionsModel, &sessionsModel.Len)
 		saveSession(s)
+		message.SID = s.ID
 	}
 	updateSession(s)
 	return message
