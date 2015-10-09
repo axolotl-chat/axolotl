@@ -75,7 +75,8 @@ TelegramPage {
 		dialogId: uid(sessionsModel.session(index).tel)
                 message: sessionsModel.session(index).last
                 mediaType: sessionsModel.session(index).cType
-                height: messagesToForward.length > 0 ? 0 : units.gu(8)
+                height: visible? (messagesToForward.length > 0 ? 0 : units.gu(8)) : 0
+                visible: sessionsModel.session(index).len > 0
 
                 title: sessionsModel.session(index).name
                 messageDate: sessionsModel.session(index).when

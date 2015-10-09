@@ -14,7 +14,7 @@ var (
 	dbFile string
 
 	sessionsSchema = "CREATE TABLE IF NOT EXISTS sessions (id INTEGER PRIMARY KEY, name text, tel text, isgroup boolean, last string, timestamp integer, ctype integer)"
-	sessionsInsert = "INSERT OR REPLACE INTO sessions (name, tel, isgroup, last, ctype) VALUES (:name, :tel, :isgroup, :last, :ctype)"
+	sessionsInsert = "INSERT OR REPLACE INTO sessions (name, tel, isgroup, last, ctype, timestamp) VALUES (:name, :tel, :isgroup, :last, :ctype, :timestamp)"
 	sessionsSelect = "SELECT * FROM sessions"
 
 	messagesSchema      = "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, sid integer, source text, message text, outgoing boolean, sentat integer, receivedat integer, ctype integer, attachment string, issent boolean, isread boolean)"

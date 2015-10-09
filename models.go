@@ -137,6 +137,10 @@ func (s *Sessions) Get(tel string) *Session {
 		}
 	}
 	ses := &Session{Tel: tel, Name: telToName(tel), IsGroup: tel[0] != '+'}
+	s.sessions = append(s.sessions, ses)
+	s.Len++
+	qml.Changed(s, &s.Len)
+	saveSession(ses)
 	return ses
 }
 
@@ -229,13 +233,6 @@ func (s *Session) Add(text string, from string, file string, outgoing bool) *Mes
 	qml.Changed(s, &s.Last)
 	qml.Changed(s, &s.Len)
 	qml.Changed(s, &s.CType)
-	if len(s.messages) == 1 {
-		sessionsModel.sessions = append(sessionsModel.sessions, s)
-		sessionsModel.Len++
-		qml.Changed(sessionsModel, &sessionsModel.Len)
-		saveSession(s)
-		message.SID = s.ID
-	}
 	updateSession(s)
 	return message
 }
