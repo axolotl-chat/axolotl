@@ -169,6 +169,9 @@ func loadMessagesFromDB() error {
 		if err != nil {
 			return err
 		}
+		for _, m := range s.messages {
+			m.HTime = humanizeTimestamp(m.SentAt)
+		}
 	}
 	return nil
 }
