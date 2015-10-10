@@ -359,6 +359,7 @@ func (api *textsecureAPI) SendAttachment(to, message string, file string) error 
 	defer r.Close()
 
 	m := session.Add(message, "", file, true)
+	saveMessage(m)
 	r, err = os.Open(file)
 	if err != nil {
 		return err
@@ -368,7 +369,7 @@ func (api *textsecureAPI) SendAttachment(to, message string, file string) error 
 		m.IsSent = true
 		m.SentAt = ts
 		qml.Changed(m, &m.IsSent)
-		saveMessage(m)
+		updateMessageSent(m)
 		updateSession(session)
 	}()
 	return nil
@@ -379,6 +380,7 @@ var sessionReset = "Secure session reset."
 func (api *textsecureAPI) EndSession(tel string) error {
 	session := sessionsModel.Get(tel)
 	m := session.Add(sessionReset, "", "", true)
+	saveMessage(m)
 	go func() {
 		ts := sendMessage(tel, "", false, nil, true)
 		m.IsSent = true
