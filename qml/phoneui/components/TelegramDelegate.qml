@@ -53,7 +53,7 @@ ListItemWithActions {
     property bool isDownloading: false
     property variant progress: undefined
 
-    property string textColor: outgoing ? "white" : "#333333"
+    property string textColor: outgoing ? "black":"white"
 
     property bool sectionVisible: isNewDay || isAction
     property string sectionText: {
@@ -126,6 +126,7 @@ ListItemWithActions {
             TelegramBubble {
                 id: bubble
                 outgoing: messageDelegate.outgoing
+                color: outgoing? "white":senderColor
                 anchors {
                     top: parent.top
                     left: outgoing ? undefined : imageShape.right

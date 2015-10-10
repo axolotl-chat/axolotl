@@ -388,8 +388,8 @@ TelegramPage {
                 mediaType: messagesModel.message(ii).cType
                 thumbnail: list.getThumbnail(ii)
                 attachment: messagesModel.message(ii).attachment
+                senderColor: Avatar.getColor(senderId)
 		/*
-                senderColor: Avatar.getColor(model.fromId)
                 senderImage: {
                     if (isChat && !outgoing && !list.isInSelectionMode) {
                         return model.fromThumbnail;

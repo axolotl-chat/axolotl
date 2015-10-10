@@ -6,7 +6,7 @@ var grey  = "#777777"
 var blue  = "#2ca5e0"
 var dark_blue = "#1c94cf"
 
-var page_background = "#ffffff"
+var page_background = "#eeeeee"
 
 var unread_green = "#5ec245"
 var dark_green = "#267932"

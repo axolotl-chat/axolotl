@@ -34,7 +34,7 @@ Item {
                 if (isPhotoOrVideo) {
                     return Color.white;
                 }
-                return outgoing ? Color.dark_green : Color.grey;
+                return outgoing ? "black" : "white"
             }
             text: time
         }
@@ -49,11 +49,11 @@ Item {
             fillMode: Image.PreserveAspectFit
             source: {
                 if (!isSent) {
-                    return Qt.resolvedUrl("../images/msg_clock_white.png");
+                    return Qt.resolvedUrl("../images/msg_clock.png");
                 } else if (!isRead) {
-                    return Qt.resolvedUrl("../images/Checks1_2x_white.png");
+                    return Qt.resolvedUrl("../images/Checks1_2x.png");
                 } else {
-                    return Qt.resolvedUrl("../images/Checks2_2x_white.png");
+                    return Qt.resolvedUrl("../images/Checks2_2x.png");
                 }
             }
         }

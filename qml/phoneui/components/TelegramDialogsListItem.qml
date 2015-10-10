@@ -51,7 +51,7 @@ ListItemWithActions {
 
     showDivider: true
 
-    color: listitem.pressed ? TelegramColors.list_pressed : TelegramColors.white
+    color: TelegramColors.page_background
 
     Avatar {
         id: imageShape
