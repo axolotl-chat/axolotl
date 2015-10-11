@@ -1,3 +1,12 @@
+0.3.1 (Oct 12 2015)
+------------------
+
+* Add group update and group leave functionality.
+* Use multiple dialog bubble colors.
+* Stop offering sending random files as attachments, Android does not support it.
+* Allow sending contact phone numbers as attachments.
+* Bugfixes.
+
 0.3.0 (Oct 5 2015)
 -------------------
 
