@@ -244,7 +244,7 @@ TelegramPage {
         var isSimpleChat = contactListView.isInSelectionMode ?
                     contactListView.selectedItems.count == 1 : true;
 
-        var isGroupChat = !isSimpleChat && contactListView.selectedItems.count > 1;
+        var isGroupChat = !isSimpleChat
         var hasGroupTitle = groupChatTitleTextField.text.length > 0;
 
         if (isSimpleChat || (isGroupChat && hasGroupTitle)) {
