@@ -28,8 +28,6 @@ TelegramPage {
     property string audioPreviewSource: ""
     property string videoPreviewSource: ""
 
-    signal bigPhotoUpdated(var id, string bigPhotoUrl);
-
     id: previewPage
     title: i18n.tr("From: ") + senderName
 
@@ -80,26 +78,6 @@ TelegramPage {
             id: singleMediaViewer
             anchors.fill: parent
             maxDimension: 2*Math.max(previewPage.width, previewPage.height)
-            mediaSource: photoPreviewSource
-        }
-
-/*
-        WebView {
-            id: videoPreview
-            anchors.fill: parent
-            visible: videoPreviewSource.length > 0
-
-            Component.onCompleted: loadHtml(
-                    "<html><body><video src=\"%1\" controls width=\"%2\"></video></body></html>"
-                    .arg(Qt.resolvedUrl(videoPreviewSource)).arg(previewPage.width), "file:///")
-        }
-*/
-    }
-
-    onBigPhotoUpdated: {
-        if (id === chatId) {
-            console.log("setting high res photo: " + bigPhotoUrl);
-            photoPreviewSource = bigPhotoUrl;
         }
     }
 }
