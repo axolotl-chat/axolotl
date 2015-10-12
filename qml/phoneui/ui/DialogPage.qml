@@ -364,11 +364,12 @@ TelegramPage {
             listModel: messagesModel.len
             listDelegate: TelegramDelegate {
                 id: delegate
-		property int ii: messagesModel.len - 1 - index
-                outgoing: messagesModel.message(ii).outgoing
-		isAction: false
-                isSent: messagesModel.message(ii).isSent
-                isRead: messagesModel.message(ii).isRead
+                property int ii: messagesModel.len - 1 - index
+                property var msg: messagesModel.message(ii)
+                outgoing: msg.outgoing
+                isAction: false
+                isSent: msg.isSent
+                isRead: msg.isRead
 		/*
                 actionType: model.actionType
                 actionTitle: model.actionTitle
@@ -380,14 +381,14 @@ TelegramPage {
 
 		messageId: model.id
 		*/
-                message: messagesModel.message(ii).text
-                time: messagesModel.message(ii).hTime
-                senderId: uid(messagesModel.message(ii).from)
-                senderName: outgoing? "You" : messagesModel.message(ii).name()
+                message: msg.text
+                time: msg.hTime
+                senderId: uid(msg.from)
+                senderName: outgoing? "You" : msg.name()
                 senderDisplayName: outgoing ? "" : senderName
-                mediaType: messagesModel.message(ii).cType
-                thumbnail: list.getThumbnail(ii)
-                attachment: messagesModel.message(ii).attachment
+                mediaType: msg.cType
+                thumbnail: list.getThumbnail(msg)
+                attachment: msg.attachment
                 senderColor: Avatar.getColor(senderId)
 		/*
                 senderImage: {
@@ -478,10 +479,10 @@ TelegramPage {
                 locked: !isConnected || isAction
             }
 
-            function getThumbnail(ii) {
-                        var mediaType = messagesModel.message(ii).cType
+            function getThumbnail(msg) {
+                        var mediaType = msg.cType
                         if (mediaType === ContentType.Pictures) {
-                                return messagesModel.message(ii).attachment
+                                return msg.attachment
                         }
                         if (mediaType === ContentType.Videos) {
                                 return "image://theme/video-x-generic-symbolic"
