@@ -48,13 +48,20 @@ Item {
             z: 1
             fillMode: Image.PreserveAspectFit
             source: {
+                var icon=""
+                var c = ""
+
                 if (!isSent) {
-                    return Qt.resolvedUrl("../images/msg_clock.png");
+                    icon = "msg_clock"
                 } else if (!isRead) {
-                    return Qt.resolvedUrl("../images/Checks1_2x.png");
+                    icon="Checks1_2x"
                 } else {
-                    return Qt.resolvedUrl("../images/Checks2_2x.png");
+                    icon="Checks2_2x"
                 }
+                if (isPhotoOrVideo) {
+                    c = "_white"
+                }
+                return Qt.resolvedUrl("../images/"+icon+c+".png");
             }
         }
     }
