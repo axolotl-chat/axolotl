@@ -6,6 +6,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"image"
 	_ "image/jpeg"
 	_ "image/png"
 	"io"
@@ -499,8 +500,23 @@ func (api *textsecureAPI) GroupInfo(hexid string) string {
 	return s
 }
 
+func avatarImageProvider(id string, width, height int) image.Image {
+	c := getContactForTel(id)
+	if c == nil || c.Photo == "" {
+		return image.NewAlpha(image.Rectangle{})
+	}
+	r := strings.NewReader(c.Photo)
+	img, _, err := image.Decode(r)
+	if err != nil {
+		return image.NewAlpha(image.Rectangle{})
+
+	}
+	return img
+}
+
 func runUI() error {
 	engine = qml.NewEngine()
+	engine.AddImageProvider("avatar", avatarImageProvider)
 	initModels()
 	engine.Context().SetVar("textsecure", api)
 	engine.Context().SetVar("appVersion", appVersion)

@@ -54,6 +54,15 @@ func refreshContacts() {
 	qml.Changed(contactsModel, &contactsModel.Len)
 }
 
+func getContactForTel(tel string) *textsecure.Contact {
+	for _, c := range contactsModel.contacts {
+		if c.Tel == tel {
+			return &c
+		}
+	}
+	return nil
+}
+
 func (api *textsecureAPI) FilterContacts(sub string) {
 	sub = strings.ToUpper(sub)
 
