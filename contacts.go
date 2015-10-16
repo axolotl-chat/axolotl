@@ -1,8 +1,10 @@
 package main
 
 import (
+	"encoding/base64"
 	"errors"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -75,10 +77,28 @@ func parseVCards(vcardContacts []string) ([]textsecure.Contact, error) {
 		for t := 0; t < len(vc.Telephones); t++ {
 			contacts[i].Name = vc.FormattedName
 			contacts[i].Tel = strings.Replace(vc.Telephones[t].Number, " ", "", -1)
+			if vc.Photo.Data != "" {
+				b, err := base64.StdEncoding.DecodeString(vc.Photo.Data)
+				if err == nil {
+					contacts[i].Photo = string(b)
+				} else {
+					log.Printf("Parsing VCard %d %s\n", i, err.Error())
+				}
+			}
 			i++
 		}
 	}
 	return contacts[:i], nil
+}
+
+// getContactsFromVCardFile reads contacts from a VCF file
+func getContactsFromVCardFile(path string) ([]textsecure.Contact, error) {
+	b, err := ioutil.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+	vcardContacts := strings.SplitAfter(string(b), "END:VCARD")
+	return parseVCards(vcardContacts)
 }
 
 // getAddgetAddressBookContactsFromContentHub gets the phone contacts via the content hub
@@ -86,13 +106,8 @@ func getAddressBookContactsFromContentHub() ([]textsecure.Contact, error) {
 	if exists(contactsFile) && vcardPath == "" {
 		return textsecure.ReadContacts(contactsFile)
 	}
-	fileName := strings.Replace(vcardPath, "file://", "", 1)
-	b, err := ioutil.ReadFile(fileName)
-	if err != nil {
-		return nil, err
-	}
-	vcardContacts := strings.SplitAfter(string(b), "END:VCARD")
-	contacts, err := parseVCards(vcardContacts)
+	vcardPath := strings.TrimPrefix(vcardPath, "file://")
+	contacts, err := getContactsFromVCardFile(vcardPath)
 	if err != nil {
 		return nil, err
 	}
