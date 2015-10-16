@@ -365,7 +365,7 @@ TelegramPage {
             listDelegate: TelegramDelegate {
                 id: delegate
                 property int ii: messagesModel.len - 1 - index
-                property var msg: messagesModel.message(ii)
+                property var msg: messagesModel.messages(ii)
                 outgoing: msg.outgoing
                 isAction: false
                 isSent: msg.isSent
