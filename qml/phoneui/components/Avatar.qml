@@ -34,6 +34,7 @@ Item {
         height: hasChatPhoto ? parent.height : units.gu(4)
         antialiasing: true
         asynchronous: true
+        fillMode: Image.PreserveAspectCrop
         source: !hasChatPhoto && !hasChatId ? logo : chatPhoto
         visible: !showFrame
     }
