@@ -157,7 +157,7 @@ var sessionsModel = &Sessions{
 	sessions: make([]*Session, 0),
 }
 
-func (s *Session) Message(i int) *Message {
+func (s *Session) Messages(i int) *Message {
 	//FIXME when is index -1 ?
 	if i == -1 || i >= len(s.messages) {
 		return &Message{}
