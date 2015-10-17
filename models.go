@@ -234,6 +234,7 @@ func (s *Session) Add(text string, from string, file string, outgoing bool) *Mes
 		From:       from,
 		CType:      ctype,
 		Attachment: file,
+		HTime:      "Now",
 	}
 	s.messages = append(s.messages, message)
 	s.Last = text
