@@ -311,11 +311,23 @@ func humanizeTimestamp(ts uint64) string {
 }
 
 func (api *textsecureAPI) SendMessage(to, message string) error {
+	return sendMessageHelper(to, message, "")
+}
+
+func sendMessageHelper(to, message, file string) error {
+	var r io.Reader
+	var err error
+	if file != "" {
+		r, err = os.Open(file)
+		if err != nil {
+			return err
+		}
+	}
 	session := sessionsModel.Get(to)
-	m := session.Add(message, "", "", true)
+	m := session.Add(message, "", file, true)
 	saveMessage(m)
 	go func() {
-		ts := sendMessage(to, message, session.IsGroup, nil, false)
+		ts := sendMessage(to, message, session.IsGroup, r, false)
 		m.SentAt = ts
 		session.Timestamp = m.SentAt
 		m.IsSent = true
@@ -352,28 +364,7 @@ func (api *textsecureAPI) SendAttachment(to, message string, file string) error 
 		return nil
 	}
 
-	session := sessionsModel.Get(to)
-	r, err := os.Open(file)
-	if err != nil {
-		return err
-	}
-	defer r.Close()
-
-	m := session.Add(message, "", file, true)
-	saveMessage(m)
-	r, err = os.Open(file)
-	if err != nil {
-		return err
-	}
-	go func() {
-		ts := sendMessage(to, message, session.IsGroup, r, false)
-		m.IsSent = true
-		m.SentAt = ts
-		qml.Changed(m, &m.IsSent)
-		updateMessageSent(m)
-		updateSession(session)
-	}()
-	return nil
+	return sendMessageHelper(to, message, file)
 }
 
 var sessionReset = "Secure session reset."
