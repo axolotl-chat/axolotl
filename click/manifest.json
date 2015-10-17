@@ -1,6 +1,6 @@
 {
     "name": "textsecure.jani",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "description": "A TextSecure compatible messaging client for Ubuntu phones",
     "title": "TextSecure client",
     "architecture": "armhf",
