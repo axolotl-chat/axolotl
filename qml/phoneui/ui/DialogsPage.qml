@@ -71,16 +71,17 @@ TelegramPage {
 	    cacheBuffer: units.gu(8)*20
 	    model: sessionsModel.len
             delegate: TelegramDialogsListItem {
-		id: dialogsListItem
-		dialogId: uid(sessionsModel.session(index).tel)
-                message: sessionsModel.session(index).last
-                mediaType: sessionsModel.session(index).cType
+                id: dialogsListItem
+                property var ses: sessionsModel.session(index)
+                dialogId: uid(ses.tel)
+                message: ses.last
+                mediaType: ses.cType
                 height: visible? (messagesToForward.length > 0 ? 0 : units.gu(8)) : 0
-                visible: sessionsModel.session(index).len > 0
+                visible: ses.len > 0
 
-                title: sessionsModel.session(index).name
-                messageDate: sessionsModel.session(index).when
-                isGroupChat: sessionsModel.session(index).isGroup
+                title: ses.name
+                messageDate: ses.when
+                isGroupChat: ses.isGroup
 
                 onItemClicked: {
                     mouse.accepted = true;
@@ -92,13 +93,13 @@ TelegramPage {
                                 text: i18n.tr("Forward message to %1?".arg(title)),
                                 onAccept: function() {
                                     properties['messagesToForward'] = messagesToForward;
-                                    openChatById(dialogId, sessionsModel.session(index).tel, properties);
+                                    openChatById(dialogId, ses.tel, properties);
                                     messagesToForward = [];
                                 }
                             }
                         );
                     } else {
-                        openChatById(dialogsListItem.title, sessionsModel.session(index).tel, properties);
+                        openChatById(dialogsListItem.title, ses.tel, properties);
                         messagesToForward = [];
                     }
                 }
