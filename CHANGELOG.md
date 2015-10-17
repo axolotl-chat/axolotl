@@ -1,3 +1,10 @@
+0.3.2 (Oct 17 2015)
+-------------------
+
+* Backend robustness fixes, drop duplicates and other invalid messages.
+* Fix lockup in sign-up page if button is pressed more than once.
+* Small UI fixes.
+
 0.3.1 (Oct 12 2015)
 ------------------
 
