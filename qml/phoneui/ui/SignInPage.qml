@@ -153,10 +153,12 @@ TelegramPage {
     signal numberEntered(string text)
 
     function done() {
+        if (busy) return;
 
         Qt.inputMethod.commit();
         Qt.inputMethod.hide();
 
+        busy = true
         numberEntered(getPhoneNumber());
     }
 
