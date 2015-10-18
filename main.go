@@ -72,10 +72,14 @@ func saveAttachment(r io.Reader) (string, error) {
 
 func groupUpdateMsg(tels []string, title string) string {
 	s := ""
-	for _, t := range tels {
-		s += telToName(t) + ", "
+	if len(tels) > 0 {
+		for _, t := range tels {
+			s += telToName(t) + ", "
+		}
+		s = s[:len(s)-2] + " joined the group. "
 	}
-	return s[:len(s)-2] + " joined the group. Title is now '" + title + "'."
+
+	return s + "Title is now '" + title + "'."
 }
 
 func messageHandler(msg *textsecure.Message) {
@@ -98,15 +102,12 @@ func messageHandler(msg *textsecure.Message) {
 
 	gr := msg.Group()
 
-	if gr != nil && gr.Flags == textsecure.GroupLeaveFlag {
-		text = telToName(msg.Source()) + " has left the group."
-	}
-	if gr != nil && gr.Flags == textsecure.GroupUpdateFlag {
-		text = groupUpdateMsg(gr.Members, gr.Name)
-	}
-
 	if gr != nil && gr.Flags != 0 {
 		_, ok := groups[gr.Hexid]
+		members := ""
+		if ok {
+			members = groups[gr.Hexid].Members
+		}
 		groups[gr.Hexid] = &GroupRecord{
 			GroupID: gr.Hexid,
 			Members: strings.Join(gr.Members, ","),
@@ -116,6 +117,14 @@ func messageHandler(msg *textsecure.Message) {
 			updateGroup(groups[gr.Hexid])
 		} else {
 			saveGroup(groups[gr.Hexid])
+		}
+
+		if gr.Flags == textsecure.GroupUpdateFlag {
+			dm, _ := membersDiffAndUnion(members, strings.Join(gr.Members, ","))
+			text = groupUpdateMsg(dm, gr.Name)
+		}
+		if gr.Flags == textsecure.GroupLeaveFlag {
+			text = telToName(msg.Source()) + " has left the group."
 		}
 	}
 
@@ -418,18 +427,19 @@ func (api *textsecureAPI) NewGroup(name string, members string) error {
 
 }
 
-// membersUnion perfoms a set union of two contact sets represented as
+// membersDiffAndUnion returns a set diff and union of two contact sets represented as
 // comma separated strings.
-func membersUnion(aa, bb string) string {
+func membersDiffAndUnion(aa, bb string) ([]string, string) {
 
 	if bb == "" {
-		return aa
+		return nil, aa
 	}
 
 	as := strings.Split(aa, ",")
 	bs := strings.Split(bb, ",")
 
-	rs := as
+	rs := []string{}
+
 	for _, b := range bs {
 		found := false
 		for _, a := range as {
@@ -442,7 +452,7 @@ func membersUnion(aa, bb string) string {
 			rs = append(rs, b)
 		}
 	}
-	return strings.Join(rs, ",")
+	return rs, strings.Join(append(as, rs...), ",")
 }
 
 func (api *textsecureAPI) UpdateGroup(hexid, name string, members string) error {
@@ -450,7 +460,7 @@ func (api *textsecureAPI) UpdateGroup(hexid, name string, members string) error 
 	if !ok {
 		return fmt.Errorf("Unknown group id %s\n", hexid)
 	}
-	members = membersUnion(g.Members, members)
+	dm, members := membersDiffAndUnion(g.Members, members)
 	m := strings.Split(members, ",")
 	group, err := textsecure.UpdateGroup(hexid, name, m)
 	if err != nil {
@@ -465,7 +475,7 @@ func (api *textsecureAPI) UpdateGroup(hexid, name string, members string) error 
 	}
 	updateGroup(groups[group.Hexid])
 	session := sessionsModel.Get(group.Hexid)
-	msg := session.Add(groupUpdateMsg(m, name), "", "", true)
+	msg := session.Add(groupUpdateMsg(dm, name), "", "", true)
 	saveMessage(msg)
 	session.Name = name
 	qml.Changed(session, &session.Name)
@@ -478,6 +488,9 @@ func (api *textsecureAPI) LeaveGroup(hexid string) error {
 	if err != nil {
 		return err
 	}
+	session := sessionsModel.Get(hexid)
+	msg := session.Add("You have left the group", "", "", true)
+	saveMessage(msg)
 	return deleteGroup(hexid)
 }
 
