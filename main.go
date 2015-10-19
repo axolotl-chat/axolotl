@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"crypto/rand"
 	"encoding/hex"
 	"errors"
@@ -516,11 +517,16 @@ func (api *textsecureAPI) GroupInfo(hexid string) string {
 }
 
 func avatarImageProvider(id string, width, height int) image.Image {
-	c := getContactForTel(id)
-	if c == nil || c.Photo == "" {
-		return image.NewAlpha(image.Rectangle{})
+	var r io.Reader
+
+	if c := getContactForTel(id); c != nil {
+		r = strings.NewReader(c.Photo)
 	}
-	r := strings.NewReader(c.Photo)
+
+	if g, ok := groups[id]; ok {
+		r = bytes.NewReader(g.Avatar)
+	}
+
 	img, _, err := image.Decode(r)
 	if err != nil {
 		return image.NewAlpha(image.Rectangle{})
