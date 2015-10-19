@@ -10,6 +10,7 @@ import (
 	_ "image/jpeg"
 	_ "image/png"
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/user"
@@ -108,10 +109,20 @@ func messageHandler(msg *textsecure.Message) {
 		if ok {
 			members = groups[gr.Hexid].Members
 		}
+		av := []byte{}
+
+		if gr.Avatar != nil {
+			av, err = ioutil.ReadAll(gr.Avatar)
+			if err != nil {
+				log.Println(err)
+				return
+			}
+		}
 		groups[gr.Hexid] = &GroupRecord{
 			GroupID: gr.Hexid,
 			Members: strings.Join(gr.Members, ","),
 			Name:    gr.Name,
+			Avatar:  av,
 		}
 		if ok {
 			updateGroup(groups[gr.Hexid])
