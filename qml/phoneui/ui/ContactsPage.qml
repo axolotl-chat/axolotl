@@ -139,23 +139,23 @@ TelegramPage {
             listModel: contactsModel.len
             listDelegate: TelegramContactsListItem {
                 id: contactDelegate
-
-                userId: uid(contactsModel.contact(index).tel)
-                title: contactsModel.contact(index).name
-                subtitle: contactsModel.contact(index).tel
+                property var contact : contactsModel.contact(index)
+                userId: uid(contact.tel)
+                title: contact.name
+                subtitle: contact.tel
 
                 selected: contactListView.isSelected(contactDelegate)
                 selectionMode: groupChatMode || addToGroupMode
 
                 onItemClicked: {
                     if (contactListView.isInSelectionMode) {
-                        contactListView.selectionToggled(contactsModel.contact(index).tel);
+                        contactListView.selectionToggled(contact.tel);
                         if (!contactListView.selectItem(contactDelegate)) {
                             contactListView.deselectItem(contactDelegate);
                         }
                         contactListView.refreshSubtitle();
                     } else {
-                        openSimpleChat(contactsModel.contact(index));
+                        openSimpleChat(contact);
                     }
                 }
             }
