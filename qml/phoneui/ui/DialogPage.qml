@@ -607,36 +607,14 @@ TelegramPage {
         PopupUtils.open(Qt.resolvedUrl("dialogs/MessageInfoDialog.qml"), dialogPage, properties)
     }
 
-    Timer {
-        id: sendAttachmentTimer
-
-        property int attempts: 1
-        property string path: ""
-
-        function send(attachmentPath) {
-            busy = true
-            stop();
-            path = attachmentPath;
-            attempts = 0;
-            restart();
-        }
-
-        repeat: false
-        onTriggered: {
-            if (/vcf$/.test(path)) {
-                textsecure.sendContactAttachment(messagesModel.tel, message.text, path)
-            }else {
-                textsecure.sendAttachment(messagesModel.tel, message.text, path)
-            }
-            message.text = "";
-            busy = false
-            stop();
-        }
-    }
-
     function sendAttachment(path) {
         console.log("Sending attachment", path)
-        sendAttachmentTimer.send(path)
+        if (/vcf$/.test(path)) {
+            textsecure.sendContactAttachment(messagesModel.tel, message.text, path)
+        }else {
+            textsecure.sendAttachment(messagesModel.tel, message.text, path)
+        }
+        message.text = "";
     }
 
 }
