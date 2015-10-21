@@ -69,8 +69,8 @@ Item {
                 id: signalConnections
 
                 onStateChanged: {
-                    var done = ((dialogue.activeTransfer.state === ContentHub.ContentTransfer.Charged) ||
-                                (dialogue.activeTransfer.state === ContentHub.ContentTransfer.Aborted))
+                    var done = (dialogue.activeTransfer.state === ContentHub.ContentTransfer.Charged)
+                             //   (dialogue.activeTransfer.state === ContentHub.ContentTransfer.Aborted))
 
                     if (dialogue.activeTransfer.state === ContentHub.ContentTransfer.Charged) {
                         dialogue.hide()
