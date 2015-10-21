@@ -165,6 +165,7 @@ Item {
                     autoLoad: true
                     autoPlay: true
                     source: videoPreviewSource
+                    onStopped: playIcon.name = "media-playback-start"
                 }
 
                 VideoOutput {
