@@ -1,3 +1,13 @@
+0.3.3 (Oct 21 2015)
+-------------------
+
+* Show contact avatars if present in the system address book.
+* Show group avatars when available.
+* Prevent video preview crash when viewing more than one video.
+* Allow viewing incoming video attachments.
+* Do not block the UI at all when sending attachments.
+* Clearer group update messages.
+
 0.3.2 (Oct 17 2015)
 -------------------
 
