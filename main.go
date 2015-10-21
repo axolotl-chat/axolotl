@@ -22,6 +22,7 @@ import (
 
 	"github.com/dustin/go-humanize"
 	"github.com/janimo/textsecure"
+	"github.com/janimo/textsecure/vendor/magic"
 	"gopkg.in/qml.v1"
 )
 
@@ -56,7 +57,13 @@ func saveAttachment(r io.Reader) (string, error) {
 		return "", err
 	}
 
-	fn := filepath.Join(attachDir, hex.EncodeToString(id))
+	ext := ""
+	mt, r := magic.MIMETypeFromReader(r)
+	if strings.HasPrefix(mt, "video/") {
+		ext = strings.Replace(mt, "video/", ".", 1)
+	}
+
+	fn := filepath.Join(attachDir, hex.EncodeToString(id)+ext)
 	f, err := os.OpenFile(fn, os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
 		return "", err
