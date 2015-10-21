@@ -150,4 +150,8 @@ MainView {
 	function uid(tel) {
 		return parseInt(tel.substring(3, 10), 16)
 	}
+
+	function avatarImage(id) {
+		return textsecure.avatarImage(id)
+	}
 }

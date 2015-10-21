@@ -13,6 +13,7 @@ TelegramPage {
     id: dialogPage
 
     title: messagesModel.name
+    pageImage: avatarImage(messagesModel.tel)
 
     property bool isChat: messagesModel.isGroup
 
@@ -390,13 +391,13 @@ TelegramPage {
                 thumbnail: list.getThumbnail(msg)
                 attachment: msg.attachment
                 senderColor: Avatar.getColor(senderId)
-		/*
                 senderImage: {
-                    if (isChat && !outgoing && !list.isInSelectionMode) {
-                        return model.fromThumbnail;
+                    if (!outgoing && !list.isInSelectionMode) {
+                        return avatarImage(msg.from)
                     }
                     return "";
                 }
+                /*
                 photo: model.photo
                 video: model.video
                 document: model.document

@@ -73,6 +73,7 @@ TelegramPage {
             delegate: TelegramDialogsListItem {
                 id: dialogsListItem
                 property var ses: sessionsModel.session(index)
+                thumbnail: avatarImage(ses.tel)
                 dialogId: uid(ses.tel)
                 message: ses.last
                 mediaType: ses.cType

@@ -141,6 +141,7 @@ TelegramPage {
                 id: contactDelegate
                 property var contact : contactsModel.contact(index)
                 userId: uid(contact.tel)
+                photo: avatarImage(contact.tel)
                 title: contact.name
                 subtitle: contact.tel
 

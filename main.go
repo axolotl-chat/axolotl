@@ -516,6 +516,22 @@ func (api *textsecureAPI) GroupInfo(hexid string) string {
 	return s
 }
 
+func (api *textsecureAPI) AvatarImage(id string) string {
+	url := ""
+
+	if c := getContactForTel(id); c != nil {
+		if c.Photo != "" {
+			url = "image://avatar/" + id
+		}
+	}
+	if g, ok := groups[id]; ok {
+		if len(g.Avatar) > 0 {
+			url = "image://avatar/" + id
+		}
+	}
+	return url
+}
+
 func avatarImageProvider(id string, width, height int) image.Image {
 	var r io.Reader
 
@@ -527,6 +543,9 @@ func avatarImageProvider(id string, width, height int) image.Image {
 		r = bytes.NewReader(g.Avatar)
 	}
 
+	if r == nil {
+		return image.NewAlpha(image.Rectangle{})
+	}
 	img, _, err := image.Decode(r)
 	if err != nil {
 		return image.NewAlpha(image.Rectangle{})
