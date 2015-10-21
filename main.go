@@ -385,7 +385,8 @@ func (api *textsecureAPI) SendAttachment(to, message string, file string) error 
 		return nil
 	}
 
-	return sendMessageHelper(to, message, file)
+	go sendMessageHelper(to, message, file)
+	return nil
 }
 
 var sessionReset = "Secure session reset."
