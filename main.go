@@ -540,6 +540,15 @@ func (api *textsecureAPI) AvatarImage(id string) string {
 	return url
 }
 
+func (api *textsecureAPI) IdentityInfo(id string) string {
+	myID := textsecure.MyIdentityKey()
+	theirID, err := textsecure.ContactIdentityKey(id)
+	if err != nil {
+		log.Println(err)
+	}
+	return "Their identity (they read): <br>" + fmt.Sprintf("% 0X", theirID) + "<br><br>Your identity (you read):<br><br>" + fmt.Sprintf("% 0X", myID)
+}
+
 func avatarImageProvider(id string, width, height int) image.Image {
 	var r io.Reader
 
