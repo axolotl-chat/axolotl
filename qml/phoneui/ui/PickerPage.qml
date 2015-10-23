@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../components"
-import Ubuntu.Content 0.1
+import Ubuntu.Content 1.1
 
 TelegramPage {
 

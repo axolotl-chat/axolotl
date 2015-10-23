@@ -1,7 +1,6 @@
 import QtQuick 2.2
 import Ubuntu.Components 1.1
 import Ubuntu.Components.Popups 1.0
-import Ubuntu.Content 0.1
 
 import 'components'
 import 'ui'

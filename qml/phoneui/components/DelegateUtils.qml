@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import Ubuntu.Content 0.1
+import Ubuntu.Content 1.1
 
 Item {
 	function getMediaTypeString(mediaType) {
