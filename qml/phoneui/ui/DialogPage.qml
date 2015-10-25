@@ -269,7 +269,7 @@ TelegramPage {
 
                 // this value is to avoid letter and underline being cut off
                 height: units.gu(4.3)
-                enabled: isConnected
+                enabled: isConnected && messagesModel.active
                 visible: true
                 placeholderText: isConnected ? i18n.tr("Type message") : i18n.tr("Not connected.")
                 inputMethodHints: Qt.ImhNone
@@ -300,7 +300,7 @@ TelegramPage {
                     rightMargin: units.gu(2)
                 }
                 width: buttonsRow.width
-                visible: true
+                enabled: messagesModel.active
 
                 Row {
                     id: buttonsRow
@@ -312,7 +312,7 @@ TelegramPage {
                         height: units.gu(3.5)
                         fillMode: Image.PreserveAspectFit
                         focus: false
-                        enabled: isConnected && message.text.length === 0
+                        enabled: isConnected && message.text.length === 0 && messagesModel.active
                         source: "../images/ic_ab_attach.png"
 
                         states: [

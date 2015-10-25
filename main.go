@@ -511,7 +511,10 @@ func (api *textsecureAPI) LeaveGroup(hexid string) error {
 	session := sessionsModel.Get(hexid)
 	msg := session.Add("You have left the group", "", "", true)
 	saveMessage(msg)
-	return deleteGroup(hexid)
+	session.Active = false
+	qml.Changed(session, &session.Active)
+	groups[hexid].Active = false
+	return updateGroup(groups[hexid])
 }
 
 func (api *textsecureAPI) GroupInfo(hexid string) string {

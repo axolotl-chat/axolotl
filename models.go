@@ -127,6 +127,7 @@ type Session struct {
 	When      string
 	CType     int
 	messages  []*Message
+	Active    bool
 	Len       int
 }
 
@@ -145,7 +146,7 @@ func (s *Sessions) Get(tel string) *Session {
 			return ses
 		}
 	}
-	ses := &Session{Tel: tel, Name: telToName(tel), IsGroup: tel[0] != '+'}
+	ses := &Session{Tel: tel, Name: telToName(tel), Active: true, IsGroup: tel[0] != '+'}
 	s.sessions = append(s.sessions, ses)
 	s.Len++
 	qml.Changed(s, &s.Len)
@@ -171,6 +172,7 @@ type GroupRecord struct {
 	Name    string
 	Members string
 	Avatar  []byte
+	Active  bool
 }
 
 func (api *textsecureAPI) FilterSessions(sub string) {

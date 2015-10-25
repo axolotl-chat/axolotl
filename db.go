@@ -23,7 +23,7 @@ var (
 
 	groupsSchema = "CREATE TABLE IF NOT EXISTS groups (id INTEGER PRIMARY KEY, groupid TEXT, name TEXT, members TEXT, avatar BLOB, avatarid INTEGER, avatar_key BLOB, avatar_content_type TEXT, relay TEXT, active INTEGER DEFAULT 1)"
 	groupsInsert = "INSERT OR REPLACE INTO groups (groupid, name, members, avatar) VALUES (:groupid, :name, :members, :avatar)"
-	groupsUpdate = "UPDATE groups SET members = :members, name = :name, avatar = :avatar WHERE groupid = :groupid"
+	groupsUpdate = "UPDATE groups SET members = :members, name = :name, avatar = :avatar, active = :active WHERE groupid = :groupid"
 	groupsSelect = "SELECT groupid, name, members, avatar FROM groups"
 	groupsDelete = "DELETE FROM groups WHERE groupid = ?"
 )
@@ -153,7 +153,6 @@ func loadMessagesFromDB() error {
 	}
 	for _, g := range allGroups {
 		groups[g.GroupID] = g
-
 	}
 
 	err = db.Select(&allSessions, sessionsSelect)
@@ -162,6 +161,7 @@ func loadMessagesFromDB() error {
 	}
 	for _, s := range allSessions {
 		s.When = humanizeTimestamp(s.Timestamp)
+		s.Active = !s.IsGroup || (groups[s.Tel] != nil && groups[s.Tel].Active)
 		sessionsModel.sessions = append(sessionsModel.sessions, s)
 		sessionsModel.Len++
 		err = db.Select(&s.messages, messagesSelectWhere, s.ID)
