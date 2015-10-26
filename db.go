@@ -24,7 +24,7 @@ var (
 	groupsSchema = "CREATE TABLE IF NOT EXISTS groups (id INTEGER PRIMARY KEY, groupid TEXT, name TEXT, members TEXT, avatar BLOB, avatarid INTEGER, avatar_key BLOB, avatar_content_type TEXT, relay TEXT, active INTEGER DEFAULT 1)"
 	groupsInsert = "INSERT OR REPLACE INTO groups (groupid, name, members, avatar) VALUES (:groupid, :name, :members, :avatar)"
 	groupsUpdate = "UPDATE groups SET members = :members, name = :name, avatar = :avatar, active = :active WHERE groupid = :groupid"
-	groupsSelect = "SELECT groupid, name, members, avatar FROM groups"
+	groupsSelect = "SELECT groupid, name, members, avatar, active FROM groups"
 	groupsDelete = "DELETE FROM groups WHERE groupid = ?"
 )
 
