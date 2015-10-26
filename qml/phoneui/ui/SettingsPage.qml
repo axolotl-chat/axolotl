@@ -24,7 +24,7 @@ TelegramPage {
         }
 
         ListItem.Header {
-            text: i18n.tr("Advanced")
+            text: i18n.tr("User interface")
         }
 
         ListItem.Standard {
@@ -39,7 +39,10 @@ TelegramPage {
                     verticalCenter: parent.verticalCenter
                 }
 
-                onCheckedChanged: settingsModel.sendByEnter = checked
+                onCheckedChanged: {
+                    settingsModel.sendByEnter = checked
+                    textsecure.saveSettings()
+                }
                 Component.onCompleted: checked = settingsModel.sendByEnter
             }
     	}

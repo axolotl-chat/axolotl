@@ -2,6 +2,8 @@ package main
 
 import (
 	"io"
+	"io/ioutil"
+	"log"
 	"os"
 	"strings"
 	"time"
@@ -9,6 +11,7 @@ import (
 	"github.com/janimo/textsecure"
 	"github.com/janimo/textsecure/vendor/magic"
 	"gopkg.in/qml.v1"
+	"gopkg.in/yaml.v2"
 )
 
 // Model for the contacts
@@ -79,12 +82,37 @@ func (api *textsecureAPI) FilterContacts(sub string) {
 
 // Model for application settings
 
-type Setting struct {
-	SendByEnter bool
+type Settings struct {
+	SendByEnter bool `yaml:"sendByEnter"`
 }
 
-var settingsModel = &Setting{
-	SendByEnter: true,
+var settingsModel *Settings
+
+func loadSettings() (*Settings, error) {
+	s := &Settings{}
+
+	b, err := ioutil.ReadFile(settingsFile)
+	if err != nil {
+		return s, err
+	}
+
+	err = yaml.Unmarshal(b, s)
+	if err != nil {
+		return s, err
+	}
+	return s, nil
+}
+
+func saveSettings(s *Settings) error {
+	b, err := yaml.Marshal(s)
+	if err != nil {
+		return err
+	}
+	return ioutil.WriteFile(settingsFile, b, 0600)
+}
+
+func (api *textsecureAPI) SaveSettings() error {
+	return saveSettings(settingsModel)
 }
 
 // Model for existing chat sessions
@@ -271,6 +299,11 @@ func updateTimestamps() {
 
 // initModels exports the Go models to QML
 func initModels() {
+	var err error
+	settingsModel, err = loadSettings()
+	if err != nil {
+		log.Println(err)
+	}
 	engine.Context().SetVar("contactsModel", contactsModel)
 	engine.Context().SetVar("settingsModel", settingsModel)
 	engine.Context().SetVar("sessionsModel", sessionsModel)

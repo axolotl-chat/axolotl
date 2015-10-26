@@ -40,6 +40,7 @@ var (
 	configDir    string
 	configFile   string
 	contactsFile string
+	settingsFile string
 	dataDir      string
 	storageDir   string
 	attachDir    string
@@ -232,6 +233,7 @@ func setupEnvironment() {
 	homeDir = user.HomeDir
 	configDir = filepath.Join(homeDir, ".config/", appName)
 	contactsFile = filepath.Join(configDir, "contacts.yml")
+	settingsFile = filepath.Join(configDir, "settings.yml")
 	os.MkdirAll(configDir, 0700)
 	dataDir = filepath.Join(homeDir, ".local", "share", appName)
 	attachDir = filepath.Join(dataDir, "attachments")
@@ -243,8 +245,6 @@ func setupEnvironment() {
 }
 
 func runBackend() {
-	setupEnvironment()
-
 	client := &textsecure.Client{
 		GetConfig:           getConfig,
 		GetPhoneNumber:      getPhoneNumber,
@@ -575,6 +575,8 @@ func avatarImageProvider(id string, width, height int) image.Image {
 }
 
 func runUI() error {
+	setupEnvironment()
+
 	engine = qml.NewEngine()
 	engine.AddImageProvider("avatar", avatarImageProvider)
 	initModels()
