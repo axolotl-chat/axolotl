@@ -94,7 +94,9 @@ func messageHandler(msg *textsecure.Message) {
 	var err error
 
 	f := ""
+	mt := ""
 	if len(msg.Attachments()) > 0 {
+		mt = msg.Attachments()[0].MimeType
 		f, err = saveAttachment(msg.Attachments()[0])
 		if err != nil {
 			log.Printf("Error saving %s\n", err.Error())
@@ -149,7 +151,7 @@ func messageHandler(msg *textsecure.Message) {
 		s = gr.Hexid
 	}
 	session := sessionsModel.Get(s)
-	m := session.Add(text, msg.Source(), f, false)
+	m := session.Add(text, msg.Source(), f, mt, false)
 	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
 	m.SentAt = msg.Timestamp()
 	m.HTime = humanizeTimestamp(m.SentAt)
@@ -348,7 +350,7 @@ func sendMessageHelper(to, message, file string) error {
 		}
 	}
 	session := sessionsModel.Get(to)
-	m := session.Add(message, "", file, true)
+	m := session.Add(message, "", file, "", true)
 	saveMessage(m)
 	go func() {
 		ts := sendMessage(to, message, session.IsGroup, r, false)
@@ -396,7 +398,7 @@ var sessionReset = "Secure session reset."
 
 func (api *textsecureAPI) EndSession(tel string) error {
 	session := sessionsModel.Get(tel)
-	m := session.Add(sessionReset, "", "", true)
+	m := session.Add(sessionReset, "", "", "", true)
 	saveMessage(m)
 	go func() {
 		ts := sendMessage(tel, "", false, nil, true)
@@ -436,7 +438,7 @@ func (api *textsecureAPI) NewGroup(name string, members string) error {
 	}
 	saveGroup(groups[group.Hexid])
 	session := sessionsModel.Get(group.Hexid)
-	msg := session.Add(groupUpdateMsg(append(m, config.Tel), name), "", "", true)
+	msg := session.Add(groupUpdateMsg(append(m, config.Tel), name), "", "", "", true)
 	saveMessage(msg)
 
 	return nil
@@ -491,7 +493,7 @@ func (api *textsecureAPI) UpdateGroup(hexid, name string, members string) error 
 	}
 	updateGroup(groups[group.Hexid])
 	session := sessionsModel.Get(group.Hexid)
-	msg := session.Add(groupUpdateMsg(dm, name), "", "", true)
+	msg := session.Add(groupUpdateMsg(dm, name), "", "", "", true)
 	saveMessage(msg)
 	session.Name = name
 	qml.Changed(session, &session.Name)
@@ -505,7 +507,7 @@ func (api *textsecureAPI) LeaveGroup(hexid string) error {
 		return err
 	}
 	session := sessionsModel.Get(hexid)
-	msg := session.Add("You have left the group", "", "", true)
+	msg := session.Add("You have left the group", "", "", "", true)
 	saveMessage(msg)
 	session.Active = false
 	qml.Changed(session, &session.Active)

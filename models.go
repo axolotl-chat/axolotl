@@ -233,13 +233,8 @@ const (
 	ContentTypeLinks
 )
 
-// contentType gets the content type (message, picture, video) of an attachment by sniffing its MIME type
-func contentType(att io.Reader) (int, io.Reader) {
+func mimeTypeToContentType(mt string) int {
 	ct := ContentTypeMessage
-	if att == nil {
-		return ct, nil
-	}
-	mt, r := magic.MIMETypeFromReader(att)
 	if strings.HasPrefix(mt, "image") {
 		ct = ContentTypePictures
 	}
@@ -249,14 +244,25 @@ func contentType(att io.Reader) (int, io.Reader) {
 	if strings.HasPrefix(mt, "audio") {
 		ct = ContentTypeMusic
 	}
-	return ct, r
+	return ct
 }
 
-func (s *Session) Add(text string, from string, file string, outgoing bool) *Message {
+// contentType gets the content type (message, picture, video) of an attachment by sniffing its MIME type
+func contentType(att io.Reader, mt string) int {
+	if att == nil {
+		return ContentTypeMessage
+	}
+	if mt == "" {
+		mt, _ = magic.MIMETypeFromReader(att)
+	}
+	return mimeTypeToContentType(mt)
+}
+
+func (s *Session) Add(text string, from string, file string, mimetype string, outgoing bool) *Message {
 	ctype := ContentTypeMessage
 	if file != "" {
 		f, _ := os.Open(file)
-		ctype, _ = contentType(f)
+		ctype = contentType(f, mimetype)
 	}
 	message := &Message{Text: text,
 		SID:        s.ID,
