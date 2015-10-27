@@ -1,3 +1,11 @@
+0.3.4 (Oct 27 2015)
+-------------------
+
+* Add UI for verifying peer identity.
+* Save settings to file.
+* Do not allow sending to groups we left.
+* Better detection of incoming attachment mimetypes.
+
 0.3.3 (Oct 21 2015)
 -------------------
 
