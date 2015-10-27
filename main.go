@@ -22,7 +22,6 @@ import (
 
 	"github.com/dustin/go-humanize"
 	"github.com/janimo/textsecure"
-	"github.com/janimo/textsecure/vendor/magic"
 	"gopkg.in/qml.v1"
 )
 
@@ -51,7 +50,7 @@ func init() {
 	flag.StringVar(&mainQml, "qml", "qml/phoneui/main.qml", "The qml file to load.")
 }
 
-func saveAttachment(r io.Reader) (string, error) {
+func saveAttachment(a *textsecure.Attachment) (string, error) {
 	id := make([]byte, 16)
 	_, err := io.ReadFull(rand.Reader, id)
 	if err != nil {
@@ -59,9 +58,8 @@ func saveAttachment(r io.Reader) (string, error) {
 	}
 
 	ext := ""
-	mt, r := magic.MIMETypeFromReader(r)
-	if strings.HasPrefix(mt, "video/") {
-		ext = strings.Replace(mt, "video/", ".", 1)
+	if strings.HasPrefix(a.MimeType, "video/") {
+		ext = strings.Replace(a.MimeType, "video/", ".", 1)
 	}
 
 	fn := filepath.Join(attachDir, hex.EncodeToString(id)+ext)
@@ -71,7 +69,7 @@ func saveAttachment(r io.Reader) (string, error) {
 	}
 	defer f.Close()
 
-	_, err = io.Copy(f, r)
+	_, err = io.Copy(f, a.R)
 	if err != nil {
 		return "", err
 
@@ -93,13 +91,11 @@ func groupUpdateMsg(tels []string, title string) string {
 }
 
 func messageHandler(msg *textsecure.Message) {
-	var r io.Reader
 	var err error
 
 	f := ""
 	if len(msg.Attachments()) > 0 {
-		r = msg.Attachments()[0]
-		f, err = saveAttachment(r)
+		f, err = saveAttachment(msg.Attachments()[0])
 		if err != nil {
 			log.Printf("Error saving %s\n", err.Error())
 		}
