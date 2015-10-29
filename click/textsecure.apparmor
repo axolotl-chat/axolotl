@@ -1,5 +1,6 @@
 {
     "policy_groups": [
+        "connectivity",
         "networking",
         "content_exchange",
         "content_exchange_source",
