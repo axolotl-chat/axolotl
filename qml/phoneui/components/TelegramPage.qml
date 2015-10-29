@@ -8,7 +8,7 @@ Page {
 
     property bool isInSelectionMode: false
     property bool isSearching: false
-    property bool isOnline: NetworkingStatus.Online
+    property bool isOnline: NetworkingStatus.online
     property bool isConnected: {
         if (onlineIndicationOnly) {
             return isOnline;
