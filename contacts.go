@@ -12,6 +12,7 @@ import (
 	"bitbucket.org/llg/vcard"
 	"github.com/godbus/dbus"
 	"github.com/janimo/textsecure"
+	"github.com/ttacon/libphonenumber"
 )
 
 // getDesktopContacts reads the contacts for the desktop app from a file
@@ -64,7 +65,27 @@ func phoneFromVCardFile(file string) (string, error) {
 	return "", errors.New("No phone number for contact.")
 }
 
+func formatE164(tel string, country string) string {
+	if tel[0] == '+' {
+		return strings.Replace(tel, " ", "", -1)
+	}
+	num, err := libphonenumber.Parse(tel, country)
+	if err != nil {
+		log.Println(err)
+		return tel
+	}
+	return libphonenumber.Format(num, libphonenumber.E164)
+}
+
+func defaultCountry() string {
+	num, _ := libphonenumber.Parse(config.Tel, "")
+	return libphonenumber.GetRegionCodeForCountryCode(int(num.GetCountryCode()))
+}
+
 func parseVCards(vcardContacts []string) ([]textsecure.Contact, error) {
+
+	country := defaultCountry()
+
 	// for now allocate space for 3 phones for each contact.
 	// FIXME: make it cleaner by using up only as much space as needed.
 	contacts := make([]textsecure.Contact, len(vcardContacts)*3)
@@ -76,7 +97,7 @@ func parseVCards(vcardContacts []string) ([]textsecure.Contact, error) {
 		vc.ReadFrom(di)
 		for t := 0; t < len(vc.Telephones); t++ {
 			contacts[i].Name = vc.FormattedName
-			contacts[i].Tel = strings.Replace(vc.Telephones[t].Number, " ", "", -1)
+			contacts[i].Tel = formatE164(vc.Telephones[t].Number, country)
 			if vc.Photo.Data != "" {
 				b, err := base64.StdEncoding.DecodeString(vc.Photo.Data)
 				if err == nil {
