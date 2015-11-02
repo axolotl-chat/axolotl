@@ -37,6 +37,7 @@ var (
 var (
 	homeDir      string
 	configDir    string
+	cacheDir     string
 	configFile   string
 	contactsFile string
 	settingsFile string
@@ -229,6 +230,7 @@ func setupEnvironment() {
 		showError(err)
 	}
 	homeDir = user.HomeDir
+	cacheDir = filepath.Join(homeDir, ".cache/", appName)
 	configDir = filepath.Join(homeDir, ".config/", appName)
 	contactsFile = filepath.Join(configDir, "contacts.yml")
 	settingsFile = filepath.Join(configDir, "settings.yml")
