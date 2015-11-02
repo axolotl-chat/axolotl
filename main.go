@@ -22,6 +22,7 @@ import (
 
 	"github.com/dustin/go-humanize"
 	"github.com/janimo/textsecure"
+	"github.com/ubuntu-core/snappy/helpers"
 	"gopkg.in/qml.v1"
 )
 
@@ -342,10 +343,25 @@ func (api *textsecureAPI) SendMessage(to, message string) error {
 	return sendMessageHelper(to, message, "")
 }
 
+// copyAttachment makes a copy of a file that is in the volatile content hub cache
+func copyAttachment(src string) (string, error) {
+	_, b := filepath.Split(src)
+	dest := filepath.Join(attachDir, b)
+	err := helpers.CopyFile(src, dest, helpers.CopyFlagOverwrite)
+	if err != nil {
+		return "", err
+	}
+	return dest, nil
+}
+
 func sendMessageHelper(to, message, file string) error {
 	var r io.Reader
 	var err error
 	if file != "" {
+		file, err = copyAttachment(file)
+		if err != nil {
+			return err
+		}
 		r, err = os.Open(file)
 		if err != nil {
 			return err
