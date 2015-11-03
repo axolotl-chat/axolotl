@@ -1,3 +1,12 @@
+0.3.5 (Nov 04 2015)
+-------------------
+
+* Also import contacts that have no international prefix in the address book.
+* Make sure outgoing attachments are stored outside the ephemeral content-hub cache.
+* Handle peers that have more than one device registered.
+* Handle peers that changed identity keys via reregistering.
+* Fix group updates so they do not deactivate the session.
+
 0.3.4 (Oct 27 2015)
 -------------------
 
