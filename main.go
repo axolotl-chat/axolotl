@@ -132,6 +132,7 @@ func messageHandler(msg *textsecure.Message) {
 			Members: strings.Join(gr.Members, ","),
 			Name:    gr.Name,
 			Avatar:  av,
+			Active:  true,
 		}
 		if ok {
 			updateGroup(groups[gr.Hexid])
@@ -500,19 +501,21 @@ func (api *textsecureAPI) UpdateGroup(hexid, name string, members string) error 
 	}
 	dm, members := membersDiffAndUnion(g.Members, members)
 	m := strings.Split(members, ",")
-	group, err := textsecure.UpdateGroup(hexid, name, m)
+	_, err := textsecure.UpdateGroup(hexid, name, m)
 	if err != nil {
 		showError(err)
 		return err
 	}
 
-	groups[group.Hexid] = &GroupRecord{
-		GroupID: group.Hexid,
+	groups[hexid] = &GroupRecord{
+		GroupID: hexid,
 		Name:    name,
 		Members: members,
+		Active:  g.Active,
+		Avatar:  g.Avatar,
 	}
-	updateGroup(groups[group.Hexid])
-	session := sessionsModel.Get(group.Hexid)
+	updateGroup(groups[hexid])
+	session := sessionsModel.Get(hexid)
 	msg := session.Add(groupUpdateMsg(dm, name), "", "", "", true)
 	saveMessage(msg)
 	session.Name = name
