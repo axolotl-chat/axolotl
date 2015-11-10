@@ -25,12 +25,8 @@ TelegramPage {
             width: parent.width
             wrapMode: Text.WordWrap
             text: "<h3>Thanks for trying out TextSecure!</h3><br><br> \
-            This app is not production ready yet, in particular conversation storage is not encrypted \
-            and its format is not finalized, support for groups is not complete, some corner case errors are not handled,\
-            and there are other bugs and UI issues.<br><br>\
-            However it is already quite usable and can get even better with your help.\
-            Read the changelog, file bugs and contribute patches on github :)<br>\
-            <a href='https://github.com/janimo/textsecure-qml'>https://github.com/janimo/textsecure-qml</a><br>"
+            File bugs if you find any<br>\
+            <a href='https://github.com/janimo/textsecure-qml/issues'>https://github.com/janimo/textsecure-qml/issues</a><br>"
             onLinkActivated:Qt.openUrlExternally(link)
         }
 
