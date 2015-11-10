@@ -289,6 +289,8 @@ func runBackend() {
 }
 
 func main() {
+	//see if we are invoked as the application push helper
+	pushHelperCheck()
 	flag.Parse()
 	if len(flag.Args()) == 1 {
 		log.Println("URL", flag.Arg(0))
