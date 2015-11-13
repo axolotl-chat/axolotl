@@ -44,7 +44,7 @@ TelegramPage {
     property list<Action> actionsNewGroupChat: [
         Action {
             iconName: "ok"
-            text: i18n.tr("Ok")
+            text: i18n.tr("OK")
             enabled: isConnected && groupChatTitleTextField.length > 0
             onTriggered: createChatPressed()
         }

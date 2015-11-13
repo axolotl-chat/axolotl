@@ -26,7 +26,7 @@ TelegramPage {
             },
             Action {
                 iconName: "contact-group"
-                text: i18n.tr("New Group")
+                text: i18n.tr("New group")
                 enabled: isConnected
                 onTriggered: newGroupChat()
             },

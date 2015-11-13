@@ -38,7 +38,7 @@ TelegramPage {
         },
         Action {
             iconName: "contact-group"
-            text: i18n.tr("Group Info")
+            text: i18n.tr("Group info")
             visible: isChat
             onTriggered: {
                 Qt.inputMethod.hide();
@@ -92,7 +92,7 @@ TelegramPage {
         },
         Action {
             iconName: "info"
-            text: i18n.tr("Message Info")
+            text: i18n.tr("Message info")
             visible: list.selectedItems.count === 1
             onTriggered: showMessageInfo()
         },
