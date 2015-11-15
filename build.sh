@@ -18,4 +18,12 @@ if [ $mode = "dev" ];then
 	cp -a dev/* builddir/
 fi
 
+# Build and include translations
+for po in po/*.po; do
+	loc=$(echo $(basename $po)|cut -d'.' -f1)
+	dir=builddir/share/locale/$loc/LC_MESSAGES
+	mkdir -p $dir
+	msgfmt $po -o $dir/textsecure.jani.mo
+done
+
 click build builddir
