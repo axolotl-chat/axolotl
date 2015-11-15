@@ -31,11 +31,6 @@ TelegramPage {
                 onTriggered: newGroupChat()
             },
             Action {
-                iconName: "contact"
-                text: i18n.tr("Contacts")
-                onTriggered: newChat()
-            },
-            Action {
                 iconName: "settings"
                 text: i18n.tr("Settings")
                 onTriggered: openSettings()
