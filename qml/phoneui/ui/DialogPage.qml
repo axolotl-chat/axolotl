@@ -57,8 +57,9 @@ TelegramPage {
             text: i18n.tr("Verify identity")
             visible: !isChat
             onTriggered: {
-                PopupUtils.open(Qt.resolvedUrl("dialogs/VerifyIdentityDialog.qml"),
+                PopupUtils.open(Qt.resolvedUrl("dialogs/InfoDialog.qml"),
                 dialogPage, {
+                    title: "Verify identity",
                     text: textsecure.identityInfo(messagesModel.tel)
                 })
             }
@@ -619,13 +620,19 @@ TelegramPage {
     }
 
     function showGroupInfo() {
-        var properties = {'text':textsecure.groupInfo(messagesModel.tel)}
-        PopupUtils.open(Qt.resolvedUrl("dialogs/GroupInfoDialog.qml"), dialogPage, properties)
+        PopupUtils.open(Qt.resolvedUrl("dialogs/InfoDialog.qml"),
+        dialogPage, {
+            'title': "Group members",
+            'text':textsecure.groupInfo(messagesModel.tel)
+        })
     }
 
     function showMessageInfo() {
-        var properties = {'text': messagesModel.message(list.sela[0]).info()}
-        PopupUtils.open(Qt.resolvedUrl("dialogs/MessageInfoDialog.qml"), dialogPage, properties)
+        PopupUtils.open(Qt.resolvedUrl("dialogs/InfoDialog.qml"),
+        dialogPage, {
+            'title': "Message details",
+            'text': messagesModel.messages(list.sela[0]).info()
+        })
     }
 
     function sendAttachment(path) {
