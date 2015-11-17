@@ -31,6 +31,17 @@ TelegramPage {
                 onTriggered: newGroupChat()
             },
             Action {
+                text: i18n.tr("My identity key")
+                iconName: "contact"
+                onTriggered: {
+                    PopupUtils.open(Qt.resolvedUrl("dialogs/InfoDialog.qml"),
+                    dialogsPage, {
+                        title: i18n.tr("My identity fingerprint"),
+                        text: textsecure.myIdentity()
+                    })
+                }
+            },
+            Action {
                 iconName: "settings"
                 text: i18n.tr("Settings")
                 onTriggered: openSettings()
