@@ -29,11 +29,38 @@ TelegramPage {
 
     property list<Action> defaultActions: [
         Action {
-            iconName: "lock"
-            text: i18n.tr("Reset session")
+            iconName: "call-start"
+            text: i18n.tr("Call")
             visible: !isChat
             onTriggered: {
-                PopupUtils.open(lockPopoverComponent, dialogPage.header)
+                Qt.inputMethod.hide()
+                Qt.openUrlExternally("tel:///" + messagesModel.tel)
+            }
+        },
+        Action {
+            iconName:"reset"
+            text: i18n.tr("Reset secure session")
+            visible: !isChat
+            onTriggered: {
+                PopupUtils.open(Qt.resolvedUrl("dialogs/ConfirmationDialog.qml"),
+                dialogPage, {
+                    title: i18n.tr("Reset secure session confirmation"),
+                    text: i18n.tr("Are you sure you want to reset this secure session?"),
+                    onAccept: function() {
+                        textsecure.endSession(messagesModel.tel)
+                    }
+                })
+            }
+        },
+        Action {
+            iconName:"info"
+            text: i18n.tr("Verify identity")
+            visible: !isChat
+            onTriggered: {
+                PopupUtils.open(Qt.resolvedUrl("dialogs/VerifyIdentityDialog.qml"),
+                dialogPage, {
+                    text: textsecure.identityInfo(messagesModel.tel)
+                })
             }
         },
         Action {
@@ -138,54 +165,6 @@ TelegramPage {
                 // Set size here, so we don't rescale on input method.
                 sourceSize.height = parent.height;
                 sourceSize.width = height * sourceSize.width / sourceSize.height;
-            }
-        }
-
-        Component {
-            id: lockPopoverComponent
-
-            ActionSelectionPopover {
-                id: lockPopover
-                anchors {
-                right: parent.right
-                top:parent.top
-                }
-                focus: false
-                z: 3
-                delegate: ListItems.Standard {
-                    iconFrame: false
-                    iconSource: Qt.resolvedUrl(action.iconSource)
-                    focus: false
-                    text: action.text
-                }
-                actions: ActionList {
-                    Action {
-                        iconName:"info"
-                        text: i18n.tr("Verify identity")
-                        onTriggered: {
-                            lockPopover.hide();
-                            PopupUtils.open(Qt.resolvedUrl("dialogs/VerifyIdentityDialog.qml"),
-                            dialogPage, {
-                                text: textsecure.identityInfo(messagesModel.tel)
-                            })
-                        }
-                    }
-                    Action {
-                        iconName:"reset"
-                        text: i18n.tr("Reset secure session")
-                        onTriggered: {
-                            lockPopover.hide();
-                            PopupUtils.open(Qt.resolvedUrl("dialogs/ConfirmationDialog.qml"),
-                            dialogPage, {
-                                title: i18n.tr("Reset secure session confirmation"),
-                                text: i18n.tr("Are you sure you want to reset this secure session?"),
-                                onAccept: function() {
-                                    textsecure.endSession(messagesModel.tel)
-                                }
-                            })
-                        }
-                    }
-                }
             }
         }
 
