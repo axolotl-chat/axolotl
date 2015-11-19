@@ -9,23 +9,31 @@ import (
 	"time"
 )
 
-// check if the name of the app is pushHelper, in which case act as the push helper
+var isPushHelper bool
+
+// check if the name of the app is pushHelper
 func pushHelperCheck() {
-	if filepath.Base(os.Args[0]) == "pushHelper" {
-		in, err := os.Open(os.Args[1])
-		if err != nil {
-			log.Fatal(err)
-		}
-		out, err := os.Create(os.Args[2])
-		if err != nil {
-			log.Fatal(err)
-		}
-		err = pushHelperProcessMessage(in, out)
-		if err != nil {
-			log.Fatal(err)
-		}
-		os.Exit(0)
+	isPushHelper = filepath.Base(os.Args[0]) == "pushHelper"
+	if isPushHelper {
+		pushHelperProcess()
 	}
+}
+
+// run as the application push helper
+func pushHelperProcess() {
+	in, err := os.Open(os.Args[1])
+	if err != nil {
+		log.Fatal(err)
+	}
+	out, err := os.Create(os.Args[2])
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = pushHelperProcessMessage(in, out)
+	if err != nil {
+		log.Fatal(err)
+	}
+	os.Exit(0)
 }
 
 type pushMessage struct {
