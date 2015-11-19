@@ -271,6 +271,7 @@ func (s *Session) Add(text string, from string, file string, mimetype string, ou
 		CType:      ctype,
 		Attachment: file,
 		HTime:      "Now",
+		SentAt:     uint64(time.Now().UnixNano() / 1000000),
 	}
 	s.messages = append(s.messages, message)
 	s.Last = text
