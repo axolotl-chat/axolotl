@@ -31,11 +31,10 @@ var appName = "textsecure.jani"
 var appVersion = "0.3.5"
 
 var (
-	isPhone bool
-	mainQml string
-)
+	isPhone      bool
+	isPushHelper bool
+	mainQml      string
 
-var (
 	homeDir      string
 	configDir    string
 	cacheDir     string
@@ -45,6 +44,7 @@ var (
 	dataDir      string
 	storageDir   string
 	attachDir    string
+	tsDeviceURL  string
 )
 
 func init() {
@@ -227,11 +227,20 @@ func showError(err error) {
 	win.Root().Call("error", err.Error())
 }
 
-func setupEnvironment() {
+func setup() {
+	isPhone = exists("/home/phablet")
+	isPushHelper = filepath.Base(os.Args[0]) == "pushHelper"
+
+	flag.Parse()
+	if len(flag.Args()) == 1 {
+		tsDeviceURL = flag.Arg(0)
+	}
+
 	user, err := user.Current()
 	if err != nil {
-		showError(err)
+		log.Fatal(err)
 	}
+
 	homeDir = user.HomeDir
 	cacheDir = filepath.Join(homeDir, ".cache/", appName)
 	configDir = filepath.Join(homeDir, ".config/", appName)
@@ -243,7 +252,7 @@ func setupEnvironment() {
 	os.MkdirAll(attachDir, 0700)
 	storageDir = filepath.Join(dataDir, ".storage")
 	if err := setupDB(); err != nil {
-		showError(err)
+		log.Fatal(err)
 	}
 }
 
@@ -287,18 +296,12 @@ func runBackend() {
 	}
 }
 
-func check() {
-	isPhone = exists("/home/phablet")
-}
-
 func main() {
-	check()
-	//see if we are invoked as the application push helper
-	pushHelperCheck()
-	flag.Parse()
-	if len(flag.Args()) == 1 {
-		log.Println("URL", flag.Arg(0))
+	setup()
+	if isPushHelper {
+		pushHelperProcess()
 	}
+
 	err := qml.Run(runUI)
 	if err != nil {
 		log.Fatal(err)
@@ -607,8 +610,6 @@ func avatarImageProvider(id string, width, height int) image.Image {
 }
 
 func runUI() error {
-	setupEnvironment()
-
 	engine = qml.NewEngine()
 	engine.AddImageProvider("avatar", avatarImageProvider)
 	initModels()

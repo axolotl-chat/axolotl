@@ -5,19 +5,8 @@ import (
 	"io"
 	"log"
 	"os"
-	"path/filepath"
 	"time"
 )
-
-var isPushHelper bool
-
-// check if the name of the app is pushHelper
-func pushHelperCheck() {
-	isPushHelper = filepath.Base(os.Args[0]) == "pushHelper"
-	if isPushHelper {
-		pushHelperProcess()
-	}
-}
 
 // run as the application push helper
 func pushHelperProcess() {
