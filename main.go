@@ -236,12 +236,15 @@ func setup() {
 		tsDeviceURL = flag.Arg(0)
 	}
 
-	user, err := user.Current()
-	if err != nil {
-		log.Fatal(err)
+	if isPushHelper {
+		homeDir = "/home/phablet"
+	} else {
+		user, err := user.Current()
+		if err != nil {
+			log.Fatal(err)
+		}
+		homeDir = user.HomeDir
 	}
-
-	homeDir = user.HomeDir
 	cacheDir = filepath.Join(homeDir, ".cache/", appName)
 	configDir = filepath.Join(homeDir, ".config/", appName)
 	contactsFile = filepath.Join(configDir, "contacts.yml")
