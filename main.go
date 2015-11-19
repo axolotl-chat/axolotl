@@ -31,7 +31,7 @@ var appName = "textsecure.jani"
 var appVersion = "0.3.5"
 
 var (
-	phone   bool
+	isPhone bool
 	mainQml string
 )
 
@@ -48,7 +48,7 @@ var (
 )
 
 func init() {
-	flag.BoolVar(&phone, "phone", false, "Indicate the app runs on the Ubuntu phone")
+	flag.BoolVar(&isPhone, "phone", false, "Indicate the app runs on the Ubuntu phone")
 	flag.StringVar(&mainQml, "qml", "qml/phoneui/main.qml", "The qml file to load.")
 }
 
@@ -194,7 +194,7 @@ var config *textsecure.Config
 func getConfig() (*textsecure.Config, error) {
 	configFile = filepath.Join(configDir, "config.yml")
 	cf := configFile
-	if phone {
+	if isPhone {
 		configDir = filepath.Join("/opt/click.ubuntu.com", appName, "current")
 		if !exists(configFile) {
 			cf = filepath.Join(configDir, "config.yml")
@@ -259,7 +259,7 @@ func runBackend() {
 		RegistrationDone:    registrationDone,
 	}
 
-	if phone {
+	if isPhone {
 		client.GetLocalContacts = getAddressBookContactsFromContentHub
 	} else {
 		client.GetLocalContacts = getDesktopContacts
