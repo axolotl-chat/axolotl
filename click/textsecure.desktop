@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=TextSecure
-Exec=textsecure -phone %u
+Exec=textsecure %u
 Icon=textsecure.png
 Terminal=false
 Type=Application

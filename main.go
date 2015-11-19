@@ -48,7 +48,6 @@ var (
 )
 
 func init() {
-	flag.BoolVar(&isPhone, "phone", false, "Indicate the app runs on the Ubuntu phone")
 	flag.StringVar(&mainQml, "qml", "qml/phoneui/main.qml", "The qml file to load.")
 }
 
@@ -288,7 +287,12 @@ func runBackend() {
 	}
 }
 
+func check() {
+	isPhone = exists("/home/phablet")
+}
+
 func main() {
+	check()
 	//see if we are invoked as the application push helper
 	pushHelperCheck()
 	flag.Parse()
