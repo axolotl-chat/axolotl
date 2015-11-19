@@ -1,6 +1,7 @@
 import QtQuick 2.2
 import Ubuntu.Components 1.1
 import Ubuntu.Components.Popups 1.0
+import Ubuntu.PushNotifications 0.1
 
 import 'components'
 import 'ui'
@@ -75,6 +76,12 @@ MainView {
 		}
 
 		Component.onCompleted: initialize()
+	}
+
+	PushClient {
+		id: pushClient
+		appId: "textsecure.jani_textsecure"
+		onTokenChanged: console.log("Push client token is", token)
 	}
 
 	function initialize() {
