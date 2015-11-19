@@ -403,9 +403,9 @@ TelegramPage {
 
 		messageId: model.id
 		*/
-                message: msg.text
+                message: msg.message
                 time: msg.hTime
-                senderId: uid(msg.from)
+                senderId: uid(msg.source)
                 senderName: outgoing? "You" : msg.name()
                 senderDisplayName: outgoing ? "" : senderName
                 mediaType: msg.cType
@@ -414,7 +414,7 @@ TelegramPage {
                 senderColor: Avatar.getColor(senderId)
                 senderImage: {
                     if (!outgoing && !list.isInSelectionMode) {
-                        return avatarImage(msg.from)
+                        return avatarImage(msg.source)
                     }
                     return "";
                 }

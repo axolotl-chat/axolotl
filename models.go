@@ -120,8 +120,8 @@ func (api *textsecureAPI) SaveSettings() error {
 type Message struct {
 	ID         int64
 	SID        int64
-	From       string `db:"source"`
-	Text       string `db:"message"`
+	Source     string
+	Message    string
 	Outgoing   bool
 	SentAt     uint64
 	ReceivedAt uint64
@@ -142,7 +142,7 @@ func (m *Message) Info() string {
 }
 
 func (m *Message) Name() string {
-	return telToName(m.From)
+	return telToName(m.Source)
 }
 
 type Session struct {
@@ -258,16 +258,16 @@ func contentType(att io.Reader, mt string) int {
 	return mimeTypeToContentType(mt)
 }
 
-func (s *Session) Add(text string, from string, file string, mimetype string, outgoing bool) *Message {
+func (s *Session) Add(text string, source string, file string, mimetype string, outgoing bool) *Message {
 	ctype := ContentTypeMessage
 	if file != "" {
 		f, _ := os.Open(file)
 		ctype = contentType(f, mimetype)
 	}
-	message := &Message{Text: text,
+	message := &Message{Message: text,
 		SID:        s.ID,
 		Outgoing:   outgoing,
-		From:       from,
+		Source:     source,
 		CType:      ctype,
 		Attachment: file,
 		HTime:      "Now",
