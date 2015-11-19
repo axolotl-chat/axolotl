@@ -7,8 +7,6 @@ TelegramPage {
 
     head.backAction.visible: false
 
-    pageTitle: i18n.tr("Welcome!")
-
     body: Item {
         anchors {
             fill: parent
