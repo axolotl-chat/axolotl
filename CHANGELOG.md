@@ -1,3 +1,11 @@
+0.3.6 (Nov 20 2015)
+-------------------
+
+ * Allow placing a phone call (regular, non-secure) to the contact we're messaging.
+ * Fix message info action.
+ * Rearrange/remove/add some menu actions to match Signal on Android.
+ * Simplify welcome page.
+
 0.3.5 (Nov 04 2015)
 -------------------
 
