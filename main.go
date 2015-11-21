@@ -228,6 +228,9 @@ func showError(err error) {
 }
 
 func setup() {
+
+	setupTranslations()
+
 	isPhone = exists("/home/phablet")
 	isPushHelper = filepath.Base(os.Args[0]) == "pushHelper"
 
@@ -427,11 +430,10 @@ func (api *textsecureAPI) SendAttachment(to, message string, file string) error 
 	return nil
 }
 
-var sessionReset = "Secure session reset."
-
 func (api *textsecureAPI) EndSession(tel string) error {
 	session := sessionsModel.Get(tel)
 	m := session.Add(sessionReset, "", "", "", true)
+
 	saveMessage(m)
 	go func() {
 		ts := sendMessage(tel, "", false, nil, true)
@@ -542,7 +544,7 @@ func (api *textsecureAPI) LeaveGroup(hexid string) error {
 		return err
 	}
 	session := sessionsModel.Get(hexid)
-	msg := session.Add("You have left the group", "", "", "", true)
+	msg := session.Add(youLeftGroup, "", "", "", true)
 	saveMessage(msg)
 	session.Active = false
 	qml.Changed(session, &session.Active)
