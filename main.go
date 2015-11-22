@@ -354,6 +354,10 @@ func sendMessage(to, message string, group bool, att io.Reader, end bool) uint64
 }
 
 func humanizeTimestamp(ts uint64) string {
+	nowms := uint64(time.Now().UnixNano() / 1000000)
+	if ts > nowms {
+		ts = nowms
+	}
 	return humanize.Time(time.Unix(0, int64(1000000*ts)))
 }
 
