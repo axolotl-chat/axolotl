@@ -142,6 +142,7 @@ MainView {
 		}
 		if (typeof properties === "undefined") properties = { };
 		backToDialogsPage();
+		textsecure.openingSession(tel)
 		messagesModel = sessionsModel.get(tel);
 		properties['chatId'] = uid(tel);
 		pageStack.push(dialogPage, properties);

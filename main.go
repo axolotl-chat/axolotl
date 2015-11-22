@@ -451,6 +451,13 @@ func (api *textsecureAPI) EndSession(tel string) error {
 	return nil
 }
 
+func (api *textsecureAPI) OpeningSession(tel string) {
+	session := sessionsModel.Get(tel)
+	session.Unread = 0
+	qml.Changed(session, &session.Unread)
+	updateSession(session)
+}
+
 var vcardPath string
 
 func (api *textsecureAPI) ContactsImported(path string) {
