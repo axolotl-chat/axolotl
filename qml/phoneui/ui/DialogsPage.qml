@@ -82,6 +82,7 @@ TelegramPage {
                 thumbnail: avatarImage(ses.tel)
                 dialogId: uid(ses.tel)
                 message: ses.last
+                unreadCount: ses.unread
                 mediaType: ses.cType
                 height: visible? (messagesToForward.length > 0 ? 0 : units.gu(8)) : 0
                 visible: ses.len > 0

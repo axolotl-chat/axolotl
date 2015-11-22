@@ -51,7 +51,7 @@ ListItemWithActions {
 
     showDivider: true
 
-    color: TelegramColors.page_background
+    color: unreadCount > 0 ? "#ffffff": TelegramColors.page_background
 
     Avatar {
         id: imageShape
@@ -106,7 +106,8 @@ ListItemWithActions {
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
 
-        color: TelegramColors.grey
+        color: unreadCount == 0 ? TelegramColors.grey:TelegramColors.black
+        font.bold: unreadCount > 0
         text: messageDate
     }
 
@@ -120,7 +121,7 @@ ListItemWithActions {
         height: units.gu(2.5)
         radius: 2
 
-        color: TelegramColors.unread_green
+        color: "transparent" //TelegramColors.unread_green
         visible: unread.text != "" && unread.text != "0"
 
         Text {
@@ -134,7 +135,7 @@ ListItemWithActions {
 
             font.weight: Font.DemiBold
             font.pixelSize: FontUtils.sizeToPixels("small")
-            color: TelegramColors.white
+            color: TelegramColors.black
             text: unreadCount
         }
     }
@@ -174,8 +175,8 @@ ListItemWithActions {
         verticalAlignment: TextInput.AlignVCenter
 
         font.pixelSize: FontUtils.sizeToPixels("large")
-        //font.weight: Font.DemiBold
         color: TelegramColors.black
+        font.bold: unreadCount > 0
         elide: Text.ElideRight
         text: title
     }
@@ -193,6 +194,7 @@ ListItemWithActions {
         visible: !isAction && isGroupChat
 
         font.pixelSize: FontUtils.sizeToPixels("medium")
+        font.bold: unreadCount > 0
         color: TelegramColors.dark_blue
         text: senderDisplayName
     }
@@ -212,7 +214,8 @@ ListItemWithActions {
         verticalAlignment: TextInput.AlignVCenter
 
         font.pixelSize: FontUtils.sizeToPixels("medium")
-        color: isMedia || isAction || isTyping ? TelegramColors.dark_blue : TelegramColors.grey
+        font.bold: unreadCount > 0
+        color: isMedia || isAction || isTyping ? TelegramColors.dark_blue : unreadCount == 0? TelegramColors.grey: TelegramColors.black
         elide: Text.ElideRight
         text: subtitle
     }

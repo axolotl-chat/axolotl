@@ -155,6 +155,7 @@ type Session struct {
 	When      string
 	CType     int
 	messages  []*Message
+	Unread    int
 	Active    bool
 	Len       int
 }
@@ -280,6 +281,10 @@ func (s *Session) Add(text string, source string, file string, mimetype string, 
 	qml.Changed(s, &s.Last)
 	qml.Changed(s, &s.Len)
 	qml.Changed(s, &s.CType)
+	if !outgoing {
+		s.Unread++
+		qml.Changed(s, &s.Unread)
+	}
 	updateSession(s)
 	return message
 }
