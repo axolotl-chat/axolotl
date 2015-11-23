@@ -389,6 +389,7 @@ TelegramPage {
                 property int ii: messagesModel.len - 1 - index
                 property var msg: messagesModel.messages(ii)
                 outgoing: msg.outgoing
+                groupUpdate: msg.flags == 1 || msg.flags == 2 || msg.flags == 4
                 isAction: false
                 isSent: msg.isSent
                 isRead: msg.isRead

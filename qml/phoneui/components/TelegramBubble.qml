@@ -5,6 +5,7 @@ Rectangle {
     id: root
 
     property bool outgoing
+    property bool groupUpdate
     color: {
          if (outgoing) {
             return "#3fb24f"
@@ -16,7 +17,7 @@ Rectangle {
 
     ColoredImage {
         id: bubbleArrow
-
+        visible: ! groupUpdate
         source: Qt.resolvedUrl("../images/conversation_bubble_arrow.png")
         color: root.color
         asynchronous: false

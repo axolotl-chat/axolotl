@@ -115,6 +115,13 @@ func (api *textsecureAPI) SaveSettings() error {
 	return saveSettings(settingsModel)
 }
 
+var (
+	msgFlagGroupNew     = 1
+	msgFlagGroupUpdate  = 2
+	msgFlagGroupLeave   = 4
+	msgFlagResetSession = 8
+)
+
 // Model for existing chat sessions
 
 type Message struct {

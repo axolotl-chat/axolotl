@@ -104,9 +104,12 @@ func messageHandler(msg *textsecure.Message) {
 		}
 	}
 
+	msgFlags := 0
+
 	text := msg.Message()
 	if msg.Flags() == textsecure.EndSessionFlag {
 		text = sessionReset
+		msgFlags = msgFlagResetSession
 	}
 
 	gr := msg.Group()
@@ -142,9 +145,11 @@ func messageHandler(msg *textsecure.Message) {
 		if gr.Flags == textsecure.GroupUpdateFlag {
 			dm, _ := membersDiffAndUnion(members, strings.Join(gr.Members, ","))
 			text = groupUpdateMsg(dm, gr.Name)
+			msgFlags = msgFlagGroupUpdate
 		}
 		if gr.Flags == textsecure.GroupLeaveFlag {
 			text = telToName(msg.Source()) + " has left the group."
+			msgFlags = msgFlagGroupLeave
 		}
 	}
 
@@ -165,6 +170,12 @@ func messageHandler(msg *textsecure.Message) {
 		session.Name = gr.Name
 		qml.Changed(session, &session.Name)
 	}
+
+	if msgFlags != 0 {
+		m.Flags = msgFlags
+		qml.Changed(m, &m.Flags)
+	}
+
 	saveMessage(m)
 	updateSession(session)
 }
@@ -443,6 +454,7 @@ func (api *textsecureAPI) EndSession(tel string) error {
 		ts := sendMessage(tel, "", false, nil, true)
 		m.IsSent = true
 		m.SentAt = ts
+		m.Flags = msgFlagResetSession
 		session.Timestamp = m.SentAt
 		qml.Changed(m, &m.IsSent)
 		updateMessageSent(m)
@@ -485,6 +497,8 @@ func (api *textsecureAPI) NewGroup(name string, members string) error {
 	saveGroup(groups[group.Hexid])
 	session := sessionsModel.Get(group.Hexid)
 	msg := session.Add(groupUpdateMsg(append(m, config.Tel), name), "", "", "", true)
+	msg.Flags = msgFlagGroupNew
+	qml.Changed(msg, &msg.Flags)
 	saveMessage(msg)
 
 	return nil
@@ -542,6 +556,8 @@ func (api *textsecureAPI) UpdateGroup(hexid, name string, members string) error 
 	updateGroup(groups[hexid])
 	session := sessionsModel.Get(hexid)
 	msg := session.Add(groupUpdateMsg(dm, name), "", "", "", true)
+	msg.Flags = msgFlagGroupUpdate
+	qml.Changed(msg, &msg.Flags)
 	saveMessage(msg)
 	session.Name = name
 	qml.Changed(session, &session.Name)
@@ -556,6 +572,8 @@ func (api *textsecureAPI) LeaveGroup(hexid string) error {
 	}
 	session := sessionsModel.Get(hexid)
 	msg := session.Add(youLeftGroup, "", "", "", true)
+	msg.Flags = msgFlagGroupLeave
+	qml.Changed(msg, &msg.Flags)
 	saveMessage(msg)
 	session.Active = false
 	qml.Changed(session, &session.Active)

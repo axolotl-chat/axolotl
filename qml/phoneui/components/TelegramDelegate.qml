@@ -14,6 +14,7 @@ ListItemWithActions {
     property bool outgoing: false
     property bool isSent: false
     property bool isRead: false
+    property bool groupUpdate: false
 
     property bool isNewDay: false
     property string newDayText: Time.formatSection(i18n, messageDate * 1000)
@@ -53,7 +54,7 @@ ListItemWithActions {
     property bool isDownloading: false
     property variant progress: undefined
 
-    property string textColor: outgoing ? "black":"white"
+    property string textColor: groupUpdate || outgoing ? "black":"white"
 
     property bool sectionVisible: isNewDay || isAction
     property string sectionText: {
@@ -114,7 +115,7 @@ ListItemWithActions {
                 }
                 width: visible ? units.gu(3) : 0
                 height: width
-                visible: !messageDelegate.outgoing
+                visible: !messageDelegate.outgoing && !groupUpdate
 
                 chatId: senderId
                 chatTitle: senderDisplayName
@@ -126,13 +127,15 @@ ListItemWithActions {
             TelegramBubble {
                 id: bubble
                 outgoing: messageDelegate.outgoing
-                color: outgoing? "white":senderColor
+                groupUpdate: messageDelegate.groupUpdate
+                color: groupUpdate ? "transparent": outgoing? "white":senderColor
                 anchors {
                     top: parent.top
-                    left: outgoing ? undefined : imageShape.right
+                    left: outgoing || groupUpdate? undefined : imageShape.right
                     leftMargin: units.gu(2)
-                    right: outgoing ? parent.right : undefined
+                    right: outgoing && !groupUpdate ? parent.right : undefined
                     rightMargin: units.gu(2)
+                    horizontalCenter: groupUpdate? parent.horizontalCenter:undefined
                 }
                 height: messageContents.height + units.gu(1)
                 width: Math.max(messageLabel.width, senderLabel.width, forwardLabel.width,
@@ -277,6 +280,7 @@ ListItemWithActions {
 
                     MessageStatus {
                         id: messageStatusRow
+                        visible: !groupUpdate
                         anchors {
                             top: isMedia ? undefined : messageLabel.bottom
                             bottom: isMedia ? loader.bottom : undefined
