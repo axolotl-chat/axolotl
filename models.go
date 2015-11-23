@@ -191,6 +191,12 @@ func (s *Sessions) Get(tel string) *Session {
 	return ses
 }
 
+func (s *Session) MarkRead() {
+	s.Unread = 0
+	qml.Changed(s, &s.Unread)
+	updateSession(s)
+}
+
 var sessionsModel = &Sessions{
 	sessions: make([]*Session, 0),
 }

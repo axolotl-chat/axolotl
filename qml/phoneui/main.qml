@@ -117,6 +117,10 @@ MainView {
 		openContacts(true);
 	}
 
+	function markAllRead() {
+		textsecure.markSessionsRead("")
+	}
+
 	function getStoragePassword() {
 		pageStack.push(passwordPage)
 	}
@@ -142,7 +146,7 @@ MainView {
 		}
 		if (typeof properties === "undefined") properties = { };
 		backToDialogsPage();
-		textsecure.openingSession(tel)
+		textsecure.markSessionsRead(tel)
 		messagesModel = sessionsModel.get(tel);
 		properties['chatId'] = uid(tel);
 		pageStack.push(dialogPage, properties);

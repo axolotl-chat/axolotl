@@ -31,6 +31,12 @@ TelegramPage {
                 onTriggered: newGroupChat()
             },
             Action {
+                iconName: "ok"
+                text: i18n.tr("Mark all read")
+                enabled: isConnected
+                onTriggered: markAllRead()
+            },
+            Action {
                 text: i18n.tr("My identity key")
                 iconName: "contact"
                 onTriggered: {

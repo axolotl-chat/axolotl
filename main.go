@@ -463,11 +463,16 @@ func (api *textsecureAPI) EndSession(tel string) error {
 	return nil
 }
 
-func (api *textsecureAPI) OpeningSession(tel string) {
-	session := sessionsModel.Get(tel)
-	session.Unread = 0
-	qml.Changed(session, &session.Unread)
-	updateSession(session)
+// MarkSessionsRead marks one or all sessions as read
+func (api *textsecureAPI) MarkSessionsRead(tel string) {
+	if tel != "" {
+		s := sessionsModel.Get(tel)
+		s.MarkRead()
+		return
+	}
+	for _, s := range sessionsModel.sessions {
+		s.MarkRead()
+	}
 }
 
 var vcardPath string
