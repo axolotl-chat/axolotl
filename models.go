@@ -130,6 +130,7 @@ type Message struct {
 	Attachment string
 	IsSent     bool
 	IsRead     bool
+	Flags      int
 }
 
 func (m *Message) Info() string {

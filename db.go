@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"os"
 	"path/filepath"
 
@@ -13,12 +14,12 @@ var (
 	dbDir  string
 	dbFile string
 
-	sessionsSchema = "CREATE TABLE IF NOT EXISTS sessions (id INTEGER PRIMARY KEY, name text, tel text, isgroup boolean, last string, timestamp integer, ctype integer)"
+	sessionsSchema = "CREATE TABLE IF NOT EXISTS sessions (id INTEGER PRIMARY KEY, name text, tel text, isgroup boolean, last string, timestamp integer, ctype integer, unread integer default 0)"
 	sessionsInsert = "INSERT OR REPLACE INTO sessions (name, tel, isgroup, last, ctype, timestamp) VALUES (:name, :tel, :isgroup, :last, :ctype, :timestamp)"
 	sessionsSelect = "SELECT * FROM sessions"
 
-	messagesSchema      = "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, sid integer, source text, message text, outgoing boolean, sentat integer, receivedat integer, ctype integer, attachment string, issent boolean, isread boolean)"
-	messagesInsert      = "INSERT INTO messages (sid, source, message, outgoing, sentat, receivedat, ctype, attachment, issent, isread) VALUES (:sid, :source, :message, :outgoing, :sentat, :receivedat, :ctype, :attachment, :issent, :isread)"
+	messagesSchema      = "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, sid integer, source text, message text, outgoing boolean, sentat integer, receivedat integer, ctype integer, attachment string, issent boolean, isread boolean, flags integer default 0)"
+	messagesInsert      = "INSERT INTO messages (sid, source, message, outgoing, sentat, receivedat, ctype, attachment, issent, isread, flags) VALUES (:sid, :source, :message, :outgoing, :sentat, :receivedat, :ctype, :attachment, :issent, :isread, :flags)"
 	messagesSelectWhere = "SELECT * FROM messages WHERE sid = ?"
 
 	groupsSchema = "CREATE TABLE IF NOT EXISTS groups (id INTEGER PRIMARY KEY, groupid TEXT, name TEXT, members TEXT, avatar BLOB, avatarid INTEGER, avatar_key BLOB, avatar_content_type TEXT, relay TEXT, active INTEGER DEFAULT 1)"
@@ -57,6 +58,8 @@ func setupDB() error {
 	if err != nil {
 		return err
 	}
+
+	migrations()
 
 	return loadMessagesFromDB()
 }
@@ -123,7 +126,7 @@ func updateMessageRead(m *Message) error {
 }
 
 func updateSession(s *Session) error {
-	_, err := db.NamedExec("UPDATE sessions SET name = :name, timestamp = :timestamp, ctype = :ctype, last = :last WHERE id = :id", s)
+	_, err := db.NamedExec("UPDATE sessions SET name = :name, timestamp = :timestamp, ctype = :ctype, last = :last, unread = :unread WHERE id = :id", s)
 	if err != nil {
 		return err
 	}
@@ -174,4 +177,25 @@ func loadMessagesFromDB() error {
 		}
 	}
 	return nil
+}
+
+func addFlagsColumnToMessages() error {
+	_, err := db.Exec("ALTER TABLE messages ADD COLUMN flags INTEGER DEFAULT 0")
+	return err
+}
+
+func addUnreadColumnToSessions() error {
+	_, err := db.Exec("ALTER TABLE sessions ADD COLUMN unread INTEGER DEFAULT 0")
+	return err
+}
+
+func migrations() {
+	err := addFlagsColumnToMessages()
+	if err != nil {
+		log.Println(err)
+	}
+	err = addUnreadColumnToSessions()
+	if err != nil {
+		log.Println(err)
+	}
 }
