@@ -646,4 +646,8 @@ TelegramPage {
         message.text = "";
     }
 
+    function onBackPressed() {
+        textsecure.activeSessionID = ""
+    }
+
 }

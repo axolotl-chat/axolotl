@@ -146,6 +146,7 @@ MainView {
 		}
 		if (typeof properties === "undefined") properties = { };
 		backToDialogsPage();
+		textsecure.activeSessionID = tel
 		textsecure.markSessionsRead(tel)
 		messagesModel = sessionsModel.get(tel);
 		properties['chatId'] = uid(tel);

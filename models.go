@@ -295,7 +295,7 @@ func (s *Session) Add(text string, source string, file string, mimetype string, 
 	qml.Changed(s, &s.Last)
 	qml.Changed(s, &s.Len)
 	qml.Changed(s, &s.CType)
-	if !outgoing {
+	if !outgoing && api.ActiveSessionID != s.Tel {
 		s.Unread++
 		qml.Changed(s, &s.Unread)
 	}

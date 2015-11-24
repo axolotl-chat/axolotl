@@ -329,7 +329,8 @@ var engine *qml.Engine
 var win *qml.Window
 
 type textsecureAPI struct {
-	HasContacts bool
+	HasContacts     bool
+	ActiveSessionID string
 }
 
 var api = &textsecureAPI{}
