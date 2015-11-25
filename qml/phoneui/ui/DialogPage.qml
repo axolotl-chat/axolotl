@@ -102,6 +102,22 @@ TelegramPage {
                 }
                 pageStack.push(contactsPage, properties);
             }
+        },
+        Action {
+            iconName:"delete"
+            text: i18n.tr("Delete conversation")
+            onTriggered: {
+                PopupUtils.open(Qt.resolvedUrl("dialogs/ConfirmationDialog.qml"),
+                dialogPage, {
+                    title: i18n.tr("Delete conversation?"),
+                    text: i18n.tr("This will permanently delete all messages in this conversation."),
+                    onAccept: function() {
+                        textsecure.deleteSession(messagesModel.tel)
+                        textsecure.activeSessionID = ""
+                        pageStack.push(dialogsPage);
+                    }
+                })
+            }
         }
     ]
 

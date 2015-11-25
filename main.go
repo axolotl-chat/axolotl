@@ -476,6 +476,13 @@ func (api *textsecureAPI) MarkSessionsRead(tel string) {
 	}
 }
 
+func (api *textsecureAPI) DeleteSession(tel string) {
+	err := deleteSession(tel)
+	if err != nil {
+		showError(err)
+	}
+}
+
 var vcardPath string
 
 func (api *textsecureAPI) ContactsImported(path string) {

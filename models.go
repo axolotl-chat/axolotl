@@ -177,6 +177,15 @@ func (s *Sessions) Session(i int) *Session {
 	return s.sessions[i]
 }
 
+func (s *Sessions) GetIndex(tel string) int {
+	for i, ses := range s.sessions {
+		if ses.Tel == tel {
+			return i
+		}
+	}
+	return -1
+}
+
 func (s *Sessions) Get(tel string) *Session {
 	for _, ses := range s.sessions {
 		if ses.Tel == tel {

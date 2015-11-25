@@ -7,6 +7,7 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
+	"gopkg.in/qml.v1"
 )
 
 var (
@@ -176,6 +177,23 @@ func loadMessagesFromDB() error {
 			m.HTime = humanizeTimestamp(m.SentAt)
 		}
 	}
+	return nil
+}
+
+func deleteSession(tel string) error {
+	s := sessionsModel.Get(tel)
+	_, err := db.Exec("DELETE FROM messages WHERE sid = ?", s.ID)
+	if err != nil {
+		return err
+	}
+	_, err = db.Exec("DELETE FROM sessions WHERE id = ?", s.ID)
+	if err != nil {
+		return err
+	}
+	index := sessionsModel.GetIndex(s.Tel)
+	sessionsModel.sessions = append(sessionsModel.sessions[:index], sessionsModel.sessions[index+1:]...)
+	sessionsModel.Len--
+	qml.Changed(sessionsModel, &sessionsModel.Len)
 	return nil
 }
 
