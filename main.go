@@ -620,11 +620,6 @@ func (api *textsecureAPI) AvatarImage(id string) string {
 	return url
 }
 
-func (api *textsecureAPI) MyIdentity() string {
-	myID := textsecure.MyIdentityKey()
-	return fmt.Sprintf("% 0X", myID)
-}
-
 func (api *textsecureAPI) IdentityInfo(id string) string {
 	myID := textsecure.MyIdentityKey()
 	theirID, err := textsecure.ContactIdentityKey(id)
