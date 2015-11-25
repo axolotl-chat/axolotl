@@ -128,7 +128,7 @@ Item {
         verticalAlignment: Text.AlignVCenter
         height: parent.height / 2
 
-        color: TelegramColors.blue
+    //    color: TelegramColors.blue
         fontSize: "small"
         elide: Text.ElideRight
         text: subtitle

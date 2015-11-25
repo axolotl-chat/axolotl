@@ -13,6 +13,7 @@ TelegramPage {
     id: dialogPage
 
     title: messagesModel.name
+    pageSubtitle: !messagesModel.isGroup?messagesModel.tel : ""
     pageImage: avatarImage(messagesModel.tel)
 
     property bool isChat: messagesModel.isGroup
