@@ -4,8 +4,6 @@ import Ubuntu.Components.Popups 1.0
 
 Dialog {
     id: dialogue
-    title: "TextSecure"
-    text: "Are you sure that you want to do this?"
 
     property string acceptText: i18n.tr("OK")
     property string altText: "" 

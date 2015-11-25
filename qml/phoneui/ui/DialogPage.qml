@@ -44,8 +44,8 @@ TelegramPage {
             onTriggered: {
                 PopupUtils.open(Qt.resolvedUrl("dialogs/ConfirmationDialog.qml"),
                 dialogPage, {
-                    title: i18n.tr("Reset secure session confirmation"),
-                    text: i18n.tr("Are you sure you want to reset this secure session?"),
+                    title: i18n.tr("Reset secure session?"),
+                    text: i18n.tr("This may help if you\'re having encryption problems in this conversation. Your messages will be kept."),
                     onAccept: function() {
                         textsecure.endSession(messagesModel.tel)
                     }
@@ -66,7 +66,7 @@ TelegramPage {
         },
         Action {
             iconName: "contact-group"
-            text: i18n.tr("Group info")
+            text: i18n.tr("Recipients list")
             visible: isChat
             onTriggered: {
                 Qt.inputMethod.hide();
@@ -120,7 +120,7 @@ TelegramPage {
         },
         Action {
             iconName: "info"
-            text: i18n.tr("Message info")
+            text: i18n.tr("Message details")
             visible: list.selectedItems.count === 1
             onTriggered: showMessageInfo()
         },
@@ -251,7 +251,7 @@ TelegramPage {
                 height: units.gu(4.3)
                 enabled: isConnected && messagesModel.active
                 visible: true
-                placeholderText: isConnected ? i18n.tr("Type message") : i18n.tr("Not connected.")
+                placeholderText: i18n.tr("Send Signal message")
                 inputMethodHints: Qt.ImhNone
 
                 autoSize: true

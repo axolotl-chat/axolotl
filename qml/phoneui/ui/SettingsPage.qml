@@ -24,7 +24,7 @@ TelegramPage {
         }
 
         ListItem.Header {
-            text: i18n.tr("User interface")
+            text: i18n.tr("Advanced")
         }
 
         ListItem.Standard {

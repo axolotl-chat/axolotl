@@ -20,7 +20,6 @@ TelegramPage {
             },
             Action {
                 iconName: "compose"
-                text: i18n.tr("Compose")
                 enabled: isConnected
                 onTriggered: newChat()
             },
@@ -58,16 +57,6 @@ TelegramPage {
 
     body: Item {
         anchors.fill: parent
-
-        Label {
-            id: listEmptyLabel
-            anchors.centerIn: parent
-            fontSize: "medium"
-            visible: dialogsListView.count === 0
-            text: !isOnline ? i18n.tr("Disconnected")
-                            : isConnected ? i18n.tr("No chats") : i18n.tr("Waiting for connection...")
-            z: 0
-    }
 
         ListView {
             id: dialogsListView

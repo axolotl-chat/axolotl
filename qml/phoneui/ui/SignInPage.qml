@@ -10,7 +10,6 @@ TelegramPage {
     objectName: "signInPage"
     head.backAction.visible: false
 
-    pageTitle: isConnected ? i18n.tr("Your phone") : i18n.tr("Offline")
     onlineIndicationOnly: true
 
     body: Item {

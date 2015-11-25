@@ -83,7 +83,7 @@ Item {
 
         font.pixelSize: FontUtils.sizeToPixels("large")
         elide: Text.ElideRight
-        text: isConnecting ? i18n.tr("Connecting...") : title.length === 0 ? i18n.tr("TextSecure") : title
+        text: title.length === 0 ? i18n.tr("TextSecure") : title
 
         state: header.subtitle.length > 0 ? "subtitle" : "default"
         states: [
