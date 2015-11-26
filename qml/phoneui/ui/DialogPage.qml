@@ -144,20 +144,20 @@ TelegramPage {
         Action {
             id: copySelectedAction
             iconName: "edit-copy"
-            text: i18n.tr("Copy")
+            text: i18n.tr("Copy text")
             onTriggered: list.copySelected()
         },
         Action {
             id: forwardSelectedAction
             iconName: "next"
-            text: i18n.tr("Forward")
+            text: i18n.tr("Forward message")
             visible: true
             onTriggered: list.forwardSelected()
         },
         Action {
             id: multiDeleteAction
             iconName: "delete"
-            text: i18n.tr("Delete")
+            text: i18n.tr("Delete message")
             onTriggered: list.deleteSelected()
         }
     ]
@@ -482,13 +482,13 @@ TelegramPage {
                     },
                     Action {
                         iconName: "edit-copy"
-                        text: i18n.tr("Copy")
+                        text: i18n.tr("Copy text")
                         visible: !isPhoto && !isVideo && !isDocument
                         onTriggered: Clipboard.push(message)
                     },
                     Action {
                         iconName: "next"
-                        text: i18n.tr("Forward")
+                        text: i18n.tr("Forward message")
                         visible: true
                         onTriggered: forwardMessages([messageId])
                     }
@@ -640,7 +640,7 @@ TelegramPage {
     function showGroupInfo() {
         PopupUtils.open(Qt.resolvedUrl("dialogs/InfoDialog.qml"),
         dialogPage, {
-            'title': "Group members",
+            'title': i18n.tr("Group members"),
             'text':textsecure.groupInfo(messagesModel.tel)
         })
     }
@@ -648,7 +648,7 @@ TelegramPage {
     function showMessageInfo() {
         PopupUtils.open(Qt.resolvedUrl("dialogs/InfoDialog.qml"),
         dialogPage, {
-            'title': "Message details",
+            'title': i18n.tr("Message details"),
             'text': messagesModel.messages(list.sela[0]).info()
         })
     }
