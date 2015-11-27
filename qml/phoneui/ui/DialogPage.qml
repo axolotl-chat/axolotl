@@ -60,7 +60,7 @@ TelegramPage {
             onTriggered: {
                 PopupUtils.open(Qt.resolvedUrl("dialogs/InfoDialog.qml"),
                 dialogPage, {
-                    title: "Verify identity",
+                    title: i18n.tr("Verify identity"),
                     text: textsecure.identityInfo(messagesModel.tel)
                 })
             }

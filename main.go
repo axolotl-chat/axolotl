@@ -21,6 +21,7 @@ import (
 	"time"
 
 	"github.com/dustin/go-humanize"
+	"github.com/gosexy/gettext"
 	"github.com/janimo/textsecure"
 	"github.com/ubuntu-core/snappy/helpers"
 	"gopkg.in/qml.v1"
@@ -626,7 +627,8 @@ func (api *textsecureAPI) IdentityInfo(id string) string {
 	if err != nil {
 		log.Println(err)
 	}
-	return "Their identity (they read): <br>" + fmt.Sprintf("% 0X", theirID) + "<br><br>Your identity (you read):<br><br>" + fmt.Sprintf("% 0X", myID)
+	return gettext.Gettext("Their identity (they read):") + "<br>" + fmt.Sprintf("% 0X", theirID) + "<br><br>" +
+		gettext.Gettext("Your identity (you read):") + "<br><br>" + fmt.Sprintf("% 0X", myID)
 }
 
 func avatarImageProvider(id string, width, height int) image.Image {
