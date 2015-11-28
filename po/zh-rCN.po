@@ -1,0 +1,134 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: zh-rCN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+msgid "Settings"
+msgstr "设置"
+
+msgid "Privacy"
+msgstr "隐私"
+
+msgid "Advanced"
+msgstr "高级"
+
+msgid "Enter key sends"
+msgstr "按下回车键发送"
+
+msgid "Save"
+msgstr "保存"
+
+msgid "Search"
+msgstr "搜索"
+
+msgid "Refresh"
+msgstr "刷新"
+
+msgid "New group"
+msgstr "新群组"
+
+msgid "Update group"
+msgstr "更新群组"
+
+msgid "Group name"
+msgstr "群组名称"
+
+msgid "Call"
+msgstr "呼叫"
+
+msgid "Reset secure session"
+msgstr "重置安全会话"
+
+msgid "Reset secure session?"
+msgstr "重置安全会话？"
+
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+msgstr "该选项将会有助于解决您在会话中遇到的加密问题，但是您的消息可能会受人控制。"
+
+msgid "Verify identity"
+msgstr "验证身份"
+
+msgid "Recipients list"
+msgstr "接收人列表"
+
+msgid "Leave group"
+msgstr "离开群组"
+
+msgid "Leave group?"
+msgstr "离开此群组？"
+
+msgid "Are you sure you want to leave this group?"
+msgstr "您确定想要离开此群组？"
+
+msgid "Delete conversation"
+msgstr "删除会话线程"
+
+msgid "Delete conversation?"
+msgstr "删除会话？"
+
+msgid "This will permanently delete all messages in this conversation."
+msgstr "这将会永久的删除此会话中的所有信息。"
+
+msgid "Select all"
+msgstr "全选"
+
+msgid "Message details"
+msgstr "信息详情"
+
+msgid "Copy text"
+msgstr "复制文本"
+
+msgid "Forward message"
+msgstr "转发"
+
+msgid "Delete message"
+msgstr "删除"
+
+msgid "Video"
+msgstr "视频"
+
+msgid "Audio"
+msgstr "音频"
+
+msgid "Contact"
+msgstr "联系人"
+
+msgid "Send Signal message"
+msgstr "发送暗号信息"
+
+msgid "Delete"
+msgstr "删除"
+
+msgid "Group members"
+msgstr "群组成员"
+
+msgid "Cancel"
+msgstr "取消"
+
+msgid "Mark all read"
+msgstr "全部标记为已读"
+
+msgid "Sent"
+msgstr "发送"
+
+msgid "Received"
+msgstr "接收"
+
+msgid "Secure session reset."
+msgstr "安全会话已重设。"
+
+msgid "You have left the group."
+msgstr "您已经离开了此群组。"
+
+msgid "Their identity (they read):"
+msgstr "他们的身份(他们读作)："
+
+msgid "Your identity (you read):"
+msgstr "您的身份(您读成)："

@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgid "Settings"
+msgstr "Instellingen"
+
+msgid "Privacy"
+msgstr "Privacy"
+
+msgid "Advanced"
+msgstr "Geavanceerd"
+
+msgid "Enter key sends"
+msgstr "Enter-toets verstuurt"
+
+msgid "Save"
+msgstr "Opslaan"
+
+msgid "Search"
+msgstr "Zoeken"
+
+msgid "Refresh"
+msgstr "Verversen"
+
+msgid "New group"
+msgstr "Nieuwe groep"
+
+msgid "Update group"
+msgstr "Groep bijwerken"
+
+msgid "Group name"
+msgstr "Groepsnaam"
+
+msgid "Call"
+msgstr "Bel"
+
+msgid "Reset secure session"
+msgstr "Beveiligde sessie resetten"
+
+msgid "Reset secure session?"
+msgstr "Beveiligde sessie resetten?"
+
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+msgstr "Dit kan mogelijk helpen wanneer je versleutelingsproblemen hebt met dit gesprek. Je berichten blijven behouden."
+
+msgid "Verify identity"
+msgstr "Identiteit verifiëren"
+
+msgid "Recipients list"
+msgstr "Lijst met ontvangers"
+
+msgid "Leave group"
+msgstr "Groep verlaten"
+
+msgid "Leave group?"
+msgstr "Groep verlaten?"
+
+msgid "Are you sure you want to leave this group?"
+msgstr "Weet je zeker dat je deze groep wil verlaten?"
+
+msgid "Delete conversation"
+msgstr "Gesprek verwijderen"
+
+msgid "Delete conversation?"
+msgstr "Gesprek verwijderen?"
+
+msgid "This will permanently delete all messages in this conversation."
+msgstr "Dit zal alle berichten in dit gesprek permanent verwijderen."
+
+msgid "Select all"
+msgstr "Alles selecteren"
+
+msgid "Message details"
+msgstr "Berichtdetails"
+
+msgid "Copy text"
+msgstr "Tekst kopiëren"
+
+msgid "Forward message"
+msgstr "Bericht doorsturen"
+
+msgid "Delete message"
+msgstr "Bericht verwijderen"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Contact"
+msgstr "Contactpersoon"
+
+msgid "Send Signal message"
+msgstr "Signal bericht versturen"
+
+msgid "Delete"
+msgstr "Verwijderen"
+
+msgid "Group members"
+msgstr "Groepsleden"
+
+msgid "Cancel"
+msgstr "Annuleren"
+
+msgid "Mark all read"
+msgstr "Alles als gelezen markeren"
+
+msgid "Sent"
+msgstr "Verzonden"
+
+msgid "Received"
+msgstr "Ontvangen"
+
+msgid "Secure session reset."
+msgstr "Beveiligde sessie gereset."
+
+msgid "You have left the group."
+msgstr "Je hebt de groep verlaten."
+
+msgid "Their identity (they read):"
+msgstr "Identiteit partner (partner leest):"
+
+msgid "Your identity (you read):"
+msgstr "Jouw identiteit (jij leest):"

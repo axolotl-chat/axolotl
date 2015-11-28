@@ -1,0 +1,134 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: mk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+msgid "Settings"
+msgstr "Подесувања"
+
+msgid "Privacy"
+msgstr "Приватност"
+
+msgid "Advanced"
+msgstr "Напредни подесувања"
+
+msgid "Enter key sends"
+msgstr "Enter испраќа порака"
+
+msgid "Save"
+msgstr "Зачувај"
+
+msgid "Search"
+msgstr "Барај"
+
+msgid "Refresh"
+msgstr ""
+
+msgid "New group"
+msgstr "Нова група"
+
+msgid "Update group"
+msgstr "Ажурирај група"
+
+msgid "Group name"
+msgstr "Наслов на група"
+
+msgid "Call"
+msgstr "Повикај"
+
+msgid "Reset secure session"
+msgstr ""
+
+msgid "Reset secure session?"
+msgstr ""
+
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+msgstr ""
+
+msgid "Verify identity"
+msgstr ""
+
+msgid "Recipients list"
+msgstr "Листа на примачи"
+
+msgid "Leave group"
+msgstr "Напушти група"
+
+msgid "Leave group?"
+msgstr "Напушти група?"
+
+msgid "Are you sure you want to leave this group?"
+msgstr "Дали сте сигурни дека сакате да ја напуштите групата?"
+
+msgid "Delete conversation"
+msgstr ""
+
+msgid "Delete conversation?"
+msgstr ""
+
+msgid "This will permanently delete all messages in this conversation."
+msgstr ""
+
+msgid "Select all"
+msgstr "Изберете се"
+
+msgid "Message details"
+msgstr "Детали за пораката"
+
+msgid "Copy text"
+msgstr "Копирај текст"
+
+msgid "Forward message"
+msgstr "Проследи порака"
+
+msgid "Delete message"
+msgstr "Избриши порака"
+
+msgid "Video"
+msgstr "Видео"
+
+msgid "Audio"
+msgstr "Звук"
+
+msgid "Contact"
+msgstr ""
+
+msgid "Send Signal message"
+msgstr ""
+
+msgid "Delete"
+msgstr "Избриши"
+
+msgid "Group members"
+msgstr "Членови на групата"
+
+msgid "Cancel"
+msgstr "Откажи"
+
+msgid "Mark all read"
+msgstr "Обележи ги сите како прочитани"
+
+msgid "Sent"
+msgstr "Испратено"
+
+msgid "Received"
+msgstr "Примено"
+
+msgid "Secure session reset."
+msgstr ""
+
+msgid "You have left the group."
+msgstr "Ја напуштивте групата."
+
+msgid "Their identity (they read):"
+msgstr "Нивен идентитет (тие читаат):"
+
+msgid "Your identity (you read):"
+msgstr "Ваш идентитет (вие читате):"

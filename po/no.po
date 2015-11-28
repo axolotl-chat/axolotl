@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: no\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgid "Settings"
+msgstr "Innstillinger"
+
+msgid "Privacy"
+msgstr "Personvern"
+
+msgid "Advanced"
+msgstr "Avansert"
+
+msgid "Enter key sends"
+msgstr "\"Enter\" sender"
+
+msgid "Save"
+msgstr "Lagre"
+
+msgid "Search"
+msgstr "Søk"
+
+msgid "Refresh"
+msgstr "Refresh"
+
+msgid "New group"
+msgstr "Ny gruppe"
+
+msgid "Update group"
+msgstr "Oppdater gruppe"
+
+msgid "Group name"
+msgstr "Gruppenavn"
+
+msgid "Call"
+msgstr "Ring"
+
+msgid "Reset secure session"
+msgstr "Nullstill sikker sesjon"
+
+msgid "Reset secure session?"
+msgstr "Nullstill sikker sesjon?"
+
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+msgstr "Dette kan hjelpe dersom du har krypteringsproblemer i denne samtalen. Meldingene dine vil bli lagret. "
+
+msgid "Verify identity"
+msgstr "Bekreft identitet"
+
+msgid "Recipients list"
+msgstr "Mottakerliste"
+
+msgid "Leave group"
+msgstr "Forlat gruppe"
+
+msgid "Leave group?"
+msgstr "Forlat gruppen?"
+
+msgid "Are you sure you want to leave this group?"
+msgstr "Er du sikker på at du ønsker å forlate denne gruppen?"
+
+msgid "Delete conversation"
+msgstr "Slett samtale"
+
+msgid "Delete conversation?"
+msgstr "Slett samtale?"
+
+msgid "This will permanently delete all messages in this conversation."
+msgstr "Dette vil slette alle meldingene i denne samtalen."
+
+msgid "Select all"
+msgstr "Merk alt"
+
+msgid "Message details"
+msgstr "Meldingsdetaljer"
+
+msgid "Copy text"
+msgstr "Kopier tekst"
+
+msgid "Forward message"
+msgstr "Videresend melding"
+
+msgid "Delete message"
+msgstr "Slett melding"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Audio"
+msgstr "Lyd"
+
+msgid "Contact"
+msgstr "Kontakt"
+
+msgid "Send Signal message"
+msgstr "Send Signal melding"
+
+msgid "Delete"
+msgstr "Slett"
+
+msgid "Group members"
+msgstr "Gruppemedlemmer"
+
+msgid "Cancel"
+msgstr "Avbryt"
+
+msgid "Mark all read"
+msgstr "Marker alle som lest"
+
+msgid "Sent"
+msgstr "Sendt"
+
+msgid "Received"
+msgstr "Mottatt"
+
+msgid "Secure session reset."
+msgstr "Sikker sesjon nullstilt."
+
+msgid "You have left the group."
+msgstr "Du har forlatt gruppen."
+
+msgid "Their identity (they read):"
+msgstr "Deres identitet (de leser):"
+
+msgid "Your identity (you read):"
+msgstr "Din identitet (du leser):"

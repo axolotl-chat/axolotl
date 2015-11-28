@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: sl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+msgid "Settings"
+msgstr "Nastavitve"
+
+msgid "Privacy"
+msgstr "Zasebnost"
+
+msgid "Advanced"
+msgstr "Napredno"
+
+msgid "Enter key sends"
+msgstr "Tipka 'Naprej' pošlje"
+
+msgid "Save"
+msgstr "Shrani"
+
+msgid "Search"
+msgstr "Poišči"
+
+msgid "Refresh"
+msgstr "Osveži"
+
+msgid "New group"
+msgstr "Nova skupina"
+
+msgid "Update group"
+msgstr "Posodobi skupino"
+
+msgid "Group name"
+msgstr "Ime skupine"
+
+msgid "Call"
+msgstr "Kliči"
+
+msgid "Reset secure session"
+msgstr "Ponastavi varno sejo"
+
+msgid "Reset secure session?"
+msgstr "Ponastavim varno sejo?"
+
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+msgstr "To lahko pomaga pri težavah s šifriranjem med pogovorom. Vaša sporočila bodo ohranjena."
+
+msgid "Verify identity"
+msgstr "Overi identiteto"
+
+msgid "Recipients list"
+msgstr "Seznam prejemnikov"
+
+msgid "Leave group"
+msgstr "Zapusti skupino"
+
+msgid "Leave group?"
+msgstr "Želite zapustiti skupino?"
+
+msgid "Are you sure you want to leave this group?"
+msgstr "Ste prepričani, da res želite zapustiti to skupino?"
+
+msgid "Delete conversation"
+msgstr "Izbriši pogovor"
+
+msgid "Delete conversation?"
+msgstr "Izbrišem pogovor?"
+
+msgid "This will permanently delete all messages in this conversation."
+msgstr "To bo nepovratno izbrisalo vsa sporočila tega pogovora."
+
+msgid "Select all"
+msgstr "Označi vse"
+
+msgid "Message details"
+msgstr "Podrobnosti sporočila"
+
+msgid "Copy text"
+msgstr "Kopiraj besedilo"
+
+msgid "Forward message"
+msgstr "Posreduj sporočilo"
+
+msgid "Delete message"
+msgstr "Izbriši sporočilo"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Audio"
+msgstr "Zvok"
+
+msgid "Contact"
+msgstr "Stik"
+
+msgid "Send Signal message"
+msgstr "Pošlji sporočilo Signal"
+
+msgid "Delete"
+msgstr "Izbriši"
+
+msgid "Group members"
+msgstr "Člani skupine"
+
+msgid "Cancel"
+msgstr "Prekliči"
+
+msgid "Mark all read"
+msgstr "Označi vse kot prebrano"
+
+msgid "Sent"
+msgstr "Poslano:"
+
+msgid "Received"
+msgstr "Prejeto:"
+
+msgid "Secure session reset."
+msgstr "Varna seja ponastavljena."
+
+msgid "You have left the group."
+msgstr "Zapustili ste skupino."
+
+msgid "Their identity (they read):"
+msgstr "Istovetnost stika (prebere on):"
+
+msgid "Your identity (you read):"
+msgstr "Moja istovetnost (preberem jaz):"

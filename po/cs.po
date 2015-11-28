@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+msgid "Settings"
+msgstr "Nastavení"
+
+msgid "Privacy"
+msgstr "Soukromí"
+
+msgid "Advanced"
+msgstr "Rozšířené možnosti"
+
+msgid "Enter key sends"
+msgstr "Klávesa 'Enter' odesílá"
+
+msgid "Save"
+msgstr "Uložit"
+
+msgid "Search"
+msgstr "Hledat"
+
+msgid "Refresh"
+msgstr "Obnovit"
+
+msgid "New group"
+msgstr "Nová skupina"
+
+msgid "Update group"
+msgstr "Upravit skupinu"
+
+msgid "Group name"
+msgstr "Název skupiny"
+
+msgid "Call"
+msgstr "Volat"
+
+msgid "Reset secure session"
+msgstr "Resetovat zabezpečenou konverzaci"
+
+msgid "Reset secure session?"
+msgstr "Resetovat zabezpečenou konverzaci?"
+
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+msgstr "Může to pomoct pokud máte problém s šifrováním této konverzace. Vaše zprávy zůstanou zachovány."
+
+msgid "Verify identity"
+msgstr "Ověření identity"
+
+msgid "Recipients list"
+msgstr "Seznam příjemců"
+
+msgid "Leave group"
+msgstr "Opustit skupinu"
+
+msgid "Leave group?"
+msgstr "Opustit skupinu?"
+
+msgid "Are you sure you want to leave this group?"
+msgstr "Jsi si jistý, že chceš opustit tuto skupinu?"
+
+msgid "Delete conversation"
+msgstr "Smazat konverzaci"
+
+msgid "Delete conversation?"
+msgstr "Smazat konverzaci?"
+
+msgid "This will permanently delete all messages in this conversation."
+msgstr "Tímto trvale smažete všechy zprávy této konverzace."
+
+msgid "Select all"
+msgstr "Označit vše"
+
+msgid "Message details"
+msgstr "Podrobnosti zprávy"
+
+msgid "Copy text"
+msgstr "Kopírovat text"
+
+msgid "Forward message"
+msgstr "Přeposlat zprávu"
+
+msgid "Delete message"
+msgstr "Smazat zprávu"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Contact"
+msgstr "Kontakt"
+
+msgid "Send Signal message"
+msgstr "Poslat Signal zprávu"
+
+msgid "Delete"
+msgstr "Smazat"
+
+msgid "Group members"
+msgstr "Členové skupiny"
+
+msgid "Cancel"
+msgstr "Storno"
+
+msgid "Mark all read"
+msgstr "Označit vše jako přečtené"
+
+msgid "Sent"
+msgstr "Odesláno"
+
+msgid "Received"
+msgstr "Přijato"
+
+msgid "Secure session reset."
+msgstr "Reset zabezpečené komunikace."
+
+msgid "You have left the group."
+msgstr "Opustil(a) jste skupinu"
+
+msgid "Their identity (they read):"
+msgstr "Jejich identita (čtou)"
+
+msgid "Your identity (you read):"
+msgstr "Vaše identita (čtete):"

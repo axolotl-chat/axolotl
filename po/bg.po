@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: bg\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgid "Settings"
+msgstr "Настройки"
+
+msgid "Privacy"
+msgstr "Лично пространство"
+
+msgid "Advanced"
+msgstr "Допълнителни"
+
+msgid "Enter key sends"
+msgstr "Клавишът Enter се използва за изпращане"
+
+msgid "Save"
+msgstr "Запази"
+
+msgid "Search"
+msgstr "Търси"
+
+msgid "Refresh"
+msgstr "Освежи"
+
+msgid "New group"
+msgstr "Нова група"
+
+msgid "Update group"
+msgstr "Промени група"
+
+msgid "Group name"
+msgstr "Име на групата"
+
+msgid "Call"
+msgstr "Обаждане"
+
+msgid "Reset secure session"
+msgstr "Започни нова сигурна сесия"
+
+msgid "Reset secure session?"
+msgstr "Рестартирай сигурната сесия?"
+
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+msgstr "Това може да помогне ако имате проблеми с екрипцията в този разговор. Вашите съобщения ще бъдат запазени."
+
+msgid "Verify identity"
+msgstr "Провери самоличността"
+
+msgid "Recipients list"
+msgstr "Списък на получатели"
+
+msgid "Leave group"
+msgstr "Напусни група"
+
+msgid "Leave group?"
+msgstr "Напусни групата?"
+
+msgid "Are you sure you want to leave this group?"
+msgstr "Сигурен ли си, че искаш да напуснеш тази група?"
+
+msgid "Delete conversation"
+msgstr "Изтрий разговор"
+
+msgid "Delete conversation?"
+msgstr "Изтрий разговора?"
+
+msgid "This will permanently delete all messages in this conversation."
+msgstr "Това ще изтрие невъзвращаемо всичките съобщения в този разговор."
+
+msgid "Select all"
+msgstr "Избери всичко"
+
+msgid "Message details"
+msgstr "Информация за съобщението"
+
+msgid "Copy text"
+msgstr "Копирай текста"
+
+msgid "Forward message"
+msgstr "Препрати съобщението"
+
+msgid "Delete message"
+msgstr "Изтрий съобщението"
+
+msgid "Video"
+msgstr "Видео"
+
+msgid "Audio"
+msgstr "Аудио"
+
+msgid "Contact"
+msgstr "Контакт"
+
+msgid "Send Signal message"
+msgstr "Изпрати Signal съобщение"
+
+msgid "Delete"
+msgstr "Изтрий"
+
+msgid "Group members"
+msgstr "Членове на групата"
+
+msgid "Cancel"
+msgstr "Отказ"
+
+msgid "Mark all read"
+msgstr "Маркирай всички като прочетени"
+
+msgid "Sent"
+msgstr "Изпратен"
+
+msgid "Received"
+msgstr "Получен"
+
+msgid "Secure session reset."
+msgstr "Сигурната сесия е започната от начало."
+
+msgid "You have left the group."
+msgstr "Напуснахте групата."
+
+msgid "Their identity (they read):"
+msgstr "Тяхната самоличност (те четат):"
+
+msgid "Your identity (you read):"
+msgstr "Твоята самоличност (ти чети):"

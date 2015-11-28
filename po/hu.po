@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgid "Settings"
+msgstr "Beállítások"
+
+msgid "Privacy"
+msgstr "Magánélet"
+
+msgid "Advanced"
+msgstr "Haladó"
+
+msgid "Enter key sends"
+msgstr "Küldés az Enter lenyomásával"
+
+msgid "Save"
+msgstr "Mentés"
+
+msgid "Search"
+msgstr "Keresés"
+
+msgid "Refresh"
+msgstr "Frissítés"
+
+msgid "New group"
+msgstr "Új csoport"
+
+msgid "Update group"
+msgstr "Csoport frissítése"
+
+msgid "Group name"
+msgstr "Csoport név"
+
+msgid "Call"
+msgstr "Hívás"
+
+msgid "Reset secure session"
+msgstr "Biztonságos munkamenet alaphelyzetbe állítása"
+
+msgid "Reset secure session?"
+msgstr "Biztonságos munkamenet alaphelyzetbe állítása?"
+
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+msgstr "Ez segíthet, ha titkosítási problémáid vannak ebben a beszélgetésben. Az üzeneteid meg lesznek tartva."
+
+msgid "Verify identity"
+msgstr "Azonosító ellenőrzése"
+
+msgid "Recipients list"
+msgstr "Címzettek listája"
+
+msgid "Leave group"
+msgstr "Csoport elhagyása"
+
+msgid "Leave group?"
+msgstr "Elhagyod a csoportot?"
+
+msgid "Are you sure you want to leave this group?"
+msgstr "Biztosan el akarod hagyni ezt a csoportot?"
+
+msgid "Delete conversation"
+msgstr "Beszélgetés törlése"
+
+msgid "Delete conversation?"
+msgstr "Beszélgetés törlése?"
+
+msgid "This will permanently delete all messages in this conversation."
+msgstr "Ez azonnal törölni fogja az összes üzenetet ebben a beszégetésben"
+
+msgid "Select all"
+msgstr "Összes kijelölése"
+
+msgid "Message details"
+msgstr "Üzenet részletek"
+
+msgid "Copy text"
+msgstr "Szöveg másolása"
+
+msgid "Forward message"
+msgstr "Üzenet továbbküldése"
+
+msgid "Delete message"
+msgstr "Üzenet törlése"
+
+msgid "Video"
+msgstr "Videó"
+
+msgid "Audio"
+msgstr "Hang"
+
+msgid "Contact"
+msgstr "Névjegy"
+
+msgid "Send Signal message"
+msgstr "Signal üzenet küldése"
+
+msgid "Delete"
+msgstr "Törlés"
+
+msgid "Group members"
+msgstr "Csoport tagok"
+
+msgid "Cancel"
+msgstr "Mégse"
+
+msgid "Mark all read"
+msgstr "Összes megjelölése olvasottként"
+
+msgid "Sent"
+msgstr "Elküldve"
+
+msgid "Received"
+msgstr "Érkezett"
+
+msgid "Secure session reset."
+msgstr "Biztonságos munkamenet alaphelyzetbe állítása."
+
+msgid "You have left the group."
+msgstr "Elhagytad a csoportot."
+
+msgid "Their identity (they read):"
+msgstr "Az azonosítójuk (ők olvassák):"
+
+msgid "Your identity (you read):"
+msgstr "Az azonosítód (te olvasod):"

@@ -1,0 +1,134 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ta\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+msgid "Settings"
+msgstr "அமைப்புகள்"
+
+msgid "Privacy"
+msgstr ""
+
+msgid "Advanced"
+msgstr "மேம்பட்ட"
+
+msgid "Enter key sends"
+msgstr "பதிவு விசை அனுப்பும்"
+
+msgid "Save"
+msgstr "சேமி"
+
+msgid "Search"
+msgstr "தேடல்"
+
+msgid "Refresh"
+msgstr ""
+
+msgid "New group"
+msgstr "புதிய குழு"
+
+msgid "Update group"
+msgstr "குழுவை மேம்படுத்து"
+
+msgid "Group name"
+msgstr "குழுவின் பெயர்"
+
+msgid "Call"
+msgstr "அழை"
+
+msgid "Reset secure session"
+msgstr ""
+
+msgid "Reset secure session?"
+msgstr ""
+
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+msgstr ""
+
+msgid "Verify identity"
+msgstr "அடையாளத்தை சரிபார்"
+
+msgid "Recipients list"
+msgstr "பெறுநர்கள் பட்டியல்"
+
+msgid "Leave group"
+msgstr "குழுவிலுருந்து விலகு"
+
+msgid "Leave group?"
+msgstr "குழுவிலுருந்து விலகலாமா?"
+
+msgid "Are you sure you want to leave this group?"
+msgstr "நீங்கள் குழுவை விட்டு நிச்சயமாக விலகவேண்டுமா?"
+
+msgid "Delete conversation"
+msgstr ""
+
+msgid "Delete conversation?"
+msgstr ""
+
+msgid "This will permanently delete all messages in this conversation."
+msgstr ""
+
+msgid "Select all"
+msgstr "அனைத்து தேர்வுசெய்"
+
+msgid "Message details"
+msgstr "செய்தி விவரங்கள்"
+
+msgid "Copy text"
+msgstr "உரை நகலெடு"
+
+msgid "Forward message"
+msgstr "செய்தியை முன்னோக்கியனுப்பு"
+
+msgid "Delete message"
+msgstr "செய்தியை நீக்கு"
+
+msgid "Video"
+msgstr ""
+
+msgid "Audio"
+msgstr ""
+
+msgid "Contact"
+msgstr ""
+
+msgid "Send Signal message"
+msgstr ""
+
+msgid "Delete"
+msgstr "நீக்கு"
+
+msgid "Group members"
+msgstr ""
+
+msgid "Cancel"
+msgstr "ரத்து"
+
+msgid "Mark all read"
+msgstr "அனைத்தையும் படித்தாக குறியிடு"
+
+msgid "Sent"
+msgstr "அனுப்பபட்டது"
+
+msgid "Received"
+msgstr "பெறப்பட்டது"
+
+msgid "Secure session reset."
+msgstr ""
+
+msgid "You have left the group."
+msgstr "நீங்கள் குழுவை விட்டு விலகினீர்கள்."
+
+msgid "Their identity (they read):"
+msgstr "அவர்களின் அடையாளம் (அவர்கள்  படிக்க):"
+
+msgid "Your identity (you read):"
+msgstr "உங்களின் அடையாளம் (நீங்கள் படிக்க):"

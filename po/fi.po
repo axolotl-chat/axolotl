@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: fi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgid "Settings"
+msgstr "Asetukset"
+
+msgid "Privacy"
+msgstr "Yksityisyys"
+
+msgid "Advanced"
+msgstr "Lisäasetukset"
+
+msgid "Enter key sends"
+msgstr "Rivinvaihto lähettää"
+
+msgid "Save"
+msgstr "Tallenna"
+
+msgid "Search"
+msgstr "Hae"
+
+msgid "Refresh"
+msgstr "Päivitä"
+
+msgid "New group"
+msgstr "Uusi ryhmä"
+
+msgid "Update group"
+msgstr "Päivitä ryhmää"
+
+msgid "Group name"
+msgstr "Ryhmän nimi"
+
+msgid "Call"
+msgstr "Soita"
+
+msgid "Reset secure session"
+msgstr "Alusta suojattu istunto"
+
+msgid "Reset secure session?"
+msgstr "Alusta suojattu istunto?"
+
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+msgstr "Tämä saattaa auttaa, jos tässä keskustelussa on ilmennyt salaukseen liittyviä ongelmia. Huom. tämä ei poista eikä muokkaa mitenkään olemassa olevia viestejä."
+
+msgid "Verify identity"
+msgstr "Varmenna identiteetti"
+
+msgid "Recipients list"
+msgstr "Vastaanottajalista"
+
+msgid "Leave group"
+msgstr "Poistu ryhmästä"
+
+msgid "Leave group?"
+msgstr "Poistutaanko ryhmästä?"
+
+msgid "Are you sure you want to leave this group?"
+msgstr "Haluatko varmasti poistua ryhmästä?"
+
+msgid "Delete conversation"
+msgstr "Poista keskustelu"
+
+msgid "Delete conversation?"
+msgstr "Poistetaanko keskustelu?"
+
+msgid "This will permanently delete all messages in this conversation."
+msgstr "Tämä poistaa pysyvästi kaikki viestit tästä keskustelusta."
+
+msgid "Select all"
+msgstr "Valitse kaikki"
+
+msgid "Message details"
+msgstr "Viestin tiedot"
+
+msgid "Copy text"
+msgstr "Kopioi teksti"
+
+msgid "Forward message"
+msgstr "Välitä viesti"
+
+msgid "Delete message"
+msgstr "Poista viesti"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Audio"
+msgstr "Äänitallenne"
+
+msgid "Contact"
+msgstr "Yhteystieto"
+
+msgid "Send Signal message"
+msgstr "Lähetä Signal-viesti"
+
+msgid "Delete"
+msgstr "Poista"
+
+msgid "Group members"
+msgstr "Ryhmän jäsenet"
+
+msgid "Cancel"
+msgstr "Peruuta"
+
+msgid "Mark all read"
+msgstr "Merkitse kaikki luetuiksi"
+
+msgid "Sent"
+msgstr "Lähetetty"
+
+msgid "Received"
+msgstr "Vastaanotettu"
+
+msgid "Secure session reset."
+msgstr "Suojattu istunto alustettu"
+
+msgid "You have left the group."
+msgstr "Olet lähtenyt ryhmästä."
+
+msgid "Their identity (they read):"
+msgstr "Vastapuolen identiteetti (hän lukee):"
+
+msgid "Your identity (you read):"
+msgstr "Oma identiteettisi (sinä luet):"

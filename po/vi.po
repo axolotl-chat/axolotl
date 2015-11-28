@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+msgid "Settings"
+msgstr "Thiết Đặt"
+
+msgid "Privacy"
+msgstr "Riêng tư"
+
+msgid "Advanced"
+msgstr "Cao cấp"
+
+msgid "Enter key sends"
+msgstr "Phím Enter gửi đi"
+
+msgid "Save"
+msgstr "Lưu"
+
+msgid "Search"
+msgstr "Tìm kiếm"
+
+msgid "Refresh"
+msgstr "Làm mới"
+
+msgid "New group"
+msgstr "Tạo nhóm mới"
+
+msgid "Update group"
+msgstr "Cập nhật nhóm"
+
+msgid "Group name"
+msgstr "Tên nhóm"
+
+msgid "Call"
+msgstr "Gọi"
+
+msgid "Reset secure session"
+msgstr "Tái thiết lập phiên bảo mật"
+
+msgid "Reset secure session?"
+msgstr "Tái thiết lập phiên bảo mật?"
+
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+msgstr "Thao tác này có thể giúp bạn khi đang có vấn đề về mã khoá cuộc hội thoại. Các tin nhắn sẽ được giữ lại."
+
+msgid "Verify identity"
+msgstr "Kiểm chứng danh tính"
+
+msgid "Recipients list"
+msgstr "Danh sách người nhận"
+
+msgid "Leave group"
+msgstr "Rời nhóm"
+
+msgid "Leave group?"
+msgstr "Rời nhóm?"
+
+msgid "Are you sure you want to leave this group?"
+msgstr "Bạn có chắc là muốn rời nhóm?"
+
+msgid "Delete conversation"
+msgstr "Xoá cuộc hội thoại"
+
+msgid "Delete conversation?"
+msgstr "Xoá cuộc hội thoại?"
+
+msgid "This will permanently delete all messages in this conversation."
+msgstr "Thao tác này sẽ xóa vĩnh viễn tất cả tin nhắn của cuộc hội thoại này."
+
+msgid "Select all"
+msgstr "Chọn tất cả"
+
+msgid "Message details"
+msgstr "Chi tiết tin nhắn"
+
+msgid "Copy text"
+msgstr "Sao chép văn bản"
+
+msgid "Forward message"
+msgstr "Chuyển tiếp tin nhắn"
+
+msgid "Delete message"
+msgstr "Xóa tin nhắn"
+
+msgid "Video"
+msgstr "Đoạn phim"
+
+msgid "Audio"
+msgstr "Đoạn nhạc"
+
+msgid "Contact"
+msgstr "Liên lạc"
+
+msgid "Send Signal message"
+msgstr "Gửi thông điệp Signal"
+
+msgid "Delete"
+msgstr "Xóa"
+
+msgid "Group members"
+msgstr "Thành viên trong nhóm"
+
+msgid "Cancel"
+msgstr "Hủy bỏ"
+
+msgid "Mark all read"
+msgstr "Đánh dấu tất cả đã đọc"
+
+msgid "Sent"
+msgstr "Đã gửi"
+
+msgid "Received"
+msgstr "Đã nhận"
+
+msgid "Secure session reset."
+msgstr "Đã tái thiết lập phiên bảo mật."
+
+msgid "You have left the group."
+msgstr "Bạn đã rời nhóm."
+
+msgid "Their identity (they read):"
+msgstr "Danh tính của họ (họ đọc lên):"
+
+msgid "Your identity (you read):"
+msgstr "Danh tính của bạn (bạn đọc lên):"

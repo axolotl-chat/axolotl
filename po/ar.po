@@ -1,0 +1,134 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+msgid "Settings"
+msgstr "الإعدادات"
+
+msgid "Privacy"
+msgstr "الخصوصية"
+
+msgid "Advanced"
+msgstr "متقدم"
+
+msgid "Enter key sends"
+msgstr "مفتاح الدخول يقوم بالإرسال"
+
+msgid "Save"
+msgstr "أحفظ"
+
+msgid "Search"
+msgstr "بحث"
+
+msgid "Refresh"
+msgstr "إنعاش"
+
+msgid "New group"
+msgstr "مجموعة جديدة"
+
+msgid "Update group"
+msgstr "تحديث المجموعة"
+
+msgid "Group name"
+msgstr "أسم المجموعة"
+
+msgid "Call"
+msgstr "أتصل"
+
+msgid "Reset secure session"
+msgstr "إعادة ضبط جلسة آمنة"
+
+msgid "Reset secure session?"
+msgstr "إعادة ضبط جلسة آمنة؟"
+
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+msgstr "سوف يتم الاحتفاظ برسائلك. هذا قد يساعد في حال وجود مشاكل في التشفير بهذه المحادثة."
+
+msgid "Verify identity"
+msgstr "تحقق من الهوية"
+
+msgid "Recipients list"
+msgstr "قائمة المستلمون"
+
+msgid "Leave group"
+msgstr "أترك المجموعة"
+
+msgid "Leave group?"
+msgstr "ترك المجموعة؟"
+
+msgid "Are you sure you want to leave this group?"
+msgstr "هل أنت متأكد من ترك المجموعة؟"
+
+msgid "Delete conversation"
+msgstr "حذف المحادثة"
+
+msgid "Delete conversation?"
+msgstr "حذف المحادثه؟"
+
+msgid "This will permanently delete all messages in this conversation."
+msgstr "سوف يتم حذف جميع الرسائل في هذه المحادثة نهائيا."
+
+msgid "Select all"
+msgstr "أختر الكل"
+
+msgid "Message details"
+msgstr "تفاصيل الرسالة"
+
+msgid "Copy text"
+msgstr "نسخ النص"
+
+msgid "Forward message"
+msgstr "إعادة الإرسال"
+
+msgid "Delete message"
+msgstr "حذف الرسالة"
+
+msgid "Video"
+msgstr "فيديو"
+
+msgid "Audio"
+msgstr "صوت"
+
+msgid "Contact"
+msgstr "جهة اتصال"
+
+msgid "Send Signal message"
+msgstr "أرسل رسالة سيجنال."
+
+msgid "Delete"
+msgstr "حذف"
+
+msgid "Group members"
+msgstr "أعضاء المجموعة"
+
+msgid "Cancel"
+msgstr "إلغاء"
+
+msgid "Mark all read"
+msgstr "اعتبارها رسائل مقروءة"
+
+msgid "Sent"
+msgstr "أرسلت"
+
+msgid "Received"
+msgstr "استلمت"
+
+msgid "Secure session reset."
+msgstr "إعادة ضبط جلسة آمنة."
+
+msgid "You have left the group."
+msgstr "لقد تركت المجموعة."
+
+msgid "Their identity (they read):"
+msgstr "هويتهم (كما يقرؤونها هم):"
+
+msgid "Your identity (you read):"
+msgstr "هويتك (كما تقرأها أنت):"

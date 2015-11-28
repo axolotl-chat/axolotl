@@ -1,0 +1,134 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: in\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+msgid "Settings"
+msgstr "Konfigurasi"
+
+msgid "Privacy"
+msgstr "Privasi"
+
+msgid "Advanced"
+msgstr "Lanjutan"
+
+msgid "Enter key sends"
+msgstr "Enter untuk mengirim"
+
+msgid "Save"
+msgstr "Simpan"
+
+msgid "Search"
+msgstr "Cari"
+
+msgid "Refresh"
+msgstr ""
+
+msgid "New group"
+msgstr "Grup baru"
+
+msgid "Update group"
+msgstr "Perbarui grup"
+
+msgid "Group name"
+msgstr "Nama grup"
+
+msgid "Call"
+msgstr "Panggil"
+
+msgid "Reset secure session"
+msgstr "Setel ulang sesi aman"
+
+msgid "Reset secure session?"
+msgstr ""
+
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+msgstr ""
+
+msgid "Verify identity"
+msgstr "Verifikasi identitas"
+
+msgid "Recipients list"
+msgstr "Daftar Penerima"
+
+msgid "Leave group"
+msgstr "Keluar grup"
+
+msgid "Leave group?"
+msgstr "Tinggalkan grup?"
+
+msgid "Are you sure you want to leave this group?"
+msgstr "Apakah Anda yakin ingin meninggalkan grup ini?"
+
+msgid "Delete conversation"
+msgstr ""
+
+msgid "Delete conversation?"
+msgstr ""
+
+msgid "This will permanently delete all messages in this conversation."
+msgstr ""
+
+msgid "Select all"
+msgstr "Pilih semua"
+
+msgid "Message details"
+msgstr "Rincian pesan"
+
+msgid "Copy text"
+msgstr "Salin teks"
+
+msgid "Forward message"
+msgstr "Teruskan pesan"
+
+msgid "Delete message"
+msgstr "Hapus pesan"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Contact"
+msgstr "Kontak"
+
+msgid "Send Signal message"
+msgstr "Kirim pesan Signal"
+
+msgid "Delete"
+msgstr "Hapus"
+
+msgid "Group members"
+msgstr "Anggota grup"
+
+msgid "Cancel"
+msgstr "Batal"
+
+msgid "Mark all read"
+msgstr "Tandai semua dibaca"
+
+msgid "Sent"
+msgstr "Terkirim"
+
+msgid "Received"
+msgstr "Diterima"
+
+msgid "Secure session reset."
+msgstr "Sesi aman disetel ulang."
+
+msgid "You have left the group."
+msgstr "Anda telah keluar dari grup."
+
+msgid "Their identity (they read):"
+msgstr "Identitas mereka (terbaca):"
+
+msgid "Your identity (you read):"
+msgstr "Identitas anda (terbaca):"

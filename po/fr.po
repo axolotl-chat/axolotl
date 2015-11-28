@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+msgid "Settings"
+msgstr "Paramètres"
+
+msgid "Privacy"
+msgstr "Vie privée"
+
+msgid "Advanced"
+msgstr "Avancé"
+
+msgid "Enter key sends"
+msgstr "La touche Entrée envoie"
+
+msgid "Save"
+msgstr "Enregistrer"
+
+msgid "Search"
+msgstr "Chercher"
+
+msgid "Refresh"
+msgstr "Rafraîchir"
+
+msgid "New group"
+msgstr "Nouveau groupe"
+
+msgid "Update group"
+msgstr "Mettre à jour le groupe"
+
+msgid "Group name"
+msgstr "Nom du groupe"
+
+msgid "Call"
+msgstr "Appeler"
+
+msgid "Reset secure session"
+msgstr "Réinitialiser la session sécurisée"
+
+msgid "Reset secure session?"
+msgstr "Réinitialiser la session sécurisée ?"
+
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+msgstr "Cela peut aider si vous avez des problèmes de chiffrement dans cette conversation. Vos messages seront sauvegardés."
+
+msgid "Verify identity"
+msgstr "Vérifier l’identité"
+
+msgid "Recipients list"
+msgstr "Liste des destinataires"
+
+msgid "Leave group"
+msgstr "Quitter le groupe"
+
+msgid "Leave group?"
+msgstr "Quitter le groupe ?"
+
+msgid "Are you sure you want to leave this group?"
+msgstr "Êtes-vous sûr de vouloir quitter ce groupe ?"
+
+msgid "Delete conversation"
+msgstr "Supprimer la conversation"
+
+msgid "Delete conversation?"
+msgstr "Supprimer la conversation ?"
+
+msgid "This will permanently delete all messages in this conversation."
+msgstr "Cela supprimera définitivement tous les messages dans cette conversation."
+
+msgid "Select all"
+msgstr "Tout sélectionner"
+
+msgid "Message details"
+msgstr "Détails du message"
+
+msgid "Copy text"
+msgstr "Copier le texte"
+
+msgid "Forward message"
+msgstr "Faire suivre le message"
+
+msgid "Delete message"
+msgstr "Supprimer le message"
+
+msgid "Video"
+msgstr "Vidéo"
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Contact"
+msgstr "Contact"
+
+msgid "Send Signal message"
+msgstr "Envoyer un message Signal"
+
+msgid "Delete"
+msgstr "Supprimer"
+
+msgid "Group members"
+msgstr "Membres du groupe"
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "Mark all read"
+msgstr "Tout marquer comme lu"
+
+msgid "Sent"
+msgstr "Envoyé"
+
+msgid "Received"
+msgstr "Reçu"
+
+msgid "Secure session reset."
+msgstr "Session sécurisée réinitialisée."
+
+msgid "You have left the group."
+msgstr "Vous avez quitté le groupe."
+
+msgid "Their identity (they read):"
+msgstr "Leur identité (ce qu'ils lisent) :"
+
+msgid "Your identity (you read):"
+msgstr "Votre identité (ce que vous lisez) :"

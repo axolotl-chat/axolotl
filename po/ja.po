@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+msgid "Settings"
+msgstr "設定"
+
+msgid "Privacy"
+msgstr "プライバシー"
+
+msgid "Advanced"
+msgstr "詳細設定"
+
+msgid "Enter key sends"
+msgstr "エンターキーで送信"
+
+msgid "Save"
+msgstr "保存"
+
+msgid "Search"
+msgstr "検索"
+
+msgid "Refresh"
+msgstr ""
+
+msgid "New group"
+msgstr "新規グループ"
+
+msgid "Update group"
+msgstr "グループを更新する"
+
+msgid "Group name"
+msgstr "グループ名"
+
+msgid "Call"
+msgstr "通話"
+
+msgid "Reset secure session"
+msgstr ""
+
+msgid "Reset secure session?"
+msgstr ""
+
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+msgstr ""
+
+msgid "Verify identity"
+msgstr "認証検証"
+
+msgid "Recipients list"
+msgstr "受信者リスト"
+
+msgid "Leave group"
+msgstr "グループを抜ける"
+
+msgid "Leave group?"
+msgstr "グループを抜けますか？"
+
+msgid "Are you sure you want to leave this group?"
+msgstr "このグループを本当に抜けますか？"
+
+msgid "Delete conversation"
+msgstr ""
+
+msgid "Delete conversation?"
+msgstr ""
+
+msgid "This will permanently delete all messages in this conversation."
+msgstr ""
+
+msgid "Select all"
+msgstr "すべて選択"
+
+msgid "Message details"
+msgstr "メッセージの詳細"
+
+msgid "Copy text"
+msgstr "テキストをコピー"
+
+msgid "Forward message"
+msgstr "メッセージの転送"
+
+msgid "Delete message"
+msgstr "メッセージの削除"
+
+msgid "Video"
+msgstr ""
+
+msgid "Audio"
+msgstr ""
+
+msgid "Contact"
+msgstr ""
+
+msgid "Send Signal message"
+msgstr ""
+
+msgid "Delete"
+msgstr "削除"
+
+msgid "Group members"
+msgstr "グループメンバー"
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Mark all read"
+msgstr "すべて既読にする"
+
+msgid "Sent"
+msgstr "送信"
+
+msgid "Received"
+msgstr "受信"
+
+msgid "Secure session reset."
+msgstr ""
+
+msgid "You have left the group."
+msgstr "グループを出ました。"
+
+msgid "Their identity (they read):"
+msgstr "相手の認証キー（通信相手が読む）:"
+
+msgid "Your identity (you read):"
+msgstr "自分の認証キー（自分が読む）:"

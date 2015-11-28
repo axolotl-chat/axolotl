@@ -1,0 +1,134 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: kn-rIN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+msgid "Settings"
+msgstr "ಸೆಟ್ಟಿಂಗ್ಗಳು"
+
+msgid "Privacy"
+msgstr ""
+
+msgid "Advanced"
+msgstr "ಸುಧಾರಿತ"
+
+msgid "Enter key sends"
+msgstr "Enter ಕಳುಹಿಸುತ್ತದೆ "
+
+msgid "Save"
+msgstr "ಉಳಿಸಿ"
+
+msgid "Search"
+msgstr "ಹುಡುಕಿ"
+
+msgid "Refresh"
+msgstr ""
+
+msgid "New group"
+msgstr "ಹೋಸ ಸಮೂಹ "
+
+msgid "Update group"
+msgstr "ಸಮೂಹವನ್ನು ನವೀಕರಿಸಿ"
+
+msgid "Group name"
+msgstr "ಸಮೂಹದ ಹೆಸರು"
+
+msgid "Call"
+msgstr "ಕರೆ"
+
+msgid "Reset secure session"
+msgstr ""
+
+msgid "Reset secure session?"
+msgstr ""
+
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+msgstr ""
+
+msgid "Verify identity"
+msgstr "ಗುರುತನ್ನು ಪರಿಶೀಲಿಸಿ"
+
+msgid "Recipients list"
+msgstr "ಸ್ವೀಕೃತದಾರರ ಪಟ್ಟಿ"
+
+msgid "Leave group"
+msgstr "ಸಮೂಹವನ್ನು ಬಿಟ್ಟುಬಿಡಿ "
+
+msgid "Leave group?"
+msgstr "ಸಮೂಹವನ್ನು ಬಿಡುವಿರ?"
+
+msgid "Are you sure you want to leave this group?"
+msgstr "ಈ ಸಮೂಹ ಬಿಡವ ಬಯಕೆಯನ್ನು ನೀವು ಖಚಿತವಾಗಿರುವಿರಾ?"
+
+msgid "Delete conversation"
+msgstr ""
+
+msgid "Delete conversation?"
+msgstr ""
+
+msgid "This will permanently delete all messages in this conversation."
+msgstr ""
+
+msgid "Select all"
+msgstr "ಎಲ್ಲಾ ಆಯ್ಕೆಮಾಡಿ"
+
+msgid "Message details"
+msgstr "ಸಂದೇಶದ ವಿವರಗಳು"
+
+msgid "Copy text"
+msgstr "ಪಠ್ಯ ನಕಲಿಸು"
+
+msgid "Forward message"
+msgstr "ಸಂದೇಶವನ್ನು ರವಾನಿಸು"
+
+msgid "Delete message"
+msgstr "ಸಂದೇಶವನ್ನು ಅಳಿಸು"
+
+msgid "Video"
+msgstr ""
+
+msgid "Audio"
+msgstr ""
+
+msgid "Contact"
+msgstr ""
+
+msgid "Send Signal message"
+msgstr ""
+
+msgid "Delete"
+msgstr "ಅಳಿಸಿಹಾಕು"
+
+msgid "Group members"
+msgstr "ಸಮೂಹದ ಸದಸ್ಯರು"
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Mark all read"
+msgstr "ಎಲ್ಲವನ್ನು ಓದಿದೆ ಎಂದು ಗುರುತು ಮಾಡಿ"
+
+msgid "Sent"
+msgstr "ಕಳುಹಿಸಲಾಗಿದೆ"
+
+msgid "Received"
+msgstr "ಸ್ವೀಕರಿಸಲಾಗಿದೆ"
+
+msgid "Secure session reset."
+msgstr ""
+
+msgid "You have left the group."
+msgstr "ನೀವು ಗುಂಪನ್ನು ಬಿಟ್ಟಿದ್ದೀರ."
+
+msgid "Their identity (they read):"
+msgstr "ಅವರ ಗುರುತು (ಅವರು ಓದುವುದು):"
+
+msgid "Your identity (you read):"
+msgstr "ನಿಮ್ಮ ಗುರುತು (ನೀವು ಓದುವುದು):"

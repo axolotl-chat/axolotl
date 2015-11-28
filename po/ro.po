@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
+msgid "Settings"
+msgstr "Setări"
+
+msgid "Privacy"
+msgstr "Confidenţialitate"
+
+msgid "Advanced"
+msgstr "Avansat"
+
+msgid "Enter key sends"
+msgstr "Tasta Enter trimite"
+
+msgid "Save"
+msgstr "Salvează"
+
+msgid "Search"
+msgstr "Caută"
+
+msgid "Refresh"
+msgstr "Reîmprospătează"
+
+msgid "New group"
+msgstr "Grup nou"
+
+msgid "Update group"
+msgstr "Actualizează grup"
+
+msgid "Group name"
+msgstr "Nume grup"
+
+msgid "Call"
+msgstr "Sună"
+
+msgid "Reset secure session"
+msgstr "Resetează sesiunea securizată"
+
+msgid "Reset secure session?"
+msgstr ""
+
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+msgstr ""
+
+msgid "Verify identity"
+msgstr "Verifică identitatea"
+
+msgid "Recipients list"
+msgstr "Lista recipienti"
+
+msgid "Leave group"
+msgstr "Părăseşte grupul"
+
+msgid "Leave group?"
+msgstr "Doriți să părăsiți grupul?"
+
+msgid "Are you sure you want to leave this group?"
+msgstr "Sunteți sigur că doriți să părăsiți acest grup?"
+
+msgid "Delete conversation"
+msgstr "Șterge conversația"
+
+msgid "Delete conversation?"
+msgstr "Șterg conversația?"
+
+msgid "This will permanently delete all messages in this conversation."
+msgstr "Această acțiune va șterge permanent toate mesajele din conversația curentă."
+
+msgid "Select all"
+msgstr "Selectează tot"
+
+msgid "Message details"
+msgstr "Detalii mesaj"
+
+msgid "Copy text"
+msgstr "Copiază textul"
+
+msgid "Forward message"
+msgstr "Expediază mesajul"
+
+msgid "Delete message"
+msgstr "Şterge mesaj"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Contact"
+msgstr "Contact"
+
+msgid "Send Signal message"
+msgstr "Trimite mesaj Signal"
+
+msgid "Delete"
+msgstr "Șterge"
+
+msgid "Group members"
+msgstr "Membrii grupului"
+
+msgid "Cancel"
+msgstr "Anulează"
+
+msgid "Mark all read"
+msgstr "Marchează tot ca citit"
+
+msgid "Sent"
+msgstr "Trimis"
+
+msgid "Received"
+msgstr "Primit"
+
+msgid "Secure session reset."
+msgstr "Sesiune securizată resetată."
+
+msgid "You have left the group."
+msgstr "Ai parăsit grupul."
+
+msgid "Their identity (they read):"
+msgstr "Identitatea partenerului (cum apare el):"
+
+msgid "Your identity (you read):"
+msgstr "Identitatea ta (cum apari tu):"

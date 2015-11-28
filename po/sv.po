@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgid "Settings"
+msgstr "Inställningar"
+
+msgid "Privacy"
+msgstr "Integritet"
+
+msgid "Advanced"
+msgstr "Avancerade"
+
+msgid "Enter key sends"
+msgstr "Entertangenten skickar"
+
+msgid "Save"
+msgstr "Spara"
+
+msgid "Search"
+msgstr "Sök"
+
+msgid "Refresh"
+msgstr "Uppdatera"
+
+msgid "New group"
+msgstr "Ny grupp"
+
+msgid "Update group"
+msgstr "Uppdatera grupp"
+
+msgid "Group name"
+msgstr "Gruppnamn"
+
+msgid "Call"
+msgstr "Ring"
+
+msgid "Reset secure session"
+msgstr "Starta om säker session"
+
+msgid "Reset secure session?"
+msgstr "Starta om säker session?"
+
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+msgstr "Detta kan hjälpa om du har krypteringsproblem i den här konversationen. Dina meddelanden kommer behållas."
+
+msgid "Verify identity"
+msgstr "Verifiera identiteten"
+
+msgid "Recipients list"
+msgstr "Mottagarlista"
+
+msgid "Leave group"
+msgstr "Lämna grupp"
+
+msgid "Leave group?"
+msgstr "Lämna grupp?"
+
+msgid "Are you sure you want to leave this group?"
+msgstr "Är du säker på att du vill lämna den här gruppen?"
+
+msgid "Delete conversation"
+msgstr "Radera konversation"
+
+msgid "Delete conversation?"
+msgstr "Radera konversation?"
+
+msgid "This will permanently delete all messages in this conversation."
+msgstr "Detta kommer permanent radera alla meddelanden i den här konversationen."
+
+msgid "Select all"
+msgstr "Markera alla"
+
+msgid "Message details"
+msgstr "Meddelandedetaljer"
+
+msgid "Copy text"
+msgstr "Kopiera text"
+
+msgid "Forward message"
+msgstr "Vidarebefordra meddelande"
+
+msgid "Delete message"
+msgstr "Radera meddelande"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Audio"
+msgstr "Ljud"
+
+msgid "Contact"
+msgstr "Kontakt"
+
+msgid "Send Signal message"
+msgstr "Skicka Signal-meddelande"
+
+msgid "Delete"
+msgstr "Radera"
+
+msgid "Group members"
+msgstr "Gruppmedlemmar"
+
+msgid "Cancel"
+msgstr "Avbryt"
+
+msgid "Mark all read"
+msgstr "Markera alla lästa"
+
+msgid "Sent"
+msgstr "Skickat"
+
+msgid "Received"
+msgstr "Mottaget"
+
+msgid "Secure session reset."
+msgstr "Säker session nollställd."
+
+msgid "You have left the group."
+msgstr "Du har lämnat gruppen."
+
+msgid "Their identity (they read):"
+msgstr "Deras identitet (de läser):"
+
+msgid "Your identity (you read):"
+msgstr "Din identitet (du läser):"

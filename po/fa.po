@@ -1,0 +1,134 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+msgid "Settings"
+msgstr "تنظیمات"
+
+msgid "Privacy"
+msgstr "خلوت"
+
+msgid "Advanced"
+msgstr "تنظیمات پیشرفته"
+
+msgid "Enter key sends"
+msgstr "ارسال با کلید Enter"
+
+msgid "Save"
+msgstr "دخیره"
+
+msgid "Search"
+msgstr "جستجو"
+
+msgid "Refresh"
+msgstr ""
+
+msgid "New group"
+msgstr "گروه جدید"
+
+msgid "Update group"
+msgstr "به روز رسانی گروه"
+
+msgid "Group name"
+msgstr "نام گروه"
+
+msgid "Call"
+msgstr "تماس گرفتن"
+
+msgid "Reset secure session"
+msgstr "تنظیم مجدد جلسه امن"
+
+msgid "Reset secure session?"
+msgstr ""
+
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+msgstr ""
+
+msgid "Verify identity"
+msgstr "تشخیص هویت"
+
+msgid "Recipients list"
+msgstr "لیست دریافت کنندگان"
+
+msgid "Leave group"
+msgstr "مرخص شدن از گروه"
+
+msgid "Leave group?"
+msgstr "ترک گروه؟"
+
+msgid "Are you sure you want to leave this group?"
+msgstr "آیا شما مطمئن هستید که میخواهید این گروه را ترک کنید؟"
+
+msgid "Delete conversation"
+msgstr ""
+
+msgid "Delete conversation?"
+msgstr ""
+
+msgid "This will permanently delete all messages in this conversation."
+msgstr ""
+
+msgid "Select all"
+msgstr "انتخاب همه"
+
+msgid "Message details"
+msgstr "جزییات پیام"
+
+msgid "Copy text"
+msgstr "کپی متن"
+
+msgid "Forward message"
+msgstr "پیام به جلو"
+
+msgid "Delete message"
+msgstr "حذف پیام"
+
+msgid "Video"
+msgstr "ویدئو"
+
+msgid "Audio"
+msgstr "صدا"
+
+msgid "Contact"
+msgstr "مخاطب"
+
+msgid "Send Signal message"
+msgstr "ارسال پیام سیگنال"
+
+msgid "Delete"
+msgstr "حذف"
+
+msgid "Group members"
+msgstr "اعضای گروه"
+
+msgid "Cancel"
+msgstr "لغو"
+
+msgid "Mark all read"
+msgstr "علامت همه به عنوان خوانده شده"
+
+msgid "Sent"
+msgstr "فرستاده"
+
+msgid "Received"
+msgstr "رسیده"
+
+msgid "Secure session reset."
+msgstr "تنظیم مجدد جلسه امن."
+
+msgid "You have left the group."
+msgstr "شما گروه را ترک کرده اید."
+
+msgid "Their identity (they read):"
+msgstr "هویت خود (آنها به عنوان خوانده شده):"
+
+msgid "Your identity (you read):"
+msgstr "هویت خود (شما بخوانید):"

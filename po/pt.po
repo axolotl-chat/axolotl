@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgid "Settings"
+msgstr "Configurações"
+
+msgid "Privacy"
+msgstr "Privacidade"
+
+msgid "Advanced"
+msgstr "Avançado"
+
+msgid "Enter key sends"
+msgstr "Tecla de enter envia"
+
+msgid "Save"
+msgstr "Gravar"
+
+msgid "Search"
+msgstr "Procurar"
+
+msgid "Refresh"
+msgstr "Recarregar"
+
+msgid "New group"
+msgstr "Grupo novo"
+
+msgid "Update group"
+msgstr "Actualizar grupo"
+
+msgid "Group name"
+msgstr "Nome do grupo"
+
+msgid "Call"
+msgstr "Chamar"
+
+msgid "Reset secure session"
+msgstr "Reiniciar sessão segura"
+
+msgid "Reset secure session?"
+msgstr "Reiniciar sessão segura?"
+
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+msgstr "Isto pode auxiliar caso tenha problemas de cifra nesta conversa. As suas mensagens serão mantidas."
+
+msgid "Verify identity"
+msgstr "Verificar identidade"
+
+msgid "Recipients list"
+msgstr "Lista de destinatários"
+
+msgid "Leave group"
+msgstr "Deixar grupo"
+
+msgid "Leave group?"
+msgstr "Deixar o grupo?"
+
+msgid "Are you sure you want to leave this group?"
+msgstr "Tem a certeza que quer deixar este grupo?"
+
+msgid "Delete conversation"
+msgstr "Eliminar conversa"
+
+msgid "Delete conversation?"
+msgstr "Eliminar conversa?"
+
+msgid "This will permanently delete all messages in this conversation."
+msgstr "Isto irá eliminar permanentemente todas as mensagens nesta conversa."
+
+msgid "Select all"
+msgstr "Seleccionar tudo"
+
+msgid "Message details"
+msgstr "Detalhes da mensagem"
+
+msgid "Copy text"
+msgstr "Copiar texto"
+
+msgid "Forward message"
+msgstr "Reencaminhar mensagem"
+
+msgid "Delete message"
+msgstr "Apagar mensagem"
+
+msgid "Video"
+msgstr "Vídeo"
+
+msgid "Audio"
+msgstr "Áudio"
+
+msgid "Contact"
+msgstr "Contacto"
+
+msgid "Send Signal message"
+msgstr "Enviar mensagem Signal"
+
+msgid "Delete"
+msgstr "Apagar"
+
+msgid "Group members"
+msgstr "Membros do grupo"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Mark all read"
+msgstr "Marcar todas como lidas"
+
+msgid "Sent"
+msgstr "Enviado"
+
+msgid "Received"
+msgstr "Recebido"
+
+msgid "Secure session reset."
+msgstr "Sessão segura reiniciada."
+
+msgid "You have left the group."
+msgstr "Abandonou o grupo."
+
+msgid "Their identity (they read):"
+msgstr "A identidade do destinatário (ele lê):"
+
+msgid "Your identity (you read):"
+msgstr "A sua identidade (você lê):"

@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgid "Settings"
+msgstr "Ρυθμίσεις"
+
+msgid "Privacy"
+msgstr "Ιδιωτικότητα"
+
+msgid "Advanced"
+msgstr "Για προχωρημένους"
+
+msgid "Enter key sends"
+msgstr "Το Enter αποστέλλει"
+
+msgid "Save"
+msgstr "Αποθήκευση"
+
+msgid "Search"
+msgstr "Αναζήτηση"
+
+msgid "Refresh"
+msgstr "Ανανέωση"
+
+msgid "New group"
+msgstr "Νέα ομάδα"
+
+msgid "Update group"
+msgstr "Ενημέρωση ομάδας"
+
+msgid "Group name"
+msgstr "Όνομα ομάδας"
+
+msgid "Call"
+msgstr "Κλήση"
+
+msgid "Reset secure session"
+msgstr "Επαναφορά ασφαλούς συνεδρίας"
+
+msgid "Reset secure session?"
+msgstr "Επαναφορά ασφαλούς συνεδρίας;"
+
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+msgstr "Αυτό ίσως βοηθήσει αν έχεις πρόβλημα με την κρυπτογράφηση σε αυτή την συζήτηση. Τα μηνύματα δεν θα σβηστούν."
+
+msgid "Verify identity"
+msgstr "Επιβεβαίωση ταυτότητας"
+
+msgid "Recipients list"
+msgstr "Λίστα παραλήπτων"
+
+msgid "Leave group"
+msgstr "Αποχώρηση από την ομάδα"
+
+msgid "Leave group?"
+msgstr "Αποχώρηση από την ομάδα;"
+
+msgid "Are you sure you want to leave this group?"
+msgstr "Είσαι σίγουρος/η πως θέλεις να αποχωρήσεις από την ομάδα;"
+
+msgid "Delete conversation"
+msgstr "Διαγραφή συζήτησης"
+
+msgid "Delete conversation?"
+msgstr "Διαγραφή συζήτησης;"
+
+msgid "This will permanently delete all messages in this conversation."
+msgstr "Αυτό θα διαγράψει μόνιμα όλα τα μηνύματα αυτής της συζήτησης."
+
+msgid "Select all"
+msgstr "Επιλογή όλων"
+
+msgid "Message details"
+msgstr "Στοιχεία μηνύματος"
+
+msgid "Copy text"
+msgstr "Αντιγραφή κειμένου"
+
+msgid "Forward message"
+msgstr "Προώθηση μηνύματος"
+
+msgid "Delete message"
+msgstr "Διαγραφή μηνύματος"
+
+msgid "Video"
+msgstr "Βίντεο"
+
+msgid "Audio"
+msgstr "Ήχος"
+
+msgid "Contact"
+msgstr "Επαφή"
+
+msgid "Send Signal message"
+msgstr "Αποστολή μηνύματος Signal"
+
+msgid "Delete"
+msgstr "Διαγραφή"
+
+msgid "Group members"
+msgstr "Μέλη ομάδας"
+
+msgid "Cancel"
+msgstr "Ακύρωση"
+
+msgid "Mark all read"
+msgstr "Σημείωση όλων ως αναγνωσμένα"
+
+msgid "Sent"
+msgstr "Στάλθηκε στις"
+
+msgid "Received"
+msgstr "Ελήφθη στις"
+
+msgid "Secure session reset."
+msgstr "Επαναφορά ασφαλούς συνεδρίας."
+
+msgid "You have left the group."
+msgstr "Αποχωρήσατε από την ομάδα."
+
+msgid "Their identity (they read):"
+msgstr "Η ταυτότητά του/tης (αυτός/η διαβάζει):"
+
+msgid "Your identity (you read):"
+msgstr "Η ταυτότητά σου (εσύ διαβάζεις):"

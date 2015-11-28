@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgid "Settings"
+msgstr "Ayarlar"
+
+msgid "Privacy"
+msgstr "Gizlilik"
+
+msgid "Advanced"
+msgstr "Gelişmiş"
+
+msgid "Enter key sends"
+msgstr "Enter tuşu gönderir"
+
+msgid "Save"
+msgstr "Kaydet"
+
+msgid "Search"
+msgstr "Ara"
+
+msgid "Refresh"
+msgstr "Yenile"
+
+msgid "New group"
+msgstr "Yeni grup"
+
+msgid "Update group"
+msgstr "Grubu güncelle"
+
+msgid "Group name"
+msgstr "Grup adı"
+
+msgid "Call"
+msgstr "Arama"
+
+msgid "Reset secure session"
+msgstr "Güvenli oturumu sıfırla"
+
+msgid "Reset secure session?"
+msgstr "Güvenli oturumu sıfırla?"
+
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+msgstr "Bu sohbette şifreleme sorunları yaşıyorsanız bu işlem yardımcı olabilir. Mesajlarınız saklanacaktır."
+
+msgid "Verify identity"
+msgstr "Kimliği doğrula"
+
+msgid "Recipients list"
+msgstr "Katılımcı listesi"
+
+msgid "Leave group"
+msgstr "Grubtan ayrıl"
+
+msgid "Leave group?"
+msgstr "Gruptan ayrıl?"
+
+msgid "Are you sure you want to leave this group?"
+msgstr "Bu gruptan ayrılmak istediğinize emin misiniz?"
+
+msgid "Delete conversation"
+msgstr "Konuşmayı sil"
+
+msgid "Delete conversation?"
+msgstr "Konuşmayı sil?"
+
+msgid "This will permanently delete all messages in this conversation."
+msgstr "Bu konuşmadaki tüm mesajları kalıcı olarak silecektir."
+
+msgid "Select all"
+msgstr "Hepsini seç"
+
+msgid "Message details"
+msgstr "Mesaj detayları"
+
+msgid "Copy text"
+msgstr "Metin kopyala"
+
+msgid "Forward message"
+msgstr "Mesaj yönlendir"
+
+msgid "Delete message"
+msgstr "Mesaj sil"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Audio"
+msgstr "Ses"
+
+msgid "Contact"
+msgstr "Kişi"
+
+msgid "Send Signal message"
+msgstr "Signal mesajı gönder"
+
+msgid "Delete"
+msgstr "Sil"
+
+msgid "Group members"
+msgstr "Grup üyeleri"
+
+msgid "Cancel"
+msgstr "İptal"
+
+msgid "Mark all read"
+msgstr "Tümünü okundu işaretle"
+
+msgid "Sent"
+msgstr "Gönderildi"
+
+msgid "Received"
+msgstr "Alındı"
+
+msgid "Secure session reset."
+msgstr "Güvenli oturumu sıfırla."
+
+msgid "You have left the group."
+msgstr "Gruptan ayrıldınız."
+
+msgid "Their identity (they read):"
+msgstr "Onların kimliği (onların okuduğu):"
+
+msgid "Your identity (you read):"
+msgstr "Sizin kimliğiniz (sizin okuduğunuz):"

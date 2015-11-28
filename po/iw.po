@@ -1,0 +1,134 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: iw\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+msgid "Settings"
+msgstr "הגדרות"
+
+msgid "Privacy"
+msgstr "פרטיות"
+
+msgid "Advanced"
+msgstr "מתקדם"
+
+msgid "Enter key sends"
+msgstr "מקש Enter שולח"
+
+msgid "Save"
+msgstr "שמירה"
+
+msgid "Search"
+msgstr "חיפוש"
+
+msgid "Refresh"
+msgstr "רענון"
+
+msgid "New group"
+msgstr "קבוצה חדשה"
+
+msgid "Update group"
+msgstr "עדכון קבוצה"
+
+msgid "Group name"
+msgstr "שם הקבוצה"
+
+msgid "Call"
+msgstr "התקשר"
+
+msgid "Reset secure session"
+msgstr "אתחול התחברות מאובטחת"
+
+msgid "Reset secure session?"
+msgstr "לאתחל התחברות מאובטחת?"
+
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+msgstr "זה יכול לעזור עם יש לך בעיות הצפנה בשיחה הזאת. המסרים שלך יישמרו."
+
+msgid "Verify identity"
+msgstr "אימות זהות"
+
+msgid "Recipients list"
+msgstr "רשימת נמענים"
+
+msgid "Leave group"
+msgstr "לעזוב את הקבוצה"
+
+msgid "Leave group?"
+msgstr "לעזוב את הקבוצה"
+
+msgid "Are you sure you want to leave this group?"
+msgstr "האם ברצונך באמת לעזוב את הקבוצה?"
+
+msgid "Delete conversation"
+msgstr "למחוק את השיחה"
+
+msgid "Delete conversation?"
+msgstr "למחוק שיחה?"
+
+msgid "This will permanently delete all messages in this conversation."
+msgstr "זה ימחק לצמיתות את כל המסרים בשיחה הזאת."
+
+msgid "Select all"
+msgstr "לבחור הכול"
+
+msgid "Message details"
+msgstr "פרטי מסר"
+
+msgid "Copy text"
+msgstr "העתקת טקסט"
+
+msgid "Forward message"
+msgstr "העברת מסר"
+
+msgid "Delete message"
+msgstr "מחיקת מסר"
+
+msgid "Video"
+msgstr "סרט"
+
+msgid "Audio"
+msgstr "קול"
+
+msgid "Contact"
+msgstr "איש קשר"
+
+msgid "Send Signal message"
+msgstr "שליחת הודעת סיגנל"
+
+msgid "Delete"
+msgstr "מחיקה"
+
+msgid "Group members"
+msgstr "חברי הקבוצה"
+
+msgid "Cancel"
+msgstr "ביטול"
+
+msgid "Mark all read"
+msgstr "לסמן שקראתי את הכול"
+
+msgid "Sent"
+msgstr "נשלח"
+
+msgid "Received"
+msgstr "התקבל"
+
+msgid "Secure session reset."
+msgstr "התחברות מאובטחת אותחלה."
+
+msgid "You have left the group."
+msgstr "עזבת את הקבוצה."
+
+msgid "Their identity (they read):"
+msgstr "הזהות שלהם:"
+
+msgid "Your identity (you read):"
+msgstr "הזהות שלך:"
