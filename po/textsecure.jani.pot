@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-15 23:32+0200\n"
+"POT-Creation-Date: 2015-11-29 01:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,11 +22,7 @@ msgstr ""
 msgid "TextSecure"
 msgstr ""
 
-#: qml/phoneui/components/TelegramHeader.qml:86
-msgid "Connecting..."
-msgstr ""
-
-#: qml/phoneui/components/TelegramDelegate.qml:179
+#: qml/phoneui/components/TelegramDelegate.qml:182
 msgid "Forwarded from "
 msgstr ""
 
@@ -39,7 +35,7 @@ msgid "Privacy"
 msgstr ""
 
 #: qml/phoneui/ui/SettingsPage.qml:27
-msgid "User interface"
+msgid "Advanced"
 msgstr ""
 
 #: qml/phoneui/ui/SettingsPage.qml:31
@@ -54,16 +50,10 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: qml/phoneui/ui/IntroPage.qml:10
-msgid "Welcome!"
-msgstr ""
-
-#: qml/phoneui/ui/IntroPage.qml:42 qml/phoneui/ui/ContactsPage.qml:47
-#: qml/phoneui/ui/dialogs/GroupInfoDialog.qml:10
-#: qml/phoneui/ui/dialogs/MessageInfoDialog.qml:10
+#: qml/phoneui/ui/IntroPage.qml:40 qml/phoneui/ui/ContactsPage.qml:47
 #: qml/phoneui/ui/dialogs/ErrorMessageDialog.qml:12
-#: qml/phoneui/ui/dialogs/VerifyIdentityDialog.qml:10
-#: qml/phoneui/ui/dialogs/ConfirmationDialog.qml:10
+#: qml/phoneui/ui/dialogs/InfoDialog.qml:9
+#: qml/phoneui/ui/dialogs/ConfirmationDialog.qml:8
 msgid "OK"
 msgstr ""
 
@@ -76,15 +66,15 @@ msgstr ""
 msgid "Refresh"
 msgstr ""
 
-#: qml/phoneui/ui/ContactsPage.qml:55 qml/phoneui/ui/DialogsPage.qml:29
+#: qml/phoneui/ui/ContactsPage.qml:55 qml/phoneui/ui/DialogsPage.qml:28
 msgid "New group"
 msgstr ""
 
-#: qml/phoneui/ui/ContactsPage.qml:57 qml/phoneui/ui/DialogPage.qml:66
+#: qml/phoneui/ui/ContactsPage.qml:57 qml/phoneui/ui/DialogPage.qml:95
 msgid "Update group"
 msgstr ""
 
-#: qml/phoneui/ui/ContactsPage.qml:59 qml/phoneui/ui/DialogsPage.qml:35
+#: qml/phoneui/ui/ContactsPage.qml:59
 msgid "Contacts"
 msgstr ""
 
@@ -101,133 +91,129 @@ msgstr ""
 msgid "%1 members"
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:33
-msgid "Reset session"
+#: qml/phoneui/ui/DialogPage.qml:34
+msgid "Call"
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:41
-msgid "Group info"
-msgstr ""
-
-#: qml/phoneui/ui/DialogPage.qml:50
-msgid "Leave group"
-msgstr ""
-
-#: qml/phoneui/ui/DialogPage.qml:56
-msgid "Leave group?"
-msgstr ""
-
-#: qml/phoneui/ui/DialogPage.qml:57
-msgid "Are you sure you want to leave this group?"
-msgstr ""
-
-#: qml/phoneui/ui/DialogPage.qml:82
-msgid "Select all"
-msgstr ""
-
-#: qml/phoneui/ui/DialogPage.qml:95
-msgid "Message info"
-msgstr ""
-
-#: qml/phoneui/ui/DialogPage.qml:102 qml/phoneui/ui/DialogPage.qml:487
-msgid "Copy"
-msgstr ""
-
-#: qml/phoneui/ui/DialogPage.qml:108 qml/phoneui/ui/DialogPage.qml:493
-msgid "Forward"
-msgstr ""
-
-#: qml/phoneui/ui/DialogPage.qml:115 qml/phoneui/ui/DialogPage.qml:464
-msgid "Delete"
-msgstr ""
-
-#: qml/phoneui/ui/DialogPage.qml:164
-msgid "Verify identity"
-msgstr ""
-
-#: qml/phoneui/ui/DialogPage.qml:175
+#: qml/phoneui/ui/DialogPage.qml:43
 msgid "Reset secure session"
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:180
-msgid "Reset secure session confirmation"
+#: qml/phoneui/ui/DialogPage.qml:48
+msgid "Reset secure session?"
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:181
-msgid "Are you sure you want to reset this secure session?"
+#: qml/phoneui/ui/DialogPage.qml:49
+msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:209
+#: qml/phoneui/ui/DialogPage.qml:58 qml/phoneui/ui/DialogPage.qml:63
+msgid "Verify identity"
+msgstr ""
+
+#: qml/phoneui/ui/DialogPage.qml:70
+msgid "Recipients list"
+msgstr ""
+
+#: qml/phoneui/ui/DialogPage.qml:79
+msgid "Leave group"
+msgstr ""
+
+#: qml/phoneui/ui/DialogPage.qml:85
+msgid "Leave group?"
+msgstr ""
+
+#: qml/phoneui/ui/DialogPage.qml:86
+msgid "Are you sure you want to leave this group?"
+msgstr ""
+
+#: qml/phoneui/ui/DialogPage.qml:108
+msgid "Delete conversation"
+msgstr ""
+
+#: qml/phoneui/ui/DialogPage.qml:112
+msgid "Delete conversation?"
+msgstr ""
+
+#: qml/phoneui/ui/DialogPage.qml:113
+msgid "This will permanently delete all messages in this conversation."
+msgstr ""
+
+#: qml/phoneui/ui/DialogPage.qml:127
+msgid "Select all"
+msgstr ""
+
+#: qml/phoneui/ui/DialogPage.qml:140 qml/phoneui/ui/DialogPage.qml:651
+msgid "Message details"
+msgstr ""
+
+#: qml/phoneui/ui/DialogPage.qml:147 qml/phoneui/ui/DialogPage.qml:485
+msgid "Copy text"
+msgstr ""
+
+#: qml/phoneui/ui/DialogPage.qml:153 qml/phoneui/ui/DialogPage.qml:491
+msgid "Forward message"
+msgstr ""
+
+#: qml/phoneui/ui/DialogPage.qml:160
+msgid "Delete message"
+msgstr ""
+
+#: qml/phoneui/ui/DialogPage.qml:206
 msgid "Photo"
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:217
+#: qml/phoneui/ui/DialogPage.qml:214
 msgid "Video"
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:226
+#: qml/phoneui/ui/DialogPage.qml:223
 msgid "Audio"
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:235
+#: qml/phoneui/ui/DialogPage.qml:232
 msgid "Contact"
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:274
-msgid "Type message"
+#: qml/phoneui/ui/DialogPage.qml:271
+msgid "Send Signal message"
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:274
-msgid "Not connected."
+#: qml/phoneui/ui/DialogPage.qml:462
+msgid "Delete"
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:473
+#: qml/phoneui/ui/DialogPage.qml:471
 msgid "Resend"
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:607
+#: qml/phoneui/ui/DialogPage.qml:605
 msgid "No messages here yet..."
 msgstr ""
 
-#: qml/phoneui/ui/SignInPage.qml:13
-msgid "Your phone"
+#: qml/phoneui/ui/DialogPage.qml:643
+msgid "Group members"
 msgstr ""
 
-#: qml/phoneui/ui/SignInPage.qml:13
-msgid "Offline"
-msgstr ""
-
-#: qml/phoneui/ui/SignInPage.qml:126
+#: qml/phoneui/ui/SignInPage.qml:125
 msgid "Done"
 msgstr ""
 
-#: qml/phoneui/ui/SignInPage.qml:138
+#: qml/phoneui/ui/SignInPage.qml:137
 msgid ""
 "Please confirm your country code\n"
 "and enter your phone number."
 msgstr ""
 
-#: qml/phoneui/ui/dialogs/ConfirmationDialog.qml:12
+#: qml/phoneui/ui/dialogs/ConfirmationDialog.qml:10
 msgid "Cancel"
 msgstr ""
 
-#: qml/phoneui/ui/DialogsPage.qml:23
-msgid "Compose"
+#: qml/phoneui/ui/DialogsPage.qml:34
+msgid "Mark all read"
 msgstr ""
 
-#: qml/phoneui/ui/DialogsPage.qml:55
-msgid "Disconnected"
-msgstr ""
-
-#: qml/phoneui/ui/DialogsPage.qml:56
-msgid "No chats"
-msgstr ""
-
-#: qml/phoneui/ui/DialogsPage.qml:56
-msgid "Waiting for connection..."
-msgstr ""
-
-#: qml/phoneui/ui/DialogsPage.qml:94
+#: qml/phoneui/ui/DialogsPage.qml:85
 #, qt-format
 msgid "Forward message to %1?"
 msgstr ""
@@ -275,4 +261,28 @@ msgstr ""
 
 #: qml/phoneui/ui/VerificationCodePage.qml:149
 msgid "Incorrect code. Please try again."
+msgstr ""
+
+#: models.go:146
+msgid "Sent"
+msgstr ""
+
+#: models.go:148
+msgid "Received"
+msgstr ""
+
+#: i18n.go:15
+msgid "Secure session reset."
+msgstr ""
+
+#: i18n.go:16
+msgid "You have left the group."
+msgstr ""
+
+#: main.go:634
+msgid "Their identity (they read):"
+msgstr ""
+
+#: main.go:635
+msgid "Your identity (you read):"
 msgstr ""
