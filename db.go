@@ -207,12 +207,29 @@ func addUnreadColumnToSessions() error {
 	return err
 }
 
-func migrations() {
+func migrateOnce(name string, f func()) error {
+	path := filepath.Join(dbDir, "migrated_to_"+name)
+	if !exists(path) {
+		f()
+	}
+	_, err := os.Create(path)
+	return err
+}
+
+// Columns messages.flags and sessions.unread were introduced in 0.3.7
+func migrate_to_0_3_7() {
 	err := addFlagsColumnToMessages()
 	if err != nil {
 		log.Println(err)
 	}
 	err = addUnreadColumnToSessions()
+	if err != nil {
+		log.Println(err)
+	}
+}
+
+func migrations() {
+	err := migrateOnce("0_3_7", migrate_to_0_3_7)
 	if err != nil {
 		log.Println(err)
 	}
