@@ -1,3 +1,13 @@
+0.3.7 (Nov 29 2015)
+-------------------
+
+ * Add translations for 35 languages, imported from Signal for Android.
+ * Allow deleting a conversation.
+ * Emphasize conversations with unread messages.
+ * Add 'Mark all read' menu item.
+ * Show the phone number of the contact in the conversation page.
+ * Use a distinct style for group update messages.
+
 0.3.6 (Nov 20 2015)
 -------------------
 
