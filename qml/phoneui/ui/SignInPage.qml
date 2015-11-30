@@ -18,11 +18,20 @@ TelegramPage {
             margins: units.gu(2)
         }
 
+        Text {
+            id: country
+            text: i18n.tr("YOUR COUNTRY")
+            anchors {
+                top: parent.top
+                topMargin: units.gu(2)
+            }
+        }
+
         OptionSelector {
             id: countrySelector
             anchors {
-                top: parent.top
-                topMargin: units.gu(1)
+                top: country.bottom
+                topMargin: units.gu(2)
             }
             containerHeight: itemHeight * 4
 
@@ -46,11 +55,20 @@ TelegramPage {
             }
         }
 
+        Text {
+            id: countryCode
+            text: i18n.tr("YOUR COUNTRY CODE AND PHONE NUMBER")
+            anchors {
+                top: countrySelector.bottom
+                topMargin: units.gu(2)
+            }
+        }
+
         Row {
             id: userEntryRow
             anchors {
-                top: countrySelector.bottom
-                topMargin: units.gu(1)
+                top: countryCode.bottom
+                topMargin: units.gu(2)
             }
             height: countrySelector.itemHeight
             width: parent.width
@@ -111,30 +129,33 @@ TelegramPage {
             }
         }
 
+        Text {
+            id: infoLabel
+            anchors {
+                top: userEntryRow.bottom
+                margins: units.gu(1)
+                topMargin: units.gu(4)
+            }
+            wrapMode: Text.WordWrap
+            horizontalAlignment: Text.AlignLeft
+            width: parent.width
+            text: i18n.tr("Verify your phone number to connect with Signal.")+"\n\n"+
+                  i18n.tr("Registration transmits some contact information to the server. It is not stored.")
+        }
+
         TelegramButton {
             id: doneButton
             anchors {
-                top: userEntryRow.bottom
-                topMargin: units.gu(1)
+                top: infoLabel.bottom
+                topMargin: units.gu(3)
                 left: parent.left
                 right: parent.right
             }
             enabled: isConnected
                      && userTextField.text !== ""
                      && countryTextField.text !== ""
-            text: i18n.tr("Done")
+            text: i18n.tr("Register")
             onClicked: done()
-        }
-
-        TelegramLabel {
-            id: infoLabel
-            anchors {
-                top: doneButton.bottom
-                margins: units.gu(1)
-                topMargin: units.gu(4)
-            }
-            width: parent.width
-            text: i18n.tr("Please confirm your country code\nand enter your phone number.")
         }
 
         TelegramLabel {
