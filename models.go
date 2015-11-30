@@ -284,6 +284,7 @@ func contentType(att io.Reader, mt string) int {
 }
 
 func (s *Session) Add(text string, source string, file string, mimetype string, outgoing bool) *Message {
+
 	ctype := ContentTypeMessage
 	if file != "" {
 		f, _ := os.Open(file)
@@ -310,7 +311,30 @@ func (s *Session) Add(text string, source string, file string, mimetype string, 
 		qml.Changed(s, &s.Unread)
 	}
 	updateSession(s)
+
+	s.moveToTop()
 	return message
+}
+
+var topSession string
+
+// moveToTop makes sure the most recently updated session gets to the top of the session list
+// it is hacky due to the way models in Go-QML cannot be mutated in a straightforward way
+func (s *Session) moveToTop() {
+	if topSession == s.Tel {
+		return
+	}
+
+	index := sessionsModel.GetIndex(s.Tel)
+	sessionsModel.sessions = append([]*Session{s}, append(sessionsModel.sessions[:index], sessionsModel.sessions[index+1:]...)...)
+
+	// force a length change update
+	sessionsModel.Len--
+	qml.Changed(sessionsModel, &sessionsModel.Len)
+	sessionsModel.Len++
+	qml.Changed(sessionsModel, &sessionsModel.Len)
+
+	topSession = s.Tel
 }
 
 // updateTimestamps keeps the timestamps of the last message of each session
