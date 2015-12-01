@@ -337,13 +337,42 @@ type textsecureAPI struct {
 
 var api = &textsecureAPI{}
 
-func sendMessage(to, message string, group bool, att io.Reader, end bool) uint64 {
+func sendMessage(s *Session, m *Message) {
+	var att io.Reader
+	var err error
+
+	if m.Attachment != "" {
+		att, err = os.Open(m.Attachment)
+		if err != nil {
+			return
+		}
+	}
+
+	ts := sendMessageLoop(s.Tel, m.Message, s.IsGroup, att, m.Flags)
+
+	m.SentAt = ts
+	s.Timestamp = m.SentAt
+	m.IsSent = true
+	qml.Changed(m, &m.IsSent)
+	m.HTime = humanizeTimestamp(m.SentAt)
+	qml.Changed(m, &m.HTime)
+	s.When = m.HTime
+	qml.Changed(s, &s.When)
+	updateMessageSent(m)
+	updateSession(s)
+}
+
+func sendMessageLoop(to, message string, group bool, att io.Reader, flags int) uint64 {
 	var err error
 	var ts uint64
 	for {
 		err = nil
-		if end {
+		if flags == msgFlagResetSession {
 			ts, err = textsecure.EndSession(to, "TERMINATE")
+		} else if flags == msgFlagGroupLeave {
+			err = textsecure.LeaveGroup(to)
+		} else if flags == msgFlagGroupUpdate {
+			_, err = textsecure.UpdateGroup(to, groups[to].Name, strings.Split(groups[to].Members, ","))
 		} else if att == nil {
 			if group {
 				ts, err = textsecure.SendGroupMessage(to, message)
@@ -391,14 +420,9 @@ func copyAttachment(src string) (string, error) {
 }
 
 func sendMessageHelper(to, message, file string) error {
-	var r io.Reader
 	var err error
 	if file != "" {
 		file, err = copyAttachment(file)
-		if err != nil {
-			return err
-		}
-		r, err = os.Open(file)
 		if err != nil {
 			return err
 		}
@@ -406,19 +430,7 @@ func sendMessageHelper(to, message, file string) error {
 	session := sessionsModel.Get(to)
 	m := session.Add(message, "", file, "", true)
 	saveMessage(m)
-	go func() {
-		ts := sendMessage(to, message, session.IsGroup, r, false)
-		m.SentAt = ts
-		session.Timestamp = m.SentAt
-		m.IsSent = true
-		qml.Changed(m, &m.IsSent)
-		m.HTime = humanizeTimestamp(m.SentAt)
-		qml.Changed(m, &m.HTime)
-		session.When = m.HTime
-		qml.Changed(session, &session.When)
-		updateMessageSent(m)
-		updateSession(session)
-	}()
+	go sendMessage(session, m)
 	return nil
 }
 
@@ -451,18 +463,9 @@ func (api *textsecureAPI) SendAttachment(to, message string, file string) error 
 func (api *textsecureAPI) EndSession(tel string) error {
 	session := sessionsModel.Get(tel)
 	m := session.Add(sessionReset, "", "", "", true)
-
+	m.Flags = msgFlagResetSession
 	saveMessage(m)
-	go func() {
-		ts := sendMessage(tel, "", false, nil, true)
-		m.IsSent = true
-		m.SentAt = ts
-		m.Flags = msgFlagResetSession
-		session.Timestamp = m.SentAt
-		qml.Changed(m, &m.IsSent)
-		updateMessageSent(m)
-		updateSession(session)
-	}()
+	go sendMessage(session, m)
 	return nil
 }
 
@@ -567,13 +570,6 @@ func (api *textsecureAPI) UpdateGroup(hexid, name string, members string) error 
 		return fmt.Errorf("Unknown group id %s\n", hexid)
 	}
 	dm, members := membersDiffAndUnion(g.Members, members)
-	m := strings.Split(members, ",")
-	_, err := textsecure.UpdateGroup(hexid, name, m)
-	if err != nil {
-		showError(err)
-		return err
-	}
-
 	groups[hexid] = &GroupRecord{
 		GroupID: hexid,
 		Name:    name,
@@ -590,14 +586,11 @@ func (api *textsecureAPI) UpdateGroup(hexid, name string, members string) error 
 	session.Name = name
 	qml.Changed(session, &session.Name)
 	updateSession(session)
+	go sendMessage(session, msg)
 	return nil
 }
 
 func (api *textsecureAPI) LeaveGroup(hexid string) error {
-	err := textsecure.LeaveGroup(hexid)
-	if err != nil {
-		return err
-	}
 	session := sessionsModel.Get(hexid)
 	msg := session.Add(youLeftGroup, "", "", "", true)
 	msg.Flags = msgFlagGroupLeave
@@ -606,7 +599,9 @@ func (api *textsecureAPI) LeaveGroup(hexid string) error {
 	session.Active = false
 	qml.Changed(session, &session.Active)
 	groups[hexid].Active = false
-	return updateGroup(groups[hexid])
+	err := updateGroup(groups[hexid])
+	go sendMessage(session, msg)
+	return err
 }
 
 func (api *textsecureAPI) GroupInfo(hexid string) string {
