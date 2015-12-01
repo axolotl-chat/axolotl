@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 01:19+0200\n"
-"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"POT-Creation-Date: 2015-12-02 01:25+0200\n"
+"PO-Revision-Date: 2015-12-02 01:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: ko\n"
@@ -33,10 +33,10 @@ msgid "Refresh"
 msgstr "새로고침"
 
 msgid "New group"
-msgstr "그룹 만들기"
+msgstr "새 그룹"
 
 msgid "Update group"
-msgstr "그룹 업데이트 하기"
+msgstr "그룹 업데이트"
 
 msgid "Group name"
 msgstr "그룹 이름"
@@ -109,6 +109,21 @@ msgstr "삭제"
 
 msgid "Group members"
 msgstr "그룹 멤버"
+
+msgid "YOUR COUNTRY"
+msgstr "국가"
+
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr "국제전화 나라 번호 및 전화번호"
+
+msgid "Verify your phone number to connect with Signal."
+msgstr "Signal에 연결을 위해 전화번호를 확인합니다."
+
+msgid "Registration transmits some contact information to the server. It is not stored."
+msgstr "가입할 때 일부 연락처 정보 서버에 전송되지만 저장되지 않습니다."
+
+msgid "Register"
+msgstr "가입"
 
 msgid "Cancel"
 msgstr "취소"

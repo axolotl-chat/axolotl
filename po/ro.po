@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 01:19+0200\n"
-"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"POT-Creation-Date: 2015-12-02 01:25+0200\n"
+"PO-Revision-Date: 2015-12-02 01:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: ro\n"
@@ -48,7 +48,7 @@ msgid "Reset secure session"
 msgstr "Resetează sesiunea securizată"
 
 msgid "Reset secure session?"
-msgstr ""
+msgstr "Resetez sesiunea securizată?"
 
 msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
 msgstr ""
@@ -110,8 +110,23 @@ msgstr "Șterge"
 msgid "Group members"
 msgstr "Membrii grupului"
 
+msgid "YOUR COUNTRY"
+msgstr "TARA DVS."
+
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr "CODUL ŢĂRII DVS. ŞI NUMĂRUL DE TELEFON"
+
+msgid "Verify your phone number to connect with Signal."
+msgstr "Verifică numărul tău de telefon pentru a te conecta la Signal."
+
+msgid "Registration transmits some contact information to the server. It is not stored."
+msgstr "Înregistrarea transmite unele informații despre contact către server. Acestea nu sunt stocate."
+
+msgid "Register"
+msgstr "Inregistrare"
+
 msgid "Cancel"
-msgstr "Anulează"
+msgstr "Anulare"
 
 msgid "Mark all read"
 msgstr "Marchează tot ca citit"

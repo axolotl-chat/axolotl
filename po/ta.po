@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 01:19+0200\n"
-"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"POT-Creation-Date: 2015-12-02 01:25+0200\n"
+"PO-Revision-Date: 2015-12-02 01:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: ta\n"
@@ -53,7 +53,7 @@ msgid "This may help if you're having encryption problems in this conversation. 
 msgstr ""
 
 msgid "Verify identity"
-msgstr "அடையாளத்தை சரிபார்"
+msgstr ""
 
 msgid "Recipients list"
 msgstr "பெறுநர்கள் பட்டியல்"
@@ -80,7 +80,7 @@ msgid "Select all"
 msgstr "அனைத்து தேர்வுசெய்"
 
 msgid "Message details"
-msgstr "செய்தி விவரங்கள்"
+msgstr ""
 
 msgid "Copy text"
 msgstr "உரை நகலெடு"
@@ -92,7 +92,7 @@ msgid "Delete message"
 msgstr "செய்தியை நீக்கு"
 
 msgid "Video"
-msgstr ""
+msgstr "வீடியோ"
 
 msgid "Audio"
 msgstr ""
@@ -108,6 +108,21 @@ msgstr "நீக்கு"
 
 msgid "Group members"
 msgstr ""
+
+msgid "YOUR COUNTRY"
+msgstr "உங்கள் நாடு"
+
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr "உங்கள் நாட்டின் குறியீடு மற்றும் உங்கள் தொலைபேசி எண்"
+
+msgid "Verify your phone number to connect with Signal."
+msgstr ""
+
+msgid "Registration transmits some contact information to the server. It is not stored."
+msgstr "பதிவுசெய்வது சர்வருக்கு சில தொடர்புத்தகவல்களை அனுப்புகிறது. இது சேமிக்கப்படாது."
+
+msgid "Register"
+msgstr "பதிவு செய்"
 
 msgid "Cancel"
 msgstr "ரத்து"
@@ -128,7 +143,7 @@ msgid "You have left the group."
 msgstr "நீங்கள் குழுவை விட்டு விலகினீர்கள்."
 
 msgid "Their identity (they read):"
-msgstr "அவர்களின் அடையாளம் (அவர்கள்  படிக்க):"
+msgstr "அவர்களின் அடையாளம் (அவர்கள் படிக்க):"
 
 msgid "Your identity (you read):"
 msgstr "உங்களின் அடையாளம் (நீங்கள் படிக்க):"

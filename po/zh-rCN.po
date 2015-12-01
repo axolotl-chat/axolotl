@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 01:19+0200\n"
-"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"POT-Creation-Date: 2015-12-02 01:25+0200\n"
+"PO-Revision-Date: 2015-12-02 01:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: zh-rCN\n"
@@ -77,7 +77,7 @@ msgid "This will permanently delete all messages in this conversation."
 msgstr "这将会永久的删除此会话中的所有信息。"
 
 msgid "Select all"
-msgstr "全选"
+msgstr "选择全部"
 
 msgid "Message details"
 msgstr "信息详情"
@@ -108,6 +108,21 @@ msgstr "删除"
 
 msgid "Group members"
 msgstr "群组成员"
+
+msgid "YOUR COUNTRY"
+msgstr "国家或地区"
+
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr "您的国家代码和 电话号码"
+
+msgid "Verify your phone number to connect with Signal."
+msgstr "验证您的手机号以便连接到暗号。"
+
+msgid "Registration transmits some contact information to the server. It is not stored."
+msgstr "注册将会传输一些联系人信息到服务器。这些信息不会被存储。"
+
+msgid "Register"
+msgstr "注册人"
 
 msgid "Cancel"
 msgstr "取消"

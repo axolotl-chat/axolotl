@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 01:19+0200\n"
-"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"POT-Creation-Date: 2015-12-02 01:25+0200\n"
+"PO-Revision-Date: 2015-12-02 01:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: hr\n"
@@ -48,10 +48,10 @@ msgid "Reset secure session"
 msgstr "Resetiraj sigurnu sesiju"
 
 msgid "Reset secure session?"
-msgstr ""
+msgstr "Resetiraj sigurnu sesiju?"
 
 msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
-msgstr ""
+msgstr "Može pomoći ukoliko imate problema s kriptiranjem u ovom razgovoru. Vaše poruke će biti zadržane."
 
 msgid "Verify identity"
 msgstr "Potvrdite identitet"
@@ -72,16 +72,16 @@ msgid "Delete conversation"
 msgstr ""
 
 msgid "Delete conversation?"
-msgstr ""
+msgstr "Obriši razgovor?"
 
 msgid "This will permanently delete all messages in this conversation."
-msgstr ""
+msgstr "Trajno ćete obrisati sve poruke u ovom razgovoru."
 
 msgid "Select all"
 msgstr "Odaberi sve"
 
 msgid "Message details"
-msgstr "Detalji poruke"
+msgstr ""
 
 msgid "Copy text"
 msgstr "Kopiraj tekst"
@@ -96,7 +96,7 @@ msgid "Video"
 msgstr "Video"
 
 msgid "Audio"
-msgstr "Audio"
+msgstr ""
 
 msgid "Contact"
 msgstr ""
@@ -110,8 +110,23 @@ msgstr "Obriši"
 msgid "Group members"
 msgstr "Članovi grupe"
 
+msgid "YOUR COUNTRY"
+msgstr "VAŠA ZEMLJA"
+
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr "POZIVNI BROJ ZEMLJE I TELEFONSKI BROJ"
+
+msgid "Verify your phone number to connect with Signal."
+msgstr "Potvrdite svoj broj telefona kako biste se povezali sa Signal."
+
+msgid "Registration transmits some contact information to the server. It is not stored."
+msgstr "Registracija šalje neke informacije o kontaktima na poslužitelj. Podaci se ne pohranjuju trajno."
+
+msgid "Register"
+msgstr "Registriraj"
+
 msgid "Cancel"
-msgstr ""
+msgstr "Odustani"
 
 msgid "Mark all read"
 msgstr "Označi sve pročitano"

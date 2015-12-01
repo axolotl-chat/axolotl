@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 01:19+0200\n"
-"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"POT-Creation-Date: 2015-12-02 01:25+0200\n"
+"PO-Revision-Date: 2015-12-02 01:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: ja\n"
@@ -81,7 +81,7 @@ msgid "Select all"
 msgstr "すべて選択"
 
 msgid "Message details"
-msgstr "メッセージの詳細"
+msgstr ""
 
 msgid "Copy text"
 msgstr "テキストをコピー"
@@ -110,8 +110,23 @@ msgstr "削除"
 msgid "Group members"
 msgstr "グループメンバー"
 
-msgid "Cancel"
+msgid "YOUR COUNTRY"
+msgstr "あなたの国"
+
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr "あなたの国番号と電話番号"
+
+msgid "Verify your phone number to connect with Signal."
 msgstr ""
+
+msgid "Registration transmits some contact information to the server. It is not stored."
+msgstr "登録にはサーバーへのコンタクト情報の送信が必要です。その情報は保存されません。"
+
+msgid "Register"
+msgstr "登録"
+
+msgid "Cancel"
+msgstr "中止"
 
 msgid "Mark all read"
 msgstr "すべて既読にする"

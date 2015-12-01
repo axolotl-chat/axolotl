@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 01:19+0200\n"
-"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"POT-Creation-Date: 2015-12-02 01:25+0200\n"
+"PO-Revision-Date: 2015-12-02 01:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: no\n"
@@ -51,7 +51,7 @@ msgid "Reset secure session?"
 msgstr "Nullstill sikker sesjon?"
 
 msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
-msgstr "Dette kan hjelpe dersom du har krypteringsproblemer i denne samtalen. Meldingene dine vil bli lagret. "
+msgstr "Dette kan hjelpe dersom du har krypteringsproblemer i denne samtalen. Meldingene dine vil bli lagret."
 
 msgid "Verify identity"
 msgstr "Bekreft identitet"
@@ -96,7 +96,7 @@ msgid "Video"
 msgstr "Video"
 
 msgid "Audio"
-msgstr "Lyd"
+msgstr "Audio"
 
 msgid "Contact"
 msgstr "Kontakt"
@@ -109,6 +109,21 @@ msgstr "Slett"
 
 msgid "Group members"
 msgstr "Gruppemedlemmer"
+
+msgid "YOUR COUNTRY"
+msgstr "DITT LAND"
+
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr "DIN LANDSKODE OG TELEFONNUMMER"
+
+msgid "Verify your phone number to connect with Signal."
+msgstr "Verifiser telefonnummeret dit for å koble til Signal."
+
+msgid "Registration transmits some contact information to the server. It is not stored."
+msgstr "Registrering sender noe kontaktinformasjon til serveren. Det blir ikke lagret."
+
+msgid "Register"
+msgstr "Registrer"
 
 msgid "Cancel"
 msgstr "Avbryt"

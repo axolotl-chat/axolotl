@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 01:19+0200\n"
-"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"POT-Creation-Date: 2015-12-02 01:25+0200\n"
+"PO-Revision-Date: 2015-12-02 01:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: tr\n"
@@ -109,6 +109,21 @@ msgstr "Sil"
 
 msgid "Group members"
 msgstr "Grup üyeleri"
+
+msgid "YOUR COUNTRY"
+msgstr "ÜLKENİZ"
+
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr "ÜLKE KODUNUZ VE TELEFON NUMARANIZ"
+
+msgid "Verify your phone number to connect with Signal."
+msgstr "Signal ile bağlanmak için telefon numaranızı doğrulayın."
+
+msgid "Registration transmits some contact information to the server. It is not stored."
+msgstr "Kayıt işlemi ile bazı kişi bilgileriniz sunucuya gönderilecek. Fakat bu bilgiler sunucuda saklanmıyor."
+
+msgid "Register"
+msgstr "Kayıt ol"
 
 msgid "Cancel"
 msgstr "İptal"

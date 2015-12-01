@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 01:19+0200\n"
-"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"POT-Creation-Date: 2015-12-02 01:25+0200\n"
+"PO-Revision-Date: 2015-12-02 01:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: pl\n"
@@ -51,7 +51,7 @@ msgid "Reset secure session?"
 msgstr "Zresetować bezpieczną sesję?"
 
 msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
-msgstr ""
+msgstr "To może pomóc jeśli masz problemy z szyfrowaniem w tej konwersacji. Twoje wiadomości będą zachowane."
 
 msgid "Verify identity"
 msgstr "Zweryfikuj tożsamość"
@@ -110,6 +110,21 @@ msgstr "Usuń"
 msgid "Group members"
 msgstr "Użytkownicy grupy"
 
+msgid "YOUR COUNTRY"
+msgstr "TWÓJ KRAJ"
+
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr "KOD TWOJEGO KRAJU I NUMER TELEFONU"
+
+msgid "Verify your phone number to connect with Signal."
+msgstr "Weryfikuj swój numer telefonu, aby połączyć się z Signal."
+
+msgid "Registration transmits some contact information to the server. It is not stored."
+msgstr "Podczas rejestracji, niektóre informacje o kontakcie zostaną przesłane tymczasowo na serwer. Nie będą one zapisane."
+
+msgid "Register"
+msgstr "Rejestracja"
+
 msgid "Cancel"
 msgstr "Anuluj"
 
@@ -123,7 +138,7 @@ msgid "Received"
 msgstr "Otrzymano"
 
 msgid "Secure session reset."
-msgstr ""
+msgstr "Reset bezpiecznej sesji."
 
 msgid "You have left the group."
 msgstr "Opuściłeś grupę."

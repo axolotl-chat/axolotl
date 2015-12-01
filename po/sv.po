@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 01:19+0200\n"
-"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"POT-Creation-Date: 2015-12-02 01:25+0200\n"
+"PO-Revision-Date: 2015-12-02 01:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: sv\n"
@@ -109,6 +109,21 @@ msgstr "Radera"
 
 msgid "Group members"
 msgstr "Gruppmedlemmar"
+
+msgid "YOUR COUNTRY"
+msgstr "DITT LAND"
+
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr "DIN LANDSKOD OCH TELEFONNUMMER"
+
+msgid "Verify your phone number to connect with Signal."
+msgstr "Verifiera ditt telefonnummer för att ansluta till Signal."
+
+msgid "Registration transmits some contact information to the server. It is not stored."
+msgstr "Registrering kommer att temporärt överföra viss kontaktinformation till servern."
+
+msgid "Register"
+msgstr "Registrera"
 
 msgid "Cancel"
 msgstr "Avbryt"

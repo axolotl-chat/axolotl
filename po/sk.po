@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 01:19+0200\n"
-"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"POT-Creation-Date: 2015-12-02 01:25+0200\n"
+"PO-Revision-Date: 2015-12-02 01:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: sk\n"
@@ -78,10 +78,10 @@ msgid "This will permanently delete all messages in this conversation."
 msgstr ""
 
 msgid "Select all"
-msgstr "Vybrať všetko"
+msgstr "Označ všetko"
 
 msgid "Message details"
-msgstr "Detaily správy"
+msgstr ""
 
 msgid "Copy text"
 msgstr "Kopíruj text"
@@ -109,6 +109,21 @@ msgstr "Zmazať"
 
 msgid "Group members"
 msgstr "Členovia skupiny"
+
+msgid "YOUR COUNTRY"
+msgstr "TVOJA KRAJINA"
+
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr "Tvoj kód krajiny a telefónne číslo"
+
+msgid "Verify your phone number to connect with Signal."
+msgstr ""
+
+msgid "Registration transmits some contact information to the server. It is not stored."
+msgstr "Pri registrácii budú odoslané niektoré Vaše kontakné údaje na vzdialený server. Tieto údaje nebudú trvalo uložené."
+
+msgid "Register"
+msgstr "Registrovať"
 
 msgid "Cancel"
 msgstr "Zrušiť"

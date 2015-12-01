@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 01:19+0200\n"
-"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"POT-Creation-Date: 2015-12-02 01:25+0200\n"
+"PO-Revision-Date: 2015-12-02 01:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: ru\n"
@@ -30,7 +30,7 @@ msgid "Search"
 msgstr "Поиск"
 
 msgid "Refresh"
-msgstr ""
+msgstr "Обновить"
 
 msgid "New group"
 msgstr "Новая группа"
@@ -48,10 +48,10 @@ msgid "Reset secure session"
 msgstr "Сбросить защищённый сеанс"
 
 msgid "Reset secure session?"
-msgstr ""
+msgstr "Сбросить защищённый сеанс"
 
 msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
-msgstr ""
+msgstr "Это может помочь, если у вас возникли проблемы с шифрованием в этом разговоре. Ваши сообщения будут сохранены."
 
 msgid "Verify identity"
 msgstr "Подтвердить личность"
@@ -69,19 +69,19 @@ msgid "Are you sure you want to leave this group?"
 msgstr "Вы уверены, что хотите покинуть эту группу?"
 
 msgid "Delete conversation"
-msgstr ""
+msgstr "Удалить разговор"
 
 msgid "Delete conversation?"
-msgstr ""
+msgstr "Удалить разговор?"
 
 msgid "This will permanently delete all messages in this conversation."
-msgstr ""
+msgstr "Это удалит все ваши сообщения в этой беседе."
 
 msgid "Select all"
 msgstr "Выбрать все"
 
 msgid "Message details"
-msgstr "Подробности"
+msgstr "Детали сообщений"
 
 msgid "Copy text"
 msgstr "Копировать текст"
@@ -96,10 +96,10 @@ msgid "Video"
 msgstr "Видео"
 
 msgid "Audio"
-msgstr ""
+msgstr "Аудио"
 
 msgid "Contact"
-msgstr ""
+msgstr "Контакт"
 
 msgid "Send Signal message"
 msgstr "Отправить сообщение Signal"
@@ -109,6 +109,21 @@ msgstr "Удалить"
 
 msgid "Group members"
 msgstr "Участники группы"
+
+msgid "YOUR COUNTRY"
+msgstr "ВАША СТРАНА"
+
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr "КОД ВАШЕЙ СТРАНЫ И НОМЕР ТЕЛЕФОНА"
+
+msgid "Verify your phone number to connect with Signal."
+msgstr "Подтвердите свой номер телефона, чтобы начать работу с Signal"
+
+msgid "Registration transmits some contact information to the server. It is not stored."
+msgstr "При регистрации на сервер передаётся некоторая контактная информация. Она не будет на нём сохранена."
+
+msgid "Register"
+msgstr "Зарегистрироваться"
 
 msgid "Cancel"
 msgstr "Отмена"

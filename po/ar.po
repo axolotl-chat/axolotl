@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 01:19+0200\n"
-"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"POT-Creation-Date: 2015-12-02 01:25+0200\n"
+"PO-Revision-Date: 2015-12-02 01:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: ar\n"
@@ -77,7 +77,7 @@ msgid "This will permanently delete all messages in this conversation."
 msgstr "سوف يتم حذف جميع الرسائل في هذه المحادثة نهائيا."
 
 msgid "Select all"
-msgstr "أختر الكل"
+msgstr "اختر الكل"
 
 msgid "Message details"
 msgstr "تفاصيل الرسالة"
@@ -108,6 +108,21 @@ msgstr "حذف"
 
 msgid "Group members"
 msgstr "أعضاء المجموعة"
+
+msgid "YOUR COUNTRY"
+msgstr "بلدك"
+
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr "رمز دولتك ورقم هاتفك"
+
+msgid "Verify your phone number to connect with Signal."
+msgstr "تحقق من رقم تليفونك للاتصال بسيجنال"
+
+msgid "Registration transmits some contact information to the server. It is not stored."
+msgstr "يتم نقل بعض بيانات الاتصال إلى الخادم أثناء التسجيل، ولا يتم حفظها."
+
+msgid "Register"
+msgstr "سجل"
 
 msgid "Cancel"
 msgstr "إلغاء"

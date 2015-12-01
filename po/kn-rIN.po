@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 01:19+0200\n"
-"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"POT-Creation-Date: 2015-12-02 01:25+0200\n"
+"PO-Revision-Date: 2015-12-02 01:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: kn-rIN\n"
@@ -20,7 +20,7 @@ msgid "Advanced"
 msgstr "ಸುಧಾರಿತ"
 
 msgid "Enter key sends"
-msgstr "Enter ಕಳುಹಿಸುತ್ತದೆ "
+msgstr "Enter ಕಳುಹಿಸುತ್ತದೆ"
 
 msgid "Save"
 msgstr "ಉಳಿಸಿ"
@@ -32,7 +32,7 @@ msgid "Refresh"
 msgstr ""
 
 msgid "New group"
-msgstr "ಹೋಸ ಸಮೂಹ "
+msgstr "ಹೋಸ ಸಮೂಹ"
 
 msgid "Update group"
 msgstr "ಸಮೂಹವನ್ನು ನವೀಕರಿಸಿ"
@@ -59,7 +59,7 @@ msgid "Recipients list"
 msgstr "ಸ್ವೀಕೃತದಾರರ ಪಟ್ಟಿ"
 
 msgid "Leave group"
-msgstr "ಸಮೂಹವನ್ನು ಬಿಟ್ಟುಬಿಡಿ "
+msgstr "ಸಮೂಹವನ್ನು ಬಿಟ್ಟುಬಿಡಿ"
 
 msgid "Leave group?"
 msgstr "ಸಮೂಹವನ್ನು ಬಿಡುವಿರ?"
@@ -80,7 +80,7 @@ msgid "Select all"
 msgstr "ಎಲ್ಲಾ ಆಯ್ಕೆಮಾಡಿ"
 
 msgid "Message details"
-msgstr "ಸಂದೇಶದ ವಿವರಗಳು"
+msgstr ""
 
 msgid "Copy text"
 msgstr "ಪಠ್ಯ ನಕಲಿಸು"
@@ -109,8 +109,23 @@ msgstr "ಅಳಿಸಿಹಾಕು"
 msgid "Group members"
 msgstr "ಸಮೂಹದ ಸದಸ್ಯರು"
 
-msgid "Cancel"
+msgid "YOUR COUNTRY"
+msgstr "ನಿಮ್ಮ ರಾಷ್ಟ್ರ"
+
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr "ನಿಮ್ಮ ರಾಷ್ಟ್ರ ಸಂಕೇತ ಹಾಗೂ ದೂರವಾಣಿ ಸಂಖ್ಯೆ"
+
+msgid "Verify your phone number to connect with Signal."
 msgstr ""
+
+msgid "Registration transmits some contact information to the server. It is not stored."
+msgstr "ನೋಂದಣಿ ಸರ್ವರ್ ಗೆ ಕೆಲ ಸಂಪರ್ಕದ ಮಾಹಿತಿಯನ್ನು ರವಾನಿಸುತ್ತದೆ. ಅದನ್ನು ಸಂಗ್ರಹಿಸುವುದಿಲ್ಲ."
+
+msgid "Register"
+msgstr "ನೋಂದಾಯಿಸು"
+
+msgid "Cancel"
+msgstr "ರದ್ದುಮಾಡು"
 
 msgid "Mark all read"
 msgstr "ಎಲ್ಲವನ್ನು ಓದಿದೆ ಎಂದು ಗುರುತು ಮಾಡಿ"

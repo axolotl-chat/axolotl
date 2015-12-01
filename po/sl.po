@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 01:19+0200\n"
-"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"POT-Creation-Date: 2015-12-02 01:25+0200\n"
+"PO-Revision-Date: 2015-12-02 01:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: sl\n"
@@ -109,6 +109,21 @@ msgstr "Izbriši"
 
 msgid "Group members"
 msgstr "Člani skupine"
+
+msgid "YOUR COUNTRY"
+msgstr "VAŠA DRŽAVA"
+
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr "KODA DRŽAVE IN VAŠA TELEFONSKA ŠTEVILKA"
+
+msgid "Verify your phone number to connect with Signal."
+msgstr "Za uporabo storitev Signal potrdite svojo telefonsko številko."
+
+msgid "Registration transmits some contact information to the server. It is not stored."
+msgstr "Pri registraciji se nekateri podatki uporabnika začasno posredujejo na strežnik."
+
+msgid "Register"
+msgstr "Registriraj"
 
 msgid "Cancel"
 msgstr "Prekliči"

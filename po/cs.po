@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 01:19+0200\n"
-"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"POT-Creation-Date: 2015-12-02 01:25+0200\n"
+"PO-Revision-Date: 2015-12-02 01:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: cs\n"
@@ -21,7 +21,7 @@ msgid "Advanced"
 msgstr "Rozšířené možnosti"
 
 msgid "Enter key sends"
-msgstr "Klávesa 'Enter' odesílá"
+msgstr "Klávesa Enter odesílá"
 
 msgid "Save"
 msgstr "Uložit"
@@ -109,6 +109,21 @@ msgstr "Smazat"
 
 msgid "Group members"
 msgstr "Členové skupiny"
+
+msgid "YOUR COUNTRY"
+msgstr "Země"
+
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr "Kód země Telefonní číslo"
+
+msgid "Verify your phone number to connect with Signal."
+msgstr "Ověření vašeho telefoního čísla pro připojení k Signal"
+
+msgid "Registration transmits some contact information to the server. It is not stored."
+msgstr "V průběhu registrace jsou odeslány některé kontaktní informace na server. Nejsou ale uloženy."
+
+msgid "Register"
+msgstr "Zaregistrovat"
 
 msgid "Cancel"
 msgstr "Storno"

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 01:19+0200\n"
-"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"POT-Creation-Date: 2015-12-02 01:25+0200\n"
+"PO-Revision-Date: 2015-12-02 01:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: el\n"
@@ -78,10 +78,10 @@ msgid "This will permanently delete all messages in this conversation."
 msgstr "Αυτό θα διαγράψει μόνιμα όλα τα μηνύματα αυτής της συζήτησης."
 
 msgid "Select all"
-msgstr "Επιλογή όλων"
+msgstr "Επιλογή Όλων"
 
 msgid "Message details"
-msgstr "Στοιχεία μηνύματος"
+msgstr ""
 
 msgid "Copy text"
 msgstr "Αντιγραφή κειμένου"
@@ -109,6 +109,21 @@ msgstr "Διαγραφή"
 
 msgid "Group members"
 msgstr "Μέλη ομάδας"
+
+msgid "YOUR COUNTRY"
+msgstr "Η ΧΩΡΑ ΣΟΥ"
+
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr "Ο ΚΩΔΙΚΟΣ ΤΗΣ ΧΩΡΑΣ ΣΟΥ ΚΑΙ ΑΡΙΘΜΟΣ ΚΙΝΗΤΟΥ ΤΗΛΕΦΩΝΟΥ"
+
+msgid "Verify your phone number to connect with Signal."
+msgstr "Επιβεβαίωσε τον αριθμό τηλεφώνου σου για να συνδεθείς με το Signal."
+
+msgid "Registration transmits some contact information to the server. It is not stored."
+msgstr "Η εγγραφή θα μεταδόσει προσωρινά κάποια δεδομένα στον διακομιστή. Αυτά δεν θα αποθηκευτούν."
+
+msgid "Register"
+msgstr "Εγγραφή"
 
 msgid "Cancel"
 msgstr "Ακύρωση"

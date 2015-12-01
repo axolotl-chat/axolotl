@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 01:19+0200\n"
-"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"POT-Creation-Date: 2015-12-02 01:25+0200\n"
+"PO-Revision-Date: 2015-12-02 01:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: pt\n"
@@ -109,6 +109,21 @@ msgstr "Apagar"
 
 msgid "Group members"
 msgstr "Membros do grupo"
+
+msgid "YOUR COUNTRY"
+msgstr "PAÍS"
+
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr "PAÍS E NÚMERO DE TELEFONE"
+
+msgid "Verify your phone number to connect with Signal."
+msgstr "Verifique o seu número de telefone para contactar com Signal"
+
+msgid "Registration transmits some contact information to the server. It is not stored."
+msgstr "O registo irá transmitir alguma informação de contacto para o servidor. Esta não é armazenada."
+
+msgid "Register"
+msgstr "Registar"
 
 msgid "Cancel"
 msgstr "Cancelar"

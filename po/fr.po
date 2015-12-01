@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 01:19+0200\n"
-"PO-Revision-Date: 2015-11-29 01:19+0200\n"
+"POT-Creation-Date: 2015-12-02 01:25+0200\n"
+"PO-Revision-Date: 2015-12-02 01:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: fr\n"
@@ -54,7 +54,7 @@ msgid "This may help if you're having encryption problems in this conversation. 
 msgstr "Cela peut aider si vous avez des problèmes de chiffrement dans cette conversation. Vos messages seront sauvegardés."
 
 msgid "Verify identity"
-msgstr "Vérifier l’identité"
+msgstr "Vérifier l'identité"
 
 msgid "Recipients list"
 msgstr "Liste des destinataires"
@@ -109,6 +109,21 @@ msgstr "Supprimer"
 
 msgid "Group members"
 msgstr "Membres du groupe"
+
+msgid "YOUR COUNTRY"
+msgstr "VOTRE PAYS"
+
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr "VOTRE CODE PAYS ET VOTRE NUMÉRO DE TÉLÉPHONE"
+
+msgid "Verify your phone number to connect with Signal."
+msgstr "Vérifier votre numéro de téléphone pour vous connecter avec Signal"
+
+msgid "Registration transmits some contact information to the server. It is not stored."
+msgstr "L'enregistrement transmettra des informations de contact au serveur. Il n'est pas stocké."
+
+msgid "Register"
+msgstr "S'enregistrer"
 
 msgid "Cancel"
 msgstr "Annuler"

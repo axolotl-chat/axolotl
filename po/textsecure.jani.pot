@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-01 23:49+0200\n"
+"POT-Creation-Date: 2015-12-02 01:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -297,10 +297,10 @@ msgstr ""
 msgid "You have left the group."
 msgstr ""
 
-#: main.go:638
+#: main.go:653
 msgid "Their identity (they read):"
 msgstr ""
 
-#: main.go:639
+#: main.go:654
 msgid "Your identity (you read):"
 msgstr ""
