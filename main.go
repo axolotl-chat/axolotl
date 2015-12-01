@@ -485,6 +485,19 @@ func (api *textsecureAPI) DeleteSession(tel string) {
 	}
 }
 
+func (api *textsecureAPI) DeleteMessage(msg *Message, tel string) {
+	deleteMessage(msg.ID)
+	s := sessionsModel.Get(tel)
+	for i, m := range s.messages {
+		if m.ID == msg.ID {
+			s.messages = append(s.messages[:i], s.messages[i+1:]...)
+			s.Len--
+			qml.Changed(s, &s.Len)
+			return
+		}
+	}
+}
+
 var vcardPath string
 
 func (api *textsecureAPI) ContactsImported(path string) {

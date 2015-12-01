@@ -197,6 +197,11 @@ func deleteSession(tel string) error {
 	return nil
 }
 
+func deleteMessage(id int64) error {
+	_, err := db.Exec("DELETE FROM messages WHERE id = ?", id)
+	return err
+}
+
 func addFlagsColumnToMessages() error {
 	_, err := db.Exec("ALTER TABLE messages ADD COLUMN flags INTEGER DEFAULT 0")
 	return err

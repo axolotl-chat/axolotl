@@ -462,6 +462,14 @@ TelegramPage {
                         text: i18n.tr("Delete")
                         visible: isConnected
                         onTriggered: {
+                            PopupUtils.open(Qt.resolvedUrl("dialogs/ConfirmationDialog.qml"),
+                            dialogPage, {
+                                title: i18n.tr("Delete selected message?"),
+                                text: i18n.tr("This will permanently delete the selected message."),
+                                onAccept: function() {
+                                    textsecure.deleteMessage(msg, messagesModel.tel)
+                                }
+                            })
                         }
                     }
                 ]
