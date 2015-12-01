@@ -77,7 +77,7 @@ TelegramPage {
         Action {
             iconName: "system-log-out"
             text: i18n.tr("Leave group")
-            visible: isChat
+            visible: isChat && messagesModel.active
             onTriggered: {
                 Qt.inputMethod.hide();
                 PopupUtils.open(Qt.resolvedUrl("dialogs/ConfirmationDialog.qml"),
@@ -93,7 +93,7 @@ TelegramPage {
         Action {
             iconName: "contact-new"
             text: i18n.tr("Update group")
-            visible: isChat
+            visible: isChat && messagesModel.active
             onTriggered: {
                 Qt.inputMethod.hide();
                 var properties = {
