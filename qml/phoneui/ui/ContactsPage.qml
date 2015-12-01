@@ -20,7 +20,7 @@ TelegramPage {
     property string groupChatTitle: ""
 
     property alias isSelectingGroup: contactListView.isInSelectionMode
-    property bool isGroupCountSatisfied: addToGroupMode || contactListView.selectedItems.count > 1
+    property bool isGroupCountSatisfied: addToGroupMode || contactListView.selectedItems.count > 0
     property var actionsNone: []
     property list<Action> actionsSearch: [
         Action {
@@ -85,7 +85,7 @@ TelegramPage {
 
         TextField {
             // Use height and opacity, we can't animate on visibility.
-            property bool isVisible: contactsPage.addToGroupMode || contactListView.selectedItems.count > 1
+            property bool isVisible: isGroupCountSatisfied
 
             id: groupChatTitleTextField
             anchors {
