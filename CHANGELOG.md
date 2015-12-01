@@ -1,3 +1,13 @@
+0.3.8 (Dec 02 2015)
+-------------------
+
+* Always show most recent conversations at the top.
+* Allow deleting single messages.
+* Allow creating a group with only one other member besides us.
+* On startup try sending out previously unsent messages.
+* Remove old-style storage dir if detected instead of asking the user to remove it manually.
+* Rework signup page wording and layout and localize it.
+
 0.3.7 (Nov 29 2015)
 -------------------
 
