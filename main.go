@@ -307,10 +307,22 @@ func runBackend() {
 		refreshContacts()
 	}
 
+	sendUnsentMessages()
+
 	for {
 		if err := textsecure.StartListening(); err != nil {
 			log.Println(err)
 			time.Sleep(3 * time.Second)
+		}
+	}
+}
+
+func sendUnsentMessages() {
+	for _, s := range sessionsModel.sessions {
+		for _, m := range s.messages {
+			if m.Outgoing && !m.IsSent {
+				go sendMessage(s, m)
+			}
 		}
 	}
 }
