@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 01:19+0200\n"
+"POT-Creation-Date: 2015-12-01 23:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -143,15 +143,15 @@ msgstr ""
 msgid "Select all"
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:140 qml/phoneui/ui/DialogPage.qml:651
+#: qml/phoneui/ui/DialogPage.qml:140 qml/phoneui/ui/DialogPage.qml:659
 msgid "Message details"
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:147 qml/phoneui/ui/DialogPage.qml:485
+#: qml/phoneui/ui/DialogPage.qml:147 qml/phoneui/ui/DialogPage.qml:493
 msgid "Copy text"
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:153 qml/phoneui/ui/DialogPage.qml:491
+#: qml/phoneui/ui/DialogPage.qml:153 qml/phoneui/ui/DialogPage.qml:499
 msgid "Forward message"
 msgstr ""
 
@@ -183,26 +183,44 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:471
+#: qml/phoneui/ui/DialogPage.qml:467
+msgid "Delete selected message?"
+msgstr ""
+
+#: qml/phoneui/ui/DialogPage.qml:468
+msgid "This will permanently delete the selected message."
+msgstr ""
+
+#: qml/phoneui/ui/DialogPage.qml:479
 msgid "Resend"
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:605
+#: qml/phoneui/ui/DialogPage.qml:613
 msgid "No messages here yet..."
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:643
+#: qml/phoneui/ui/DialogPage.qml:651
 msgid "Group members"
 msgstr ""
 
-#: qml/phoneui/ui/SignInPage.qml:125
-msgid "Done"
+#: qml/phoneui/ui/SignInPage.qml:23
+msgid "YOUR COUNTRY"
 msgstr ""
 
-#: qml/phoneui/ui/SignInPage.qml:137
-msgid ""
-"Please confirm your country code\n"
-"and enter your phone number."
+#: qml/phoneui/ui/SignInPage.qml:60
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr ""
+
+#: qml/phoneui/ui/SignInPage.qml:142
+msgid "Verify your phone number to connect with Signal."
+msgstr ""
+
+#: qml/phoneui/ui/SignInPage.qml:143
+msgid "Registration transmits some contact information to the server. It is not stored."
+msgstr ""
+
+#: qml/phoneui/ui/SignInPage.qml:157
+msgid "Register"
 msgstr ""
 
 #: qml/phoneui/ui/dialogs/ConfirmationDialog.qml:10
@@ -279,10 +297,10 @@ msgstr ""
 msgid "You have left the group."
 msgstr ""
 
-#: main.go:634
+#: main.go:638
 msgid "Their identity (they read):"
 msgstr ""
 
-#: main.go:635
+#: main.go:639
 msgid "Your identity (you read):"
 msgstr ""
