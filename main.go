@@ -293,8 +293,9 @@ func runBackend() {
 
 	err := textsecure.Setup(client)
 	if _, ok := err.(*strconv.NumError); ok {
-		showError(errors.New("Switching to unencrypted session store for now.\n On the phone rm -Rf /home/phablet/.local/share/textsecure.jani/.storage/\n This will reset your sessions and reregister your phone."))
-		return
+		showError(fmt.Errorf("Switching to unencrypted session store, removing %s\nThis will reset your sessions and reregister your phone.\n", storageDir))
+		os.RemoveAll(storageDir)
+		os.Exit(1)
 	}
 	if err != nil {
 		showError(err)
