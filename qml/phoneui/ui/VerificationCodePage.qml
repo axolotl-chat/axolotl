@@ -9,13 +9,10 @@ TelegramPage {
     property alias countdownTimer: countdownTimer
 
     id: page
+    head.backAction.visible: false
     objectName: "codeVerificationPage"
     pageTitle: i18n.tr("Your code")
     onlineIndicationOnly: true
-
-    function onBackPressed() {
-        stopTimer();
-    }
 
     body: Item {
         anchors {
