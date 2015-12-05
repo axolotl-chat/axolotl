@@ -85,7 +85,7 @@ MainView {
 	}
 
 	function initialize() {
-		pageStack.push(introPage)
+		pageStack.push(dialogsPage)
 	}
 
 	function getPhoneNumber() {
