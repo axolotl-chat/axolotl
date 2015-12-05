@@ -652,6 +652,14 @@ func (api *textsecureAPI) IdentityInfo(id string) string {
 		gettext.Gettext("Your identity (you read):") + "<br><br>" + fmt.Sprintf("% 0X", myID)
 }
 
+func (api *textsecureAPI) RegisterUPS(token string) error {
+	err := textsecure.RegisterWithUPS(token)
+	if err != nil {
+		log.Println(err)
+	}
+	return err
+}
+
 func avatarImageProvider(id string, width, height int) image.Image {
 	var r io.Reader
 
