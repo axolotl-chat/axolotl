@@ -6,6 +6,8 @@ import (
 	"log"
 	"os"
 	"time"
+
+	"github.com/gosexy/gettext"
 )
 
 // run as the application push helper
@@ -26,8 +28,7 @@ func pushHelperProcess() {
 }
 
 type pushMessage struct {
-	Sender  string `json:"sender"`
-	Message string `json:"message"`
+	Notification string `json:"notification"`
 }
 
 type appMessageCard struct {
@@ -53,7 +54,6 @@ type appMessageNotification struct {
 }
 
 type appMessage struct {
-	Message      string                 `json:"message"`
 	Notification appMessageNotification `json:"notification"`
 }
 
@@ -66,12 +66,10 @@ func pushHelperProcessMessage(in io.Reader, out io.Writer) error {
 	}
 
 	appMsg := &appMessage{
-		Message: pushMsg.Message,
 		Notification: appMessageNotification{
-			Tag: pushMsg.Sender,
 			Card: appMessageCard{
-				Summary:   pushMsg.Message,
-				Body:      pushMsg.Message + " body",
+				Summary:   gettext.Gettext("New message"),
+				Body:      "",
 				Actions:   []string{"appid://textsecure.jani/textsecure/current-user-version"},
 				Popup:     true,
 				Persist:   true,
