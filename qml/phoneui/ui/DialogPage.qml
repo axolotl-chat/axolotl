@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import Ubuntu.Components 1.1
+import Ubuntu.Thumbnailer 0.1
 import Ubuntu.Components.Popups 0.1
 import Ubuntu.Components.ListItems 1.0 as ListItems
 import Ubuntu.Content 1.1
@@ -530,10 +531,10 @@ TelegramPage {
             function getThumbnail(msg) {
                         var mediaType = msg.cType
                         if (mediaType === ContentType.Pictures) {
-                                return msg.attachment
+                                return "image://thumbnailer/"+Qt.resolvedUrl(msg.attachment)
                         }
                         if (mediaType === ContentType.Videos) {
-                                return "image://theme/video-x-generic-symbolic"
+                                return "image://thumbnailer/"+Qt.resolvedUrl(msg.attachment)
                         }
                         if (mediaType === ContentType.Music) {
                                 return "image://theme/audio-speakers-symbolic"
