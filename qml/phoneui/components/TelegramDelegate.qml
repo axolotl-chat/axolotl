@@ -199,7 +199,7 @@ ListItemWithActions {
                     Label {
                         id: messageLabel
                         anchors {
-                            top: forwardLabel.bottom
+                            top: isMedia? loader.bottom : forwardLabel.bottom
                         }
                         height: paintedHeight
                         width: Math.min(implicitWidth, 0.7 * internalDelegate.width)
