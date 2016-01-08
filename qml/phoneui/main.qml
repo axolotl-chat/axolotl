@@ -109,6 +109,10 @@ MainView {
 		pageStack.push(settingsPage);
 	}
 
+	function openHelp() {
+                Qt.openUrlExternally("https://github.com/janimo/textsecure-qml/issues")
+	}
+
 	function newChat() {
 		openContacts(false);
 	}

@@ -39,6 +39,11 @@ TelegramPage {
                 iconName: "settings"
                 text: i18n.tr("Settings")
                 onTriggered: openSettings()
+            },
+            Action {
+                iconName: "help"
+                text: i18n.tr("Help")
+                onTriggered: openHelp()
             }
         ]
 
