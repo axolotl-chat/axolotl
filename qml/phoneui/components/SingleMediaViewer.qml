@@ -162,8 +162,8 @@ Item {
 
                     property bool isPlaying: playbackState === MediaPlayer.PlayingState
 
-                    autoLoad: true
-                    autoPlay: true
+                    autoLoad: false
+                    autoPlay: false
                     source: videoPreviewSource
                     onStopped: playIcon.name = "media-playback-start"
                 }
