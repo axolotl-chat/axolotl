@@ -66,8 +66,9 @@ MainView {
 			PickerPage {}
 		}
 
-		PreviewPage {
+		Component {
 			id: previewPage
+			PreviewPage {}
 		}
 
 		Component {
