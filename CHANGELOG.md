@@ -1,3 +1,12 @@
+0.3.9 (Jan 08 2016)
+-------------------
+
+* Reduce excessive CPU usage even when idle.
+* Show video thumbnails.
+* Do not cover text with the thumbnail when a message has both text and media content.
+* Remove intro page, add a 'Help' menu item instead.
+* Small UI cleanups.
+
 0.3.8 (Dec 02 2015)
 -------------------
 
