@@ -475,20 +475,6 @@ TelegramPage {
                     }
                 ]
                 rightSideActions: [
-                     Action {
-                        iconName: "reload"
-                        text: i18n.tr("Resend")
-                        visible: !isSent && !isAction
-                        onTriggered: {
-                            if (isPhoto) {
-                                sendAttachment(photo);
-                            } else if (isVideo) {
-                                sendAttachment(video);
-                            } else {
-                                sendMessage(message);
-                            }
-                        }
-                    },
                     Action {
                         iconName: "edit-copy"
                         text: i18n.tr("Copy text")
