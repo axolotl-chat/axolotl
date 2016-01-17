@@ -1,11 +1,14 @@
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
+import Ubuntu.Components.Popups 0.1
 import Ubuntu.Telephony.PhoneNumber 0.1
 import "../js/country_data.js" as CountryData
 import "../components"
 
 TelegramPage {
+    id: root
     property alias errorLabel: errorLabel
+    pageTitle: i18n.tr("Connect with Signal")
 
     objectName: "signInPage"
     head.backAction.visible: false
@@ -179,7 +182,18 @@ TelegramPage {
         Qt.inputMethod.hide();
 
         busy = true
-        numberEntered(getPhoneNumber());
+        var num = getPhoneNumber()
+        PopupUtils.open(Qt.resolvedUrl("dialogs/ConfirmationDialog.qml"),
+        root, {
+            title: num,
+            text: i18n.tr("Double-check that this is your number! We're about to verify it with an SMS."),
+            onAccept: function() {
+                numberEntered(num)
+            },
+            onCancel: function() {
+                busy = false
+            }
+        })
     }
 
     function getPhoneNumber() {
