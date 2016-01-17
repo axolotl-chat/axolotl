@@ -1,5 +1,7 @@
 package main
 
+import "github.com/ttacon/libphonenumber"
+
 func getTextFromDialog(fun, obj, signal string) string {
 	win.Root().Call(fun)
 	p := win.Root().ObjectByName(obj)
@@ -16,7 +18,13 @@ func getStoragePassword() string {
 }
 
 func getPhoneNumber() string {
-	return getTextFromDialog("getPhoneNumber", "signInPage", "numberEntered")
+	n := getTextFromDialog("getPhoneNumber", "signInPage", "numberEntered")
+
+	num, _ := libphonenumber.Parse(n, "")
+	c := libphonenumber.GetRegionCodeForCountryCode(int(num.GetCountryCode()))
+	s := libphonenumber.GetNationalSignificantNumber(num)
+	f := formatE164(s, c)
+	return f
 }
 
 func getVerificationCode() string {
