@@ -1,66 +1,37 @@
-import QtQuick 2.0
-import Ubuntu.Components 1.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
-import Ubuntu.Components.Popups 0.1
-import Ubuntu.Content 1.1
+/*
+ * Copyright (C) 2015 Canonical Ltd
+ *
+ * This file is part of Ubuntu Weather App
+ *
+ * Ubuntu Weather App is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 3 as
+ * published by the Free Software Foundation.
+ *
+ * Ubuntu Weather App is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
+import QtQuick 2.4
+import Ubuntu.Components 1.1
 import "../components"
-import "../js/avatar.js" as Avatar
-import "../js/time.js" as Time
 
 TelegramPage {
-    id: page
-    pageTitle: i18n.tr("Settings");
+    title: i18n.tr("Settings")
+    property bool bug1341671workaround: true
 
-    VisualItemModel {
-        id: model
+    Column {
+        id: settingsColumn
 
-        ListItem.Header {
-		text: "TextSecure for Ubuntu Phone, version "+appVersion
-        }
-
-        ListItem.Header {
-		text: i18n.tr("Privacy")
-        }
-
-        ListItem.Header {
-            text: i18n.tr("Advanced")
-        }
-
-        ListItem.Standard {
-            text: i18n.tr("Enter key sends")
-            showDivider: false
-
-            Switch {
-                id: checkbox
-                anchors {
-                    right: parent.right
-                    rightMargin: units.gu(2)
-                    verticalCenter: parent.verticalCenter
-                }
-
-                onCheckedChanged: {
-                    settingsModel.sendByEnter = checked
-                    textsecure.saveSettings()
-                }
-                Component.onCompleted: checked = settingsModel.sendByEnter
-            }
-    	}
-    }
-
-    body: Item {
         anchors.fill: parent
 
-        ListView {
-            anchors {
-                topMargin: units.gu(2)
-                top: parent.top
-                left: parent.left
-                bottom: parent.bottom
-                right: parent.right
-            }
-            clip: true
-            model: model
+        StandardListItem {
+            title: i18n.tr("Advanced")
+            onClicked: pageStack.push(Qt.resolvedUrl("settings/AdvancedPage.qml"))
         }
     }
 }

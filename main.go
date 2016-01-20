@@ -302,6 +302,8 @@ func runBackend() {
 		return
 	}
 
+	api.PhoneNumber = config.Tel
+
 	if exists(contactsFile) {
 		api.HasContacts = true
 		refreshContacts()
@@ -344,7 +346,9 @@ var win *qml.Window
 
 type textsecureAPI struct {
 	HasContacts     bool
+	PushToken       string
 	ActiveSessionID string
+	PhoneNumber     string
 }
 
 var api = &textsecureAPI{}
@@ -652,12 +656,10 @@ func (api *textsecureAPI) IdentityInfo(id string) string {
 		gettext.Gettext("Your identity (you read):") + "<br><br>" + fmt.Sprintf("% 0X", myID)
 }
 
-func (api *textsecureAPI) RegisterUPS(token string) error {
-	err := textsecure.RegisterWithUPS(token)
-	if err != nil {
-		log.Println(err)
-	}
-	return err
+func (api *textsecureAPI) Unregister() {
+	os.RemoveAll(storageDir)
+	os.Remove(configFile)
+	os.Exit(1)
 }
 
 func avatarImageProvider(id string, width, height int) image.Image {
