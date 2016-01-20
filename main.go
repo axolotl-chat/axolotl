@@ -311,6 +311,11 @@ func runBackend() {
 
 	sendUnsentMessages()
 
+	// Make sure to use names not numbers in session titles
+	for _, s := range sessionsModel.sessions {
+		s.Name = telToName(s.Tel)
+	}
+
 	for {
 		if err := textsecure.StartListening(); err != nil {
 			log.Println(err)
