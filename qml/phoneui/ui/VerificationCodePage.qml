@@ -11,7 +11,7 @@ TelegramPage {
     id: page
     head.backAction.visible: false
     objectName: "codeVerificationPage"
-    pageTitle: i18n.tr("Your code")
+    pageTitle: i18n.tr("Verifying number")
     onlineIndicationOnly: true
 
     body: Item {
@@ -27,7 +27,7 @@ TelegramPage {
                 margins: units.gu(1)
             }
             width: parent.width
-            text: i18n.tr("We've sent an SMS with an activation code.\nPlease enter it below.\n")
+            text: i18n.tr("Signal will now automatically verify your number with a confirmation SMS message.")
         }
 
         TelegramLabel {
@@ -38,7 +38,7 @@ TelegramPage {
             }
             width: parent.width
             // TRANSLATORS: the argument refers to a countdown time
-            text: i18n.tr("We will call you in %1").arg(countdownTimer.getTimeAsText())
+            text: i18n.tr("Waiting for SMS verification...") + " " + countdownTimer.getTimeAsText()
         }
 
         TelegramLabel {
@@ -88,7 +88,7 @@ TelegramPage {
             width: parent.width
 
             enabled: isConnected && codeTextField.text !== ""
-            text: i18n.tr("Enter")
+            text: i18n.tr("OK")
             onClicked: done()
         }
     }
@@ -104,7 +104,7 @@ TelegramPage {
 
         onTriggered: {
             seconds = Math.max(0, timeToCall - (Date.now() / 1000 - timeStarted));
-            countdownLabel.text = i18n.tr("We will call you in %1").arg(getTimeAsText());
+            countdownLabel.text = i18n.tr("Waiting for SMS verification...")+ " "+getTimeAsText();
             if (seconds <= 0) {
                 stop();
             }
