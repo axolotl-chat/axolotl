@@ -1,3 +1,11 @@
+0.3.10 (Jan 20 2016)
+--------------------
+
+* Add unregistration UI to allow fixing broken setups.
+* Make sure to use contact names not numbers in session titles.
+* UI to double check phone number when registering.
+* Try to fix incorrectly entered phone numbers when registering (i.e. dropping extra 0s)
+
 0.3.9 (Jan 08 2016)
 -------------------
 
