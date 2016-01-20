@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: ko\n"
@@ -14,14 +14,8 @@ msgstr ""
 msgid "Settings"
 msgstr "설정"
 
-msgid "Privacy"
-msgstr "개인정보 보호"
-
 msgid "Advanced"
 msgstr "고급"
-
-msgid "Enter key sends"
-msgstr "Enter키로 메시지 보내기"
 
 msgid "Save"
 msgstr "저장"
@@ -110,6 +104,9 @@ msgstr "삭제"
 msgid "Group members"
 msgstr "그룹 멤버"
 
+msgid "Connect with Signal"
+msgstr "Signal로 연결"
+
 msgid "YOUR COUNTRY"
 msgstr "국가"
 
@@ -125,17 +122,47 @@ msgstr "가입할 때 일부 연락처 정보 서버에 전송되지만 저장�
 msgid "Register"
 msgstr "가입"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "인증메시지를 SMS으로 보냅니다. 전화번호가 정확한지 확인하세요."
+
 msgid "Cancel"
 msgstr "취소"
 
 msgid "Mark all read"
 msgstr "모두 읽음으로 표시"
 
+msgid "Help"
+msgstr "도움말"
+
+msgid "Unregistering"
+msgstr "Signal 메시지 서비스 탈퇴"
+
+msgid "Disable Signal messages and calls?"
+msgstr "Signal 메시지와 통화를 사용 중지하시겠습니까?"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr "서버에 탈퇴하여 Signal 메시지와 통화를 사용 중지합니다. 다시 사용하려면 전화번호를 입력해 재가입해야 합니다."
+
+msgid "Enter key sends"
+msgstr "Enter키로 메시지 보내기"
+
+msgid "Verifying number"
+msgstr "전화번호 확인"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr "Signal이 자동 SMS 인증메시지로 전화번호를 확인합니다."
+
+msgid "Waiting for SMS verification..."
+msgstr "SMS 인증메시지 기다리는 중…"
+
 msgid "Sent"
 msgstr "보낸 시간:"
 
 msgid "Received"
 msgstr "받은 시간:"
+
+msgid "New message"
+msgstr "새 메시지"
 
 msgid "Secure session reset."
 msgstr "암호화된 세션이 초기화되었습니다."

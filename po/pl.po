@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: pl\n"
@@ -14,14 +14,8 @@ msgstr ""
 msgid "Settings"
 msgstr "Ustawienia"
 
-msgid "Privacy"
-msgstr "Prywatność"
-
 msgid "Advanced"
 msgstr "Zaawansowane"
-
-msgid "Enter key sends"
-msgstr "Enter wysyła"
 
 msgid "Save"
 msgstr "Zapisz"
@@ -72,7 +66,7 @@ msgid "Delete conversation"
 msgstr "Usuń konwersację"
 
 msgid "Delete conversation?"
-msgstr "Usunąć rozmowę?"
+msgstr "Usunąć konwersację?"
 
 msgid "This will permanently delete all messages in this conversation."
 msgstr "To spowoduje permanentne usunięcie wszystkich wiadomości w tej konwersacji."
@@ -110,6 +104,9 @@ msgstr "Usuń"
 msgid "Group members"
 msgstr "Użytkownicy grupy"
 
+msgid "Connect with Signal"
+msgstr "Połącz z Signal"
+
 msgid "YOUR COUNTRY"
 msgstr "TWÓJ KRAJ"
 
@@ -125,17 +122,47 @@ msgstr "Podczas rejestracji, niektóre informacje o kontakcie zostaną przesłan
 msgid "Register"
 msgstr "Rejestracja"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "Upewnij się, że to jest Twój numer! Zamierzamy zweryfikować go SMSem."
+
 msgid "Cancel"
 msgstr "Anuluj"
 
 msgid "Mark all read"
 msgstr "Oznacz wszystkie jako przeczytane"
 
+msgid "Help"
+msgstr "Pomoc"
+
+msgid "Unregistering"
+msgstr "Wyrejestrowanie"
+
+msgid "Disable Signal messages and calls?"
+msgstr "Wyłączyć wiadomości i połączenia Signal?"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr "Wyłącz wiadomości i połączenia telefoniczne Signal poprzez wyrejestrowanie z serwera. Będziesz musiał ponownie zarejestrować swój numer telefonu, jeśli będziesz chciał go używać w przyszłości."
+
+msgid "Enter key sends"
+msgstr "Enter wysyła"
+
+msgid "Verifying number"
+msgstr "Weryfikowanie numeru"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr "Za chwilę Signal automatycznie zweryfikuje Twój numer za pomocą wiadomości SMS."
+
+msgid "Waiting for SMS verification..."
+msgstr "Oczekiwanie na weryfikację SMS..."
+
 msgid "Sent"
 msgstr "Wysłano"
 
 msgid "Received"
 msgstr "Otrzymano"
+
+msgid "New message"
+msgstr "Nowa wiadomość"
 
 msgid "Secure session reset."
 msgstr "Reset bezpiecznej sesji."

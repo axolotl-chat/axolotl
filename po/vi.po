@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: vi\n"
@@ -14,14 +14,8 @@ msgstr ""
 msgid "Settings"
 msgstr "Thiết Đặt"
 
-msgid "Privacy"
-msgstr "Riêng tư"
-
 msgid "Advanced"
 msgstr "Cao cấp"
-
-msgid "Enter key sends"
-msgstr "Phím Enter gửi đi"
 
 msgid "Save"
 msgstr "Lưu"
@@ -93,7 +87,7 @@ msgid "Delete message"
 msgstr "Xóa tin nhắn"
 
 msgid "Video"
-msgstr "Đoạn phim"
+msgstr "Video"
 
 msgid "Audio"
 msgstr "Nhạc"
@@ -110,6 +104,9 @@ msgstr "Xóa"
 msgid "Group members"
 msgstr "Thành viên trong nhóm"
 
+msgid "Connect with Signal"
+msgstr "Kết nối với Signal"
+
 msgid "YOUR COUNTRY"
 msgstr "QUỐC GIA BẠN"
 
@@ -125,17 +122,47 @@ msgstr "Thủ tục đăng ký sẽ gửi một số chi tiết liên lạc đ�
 msgid "Register"
 msgstr "Đăng ký"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "Xem lại lần nữa để bảo đảm đây là số của bạn! Chúng tôi sắp sửa phối kiểm nó với một SMS."
+
 msgid "Cancel"
 msgstr "Hủy"
 
 msgid "Mark all read"
 msgstr "Đánh dấu tất cả đã đọc"
 
+msgid "Help"
+msgstr "Trợ giúp"
+
+msgid "Unregistering"
+msgstr "Tháo gỡ đăng ký"
+
+msgid "Disable Signal messages and calls?"
+msgstr "Tắt tin nhắn và cuộc gọi Signal?"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr "Tắt tin nhắn và cuộc gọi Signal bằng cách huỷ đăng ký từ máy chủ. Bạn sẽ phải đăng ký lại số điện thoại để sử dụng Signal trong tương lai."
+
+msgid "Enter key sends"
+msgstr "Phím Enter gửi đi"
+
+msgid "Verifying number"
+msgstr "Kiểm Chứng Số Điện Thoại"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr "Bây giờ, Signal sẽ tự động xác minh số điện thoại của bạn với một tin nhắn SMS."
+
+msgid "Waiting for SMS verification..."
+msgstr "Chờ kiểm chứng SMS..."
+
 msgid "Sent"
 msgstr "Đã gửi"
 
 msgid "Received"
 msgstr "Đã nhận"
+
+msgid "New message"
+msgstr "Tin nhắn mới"
 
 msgid "Secure session reset."
 msgstr "Đã tái thiết lập phiên bảo mật."

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: sk\n"
@@ -14,14 +14,8 @@ msgstr ""
 msgid "Settings"
 msgstr "Nastavenia"
 
-msgid "Privacy"
-msgstr ""
-
 msgid "Advanced"
 msgstr "Rozšírené"
-
-msgid "Enter key sends"
-msgstr "Odoslať stiskom klávesy Enter"
 
 msgid "Save"
 msgstr "Uložiť"
@@ -54,7 +48,7 @@ msgid "This may help if you're having encryption problems in this conversation. 
 msgstr ""
 
 msgid "Verify identity"
-msgstr "Over totožnosť"
+msgstr ""
 
 msgid "Recipients list"
 msgstr "Zoznam príjemcov"
@@ -78,10 +72,10 @@ msgid "This will permanently delete all messages in this conversation."
 msgstr ""
 
 msgid "Select all"
-msgstr "Označ všetko"
+msgstr "Vybrať všetko"
 
 msgid "Message details"
-msgstr ""
+msgstr "Podrobnosti správy"
 
 msgid "Copy text"
 msgstr "Kopíruj text"
@@ -93,7 +87,7 @@ msgid "Delete message"
 msgstr "Zmaž správu"
 
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 msgid "Audio"
 msgstr ""
@@ -110,6 +104,9 @@ msgstr "Zmazať"
 msgid "Group members"
 msgstr "Členovia skupiny"
 
+msgid "Connect with Signal"
+msgstr ""
+
 msgid "YOUR COUNTRY"
 msgstr "TVOJA KRAJINA"
 
@@ -125,17 +122,47 @@ msgstr "Pri registrácii budú odoslané niektoré Vaše kontakné údaje na vzd
 msgid "Register"
 msgstr "Registrovať"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "Skontrolujte pre istotu znovu, že ste správne zadali Vaše telefónne číslo! Prebehne overenie pomocou SMS."
+
 msgid "Cancel"
 msgstr "Zrušiť"
 
 msgid "Mark all read"
 msgstr "Označ všetky prečítané"
 
+msgid "Help"
+msgstr ""
+
+msgid "Unregistering"
+msgstr ""
+
+msgid "Disable Signal messages and calls?"
+msgstr ""
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr ""
+
+msgid "Enter key sends"
+msgstr "Odoslať stiskom klávesy Enter"
+
+msgid "Verifying number"
+msgstr "Overovanie čísla"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr ""
+
+msgid "Waiting for SMS verification..."
+msgstr "Čakanie na SMS overovanie..."
+
 msgid "Sent"
 msgstr "Odoslané"
 
 msgid "Received"
 msgstr "Prijaté"
+
+msgid "New message"
+msgstr "Nová správa"
 
 msgid "Secure session reset."
 msgstr ""

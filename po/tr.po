@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: tr\n"
@@ -14,14 +14,8 @@ msgstr ""
 msgid "Settings"
 msgstr "Ayarlar"
 
-msgid "Privacy"
-msgstr "Gizlilik"
-
 msgid "Advanced"
 msgstr "Gelişmiş"
-
-msgid "Enter key sends"
-msgstr "Enter tuşu gönderir"
 
 msgid "Save"
 msgstr "Kaydet"
@@ -60,7 +54,7 @@ msgid "Recipients list"
 msgstr "Katılımcı listesi"
 
 msgid "Leave group"
-msgstr "Grubtan ayrıl"
+msgstr "Gruptan ayrıl"
 
 msgid "Leave group?"
 msgstr "Gruptan ayrıl?"
@@ -69,25 +63,25 @@ msgid "Are you sure you want to leave this group?"
 msgstr "Bu gruptan ayrılmak istediğinize emin misiniz?"
 
 msgid "Delete conversation"
-msgstr "Konuşmayı sil"
+msgstr "Sohbeti sil"
 
 msgid "Delete conversation?"
-msgstr "Konuşmayı sil?"
+msgstr "Sohbeti sil?"
 
 msgid "This will permanently delete all messages in this conversation."
-msgstr "Bu konuşmadaki tüm mesajları kalıcı olarak silecektir."
+msgstr "Bu işlem bu sohbetteki tüm mesajları kalıcı olarak silecektir."
 
 msgid "Select all"
 msgstr "Hepsini seç"
 
 msgid "Message details"
-msgstr "Mesaj detayları"
+msgstr "Mesaj ayrıntıları"
 
 msgid "Copy text"
-msgstr "Metin kopyala"
+msgstr "Metni kopyala"
 
 msgid "Forward message"
-msgstr "Mesaj yönlendir"
+msgstr "Mesajı yönlendir"
 
 msgid "Delete message"
 msgstr "Mesaj sil"
@@ -110,6 +104,9 @@ msgstr "Sil"
 msgid "Group members"
 msgstr "Grup üyeleri"
 
+msgid "Connect with Signal"
+msgstr "Signal ile bağlan"
+
 msgid "YOUR COUNTRY"
 msgstr "ÜLKENİZ"
 
@@ -125,17 +122,47 @@ msgstr "Kayıt işlemi ile bazı kişi bilgileriniz sunucuya gönderilecek. Faka
 msgid "Register"
 msgstr "Kayıt ol"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "Numaranızı ikinci kez kontrol ediniz! Numaranızı bir SMS ile doğrulamak üzereyiz."
+
 msgid "Cancel"
 msgstr "İptal"
 
 msgid "Mark all read"
-msgstr "Tümünü okundu işaretle"
+msgstr "Tümünü okundu olarak işaretle"
+
+msgid "Help"
+msgstr "Yardım"
+
+msgid "Unregistering"
+msgstr "Kayıt siliniyor"
+
+msgid "Disable Signal messages and calls?"
+msgstr "Signal mesajlarını ve aramalarını etkisizleştir?"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr "Sunucudaki kaydınızı silerek Signal mesajlarını ve aramalarını etkisizleştirin. Bu özellikleri gelecekte yeniden kullanabilmeniz için telefon numaranızı tekrar kaydetmeniz gerekir."
+
+msgid "Enter key sends"
+msgstr "Enter tuşu gönderir"
+
+msgid "Verifying number"
+msgstr "Numara doğrulanıyor"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr "Signal şimdi otomatik bir onay SMS mesajı ile numaranızı doğrulayacak."
+
+msgid "Waiting for SMS verification..."
+msgstr "SMS doğrulama bekleniliyor..."
 
 msgid "Sent"
 msgstr "Gönderildi"
 
 msgid "Received"
 msgstr "Alındı"
+
+msgid "New message"
+msgstr "Yeni mesaj"
 
 msgid "Secure session reset."
 msgstr "Güvenli oturumu sıfırla."

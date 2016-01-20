@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: ta\n"
@@ -13,14 +13,8 @@ msgstr ""
 msgid "Settings"
 msgstr "அமைப்புகள்"
 
-msgid "Privacy"
-msgstr ""
-
 msgid "Advanced"
 msgstr "மேம்பட்ட"
-
-msgid "Enter key sends"
-msgstr "பதிவு விசை அனுப்பும்"
 
 msgid "Save"
 msgstr "சேமி"
@@ -29,7 +23,7 @@ msgid "Search"
 msgstr "தேடல்"
 
 msgid "Refresh"
-msgstr ""
+msgstr "புதுப்பி."
 
 msgid "New group"
 msgstr "புதிய குழு"
@@ -47,13 +41,13 @@ msgid "Reset secure session"
 msgstr ""
 
 msgid "Reset secure session?"
-msgstr ""
+msgstr "பாதுகாப்பான அமர்வை மீட்டமைக்க?"
 
 msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
 msgstr ""
 
 msgid "Verify identity"
-msgstr ""
+msgstr "அடையாளத்தை சரிபார்"
 
 msgid "Recipients list"
 msgstr "பெறுநர்கள் பட்டியல்"
@@ -71,16 +65,16 @@ msgid "Delete conversation"
 msgstr ""
 
 msgid "Delete conversation?"
-msgstr ""
+msgstr "உரையாடலை நீக்கு ?"
 
 msgid "This will permanently delete all messages in this conversation."
-msgstr ""
+msgstr "இந்த உரையாடலை நிரந்தரமாக நீக்கீவிடும்.."
 
 msgid "Select all"
 msgstr "அனைத்து தேர்வுசெய்"
 
 msgid "Message details"
-msgstr ""
+msgstr "செய்தி விவரங்கள்"
 
 msgid "Copy text"
 msgstr "உரை நகலெடு"
@@ -92,13 +86,13 @@ msgid "Delete message"
 msgstr "செய்தியை நீக்கு"
 
 msgid "Video"
-msgstr "வீடியோ"
+msgstr "காணொளி"
 
 msgid "Audio"
-msgstr ""
+msgstr "ஒலி"
 
 msgid "Contact"
-msgstr ""
+msgstr "தொடர்பு"
 
 msgid "Send Signal message"
 msgstr ""
@@ -107,6 +101,9 @@ msgid "Delete"
 msgstr "நீக்கு"
 
 msgid "Group members"
+msgstr "குழு உறுப்பினர்கள்"
+
+msgid "Connect with Signal"
 msgstr ""
 
 msgid "YOUR COUNTRY"
@@ -124,17 +121,47 @@ msgstr "பதிவுசெய்வது சர்வருக்கு ச�
 msgid "Register"
 msgstr "பதிவு செய்"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "இந்த உங்கள் எண்தானா என இருமுறை சரிபாருங்கள்! நாங்கள் ஒரு SMS மூலம் இதை சரிபார்க்கப்போகிறோம்."
+
 msgid "Cancel"
-msgstr "ரத்து"
+msgstr "இரத்து"
 
 msgid "Mark all read"
 msgstr "அனைத்தையும் படித்தாக குறியிடு"
+
+msgid "Help"
+msgstr "உதவி"
+
+msgid "Unregistering"
+msgstr "பதிவுநீக்குதல்"
+
+msgid "Disable Signal messages and calls?"
+msgstr "சமிக்ஞை குறுஞ்செய்தி மற்றும் அழைப்பை முடக்கு ?"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr ""
+
+msgid "Enter key sends"
+msgstr "பதிவு விசை அனுப்பும்"
+
+msgid "Verifying number"
+msgstr "எண் சரிபார்க்கபடுகிறது"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr ""
+
+msgid "Waiting for SMS verification..."
+msgstr "சரிபார்க்கும் SMS-க்கு காத்திருக்கிறது..."
 
 msgid "Sent"
 msgstr "அனுப்பபட்டது"
 
 msgid "Received"
 msgstr "பெறப்பட்டது"
+
+msgid "New message"
+msgstr "புதிய செய்தி"
 
 msgid "Secure session reset."
 msgstr ""

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: cs\n"
@@ -14,14 +14,8 @@ msgstr ""
 msgid "Settings"
 msgstr "Nastavení"
 
-msgid "Privacy"
-msgstr "Soukromí"
-
 msgid "Advanced"
 msgstr "Rozšířené možnosti"
-
-msgid "Enter key sends"
-msgstr "Klávesa Enter odesílá"
 
 msgid "Save"
 msgstr "Uložit"
@@ -110,6 +104,9 @@ msgstr "Smazat"
 msgid "Group members"
 msgstr "Členové skupiny"
 
+msgid "Connect with Signal"
+msgstr "Připojení pomocí Signal"
+
 msgid "YOUR COUNTRY"
 msgstr "Země"
 
@@ -125,17 +122,47 @@ msgstr "V průběhu registrace jsou odeslány některé kontaktní informace na 
 msgid "Register"
 msgstr "Zaregistrovat"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "Znovu zkontrolujte Vaše číslo! Nyní bude ověřeno pomocí SMS."
+
 msgid "Cancel"
 msgstr "Storno"
 
 msgid "Mark all read"
 msgstr "Označit vše jako přečtené"
 
+msgid "Help"
+msgstr "Nápověda"
+
+msgid "Unregistering"
+msgstr "Rušení registrace"
+
+msgid "Disable Signal messages and calls?"
+msgstr "Zakázat Signal zprávy a volání?"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr "Tímto zakážete Signal zprávy a volání odregistrací ze serveru. Abyste mohli používat Signal zprávy v budoucnosti, budete muset znovu registrovat svoje telefonní číslo."
+
+msgid "Enter key sends"
+msgstr "Klávesa Enter odesílá"
+
+msgid "Verifying number"
+msgstr "Probíhá ověření čísla"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr "Signal nyní automaticky ověří vaše telefonní číslo pomocí potvrzovací SMS zprávy."
+
+msgid "Waiting for SMS verification..."
+msgstr "Čekám na ověřovací ověřovací SMS..."
+
 msgid "Sent"
 msgstr "Odesláno"
 
 msgid "Received"
 msgstr "Přijato"
+
+msgid "New message"
+msgstr "Nová zpráva"
 
 msgid "Secure session reset."
 msgstr "Reset zabezpečené komunikace."

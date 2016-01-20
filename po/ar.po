@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: ar\n"
@@ -13,14 +13,8 @@ msgstr ""
 msgid "Settings"
 msgstr "الإعدادات"
 
-msgid "Privacy"
-msgstr "الخصوصية"
-
 msgid "Advanced"
 msgstr "متقدم"
-
-msgid "Enter key sends"
-msgstr "مفتاح الدخول يقوم بالإرسال"
 
 msgid "Save"
 msgstr "أحفظ"
@@ -41,7 +35,7 @@ msgid "Group name"
 msgstr "أسم المجموعة"
 
 msgid "Call"
-msgstr "أتصل"
+msgstr "اتصل"
 
 msgid "Reset secure session"
 msgstr "إعادة ضبط جلسة آمنة"
@@ -109,6 +103,9 @@ msgstr "حذف"
 msgid "Group members"
 msgstr "أعضاء المجموعة"
 
+msgid "Connect with Signal"
+msgstr "تواصل مع سيجنال"
+
 msgid "YOUR COUNTRY"
 msgstr "بلدك"
 
@@ -124,17 +121,47 @@ msgstr "يتم نقل بعض بيانات الاتصال إلى الخادم أ�
 msgid "Register"
 msgstr "سجل"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "رجاء التأكد من أنه رقمك! نحن على وشك التحقق بواسطة رسالة نصية."
+
 msgid "Cancel"
 msgstr "إلغاء"
 
 msgid "Mark all read"
 msgstr "اعتبارها رسائل مقروءة"
 
+msgid "Help"
+msgstr "مساعدة"
+
+msgid "Unregistering"
+msgstr "جارٍ إلغاء التسجيل"
+
+msgid "Disable Signal messages and calls?"
+msgstr "تعطيل رسائل ومكالمات سيجنال؟"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr "سوف يتم تعطيل رسائل ومكالمات سيجنال بإلغاء تسجيلك من الخدمة. سوف يتعين عليك إعادة تسجيل رقم هاتفك لمعاودة استخدام الخدمتين في المستقبل."
+
+msgid "Enter key sends"
+msgstr "مفتاح الدخول يقوم بالإرسال"
+
+msgid "Verifying number"
+msgstr "جارٍ التحقق من الرقم"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr "سيقوم سيجنال الآن بالتحقق من رقم هاتفك آليا بواسطة رسالة نصية."
+
+msgid "Waiting for SMS verification..."
+msgstr "انتظار رسالة التحقق..."
+
 msgid "Sent"
 msgstr "أرسلت"
 
 msgid "Received"
 msgstr "استلمت"
+
+msgid "New message"
+msgstr "رسالة جديدة"
 
 msgid "Secure session reset."
 msgstr "إعادة ضبط جلسة آمنة."

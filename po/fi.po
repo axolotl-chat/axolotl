@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: fi\n"
@@ -14,14 +14,8 @@ msgstr ""
 msgid "Settings"
 msgstr "Asetukset"
 
-msgid "Privacy"
-msgstr "Yksityisyys"
-
 msgid "Advanced"
 msgstr "Lisäasetukset"
-
-msgid "Enter key sends"
-msgstr "Rivinvaihto lähettää"
 
 msgid "Save"
 msgstr "Tallenna"
@@ -66,7 +60,7 @@ msgid "Leave group?"
 msgstr "Poistutaanko ryhmästä?"
 
 msgid "Are you sure you want to leave this group?"
-msgstr "Haluatko varmasti poistua ryhmästä?"
+msgstr "Haluatko varmasti poistua tästä ryhmästä?"
 
 msgid "Delete conversation"
 msgstr "Poista keskustelu"
@@ -96,7 +90,7 @@ msgid "Video"
 msgstr "Video"
 
 msgid "Audio"
-msgstr "Ääni"
+msgstr "Äänitallenne"
 
 msgid "Contact"
 msgstr "Yhteystieto"
@@ -109,6 +103,9 @@ msgstr "Poista"
 
 msgid "Group members"
 msgstr "Ryhmän jäsenet"
+
+msgid "Connect with Signal"
+msgstr "Signalin käyttöönotto"
 
 msgid "YOUR COUNTRY"
 msgstr "MAA"
@@ -125,17 +122,47 @@ msgstr "Rekisteröityminen siirtää joitakin yhteystietoja väliaikaisesti palv
 msgid "Register"
 msgstr "Rekisteröidy"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "Tarkista vielä, että tämä on varmasti numerosi! Aiomme seuraavaksi vahvistaa sen lähettämällä siihen tekstiviestin."
+
 msgid "Cancel"
 msgstr "Peruuta"
 
 msgid "Mark all read"
 msgstr "Merkitse kaikki luetuiksi"
 
+msgid "Help"
+msgstr "Tuki"
+
+msgid "Unregistering"
+msgstr "Puretaan rekisteröintiä"
+
+msgid "Disable Signal messages and calls?"
+msgstr "Otetaanko Signal-viestit ja -puhelut pois käytöstä?"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr "Tämä ottaa Signal-viestit ja -puhelut pois käytöstä purkamalla rekisteröitymisesi palvelimelta. Jos haluat käyttää niitä jatkossa, täytyy sinun rekisteröityä puhelinnumerollasi uudelleen."
+
+msgid "Enter key sends"
+msgstr "Rivinvaihto lähettää"
+
+msgid "Verifying number"
+msgstr "Vahvistetaan numeroa"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr "Signal vahvistaa nyt puhelinnumerosi automaattisesti tekstiviestillä."
+
+msgid "Waiting for SMS verification..."
+msgstr "Odotetaan vahvistustekstiviestiä..."
+
 msgid "Sent"
 msgstr "Lähetetty"
 
 msgid "Received"
 msgstr "Vastaanotettu"
+
+msgid "New message"
+msgstr "Uusi viesti"
 
 msgid "Secure session reset."
 msgstr "Suojattu istunto alustettu"

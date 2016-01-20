@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: be\n"
@@ -14,14 +14,8 @@ msgstr ""
 msgid "Settings"
 msgstr "Налады"
 
-msgid "Privacy"
-msgstr ""
-
 msgid "Advanced"
 msgstr "Прасунуты"
-
-msgid "Enter key sends"
-msgstr "Дасылаць клавішай Enter"
 
 msgid "Save"
 msgstr "Захаваць"
@@ -81,7 +75,7 @@ msgid "Select all"
 msgstr "Выбраць усё"
 
 msgid "Message details"
-msgstr ""
+msgstr "Дэталі паведамлення"
 
 msgid "Copy text"
 msgstr "Капіраваць тэкст"
@@ -110,6 +104,9 @@ msgstr "Выдаліць"
 msgid "Group members"
 msgstr "Удзельнікі групы"
 
+msgid "Connect with Signal"
+msgstr ""
+
 msgid "YOUR COUNTRY"
 msgstr "ВАША КРАІНА"
 
@@ -125,17 +122,47 @@ msgstr "Працэс рэгістрацыі перадасць некатору�
 msgid "Register"
 msgstr "Зарэгістравацца"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "Праверці ці гэта сапраўды Ваш нумар. Ён будзе правярацца з дапамогай SMS."
+
 msgid "Cancel"
-msgstr "Адмена"
+msgstr ""
 
 msgid "Mark all read"
 msgstr "Пазначыць усе як прачытаныя"
+
+msgid "Help"
+msgstr ""
+
+msgid "Unregistering"
+msgstr ""
+
+msgid "Disable Signal messages and calls?"
+msgstr ""
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr ""
+
+msgid "Enter key sends"
+msgstr "Дасылаць клавішай Enter"
+
+msgid "Verifying number"
+msgstr "Праверка нумару"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr ""
+
+msgid "Waiting for SMS verification..."
+msgstr "Чакаем на праверачную SMS..."
 
 msgid "Sent"
 msgstr "Адпраўлена"
 
 msgid "Received"
 msgstr "Атрымана"
+
+msgid "New message"
+msgstr "Новае паведамленне"
 
 msgid "Secure session reset."
 msgstr ""

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: mk\n"
@@ -13,14 +13,8 @@ msgstr ""
 msgid "Settings"
 msgstr "Подесувања"
 
-msgid "Privacy"
-msgstr "Приватност"
-
 msgid "Advanced"
 msgstr "Напредни подесувања"
-
-msgid "Enter key sends"
-msgstr "Enter испраќа порака"
 
 msgid "Save"
 msgstr "Зачувај"
@@ -53,7 +47,7 @@ msgid "This may help if you're having encryption problems in this conversation. 
 msgstr ""
 
 msgid "Verify identity"
-msgstr ""
+msgstr "Проверете идентитет"
 
 msgid "Recipients list"
 msgstr "Листа на примачи"
@@ -80,7 +74,7 @@ msgid "Select all"
 msgstr "Избери се"
 
 msgid "Message details"
-msgstr ""
+msgstr "Детали за пораката"
 
 msgid "Copy text"
 msgstr "Копирај текст"
@@ -109,6 +103,9 @@ msgstr "Избриши"
 msgid "Group members"
 msgstr "Членови на групата"
 
+msgid "Connect with Signal"
+msgstr ""
+
 msgid "YOUR COUNTRY"
 msgstr "ВАШАТА ДРЖАВА"
 
@@ -124,17 +121,47 @@ msgstr "Регистрацијата испраќа некои ваши конт
 msgid "Register"
 msgstr "Регистрирајте се"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "Проверете уште еднаш дали е ова вашиот број. Наскоро ќе го веривикуваме со SMS порака."
+
 msgid "Cancel"
-msgstr "Откажи"
+msgstr ""
 
 msgid "Mark all read"
 msgstr "Обележи ги сите како прочитани"
+
+msgid "Help"
+msgstr ""
+
+msgid "Unregistering"
+msgstr "Одјавување"
+
+msgid "Disable Signal messages and calls?"
+msgstr ""
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr ""
+
+msgid "Enter key sends"
+msgstr "Enter испраќа порака"
+
+msgid "Verifying number"
+msgstr "Верификација на бројот"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr ""
+
+msgid "Waiting for SMS verification..."
+msgstr "Се чека за SMS потврда..."
 
 msgid "Sent"
 msgstr "Испратено"
 
 msgid "Received"
 msgstr "Примено"
+
+msgid "New message"
+msgstr "Нова порака"
 
 msgid "Secure session reset."
 msgstr ""

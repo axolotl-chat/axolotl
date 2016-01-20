@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: sl\n"
@@ -14,14 +14,8 @@ msgstr ""
 msgid "Settings"
 msgstr "Nastavitve"
 
-msgid "Privacy"
-msgstr "Zasebnost"
-
 msgid "Advanced"
 msgstr "Napredno"
-
-msgid "Enter key sends"
-msgstr "Tipka 'Naprej' pošlje"
 
 msgid "Save"
 msgstr "Shrani"
@@ -110,6 +104,9 @@ msgstr "Izbriši"
 msgid "Group members"
 msgstr "Člani skupine"
 
+msgid "Connect with Signal"
+msgstr "Poveži se s Signal"
+
 msgid "YOUR COUNTRY"
 msgstr "VAŠA DRŽAVA"
 
@@ -125,17 +122,47 @@ msgstr "Pri registraciji se nekateri podatki uporabnika začasno posredujejo na 
 msgid "Register"
 msgstr "Registriraj"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "Preverite, če je to zares vaša telefonska številka! Overili jo bomo s sporočilom SMS."
+
 msgid "Cancel"
 msgstr "Prekliči"
 
 msgid "Mark all read"
 msgstr "Označi vse kot prebrano"
 
+msgid "Help"
+msgstr "Pomoč"
+
+msgid "Unregistering"
+msgstr "Odjava poteka"
+
+msgid "Disable Signal messages and calls?"
+msgstr "Izklopim sporočila in klice Signal?"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr "S tem boste izključili sporočila in klice Signal in se odjavili s strežnika. Za ponovno uporabo boste morali zopet prijaviti s svojo telefonsko številko."
+
+msgid "Enter key sends"
+msgstr "Tipka 'Naprej' pošlje"
+
+msgid "Verifying number"
+msgstr "Preverjam številko"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr "Aplikacija Signal bo avtomatsko preverila vašo telefonsko številko s potrditvenim sporočilom SMS."
+
+msgid "Waiting for SMS verification..."
+msgstr "Čakam na SMS potrditev..."
+
 msgid "Sent"
 msgstr "Poslano:"
 
 msgid "Received"
 msgstr "Prejeto:"
+
+msgid "New message"
+msgstr "Novo sporočilo"
 
 msgid "Secure session reset."
 msgstr "Varna seja ponastavljena."

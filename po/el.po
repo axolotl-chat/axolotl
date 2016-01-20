@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: el\n"
@@ -14,14 +14,8 @@ msgstr ""
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-msgid "Privacy"
-msgstr "Ιδιωτικότητα"
-
 msgid "Advanced"
 msgstr "Για προχωρημένους"
-
-msgid "Enter key sends"
-msgstr "Το Enter αποστέλλει"
 
 msgid "Save"
 msgstr "Αποθήκευση"
@@ -78,10 +72,10 @@ msgid "This will permanently delete all messages in this conversation."
 msgstr "Αυτό θα διαγράψει μόνιμα όλα τα μηνύματα αυτής της συζήτησης."
 
 msgid "Select all"
-msgstr "Επιλογή Όλων"
+msgstr "Επιλογή όλων"
 
 msgid "Message details"
-msgstr ""
+msgstr "Στοιχεία μηνύματος"
 
 msgid "Copy text"
 msgstr "Αντιγραφή κειμένου"
@@ -110,6 +104,9 @@ msgstr "Διαγραφή"
 msgid "Group members"
 msgstr "Μέλη ομάδας"
 
+msgid "Connect with Signal"
+msgstr "Σύνδεση με το Signal"
+
 msgid "YOUR COUNTRY"
 msgstr "Η ΧΩΡΑ ΣΟΥ"
 
@@ -125,17 +122,47 @@ msgstr "Η εγγραφή θα μεταδόσει προσωρινά κάποι�
 msgid "Register"
 msgstr "Εγγραφή"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "Έλεγξε ξανά ότι αυτός είναι ο αριθμός σου! Είμαστε έτοιμοι να τον επιβεβαιώσουμε με SMS."
+
 msgid "Cancel"
 msgstr "Ακύρωση"
 
 msgid "Mark all read"
 msgstr "Σημείωση όλων ως αναγνωσμένα"
 
+msgid "Help"
+msgstr "Βοήθεια"
+
+msgid "Unregistering"
+msgstr "Απεγγραφή"
+
+msgid "Disable Signal messages and calls?"
+msgstr "Απενεργοποίηση των μηνυμάτων και των κλήσεων Signal;"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr "Απενεργοποίηση μηνυμάτων και κλήσεων του Signal με απεγγραφή από τον διακομιστή. Θα χρειαστεί να επανεγγράψεις τον αριθμό τηλεφώνου σου για να τα ξαναχρησιμοποιήσεις στο μέλλον."
+
+msgid "Enter key sends"
+msgstr "Το Enter αποστέλλει"
+
+msgid "Verifying number"
+msgstr "Γίνεται επιβεβαίωση αριθμού"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr "Το Signal θα επιβεβαιώσει αυτόματα τον αριθμό σου με ένα SMS επιβεβαίωσης."
+
+msgid "Waiting for SMS verification..."
+msgstr "Αναμονή για επιβεβαίωση SMS..."
+
 msgid "Sent"
 msgstr "Στάλθηκε στις"
 
 msgid "Received"
 msgstr "Ελήφθη στις"
+
+msgid "New message"
+msgstr "Νέο Μήνυμα"
 
 msgid "Secure session reset."
 msgstr "Επαναφορά ασφαλούς συνεδρίας."
@@ -144,7 +171,7 @@ msgid "You have left the group."
 msgstr "Αποχωρήσατε από την ομάδα."
 
 msgid "Their identity (they read):"
-msgstr "Η ταυτότητά του/tης (αυτός/η διαβάζει):"
+msgstr "Η ταυτότητά του/της (αυτός/η διαβάζει):"
 
 msgid "Your identity (you read):"
 msgstr "Η ταυτότητά σου (εσύ διαβάζεις):"

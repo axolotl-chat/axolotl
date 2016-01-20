@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: sv\n"
@@ -14,14 +14,8 @@ msgstr ""
 msgid "Settings"
 msgstr "Inställningar"
 
-msgid "Privacy"
-msgstr "Integritet"
-
 msgid "Advanced"
 msgstr "Avancerade"
-
-msgid "Enter key sends"
-msgstr "Entertangenten skickar"
 
 msgid "Save"
 msgstr "Spara"
@@ -110,6 +104,9 @@ msgstr "Radera"
 msgid "Group members"
 msgstr "Gruppmedlemmar"
 
+msgid "Connect with Signal"
+msgstr "Anslut med Signal"
+
 msgid "YOUR COUNTRY"
 msgstr "DITT LAND"
 
@@ -125,17 +122,47 @@ msgstr "Registrering kommer att temporärt överföra viss kontaktinformation ti
 msgid "Register"
 msgstr "Registrera"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "Dubbelkolla att det här är ditt nummer! Vi ska nu verifiera det med ett SMS."
+
 msgid "Cancel"
 msgstr "Avbryt"
 
 msgid "Mark all read"
 msgstr "Markera alla lästa"
 
+msgid "Help"
+msgstr "Hjälp"
+
+msgid "Unregistering"
+msgstr "Avregistrering"
+
+msgid "Disable Signal messages and calls?"
+msgstr "Inaktivera Signal-meddelanden och samtal?"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr "Avaktivera Signal-meddelanden och samtal genom att avregistrera dig från servern. Du kommer behöva återregistrera ditt telefonnummer för att använda dem igen senare."
+
+msgid "Enter key sends"
+msgstr "Entertangenten skickar"
+
+msgid "Verifying number"
+msgstr "Verifierar nummer"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr "Signal kommer nu att automatiskt verifiera ditt telefonnummer med ett sms."
+
+msgid "Waiting for SMS verification..."
+msgstr "Väntar på SMS-verifiering..."
+
 msgid "Sent"
 msgstr "Skickat"
 
 msgid "Received"
 msgstr "Mottaget"
+
+msgid "New message"
+msgstr "Nytt meddelande"
 
 msgid "Secure session reset."
 msgstr "Säker session nollställd."

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: zh-rCN\n"
@@ -13,14 +13,8 @@ msgstr ""
 msgid "Settings"
 msgstr "设置"
 
-msgid "Privacy"
-msgstr "隐私"
-
 msgid "Advanced"
 msgstr "高级"
-
-msgid "Enter key sends"
-msgstr "按下回车键发送"
 
 msgid "Save"
 msgstr "保存"
@@ -109,6 +103,9 @@ msgstr "删除"
 msgid "Group members"
 msgstr "群组成员"
 
+msgid "Connect with Signal"
+msgstr "通过暗号连接"
+
 msgid "YOUR COUNTRY"
 msgstr "国家或地区"
 
@@ -124,17 +121,47 @@ msgstr "注册将会传输一些联系人信息到服务器。这些信息不会
 msgid "Register"
 msgstr "注册人"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "请仔细复查您的号码，我们将通过短信进行验证。"
+
 msgid "Cancel"
 msgstr "取消"
 
 msgid "Mark all read"
 msgstr "全部标记为已读"
 
+msgid "Help"
+msgstr "帮助"
+
+msgid "Unregistering"
+msgstr "反注册"
+
+msgid "Disable Signal messages and calls?"
+msgstr "禁用暗号信息和呼叫？"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr "注销暗号将会禁用暗号信息和呼叫。如果您还想使用该功能，则必须使用您的手机号码重新注册。"
+
+msgid "Enter key sends"
+msgstr "按下回车键发送"
+
+msgid "Verifying number"
+msgstr "正在验证号码"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr "暗号将会通过短信自动验证您的手机号码。"
+
+msgid "Waiting for SMS verification..."
+msgstr "等待短信 验证…"
+
 msgid "Sent"
 msgstr "发送"
 
 msgid "Received"
 msgstr "接收"
+
+msgid "New message"
+msgstr "新信息"
 
 msgid "Secure session reset."
 msgstr "安全会话已重设。"

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: hr\n"
@@ -14,14 +14,8 @@ msgstr ""
 msgid "Settings"
 msgstr "Postavke"
 
-msgid "Privacy"
-msgstr "Privatnost"
-
 msgid "Advanced"
 msgstr "Napredno"
-
-msgid "Enter key sends"
-msgstr "Enter šalje poruku"
 
 msgid "Save"
 msgstr "Spremi"
@@ -81,7 +75,7 @@ msgid "Select all"
 msgstr "Odaberi sve"
 
 msgid "Message details"
-msgstr ""
+msgstr "Detalji poruke"
 
 msgid "Copy text"
 msgstr "Kopiraj tekst"
@@ -110,6 +104,9 @@ msgstr "Obriši"
 msgid "Group members"
 msgstr "Članovi grupe"
 
+msgid "Connect with Signal"
+msgstr "Povežite se sa Signal"
+
 msgid "YOUR COUNTRY"
 msgstr "VAŠA ZEMLJA"
 
@@ -125,17 +122,47 @@ msgstr "Registracija šalje neke informacije o kontaktima na poslužitelj. Podac
 msgid "Register"
 msgstr "Registriraj"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "Provjerite da li je ovo vaš broj telefona! Uskoro ćemo poslati SMS poruku na njega kako bi ga provjerili."
+
 msgid "Cancel"
 msgstr "Odustani"
 
 msgid "Mark all read"
 msgstr "Označi sve pročitano"
 
+msgid "Help"
+msgstr ""
+
+msgid "Unregistering"
+msgstr "Uklanjanje registracije"
+
+msgid "Disable Signal messages and calls?"
+msgstr "Onemogući Signal poruke i pozive?"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr "Onemogućite Signal poruke i pozive tako što će ukloniti registraciju s poslužitelja. Trebat ćete ponovno registrirati vaš broj telefona kako biste ih koristili u budućnosti."
+
+msgid "Enter key sends"
+msgstr "Enter šalje poruku"
+
+msgid "Verifying number"
+msgstr "Potvrdi broj"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr "Signal će sada automatski provjeriti vaš broj sa SMS porukom."
+
+msgid "Waiting for SMS verification..."
+msgstr "Čekanje na SMS potvrdu..."
+
 msgid "Sent"
 msgstr "Poslano"
 
 msgid "Received"
 msgstr "Primljeno"
+
+msgid "New message"
+msgstr "Nova poruka"
 
 msgid "Secure session reset."
 msgstr "Resetiranje sigurne sesije."

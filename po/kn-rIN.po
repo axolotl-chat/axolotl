@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: kn-rIN\n"
@@ -13,14 +13,8 @@ msgstr ""
 msgid "Settings"
 msgstr "ಸೆಟ್ಟಿಂಗ್ಗಳು"
 
-msgid "Privacy"
-msgstr ""
-
 msgid "Advanced"
 msgstr "ಸುಧಾರಿತ"
-
-msgid "Enter key sends"
-msgstr "Enter ಕಳುಹಿಸುತ್ತದೆ"
 
 msgid "Save"
 msgstr "ಉಳಿಸಿ"
@@ -80,7 +74,7 @@ msgid "Select all"
 msgstr "ಎಲ್ಲಾ ಆಯ್ಕೆಮಾಡಿ"
 
 msgid "Message details"
-msgstr ""
+msgstr "ಸಂದೇಶದ ವಿವರಗಳು"
 
 msgid "Copy text"
 msgstr "ಪಠ್ಯ ನಕಲಿಸು"
@@ -109,6 +103,9 @@ msgstr "ಅಳಿಸಿಹಾಕು"
 msgid "Group members"
 msgstr "ಸಮೂಹದ ಸದಸ್ಯರು"
 
+msgid "Connect with Signal"
+msgstr ""
+
 msgid "YOUR COUNTRY"
 msgstr "ನಿಮ್ಮ ರಾಷ್ಟ್ರ"
 
@@ -124,17 +121,47 @@ msgstr "ನೋಂದಣಿ ಸರ್ವರ್ ಗೆ ಕೆಲ ಸಂಪ�
 msgid "Register"
 msgstr "ನೋಂದಾಯಿಸು"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "ಈದು ನಿಮ್ಮ ಸಂಖ್ಯೆ ಎಂದು ಮರುಪರಿಶೀಲಿಸಿ! ನಾವು ಒಂದು ಪರಿಶೀಲಿನ ಎಸ್ ಎಮ್ ಎಸ್ ಅನ್ನು ಕಳುಸಲಿದ್ದೇವೆ."
+
 msgid "Cancel"
-msgstr "ರದ್ದುಮಾಡು"
+msgstr ""
 
 msgid "Mark all read"
 msgstr "ಎಲ್ಲವನ್ನು ಓದಿದೆ ಎಂದು ಗುರುತು ಮಾಡಿ"
+
+msgid "Help"
+msgstr ""
+
+msgid "Unregistering"
+msgstr "ನೋಂದಣಿಯನ್ನು ರದ್ದುಗೊಳಿಸಲಾಗುತ್ತಿದೆ..."
+
+msgid "Disable Signal messages and calls?"
+msgstr ""
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr ""
+
+msgid "Enter key sends"
+msgstr "Enter ಕಳುಹಿಸುತ್ತದೆ"
+
+msgid "Verifying number"
+msgstr "ಸಂಖ್ಯೆಯನ್ನು ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr ""
+
+msgid "Waiting for SMS verification..."
+msgstr "ಎಸ್ಎಂಎಸ್ ಪರಿಶೀಲನೆಗಾಗಿ ನಿರೀಕ್ಷಿಸಲಾಗುತ್ತಿದೆ ..."
 
 msgid "Sent"
 msgstr "ಕಳುಹಿಸಲಾಗಿದೆ"
 
 msgid "Received"
 msgstr "ಸ್ವೀಕರಿಸಲಾಗಿದೆ"
+
+msgid "New message"
+msgstr "ಹೊಸ ಸಂದೇಶ"
 
 msgid "Secure session reset."
 msgstr ""

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: bg\n"
@@ -14,14 +14,8 @@ msgstr ""
 msgid "Settings"
 msgstr "Настройки"
 
-msgid "Privacy"
-msgstr "Лично пространство"
-
 msgid "Advanced"
 msgstr "Допълнителни"
-
-msgid "Enter key sends"
-msgstr "Клавишът Enter се използва за изпращане"
 
 msgid "Save"
 msgstr "Запази"
@@ -110,6 +104,9 @@ msgstr "Изтрий"
 msgid "Group members"
 msgstr "Членове на групата"
 
+msgid "Connect with Signal"
+msgstr "Свържи се със Signal"
+
 msgid "YOUR COUNTRY"
 msgstr "ТВОЯТА ДЪРЖАВА"
 
@@ -125,11 +122,38 @@ msgstr "Регистрацията ще прехвърли временно ма
 msgid "Register"
 msgstr "Регистрирай"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "Проверете, че това е Вашия номер! Следва да го проверим чрез SMS."
+
 msgid "Cancel"
 msgstr "Отказ"
 
 msgid "Mark all read"
 msgstr "Маркирай всички като прочетени"
+
+msgid "Help"
+msgstr "Помощ"
+
+msgid "Unregistering"
+msgstr "Отписване"
+
+msgid "Disable Signal messages and calls?"
+msgstr "Деактивирай Signal съобщения и обаждания?"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr "Деактивирайте Signal съобщения и обаждания като се дерегистрирате от сървъра. Ще трябва да регистрирате своят номер отново, за да ползвате услугите в бъдеще."
+
+msgid "Enter key sends"
+msgstr "Клавишът Enter се използва за изпращане"
+
+msgid "Verifying number"
+msgstr "Потвърждаване на номера"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr "Signal ще опита да потвърди телефонния ти номер, автоматично, посредством SMS."
+
+msgid "Waiting for SMS verification..."
+msgstr "Изчкване за SMS потвърждение..."
 
 msgid "Sent"
 msgstr "Изпратен"
@@ -137,8 +161,11 @@ msgstr "Изпратен"
 msgid "Received"
 msgstr "Получен"
 
+msgid "New message"
+msgstr "Ново съобщение"
+
 msgid "Secure session reset."
-msgstr "Сигурната сесия е започната от начало."
+msgstr "Започване на нова сигурна сесия."
 
 msgid "You have left the group."
 msgstr "Напуснахте групата."

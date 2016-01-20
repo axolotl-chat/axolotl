@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: in\n"
@@ -13,14 +13,8 @@ msgstr ""
 msgid "Settings"
 msgstr "Konfigurasi"
 
-msgid "Privacy"
-msgstr "Privasi"
-
 msgid "Advanced"
 msgstr "Lanjutan"
-
-msgid "Enter key sends"
-msgstr "Enter untuk mengirim"
 
 msgid "Save"
 msgstr "Simpan"
@@ -29,7 +23,7 @@ msgid "Search"
 msgstr "Cari"
 
 msgid "Refresh"
-msgstr ""
+msgstr "Perbaharui"
 
 msgid "New group"
 msgstr "Grup baru"
@@ -47,10 +41,10 @@ msgid "Reset secure session"
 msgstr "Setel ulang sesi aman"
 
 msgid "Reset secure session?"
-msgstr ""
+msgstr "Atur kembali sesi aman?"
 
 msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
-msgstr ""
+msgstr "Ini dapat membantu jika Anda mengalami masalah enkripsi dalam percakapan ini. Pesan Anda akan disimpan."
 
 msgid "Verify identity"
 msgstr "Verifikasi identitas"
@@ -68,13 +62,13 @@ msgid "Are you sure you want to leave this group?"
 msgstr "Apakah Anda yakin ingin meninggalkan grup ini?"
 
 msgid "Delete conversation"
-msgstr ""
+msgstr "Hapus percakapan"
 
 msgid "Delete conversation?"
-msgstr ""
+msgstr "Hapus percakapan?"
 
 msgid "This will permanently delete all messages in this conversation."
-msgstr ""
+msgstr "Ini akan menghapus secara permanen seluruh pesan dalam percakapan."
 
 msgid "Select all"
 msgstr "Pilih semua"
@@ -109,6 +103,9 @@ msgstr "Hapus"
 msgid "Group members"
 msgstr "Anggota grup"
 
+msgid "Connect with Signal"
+msgstr "Sambung Menggunakan Signal"
+
 msgid "YOUR COUNTRY"
 msgstr "NEGARA ANDA"
 
@@ -124,17 +121,47 @@ msgstr "Pendaftaran mengirimkan beberapa informasi kontak ke server. Tetapi tida
 msgid "Register"
 msgstr "Daftar"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "Periksa lagi bahwa ini adalah nomor Anda! Kami akan memverifikasinya dengan SMS."
+
 msgid "Cancel"
 msgstr "Batal"
 
 msgid "Mark all read"
 msgstr "Tandai semua dibaca"
 
+msgid "Help"
+msgstr "Batuan"
+
+msgid "Unregistering"
+msgstr "Berhenti registrasi"
+
+msgid "Disable Signal messages and calls?"
+msgstr "Nonaktifkan pesan dan panggilan Signal?"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr "Menonaktifkan pesan dan pangggilan Signal dengan berhenti registrasi dari server. Anda perlu mendaftar ulang nomor telepon Anda untuk menggunakannya lagi di kemudian hari."
+
+msgid "Enter key sends"
+msgstr "Enter untuk mengirim"
+
+msgid "Verifying number"
+msgstr "Memverifikasi Nomor"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr "Signal akan secara otomatis memverifikasi nomor Anda menggunakan konfirmasi pesan SMS."
+
+msgid "Waiting for SMS verification..."
+msgstr "Menunggu Verifikasi SMS..."
+
 msgid "Sent"
 msgstr "Terkirim"
 
 msgid "Received"
 msgstr "Diterima"
+
+msgid "New message"
+msgstr "Pesan baru"
 
 msgid "Secure session reset."
 msgstr "Sesi aman disetel ulang."

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: iw\n"
@@ -13,14 +13,8 @@ msgstr ""
 msgid "Settings"
 msgstr "הגדרות"
 
-msgid "Privacy"
-msgstr "פרטיות"
-
 msgid "Advanced"
 msgstr "מתקדם"
-
-msgid "Enter key sends"
-msgstr "מקש Enter שולח"
 
 msgid "Save"
 msgstr "שמירה"
@@ -47,7 +41,7 @@ msgid "Reset secure session"
 msgstr "אתחול התחברות מאובטחת"
 
 msgid "Reset secure session?"
-msgstr "לאתחל התחברות מאובטחת?"
+msgstr "לאתחל מחדש התחברות מאובטחת?"
 
 msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
 msgstr "זה יכול לעזור עם יש לך בעיות הצפנה בשיחה הזאת. המסרים שלך יישמרו."
@@ -62,7 +56,7 @@ msgid "Leave group"
 msgstr "לעזוב את הקבוצה"
 
 msgid "Leave group?"
-msgstr "לעזוב את הקבוצה"
+msgstr "לעזוב את הקבוצה?"
 
 msgid "Are you sure you want to leave this group?"
 msgstr "האם ברצונך באמת לעזוב את הקבוצה?"
@@ -92,7 +86,7 @@ msgid "Delete message"
 msgstr "מחיקת מסר"
 
 msgid "Video"
-msgstr "סרט"
+msgstr "וידאו"
 
 msgid "Audio"
 msgstr "קול"
@@ -101,13 +95,16 @@ msgid "Contact"
 msgstr "איש קשר"
 
 msgid "Send Signal message"
-msgstr "שליחת הודעת סיגנל"
+msgstr "שליחת מסר בסיגנל"
 
 msgid "Delete"
 msgstr "מחיקה"
 
 msgid "Group members"
 msgstr "חברי הקבוצה"
+
+msgid "Connect with Signal"
+msgstr "להתחבר באמצעות סיגנל"
 
 msgid "YOUR COUNTRY"
 msgstr "המדינה שלך"
@@ -124,17 +121,47 @@ msgstr "הרישום שולח פרטי קשר מסוימים לשרת. הם לא
 msgid "Register"
 msgstr "רישום"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "נא לוודא שזה המספר שלך! אנחנו עומדים לאמת אותו באמצעות SMS."
+
 msgid "Cancel"
 msgstr "ביטול"
 
 msgid "Mark all read"
 msgstr "לסמן שקראתי את הכול"
 
+msgid "Help"
+msgstr "עזרה"
+
+msgid "Unregistering"
+msgstr "ביטול רישום"
+
+msgid "Disable Signal messages and calls?"
+msgstr "לכבות מסרים ושיחות קוליות של סיגנל?"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr "לכבות את המסרים ואת השיחות הקוליות של סיגנל באמצעות ביטול רישום בשרת. יהיה צריך לרשום מחדש את מספר הטלפון שלך מחדש כדי להשתמש בהם שוב בעתיד."
+
+msgid "Enter key sends"
+msgstr "מקש Enter שולח"
+
+msgid "Verifying number"
+msgstr "מאמת את המספר"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr "סיגנל יאמת עכשיו את המספר שלך אוטומטית באמצעות SMS."
+
+msgid "Waiting for SMS verification..."
+msgstr "ממתין לאימות SMS..."
+
 msgid "Sent"
 msgstr "נשלח"
 
 msgid "Received"
 msgstr "התקבל"
+
+msgid "New message"
+msgstr "מסר חדש"
 
 msgid "Secure session reset."
 msgstr "התחברות מאובטחת אותחלה."

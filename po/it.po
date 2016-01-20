@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -14,14 +14,8 @@ msgstr ""
 msgid "Settings"
 msgstr "Impostazioni"
 
-msgid "Privacy"
-msgstr "Privacy"
-
 msgid "Advanced"
 msgstr "Avanzate"
-
-msgid "Enter key sends"
-msgstr "Spedisci premendo Invio"
 
 msgid "Save"
 msgstr "Salva"
@@ -105,10 +99,13 @@ msgid "Send Signal message"
 msgstr "Invia messaggio Signal"
 
 msgid "Delete"
-msgstr "Elimina"
+msgstr "Cancella"
 
 msgid "Group members"
 msgstr "Membri del gruppo"
+
+msgid "Connect with Signal"
+msgstr "Connetti con Signal"
 
 msgid "YOUR COUNTRY"
 msgstr "PAESE"
@@ -125,17 +122,47 @@ msgstr "La registrazione trasmette delle informazioni sui contatti al server. No
 msgid "Register"
 msgstr "Registro"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "Assicurati che questo sia il tuo numero! Stiamo per verificarlo con un SMS."
+
 msgid "Cancel"
 msgstr "Annulla"
 
 msgid "Mark all read"
 msgstr "Segnala tutto come già letto"
 
+msgid "Help"
+msgstr "Aiuto"
+
+msgid "Unregistering"
+msgstr "Disiscriviti"
+
+msgid "Disable Signal messages and calls?"
+msgstr "Disattivare i messaggi di Signal?"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr "Disabilita i messaggi di Signal annullando la tua registrazione sul server. Avrai bisogno di registrare di nuovo il tuo numero di telefono per usare di nuovo i messaggi di Signal in futuro."
+
+msgid "Enter key sends"
+msgstr "Spedisci premendo Invio"
+
+msgid "Verifying number"
+msgstr "Verifica del numero"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr "Signal verificherà automaticamente il tuo numero con un SMS di conferma."
+
+msgid "Waiting for SMS verification..."
+msgstr "In attesa di verifica SMS..."
+
 msgid "Sent"
 msgstr "Inviato"
 
 msgid "Received"
 msgstr "Ricevuto"
+
+msgid "New message"
+msgstr "Nuovo messaggio"
 
 msgid "Secure session reset."
 msgstr "Sessione sicura azzerata."

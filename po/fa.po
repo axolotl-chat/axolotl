@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: fa\n"
@@ -13,14 +13,8 @@ msgstr ""
 msgid "Settings"
 msgstr "تنظیمات"
 
-msgid "Privacy"
-msgstr "خلوت"
-
 msgid "Advanced"
 msgstr "تنظیمات پیشرفته"
-
-msgid "Enter key sends"
-msgstr "ارسال با کلید Enter"
 
 msgid "Save"
 msgstr "دخیره"
@@ -74,7 +68,7 @@ msgid "Delete conversation?"
 msgstr "گفتگو حذف شود؟"
 
 msgid "This will permanently delete all messages in this conversation."
-msgstr ""
+msgstr "این کار تمام پیام ها در این گفتگو رابه طور دائم حذف میکند."
 
 msgid "Select all"
 msgstr "انتخاب همه"
@@ -109,6 +103,9 @@ msgstr "حذف"
 msgid "Group members"
 msgstr "اعضای گروه"
 
+msgid "Connect with Signal"
+msgstr "ارتباط با سیگنال"
+
 msgid "YOUR COUNTRY"
 msgstr "کشور شما"
 
@@ -124,17 +121,47 @@ msgstr ""
 msgid "Register"
 msgstr "ثبت نام"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "مطمئن باشید که این شماره شما هست! الآن، برای تایيد کردن، به این شماره اس ام اس میفرستیم."
+
 msgid "Cancel"
 msgstr "لغو"
 
 msgid "Mark all read"
 msgstr "علامت همه به عنوان خوانده شده"
 
+msgid "Help"
+msgstr "کمک"
+
+msgid "Unregistering"
+msgstr "لغو ثبت نام"
+
+msgid "Disable Signal messages and calls?"
+msgstr "تماس ها و پیام های سیگنال غیرفعال شوند؟"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr "غیرفعال کردن پیام ها و تماس های سیگنال با لغو ثبت از سرور.شما نیاز به ثبت نام مجدد شماره تلفن خود برای استفاده مجدد دوباره در آینده دارید."
+
+msgid "Enter key sends"
+msgstr "ارسال با کلید Enter"
+
+msgid "Verifying number"
+msgstr "تایید شماره"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr "سیگنال الآن به صورت اتوماتک شماره شما را با اس ام اس تايید میکند."
+
+msgid "Waiting for SMS verification..."
+msgstr "در حال انتظار برای اس ام اس تایید ..."
+
 msgid "Sent"
 msgstr "فرستاده"
 
 msgid "Received"
 msgstr "رسیده"
+
+msgid "New message"
+msgstr "پیام جدید"
 
 msgid "Secure session reset."
 msgstr "تنظیم مجدد جلسه امن."

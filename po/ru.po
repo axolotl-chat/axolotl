@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: ru\n"
@@ -14,14 +14,8 @@ msgstr ""
 msgid "Settings"
 msgstr "Настройки"
 
-msgid "Privacy"
-msgstr "Конфиденциальность"
-
 msgid "Advanced"
 msgstr "Расширенные"
-
-msgid "Enter key sends"
-msgstr "Отправка клавишей «Ввод»"
 
 msgid "Save"
 msgstr "Сохранить"
@@ -48,10 +42,10 @@ msgid "Reset secure session"
 msgstr "Сбросить защищённый сеанс"
 
 msgid "Reset secure session?"
-msgstr "Сбросить защищённый сеанс"
+msgstr "Сбросить защищённый сеанс?"
 
 msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
-msgstr "Это может помочь, если у вас возникли проблемы с шифрованием в этом разговоре. Ваши сообщения будут сохранены."
+msgstr "Это может помочь, если у вас возникли проблемы с шифрованием в этом разговоре. Все сообщения будут сохранены."
 
 msgid "Verify identity"
 msgstr "Подтвердить личность"
@@ -75,13 +69,13 @@ msgid "Delete conversation?"
 msgstr "Удалить разговор?"
 
 msgid "This will permanently delete all messages in this conversation."
-msgstr "Это удалит все ваши сообщения в этой беседе."
+msgstr "Это удалит все сообщения в этом разговоре."
 
 msgid "Select all"
 msgstr "Выбрать все"
 
 msgid "Message details"
-msgstr "Детали сообщений"
+msgstr "Подробности сообщения"
 
 msgid "Copy text"
 msgstr "Копировать текст"
@@ -102,13 +96,16 @@ msgid "Contact"
 msgstr "Контакт"
 
 msgid "Send Signal message"
-msgstr "Отправить сообщение Signal"
+msgstr "Отправить через Signal"
 
 msgid "Delete"
 msgstr "Удалить"
 
 msgid "Group members"
 msgstr "Участники группы"
+
+msgid "Connect with Signal"
+msgstr "Подключение к Signal"
 
 msgid "YOUR COUNTRY"
 msgstr "ВАША СТРАНА"
@@ -125,11 +122,38 @@ msgstr "При регистрации на сервер передаётся н�
 msgid "Register"
 msgstr "Зарегистрироваться"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "Перепроверьте, что это ваш номер! На него будет отправлено SMS для подтверждения."
+
 msgid "Cancel"
 msgstr "Отмена"
 
 msgid "Mark all read"
 msgstr "Отметить все как прочитанные"
+
+msgid "Help"
+msgstr "Помощь"
+
+msgid "Unregistering"
+msgstr "Отмена регистрации"
+
+msgid "Disable Signal messages and calls?"
+msgstr "Отключить сообщения и звонки через Signal?"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr "Отключить сообщения и звонки Signal, отменив регистрацию на сервере. Вам нужно будет заново зарегистрироваться при помощи Вашего номера телефона, чтобы вновь использовать эти сервисы."
+
+msgid "Enter key sends"
+msgstr "Отправка клавишей «Ввод»"
+
+msgid "Verifying number"
+msgstr "Проверка номера"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr "Сейчас Signal автоматически проверит ваш номер телефона при помощи SMS-сообщения."
+
+msgid "Waiting for SMS verification..."
+msgstr "Ожидаем SMS-подтверждения..."
 
 msgid "Sent"
 msgstr "Отправлено"
@@ -137,8 +161,11 @@ msgstr "Отправлено"
 msgid "Received"
 msgstr "Получено"
 
+msgid "New message"
+msgstr "Новое сообщение"
+
 msgid "Secure session reset."
-msgstr "Сброс защищённого сеанса."
+msgstr "Защищённый сеанс сброшен."
 
 msgid "You have left the group."
 msgstr "Вы покинули группу."

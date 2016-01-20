@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: sr\n"
@@ -14,14 +14,8 @@ msgstr ""
 msgid "Settings"
 msgstr "Поставке"
 
-msgid "Privacy"
-msgstr "Приватност"
-
 msgid "Advanced"
 msgstr "Напредно"
-
-msgid "Enter key sends"
-msgstr "Ентер тастер шаље"
 
 msgid "Save"
 msgstr "Сачувај"
@@ -110,6 +104,9 @@ msgstr "Обриши"
 msgid "Group members"
 msgstr "Чланови групе"
 
+msgid "Connect with Signal"
+msgstr "Повежите се са Сигналом"
+
 msgid "YOUR COUNTRY"
 msgstr "ВАША ДРЖАВА"
 
@@ -125,17 +122,47 @@ msgstr "Ово ће пренети неке податке о контактим
 msgid "Register"
 msgstr "Пријави ме"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "Проверите да ли је ово ваш број! Оверићемо га помоћу СМС поруке."
+
 msgid "Cancel"
 msgstr "Одустани"
 
 msgid "Mark all read"
 msgstr "Означи све прочитаним"
 
+msgid "Help"
+msgstr "Помоћ"
+
+msgid "Unregistering"
+msgstr "Одјављујем"
+
+msgid "Disable Signal messages and calls?"
+msgstr "Онемогућити поруке и позиве преко Сигнала?"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr "Онемогућите поруке и позиве преко СИгнала одјавом са сервера. Мораћете поново да пријавите ваш број телефона да бисте опет их користили убудуће."
+
+msgid "Enter key sends"
+msgstr "Ентер тастер шаље"
+
+msgid "Verifying number"
+msgstr "Оверавам број"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr "Сигнал ће сада аутоматски да овери ваш број помоћу СМС поруке."
+
+msgid "Waiting for SMS verification..."
+msgstr "Чекам СМС оверу..."
+
 msgid "Sent"
 msgstr "Послата"
 
 msgid "Received"
 msgstr "Примљена"
+
+msgid "New message"
+msgstr "Нова порука"
 
 msgid "Secure session reset."
 msgstr "Безбедна сесија је ресетована."

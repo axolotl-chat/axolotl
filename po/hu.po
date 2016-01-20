@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: hu\n"
@@ -14,14 +14,8 @@ msgstr ""
 msgid "Settings"
 msgstr "Beállítások"
 
-msgid "Privacy"
-msgstr "Magánélet"
-
 msgid "Advanced"
 msgstr "Haladó"
-
-msgid "Enter key sends"
-msgstr "Küldés az Enter lenyomásával"
 
 msgid "Save"
 msgstr "Mentés"
@@ -75,7 +69,7 @@ msgid "Delete conversation?"
 msgstr "Beszélgetés törlése?"
 
 msgid "This will permanently delete all messages in this conversation."
-msgstr "Ez azonnal törölni fogja az összes üzenetet ebben a beszégetésben"
+msgstr "Ez végelegesen törölni fogja az összes üzenetet ebben a beszélgetésben."
 
 msgid "Select all"
 msgstr "Összes kijelölése"
@@ -110,6 +104,9 @@ msgstr "Törlés"
 msgid "Group members"
 msgstr "Csoport tagok"
 
+msgid "Connect with Signal"
+msgstr "Kapcsolódás a Signal-lal"
+
 msgid "YOUR COUNTRY"
 msgstr "SAJÁT ORSZÁGOD"
 
@@ -125,17 +122,47 @@ msgstr "A regisztrálás néhány névjegy információt juttat el a kiszolgál�
 msgid "Register"
 msgstr "Regisztrálás"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "Ellenőrizd újra, hogy ez a te számod! Hamarosan egy SMS-ben fogjuk ellenőrizni azt."
+
 msgid "Cancel"
-msgstr "Mégsem"
+msgstr "Mégse"
 
 msgid "Mark all read"
 msgstr "Összes megjelölése olvasottként"
+
+msgid "Help"
+msgstr "Súgó"
+
+msgid "Unregistering"
+msgstr "Leregisztrálás"
+
+msgid "Disable Signal messages and calls?"
+msgstr "Signal üzenetek és hívások letiltása?"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr "Signal üzenetek és hívások letiltása a kiszolgálóról történő leregisztrálással. Újra kell regisztrálnod a telefonszámod, hogy a jövőben újra használhasd őket."
+
+msgid "Enter key sends"
+msgstr "Küldés az Enter lenyomásával"
+
+msgid "Verifying number"
+msgstr "Ellenőrzési szám"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr "A Signal automatikusan ellenőrzi a számodat egy megerősítő SMS üzenettel."
+
+msgid "Waiting for SMS verification..."
+msgstr "Várakozás SMS ellenőrzésre..."
 
 msgid "Sent"
 msgstr "Elküldve"
 
 msgid "Received"
 msgstr "Érkezett"
+
+msgid "New message"
+msgstr "Új üzenet"
 
 msgid "Secure session reset."
 msgstr "Biztonságos munkamenet alaphelyzetbe állítása."

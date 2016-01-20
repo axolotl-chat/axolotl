@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: pt\n"
@@ -14,14 +14,8 @@ msgstr ""
 msgid "Settings"
 msgstr "Configurações"
 
-msgid "Privacy"
-msgstr "Privacidade"
-
 msgid "Advanced"
 msgstr "Avançado"
-
-msgid "Enter key sends"
-msgstr "Tecla de enter envia"
 
 msgid "Save"
 msgstr "Gravar"
@@ -110,6 +104,9 @@ msgstr "Apagar"
 msgid "Group members"
 msgstr "Membros do grupo"
 
+msgid "Connect with Signal"
+msgstr "Ligue-se com Signal"
+
 msgid "YOUR COUNTRY"
 msgstr "PAÍS"
 
@@ -125,17 +122,47 @@ msgstr "O registo irá transmitir alguma informação de contacto para o servido
 msgid "Register"
 msgstr "Registar"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "Verifique que este é o seu número! Estamos prestes a confirmá-lo com uma SMS."
+
 msgid "Cancel"
 msgstr "Cancelar"
 
 msgid "Mark all read"
 msgstr "Marcar todas como lidas"
 
+msgid "Help"
+msgstr "Ajuda"
+
+msgid "Unregistering"
+msgstr "A eliminar o registo..."
+
+msgid "Disable Signal messages and calls?"
+msgstr "Desabilitar mensagens e chamadas Signal?"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr "Desactivar as mensagens Signal, eliminando o seu registo do servidor. Vai ser necessário re-registar o seu número de telefone se pretender utilizar esta funcionalidade novamente."
+
+msgid "Enter key sends"
+msgstr "Tecla de enter envia"
+
+msgid "Verifying number"
+msgstr "A verificar número"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr "Signal vai agora automaticamente verificar o seu número com um SMS de confirmação."
+
+msgid "Waiting for SMS verification..."
+msgstr "A aguardar verificação sms..."
+
 msgid "Sent"
 msgstr "Enviado"
 
 msgid "Received"
 msgstr "Recebido"
+
+msgid "New message"
+msgstr "Mensagem nova"
 
 msgid "Secure session reset."
 msgstr "Sessão segura reiniciada."

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: pt-rBR\n"
@@ -13,14 +13,8 @@ msgstr ""
 msgid "Settings"
 msgstr "Configurações"
 
-msgid "Privacy"
-msgstr "Privacidade"
-
 msgid "Advanced"
 msgstr "Avançado"
-
-msgid "Enter key sends"
-msgstr "Tecla Enter envia"
 
 msgid "Save"
 msgstr "Salvar"
@@ -44,16 +38,16 @@ msgid "Call"
 msgstr "Chamar"
 
 msgid "Reset secure session"
-msgstr ""
+msgstr "Restaurar sessão segura"
 
 msgid "Reset secure session?"
-msgstr "Reiniciar sessão de segurança?"
+msgstr "Reiniciar sessão segura?"
 
 msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
 msgstr "Isto pode ajudar se você está tendo problemas de criptografia nesta conversa. Suas mensagens serão mantidas."
 
 msgid "Verify identity"
-msgstr ""
+msgstr "Verificar identidade"
 
 msgid "Recipients list"
 msgstr "Lista de destinatários"
@@ -68,19 +62,19 @@ msgid "Are you sure you want to leave this group?"
 msgstr "Tem certeza que deseja sair deste grupo?"
 
 msgid "Delete conversation"
-msgstr ""
+msgstr "Apagar conversa"
 
 msgid "Delete conversation?"
-msgstr "Apagar conversa?"
+msgstr "Excluir conversa?"
 
 msgid "This will permanently delete all messages in this conversation."
-msgstr "Isto irá apagar permanentemente todas mensagens nesta conversa."
+msgstr "Isto irá excluir permanentemente todas as mensagens nesta conversa."
 
 msgid "Select all"
 msgstr "Selecionar todas"
 
 msgid "Message details"
-msgstr ""
+msgstr "Detalhes da mensagem"
 
 msgid "Copy text"
 msgstr "Copiar texto"
@@ -109,6 +103,9 @@ msgstr "Excluir"
 msgid "Group members"
 msgstr "Membros do grupo"
 
+msgid "Connect with Signal"
+msgstr "Conectado com Signal"
+
 msgid "YOUR COUNTRY"
 msgstr "SEU PAÍS"
 
@@ -116,7 +113,7 @@ msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
 msgstr "SEU CÓDIGO DE PAÍS E NÚMERO TELEFÔNICO"
 
 msgid "Verify your phone number to connect with Signal."
-msgstr ""
+msgstr "Verifique o seu número de telefone para se conectar ao Signal."
 
 msgid "Registration transmits some contact information to the server. It is not stored."
 msgstr "O registro irá transmitir algumas informações de contato para o servidor. Elas não serão gravadas."
@@ -124,17 +121,47 @@ msgstr "O registro irá transmitir algumas informações de contato para o servi
 msgid "Register"
 msgstr "Cadastrar"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "Verifique novamente que este é o seu número! Estamos prestes a verificá-lo com um SMS."
+
 msgid "Cancel"
 msgstr "Cancelar"
 
 msgid "Mark all read"
 msgstr "Marcar todas como lidas"
 
+msgid "Help"
+msgstr "Ajuda"
+
+msgid "Unregistering"
+msgstr "Descadastrar"
+
+msgid "Disable Signal messages and calls?"
+msgstr "Desabilitar mensagens e chamadas Signal?"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr "Desabilitar mensagens e chamadas Signal descadastrando-o do servidor. Você precisará recadastrar seu número de telefone para usar o Signal novamente no futuro."
+
+msgid "Enter key sends"
+msgstr "Tecla Enter envia"
+
+msgid "Verifying number"
+msgstr "Verificando número"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr "Agora o Signal verificará o seu número automaticamente com uma mensagem SMS de confirmação."
+
+msgid "Waiting for SMS verification..."
+msgstr "Aguardando verificação por SMS..."
+
 msgid "Sent"
 msgstr "Enviada"
 
 msgid "Received"
 msgstr "Recebida"
+
+msgid "New message"
+msgstr "Nova mensagem"
 
 msgid "Secure session reset."
 msgstr "Sessão segura reiniciada."

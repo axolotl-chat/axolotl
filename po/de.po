@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 01:25+0200\n"
-"PO-Revision-Date: 2015-12-02 01:25+0200\n"
+"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"PO-Revision-Date: 2016-01-20 15:04+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: de\n"
@@ -14,14 +14,8 @@ msgstr ""
 msgid "Settings"
 msgstr "Einstellungen"
 
-msgid "Privacy"
-msgstr "Datenschutz"
-
 msgid "Advanced"
 msgstr "Weitere Einstellungen"
-
-msgid "Enter key sends"
-msgstr "Eingabetaste sendet"
 
 msgid "Save"
 msgstr "Speichern"
@@ -75,7 +69,7 @@ msgid "Delete conversation?"
 msgstr "Unterhaltung löschen?"
 
 msgid "This will permanently delete all messages in this conversation."
-msgstr "Alle Nachrichten dieser Unterhaltung dauerhaft löschen."
+msgstr "Alle Nachrichten dieser Unterhaltung unwiderruflich löschen."
 
 msgid "Select all"
 msgstr "Alle auswählen"
@@ -110,6 +104,9 @@ msgstr "Löschen"
 msgid "Group members"
 msgstr "Gruppenmitglieder"
 
+msgid "Connect with Signal"
+msgstr "Mit Signal verbinden"
+
 msgid "YOUR COUNTRY"
 msgstr "IHR LAND"
 
@@ -125,17 +122,47 @@ msgstr "Während der Registrierung werden einige Kontaktinformationen an den Ser
 msgid "Register"
 msgstr "Registrieren"
 
+msgid "Double-check that this is your number! We're about to verify it with an SMS."
+msgstr "Bitte kontrollieren Sie noch einmal Ihre Rufnummer. Diese wird anschließend durch eine SMS überprüft."
+
 msgid "Cancel"
-msgstr "Abbruch"
+msgstr "Abbrechen"
 
 msgid "Mark all read"
 msgstr "Alle als gelesen markieren"
+
+msgid "Help"
+msgstr "Hilfe"
+
+msgid "Unregistering"
+msgstr "Registrierung löschen"
+
+msgid "Disable Signal messages and calls?"
+msgstr "Signal-Nachrichten und -Anrufe deaktivieren?"
+
+msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+msgstr "Signal-Nachrichten und -Anrufe durch Löschen Ihrer Registrierung vom Server deaktivieren. Sie werden Ihre Rufnummer erneut registrieren müssen, um zukünftig wieder verschlüsselt zu kommunizieren."
+
+msgid "Enter key sends"
+msgstr "Eingabetaste sendet"
+
+msgid "Verifying number"
+msgstr "Rufnummer wird überprüft"
+
+msgid "Signal will now automatically verify your number with a confirmation SMS message."
+msgstr "Signal wird Ihre Rufnummer nun automatisch mit einer SMS überprüfen."
+
+msgid "Waiting for SMS verification..."
+msgstr "Warten auf SMS-Überprüfung …"
 
 msgid "Sent"
 msgstr "Gesendet"
 
 msgid "Received"
 msgstr "Empfangen"
+
+msgid "New message"
+msgstr "Neue Nachricht"
 
 msgid "Secure session reset."
 msgstr "Verschlüsselung neu gestartet."
