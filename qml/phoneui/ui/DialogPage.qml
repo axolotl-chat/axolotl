@@ -187,57 +187,19 @@ TelegramPage {
             }
         }
 
-        Component {
-            id: attachPopovercomponent
+        QtObject {
+            id: privates
+            property variant attachmentItem
+        }
 
-            ActionSelectionPopover {
-                id: attachPopover
-                contentWidth: units.gu(22)
-                focus: false
-                z: 3
-                delegate: ListItems.Standard {
-                    iconFrame: false
-                    iconSource: Qt.resolvedUrl(action.iconSource)
-                    focus: false
-                    text: action.text
-                }
-                actions: ActionList {
-                    Action {
-                        iconName:"image-x-generic-symbolic"
-                        text: i18n.tr("Photo")
-                        onTriggered: {
-                            attachPopover.hide();
-                            requestMedia(ContentType.Pictures);
-                        }
-                    }
-                    Action {
-                        iconName:"video-x-generic-symbolic"
-                        text: i18n.tr("Video")
-                        onTriggered: {
-                            message.forceActiveFocus();
-                            attachPopover.hide();
-                            requestMedia(ContentType.Videos);
-                        }
-                    }
-                    Action {
-                        iconName:"audio-speakers-symbolic"
-                        text: i18n.tr("Audio")
-                        onTriggered: {
-                            message.forceActiveFocus();
-                            attachPopover.hide();
-                            requestMedia(ContentType.Music);
-                        }
-                    }
-                    Action {
-                        iconName:"contact"
-                        text: i18n.tr("Contact")
-                        onTriggered: {
-                            message.forceActiveFocus();
-                            attachPopover.hide();
-                            requestMedia(ContentType.Contacts);
-                        }
-                    }
-                }
+        Component {
+            id: attach_panel_component
+
+            AttachPanel {
+                onPhotoRequested: requestMedia(ContentType.Pictures)
+                onVideoRequested: requestMedia(ContentType.Videos)
+                onAudioRequested: requestMedia(ContentType.Music)
+                onContactRequested: requestMedia(ContentType.Contacts)
             }
         }
 
@@ -348,9 +310,8 @@ TelegramPage {
                             anchors.fill: attachButton
                             onClicked: {
                                 if (isConnected) {
-                                    message.focus = false;
-                                    Qt.inputMethod.hide();
-                                    PopupUtils.open(attachPopovercomponent, attachButton)
+                                    privates.attachmentItem = attach_panel_component.createObject(dialogPage)
+                                    privates.attachmentItem.isShown = true;
                                 }
                             }
                         }
