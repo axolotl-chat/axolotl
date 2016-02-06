@@ -82,7 +82,9 @@ MainView {
 	PushClient {
 		id: pushClient
 		appId: "textsecure.jani_textsecure"
-		onTokenChanged: console.log("Push client token is", token)
+		onTokenChanged: {
+			//console.log("Push client token is", token)
+		}
 	}
 
 	function initialize() {
