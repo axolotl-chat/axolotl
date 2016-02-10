@@ -4,10 +4,11 @@ import (
 	"encoding/base64"
 	"errors"
 	"io/ioutil"
-	"log"
 	"os"
 	"path/filepath"
 	"strings"
+
+	log "github.com/Sirupsen/logrus"
 
 	"bitbucket.org/llg/vcard"
 	"github.com/godbus/dbus"

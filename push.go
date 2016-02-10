@@ -3,9 +3,10 @@ package main
 import (
 	"encoding/json"
 	"io"
-	"log"
 	"os"
 	"time"
+
+	log "github.com/Sirupsen/logrus"
 
 	"github.com/gosexy/gettext"
 )

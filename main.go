@@ -12,13 +12,14 @@ import (
 	_ "image/png"
 	"io"
 	"io/ioutil"
-	"log"
 	"os"
 	"os/user"
 	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
+
+	log "github.com/Sirupsen/logrus"
 
 	"github.com/dustin/go-humanize"
 	"github.com/gosexy/gettext"

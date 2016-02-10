@@ -3,10 +3,11 @@ package main
 import (
 	"io"
 	"io/ioutil"
-	"log"
 	"os"
 	"strings"
 	"time"
+
+	log "github.com/Sirupsen/logrus"
 
 	"github.com/gosexy/gettext"
 	"github.com/janimo/textsecure"
