@@ -5,6 +5,14 @@ import Ubuntu.Components.Popups 1.0
 Dialog {
     id: dialogue
 
+    property alias textWithLink:textBox.text
+
+    Text {
+        id: textBox
+        wrapMode: Text.WordWrap
+        onLinkActivated:Qt.openUrlExternally(link)
+    }
+
     Button {
         text: i18n.tr("OK")
         color: UbuntuColors.green
