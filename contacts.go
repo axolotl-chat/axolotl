@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	log "github.com/Sirupsen/logrus"
@@ -66,9 +67,11 @@ func phoneFromVCardFile(file string) (string, error) {
 	return "", errors.New("No phone number for contact.")
 }
 
+var pre = regexp.MustCompile("[^0-9+]")
+
 func formatE164(tel string, country string) string {
 	if tel[0] == '+' {
-		return strings.Replace(tel, " ", "", -1)
+		return pre.ReplaceAllString(tel, "")
 	}
 	num, err := libphonenumber.Parse(tel, country)
 	if err != nil {
