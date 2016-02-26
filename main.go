@@ -43,6 +43,7 @@ var (
 	configFile   string
 	contactsFile string
 	settingsFile string
+	logFile      string
 	dataDir      string
 	storageDir   string
 	attachDir    string
@@ -240,6 +241,15 @@ func showError(err error) {
 	win.Root().Call("error", err.Error())
 }
 
+func setupLogging() error {
+	f, err := os.OpenFile(logFile, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0600)
+	if err != nil {
+		return err
+	}
+	log.SetOutput(f)
+	return nil
+}
+
 func setup() {
 
 	setupTranslations()
@@ -262,6 +272,7 @@ func setup() {
 		homeDir = user.HomeDir
 	}
 	cacheDir = filepath.Join(homeDir, ".cache/", appName)
+	logFile = filepath.Join(cacheDir, "log")
 	configDir = filepath.Join(homeDir, ".config/", appName)
 	contactsFile = filepath.Join(configDir, "contacts.yml")
 	settingsFile = filepath.Join(configDir, "settings.yml")
@@ -270,6 +281,9 @@ func setup() {
 	attachDir = filepath.Join(dataDir, "attachments")
 	os.MkdirAll(attachDir, 0700)
 	storageDir = filepath.Join(dataDir, ".storage")
+
+	setupLogging()
+
 	if err := setupDB(); err != nil {
 		log.Fatal(err)
 	}
@@ -337,6 +351,7 @@ func sendUnsentMessages() {
 
 func main() {
 	setup()
+	log.Println("Setup completed")
 	if isPushHelper {
 		pushHelperProcess()
 	}
