@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: bg\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgid "Image"
+msgstr "Изображение"
+
+msgid "Video"
+msgstr "Видео"
+
+msgid "Audio"
+msgstr "Аудио"
+
+msgid "Contact"
+msgstr "Контакт"
+
 msgid "Settings"
 msgstr "Настройки"
 
@@ -86,15 +98,6 @@ msgstr "Препрати съобщението"
 msgid "Delete message"
 msgstr "Изтрий съобщението"
 
-msgid "Video"
-msgstr "Видео"
-
-msgid "Audio"
-msgstr "Аудио"
-
-msgid "Contact"
-msgstr "Контакт"
-
 msgid "Send Signal message"
 msgstr "Изпрати Signal съобщение"
 
@@ -145,6 +148,12 @@ msgstr "Деактивирайте Signal съобщения и обаждани
 
 msgid "Enter key sends"
 msgstr "Клавишът Enter се използва за изпращане"
+
+msgid "Submit debug log"
+msgstr "Изпрати доклад"
+
+msgid "Success!"
+msgstr "Успех!"
 
 msgid "Verifying number"
 msgstr "Потвърждаване на номера"

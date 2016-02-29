@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: es\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgid "Image"
+msgstr "Imagen"
+
+msgid "Video"
+msgstr "Vídeo"
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Contact"
+msgstr "Contacto"
+
 msgid "Settings"
 msgstr "Parámetros"
 
@@ -86,15 +98,6 @@ msgstr "Reenviar mensaje"
 msgid "Delete message"
 msgstr "Borrar mensaje"
 
-msgid "Video"
-msgstr "Vídeo"
-
-msgid "Audio"
-msgstr "Audio"
-
-msgid "Contact"
-msgstr "Contacto"
-
 msgid "Send Signal message"
 msgstr "Enviar mensaje de Signal"
 
@@ -145,6 +148,12 @@ msgstr "Esto deshabilitará los mensajes de Signal eliminándole del servidor. N
 
 msgid "Enter key sends"
 msgstr "Enviar con Intro"
+
+msgid "Submit debug log"
+msgstr "Remitir registro (log) de depuración"
+
+msgid "Success!"
+msgstr "¡Completado!"
 
 msgid "Verifying number"
 msgstr "Verificando número"

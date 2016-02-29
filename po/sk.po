@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: sk\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+msgid "Image"
+msgstr ""
+
+msgid "Video"
+msgstr ""
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Contact"
+msgstr ""
+
 msgid "Settings"
 msgstr "Nastavenia"
 
@@ -48,7 +60,7 @@ msgid "This may help if you're having encryption problems in this conversation. 
 msgstr ""
 
 msgid "Verify identity"
-msgstr ""
+msgstr "Over totožnosť"
 
 msgid "Recipients list"
 msgstr "Zoznam príjemcov"
@@ -72,7 +84,7 @@ msgid "This will permanently delete all messages in this conversation."
 msgstr ""
 
 msgid "Select all"
-msgstr "Vybrať všetko"
+msgstr "Označ všetko"
 
 msgid "Message details"
 msgstr "Podrobnosti správy"
@@ -85,15 +97,6 @@ msgstr "Prepošli správu"
 
 msgid "Delete message"
 msgstr "Zmaž správu"
-
-msgid "Video"
-msgstr "Video"
-
-msgid "Audio"
-msgstr ""
-
-msgid "Contact"
-msgstr ""
 
 msgid "Send Signal message"
 msgstr ""
@@ -126,7 +129,7 @@ msgid "Double-check that this is your number! We're about to verify it with an S
 msgstr "Skontrolujte pre istotu znovu, že ste správne zadali Vaše telefónne číslo! Prebehne overenie pomocou SMS."
 
 msgid "Cancel"
-msgstr "Zrušiť"
+msgstr ""
 
 msgid "Mark all read"
 msgstr "Označ všetky prečítané"
@@ -145,6 +148,12 @@ msgstr ""
 
 msgid "Enter key sends"
 msgstr "Odoslať stiskom klávesy Enter"
+
+msgid "Submit debug log"
+msgstr "Odošli ladiaci log"
+
+msgid "Success!"
+msgstr "Operácia úspešne dokončená!"
 
 msgid "Verifying number"
 msgstr "Overovanie čísla"

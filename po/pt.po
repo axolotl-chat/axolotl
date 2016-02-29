@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: pt\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgid "Image"
+msgstr "Imagem"
+
+msgid "Video"
+msgstr "Vídeo"
+
+msgid "Audio"
+msgstr "Áudio"
+
+msgid "Contact"
+msgstr "Contacto"
+
 msgid "Settings"
 msgstr "Configurações"
 
@@ -86,15 +98,6 @@ msgstr "Reencaminhar mensagem"
 msgid "Delete message"
 msgstr "Apagar mensagem"
 
-msgid "Video"
-msgstr "Vídeo"
-
-msgid "Audio"
-msgstr "Áudio"
-
-msgid "Contact"
-msgstr "Contacto"
-
 msgid "Send Signal message"
 msgstr "Enviar mensagem Signal"
 
@@ -105,7 +108,7 @@ msgid "Group members"
 msgstr "Membros do grupo"
 
 msgid "Connect with Signal"
-msgstr "Ligue-se com Signal"
+msgstr ""
 
 msgid "YOUR COUNTRY"
 msgstr "PAÍS"
@@ -145,6 +148,12 @@ msgstr "Desactivar as mensagens Signal, eliminando o seu registo do servidor. Va
 
 msgid "Enter key sends"
 msgstr "Tecla de enter envia"
+
+msgid "Submit debug log"
+msgstr ""
+
+msgid "Success!"
+msgstr "Sucesso!"
 
 msgid "Verifying number"
 msgstr "A verificar número"

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: pl\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+msgid "Image"
+msgstr "Obraz"
+
+msgid "Video"
+msgstr "Wideo"
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Contact"
+msgstr "Kontakt"
+
 msgid "Settings"
 msgstr "Ustawienia"
 
@@ -86,15 +98,6 @@ msgstr "Przekaż wiadomość"
 msgid "Delete message"
 msgstr "Usuń wiadomość"
 
-msgid "Video"
-msgstr "Wideo"
-
-msgid "Audio"
-msgstr "Audio"
-
-msgid "Contact"
-msgstr "Kontakt"
-
 msgid "Send Signal message"
 msgstr "Wyślij wiadomość Signal"
 
@@ -105,7 +108,7 @@ msgid "Group members"
 msgstr "Użytkownicy grupy"
 
 msgid "Connect with Signal"
-msgstr "Połącz z Signal"
+msgstr "Połącz z aplikacją Signal"
 
 msgid "YOUR COUNTRY"
 msgstr "TWÓJ KRAJ"
@@ -145,6 +148,12 @@ msgstr "Wyłącz wiadomości i połączenia telefoniczne Signal poprzez wyrejest
 
 msgid "Enter key sends"
 msgstr "Enter wysyła"
+
+msgid "Submit debug log"
+msgstr "Wyślij raport debugowania."
+
+msgid "Success!"
+msgstr "Sukces!"
 
 msgid "Verifying number"
 msgstr "Weryfikowanie numeru"

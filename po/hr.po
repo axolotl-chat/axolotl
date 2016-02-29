@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: hr\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+msgid "Image"
+msgstr "Slika"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Contact"
+msgstr "Kontakt"
+
 msgid "Settings"
 msgstr "Postavke"
 
@@ -24,7 +36,7 @@ msgid "Search"
 msgstr "Traži"
 
 msgid "Refresh"
-msgstr ""
+msgstr "Osvježi"
 
 msgid "New group"
 msgstr "Nova grupa"
@@ -48,7 +60,7 @@ msgid "This may help if you're having encryption problems in this conversation. 
 msgstr "Može pomoći ukoliko imate problema s kriptiranjem u ovom razgovoru. Vaše poruke će biti zadržane."
 
 msgid "Verify identity"
-msgstr "Potvrdite identitet"
+msgstr "Provjeri identitet"
 
 msgid "Recipients list"
 msgstr "Popis primatelja"
@@ -63,7 +75,7 @@ msgid "Are you sure you want to leave this group?"
 msgstr "Jeste li sigurni da želite napustiti ovu grupu?"
 
 msgid "Delete conversation"
-msgstr ""
+msgstr "Obriši razgovor"
 
 msgid "Delete conversation?"
 msgstr "Obriši razgovor?"
@@ -86,15 +98,6 @@ msgstr "Proslijedi poruku"
 msgid "Delete message"
 msgstr "Obriši poruku"
 
-msgid "Video"
-msgstr "Video"
-
-msgid "Audio"
-msgstr ""
-
-msgid "Contact"
-msgstr ""
-
 msgid "Send Signal message"
 msgstr "Pošalji Signal poruku"
 
@@ -105,7 +108,7 @@ msgid "Group members"
 msgstr "Članovi grupe"
 
 msgid "Connect with Signal"
-msgstr "Povežite se sa Signal"
+msgstr "Poveži sa Signal"
 
 msgid "YOUR COUNTRY"
 msgstr "VAŠA ZEMLJA"
@@ -132,7 +135,7 @@ msgid "Mark all read"
 msgstr "Označi sve pročitano"
 
 msgid "Help"
-msgstr ""
+msgstr "Pomoć"
 
 msgid "Unregistering"
 msgstr "Uklanjanje registracije"
@@ -145,6 +148,12 @@ msgstr "Onemogućite Signal poruke i pozive tako što će ukloniti registraciju 
 
 msgid "Enter key sends"
 msgstr "Enter šalje poruku"
+
+msgid "Submit debug log"
+msgstr "Pošalji debug zapis"
+
+msgid "Success!"
+msgstr "Uspješno!"
 
 msgid "Verifying number"
 msgstr "Potvrdi broj"

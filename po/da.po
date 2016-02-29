@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: da\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgid "Image"
+msgstr "Billede"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Audio"
+msgstr "Lyd"
+
+msgid "Contact"
+msgstr "Kontaktperson"
+
 msgid "Settings"
 msgstr "Indstillinger"
 
@@ -86,15 +98,6 @@ msgstr "Videresend besked"
 msgid "Delete message"
 msgstr "Slet besked"
 
-msgid "Video"
-msgstr "Video"
-
-msgid "Audio"
-msgstr "Lyd"
-
-msgid "Contact"
-msgstr "Kontaktperson"
-
 msgid "Send Signal message"
 msgstr "Send Signalbesked"
 
@@ -105,7 +108,7 @@ msgid "Group members"
 msgstr "Gruppemedlemmer"
 
 msgid "Connect with Signal"
-msgstr "Forbundet til Signal"
+msgstr ""
 
 msgid "YOUR COUNTRY"
 msgstr "DIT LAND"
@@ -145,6 +148,12 @@ msgstr "Deaktivér Signalbeskeder og -opkald ved at afregistrere fra serveren. D
 
 msgid "Enter key sends"
 msgstr "Enter sender"
+
+msgid "Submit debug log"
+msgstr ""
+
+msgid "Success!"
+msgstr "Fuldført!"
 
 msgid "Verifying number"
 msgstr "Verificerer nummer"

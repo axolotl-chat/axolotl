@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: ja\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+msgid "Image"
+msgstr ""
+
+msgid "Video"
+msgstr ""
+
+msgid "Audio"
+msgstr ""
+
+msgid "Contact"
+msgstr ""
+
 msgid "Settings"
 msgstr "設定"
 
@@ -42,13 +54,13 @@ msgid "Reset secure session"
 msgstr ""
 
 msgid "Reset secure session?"
-msgstr ""
+msgstr "セキュア・セッションをリセットしますか？"
 
 msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
 msgstr ""
 
 msgid "Verify identity"
-msgstr "認証検証"
+msgstr "本人確認"
 
 msgid "Recipients list"
 msgstr "受信者リスト"
@@ -85,15 +97,6 @@ msgstr "メッセージの転送"
 
 msgid "Delete message"
 msgstr "メッセージの削除"
-
-msgid "Video"
-msgstr "動画"
-
-msgid "Audio"
-msgstr ""
-
-msgid "Contact"
-msgstr ""
 
 msgid "Send Signal message"
 msgstr ""
@@ -135,16 +138,22 @@ msgid "Help"
 msgstr ""
 
 msgid "Unregistering"
-msgstr "未登録"
+msgstr "登録取り消し"
 
 msgid "Disable Signal messages and calls?"
-msgstr ""
+msgstr "Signalでのメッセージ・通話を無効にしますか？"
 
 msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
-msgstr ""
+msgstr "サーバーから登録を取消します。Signalを使ったメッセージのやり取りや通話はできなくなります。 再びSignalを使うためには、あなたの電話番号を再登録をする必要があります。"
 
 msgid "Enter key sends"
 msgstr "エンターキーで送信"
+
+msgid "Submit debug log"
+msgstr ""
+
+msgid "Success!"
+msgstr "成功しました。"
 
 msgid "Verifying number"
 msgstr "番号を確認中..."

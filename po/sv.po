@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: sv\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgid "Image"
+msgstr "Bilder"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Audio"
+msgstr "Ljud"
+
+msgid "Contact"
+msgstr "Kontakt"
+
 msgid "Settings"
 msgstr "Inställningar"
 
@@ -86,15 +98,6 @@ msgstr "Vidarebefordra meddelande"
 msgid "Delete message"
 msgstr "Radera meddelande"
 
-msgid "Video"
-msgstr "Video"
-
-msgid "Audio"
-msgstr "Ljud"
-
-msgid "Contact"
-msgstr "Kontakt"
-
 msgid "Send Signal message"
 msgstr "Skicka Signal-meddelande"
 
@@ -145,6 +148,12 @@ msgstr "Avaktivera Signal-meddelanden och samtal genom att avregistrera dig frå
 
 msgid "Enter key sends"
 msgstr "Entertangenten skickar"
+
+msgid "Submit debug log"
+msgstr ""
+
+msgid "Success!"
+msgstr "Lyckades!"
 
 msgid "Verifying number"
 msgstr "Verifierar nummer"

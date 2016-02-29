@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: el\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgid "Image"
+msgstr "Εικόνα"
+
+msgid "Video"
+msgstr "Βίντεο"
+
+msgid "Audio"
+msgstr "Ήχος"
+
+msgid "Contact"
+msgstr "Επαφή"
+
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
@@ -86,15 +98,6 @@ msgstr "Προώθηση μηνύματος"
 msgid "Delete message"
 msgstr "Διαγραφή μηνύματος"
 
-msgid "Video"
-msgstr "Βίντεο"
-
-msgid "Audio"
-msgstr "Ήχος"
-
-msgid "Contact"
-msgstr "Επαφή"
-
 msgid "Send Signal message"
 msgstr "Αποστολή μηνύματος Signal"
 
@@ -105,7 +108,7 @@ msgid "Group members"
 msgstr "Μέλη ομάδας"
 
 msgid "Connect with Signal"
-msgstr "Σύνδεση με το Signal"
+msgstr ""
 
 msgid "YOUR COUNTRY"
 msgstr "Η ΧΩΡΑ ΣΟΥ"
@@ -145,6 +148,12 @@ msgstr "Απενεργοποίηση μηνυμάτων και κλήσεων τ
 
 msgid "Enter key sends"
 msgstr "Το Enter αποστέλλει"
+
+msgid "Submit debug log"
+msgstr ""
+
+msgid "Success!"
+msgstr "Επιτυχία!"
 
 msgid "Verifying number"
 msgstr "Γίνεται επιβεβαίωση αριθμού"

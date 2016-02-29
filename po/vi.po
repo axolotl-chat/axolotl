@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: vi\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+msgid "Image"
+msgstr "Ảnh"
+
+msgid "Video"
+msgstr "Đoạn phim"
+
+msgid "Audio"
+msgstr "Nhạc"
+
+msgid "Contact"
+msgstr "Liên lạc"
+
 msgid "Settings"
 msgstr "Thiết Đặt"
 
@@ -86,15 +98,6 @@ msgstr "Chuyển tiếp tin nhắn"
 msgid "Delete message"
 msgstr "Xóa tin nhắn"
 
-msgid "Video"
-msgstr "Video"
-
-msgid "Audio"
-msgstr "Nhạc"
-
-msgid "Contact"
-msgstr "Liên lạc"
-
 msgid "Send Signal message"
 msgstr "Gửi thông điệp Signal"
 
@@ -105,7 +108,7 @@ msgid "Group members"
 msgstr "Thành viên trong nhóm"
 
 msgid "Connect with Signal"
-msgstr "Kết nối với Signal"
+msgstr ""
 
 msgid "YOUR COUNTRY"
 msgstr "QUỐC GIA BẠN"
@@ -126,7 +129,7 @@ msgid "Double-check that this is your number! We're about to verify it with an S
 msgstr "Xem lại lần nữa để bảo đảm đây là số của bạn! Chúng tôi sắp sửa phối kiểm nó với một SMS."
 
 msgid "Cancel"
-msgstr "Hủy"
+msgstr "Hủy bỏ"
 
 msgid "Mark all read"
 msgstr "Đánh dấu tất cả đã đọc"
@@ -145,6 +148,12 @@ msgstr "Tắt tin nhắn và cuộc gọi Signal bằng cách huỷ đăng ký t
 
 msgid "Enter key sends"
 msgstr "Phím Enter gửi đi"
+
+msgid "Submit debug log"
+msgstr ""
+
+msgid "Success!"
+msgstr "Thành công!"
 
 msgid "Verifying number"
 msgstr "Kiểm Chứng Số Điện Thoại"

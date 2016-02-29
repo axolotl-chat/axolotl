@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: ko\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+msgid "Image"
+msgstr "이미지"
+
+msgid "Video"
+msgstr "동영상"
+
+msgid "Audio"
+msgstr "오디오"
+
+msgid "Contact"
+msgstr "연락처"
+
 msgid "Settings"
 msgstr "설정"
 
@@ -48,7 +60,7 @@ msgid "This may help if you're having encryption problems in this conversation. 
 msgstr "이 대화에 암호화 문제가 발생할 경우 이 문제를 해결할 수 있습니다. 모든 메시지가 보관됩니다."
 
 msgid "Verify identity"
-msgstr "신분 확인"
+msgstr "인증 키 확인"
 
 msgid "Recipients list"
 msgstr "수신자 목록"
@@ -85,15 +97,6 @@ msgstr "메시지 전달"
 
 msgid "Delete message"
 msgstr "메시지 삭제"
-
-msgid "Video"
-msgstr "동영상"
-
-msgid "Audio"
-msgstr "오디오"
-
-msgid "Contact"
-msgstr "연락처"
 
 msgid "Send Signal message"
 msgstr "Signal 메시지 보내기"
@@ -145,6 +148,12 @@ msgstr "서버에 탈퇴하여 Signal 메시지와 통화를 사용 중지합니
 
 msgid "Enter key sends"
 msgstr "Enter키로 메시지 보내기"
+
+msgid "Submit debug log"
+msgstr "디버그 로그 보내기"
+
+msgid "Success!"
+msgstr "성공"
 
 msgid "Verifying number"
 msgstr "전화번호 확인"

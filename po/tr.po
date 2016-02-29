@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: tr\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgid "Image"
+msgstr "Resim"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Audio"
+msgstr "Ses"
+
+msgid "Contact"
+msgstr "Kişi"
+
 msgid "Settings"
 msgstr "Ayarlar"
 
@@ -86,15 +98,6 @@ msgstr "Mesajı yönlendir"
 msgid "Delete message"
 msgstr "Mesaj sil"
 
-msgid "Video"
-msgstr "Video"
-
-msgid "Audio"
-msgstr "Ses"
-
-msgid "Contact"
-msgstr "Kişi"
-
 msgid "Send Signal message"
 msgstr "Signal mesajı gönder"
 
@@ -105,7 +108,7 @@ msgid "Group members"
 msgstr "Grup üyeleri"
 
 msgid "Connect with Signal"
-msgstr "Signal ile bağlan"
+msgstr "Signal'le bağlan"
 
 msgid "YOUR COUNTRY"
 msgstr "ÜLKENİZ"
@@ -114,7 +117,7 @@ msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
 msgstr "ÜLKE KODUNUZ VE TELEFON NUMARANIZ"
 
 msgid "Verify your phone number to connect with Signal."
-msgstr "Signal ile bağlanmak için telefon numaranızı doğrulayın."
+msgstr "Signal'le bağlanmak için telefon numaranızı doğrulayın."
 
 msgid "Registration transmits some contact information to the server. It is not stored."
 msgstr "Kayıt işlemi ile bazı kişi bilgileriniz sunucuya gönderilecek. Fakat bu bilgiler sunucuda saklanmıyor."
@@ -138,13 +141,19 @@ msgid "Unregistering"
 msgstr "Kayıt siliniyor"
 
 msgid "Disable Signal messages and calls?"
-msgstr "Signal mesajlarını ve aramalarını etkisizleştir?"
+msgstr "Signal mesajlarını ve aramalarını devre dışı bırak?"
 
 msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
-msgstr "Sunucudaki kaydınızı silerek Signal mesajlarını ve aramalarını etkisizleştirin. Bu özellikleri gelecekte yeniden kullanabilmeniz için telefon numaranızı tekrar kaydetmeniz gerekir."
+msgstr "Sunucudaki kaydınızı silerek Signal mesajlarını ve aramalarını devre dışı bırakın. Bu özellikleri gelecekte yeniden kullanabilmeniz için telefon numaranızı tekrar kaydetmeniz gerekir."
 
 msgid "Enter key sends"
 msgstr "Enter tuşu gönderir"
+
+msgid "Submit debug log"
+msgstr "Hata ayıklama günlüğünü gönder"
+
+msgid "Success!"
+msgstr "Başarılı!"
 
 msgid "Verifying number"
 msgstr "Numara doğrulanıyor"

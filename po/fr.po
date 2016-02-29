@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: fr\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+msgid "Image"
+msgstr "Image"
+
+msgid "Video"
+msgstr "Vidéo"
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Contact"
+msgstr "Contact"
+
 msgid "Settings"
 msgstr "Paramètres"
 
@@ -48,7 +60,7 @@ msgid "This may help if you're having encryption problems in this conversation. 
 msgstr "Cela peut aider si vous avez des problèmes de chiffrement dans cette conversation. Vos messages seront sauvegardés."
 
 msgid "Verify identity"
-msgstr "Vérifier l'identité"
+msgstr "Vérifier l’identité"
 
 msgid "Recipients list"
 msgstr "Liste des destinataires"
@@ -85,15 +97,6 @@ msgstr "Faire suivre le message"
 
 msgid "Delete message"
 msgstr "Supprimer le message"
-
-msgid "Video"
-msgstr "Vidéo"
-
-msgid "Audio"
-msgstr "Audio"
-
-msgid "Contact"
-msgstr "Contact"
 
 msgid "Send Signal message"
 msgstr "Envoyer un message Signal"
@@ -145,6 +148,12 @@ msgstr "Désactiver les messages et appels Signal en vous désinscrivant du serv
 
 msgid "Enter key sends"
 msgstr "La touche Entrée envoie"
+
+msgid "Submit debug log"
+msgstr "Envoyer un rapport de débogage"
+
+msgid "Success!"
+msgstr "Réussite !"
 
 msgid "Verifying number"
 msgstr "Vérification du numéro"

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: ro\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
+msgid "Image"
+msgstr "Imagine"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Contact"
+msgstr "Contact"
+
 msgid "Settings"
 msgstr "Setări"
 
@@ -36,7 +48,7 @@ msgid "Group name"
 msgstr "Nume grup"
 
 msgid "Call"
-msgstr "Sună"
+msgstr "Apelează"
 
 msgid "Reset secure session"
 msgstr "Resetează sesiunea securizată"
@@ -45,7 +57,7 @@ msgid "Reset secure session?"
 msgstr "Resetez sesiunea securizată?"
 
 msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
-msgstr ""
+msgstr "Această acțiune poate ajuta dacă ai probleme de criptare în conversația curentă. Mesajele tale vor fi păstrate."
 
 msgid "Verify identity"
 msgstr "Verifică identitatea"
@@ -57,10 +69,10 @@ msgid "Leave group"
 msgstr "Părăseşte grupul"
 
 msgid "Leave group?"
-msgstr "Doriți să părăsiți grupul?"
+msgstr "Vrei să părăsești grupul?"
 
 msgid "Are you sure you want to leave this group?"
-msgstr "Sunteți sigur că doriți să părăsiți acest grup?"
+msgstr "Ești sigur că vrei să părăsești acest grup?"
 
 msgid "Delete conversation"
 msgstr "Șterge conversația"
@@ -86,15 +98,6 @@ msgstr "Expediază mesajul"
 msgid "Delete message"
 msgstr "Şterge mesaj"
 
-msgid "Video"
-msgstr "Video"
-
-msgid "Audio"
-msgstr "Audio"
-
-msgid "Contact"
-msgstr "Contact"
-
 msgid "Send Signal message"
 msgstr "Trimite mesaj Signal"
 
@@ -105,13 +108,13 @@ msgid "Group members"
 msgstr "Membrii grupului"
 
 msgid "Connect with Signal"
-msgstr "Conectare prin Signal"
+msgstr "Conectează-te la Signal"
 
 msgid "YOUR COUNTRY"
-msgstr "TARA DVS."
+msgstr "ȚARA TA"
 
 msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
-msgstr "CODUL ŢĂRII DVS. ŞI NUMĂRUL DE TELEFON"
+msgstr "CODUL ŢĂRII TALE ŞI NUMĂRUL DE TELEFON"
 
 msgid "Verify your phone number to connect with Signal."
 msgstr "Verifică numărul tău de telefon pentru a te conecta la Signal."
@@ -120,7 +123,7 @@ msgid "Registration transmits some contact information to the server. It is not 
 msgstr "Înregistrarea transmite unele informații despre contact către server. Acestea nu sunt stocate."
 
 msgid "Register"
-msgstr "Inregistrare"
+msgstr "Înregistrare"
 
 msgid "Double-check that this is your number! We're about to verify it with an SMS."
 msgstr "Verifică din nou dacă acesta este numărul tău! Suntem pe cale să-l verificăm printr-un SMS."
@@ -132,7 +135,7 @@ msgid "Mark all read"
 msgstr "Marchează tot ca citit"
 
 msgid "Help"
-msgstr "Asistență"
+msgstr "Ajutor"
 
 msgid "Unregistering"
 msgstr "Anulare înregistrare"
@@ -146,14 +149,20 @@ msgstr "Dezactivare mesaje și apeluri Signal prin dezabonarea de la server. Va 
 msgid "Enter key sends"
 msgstr "Tasta Enter trimite"
 
+msgid "Submit debug log"
+msgstr "Trimite log-ul de depanare"
+
+msgid "Success!"
+msgstr "Succes!"
+
 msgid "Verifying number"
-msgstr "Verificarea numărului"
+msgstr "Se verifică numărul"
 
 msgid "Signal will now automatically verify your number with a confirmation SMS message."
 msgstr "Signal va verifica acum automat numărul de telefon printr-un mesaj SMS de confirmare."
 
 msgid "Waiting for SMS verification..."
-msgstr "Asteptarea verificarii prin SMS"
+msgstr "Se așteaptă SMS-ul de verificare..."
 
 msgid "Sent"
 msgstr "Trimis"

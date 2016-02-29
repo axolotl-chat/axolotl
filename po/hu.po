@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: hu\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgid "Image"
+msgstr "Kép"
+
+msgid "Video"
+msgstr "Videó"
+
+msgid "Audio"
+msgstr "Hang"
+
+msgid "Contact"
+msgstr "Névjegy"
+
 msgid "Settings"
 msgstr "Beállítások"
 
@@ -33,7 +45,7 @@ msgid "Update group"
 msgstr "Csoport frissítése"
 
 msgid "Group name"
-msgstr "Csoport név"
+msgstr "Csoportnév"
 
 msgid "Call"
 msgstr "Hívás"
@@ -72,10 +84,10 @@ msgid "This will permanently delete all messages in this conversation."
 msgstr "Ez végelegesen törölni fogja az összes üzenetet ebben a beszélgetésben."
 
 msgid "Select all"
-msgstr "Összes kijelölése"
+msgstr "Összes kiválasztása"
 
 msgid "Message details"
-msgstr "Üzenet részletek"
+msgstr "Üzenet részletei"
 
 msgid "Copy text"
 msgstr "Szöveg másolása"
@@ -86,15 +98,6 @@ msgstr "Üzenet továbbküldése"
 msgid "Delete message"
 msgstr "Üzenet törlése"
 
-msgid "Video"
-msgstr "Videó"
-
-msgid "Audio"
-msgstr "Hang"
-
-msgid "Contact"
-msgstr "Névjegy"
-
 msgid "Send Signal message"
 msgstr "Signal üzenet küldése"
 
@@ -102,19 +105,19 @@ msgid "Delete"
 msgstr "Törlés"
 
 msgid "Group members"
-msgstr "Csoport tagok"
+msgstr "Csoporttagok"
 
 msgid "Connect with Signal"
-msgstr "Kapcsolódás a Signal-lal"
+msgstr "Kapcsolódás Signal-lal"
 
 msgid "YOUR COUNTRY"
-msgstr "SAJÁT ORSZÁGOD"
+msgstr "ORSZÁGOD"
 
 msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
-msgstr "SAJÁT ORSZÁG HÍVÓSZÁM TELEFONSZÁM"
+msgstr "ORSZÁGKÓDOD ÉS TELEFONSZÁM"
 
 msgid "Verify your phone number to connect with Signal."
-msgstr "Ellenőrizd a telefonszámod a Signal-hoz csatlakozáshoz."
+msgstr "Ellenőrizd a telefonszámod a Signal-lal való csatlakozáshoz."
 
 msgid "Registration transmits some contact information to the server. It is not stored."
 msgstr "A regisztrálás néhány névjegy információt juttat el a kiszolgálóhoz. Az adatok nem kerülnek tárolásra."
@@ -144,7 +147,13 @@ msgid "Disable Signal messages and calls by unregistering from the server. You w
 msgstr "Signal üzenetek és hívások letiltása a kiszolgálóról történő leregisztrálással. Újra kell regisztrálnod a telefonszámod, hogy a jövőben újra használhasd őket."
 
 msgid "Enter key sends"
-msgstr "Küldés az Enter lenyomásával"
+msgstr "Enter billentyű elküld"
+
+msgid "Submit debug log"
+msgstr "Hibakeresési napló küldése"
+
+msgid "Success!"
+msgstr "Sikerült!"
 
 msgid "Verifying number"
 msgstr "Ellenőrzési szám"

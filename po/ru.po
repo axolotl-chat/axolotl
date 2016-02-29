@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: ru\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+msgid "Image"
+msgstr "Изображение"
+
+msgid "Video"
+msgstr "Видео"
+
+msgid "Audio"
+msgstr "Аудио"
+
+msgid "Contact"
+msgstr "Контакт"
+
 msgid "Settings"
 msgstr "Настройки"
 
@@ -75,7 +87,7 @@ msgid "Select all"
 msgstr "Выбрать все"
 
 msgid "Message details"
-msgstr "Подробности сообщения"
+msgstr "Подробности"
 
 msgid "Copy text"
 msgstr "Копировать текст"
@@ -85,15 +97,6 @@ msgstr "Переслать сообщение"
 
 msgid "Delete message"
 msgstr "Удалить сообщение"
-
-msgid "Video"
-msgstr "Видео"
-
-msgid "Audio"
-msgstr "Аудио"
-
-msgid "Contact"
-msgstr "Контакт"
 
 msgid "Send Signal message"
 msgstr "Отправить через Signal"
@@ -105,7 +108,7 @@ msgid "Group members"
 msgstr "Участники группы"
 
 msgid "Connect with Signal"
-msgstr "Подключение к Signal"
+msgstr "Подключение с Signal"
 
 msgid "YOUR COUNTRY"
 msgstr "ВАША СТРАНА"
@@ -145,6 +148,12 @@ msgstr "Отключить сообщения и звонки Signal, отмен
 
 msgid "Enter key sends"
 msgstr "Отправка клавишей «Ввод»"
+
+msgid "Submit debug log"
+msgstr "Отправить журнал отладки"
+
+msgid "Success!"
+msgstr "Успешно!"
 
 msgid "Verifying number"
 msgstr "Проверка номера"

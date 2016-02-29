@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgid "Image"
+msgstr "Immagini"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Contact"
+msgstr "Contatto"
+
 msgid "Settings"
 msgstr "Impostazioni"
 
@@ -42,7 +54,7 @@ msgid "Reset secure session"
 msgstr "Azzera la sessione sicura"
 
 msgid "Reset secure session?"
-msgstr "Azzerare la sessione sicura?"
+msgstr "Reimpostare la sessione sicura?"
 
 msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
 msgstr "Questo potrebbe aiutare se stai avendo problemi di crittografia in questa conversazione. I tuoi messaggi verranno conservati."
@@ -66,10 +78,10 @@ msgid "Delete conversation"
 msgstr "Cancella conversazione"
 
 msgid "Delete conversation?"
-msgstr "Cancellare conversazione?"
+msgstr "Eliminare la conversazione?"
 
 msgid "This will permanently delete all messages in this conversation."
-msgstr "Così cancellerai permanentemente tutti i messaggi in questa conversazione."
+msgstr "Saranno eliminati definitivamente i messaggi in questa conversazione."
 
 msgid "Select all"
 msgstr "Seleziona tutto"
@@ -86,20 +98,11 @@ msgstr "Inoltra messaggio"
 msgid "Delete message"
 msgstr "Cancella messaggio"
 
-msgid "Video"
-msgstr "Video"
-
-msgid "Audio"
-msgstr "Audio"
-
-msgid "Contact"
-msgstr "Contatto"
-
 msgid "Send Signal message"
 msgstr "Invia messaggio Signal"
 
 msgid "Delete"
-msgstr "Cancella"
+msgstr "Elimina"
 
 msgid "Group members"
 msgstr "Membri del gruppo"
@@ -138,13 +141,19 @@ msgid "Unregistering"
 msgstr "Disiscriviti"
 
 msgid "Disable Signal messages and calls?"
-msgstr "Disattivare i messaggi di Signal?"
+msgstr "Disattivare i messaggi e le chiamate di Signal?"
 
 msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
 msgstr "Disabilita i messaggi di Signal annullando la tua registrazione sul server. Avrai bisogno di registrare di nuovo il tuo numero di telefono per usare di nuovo i messaggi di Signal in futuro."
 
 msgid "Enter key sends"
 msgstr "Spedisci premendo Invio"
+
+msgid "Submit debug log"
+msgstr "Invia log di debug"
+
+msgid "Success!"
+msgstr "Completato!"
 
 msgid "Verifying number"
 msgstr "Verifica del numero"

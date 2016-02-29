@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: fi\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgid "Image"
+msgstr "Kuva"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Audio"
+msgstr "Äänitallenne"
+
+msgid "Contact"
+msgstr "Yhteystieto"
+
 msgid "Settings"
 msgstr "Asetukset"
 
@@ -86,15 +98,6 @@ msgstr "Välitä viesti"
 msgid "Delete message"
 msgstr "Poista viesti"
 
-msgid "Video"
-msgstr "Video"
-
-msgid "Audio"
-msgstr "Äänitallenne"
-
-msgid "Contact"
-msgstr "Yhteystieto"
-
 msgid "Send Signal message"
 msgstr "Lähetä Signal-viesti"
 
@@ -145,6 +148,12 @@ msgstr "Tämä ottaa Signal-viestit ja -puhelut pois käytöstä purkamalla reki
 
 msgid "Enter key sends"
 msgstr "Rivinvaihto lähettää"
+
+msgid "Submit debug log"
+msgstr "Lähetä virheenkorjausloki"
+
+msgid "Success!"
+msgstr "Onnistui!"
 
 msgid "Verifying number"
 msgstr "Vahvistetaan numeroa"

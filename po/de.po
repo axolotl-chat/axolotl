@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: de\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgid "Image"
+msgstr "Bild"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Contact"
+msgstr "Kontakt"
+
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -86,15 +98,6 @@ msgstr "Nachricht weiterleiten"
 msgid "Delete message"
 msgstr "Nachrichten löschen"
 
-msgid "Video"
-msgstr "Video"
-
-msgid "Audio"
-msgstr "Audio"
-
-msgid "Contact"
-msgstr "Kontakt"
-
 msgid "Send Signal message"
 msgstr "Signal-Nachricht senden"
 
@@ -126,7 +129,7 @@ msgid "Double-check that this is your number! We're about to verify it with an S
 msgstr "Bitte kontrollieren Sie noch einmal Ihre Rufnummer. Diese wird anschließend durch eine SMS überprüft."
 
 msgid "Cancel"
-msgstr "Abbrechen"
+msgstr "Abbruch"
 
 msgid "Mark all read"
 msgstr "Alle als gelesen markieren"
@@ -145,6 +148,12 @@ msgstr "Signal-Nachrichten und -Anrufe durch Löschen Ihrer Registrierung vom Se
 
 msgid "Enter key sends"
 msgstr "Eingabetaste sendet"
+
+msgid "Submit debug log"
+msgstr "Diagnoseprotokoll übermitteln"
+
+msgid "Success!"
+msgstr "Erfolgreich!"
 
 msgid "Verifying number"
 msgstr "Rufnummer wird überprüft"

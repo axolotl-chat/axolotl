@@ -2,14 +2,26 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: mk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+msgid "Image"
+msgstr ""
+
+msgid "Video"
+msgstr ""
+
+msgid "Audio"
+msgstr "Звук"
+
+msgid "Contact"
+msgstr ""
+
 msgid "Settings"
 msgstr "Подесувања"
 
@@ -62,7 +74,7 @@ msgid "Are you sure you want to leave this group?"
 msgstr "Дали сте сигурни дека сакате да ја напуштите групата?"
 
 msgid "Delete conversation"
-msgstr ""
+msgstr "Избриши разговор"
 
 msgid "Delete conversation?"
 msgstr ""
@@ -71,7 +83,7 @@ msgid "This will permanently delete all messages in this conversation."
 msgstr ""
 
 msgid "Select all"
-msgstr "Избери се"
+msgstr "Изберете се"
 
 msgid "Message details"
 msgstr "Детали за пораката"
@@ -85,15 +97,6 @@ msgstr "Проследи порака"
 msgid "Delete message"
 msgstr "Избриши порака"
 
-msgid "Video"
-msgstr ""
-
-msgid "Audio"
-msgstr ""
-
-msgid "Contact"
-msgstr ""
-
 msgid "Send Signal message"
 msgstr ""
 
@@ -104,7 +107,7 @@ msgid "Group members"
 msgstr "Членови на групата"
 
 msgid "Connect with Signal"
-msgstr ""
+msgstr "Конектирајте се со Signal"
 
 msgid "YOUR COUNTRY"
 msgstr "ВАШАТА ДРЖАВА"
@@ -125,13 +128,13 @@ msgid "Double-check that this is your number! We're about to verify it with an S
 msgstr "Проверете уште еднаш дали е ова вашиот број. Наскоро ќе го веривикуваме со SMS порака."
 
 msgid "Cancel"
-msgstr ""
+msgstr "Откажи"
 
 msgid "Mark all read"
 msgstr "Обележи ги сите како прочитани"
 
 msgid "Help"
-msgstr ""
+msgstr "Помош"
 
 msgid "Unregistering"
 msgstr "Одјавување"
@@ -144,6 +147,12 @@ msgstr ""
 
 msgid "Enter key sends"
 msgstr "Enter испраќа порака"
+
+msgid "Submit debug log"
+msgstr ""
+
+msgid "Success!"
+msgstr "Успешно!"
 
 msgid "Verifying number"
 msgstr "Верификација на бројот"

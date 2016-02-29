@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: cs\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+msgid "Image"
+msgstr "Obrázek"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Contact"
+msgstr "Kontakt"
+
 msgid "Settings"
 msgstr "Nastavení"
 
@@ -86,15 +98,6 @@ msgstr "Přeposlat zprávu"
 msgid "Delete message"
 msgstr "Smazat zprávu"
 
-msgid "Video"
-msgstr "Video"
-
-msgid "Audio"
-msgstr "Audio"
-
-msgid "Contact"
-msgstr "Kontakt"
-
 msgid "Send Signal message"
 msgstr "Poslat Signal zprávu"
 
@@ -105,7 +108,7 @@ msgid "Group members"
 msgstr "Členové skupiny"
 
 msgid "Connect with Signal"
-msgstr "Připojení pomocí Signal"
+msgstr "Připojení pomocí Signál"
 
 msgid "YOUR COUNTRY"
 msgstr "Země"
@@ -145,6 +148,12 @@ msgstr "Tímto zakážete Signal zprávy a volání odregistrací ze serveru. Ab
 
 msgid "Enter key sends"
 msgstr "Klávesa Enter odesílá"
+
+msgid "Submit debug log"
+msgstr "Odeslat ladící log"
+
+msgid "Success!"
+msgstr "Úspěšně dokončeno!"
 
 msgid "Verifying number"
 msgstr "Probíhá ověření čísla"

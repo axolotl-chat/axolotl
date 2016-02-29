@@ -2,14 +2,26 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+msgid "Image"
+msgstr "صورة"
+
+msgid "Video"
+msgstr "فيديو"
+
+msgid "Audio"
+msgstr "صوت"
+
+msgid "Contact"
+msgstr "جهة اتصال"
+
 msgid "Settings"
 msgstr "الإعدادات"
 
@@ -71,7 +83,7 @@ msgid "This will permanently delete all messages in this conversation."
 msgstr "سوف يتم حذف جميع الرسائل في هذه المحادثة نهائيا."
 
 msgid "Select all"
-msgstr "اختر الكل"
+msgstr "أختر الكل"
 
 msgid "Message details"
 msgstr "تفاصيل الرسالة"
@@ -85,15 +97,6 @@ msgstr "إعادة الإرسال"
 msgid "Delete message"
 msgstr "حذف الرسالة"
 
-msgid "Video"
-msgstr "فيديو"
-
-msgid "Audio"
-msgstr "صوت"
-
-msgid "Contact"
-msgstr "جهة اتصال"
-
 msgid "Send Signal message"
 msgstr "أرسل رسالة سيجنال."
 
@@ -104,7 +107,7 @@ msgid "Group members"
 msgstr "أعضاء المجموعة"
 
 msgid "Connect with Signal"
-msgstr "تواصل مع سيجنال"
+msgstr "التواصل بواسطة سيجنال"
 
 msgid "YOUR COUNTRY"
 msgstr "بلدك"
@@ -144,6 +147,12 @@ msgstr "سوف يتم تعطيل رسائل ومكالمات سيجنال بإل
 
 msgid "Enter key sends"
 msgstr "مفتاح الدخول يقوم بالإرسال"
+
+msgid "Submit debug log"
+msgstr "أرسل سجل التشغيل."
+
+msgid "Success!"
+msgstr "تم بنجاح!"
 
 msgid "Verifying number"
 msgstr "جارٍ التحقق من الرقم"

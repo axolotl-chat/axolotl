@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: be\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+msgid "Image"
+msgstr ""
+
+msgid "Video"
+msgstr ""
+
+msgid "Audio"
+msgstr "Аўдыё"
+
+msgid "Contact"
+msgstr ""
+
 msgid "Settings"
 msgstr "Налады"
 
@@ -86,15 +98,6 @@ msgstr "Перанакіраваць паведамленне"
 msgid "Delete message"
 msgstr "Выдаліць паведамленне"
 
-msgid "Video"
-msgstr ""
-
-msgid "Audio"
-msgstr ""
-
-msgid "Contact"
-msgstr ""
-
 msgid "Send Signal message"
 msgstr ""
 
@@ -145,6 +148,12 @@ msgstr ""
 
 msgid "Enter key sends"
 msgstr "Дасылаць клавішай Enter"
+
+msgid "Submit debug log"
+msgstr "Выслаць debug log"
+
+msgid "Success!"
+msgstr "Паспяхова!"
 
 msgid "Verifying number"
 msgstr "Праверка нумару"

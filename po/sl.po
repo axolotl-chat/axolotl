@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: sl\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+msgid "Image"
+msgstr "Slika"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Audio"
+msgstr "Zvok"
+
+msgid "Contact"
+msgstr "Stik"
+
 msgid "Settings"
 msgstr "Nastavitve"
 
@@ -86,15 +98,6 @@ msgstr "Posreduj sporočilo"
 msgid "Delete message"
 msgstr "Izbriši sporočilo"
 
-msgid "Video"
-msgstr "Video"
-
-msgid "Audio"
-msgstr "Zvok"
-
-msgid "Contact"
-msgstr "Stik"
-
 msgid "Send Signal message"
 msgstr "Pošlji sporočilo Signal"
 
@@ -105,7 +108,7 @@ msgid "Group members"
 msgstr "Člani skupine"
 
 msgid "Connect with Signal"
-msgstr "Poveži se s Signal"
+msgstr "Poveži z aplikacijo Signal"
 
 msgid "YOUR COUNTRY"
 msgstr "VAŠA DRŽAVA"
@@ -145,6 +148,12 @@ msgstr "S tem boste izključili sporočila in klice Signal in se odjavili s stre
 
 msgid "Enter key sends"
 msgstr "Tipka 'Naprej' pošlje"
+
+msgid "Submit debug log"
+msgstr "Oddaj sistemsko zabeležbo"
+
+msgid "Success!"
+msgstr "Uspešno opravljeno!"
 
 msgid "Verifying number"
 msgstr "Preverjam številko"

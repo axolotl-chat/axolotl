@@ -2,14 +2,26 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: in\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+msgid "Image"
+msgstr "Gambar"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Contact"
+msgstr "Kontak"
+
 msgid "Settings"
 msgstr "Konfigurasi"
 
@@ -85,15 +97,6 @@ msgstr "Teruskan pesan"
 msgid "Delete message"
 msgstr "Hapus pesan"
 
-msgid "Video"
-msgstr "Video"
-
-msgid "Audio"
-msgstr "Audio"
-
-msgid "Contact"
-msgstr "Kontak"
-
 msgid "Send Signal message"
 msgstr "Kirim pesan Signal"
 
@@ -104,7 +107,7 @@ msgid "Group members"
 msgstr "Anggota grup"
 
 msgid "Connect with Signal"
-msgstr "Sambung Menggunakan Signal"
+msgstr ""
 
 msgid "YOUR COUNTRY"
 msgstr "NEGARA ANDA"
@@ -144,6 +147,12 @@ msgstr "Menonaktifkan pesan dan pangggilan Signal dengan berhenti registrasi dar
 
 msgid "Enter key sends"
 msgstr "Enter untuk mengirim"
+
+msgid "Submit debug log"
+msgstr "Kirim debug log"
+
+msgid "Success!"
+msgstr "Sukses!"
 
 msgid "Verifying number"
 msgstr "Memverifikasi Nomor"

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: sr\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+msgid "Image"
+msgstr "Слика"
+
+msgid "Video"
+msgstr "Видео"
+
+msgid "Audio"
+msgstr "Звук"
+
+msgid "Contact"
+msgstr "Контакт"
+
 msgid "Settings"
 msgstr "Поставке"
 
@@ -48,7 +60,7 @@ msgid "This may help if you're having encryption problems in this conversation. 
 msgstr "Може да помогне ако имате проблема са шифровањем у овој преписци. Поруке ће остати."
 
 msgid "Verify identity"
-msgstr "Потврди идентитет"
+msgstr "Овера идентитета"
 
 msgid "Recipients list"
 msgstr "Списак прималаца"
@@ -86,15 +98,6 @@ msgstr "Проследи поруку"
 msgid "Delete message"
 msgstr "Обриши поруку"
 
-msgid "Video"
-msgstr "Видео"
-
-msgid "Audio"
-msgstr "Звук"
-
-msgid "Contact"
-msgstr "Контакт"
-
 msgid "Send Signal message"
 msgstr "Пошаљи Сигнал поруку"
 
@@ -105,7 +108,7 @@ msgid "Group members"
 msgstr "Чланови групе"
 
 msgid "Connect with Signal"
-msgstr "Повежите се са Сигналом"
+msgstr "Повежите се на Сигнал"
 
 msgid "YOUR COUNTRY"
 msgstr "ВАША ДРЖАВА"
@@ -145,6 +148,12 @@ msgstr "Онемогућите поруке и позиве преко СИгн�
 
 msgid "Enter key sends"
 msgstr "Ентер тастер шаље"
+
+msgid "Submit debug log"
+msgstr "Пошаљи дневник исправљања грешака"
+
+msgid "Success!"
+msgstr "Успех!"
 
 msgid "Verifying number"
 msgstr "Оверавам број"

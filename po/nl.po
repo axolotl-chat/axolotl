@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: nl\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgid "Image"
+msgstr "Afbeelding"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Contact"
+msgstr "Contactpersoon"
+
 msgid "Settings"
 msgstr "Instellingen"
 
@@ -86,15 +98,6 @@ msgstr "Bericht doorsturen"
 msgid "Delete message"
 msgstr "Bericht verwijderen"
 
-msgid "Video"
-msgstr "Video"
-
-msgid "Audio"
-msgstr "Geluid"
-
-msgid "Contact"
-msgstr "Contactpersoon"
-
 msgid "Send Signal message"
 msgstr "Signal bericht versturen"
 
@@ -105,7 +108,7 @@ msgid "Group members"
 msgstr "Groepsleden"
 
 msgid "Connect with Signal"
-msgstr "Verbind met Signal"
+msgstr "Verbinden met Signal"
 
 msgid "YOUR COUNTRY"
 msgstr "JE LAND"
@@ -135,16 +138,22 @@ msgid "Help"
 msgstr "Hulp"
 
 msgid "Unregistering"
-msgstr "Af aan het melden"
+msgstr "Aan het afmelden"
 
 msgid "Disable Signal messages and calls?"
 msgstr "Signal berichten en oproepen uitschakelen?"
 
 msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
-msgstr "Dit zal Signal berichten en oproepen uitzetten door je te deregistreren bij de server. Je zal je telefoonnummer opnieuw moeten registreren als je deze functies weer wilt gebruiken."
+msgstr "Dit zal Signal berichten en oproepen uitschakelen door je te deregistreren bij de server. Je zal je telefoonnummer opnieuw moeten registreren als je deze functies weer wil gebruiken."
 
 msgid "Enter key sends"
 msgstr "Enter-toets verstuurt"
+
+msgid "Submit debug log"
+msgstr "Debug log indienen"
+
+msgid "Success!"
+msgstr "Succesvol!"
 
 msgid "Verifying number"
 msgstr "Nummer verifiëren"

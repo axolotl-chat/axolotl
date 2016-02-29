@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
-"PO-Revision-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: no\n"
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgid "Image"
+msgstr "Bilde"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Audio"
+msgstr "Lyd"
+
+msgid "Contact"
+msgstr "Kontakt"
+
 msgid "Settings"
 msgstr "Innstillinger"
 
@@ -86,15 +98,6 @@ msgstr "Videresend melding"
 msgid "Delete message"
 msgstr "Slett melding"
 
-msgid "Video"
-msgstr "Video"
-
-msgid "Audio"
-msgstr "Audio"
-
-msgid "Contact"
-msgstr "Kontakt"
-
 msgid "Send Signal message"
 msgstr "Send Signal melding"
 
@@ -105,7 +108,7 @@ msgid "Group members"
 msgstr "Gruppemedlemmer"
 
 msgid "Connect with Signal"
-msgstr "Koble til med Signal"
+msgstr "Kontakt gjennom Signal"
 
 msgid "YOUR COUNTRY"
 msgstr "DITT LAND"
@@ -145,6 +148,12 @@ msgstr "Dette vil deaktivere Signal meldinger og anrop ved å avregistrere deg f
 
 msgid "Enter key sends"
 msgstr "\"Enter\" sender"
+
+msgid "Submit debug log"
+msgstr "Send debug logg"
+
+msgid "Success!"
+msgstr "Suksess!"
 
 msgid "Verifying number"
 msgstr "Verifiserer nummer"
