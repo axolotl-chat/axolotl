@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-20 15:04+0200\n"
+"POT-Creation-Date: 2016-02-29 11:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,6 +24,22 @@ msgstr ""
 
 #: qml/phoneui/components/TelegramDelegate.qml:182
 msgid "Forwarded from "
+msgstr ""
+
+#: qml/phoneui/components/AttachPanel.qml:87
+msgid "Image"
+msgstr ""
+
+#: qml/phoneui/components/AttachPanel.qml:98
+msgid "Video"
+msgstr ""
+
+#: qml/phoneui/components/AttachPanel.qml:109
+msgid "Audio"
+msgstr ""
+
+#: qml/phoneui/components/AttachPanel.qml:120
+msgid "Contact"
 msgstr ""
 
 #: qml/phoneui/ui/SettingsPage.qml:24 qml/phoneui/ui/DialogsPage.qml:40
@@ -45,7 +61,7 @@ msgstr ""
 
 #: qml/phoneui/ui/IntroPage.qml:40 qml/phoneui/ui/ContactsPage.qml:47
 #: qml/phoneui/ui/dialogs/ErrorMessageDialog.qml:12
-#: qml/phoneui/ui/dialogs/InfoDialog.qml:9
+#: qml/phoneui/ui/dialogs/InfoDialog.qml:17
 #: qml/phoneui/ui/dialogs/ConfirmationDialog.qml:8
 #: qml/phoneui/ui/VerificationCodePage.qml:91
 msgid "OK"
@@ -137,15 +153,15 @@ msgstr ""
 msgid "Select all"
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:141 qml/phoneui/ui/DialogPage.qml:646
+#: qml/phoneui/ui/DialogPage.qml:141 qml/phoneui/ui/DialogPage.qml:607
 msgid "Message details"
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:148 qml/phoneui/ui/DialogPage.qml:480
+#: qml/phoneui/ui/DialogPage.qml:148 qml/phoneui/ui/DialogPage.qml:441
 msgid "Copy text"
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:154 qml/phoneui/ui/DialogPage.qml:486
+#: qml/phoneui/ui/DialogPage.qml:154 qml/phoneui/ui/DialogPage.qml:447
 msgid "Forward message"
 msgstr ""
 
@@ -153,43 +169,27 @@ msgstr ""
 msgid "Delete message"
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:207
-msgid "Photo"
-msgstr ""
-
-#: qml/phoneui/ui/DialogPage.qml:215
-msgid "Video"
-msgstr ""
-
-#: qml/phoneui/ui/DialogPage.qml:224
-msgid "Audio"
-msgstr ""
-
-#: qml/phoneui/ui/DialogPage.qml:233
-msgid "Contact"
-msgstr ""
-
-#: qml/phoneui/ui/DialogPage.qml:272
+#: qml/phoneui/ui/DialogPage.qml:234
 msgid "Send Signal message"
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:463
+#: qml/phoneui/ui/DialogPage.qml:424
 msgid "Delete"
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:468
+#: qml/phoneui/ui/DialogPage.qml:429
 msgid "Delete selected message?"
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:469
+#: qml/phoneui/ui/DialogPage.qml:430
 msgid "This will permanently delete the selected message."
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:600
+#: qml/phoneui/ui/DialogPage.qml:561
 msgid "No messages here yet..."
 msgstr ""
 
-#: qml/phoneui/ui/DialogPage.qml:638
+#: qml/phoneui/ui/DialogPage.qml:599
 msgid "Group members"
 msgstr ""
 
@@ -254,6 +254,18 @@ msgstr ""
 msgid "Enter key sends"
 msgstr ""
 
+#: qml/phoneui/ui/settings/AdvancedPage.qml:64
+msgid "Submit debug log"
+msgstr ""
+
+#: qml/phoneui/ui/settings/AdvancedPage.qml:74
+msgid "Success!"
+msgstr ""
+
+#: qml/phoneui/ui/settings/AdvancedPage.qml:75
+msgid "Copy this URL and add it to your issue report or support email:"
+msgstr ""
+
 #: qml/phoneui/ui/PasswordPage.qml:12 qml/phoneui/ui/PasswordPage.qml:51
 msgid "Master password"
 msgstr ""
@@ -295,15 +307,15 @@ msgstr ""
 msgid "Incorrect code. Please try again."
 msgstr ""
 
-#: models.go:146
+#: models.go:147
 msgid "Sent"
 msgstr ""
 
-#: models.go:148
+#: models.go:149
 msgid "Received"
 msgstr ""
 
-#: push.go:71
+#: push.go:72
 msgid "New message"
 msgstr ""
 
@@ -315,10 +327,10 @@ msgstr ""
 msgid "You have left the group."
 msgstr ""
 
-#: main.go:669
+#: main.go:676
 msgid "Their identity (they read):"
 msgstr ""
 
-#: main.go:670
+#: main.go:677
 msgid "Your identity (you read):"
 msgstr ""
