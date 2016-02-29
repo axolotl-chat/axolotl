@@ -1,3 +1,11 @@
+0.3.11 (Feb 29 2016)
+--------------------
+
+* Fix importing contact numbers with weird characters.
+* Improve attachment UI.
+* Log app messages to ~/.cache/textsecure.jani/log.
+* Allow uploading application debug logs to github.
+
 0.3.10 (Jan 20 2016)
 --------------------
 
