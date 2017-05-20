@@ -11,7 +11,6 @@ import (
 
 	"github.com/gosexy/gettext"
 	"github.com/janimo/textsecure"
-	"github.com/janimo/textsecure/3rd_party/magic"
 	"gopkg.in/qml.v1"
 	"gopkg.in/yaml.v2"
 )
@@ -279,7 +278,7 @@ func contentType(att io.Reader, mt string) int {
 		return ContentTypeMessage
 	}
 	if mt == "" {
-		mt, _ = magic.MIMETypeFromReader(att)
+		mt, _ = textsecure.MIMETypeFromReader(att)
 	}
 	return mimeTypeToContentType(mt)
 }
