@@ -1,3 +1,8 @@
+0.3.12 (Apr 29 2017)
+--------------------
+
+* Fix crash on receiving empty messages.
+
 0.3.11 (Feb 29 2016)
 --------------------
 
