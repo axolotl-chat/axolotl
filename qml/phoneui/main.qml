@@ -7,7 +7,7 @@ import 'components'
 import 'ui'
 
 MainView {
-	applicationName: "textsecure.jani"
+	applicationName: "textsecure.nanuc"
 
 	automaticOrientation: false
 

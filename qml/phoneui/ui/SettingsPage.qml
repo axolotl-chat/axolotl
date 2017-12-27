@@ -29,8 +29,8 @@ TelegramPage {
 
         anchors.fill: parent
 
-        StandardListItem {
-            title: i18n.tr("Advanced")
+        Button {
+            text: i18n.tr("Advanced")
             onClicked: pageStack.push(Qt.resolvedUrl("settings/AdvancedPage.qml"))
         }
     }

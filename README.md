@@ -1,7 +1,7 @@
 # TextSecure client for the Ubuntu Phone
 
 This is a Signal compatible client for the Ubuntu Phone, written in Go and QML.
-It builds upon the [Go textsecure package] (https://github.com/janimo/textsecure) and modified versions of the
+It builds upon the [Go textsecure package] (https://github.com/nanu-c/textsecure/) and modified versions of the
 Telegram for Ubuntu Phone QML interface.
 
 What works
@@ -36,7 +36,7 @@ Install on a phone connected via adb
 
     ./install.sh
 
-For more details check the [wiki] (https://github.com/janimo/textsecure-qml/wiki/Installation)
+For more details check the [INSTALL.md] (https://github.com/nanu-c/textsecure-qml/INSTALL.md)
 
 Contributing
 -----------
