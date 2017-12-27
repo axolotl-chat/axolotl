@@ -10,8 +10,8 @@ import (
 	log "github.com/Sirupsen/logrus"
 
 	"github.com/gosexy/gettext"
-	"github.com/janimo/textsecure"
-	"gopkg.in/qml.v1"
+	"github.com/nanu-c/textsecure"
+	"github.com/amlwwalker/qml"
 	"gopkg.in/yaml.v2"
 )
 

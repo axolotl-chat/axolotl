@@ -8,7 +8,7 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
-	"gopkg.in/qml.v1"
+	"github.com/amlwwalker/qml"
 )
 
 var (
@@ -37,14 +37,17 @@ func setupDB() error {
 	dbDir = filepath.Join(dataDir, "db")
 	dbFile = filepath.Join(dbDir, "db.sql")
 	err = os.MkdirAll(dbDir, 0700)
+	log.Printf(dbDir)
 	if err != nil {
 		return err
 	}
+	log.Printf("blub2")
 
 	db, err = sqlx.Open("sqlite3", dbFile)
 	if err != nil {
 		return err
 	}
+	log.Printf(dbFile)
 
 	_, err = db.Exec(messagesSchema)
 	if err != nil {

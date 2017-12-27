@@ -1,8 +1,8 @@
 {
-    "name": "textsecure.jani",
-    "version": "0.3.12",
+    "name": "textsecure.nanuc",
+    "version": "0.3.13",
     "description": "A TextSecure compatible messaging client for Ubuntu phones",
-    "title": "TextSecure client",
+    "title": "TextSecure2 client",
     "architecture": "armhf",
     "framework" : "ubuntu-sdk-15.04",
     "hooks": {
@@ -18,7 +18,5 @@
         }
     },
     "icon": "qml/phoneui/images/logo.png",
-    "maintainer": "Jani Monoses <jani@ubuntu.com>"
+    "maintainer": "Aaron Kimmig <aaron@nanu-c.org>"
 }
-
-

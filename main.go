@@ -23,14 +23,14 @@ import (
 
 	"github.com/dustin/go-humanize"
 	"github.com/gosexy/gettext"
-	"github.com/janimo/textsecure"
-	"github.com/ubuntu-core/snappy/helpers"
-	"gopkg.in/qml.v1"
+	"github.com/nanu-c/textsecure"
+	"github.com/nanu-c/snappy/helpers"
+	"github.com/amlwwalker/qml"
 )
 
-var appName = "textsecure.jani"
+var appName = "textsecure.nanuc"
 
-var appVersion = "0.3.12"
+var appVersion = "0.3.13"
 
 var (
 	isPhone      bool
@@ -547,7 +547,7 @@ func (api *textsecureAPI) ContactsImported(path string) {
 
 var groups = map[string]*GroupRecord{}
 
-// FIXME: receive members as splice, blocked by https://github.com/go-qml/qml/issues/137
+// FIXME: receive members as splice, blocked by https://github.com/amlwwalker/qml/issues/137
 func (api *textsecureAPI) NewGroup(name string, members string) error {
 	m := strings.Split(members, ",")
 	group, err := textsecure.NewGroup(name, m)

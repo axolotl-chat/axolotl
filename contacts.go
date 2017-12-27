@@ -13,7 +13,7 @@ import (
 
 	"bitbucket.org/llg/vcard"
 	"github.com/godbus/dbus"
-	"github.com/janimo/textsecure"
+	"github.com/nanu-c/textsecure"
 	"github.com/ttacon/libphonenumber"
 )
 

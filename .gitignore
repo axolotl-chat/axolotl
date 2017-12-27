@@ -1,3 +1,5 @@
-textsecure.jani_*click
+textsecure.nanuc_*click
 textsecure-qml
 builddir
+build
+gopath/*
