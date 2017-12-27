@@ -24,7 +24,7 @@ msgid "Contact"
 msgstr "Contacto"
 
 msgid "Settings"
-msgstr "Configurações"
+msgstr "Definições"
 
 msgid "Advanced"
 msgstr "Avançado"
@@ -39,10 +39,10 @@ msgid "Refresh"
 msgstr "Recarregar"
 
 msgid "New group"
-msgstr "Grupo novo"
+msgstr "Novo grupo"
 
 msgid "Update group"
-msgstr "Actualizar grupo"
+msgstr "Atualizar grupo"
 
 msgid "Group name"
 msgstr "Nome do grupo"
@@ -51,22 +51,22 @@ msgid "Call"
 msgstr "Chamar"
 
 msgid "Reset secure session"
-msgstr "Reiniciar sessão segura"
+msgstr "Reiniciar a sessão segura"
 
 msgid "Reset secure session?"
-msgstr "Reiniciar sessão segura?"
+msgstr "Reiniciar a sessão segura?"
 
 msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
 msgstr "Isto pode auxiliar caso tenha problemas de cifra nesta conversa. As suas mensagens serão mantidas."
 
 msgid "Verify identity"
-msgstr "Verificar identidade"
+msgstr "Verificar a identidade"
 
 msgid "Recipients list"
 msgstr "Lista de destinatários"
 
 msgid "Leave group"
-msgstr "Deixar grupo"
+msgstr "Deixar o grupo"
 
 msgid "Leave group?"
 msgstr "Deixar o grupo?"
@@ -75,31 +75,31 @@ msgid "Are you sure you want to leave this group?"
 msgstr "Tem a certeza que quer deixar este grupo?"
 
 msgid "Delete conversation"
-msgstr "Eliminar conversa"
+msgstr "Eliminar a conversa"
 
 msgid "Delete conversation?"
-msgstr "Eliminar conversa?"
+msgstr "Eliminar a conversa?"
 
 msgid "This will permanently delete all messages in this conversation."
-msgstr "Isto irá eliminar permanentemente todas as mensagens nesta conversa."
+msgstr "Isto elimina permanentemente todas as mensagens nesta conversa."
 
 msgid "Select all"
-msgstr "Seleccionar tudo"
+msgstr "Selecionar tudo"
 
 msgid "Message details"
 msgstr "Detalhes da mensagem"
 
 msgid "Copy text"
-msgstr "Copiar texto"
+msgstr "Copiar o texto"
 
 msgid "Forward message"
-msgstr "Reencaminhar mensagem"
+msgstr "Reencaminhar a mensagem"
 
 msgid "Delete message"
-msgstr "Apagar mensagem"
+msgstr "Apagar a mensagem"
 
 msgid "Send Signal message"
-msgstr "Enviar mensagem Signal"
+msgstr "Enviar a mensagem Signal"
 
 msgid "Delete"
 msgstr "Apagar"
@@ -108,7 +108,7 @@ msgid "Group members"
 msgstr "Membros do grupo"
 
 msgid "Connect with Signal"
-msgstr ""
+msgstr "Ligar com o Signal"
 
 msgid "YOUR COUNTRY"
 msgstr "PAÍS"
@@ -141,22 +141,22 @@ msgid "Unregistering"
 msgstr "A eliminar o registo..."
 
 msgid "Disable Signal messages and calls?"
-msgstr "Desabilitar mensagens e chamadas Signal?"
+msgstr "Desativar as mensagens e chamadas Signal?"
 
 msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
-msgstr "Desactivar as mensagens Signal, eliminando o seu registo do servidor. Vai ser necessário re-registar o seu número de telefone se pretender utilizar esta funcionalidade novamente."
+msgstr "Desativar as mensagens Signal, eliminando o seu registo do servidor. Vai ser necessário re-registar o seu número de telefone se pretender utilizar esta funcionalidade novamente."
 
 msgid "Enter key sends"
 msgstr "Tecla de enter envia"
 
 msgid "Submit debug log"
-msgstr ""
+msgstr "Submeter o log de debug"
 
 msgid "Success!"
 msgstr "Sucesso!"
 
 msgid "Verifying number"
-msgstr "A verificar número"
+msgstr "A verificar o número"
 
 msgid "Signal will now automatically verify your number with a confirmation SMS message."
 msgstr "Signal vai agora automaticamente verificar o seu número com um SMS de confirmação."
