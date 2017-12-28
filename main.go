@@ -1,3 +1,12 @@
+// @APIVersion 1.0.0
+// @APITitle My Cool API
+// @APIDescription My API usually works as expected.
+// @Contact api@contact.me
+// @TermsOfServiceUrl http://google.com/
+// @License BSD
+// @LicenseUrl http://opensource.org/licenses/BSD-2-Clause
+// @BasePath http://host:port/api/
+
 package main
 
 import (
@@ -242,11 +251,8 @@ func showError(err error) {
 }
 
 func setupLogging() error {
-	f, err := os.OpenFile(logFile, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0600)
-	if err != nil {
-		return err
-	}
-	log.SetOutput(f)
+	log.SetOutput(os.Stdout)
+	log.Printf("Starting TextSecure")
 	return nil
 }
 
@@ -272,10 +278,15 @@ func setup() {
 		homeDir = user.HomeDir
 	}
 	cacheDir = filepath.Join(homeDir, ".cache/", appName)
-	logFile = filepath.Join(cacheDir, "log")
+	logfileName := []string{"application-click-", appName, "_textsecure_", appVersion, ".log"}
+	logFile = filepath.Join(homeDir, ".cache/","upstart/",strings.Join(logfileName, ""))
+	log.Printf("Logfile: " +logFile)
 	configDir = filepath.Join(homeDir, ".config/", appName)
 	contactsFile = filepath.Join(configDir, "contacts.yml")
 	settingsFile = filepath.Join(configDir, "settings.yml")
+	if _, err := os.Stat(settingsFile); os.IsNotExist(err) {
+  	os.OpenFile(settingsFile, os.O_RDONLY|os.O_CREATE, 0700)
+	}
 	os.MkdirAll(configDir, 0700)
 	dataDir = filepath.Join(homeDir, ".local", "share", appName)
 	attachDir = filepath.Join(dataDir, "attachments")
