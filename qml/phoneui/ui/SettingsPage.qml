@@ -18,6 +18,7 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.1
+import Ubuntu.Components.ListItems 1.0 as ListItem
 import "../components"
 
 TelegramPage {
@@ -28,10 +29,14 @@ TelegramPage {
         id: settingsColumn
 
         anchors.fill: parent
-
-        Button {
-            text: i18n.tr("Advanced")
-            onClicked: pageStack.push(Qt.resolvedUrl("settings/AdvancedPage.qml"))
+        ListItem.Standard {
+          text: i18n.tr("Set password")
+          onClicked: pageStack.push(Qt.resolvedUrl("PasswordPage.qml"))
+        }
+        ListItem.ThinDivider {}
+        ListItem.Standard {
+          text: i18n.tr("Advanced")
+          onClicked: pageStack.push(Qt.resolvedUrl("settings/AdvancedPage.qml"))
         }
     }
 }

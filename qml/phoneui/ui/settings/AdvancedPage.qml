@@ -58,6 +58,11 @@ Page {
 
             onClicked: control.checked = !control.checked
         }
+        ListItem.ThinDivider {}
+        ListItem.Standard {
+          text: i18n.tr("Set password")
+          onClicked: pageStack.push(Qt.resolvedUrl("../PasswordPage.qml"))
+        }
 
         ListItem.ThinDivider {}
         ListItem.Subtitled {

@@ -1,9 +1,8 @@
 [Desktop Entry]
-Name=TextSecure
+Name=TextSecure2
 Exec=textsecure %u
 Icon=textsecure.png
 Terminal=false
 Type=Application
 X-Ubuntu-Touch=true
 X-Ubuntu-Default-Department-ID=communication
-

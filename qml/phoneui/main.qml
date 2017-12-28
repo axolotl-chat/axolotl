@@ -81,7 +81,7 @@ MainView {
 
 	PushClient {
 		id: pushClient
-		appId: "textsecure.jani_textsecure"
+		appId: "textsecure.nanuc_textsecure"
 		onTokenChanged: {
 			//console.log("Push client token is", token)
 		}
@@ -113,7 +113,7 @@ MainView {
 	}
 
 	function openHelp() {
-                Qt.openUrlExternally("https://github.com/janimo/textsecure-qml/issues")
+                Qt.openUrlExternally("https://github.com/nanu-c/textsecure-qml/issues")
 	}
 
 	function newChat() {
