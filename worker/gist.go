@@ -1,4 +1,4 @@
-package main
+package worker
 
 import (
 	"bytes"
@@ -8,6 +8,7 @@ import (
 	"regexp"
 
 	log "github.com/Sirupsen/logrus"
+	"github.com/nanu-c/textsecure-qml/store"
 )
 
 type entry struct {
@@ -35,8 +36,8 @@ func filterLogs(logs string) string {
 	return re.ReplaceAllString(logs, "/+XXXXXXXXX")
 }
 
-func (api *textsecureAPI) SubmitDebugLog() (string, error) {
-	b, err := ioutil.ReadFile(logFile)
+func (api *TextsecureAPI) SubmitDebugLog() (string, error) {
+	b, err := ioutil.ReadFile(store.LogFile)
 	if err != nil {
 		return "", err
 	}

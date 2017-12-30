@@ -1,4 +1,4 @@
-package main
+package push
 
 import (
 	"encoding/json"
@@ -12,7 +12,7 @@ import (
 )
 
 // run as the application push helper
-func pushHelperProcess() {
+func PushHelperProcess() {
 	in, err := os.Open(os.Args[1])
 	if err != nil {
 		log.Fatal(err)
@@ -21,18 +21,18 @@ func pushHelperProcess() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = pushHelperProcessMessage(in, out)
+	err = PushHelperProcessMessage(in, out)
 	if err != nil {
 		log.Fatal(err)
 	}
 	os.Exit(0)
 }
 
-type pushMessage struct {
+type PushMessage struct {
 	Notification string `json:"notification"`
 }
 
-type appMessageCard struct {
+type AppMessageCard struct {
 	Summary   string   `json:"summary"`
 	Body      string   `json:"body"`
 	Actions   []string `json:"actions"`
@@ -41,34 +41,34 @@ type appMessageCard struct {
 	Timestamp int64    `json:"timestamp"`
 }
 
-type appMessageEmblemCounter struct {
+type AppMessageEmblemCounter struct {
 	Count   int  `json:"count"`
 	Visible bool `json:"visible"`
 }
 
-type appMessageNotification struct {
+type AppMessageNotification struct {
 	Tag           string                  `json:"tag"`
-	Card          appMessageCard          `json:"card"`
+	Card          AppMessageCard          `json:"card"`
 	Sound         bool                    `json:"sound"`
 	Vibrate       bool                    `json:"vibrate"`
-	EmblemCounter appMessageEmblemCounter `json:"emblem-counter"`
+	EmblemCounter AppMessageEmblemCounter `json:"emblem-counter"`
 }
 
-type appMessage struct {
-	Notification appMessageNotification `json:"notification"`
+type AppMessage struct {
+	Notification AppMessageNotification `json:"notification"`
 }
 
-func pushHelperProcessMessage(in io.Reader, out io.Writer) error {
-	pushMsg := &pushMessage{}
+func PushHelperProcessMessage(in io.Reader, out io.Writer) error {
+	pushMsg := &PushMessage{}
 	dec := json.NewDecoder(in)
 	err := dec.Decode(pushMsg)
 	if err != nil {
 		return err
 	}
 
-	appMsg := &appMessage{
-		Notification: appMessageNotification{
-			Card: appMessageCard{
+	appMsg := &AppMessage{
+		Notification: AppMessageNotification{
+			Card: AppMessageCard{
 				Summary:   gettext.Gettext("New message"),
 				Body:      "",
 				Actions:   []string{"appid://textsecure.jani/textsecure/current-user-version"},
