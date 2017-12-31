@@ -2,7 +2,7 @@ package worker
 
 import "github.com/nanu-c/textsecure-qml/store"
 
-func (api *TextsecureAPI) AvatarImage(id string) string {
+func (Api *TextsecureAPI) GetAvatarImage(id string) string {
 	url := ""
 
 	if c := store.GetContactForTel(id); c != nil {

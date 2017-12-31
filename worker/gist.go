@@ -36,7 +36,7 @@ func filterLogs(logs string) string {
 	return re.ReplaceAllString(logs, "/+XXXXXXXXX")
 }
 
-func (api *TextsecureAPI) SubmitDebugLog() (string, error) {
+func (Api *TextsecureAPI) SubmitDebugLog() (string, error) {
 	b, err := ioutil.ReadFile(store.LogFile)
 	if err != nil {
 		return "", err

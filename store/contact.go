@@ -1,8 +1,8 @@
 package store
 
 import (
+	qml "github.com/amlwwalker/qml"
 	"github.com/janimo/textsecure"
-	qml "gopkg.in/qml.v1"
 )
 
 type Contacts struct {
@@ -12,6 +12,12 @@ type Contacts struct {
 
 var ContactsModel *Contacts = &Contacts{}
 
+func (c *Contacts) GetContact(i int) textsecure.Contact {
+	if i == -1 {
+		return textsecure.Contact{}
+	}
+	return c.Contacts[i]
+}
 func GetContactForTel(tel string) *textsecure.Contact {
 	for _, c := range ContactsModel.Contacts {
 		if c.Tel == tel {

@@ -84,3 +84,13 @@ func DeleteMessage(id int64) error {
 	_, err := db.Exec("DELETE FROM messages WHERE id = ?", id)
 	return err
 }
+func (s *Session) GetMessages(i int) *Message {
+	//FIXME when is index -1 ?
+	if i == -1 || i >= len(s.Messages) {
+		return &Message{}
+	}
+	return s.Messages[i]
+}
+func (m *Message) GetName() string {
+	return TelToName(m.Source)
+}

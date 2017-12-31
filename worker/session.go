@@ -8,7 +8,7 @@ import (
 	"github.com/nanu-c/textsecure-qml/ui"
 )
 
-func (api *TextsecureAPI) EndSession(tel string) error {
+func (Api *TextsecureAPI) EndSession(tel string) error {
 	session := store.SessionsModel.Get(tel)
 	m := session.Add(lang.SessionReset, "", "", "", true, Api.ActiveSessionID)
 	m.Flags = msgFlagResetSession
@@ -18,7 +18,7 @@ func (api *TextsecureAPI) EndSession(tel string) error {
 }
 
 // MarkSessionsRead marks one or all sessions as read
-func (api *TextsecureAPI) MarkSessionsRead(tel string) {
+func (Api *TextsecureAPI) MarkSessionsRead(tel string) {
 	if tel != "" {
 		s := store.SessionsModel.Get(tel)
 		s.MarkRead()
@@ -29,13 +29,13 @@ func (api *TextsecureAPI) MarkSessionsRead(tel string) {
 	}
 }
 
-func (api *TextsecureAPI) DeleteSession(tel string) {
+func (Api *TextsecureAPI) DeleteSession(tel string) {
 	err := store.DeleteSession(tel)
 	if err != nil {
 		ui.ShowError(err)
 	}
 }
-func (api *TextsecureAPI) FilterSessions(sub string) {
+func (Api *TextsecureAPI) FilterSessions(sub string) {
 	sub = strings.ToUpper(sub)
 
 	sm := &store.Sessions{

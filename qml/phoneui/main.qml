@@ -153,7 +153,7 @@ MainView {
 		}
 		if (typeof properties === "undefined") properties = { };
 		backToDialogsPage();
-		textsecure.activeSessionID = tel
+		textsecure.setActiveSessionID(tel)
 		textsecure.markSessionsRead(tel)
 		messagesModel = sessionsModel.get(tel);
 		properties['chatId'] = uid(tel);
@@ -171,6 +171,7 @@ MainView {
 	}
 
 	function avatarImage(id) {
-		return textsecure.avatarImage(id)
+		console.log(id)
+		return textsecure.getAvatarImage(id)
 	}
 }

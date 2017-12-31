@@ -67,7 +67,8 @@ TelegramPage {
 	    model: sessionsModel.len
             delegate: TelegramDialogsListItem {
                 id: dialogsListItem
-                property var ses: sessionsModel.session(index)
+                property var ses: sessionsModel.getSession(index)
+                // FIXME Error
                 thumbnail: avatarImage(ses.tel)
                 dialogId: uid(ses.tel)
                 message: ses.last
@@ -81,11 +82,12 @@ TelegramPage {
                 isGroupChat: ses.isGroup
 
                 onItemClicked: {
+                  // console.log(sessionsModel.Sess[i]);
                     mouse.accepted = true;
                     searchFinished();
                     var properties = {};
                     if (messagesToForward.length > 0) {
-                        PopupUtils.open(Qt.resolvedUrl("dialogs/ConfirmationDialog.qml"), 
+                        PopupUtils.open(Qt.resolvedUrl("dialogs/ConfirmationDialog.qml"),
                             dialogsListItem, {
                                 text: i18n.tr("Forward message to %1?".arg(title)),
                                 onAccept: function() {
@@ -121,7 +123,7 @@ TelegramPage {
     }
 
     function onSearchTermChanged(t) {
-        textsecure.filterSessions(t)
+        textsecure.FilterSessions(t)
     }
 
 }

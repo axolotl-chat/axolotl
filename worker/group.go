@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"strings"
 
+	qml "github.com/amlwwalker/qml"
 	"github.com/janimo/textsecure"
 	"github.com/nanu-c/textsecure-qml/lang"
 	"github.com/nanu-c/textsecure-qml/models"
 	"github.com/nanu-c/textsecure-qml/store"
 	"github.com/nanu-c/textsecure-qml/ui"
-	qml "gopkg.in/qml.v1"
 )
 
 type GroupRecord struct {
@@ -22,7 +22,7 @@ type GroupRecord struct {
 }
 
 // FIXME: receive members as splice, blocked by https://github.com/amlwwalker/qml/issues/137
-func (api *TextsecureAPI) NewGroup(name string, members string) error {
+func (Api *TextsecureAPI) NewGroup(name string, members string) error {
 	m := strings.Split(members, ",")
 	group, err := textsecure.NewGroup(name, m)
 	if err != nil {
@@ -46,7 +46,7 @@ func (api *TextsecureAPI) NewGroup(name string, members string) error {
 	return nil
 
 }
-func (api *TextsecureAPI) UpdateGroup(hexid, name string, members string) error {
+func (Api *TextsecureAPI) UpdateGroup(hexid, name string, members string) error {
 	g, ok := store.Groups[hexid]
 	if !ok {
 		return fmt.Errorf("Unknown group id %s\n", hexid)
@@ -72,7 +72,7 @@ func (api *TextsecureAPI) UpdateGroup(hexid, name string, members string) error 
 	return nil
 }
 
-func (api *TextsecureAPI) LeaveGroup(hexid string) error {
+func (Api *TextsecureAPI) LeaveGroup(hexid string) error {
 	session := store.SessionsModel.Get(hexid)
 	msg := session.Add(lang.YouLeftGroup, "", "", "", true, Api.ActiveSessionID)
 	msg.Flags = msgFlagGroupLeave
@@ -97,7 +97,7 @@ func GroupUpdateMsg(tels []string, title string) string {
 	return s + "Title is now '" + title + "'."
 }
 
-func (api *TextsecureAPI) GroupInfo(hexid string) string {
+func (Api *TextsecureAPI) GroupInfo(hexid string) string {
 	s := ""
 	if g, ok := store.Groups[hexid]; ok {
 		for _, t := range strings.Split(g.Members, ",") {

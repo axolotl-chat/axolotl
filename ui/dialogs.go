@@ -1,6 +1,7 @@
 package ui
 
 import (
+	log "github.com/Sirupsen/logrus"
 	"github.com/nanu-c/textsecure-qml/contact"
 	"github.com/ttacon/libphonenumber"
 )
@@ -32,4 +33,8 @@ func GetPhoneNumber() string {
 
 func GetVerificationCode() string {
 	return GetTextFromDialog("getVerificationCode", "codeVerificationPage", "codeEntered")
+}
+func ShowError(err error) {
+	Win.Root().Call("error", err.Error())
+	log.Errorf(err.Error())
 }

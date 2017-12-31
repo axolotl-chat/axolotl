@@ -7,10 +7,10 @@ import (
 	"strings"
 	"time"
 
+	qml "github.com/amlwwalker/qml"
 	"github.com/janimo/textsecure"
 	"github.com/nanu-c/textsecure-qml/models"
 	"github.com/nanu-c/textsecure-qml/store"
-	qml "gopkg.in/qml.v1"
 )
 
 var (
@@ -20,7 +20,7 @@ var (
 	msgFlagResetSession = 8
 )
 
-func (api *TextsecureAPI) SendMessage(to, message string) error {
+func (Api *TextsecureAPI) SendMessage(to, message string) error {
 	return SendMessageHelper(to, message, "")
 }
 func SendMessage(s *store.Session, m *store.Message) {
@@ -103,7 +103,7 @@ func SendUnsentMessages() {
 		}
 	}
 }
-func (api *TextsecureAPI) DeleteMessage(msg *store.Message, tel string) {
+func (Api *TextsecureAPI) DeleteMessage(msg *store.Message, tel string) {
 	store.DeleteMessage(msg.ID)
 	s := store.SessionsModel.Get(tel)
 	for i, m := range s.Messages {

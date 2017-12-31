@@ -4,8 +4,8 @@ import (
 	"os"
 	"time"
 
+	qml "github.com/amlwwalker/qml"
 	"github.com/nanu-c/textsecure-qml/models"
-	qml "gopkg.in/qml.v1"
 )
 
 type Session struct {
@@ -68,6 +68,9 @@ func DeleteSession(tel string) error {
 	qml.Changed(SessionsModel, &SessionsModel.Len)
 	return nil
 }
+func (s *Sessions) GetSession(i int) *Session {
+	return s.Sess[i]
+}
 
 func (s *Session) Add(text string, source string, file string, mimetype string, outgoing bool, sessionID string) *Message {
 
@@ -126,4 +129,17 @@ func UpdateTimestamps() {
 			qml.Changed(s, &s.When)
 		}
 	}
+}
+func (s *Sessions) Get(tel string) *Session {
+	for _, ses := range s.Sess {
+		if ses.Tel == tel {
+			return ses
+		}
+	}
+	ses := &Session{Tel: tel, Name: TelToName(tel), Active: true, IsGroup: tel[0] != '+'}
+	s.Sess = append(s.Sess, ses)
+	s.Len++
+	qml.Changed(s, &s.Len)
+	SaveSession(ses)
+	return ses
 }

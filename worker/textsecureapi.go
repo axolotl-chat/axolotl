@@ -25,12 +25,12 @@ type TextsecureAPI struct {
 
 var Api = &TextsecureAPI{}
 
-func (api *TextsecureAPI) Unregister() {
+func (Api *TextsecureAPI) Unregister() {
 	os.RemoveAll(store.StorageDir)
 	os.Remove(store.ConfigFile)
 	os.Exit(1)
 }
-func (api *TextsecureAPI) IdentityInfo(id string) string {
+func (Api *TextsecureAPI) IdentityInfo(id string) string {
 	myID := textsecure.MyIdentityKey()
 	theirID, err := textsecure.ContactIdentityKey(id)
 	if err != nil {
@@ -40,7 +40,7 @@ func (api *TextsecureAPI) IdentityInfo(id string) string {
 		gettext.Gettext("Your identity (you read):") + "<br><br>" + fmt.Sprintf("% 0X", myID)
 }
 
-func (api *TextsecureAPI) ContactsImported(path string) {
+func (Api *TextsecureAPI) ContactsImported(path string) {
 	store.VcardPath = path
 
 	err := store.RefreshContacts()
@@ -49,6 +49,7 @@ func (api *TextsecureAPI) ContactsImported(path string) {
 	}
 }
 func RunBackend() {
+	Api = &TextsecureAPI{}
 	client := &textsecure.Client{
 		GetConfig:           store.GetConfig,
 		GetPhoneNumber:      ui.GetPhoneNumber,
@@ -97,7 +98,7 @@ func RunBackend() {
 		}
 	}
 }
-func (api *TextsecureAPI) FilterContacts(sub string) {
+func (Api *TextsecureAPI) FilterContacts(sub string) {
 	sub = strings.ToUpper(sub)
 
 	fc := []textsecure.Contact{}
@@ -110,6 +111,12 @@ func (api *TextsecureAPI) FilterContacts(sub string) {
 	cm := &store.Contacts{fc, len(fc)}
 	ui.Engine.Context().SetVar("contactsModel", cm)
 }
-func (api *TextsecureAPI) SaveSettings() error {
+func (Api *TextsecureAPI) SaveSettings() error {
 	return store.SaveSettings(store.SettingsModel)
+}
+func (Api *TextsecureAPI) GetActiveSessionID() string {
+	return Api.ActiveSessionID
+}
+func (Api *TextsecureAPI) SetActiveSessionID(sId string) {
+	Api.ActiveSessionID = sId
 }

@@ -2,9 +2,9 @@ package ui
 
 import (
 	log "github.com/Sirupsen/logrus"
+	qml "github.com/amlwwalker/qml"
 	"github.com/janimo/textsecure"
 	"github.com/nanu-c/textsecure-qml/store"
-	qml "gopkg.in/qml.v1"
 )
 
 var Win *qml.Window
@@ -21,10 +21,6 @@ func GroupUpdateMsg(tels []string, title string) string {
 
 	return s + "Title is now '" + title + "'."
 }
-func ShowError(err error) {
-	Win.Root().Call("error", err.Error())
-	log.Errorf(err.Error())
-}
 func RegistrationDone() {
 	log.Println("Registered")
 	Win.Root().Call("registered")
@@ -40,4 +36,16 @@ func SetComponent() error {
 }
 func SetEngine() {
 	Engine = qml.NewEngine()
+}
+func InitModels() {
+	var err error
+	store.SettingsModel, err = store.LoadSettings()
+	if err != nil {
+		log.Println(err)
+	}
+	Engine.Context().SetVar("contactsModel", store.ContactsModel)
+	Engine.Context().SetVar("settingsModel", store.SettingsModel)
+	Engine.Context().SetVar("sessionsModel", store.SessionsModel)
+
+	go store.UpdateTimestamps()
 }

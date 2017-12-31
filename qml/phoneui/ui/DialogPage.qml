@@ -114,7 +114,7 @@ TelegramPage {
                     text: i18n.tr("This will permanently delete all messages in this conversation."),
                     onAccept: function() {
                         textsecure.deleteSession(messagesModel.tel)
-                        textsecure.activeSessionID = ""
+                        textsecure.setActiveSessionID("")
                         pageStack.push(dialogsPage);
                     }
                 })
@@ -366,7 +366,7 @@ TelegramPage {
             listDelegate: TelegramDelegate {
                 id: delegate
                 property int ii: messagesModel.len - 1 - index
-                property var msg: messagesModel.messages(ii)
+                property var msg: messagesModel.getMessages(ii)
                 outgoing: msg.outgoing
                 groupUpdate: msg.flags == 1 || msg.flags == 2 || msg.flags == 4
                 isAction: false
@@ -386,7 +386,7 @@ TelegramPage {
                 message: msg.message
                 time: msg.hTime
                 senderId: uid(msg.source)
-                senderName: outgoing? "You" : msg.name()
+                senderName: outgoing? "You" : msg.getName()
                 senderDisplayName: outgoing ? "" : senderName
                 mediaType: msg.cType
                 thumbnail: list.getThumbnail(msg)
@@ -612,15 +612,15 @@ TelegramPage {
     function sendAttachment(path) {
         console.log("Sending attachment", path)
         if (/vcf$/.test(path)) {
-            textsecure.sendContactAttachment(messagesModel.tel, message.text, path)
+            attachmentStruct.sendContactAttachment(messagesModel.tel, message.text, path)
         }else {
-            textsecure.sendAttachment(messagesModel.tel, message.text, path)
+            attachmentStruct.sendAttachment(messagesModel.el, message.text, path)
         }
         message.text = "";
     }
 
     function onBackPressed() {
-        textsecure.activeSessionID = ""
+        textsecure.setActiveSessionID("")
     }
 
 }

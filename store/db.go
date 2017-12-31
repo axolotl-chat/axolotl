@@ -4,8 +4,8 @@ import (
 	"os"
 	"path/filepath"
 
+	qml "github.com/amlwwalker/qml"
 	"github.com/nanu-c/textsecure-qml/models"
-	qml "gopkg.in/qml.v1"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
@@ -78,19 +78,6 @@ func (s *Sessions) GetIndex(tel string) int {
 	return -1
 }
 
-func (s *Sessions) Get(tel string) *Session {
-	for _, ses := range s.Sess {
-		if ses.Tel == tel {
-			return ses
-		}
-	}
-	ses := &Session{Tel: tel, Name: TelToName(tel), Active: true, IsGroup: tel[0] != '+'}
-	s.Sess = append(s.Sess, ses)
-	s.Len++
-	qml.Changed(s, &s.Len)
-	SaveSession(ses)
-	return ses
-}
 func TelToName(tel string) string {
 	if g, ok := Groups[tel]; ok {
 		return g.Name

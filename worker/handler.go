@@ -6,11 +6,11 @@ import (
 	"strings"
 	"time"
 
+	qml "github.com/amlwwalker/qml"
 	"github.com/janimo/textsecure"
 	"github.com/nanu-c/textsecure-qml/lang"
 	"github.com/nanu-c/textsecure-qml/models"
 	"github.com/nanu-c/textsecure-qml/store"
-	qml "gopkg.in/qml.v1"
 )
 
 func messageHandler(msg *textsecure.Message) {

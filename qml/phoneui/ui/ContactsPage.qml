@@ -139,10 +139,10 @@ TelegramPage {
             listModel: contactsModel.len
             listDelegate: TelegramContactsListItem {
                 id: contactDelegate
-                property var contact : contactsModel.contact(index)
+                property var contact : contactsModel.getContact(index)
                 userId: uid(contact.tel)
                 photo: avatarImage(contact.tel)
-                title: contact.name
+                title: contact.Name
                 subtitle: contact.tel
 
                 selected: contactListView.isSelected(contactDelegate)
