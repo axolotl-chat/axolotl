@@ -138,6 +138,8 @@ MainView {
 	}
 
 	function backToDialogsPage() {
+		console.log("backToDialogsPage");
+
 		while (pageStack.depth > 0 &&
 		pageStack.currentPage.objectName !== "dialogsPage") {
 			pageStack.pop();
@@ -148,11 +150,12 @@ MainView {
 	}
 
 	function openChatById(chatId, tel, properties) {
+		console.log("openChatById");
 		if (pageStack.depth > 0 && pageStack.currentPage.objectName === "chatPage") {
 			if (pageStack.currentPage.chatId === chatId) return;
 		}
 		if (typeof properties === "undefined") properties = { };
-		backToDialogsPage();
+		// backToDialogsPage();
 		textsecure.setActiveSessionID(tel)
 		textsecure.markSessionsRead(tel)
 		messagesModel = sessionsModel.get(tel);
