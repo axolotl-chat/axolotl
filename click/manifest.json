@@ -1,8 +1,8 @@
 {
     "name": "textsecure.nanuc",
     "version": "0.3.13",
-    "description": "A TextSecure compatible messaging client for Ubuntu phones",
-    "title": "TextSecure2 client",
+    "description": "A Signal compatible messaging client for Ubuntu phones",
+    "title": "Signal client",
     "architecture": "armhf",
     "framework" : "ubuntu-sdk-15.04",
     "hooks": {

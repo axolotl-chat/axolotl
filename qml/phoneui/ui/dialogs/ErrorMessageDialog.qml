@@ -4,7 +4,7 @@ import Ubuntu.Components.Popups 1.0
 
 Dialog {
     id: dialogue
-    title: "TextSecure error"
+    title: "Signal error"
 
     text: "Unknown error"
 

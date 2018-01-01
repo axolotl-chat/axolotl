@@ -106,23 +106,23 @@ ListItemWithActions {
             height: isAction ? 0 : bubble.height
             visible: !isAction
 
-            Avatar {
-                id: imageShape
-                anchors {
-                    left: parent.left
-                    leftMargin: visible ? units.gu(1) : 0
-                    bottom: sectionVisible ? bubble.bottom : parent.bottom
-                }
-                width: visible ? units.gu(3) : 0
-                height: width
-                visible: !messageDelegate.outgoing && !groupUpdate
-
-                chatId: senderId
-                chatTitle: senderDisplayName
-                chatPhoto: senderImage
-
-                onClicked: messageDelegate.profileImageClicked()
-            }
+            // Avatar {
+            //     id: imageShape
+            //     anchors {
+            //         left: parent.left
+            //         leftMargin: visible ? units.gu(1) : 0
+            //         bottom: sectionVisible ? bubble.bottom : parent.bottom
+            //     }
+            //     width: visible ? units.gu(3) : 0
+            //     height: width
+            //     visible: !messageDelegate.outgoing && !groupUpdate
+            //
+            //     chatId: senderId
+            //     chatTitle: senderDisplayName
+            //     chatPhoto: senderImage
+            //
+            //     onClicked: messageDelegate.profileImageClicked()
+            // }
 
             TelegramBubble {
                 id: bubble

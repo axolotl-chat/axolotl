@@ -22,7 +22,7 @@ TelegramPage {
             }
             width: parent.width
             wrapMode: Text.WordWrap
-            text: "<h3>Thanks for trying out TextSecure!</h3><br><br> \
+            text: "<h3>Thanks for trying out Signal!</h3><br><br> \
             File bugs and feature requests on github:<br>\
             <a href='https://github.com/nanu-c/textsecure-qml/issues'>https://github.com/nanu-c/textsecure-qml/issues</a><br>"
             onLinkActivated:Qt.openUrlExternally(link)

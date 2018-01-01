@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=TextSecure2
+Name=Signal
 Exec=textsecure %u
 Icon=textsecure.png
 Terminal=false

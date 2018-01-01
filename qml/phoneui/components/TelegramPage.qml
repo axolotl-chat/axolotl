@@ -20,7 +20,7 @@ Page {
 
     property alias title: header.title
     property string pageImage: ""
-    property string pageTitle: i18n.tr("TextSecure")
+    property string pageTitle: i18n.tr("Signal")
     property string pageSubtitle: ""
     property string pageSubtitleAlt: ""
     property int chatId: 0
