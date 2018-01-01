@@ -1,6 +1,8 @@
 package worker
 
-import "github.com/nanu-c/textsecure-qml/store"
+import (
+	"github.com/nanu-c/textsecure-qml/store"
+)
 
 func (Api *TextsecureAPI) GetAvatarImage(id string) string {
 	url := ""

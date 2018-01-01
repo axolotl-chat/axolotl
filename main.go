@@ -8,7 +8,6 @@ import (
 	log "github.com/Sirupsen/logrus"
 
 	"github.com/amlwwalker/qml"
-	"github.com/nanu-c/textsecure-qml/api/attachment"
 	"github.com/nanu-c/textsecure-qml/models"
 	"github.com/nanu-c/textsecure-qml/push"
 	"github.com/nanu-c/textsecure-qml/store"
@@ -26,7 +25,6 @@ func setup() {
 	if store.IsPushHelper {
 		push.PushHelperProcess()
 	}
-
 }
 
 func RunUI() error {
@@ -34,7 +32,6 @@ func RunUI() error {
 	ui.Engine.AddImageProvider("avatar", store.AvatarImageProvider)
 	ui.InitModels()
 	ui.Engine.Context().SetVar("textsecure", worker.Api)
-	ui.Engine.Context().SetVar("attachmentStruct", attachment.AttachmentsModel)
 	ui.Engine.Context().SetVar("appVersion", store.AppVersion)
 
 	ui.SetComponent()

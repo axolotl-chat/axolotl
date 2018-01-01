@@ -9,6 +9,7 @@ import "../js/time.js" as Time
 TelegramPage {
     id: dialogsPage
 
+
     property var messagesToForward: []
 
     head.actions: [
@@ -82,7 +83,7 @@ TelegramPage {
                 isGroupChat: ses.isGroup
 
                 onItemClicked: {
-                  // console.log(sessionsModel.Sess[i]);
+                    console.log("dialogsPageClick");
                     mouse.accepted = true;
                     searchFinished();
                     var properties = {};

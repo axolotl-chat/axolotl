@@ -84,6 +84,7 @@ func SendMessageHelper(to, message, file string) error {
 	var err error
 	if file != "" {
 		file, err = store.CopyAttachment(file)
+		log.Printf("got Attachment")
 		if err != nil {
 			return err
 		}
