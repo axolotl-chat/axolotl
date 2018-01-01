@@ -88,6 +88,7 @@ MainView {
 	}
 
 	function initialize() {
+		listApi();
 		pageStack.push(dialogsPage)
 	}
 
@@ -172,9 +173,14 @@ MainView {
 	function uid(tel) {
 		return parseInt(tel.substring(3, 10), 16)
 	}
-
+	function listApi(){
+		console.log(Object.getOwnPropertyNames(textsecure).filter(function (p) {
+				return typeof textsecure[p] === 'function';
+		}));
+	}
 	function avatarImage(id) {
-		console.log(id)
+
+		console.log("get avata: " + id.substring(0, 3));
 		return textsecure.getAvatarImage(id)
 	}
 }
