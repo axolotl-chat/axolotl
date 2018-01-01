@@ -1,3 +1,18 @@
+0.3.14 (Jan  01 2018)
+--------------------
+* rename to signal
+* hide Send Attachment until it's working again
+* faster load of Dialogs
+* structure code in go Packages
+
+
+ 0.3.13 (Dez  27 2017)
+ --------------------
+ * replace qml-go with newer version
+ * move it to the open store
+ * replace maintainerpaths
+
+
 0.3.12 (Apr 29 2017)
 --------------------
 
