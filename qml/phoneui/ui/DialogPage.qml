@@ -17,7 +17,7 @@ TelegramPage {
     pageSubtitle: !messagesModel.isGroup?messagesModel.tel : ""
     pageImage: avatarImage(messagesModel.tel)
 
-    property bool isChat: messagesModel.isGroup
+    property bool isGroupChat: messagesModel.isGroup
 
     property var messagesToForward: []
 
@@ -25,7 +25,7 @@ TelegramPage {
         Qt.inputMethod.hide();
 
         var userId = uid(messagesModel.tel)
-        isChat ? openGroupProfile(userId)
+        isGroupChat ? openGroupProfile(userId)
                : openProfile(userId);
     }
 
@@ -33,7 +33,7 @@ TelegramPage {
         Action {
             iconName: "call-start"
             text: i18n.tr("Call")
-            visible: !isChat
+            visible: !isGroupChat
             onTriggered: {
                 Qt.inputMethod.hide()
                 Qt.openUrlExternally("tel:///" + messagesModel.tel)
@@ -42,7 +42,7 @@ TelegramPage {
         Action {
             iconName:"reset"
             text: i18n.tr("Reset secure session")
-            visible: !isChat
+            visible: !isGroupChat
             onTriggered: {
                 PopupUtils.open(Qt.resolvedUrl("dialogs/ConfirmationDialog.qml"),
                 dialogPage, {
@@ -57,7 +57,7 @@ TelegramPage {
         Action {
             iconName:"info"
             text: i18n.tr("Verify identity")
-            visible: !isChat
+            visible: !isGroupChat
             onTriggered: {
                 PopupUtils.open(Qt.resolvedUrl("dialogs/InfoDialog.qml"),
                 dialogPage, {
@@ -69,7 +69,7 @@ TelegramPage {
         Action {
             iconName: "contact-group"
             text: i18n.tr("Recipients list")
-            visible: isChat
+            visible: isGroupChat
             onTriggered: {
                 Qt.inputMethod.hide();
                 showGroupInfo()
@@ -78,7 +78,7 @@ TelegramPage {
         Action {
             iconName: "system-log-out"
             text: i18n.tr("Leave group")
-            visible: isChat && messagesModel.active
+            visible: isGroupChat && messagesModel.active
             onTriggered: {
                 Qt.inputMethod.hide();
                 PopupUtils.open(Qt.resolvedUrl("dialogs/ConfirmationDialog.qml"),
@@ -94,7 +94,7 @@ TelegramPage {
         Action {
             iconName: "contact-new"
             text: i18n.tr("Update group")
-            visible: isChat && messagesModel.active
+            visible: isGroupChat && messagesModel.active
             onTriggered: {
                 Qt.inputMethod.hide();
                 var properties = {
@@ -372,6 +372,7 @@ TelegramPage {
                 isAction: false
                 isSent: msg.isSent
                 isRead: msg.isRead
+                isGroupChat: isGroupChat
 		/*
                 actionType: model.actionType
                 actionTitle: model.actionTitle
@@ -392,12 +393,13 @@ TelegramPage {
                 thumbnail: list.getThumbnail(msg)
                 attachment: msg.attachment
                 senderColor: Avatar.getColor(senderId)
-                senderImage: {
-                    if (!outgoing && !list.isInSelectionMode) {
-                        return avatarImage(msg.source)
-                    }
-                    return "";
-                }
+                // senderImage:
+                //  {
+                //     if (!outgoing && !list.isInSelectionMode) {
+                //         return avatarImage(msg.source)
+                //     }
+                //     return "";
+                // }
                 /*
                 photo: model.photo
                 video: model.video
@@ -610,11 +612,12 @@ TelegramPage {
     }
 
     function sendAttachment(path) {
-        console.log("Sending attachment", path)
+        console.log("Sending attachment", path);
         if (/vcf$/.test(path)) {
-            attachmentStruct.sendContactAttachment(messagesModel.tel, message.text, path)
+            textsecure.sendContactAttachment(messagesModel.tel, message.text, path)
         }else {
-            attachmentStruct.sendAttachment(messagesModel.el, message.text, path)
+          textsecure.sendAttachmentToApi(messagesModel.tel, message.text, path)
+            // textsecure.sendAttachment(messagesModel.el, message.text, path)
         }
         message.text = "";
     }
