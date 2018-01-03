@@ -1,5 +1,9 @@
 0.3.14 (Jan  01 2018)
 --------------------
+* fix Contact Book
+
+0.3.14 (Jan  01 2018)
+--------------------
 * rename to signal
 * hide Send Attachment until it's working again
 * faster load of Dialogs
