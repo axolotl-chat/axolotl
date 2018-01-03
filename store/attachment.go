@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/janimo/textsecure"
-	"github.com/nanu-c/snappy/helpers"
+	"github.com/snapcore/snapd/osutil"
 )
 
 func SaveAttachment(a *textsecure.Attachment) (string, error) {
@@ -44,7 +44,7 @@ func SaveAttachment(a *textsecure.Attachment) (string, error) {
 func CopyAttachment(src string) (string, error) {
 	_, b := filepath.Split(src)
 	dest := filepath.Join(attachDir, b)
-	err := helpers.CopyFile(src, dest, helpers.CopyFlagOverwrite)
+	err := osutil.CopyFile(src, dest, osutil.CopyFlagOverwrite)
 	if err != nil {
 		return "", err
 	}
