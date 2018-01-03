@@ -1,4 +1,8 @@
-0.3.14 (Jan  01 2018)
+0.3.16 (Jan  03 2018)
+--------------------
+* Get sending attachments working again
+
+0.3.15 (Jan  03 2018)
 --------------------
 * fix Contact Book
 

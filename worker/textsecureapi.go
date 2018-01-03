@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/gosexy/gettext"
-	"github.com/janimo/textsecure"
+	"github.com/morph027/textsecure"
 	"github.com/nanu-c/textsecure-qml/contact"
 	"github.com/nanu-c/textsecure-qml/models"
 	"github.com/nanu-c/textsecure-qml/store"

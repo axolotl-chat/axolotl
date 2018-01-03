@@ -267,55 +267,55 @@ TelegramPage {
                     spacing: units.gu(2)
                     anchors.verticalCenter: sendButtonBox.verticalCenter
 
-                    // Image {
-                    //     id: attachButton
-                    //     height: units.gu(3.5)
-                    //     fillMode: Image.PreserveAspectFit
-                    //     focus: false
-                    //     enabled: isConnected && message.text.length === 0 && messagesModel.active
-                    //     source: "../images/ic_ab_attach.png"
-                    //
-                    //     states: [
-                    //         State {
-                    //             name: "text"
-                    //             when: message.text.length > 0
-                    //             PropertyChanges {
-                    //                 target: attachButton
-                    //                 width: 0
-                    //                 opacity: 0.0
-                    //             }
-                    //         },
-                    //         State {
-                    //             name: "notext"
-                    //             when: message.text.length  === 0
-                    //             PropertyChanges {
-                    //                 target: attachButton
-                    //                 width: units.gu(3.5)
-                    //                 opacity: 1.0
-                    //             }
-                    //         }
-                    //     ]
-                    //
-                    //     transitions: [
-                    //         Transition {
-                    //             PropertyAnimation {
-                    //                 target: attachButton
-                    //                 properties: "width, opacity"
-                    //                 duration: UbuntuAnimation.FastDuration
-                    //             }
-                    //         }
-                    //     ]
-                    //
-                    //     MouseArea {
-                    //         anchors.fill: attachButton
-                    //         onClicked: {
-                    //             if (isConnected) {
-                    //                 privates.attachmentItem = attach_panel_component.createObject(dialogPage)
-                    //                 privates.attachmentItem.isShown = true;
-                    //             }
-                    //         }
-                    //     }
-                    // }
+                    Image {
+                        id: attachButton
+                        height: units.gu(3.5)
+                        fillMode: Image.PreserveAspectFit
+                        focus: false
+                        enabled: isConnected && message.text.length === 0 && messagesModel.active
+                        source: "../images/ic_ab_attach.png"
+
+                        states: [
+                            State {
+                                name: "text"
+                                when: message.text.length > 0
+                                PropertyChanges {
+                                    target: attachButton
+                                    width: 0
+                                    opacity: 0.0
+                                }
+                            },
+                            State {
+                                name: "notext"
+                                when: message.text.length  === 0
+                                PropertyChanges {
+                                    target: attachButton
+                                    width: units.gu(3.5)
+                                    opacity: 1.0
+                                }
+                            }
+                        ]
+
+                        transitions: [
+                            Transition {
+                                PropertyAnimation {
+                                    target: attachButton
+                                    properties: "width, opacity"
+                                    duration: UbuntuAnimation.FastDuration
+                                }
+                            }
+                        ]
+
+                        MouseArea {
+                            anchors.fill: attachButton
+                            onClicked: {
+                                if (isConnected) {
+                                    privates.attachmentItem = attach_panel_component.createObject(dialogPage)
+                                    privates.attachmentItem.isShown = true;
+                                }
+                            }
+                        }
+                    }
 
                     Image {
                         id: sendButton

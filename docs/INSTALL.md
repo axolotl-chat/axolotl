@@ -36,8 +36,8 @@ go get -v -d github.com/nanu-c/textsecure
 go get -v -d github.com/jmoiron/sqlx
 go get -v -d github.com/mattn/go-sqlite3
 go get -v -d github.com/ttacon/libphonenumber
-go get -v -d github.com/ubuntu-core/snappy/helpers
-go get -v -d github.com/amlwwalker/qml
+go get -v -d github.com/snapcore/snapd/osutil/sys
+go get -v -d github.com/morph027/textsecure
 go get -v -d gopkg.in/yaml.v2
 go get -v -d bitbucket.org/llg/vcard
 ```
