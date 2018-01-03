@@ -12,7 +12,8 @@ import (
 
 	"bitbucket.org/llg/vcard"
 	"github.com/godbus/dbus"
-	"github.com/janimo/textsecure"
+	vcard_go "github.com/mapaiva/vcard-go"
+	"github.com/morph027/textsecure"
 	"github.com/nanu-c/textsecure-qml/models"
 	"github.com/nanu-c/textsecure-qml/store"
 	"github.com/ttacon/libphonenumber"
@@ -24,12 +25,10 @@ func PhoneFromVCardFile(file string) (string, error) {
 		return "", err
 	}
 	defer r.Close()
+	cards, err := vcard_go.GetVCards(file)
 
-	di := vcard.NewDirectoryInfoReader(r)
-	vc := &vcard.VCard{}
-	vc.ReadFrom(di)
-	if len(vc.Telephones) > 0 {
-		return vc.Telephones[0].Number, nil
+	if len(cards) > 0 {
+		return cards[0].Phone, nil
 	}
 
 	return "", errors.New("No phone number for contact.")

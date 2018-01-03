@@ -2,7 +2,7 @@ package store
 
 import (
 	qml "github.com/amlwwalker/qml"
-	"github.com/janimo/textsecure"
+	"github.com/morph027/textsecure"
 )
 
 type Contacts struct {

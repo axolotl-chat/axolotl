@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	qml "github.com/amlwwalker/qml"
-	"github.com/janimo/textsecure"
+	"github.com/morph027/textsecure"
 	"github.com/nanu-c/textsecure-qml/lang"
 	"github.com/nanu-c/textsecure-qml/models"
 	"github.com/nanu-c/textsecure-qml/store"

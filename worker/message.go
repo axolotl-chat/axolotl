@@ -8,7 +8,7 @@ import (
 	"time"
 
 	qml "github.com/amlwwalker/qml"
-	"github.com/janimo/textsecure"
+	"github.com/morph027/textsecure"
 	"github.com/nanu-c/textsecure-qml/models"
 	"github.com/nanu-c/textsecure-qml/store"
 )
@@ -31,6 +31,8 @@ func SendMessage(s *store.Session, m *store.Message) {
 		att, err = os.Open(m.Attachment)
 		if err != nil {
 			return
+		} else {
+			log.Printf("SendMessage FileOpend")
 		}
 	}
 
@@ -39,6 +41,7 @@ func SendMessage(s *store.Session, m *store.Message) {
 	m.SentAt = ts
 	s.Timestamp = m.SentAt
 	m.IsSent = true
+	//FIXME avoid rerendering the whole qml
 	qml.Changed(m, &m.IsSent)
 	m.HTime = models.HumanizeTimestamp(m.SentAt)
 	qml.Changed(m, &m.HTime)
@@ -68,6 +71,12 @@ func SendMessageLoop(to, message string, group bool, att io.Reader, flags int) u
 			if group {
 				ts, err = textsecure.SendGroupAttachment(to, message, att)
 			} else {
+				log.Printf("SendMessageLoop sendAttachment")
+				// buf := new(bytes.Buffer)
+				// buf.ReadFrom(att)
+				// s := buf.String()
+				// log.Printf(s)
+
 				ts, err = textsecure.SendAttachment(to, message, att)
 			}
 		}
@@ -84,8 +93,9 @@ func SendMessageHelper(to, message, file string) error {
 	var err error
 	if file != "" {
 		file, err = store.CopyAttachment(file)
-		log.Printf("got Attachment")
+		log.Printf("got Attachment:" + file)
 		if err != nil {
+			log.Printf("Error Attachment:" + err.Error())
 			return err
 		}
 	}

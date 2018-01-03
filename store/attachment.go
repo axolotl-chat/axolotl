@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/janimo/textsecure"
+	"github.com/morph027/textsecure"
 	"github.com/snapcore/snapd/osutil"
 )
 
