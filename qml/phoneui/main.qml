@@ -180,7 +180,7 @@ MainView {
 	}
 	function avatarImage(id) {
 
-		console.log("get avata: " + id.substring(0, 3));
+		// console.log("get avata: " + id.substring(0, 3));
 		return textsecure.getAvatarImage(id)
 	}
 }

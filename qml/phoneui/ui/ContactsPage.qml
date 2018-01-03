@@ -142,7 +142,7 @@ TelegramPage {
                 property var contact : contactsModel.getContact(index)
                 userId: uid(contact.tel)
                 photo: avatarImage(contact.tel)
-                title: contact.Name
+                title: contact.name
                 subtitle: contact.tel
 
                 selected: contactListView.isSelected(contactDelegate)
@@ -221,7 +221,8 @@ TelegramPage {
 
         Component.onCompleted: {
             if (!textsecure.hasContacts) {
-                refreshContacts();
+                //FIXME hasContacts returns always false
+                // refreshContacts();
             }
         }
 
