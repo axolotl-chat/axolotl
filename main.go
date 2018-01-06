@@ -8,11 +8,11 @@ import (
 	log "github.com/Sirupsen/logrus"
 
 	"github.com/amlwwalker/qml"
-	"github.com/nanu-c/textsecure-qml/models"
-	"github.com/nanu-c/textsecure-qml/push"
-	"github.com/nanu-c/textsecure-qml/store"
-	"github.com/nanu-c/textsecure-qml/ui"
-	"github.com/nanu-c/textsecure-qml/worker"
+	"github.com/nanu-c/textsecure-qml/app/models"
+	"github.com/nanu-c/textsecure-qml/app/push"
+	"github.com/nanu-c/textsecure-qml/app/store"
+	"github.com/nanu-c/textsecure-qml/app/ui"
+	"github.com/nanu-c/textsecure-qml/app/worker"
 )
 
 func init() {
