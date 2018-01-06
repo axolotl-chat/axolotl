@@ -1,10 +1,16 @@
 package store
 
 import (
+	"crypto/rand"
+	"fmt"
+	"io"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 
+	log "github.com/Sirupsen/logrus"
 	qml "github.com/amlwwalker/qml"
+	"golang.org/x/crypto/scrypt"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
@@ -30,7 +36,8 @@ var (
 	groupsDelete = "DELETE FROM groups WHERE groupid = ?"
 )
 
-func SetupDB() error {
+func SetupDB(saltPath, password string) error {
+	params := "_busy_timeout=5000&cache=shared"
 	var err error
 
 	dbDir = filepath.Join(DataDir, "db")
@@ -39,8 +46,21 @@ func SetupDB() error {
 	if err != nil {
 		return err
 	}
+	// check for password
+	if password != "" && saltPath != "" {
+		log.Info("Connecting to encrypted data store")
+		key, err := getKey(saltPath, password)
+		if err != nil {
+			log.WithFields(log.Fields{
+				"error": err,
+			}).Error("Failed to get key")
+			return err
+		}
 
-	db, err = sqlx.Open("sqlite3", dbFile)
+		params = fmt.Sprintf("%s&_pragma_key=x'%X'&_pragma_cipher_page_size=4096", params, key)
+	}
+
+	db, err = sqlx.Open("sqlite3", fmt.Sprintf("%s?%s", dbFile, params))
 	if err != nil {
 		return err
 	}
@@ -60,6 +80,42 @@ func SetupDB() error {
 	}
 
 	return LoadMessagesFromDB()
+}
+
+// Get salt for encrypted database stored at path
+func getSalt(path string) ([]byte, error) {
+	salt := make([]byte, 8)
+
+	if _, err := os.Stat(path); err == nil {
+		salt, err = ioutil.ReadFile(path)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		if _, err := io.ReadFull(rand.Reader, salt); err != nil {
+			return nil, err
+		}
+
+		err = ioutil.WriteFile(path, salt, 0600)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return salt, nil
+}
+
+// Get raw key data for use with sqlcipher
+func getKey(saltPath, password string) ([]byte, error) {
+	salt, err := getSalt(saltPath)
+	if err != nil {
+		log.WithFields(log.Fields{
+			"error": err,
+		}).Error("Failed to get salt")
+		return nil, err
+	}
+
+	return scrypt.Key([]byte(password), salt, 16384, 8, 1, 32)
 }
 
 func (s *Sessions) GetIndex(tel string) int {

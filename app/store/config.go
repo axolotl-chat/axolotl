@@ -104,7 +104,7 @@ func SetupConfig() {
 	attachDir = filepath.Join(DataDir, "attachments")
 	os.MkdirAll(attachDir, 0700)
 	StorageDir = filepath.Join(DataDir, ".storage")
-	if err := SetupDB(); err != nil {
+	if err := SetupDB("", ""); err != nil {
 		log.Fatal(err)
 	}
 	RefreshContacts()
