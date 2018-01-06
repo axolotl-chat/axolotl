@@ -8,7 +8,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 
 	"github.com/amlwwalker/qml"
-	"github.com/nanu-c/textsecure-qml/app/models"
+	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/nanu-c/textsecure-qml/app/push"
 	"github.com/nanu-c/textsecure-qml/app/store"
 	"github.com/nanu-c/textsecure-qml/app/ui"
@@ -20,7 +20,7 @@ func init() {
 }
 
 func setup() {
-	models.SetupLogging()
+	helpers.SetupLogging()
 	store.SetupConfig()
 	if store.IsPushHelper {
 		push.PushHelperProcess()
