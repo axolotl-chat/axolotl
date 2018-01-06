@@ -11,7 +11,7 @@ import (
 	"github.com/gosexy/gettext"
 	"github.com/morph027/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/contact"
-	"github.com/nanu-c/textsecure-qml/app/models"
+	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/nanu-c/textsecure-qml/app/settings"
 	"github.com/nanu-c/textsecure-qml/app/store"
 	"github.com/nanu-c/textsecure-qml/app/ui"
@@ -80,7 +80,7 @@ func RunBackend() {
 
 	Api.PhoneNumber = store.Config.Tel
 
-	if models.Exists(store.ContactsFile) {
+	if helpers.Exists(store.ContactsFile) {
 		Api.HasContacts = true
 		store.RefreshContacts()
 	}

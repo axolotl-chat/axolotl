@@ -14,7 +14,7 @@ import (
 	"github.com/godbus/dbus"
 	vcard_go "github.com/mapaiva/vcard-go"
 	"github.com/morph027/textsecure"
-	"github.com/nanu-c/textsecure-qml/app/models"
+	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/nanu-c/textsecure-qml/app/store"
 	"github.com/ttacon/libphonenumber"
 )
@@ -81,7 +81,7 @@ func GetAddressBookContactsFromDBus() ([]textsecure.Contact, error) {
 
 // getAddgetAddressBookContactsFromContentHub gets the phone contacts via the content hub
 func GetAddressBookContactsFromContentHub() ([]textsecure.Contact, error) {
-	if models.Exists(store.ContactsFile) && store.VcardPath == "" {
+	if helpers.Exists(store.ContactsFile) && store.VcardPath == "" {
 		return textsecure.ReadContacts(store.ContactsFile)
 	}
 	store.VcardPath = strings.TrimPrefix(store.VcardPath, "file://")

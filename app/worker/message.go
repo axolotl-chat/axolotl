@@ -9,7 +9,7 @@ import (
 
 	qml "github.com/amlwwalker/qml"
 	"github.com/morph027/textsecure"
-	"github.com/nanu-c/textsecure-qml/app/models"
+	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/nanu-c/textsecure-qml/app/store"
 )
 
@@ -43,7 +43,7 @@ func SendMessage(s *store.Session, m *store.Message) {
 	m.IsSent = true
 	//FIXME avoid rerendering the whole qml
 	qml.Changed(m, &m.IsSent)
-	m.HTime = models.HumanizeTimestamp(m.SentAt)
+	m.HTime = helpers.HumanizeTimestamp(m.SentAt)
 	qml.Changed(m, &m.HTime)
 	s.When = m.HTime
 	qml.Changed(s, &s.When)

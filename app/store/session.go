@@ -5,7 +5,7 @@ import (
 	"time"
 
 	qml "github.com/amlwwalker/qml"
-	"github.com/nanu-c/textsecure-qml/app/models"
+	"github.com/nanu-c/textsecure-qml/app/helpers"
 )
 
 type Session struct {
@@ -26,6 +26,9 @@ type Sessions struct {
 	Sess []*Session
 	Len  int
 }
+
+//TODO that hasn't to  be in the db controller
+var AllSessions []*Session
 
 var SessionsModel = &Sessions{
 	Sess: make([]*Session, 0),
@@ -74,10 +77,10 @@ func (s *Sessions) GetSession(i int) *Session {
 
 func (s *Session) Add(text string, source string, file string, mimetype string, outgoing bool, sessionID string) *Message {
 
-	ctype := models.ContentTypeMessage
+	ctype := helpers.ContentTypeMessage
 	if file != "" {
 		f, _ := os.Open(file)
-		ctype = models.ContentType(f, mimetype)
+		ctype = helpers.ContentType(f, mimetype)
 	}
 	message := &Message{Message: text,
 		SID:        s.ID,
@@ -122,7 +125,7 @@ func UpdateTimestamps() {
 				continue
 			}
 			for _, m := range s.Messages {
-				m.HTime = models.HumanizeTimestamp(m.SentAt)
+				m.HTime = helpers.HumanizeTimestamp(m.SentAt)
 				qml.Changed(m, &m.HTime)
 			}
 			s.When = s.Messages[len(s.Messages)-1].HTime

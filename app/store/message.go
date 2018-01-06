@@ -1,8 +1,6 @@
 package store
 
-import (
-	"github.com/nanu-c/textsecure-qml/app/models"
-)
+import "github.com/nanu-c/textsecure-qml/app/helpers"
 
 type Message struct {
 	ID         int64
@@ -64,7 +62,7 @@ func LoadMessagesFromDB() error {
 		return err
 	}
 	for _, s := range AllSessions {
-		s.When = models.HumanizeTimestamp(s.Timestamp)
+		s.When = helpers.HumanizeTimestamp(s.Timestamp)
 		s.Active = !s.IsGroup || (Groups[s.Tel] != nil && Groups[s.Tel].Active)
 		SessionsModel.Sess = append(SessionsModel.Sess, s)
 		SessionsModel.Len++
@@ -74,7 +72,7 @@ func LoadMessagesFromDB() error {
 			return err
 		}
 		for _, m := range s.Messages {
-			m.HTime = models.HumanizeTimestamp(m.SentAt)
+			m.HTime = helpers.HumanizeTimestamp(m.SentAt)
 		}
 	}
 	return nil

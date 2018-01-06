@@ -307,11 +307,11 @@ msgstr ""
 msgid "Incorrect code. Please try again."
 msgstr ""
 
-#: models.go:147
+#: helpers.go:147
 msgid "Sent"
 msgstr ""
 
-#: models.go:149
+#: helpers.go:149
 msgid "Received"
 msgstr ""
 

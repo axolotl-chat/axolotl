@@ -1,4 +1,4 @@
-package models
+package helpers
 
 import (
 	"io"
@@ -11,15 +11,6 @@ import (
 )
 
 // Model for existing chat sessions
-
-type GroupRecord struct {
-	ID      int64
-	GroupID string
-	Name    string
-	Members string
-	Avatar  []byte
-	Active  bool
-}
 
 func HumanizeTimestamp(ts uint64) string {
 	nowms := uint64(time.Now().UnixNano() / 1000000)

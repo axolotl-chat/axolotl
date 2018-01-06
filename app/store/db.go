@@ -5,7 +5,6 @@ import (
 	"path/filepath"
 
 	qml "github.com/amlwwalker/qml"
-	"github.com/nanu-c/textsecure-qml/app/models"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
@@ -34,7 +33,7 @@ var (
 func SetupDB() error {
 	var err error
 
-	dbDir = filepath.Join(dataDir, "db")
+	dbDir = filepath.Join(DataDir, "db")
 	dbFile = filepath.Join(dbDir, "db.sql")
 	err = os.MkdirAll(dbDir, 0700)
 	if err != nil {
@@ -63,12 +62,6 @@ func SetupDB() error {
 	return LoadMessagesFromDB()
 }
 
-//TODO that hasn't to  be in the db controller
-var AllSessions []*Session
-var AllGroups []*models.GroupRecord
-
-var Groups = map[string]*models.GroupRecord{}
-
 func (s *Sessions) GetIndex(tel string) int {
 	for i, ses := range s.Sess {
 		if ses.Tel == tel {
@@ -76,21 +69,6 @@ func (s *Sessions) GetIndex(tel string) int {
 		}
 	}
 	return -1
-}
-
-func TelToName(tel string) string {
-	if g, ok := Groups[tel]; ok {
-		return g.Name
-	}
-	for _, c := range ContactsModel.Contacts {
-		if c.Tel == tel {
-			return c.Name
-		}
-	}
-	if tel == Config.Tel {
-		return "Me"
-	}
-	return tel
 }
 
 var topSession string

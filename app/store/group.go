@@ -1,8 +1,18 @@
 package store
 
-import "github.com/nanu-c/textsecure-qml/app/models"
+type GroupRecord struct {
+	ID      int64
+	GroupID string
+	Name    string
+	Members string
+	Avatar  []byte
+	Active  bool
+}
 
-func UpdateGroup(g *models.GroupRecord) error {
+var AllGroups []*GroupRecord
+var Groups = map[string]*GroupRecord{}
+
+func UpdateGroup(g *GroupRecord) error {
 	_, err := db.NamedExec(groupsUpdate, g)
 	if err != nil {
 		return err
@@ -14,7 +24,7 @@ func DeleteGroup(hexid string) error {
 	_, err := db.Exec(groupsDelete, hexid)
 	return err
 }
-func SaveGroup(g *models.GroupRecord) error {
+func SaveGroup(g *GroupRecord) error {
 	res, err := db.NamedExec(groupsInsert, g)
 	if err != nil {
 		return err

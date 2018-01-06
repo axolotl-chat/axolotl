@@ -8,8 +8,8 @@ import (
 
 	qml "github.com/amlwwalker/qml"
 	"github.com/morph027/textsecure"
+	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/nanu-c/textsecure-qml/app/lang"
-	"github.com/nanu-c/textsecure-qml/app/models"
 	"github.com/nanu-c/textsecure-qml/app/store"
 )
 
@@ -51,7 +51,7 @@ func messageHandler(msg *textsecure.Message) {
 				return
 			}
 		}
-		store.Groups[gr.Hexid] = &models.GroupRecord{
+		store.Groups[gr.Hexid] = &store.GroupRecord{
 			GroupID: gr.Hexid,
 			Members: strings.Join(gr.Members, ","),
 			Name:    gr.Name,
@@ -65,7 +65,7 @@ func messageHandler(msg *textsecure.Message) {
 		}
 
 		if gr.Flags == textsecure.GroupUpdateFlag {
-			dm, _ := models.MembersDiffAndUnion(members, strings.Join(gr.Members, ","))
+			dm, _ := helpers.MembersDiffAndUnion(members, strings.Join(gr.Members, ","))
 			text = store.GroupUpdateMsg(dm, gr.Name)
 			msgFlags = msgFlagGroupUpdate
 		}
@@ -83,7 +83,7 @@ func messageHandler(msg *textsecure.Message) {
 	m := session.Add(text, msg.Source(), f, mt, false, Api.ActiveSessionID)
 	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
 	m.SentAt = msg.Timestamp()
-	m.HTime = models.HumanizeTimestamp(m.SentAt)
+	m.HTime = helpers.HumanizeTimestamp(m.SentAt)
 	qml.Changed(m, &m.HTime)
 	session.Timestamp = m.SentAt
 	session.When = m.HTime

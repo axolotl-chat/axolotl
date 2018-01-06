@@ -10,8 +10,8 @@ import (
 	"strings"
 
 	"github.com/morph027/textsecure"
+	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/nanu-c/textsecure-qml/app/lang"
-	"github.com/nanu-c/textsecure-qml/app/models"
 )
 
 var AppName = "textsecure.nanuc"
@@ -26,14 +26,14 @@ var (
 	IsPushHelper bool
 	MainQml      string
 
-	homeDir      string
+	HomeDir      string
 	ConfigDir    string
-	cacheDir     string
+	CacheDir     string
 	ConfigFile   string
 	ContactsFile string
 	SettingsFile string
 	LogFile      string
-	dataDir      string
+	DataDir      string
 	StorageDir   string
 	attachDir    string
 	tsDeviceURL  string
@@ -47,12 +47,12 @@ func GetConfig() (*textsecure.Config, error) {
 	cf := ConfigFile
 	if IsPhone {
 		ConfigDir = filepath.Join("/opt/click.ubuntu.com", AppName, "current")
-		if !models.Exists(ConfigFile) {
+		if !helpers.Exists(ConfigFile) {
 			cf = filepath.Join(ConfigDir, "config.yml")
 		}
 	}
 	var err error
-	if models.Exists(cf) {
+	if helpers.Exists(cf) {
 		Config, err = textsecure.ReadConfig(cf)
 	} else {
 		Config = &textsecure.Config{}
@@ -63,7 +63,7 @@ func GetConfig() (*textsecure.Config, error) {
 	Config.LogLevel = "debug"
 	Config.AlwaysTrustPeerID = true
 	rootCA := filepath.Join(ConfigDir, "rootCA.crt")
-	if models.Exists(rootCA) {
+	if helpers.Exists(rootCA) {
 		Config.RootCA = rootCA
 	}
 	return Config, err
@@ -71,7 +71,7 @@ func GetConfig() (*textsecure.Config, error) {
 func SetupConfig() {
 	lang.SetupTranslations(AppName)
 
-	IsPhone = models.Exists("/home/phablet")
+	IsPhone = helpers.Exists("/home/phablet")
 	IsPushHelper = filepath.Base(os.Args[0]) == "pushHelper"
 
 	flag.Parse()
@@ -81,30 +81,31 @@ func SetupConfig() {
 
 	if IsPushHelper {
 		log.Printf("isPushhelper")
-		homeDir = "/home/phablet"
+		HomeDir = "/home/phablet"
 	} else {
 		user, err := user.Current()
 		if err != nil {
 			log.Fatal(err)
 		}
-		homeDir = user.HomeDir
+		HomeDir = user.HomeDir
 	}
-	cacheDir = filepath.Join(homeDir, ".cache/", AppName)
+	CacheDir = filepath.Join(HomeDir, ".cache/", AppName)
 	LogFileName := []string{"application-click-", AppName, "_textsecure_", AppVersion, ".log"}
-	LogFile = filepath.Join(homeDir, ".cache/", "upstart/", strings.Join(LogFileName, ""))
+	LogFile = filepath.Join(HomeDir, ".cache/", "upstart/", strings.Join(LogFileName, ""))
 	log.Printf("LogFile: " + LogFile)
-	ConfigDir = filepath.Join(homeDir, ".config/", AppName)
+	ConfigDir = filepath.Join(HomeDir, ".config/", AppName)
 	ContactsFile = filepath.Join(ConfigDir, "contacts.yml")
 	SettingsFile = filepath.Join(ConfigDir, "settings.yml")
 	if _, err := os.Stat(SettingsFile); os.IsNotExist(err) {
 		os.OpenFile(SettingsFile, os.O_RDONLY|os.O_CREATE, 0700)
 	}
 	os.MkdirAll(ConfigDir, 0700)
-	dataDir = filepath.Join(homeDir, ".local", "share", AppName)
-	attachDir = filepath.Join(dataDir, "attachments")
+	DataDir = filepath.Join(HomeDir, ".local", "share", AppName)
+	attachDir = filepath.Join(DataDir, "attachments")
 	os.MkdirAll(attachDir, 0700)
-	StorageDir = filepath.Join(dataDir, ".storage")
+	StorageDir = filepath.Join(DataDir, ".storage")
 	if err := SetupDB(); err != nil {
 		log.Fatal(err)
 	}
+	RefreshContacts()
 }

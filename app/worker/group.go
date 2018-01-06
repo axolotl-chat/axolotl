@@ -6,8 +6,8 @@ import (
 
 	qml "github.com/amlwwalker/qml"
 	"github.com/morph027/textsecure"
+	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/nanu-c/textsecure-qml/app/lang"
-	"github.com/nanu-c/textsecure-qml/app/models"
 	"github.com/nanu-c/textsecure-qml/app/store"
 	"github.com/nanu-c/textsecure-qml/app/ui"
 )
@@ -31,7 +31,7 @@ func (Api *TextsecureAPI) NewGroup(name string, members string) error {
 	}
 
 	members = members + "," + store.Config.Tel
-	store.Groups[group.Hexid] = &models.GroupRecord{
+	store.Groups[group.Hexid] = &store.GroupRecord{
 		GroupID: group.Hexid,
 		Name:    name,
 		Members: members,
@@ -51,8 +51,8 @@ func (Api *TextsecureAPI) UpdateGroup(hexid, name string, members string) error 
 	if !ok {
 		return fmt.Errorf("Unknown group id %s\n", hexid)
 	}
-	dm, members := models.MembersDiffAndUnion(g.Members, members)
-	store.Groups[hexid] = &models.GroupRecord{
+	dm, members := helpers.MembersDiffAndUnion(g.Members, members)
+	store.Groups[hexid] = &store.GroupRecord{
 		GroupID: hexid,
 		Name:    name,
 		Members: members,

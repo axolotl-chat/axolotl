@@ -37,3 +37,17 @@ func RefreshContacts() error {
 	qml.Changed(ContactsModel, &ContactsModel.Len)
 	return nil
 }
+func TelToName(tel string) string {
+	if g, ok := Groups[tel]; ok {
+		return g.Name
+	}
+	for _, c := range ContactsModel.Contacts {
+		if c.Tel == tel {
+			return c.Name
+		}
+	}
+	if tel == Config.Tel {
+		return "Me"
+	}
+	return tel
+}
