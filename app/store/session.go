@@ -5,7 +5,7 @@ import (
 	"time"
 
 	qml "github.com/amlwwalker/qml"
-	"github.com/nanu-c/textsecure-qml/models"
+	"github.com/nanu-c/textsecure-qml/app/models"
 )
 
 type Session struct {

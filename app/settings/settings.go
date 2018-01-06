@@ -3,7 +3,7 @@ package settings
 import (
 	"io/ioutil"
 
-	"github.com/nanu-c/textsecure-qml/store"
+	"github.com/nanu-c/textsecure-qml/app/store"
 	yaml "gopkg.in/yaml.v2"
 )
 

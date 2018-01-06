@@ -2,7 +2,7 @@ package ui
 
 import (
 	log "github.com/Sirupsen/logrus"
-	"github.com/nanu-c/textsecure-qml/contact"
+	"github.com/nanu-c/textsecure-qml/app/contact"
 	"github.com/ttacon/libphonenumber"
 )
 

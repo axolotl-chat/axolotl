@@ -1,6 +1,6 @@
 package store
 
-import "github.com/nanu-c/textsecure-qml/models"
+import "github.com/nanu-c/textsecure-qml/app/models"
 
 func UpdateGroup(g *models.GroupRecord) error {
 	_, err := db.NamedExec(groupsUpdate, g)

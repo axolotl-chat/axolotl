@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 
 	qml "github.com/amlwwalker/qml"
-	"github.com/nanu-c/textsecure-qml/models"
+	"github.com/nanu-c/textsecure-qml/app/models"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"

@@ -1,7 +1,7 @@
 package store
 
 import (
-	"github.com/nanu-c/textsecure-qml/models"
+	"github.com/nanu-c/textsecure-qml/app/models"
 )
 
 type Message struct {

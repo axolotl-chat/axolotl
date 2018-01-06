@@ -10,8 +10,8 @@ import (
 	"strings"
 
 	"github.com/morph027/textsecure"
-	"github.com/nanu-c/textsecure-qml/lang"
-	"github.com/nanu-c/textsecure-qml/models"
+	"github.com/nanu-c/textsecure-qml/app/lang"
+	"github.com/nanu-c/textsecure-qml/app/models"
 )
 
 var AppName = "textsecure.nanuc"
@@ -80,6 +80,7 @@ func SetupConfig() {
 	}
 
 	if IsPushHelper {
+		log.Printf("isPushhelper")
 		homeDir = "/home/phablet"
 	} else {
 		user, err := user.Current()
