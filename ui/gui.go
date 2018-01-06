@@ -4,6 +4,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	qml "github.com/amlwwalker/qml"
 	"github.com/morph027/textsecure"
+	"github.com/nanu-c/textsecure-qml/settings"
 	"github.com/nanu-c/textsecure-qml/store"
 )
 
@@ -39,12 +40,12 @@ func SetEngine() {
 }
 func InitModels() {
 	var err error
-	store.SettingsModel, err = store.LoadSettings()
+	settings.SettingsModel, err = settings.LoadSettings()
 	if err != nil {
 		log.Println(err)
 	}
 	Engine.Context().SetVar("contactsModel", store.ContactsModel)
-	Engine.Context().SetVar("settingsModel", store.SettingsModel)
+	Engine.Context().SetVar("settingsModel", settings.SettingsModel)
 	Engine.Context().SetVar("sessionsModel", store.SessionsModel)
 
 	go store.UpdateTimestamps()

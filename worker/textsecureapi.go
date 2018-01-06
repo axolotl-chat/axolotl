@@ -12,6 +12,7 @@ import (
 	"github.com/morph027/textsecure"
 	"github.com/nanu-c/textsecure-qml/contact"
 	"github.com/nanu-c/textsecure-qml/models"
+	"github.com/nanu-c/textsecure-qml/settings"
 	"github.com/nanu-c/textsecure-qml/store"
 	"github.com/nanu-c/textsecure-qml/ui"
 )
@@ -112,7 +113,7 @@ func (Api *TextsecureAPI) FilterContacts(sub string) {
 	ui.Engine.Context().SetVar("contactsModel", cm)
 }
 func (Api *TextsecureAPI) SaveSettings() error {
-	return store.SaveSettings(store.SettingsModel)
+	return settings.SaveSettings(settings.SettingsModel)
 }
 func (Api *TextsecureAPI) GetActiveSessionID() string {
 	return Api.ActiveSessionID

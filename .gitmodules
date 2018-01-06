@@ -1,0 +1,3 @@
+[submodule "libs/libsignal-protocol-c"]
+	path = libs/libsignal-protocol-c
+	url = https://github.com/WhisperSystems/libsignal-protocol-c

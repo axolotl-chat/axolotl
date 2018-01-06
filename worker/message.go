@@ -93,7 +93,7 @@ func SendMessageHelper(to, message, file string) error {
 	var err error
 	if file != "" {
 		file, err = store.CopyAttachment(file)
-		log.Printf("got Attachment:" + file)
+		// log.Printf("got Attachment:" + file)
 		if err != nil {
 			log.Printf("Error Attachment:" + err.Error())
 			return err

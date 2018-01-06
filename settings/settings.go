@@ -1,8 +1,9 @@
-package store
+package settings
 
 import (
 	"io/ioutil"
 
+	"github.com/nanu-c/textsecure-qml/store"
 	yaml "gopkg.in/yaml.v2"
 )
 
@@ -17,7 +18,7 @@ var SettingsModel *Settings
 func LoadSettings() (*Settings, error) {
 	s := &Settings{}
 
-	b, err := ioutil.ReadFile(SettingsFile)
+	b, err := ioutil.ReadFile(store.SettingsFile)
 	if err != nil {
 		return s, err
 	}
@@ -33,5 +34,5 @@ func SaveSettings(s *Settings) error {
 	if err != nil {
 		return err
 	}
-	return ioutil.WriteFile(SettingsFile, b, 0600)
+	return ioutil.WriteFile(store.SettingsFile, b, 0600)
 }
