@@ -2,14 +2,15 @@ package worker
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"strconv"
 	"strings"
 	"time"
 
+	log "github.com/Sirupsen/logrus"
 	"github.com/gosexy/gettext"
 	"github.com/morph027/textsecure"
+	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/contact"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/nanu-c/textsecure-qml/app/settings"
@@ -27,8 +28,8 @@ type TextsecureAPI struct {
 var Api = &TextsecureAPI{}
 
 func (Api *TextsecureAPI) Unregister() {
-	os.RemoveAll(store.StorageDir)
-	os.Remove(store.ConfigFile)
+	os.RemoveAll(config.StorageDir)
+	os.Remove(config.ConfigFile)
 	os.Exit(1)
 }
 func (Api *TextsecureAPI) IdentityInfo(id string) string {
@@ -42,7 +43,7 @@ func (Api *TextsecureAPI) IdentityInfo(id string) string {
 }
 
 func (Api *TextsecureAPI) ContactsImported(path string) {
-	store.VcardPath = path
+	config.VcardPath = path
 
 	err := store.RefreshContacts()
 	if err != nil {
@@ -52,16 +53,32 @@ func (Api *TextsecureAPI) ContactsImported(path string) {
 func RunBackend() {
 	Api = &TextsecureAPI{}
 	client := &textsecure.Client{
-		GetConfig:           store.GetConfig,
+		GetConfig:           config.GetConfig,
 		GetPhoneNumber:      ui.GetPhoneNumber,
 		GetVerificationCode: ui.GetVerificationCode,
-		GetStoragePassword:  ui.GetStoragePassword,
-		MessageHandler:      messageHandler,
-		ReceiptHandler:      receiptHandler,
-		RegistrationDone:    ui.RegistrationDone,
+		GetStoragePassword: func() string {
+			password := ui.GetStoragePassword()
+			log.Infof("Asking for password")
+
+			if settings.SettingsModel.EncryptDatabase {
+				log.Infof("Attempting to open encrypted datastore")
+				var err error
+				store.DS, err = store.NewStorage(password)
+				if err != nil {
+					log.WithFields(log.Fields{
+						"error": err,
+					}).Error("Failed to open encrypted database")
+				}
+			}
+
+			return password
+		},
+		MessageHandler:   messageHandler,
+		ReceiptHandler:   receiptHandler,
+		RegistrationDone: ui.RegistrationDone,
 	}
 
-	if store.IsPhone {
+	if config.IsPhone {
 		client.GetLocalContacts = contact.GetAddressBookContactsFromContentHub
 	} else {
 		client.GetLocalContacts = contact.GetDesktopContacts
@@ -69,8 +86,8 @@ func RunBackend() {
 
 	err := textsecure.Setup(client)
 	if _, ok := err.(*strconv.NumError); ok {
-		ui.ShowError(fmt.Errorf("Switching to unencrypted session store, removing %s\nThis will reset your sessions and reregister your phone.\n", store.StorageDir))
-		os.RemoveAll(store.StorageDir)
+		ui.ShowError(fmt.Errorf("Switching to unencrypted session store, removing %s\nThis will reset your sessions and reregister your phone.\n", config.StorageDir))
+		os.RemoveAll(config.StorageDir)
 		os.Exit(1)
 	}
 	if err != nil {
@@ -78,9 +95,9 @@ func RunBackend() {
 		return
 	}
 
-	Api.PhoneNumber = store.Config.Tel
+	Api.PhoneNumber = config.Config.Tel
 
-	if helpers.Exists(store.ContactsFile) {
+	if helpers.Exists(config.ContactsFile) {
 		Api.HasContacts = true
 		store.RefreshContacts()
 	}

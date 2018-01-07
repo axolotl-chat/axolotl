@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/morph027/textsecure"
+	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/snapcore/snapd/osutil"
 )
 
@@ -24,7 +25,7 @@ func SaveAttachment(a *textsecure.Attachment) (string, error) {
 		ext = strings.Replace(a.MimeType, "video/", ".", 1)
 	}
 
-	fn := filepath.Join(attachDir, hex.EncodeToString(id)+ext)
+	fn := filepath.Join(config.AttachDir, hex.EncodeToString(id)+ext)
 	f, err := os.OpenFile(fn, os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
 		return "", err
@@ -43,7 +44,7 @@ func SaveAttachment(a *textsecure.Attachment) (string, error) {
 // copyAttachment makes a copy of a file that is in the volatile content hub cache
 func CopyAttachment(src string) (string, error) {
 	_, b := filepath.Split(src)
-	dest := filepath.Join(attachDir, b)
+	dest := filepath.Join(config.AttachDir, b)
 	err := osutil.CopyFile(src, dest, osutil.CopyFlagOverwrite)
 	if err != nil {
 		return "", err

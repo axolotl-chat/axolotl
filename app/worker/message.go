@@ -2,10 +2,11 @@ package worker
 
 import (
 	"io"
-	"log"
 	"os"
 	"strings"
 	"time"
+
+	log "github.com/Sirupsen/logrus"
 
 	qml "github.com/amlwwalker/qml"
 	"github.com/morph027/textsecure"

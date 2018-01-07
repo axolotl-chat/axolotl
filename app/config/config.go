@@ -1,4 +1,4 @@
-package store
+package config
 
 import (
 	"flag"
@@ -35,8 +35,8 @@ var (
 	LogFile      string
 	DataDir      string
 	StorageDir   string
-	attachDir    string
-	tsDeviceURL  string
+	AttachDir    string
+	TsDeviceURL  string
 	VcardPath    string
 )
 
@@ -76,7 +76,7 @@ func SetupConfig() {
 
 	flag.Parse()
 	if len(flag.Args()) == 1 {
-		tsDeviceURL = flag.Arg(0)
+		TsDeviceURL = flag.Arg(0)
 	}
 
 	if IsPushHelper {
@@ -101,11 +101,8 @@ func SetupConfig() {
 	}
 	os.MkdirAll(ConfigDir, 0700)
 	DataDir = filepath.Join(HomeDir, ".local", "share", AppName)
-	attachDir = filepath.Join(DataDir, "attachments")
-	os.MkdirAll(attachDir, 0700)
+	AttachDir = filepath.Join(DataDir, "attachments")
+	os.MkdirAll(AttachDir, 0700)
 	StorageDir = filepath.Join(DataDir, ".storage")
-	if err := SetupDB("", ""); err != nil {
-		log.Fatal(err)
-	}
-	RefreshContacts()
+
 }

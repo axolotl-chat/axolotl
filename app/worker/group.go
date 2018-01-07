@@ -6,6 +6,7 @@ import (
 
 	qml "github.com/amlwwalker/qml"
 	"github.com/morph027/textsecure"
+	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/nanu-c/textsecure-qml/app/lang"
 	"github.com/nanu-c/textsecure-qml/app/store"
@@ -30,7 +31,7 @@ func (Api *TextsecureAPI) NewGroup(name string, members string) error {
 		return err
 	}
 
-	members = members + "," + store.Config.Tel
+	members = members + "," + config.Config.Tel
 	store.Groups[group.Hexid] = &store.GroupRecord{
 		GroupID: group.Hexid,
 		Name:    name,
@@ -38,7 +39,7 @@ func (Api *TextsecureAPI) NewGroup(name string, members string) error {
 	}
 	store.SaveGroup(store.Groups[group.Hexid])
 	session := store.SessionsModel.Get(group.Hexid)
-	msg := session.Add(GroupUpdateMsg(append(m, store.Config.Tel), name), "", "", "", true, Api.ActiveSessionID)
+	msg := session.Add(GroupUpdateMsg(append(m, config.Config.Tel), name), "", "", "", true, Api.ActiveSessionID)
 	msg.Flags = msgFlagGroupNew
 	qml.Changed(msg, &msg.Flags)
 	store.SaveMessage(msg)

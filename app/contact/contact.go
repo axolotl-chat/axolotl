@@ -14,8 +14,8 @@ import (
 	"github.com/godbus/dbus"
 	vcard_go "github.com/mapaiva/vcard-go"
 	"github.com/morph027/textsecure"
+	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
-	"github.com/nanu-c/textsecure-qml/app/store"
 	"github.com/ttacon/libphonenumber"
 )
 
@@ -48,7 +48,7 @@ func FormatE164(tel string, country string) string {
 	return libphonenumber.Format(num, libphonenumber.E164)
 }
 func GetDesktopContacts() ([]textsecure.Contact, error) {
-	return textsecure.ReadContacts(filepath.Join(store.ConfigDir, "contacts.yml"))
+	return textsecure.ReadContacts(filepath.Join(config.ConfigDir, "contacts.yml"))
 }
 
 // getAddgetAddressBookContactsFromDBus gets the phone contacts via the address-book DBus service
@@ -81,16 +81,16 @@ func GetAddressBookContactsFromDBus() ([]textsecure.Contact, error) {
 
 // getAddgetAddressBookContactsFromContentHub gets the phone contacts via the content hub
 func GetAddressBookContactsFromContentHub() ([]textsecure.Contact, error) {
-	if helpers.Exists(store.ContactsFile) && store.VcardPath == "" {
-		return textsecure.ReadContacts(store.ContactsFile)
+	if helpers.Exists(config.ContactsFile) && config.VcardPath == "" {
+		return textsecure.ReadContacts(config.ContactsFile)
 	}
-	store.VcardPath = strings.TrimPrefix(store.VcardPath, "file://")
-	contacts, err := getContactsFromVCardFile(store.VcardPath)
+	config.VcardPath = strings.TrimPrefix(config.VcardPath, "file://")
+	contacts, err := getContactsFromVCardFile(config.VcardPath)
 	if err != nil {
 		return nil, err
 	}
 
-	err = textsecure.WriteContacts(store.ContactsFile, contacts)
+	err = textsecure.WriteContacts(config.ContactsFile, contacts)
 	if err != nil {
 		return nil, err
 	}
@@ -137,6 +137,6 @@ func parseVCards(vcardContacts []string) ([]textsecure.Contact, error) {
 }
 
 func defaultCountry() string {
-	num, _ := libphonenumber.Parse(store.Config.Tel, "")
+	num, _ := libphonenumber.Parse(config.Config.Tel, "")
 	return libphonenumber.GetRegionCodeForCountryCode(int(num.GetCountryCode()))
 }

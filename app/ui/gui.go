@@ -4,6 +4,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	qml "github.com/amlwwalker/qml"
 	"github.com/morph027/textsecure"
+	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/settings"
 	"github.com/nanu-c/textsecure-qml/app/store"
 )
@@ -25,10 +26,10 @@ func GroupUpdateMsg(tels []string, title string) string {
 func RegistrationDone() {
 	log.Println("Registered")
 	Win.Root().Call("registered")
-	textsecure.WriteConfig(store.ConfigFile, store.Config)
+	textsecure.WriteConfig(config.ConfigFile, config.Config)
 }
 func SetComponent() error {
-	component, err := Engine.LoadFile(store.MainQml)
+	component, err := Engine.LoadFile(config.MainQml)
 	if err != nil {
 		return err
 	}
@@ -47,6 +48,7 @@ func InitModels() {
 	Engine.Context().SetVar("contactsModel", store.ContactsModel)
 	Engine.Context().SetVar("settingsModel", settings.SettingsModel)
 	Engine.Context().SetVar("sessionsModel", store.SessionsModel)
+	Engine.Context().SetVar("storeModel", store.DS)
 
 	go store.UpdateTimestamps()
 }

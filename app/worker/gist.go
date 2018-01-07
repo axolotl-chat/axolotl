@@ -8,7 +8,7 @@ import (
 	"regexp"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/nanu-c/textsecure-qml/app/store"
+	"github.com/nanu-c/textsecure-qml/app/config"
 )
 
 type entry struct {
@@ -37,7 +37,7 @@ func filterLogs(logs string) string {
 }
 
 func (Api *TextsecureAPI) SubmitDebugLog() (string, error) {
-	b, err := ioutil.ReadFile(store.LogFile)
+	b, err := ioutil.ReadFile(config.LogFile)
 	if err != nil {
 		return "", err
 	}

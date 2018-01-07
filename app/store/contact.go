@@ -3,6 +3,7 @@ package store
 import (
 	qml "github.com/amlwwalker/qml"
 	"github.com/morph027/textsecure"
+	"github.com/nanu-c/textsecure-qml/app/config"
 )
 
 type Contacts struct {
@@ -46,7 +47,7 @@ func TelToName(tel string) string {
 			return c.Name
 		}
 	}
-	if tel == Config.Tel {
+	if tel == config.Config.Tel {
 		return "Me"
 	}
 	return tel
