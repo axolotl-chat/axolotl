@@ -88,8 +88,15 @@ MainView {
 	}
 
 	function initialize() {
-		listApi();
-		pageStack.push(dialogsPage)
+		if(settingsModel.encryptDatabase)pageStack.push(passwordPage);
+		else{
+			if(storeModel.setupDb(""))pageStack.push(dialogsPage);
+			else {
+				settingsModel.encryptDatabase = true
+				pageStack.push(passwordPage);
+			}
+		}
+
 	}
 
 	function getPhoneNumber() {

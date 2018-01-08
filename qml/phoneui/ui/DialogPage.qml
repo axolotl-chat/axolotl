@@ -612,7 +612,7 @@ TelegramPage {
     }
 
     function sendAttachment(path) {
-        console.log("Sending attachment", path);
+        // console.log("Sending attachment", path);
         if (/vcf$/.test(path)) {
             textsecure.sendContactAttachment(messagesModel.tel, message.text, path)
         }else {

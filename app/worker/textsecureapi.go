@@ -51,6 +51,7 @@ func (Api *TextsecureAPI) ContactsImported(path string) {
 	}
 }
 func RunBackend() {
+	log.Debugf("Run Backend")
 	Api = &TextsecureAPI{}
 	client := &textsecure.Client{
 		GetConfig:           config.GetConfig,
@@ -58,10 +59,10 @@ func RunBackend() {
 		GetVerificationCode: ui.GetVerificationCode,
 		GetStoragePassword: func() string {
 			password := ui.GetStoragePassword()
-			log.Infof("Asking for password")
+			log.Debugf("Asking for password")
 
 			if settings.SettingsModel.EncryptDatabase {
-				log.Infof("Attempting to open encrypted datastore")
+				log.Debugf("Attempting to open encrypted datastore")
 				var err error
 				store.DS, err = store.NewStorage(password)
 				if err != nil {

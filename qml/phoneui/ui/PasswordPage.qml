@@ -1,5 +1,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Components.Popups 0.1
+
 import "../components"
 
 TelegramPage {
@@ -75,11 +77,35 @@ TelegramPage {
             text: i18n.tr("Enter")
             onClicked: done()
         }
+        TelegramButton {
+            id: resetButton
+            anchors {
+                top: doneButton.bottom
+                topMargin: units.gu(1)
+                right: parent.right
+                left: parent.left
+            }
+            width: parent.width
+
+            enabled: true
+            text: i18n.tr("Reset store")
+            onClicked: {
+              PopupUtils.open(Qt.resolvedUrl("dialogs/ConfirmationDialog.qml"),
+                          resetButton, {
+                              title: i18n.tr("Reset secure store?"),
+                              text: i18n.tr("This may help if you\'re having encryption problems. Your messages will be deleted."),
+                              onAccept: function() {
+                                  storeModel.resetDb()
+                                  pageStack.push(dialogsPage);
+                              }
+                          })
+            }
+        }
     }
 
     signal error(int id, int errorCode, int errorText);
 
-    signal passwordEntered(string text)
+    // signal passwordEntered(string text)
 
     function done() {
         if (busy) return;
@@ -90,8 +116,12 @@ TelegramPage {
         if (passwordTextField.text.length > 0) {
             busy = true;
             clearError();
-	    passwordEntered(passwordTextField.text);
-	    pageStack.push(dialogsPage)
+            if (storeModel.setupDb(passwordTextField.text))pageStack.push(dialogsPage);
+            else  {
+              setError(i18n.tr("Wrong Password"))
+              busy = false;
+
+            }
         }
     }
 

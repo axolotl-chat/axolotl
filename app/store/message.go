@@ -19,7 +19,7 @@ type Message struct {
 }
 
 func SaveMessage(m *Message) error {
-	res, err := db.NamedExec(messagesInsert, m)
+	res, err := DS.Dbx.NamedExec(messagesInsert, m)
 	if err != nil {
 		return err
 	}
@@ -34,7 +34,7 @@ func SaveMessage(m *Message) error {
 }
 
 func UpdateMessageSent(m *Message) error {
-	_, err := db.NamedExec("UPDATE messages SET issent = :issent, sentat = :sentat WHERE id = :id", m)
+	_, err := DS.Dbx.NamedExec("UPDATE messages SET issent = :issent, sentat = :sentat WHERE id = :id", m)
 	if err != nil {
 		return err
 	}
@@ -42,14 +42,14 @@ func UpdateMessageSent(m *Message) error {
 }
 
 func UpdateMessageRead(m *Message) error {
-	_, err := db.NamedExec("UPDATE messages SET isread = :isread WHERE id = :id", m)
+	_, err := DS.Dbx.NamedExec("UPDATE messages SET isread = :isread WHERE id = :id", m)
 	if err != nil {
 		return err
 	}
 	return err
 }
 func LoadMessagesFromDB() error {
-	err := db.Select(&AllGroups, groupsSelect)
+	err := DS.Dbx.Select(&AllGroups, groupsSelect)
 	if err != nil {
 		return err
 	}
@@ -57,7 +57,7 @@ func LoadMessagesFromDB() error {
 		Groups[g.GroupID] = g
 	}
 
-	err = db.Select(&AllSessions, sessionsSelect)
+	err = DS.Dbx.Select(&AllSessions, sessionsSelect)
 	if err != nil {
 		return err
 	}
@@ -66,7 +66,7 @@ func LoadMessagesFromDB() error {
 		s.Active = !s.IsGroup || (Groups[s.Tel] != nil && Groups[s.Tel].Active)
 		SessionsModel.Sess = append(SessionsModel.Sess, s)
 		SessionsModel.Len++
-		err = db.Select(&s.Messages, messagesSelectWhere, s.ID)
+		err = DS.Dbx.Select(&s.Messages, messagesSelectWhere, s.ID)
 		s.Len = len(s.Messages)
 		if err != nil {
 			return err
@@ -79,7 +79,7 @@ func LoadMessagesFromDB() error {
 }
 
 func DeleteMessage(id int64) error {
-	_, err := db.Exec("DELETE FROM messages WHERE id = ?", id)
+	_, err := DS.Dbx.Exec("DELETE FROM messages WHERE id = ?", id)
 	return err
 }
 func (s *Session) GetMessages(i int) *Message {

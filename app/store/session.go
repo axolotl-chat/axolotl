@@ -35,7 +35,7 @@ var SessionsModel = &Sessions{
 }
 
 func SaveSession(s *Session) error {
-	res, err := db.NamedExec(sessionsInsert, s)
+	res, err := DS.Dbx.NamedExec(sessionsInsert, s)
 	if err != nil {
 		return err
 	}
@@ -49,7 +49,7 @@ func SaveSession(s *Session) error {
 	return err
 }
 func UpdateSession(s *Session) error {
-	_, err := db.NamedExec("UPDATE sessions SET name = :name, timestamp = :timestamp, ctype = :ctype, last = :last, unread = :unread WHERE id = :id", s)
+	_, err := DS.Dbx.NamedExec("UPDATE sessions SET name = :name, timestamp = :timestamp, ctype = :ctype, last = :last, unread = :unread WHERE id = :id", s)
 	if err != nil {
 		return err
 	}
@@ -57,11 +57,11 @@ func UpdateSession(s *Session) error {
 }
 func DeleteSession(tel string) error {
 	s := SessionsModel.Get(tel)
-	_, err := db.Exec("DELETE FROM messages WHERE sid = ?", s.ID)
+	_, err := DS.Dbx.Exec("DELETE FROM messages WHERE sid = ?", s.ID)
 	if err != nil {
 		return err
 	}
-	_, err = db.Exec("DELETE FROM sessions WHERE id = ?", s.ID)
+	_, err = DS.Dbx.Exec("DELETE FROM sessions WHERE id = ?", s.ID)
 	if err != nil {
 		return err
 	}
@@ -145,4 +145,32 @@ func (s *Sessions) Get(tel string) *Session {
 	qml.Changed(s, &s.Len)
 	SaveSession(ses)
 	return ses
+}
+
+func (s *Sessions) GetIndex(tel string) int {
+	for i, ses := range s.Sess {
+		if ses.Tel == tel {
+			return i
+		}
+	}
+	return -1
+}
+
+var topSession string
+
+func (s *Session) moveToTop() {
+	if topSession == s.Tel {
+		return
+	}
+
+	index := SessionsModel.GetIndex(s.Tel)
+	SessionsModel.Sess = append([]*Session{s}, append(SessionsModel.Sess[:index], SessionsModel.Sess[index+1:]...)...)
+
+	// force a length change update
+	SessionsModel.Len--
+	qml.Changed(SessionsModel, &SessionsModel.Len)
+	SessionsModel.Len++
+	qml.Changed(SessionsModel, &SessionsModel.Len)
+
+	topSession = s.Tel
 }

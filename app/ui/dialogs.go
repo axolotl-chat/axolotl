@@ -7,6 +7,7 @@ import (
 )
 
 func GetTextFromDialog(fun, obj, signal string) string {
+	log.Debugf("Opening Dialog: " + fun)
 	Win.Root().Call(fun)
 	p := Win.Root().ObjectByName(obj)
 	ch := make(chan string)

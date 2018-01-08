@@ -25,13 +25,7 @@ func setup() {
 	log.Infof("Starting Signal for Ubuntu version %s", config.AppVersion)
 	config.SetupConfig()
 	//encrypted?
-	if err := store.SetupDB(""); err != nil {
-		log.Fatal(err)
-	}
-	store.LoadMessagesFromDB()
-	if config.IsPushHelper {
-		push.PushHelperProcess()
-	}
+
 }
 
 func RunUI() error {
@@ -45,9 +39,23 @@ func RunUI() error {
 	ui.Win.Show()
 
 	go worker.RunBackend()
+	// store.SetupDB()
+	// if store.DS == nil {
+	// 	var err error
+	// 	log.Printf("Open unencrypted DB")
+	// 	store.DS, err = store.NewStorage("")
+	// 	if err != nil {
+	// 		log.Fatal(err)
+	// 	}
+	// }
+	// store.LoadMessagesFromDB()
+	if config.IsPushHelper {
+		push.PushHelperProcess()
+	}
 	ui.Win.Wait()
 	return nil
 }
+
 func main() {
 	setup()
 	log.Println("Setup completed")

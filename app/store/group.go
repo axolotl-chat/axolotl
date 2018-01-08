@@ -13,7 +13,7 @@ var AllGroups []*GroupRecord
 var Groups = map[string]*GroupRecord{}
 
 func UpdateGroup(g *GroupRecord) error {
-	_, err := db.NamedExec(groupsUpdate, g)
+	_, err := DS.Dbx.NamedExec(groupsUpdate, g)
 	if err != nil {
 		return err
 	}
@@ -21,11 +21,11 @@ func UpdateGroup(g *GroupRecord) error {
 }
 
 func DeleteGroup(hexid string) error {
-	_, err := db.Exec(groupsDelete, hexid)
+	_, err := DS.Dbx.Exec(groupsDelete, hexid)
 	return err
 }
 func SaveGroup(g *GroupRecord) error {
-	res, err := db.NamedExec(groupsInsert, g)
+	res, err := DS.Dbx.NamedExec(groupsInsert, g)
 	if err != nil {
 		return err
 	}
