@@ -12,7 +12,7 @@ TelegramPage {
     id: page
     head.backAction.visible: true
     objectName: "setPasswordPage"
-    pageTitle: i18n.tr("Set Master password")
+    pageTitle: settingsModel.encryptDatabase ? i18n.tr("Change passphrase") : i18n.tr("Create passphrase")
     onlineIndicationOnly: true
 
     body: Item {
@@ -22,19 +22,9 @@ TelegramPage {
         }
 
         TelegramLabel {
-            id: infoLabel
-            anchors {
-                top: parent.top
-                margins: units.gu(1)
-            }
-            width: parent.width
-            text: i18n.tr("Please enter the password.\n")
-        }
-
-        TelegramLabel {
             id: errorLabel
             anchors {
-                top: infoLabel.bottom
+                top: parent.top
                 topMargin: units.gu(1)
             }
             width: parent.width
@@ -50,7 +40,7 @@ TelegramPage {
                 right: parent.right
             }
             visible: settingsModel.encryptDatabase
-            placeholderText: i18n.tr("Old password")
+            placeholderText: i18n.tr("Old passphrase")
             echoMode: TextInput.Password
             // Keys.onEnterPressed: done()
             // Keys.onReturnPressed: done()
@@ -72,7 +62,7 @@ TelegramPage {
                 right: parent.right
             }
 
-            placeholderText: i18n.tr("Master password")
+            placeholderText: i18n.tr("New passphrase")
             echoMode: TextInput.Password
             // Keys.onEnterPressed: done()
             // Keys.onReturnPressed: done()
@@ -93,7 +83,7 @@ TelegramPage {
                 right: parent.right
             }
 
-            placeholderText: i18n.tr("Repeat password")
+            placeholderText: i18n.tr("Repeat new passphrase")
             echoMode: TextInput.Password
             Keys.onEnterPressed: done()
             Keys.onReturnPressed: done()
@@ -110,21 +100,21 @@ TelegramPage {
             id: doneButton
             anchors {
                 top: passwordRepeatTextField.bottom
-                topMargin: units.gu(3)
+                topMargin: units.gu(2)
                 right: parent.right
                 left: parent.left
             }
             width: parent.width
 
             enabled: true
-            text: i18n.tr("Enter")
+            text: settingsModel.encryptDatabase ?  i18n.tr("Change passphrase") : i18n.tr("Submit passphrase")
             onClicked: done()
         }
         TelegramButton {
             id: rmButton
             anchors {
                 top: doneButton.bottom
-                topMargin: units.gu(3)
+                topMargin: units.gu(1)
                 right: parent.right
                 left: parent.left
             }
@@ -132,7 +122,7 @@ TelegramPage {
             visible: settingsModel.encryptDatabase
 
             enabled: true
-            text: i18n.tr("Remove Password")
+            text: i18n.tr("Disable passphrase?")
             onClicked: rmDone()
         }
     }
@@ -145,13 +135,14 @@ TelegramPage {
         Qt.inputMethod.commit();
         Qt.inputMethod.hide();
 
-        if (passwordTextField.text.length > 0) {
+        if (passwordTextField.text.length >= 6) {
+
           if (passwordTextField.text==passwordRepeatTextField.text){
             busy = true;
             clearError();
             if(settingsModel.encryptDatabase){
               if(!storeModel.decryptDb(oldPasswordTextField.text)){
-                setError(i18n.tr("Old Password is wrong"))
+                setError(i18n.tr("Incorrect old passphrase!"))
                 busy = false;
               }
             }
@@ -159,16 +150,20 @@ TelegramPage {
             pageStack.push(dialogsPage)
           }
           else{
-             setError(i18n.tr("Passwords not the same"))
+             setError(i18n.tr("Passphrases don\'t match!"))
              busy = false;
           }
+        }
+        else{
+          setError(i18n.tr("New passphrase to short(6)!"))
+          busy = false;
         }
     }
     function rmDone() {
       if (passwordTextField.text.length>0) {
         clearError();
         if(storeModel.decryptDb(oldPasswordTextField.text)){
-          setError(i18n.tr("Old Password is wrong"))
+          setError(i18n.tr("Incorrect old passphrase!"))
           busy = false;
         }
         else {
@@ -176,7 +171,7 @@ TelegramPage {
         }
       }
       else {
-        setError(i18n.tr("Old Password is wrong"))
+        setError(i18n.tr("Incorrect old passphrase!"))
         busy = false;
       }
 

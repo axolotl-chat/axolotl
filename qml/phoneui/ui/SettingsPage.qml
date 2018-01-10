@@ -30,22 +30,13 @@ TelegramPage {
 
         anchors.fill: parent
         ListItem.Standard {
-          text: i18n.tr("Set password")
+          text: settingsModel.encryptDatabase ? i18n.tr("Change passphrase") : i18n.tr("Create passphrase")
           onClicked: pageStack.push(Qt.resolvedUrl("SetPasswordPage.qml"))
         }
         ListItem.ThinDivider {}
         ListItem.Standard {
           text: i18n.tr("Advanced")
           onClicked: pageStack.push(Qt.resolvedUrl("settings/AdvancedPage.qml"))
-        }
-        ListItem.ThinDivider {}
-        ListItem.Standard {
-            control: CheckBox {
-                checked: settingsModel.encryptDatabase
-
-            }
-            text: i18n.tr("Encrypted Datastore")
-
         }
     }
 }

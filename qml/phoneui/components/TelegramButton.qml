@@ -7,10 +7,10 @@ Rectangle {
 
     signal clicked
 
-    width: buttonLabel.width + units.gu(5)
+    width: buttonLabel.width + units.gu(10)
     height: buttonLabel.height + units.gu(2)
     color: enabled ? TelegramColors.blue : TelegramColors.grey
-    radius: 3
+    radius: 10
 
     Behavior on color {
         ColorAnimation {
@@ -25,7 +25,7 @@ Rectangle {
         verticalAlignment: TextInput.AlignVCenter
 
         color: TelegramColors.white
-        font.pixelSize: FontUtils.sizeToPixels("large")
+        font.pixelSize: FontUtils.sizeToPixels("medium")
     }
 
     MouseArea {

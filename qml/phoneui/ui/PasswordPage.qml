@@ -11,7 +11,7 @@ TelegramPage {
     id: page
     head.backAction.visible: false
     objectName: "passwordPage"
-    pageTitle: i18n.tr("Master password")
+    pageTitle: i18n.tr("Enter passphrase")
     onlineIndicationOnly: true
 
     body: Item {
@@ -19,21 +19,24 @@ TelegramPage {
             fill: parent
             margins: units.gu(2)
         }
+        Image {
+              id: logoImage
+              width: 200; height: 200
+              fillMode: Image.PreserveAspectFit
+              anchors {
+                 horizontalCenter: parent.horizontalCenter;
+                  top: parent.top
+                  topMargin: units.gu(1)
+              }
+                source: "../images/logo.png"
+          }
 
-        TelegramLabel {
-            id: infoLabel
-            anchors {
-                top: parent.top
-                margins: units.gu(1)
-            }
-            width: parent.width
-            text: i18n.tr("Please enter the password.\n")
-        }
+
 
         TelegramLabel {
             id: errorLabel
             anchors {
-                top: infoLabel.bottom
+                top: logoImage.bottom
                 topMargin: units.gu(1)
             }
             width: parent.width
@@ -50,7 +53,7 @@ TelegramPage {
                 right: parent.right
             }
 
-            placeholderText: i18n.tr("Master password")
+            placeholderText: i18n.tr("Passphrase")
             echoMode: TextInput.Password
             Keys.onEnterPressed: done()
             Keys.onReturnPressed: done()
@@ -74,7 +77,7 @@ TelegramPage {
             width: parent.width
 
             enabled: isConnected && passwordTextField.text !== ""
-            text: i18n.tr("Enter")
+            text: i18n.tr("Submit passphrase")
             onClicked: done()
         }
         TelegramButton {
@@ -88,12 +91,12 @@ TelegramPage {
             width: parent.width
 
             enabled: true
-            text: i18n.tr("Reset store")
+            text: i18n.tr("Disable passphrase?")
             onClicked: {
               PopupUtils.open(Qt.resolvedUrl("dialogs/ConfirmationDialog.qml"),
                           resetButton, {
-                              title: i18n.tr("Reset secure store?"),
-                              text: i18n.tr("This may help if you\'re having encryption problems. Your messages will be deleted."),
+                              title: i18n.tr("Disable passphrase?"),
+                              text: i18n.tr("This will permanently delete all messages!."),
                               onAccept: function() {
                                   storeModel.resetDb()
                                   pageStack.push(dialogsPage);
@@ -118,7 +121,7 @@ TelegramPage {
             clearError();
             if (storeModel.setupDb(passwordTextField.text))pageStack.push(dialogsPage);
             else  {
-              setError(i18n.tr("Wrong Password"))
+              setError(i18n.tr("Invalid passphrase!"))
               busy = false;
 
             }
