@@ -1,3 +1,7 @@
+0.3.17 (Jan  11 2018)
+--------------------
+* Secure Message store
+
 0.3.16 (Jan  03 2018)
 --------------------
 * Get sending attachments working again
