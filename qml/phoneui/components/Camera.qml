@@ -11,7 +11,7 @@ Item {
     anchors.fill: parent
     // anchors.verticalCenter: parent.verticalCenter
     // anchors.horizontalCenter: parent.horizontalCenter
-    anchors.leftMargin: 200;
+    anchors.leftMargin: 5;
     anchors.topMargin: 10;
     Camera {
         id: camera

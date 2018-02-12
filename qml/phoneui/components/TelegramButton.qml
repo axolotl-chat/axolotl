@@ -1,4 +1,4 @@
-import QtQuick 2.4
+import QtQuick 2.0
 import "TelegramColors.js" as TelegramColors
 
 Rectangle {

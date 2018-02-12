@@ -1,5 +1,5 @@
-import QtQuick 2.4
-import Ubuntu.Components 1.3
+import QtQuick 2.3
+import Ubuntu.Components 1.1
 import QtGraphicalEffects 1.0
 
 Item {
