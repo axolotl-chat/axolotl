@@ -34,6 +34,7 @@ func RunUI() error {
 	ui.InitModels()
 	ui.Engine.Context().SetVar("textsecure", worker.Api)
 	ui.Engine.Context().SetVar("appVersion", config.AppVersion)
+	ui.Engine.Context().SetVar("cacheDir", config.CacheDir)
 
 	ui.SetComponent()
 	ui.Win.Show()

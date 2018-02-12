@@ -71,7 +71,7 @@ func PushHelperProcessMessage(in io.Reader, out io.Writer) error {
 			Card: AppMessageCard{
 				Summary:   gettext.Gettext("New message"),
 				Body:      "",
-				Actions:   []string{"appid://textsecure.jani/textsecure/current-user-version"},
+				Actions:   []string{"appid://textsecure.nanuc/textsecure/current-user-version"},
 				Popup:     true,
 				Persist:   true,
 				Timestamp: time.Now().Unix(),

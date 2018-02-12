@@ -13,6 +13,7 @@ import (
 	"github.com/nanu-c/textsecure-qml/app/store"
 )
 
+//messageHandler is used on incoming message
 func messageHandler(msg *textsecure.Message) {
 	var err error
 
@@ -33,7 +34,7 @@ func messageHandler(msg *textsecure.Message) {
 		text = lang.SessionReset
 		msgFlags = msgFlagResetSession
 	}
-
+	//Group Message
 	gr := msg.Group()
 
 	if gr != nil && gr.Flags != 0 {

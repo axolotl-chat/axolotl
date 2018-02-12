@@ -27,11 +27,14 @@ type TextsecureAPI struct {
 
 var Api = &TextsecureAPI{}
 
+//unregister  signal id
 func (Api *TextsecureAPI) Unregister() {
 	os.RemoveAll(config.StorageDir)
 	os.Remove(config.ConfigFile)
 	os.Exit(1)
 }
+
+//get identitys
 func (Api *TextsecureAPI) IdentityInfo(id string) string {
 	myID := textsecure.MyIdentityKey()
 	theirID, err := textsecure.ContactIdentityKey(id)
@@ -84,7 +87,7 @@ func RunBackend() {
 	} else {
 		client.GetLocalContacts = contact.GetDesktopContacts
 	}
-
+	// start connection to openwhisper
 	err := textsecure.Setup(client)
 	if _, ok := err.(*strconv.NumError); ok {
 		ui.ShowError(fmt.Errorf("Switching to unencrypted session store, removing %s\nThis will reset your sessions and reregister your phone.\n", config.StorageDir))

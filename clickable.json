@@ -1,4 +1,8 @@
 {
-  "template": "cmake",
-  "kill": "qmlscene"
+  "template": "go",
+  "kill": "qmlscene",
+  "gopath": "/home/nanu/src/go",
+  "app": "textsecure",
+  "postbuild": "bash ../scripts/postbuild.sh",
+  "dependencies":"libzbar-dev qtbase5-private-dev:armhf qtdeclarative5-private-dev:armhf libqt5opengl5-dev:armhf"
 }

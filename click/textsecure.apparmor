@@ -6,9 +6,8 @@
         "content_exchange_source",
         "audio",
         "video",
+        "camera",
         "push-notification-client"
     ],
     "policy_version": 1.3
 }
-
-

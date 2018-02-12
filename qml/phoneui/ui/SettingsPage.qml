@@ -38,5 +38,10 @@ TelegramPage {
           text: i18n.tr("Advanced")
           onClicked: pageStack.push(Qt.resolvedUrl("settings/AdvancedPage.qml"))
         }
+        ListItem.ThinDivider {}
+        ListItem.Standard {
+          text: i18n.tr("Add linked Device")
+          onClicked: pageStack.push(Qt.resolvedUrl("settings/LinkedDevicesPage.qml"))
+        }
     }
 }
