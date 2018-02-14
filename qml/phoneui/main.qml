@@ -1,5 +1,5 @@
-import QtQuick 2.2
-import Ubuntu.Components 1.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.PushNotifications 0.1
 
@@ -11,7 +11,7 @@ MainView {
 
 	automaticOrientation: false
 
-	useDeprecatedToolbar: false
+	// useDeprecatedToolbar: false
 
 	anchorToKeyboard: true
 
@@ -86,8 +86,9 @@ MainView {
 			//console.log("Push client token is", token)
 		}
 	}
-
+	//
 	function initialize() {
+
 		if(settingsModel.encryptDatabase)pageStack.push(passwordPage);
 		else{
 			if(storeModel.setupDb(""))pageStack.push(dialogsPage);
