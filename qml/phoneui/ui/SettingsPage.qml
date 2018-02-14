@@ -40,7 +40,7 @@ TelegramPage {
         }
         ListItem.ThinDivider {}
         ListItem.Standard {
-          text: i18n.tr("Add linked Device")
+          text: i18n.tr("Linked Devices")
           onClicked: pageStack.push(Qt.resolvedUrl("settings/LinkedDevicesPage.qml"))
         }
     }
