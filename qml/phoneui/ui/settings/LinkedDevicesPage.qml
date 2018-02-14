@@ -35,6 +35,13 @@ TelegramPage {
     function addDevice(){
       pageStack.push(Qt.resolvedUrl("AddLinkedDevicesPage.qml"))
     }
+    function refresh(){
+      deviceModel.clear()
+      textsecure.refreshDevices()
+      for (var i =1;i<linkedDevicesModel.len;i++ ){
+        deviceModel.append(linkedDevicesModel.getDevice(i))
+      }
+    }
     Column {
       anchors.fill: parent;
 
