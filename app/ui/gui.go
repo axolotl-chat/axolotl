@@ -2,8 +2,8 @@ package ui
 
 import (
 	log "github.com/Sirupsen/logrus"
-	qml "github.com/amlwwalker/qml"
 	"github.com/morph027/textsecure"
+	qml "github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/settings"
 	"github.com/nanu-c/textsecure-qml/app/store"
@@ -48,6 +48,8 @@ func InitModels() {
 	Engine.Context().SetVar("contactsModel", store.ContactsModel)
 	Engine.Context().SetVar("settingsModel", settings.SettingsModel)
 	Engine.Context().SetVar("sessionsModel", store.SessionsModel)
+	// textsecure.LinkedDevices()
+	Engine.Context().SetVar("linkedDevicesModel", store.LinkedDevicesModel)
 	Engine.Context().SetVar("storeModel", store.DS)
 
 	go store.UpdateTimestamps()

@@ -1,8 +1,8 @@
 package store
 
 import (
-	qml "github.com/amlwwalker/qml"
-		"github.com/morph027/textsecure"
+	"github.com/morph027/textsecure"
+	qml "github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure-qml/app/config"
 )
 

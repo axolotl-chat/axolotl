@@ -4,7 +4,7 @@ import (
 	"os"
 	"time"
 
-	qml "github.com/amlwwalker/qml"
+	qml "github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
 )
 

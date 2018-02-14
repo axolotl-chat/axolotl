@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	qml "github.com/amlwwalker/qml"
 	"github.com/morph027/textsecure"
+	qml "github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/nanu-c/textsecure-qml/app/lang"
@@ -22,7 +22,7 @@ type GroupRecord struct {
 	Active  bool
 }
 
-// FIXME: receive members as splice, blocked by https://github.com/amlwwalker/qml/issues/137
+// FIXME: receive members as splice, blocked by https://github.com/nanu-c/qml-go/issues/137
 func (Api *TextsecureAPI) NewGroup(name string, members string) error {
 	m := strings.Split(members, ",")
 	group, err := textsecure.NewGroup(name, m)
