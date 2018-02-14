@@ -159,7 +159,6 @@ MainView {
 	}
 
 	function openChatById(chatId, tel, properties) {
-		console.log("openChatById");
 		if (pageStack.depth > 0 && pageStack.currentPage.objectName === "chatPage") {
 			if (pageStack.currentPage.chatId === chatId) return;
 		}

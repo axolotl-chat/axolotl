@@ -25,6 +25,11 @@ TelegramPage {
             iconName: "add"
             text: i18n.tr("Add device")
             onTriggered: addDevice()
+        },
+        Action {
+            iconName: "view-refresh"
+            text: i18n.tr("Refresh devices")
+            onTriggered: refresh()
         }
     ]
     function addDevice(){
@@ -37,6 +42,7 @@ TelegramPage {
       ListModel {
         id: deviceModel
       }
+
     //  ListItem.ThinDivider {}
      Component{
           id: devicesDelegate
@@ -59,7 +65,11 @@ TelegramPage {
                                         onAccept: function() {
                                           // console.log(id);
                                             linkedDevicesModel.unlinkDevice(id)
-                                            refresh();
+                                            deviceModel.clear()
+                                            textsecure.refreshDevices()
+                                            for (var i =1;i<linkedDevicesModel.len;i++ ){
+                                              deviceModel.append(linkedDevicesModel.getDevice(i))
+                                            }
                                         }
                                     })
                                 }

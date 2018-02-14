@@ -82,7 +82,6 @@ TelegramPage {
                 isGroupChat: ses.isGroup
 
                 onItemClicked: {
-                    console.log("dialogsPageClick");
                     mouse.accepted = true;
                     searchFinished();
                     var properties = {};
@@ -112,7 +111,7 @@ TelegramPage {
                 flickDeceleration = flickDeceleration * scaleFactor;
             }
         }
-      
+
         DelegateUtils {
             id: delegateUtils
         }
