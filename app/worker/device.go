@@ -8,6 +8,7 @@ import (
 	"errors"
 	"image"
 	"strings"
+	"time"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/clsung/grcode"
@@ -51,6 +52,11 @@ func interpretQR(img image.Image) {
 			qr = true
 			pub_key = pub_key
 			textsecure.AddNewLinkedDevice(uuid, pub_key)
+			timer := time.NewTimer(10 * time.Second)
+			go func() {
+				<-timer.C
+				qr = false
+			}()
 		}
 	}
 
@@ -84,6 +90,7 @@ func extractUuidPubKey(qr string) (string, string, error) {
 		log.Println(uuid)
 		log.Println(pub_key)
 		pub_key = strings.Replace(pub_key, "%2F", "/", -1)
+		pub_key = strings.Replace(pub_key, "%2B", "+", -1)
 		log.Println(pub_key)
 		return uuid, pub_key, nil
 	} else {
