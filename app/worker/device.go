@@ -49,13 +49,8 @@ func interpretQR(img image.Image) {
 				log.Fatal(err)
 			}
 			qr = true
-			store.AddDevice(store.LinkedDevice{
-				Uuid:   uuid,
-				PubKey: pub_key,
-			})
 			pub_key = pub_key
 			textsecure.AddNewLinkedDevice(uuid, pub_key)
-
 		}
 	}
 
@@ -67,6 +62,15 @@ func (Api *TextsecureAPI) AddDevice() error {
 	// log.Println("addDevice")
 	img := ui.Win.Snapshot()
 	ReadQr(img)
+	return nil
+}
+func (Api *TextsecureAPI) UnlinkDevice(id int) error {
+	textsecure.UnlinkDevice(id)
+	return nil
+}
+func (Api *TextsecureAPI) RefreshDevices() error {
+	// log.Println("addDevice")
+	store.RefreshDevices()
 	return nil
 }
 func extractUuidPubKey(qr string) (string, string, error) {

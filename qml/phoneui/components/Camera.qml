@@ -11,8 +11,8 @@ Item {
     anchors.fill: parent
     // anchors.verticalCenter: parent.verticalCenter
     // anchors.horizontalCenter: parent.horizontalCenter
-    anchors.leftMargin: 5;
-    anchors.topMargin: 10;
+    // anchors.leftMargin: 5;
+    // anchors.topMargin: 10;
     Camera {
         id: camera
 
@@ -55,8 +55,11 @@ Item {
     }
     VideoOutput {
       anchors.fill: parent
+        anchors.leftMargin: 15;
+        anchors.topMargin: 10;
       anchors.verticalCenter: parent.verticalCenter
       anchors.horizontalCenter: parent.horizontalCenter
+
       fillMode: Image.PreserveAspectCrop
 
       orientation: {

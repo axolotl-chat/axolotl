@@ -1,21 +1,104 @@
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import "../../components"
 import Ubuntu.Content 1.1
+import Ubuntu.Components.Popups 1.0
+
+
+import "../../components/TelegramColors.js" as TelegramColors
 
 TelegramPage {
 
-    id: linkdevice
-    width: units.gu(40)
-    height: units.gu(68)
-    clip:true
-
-
+    id: linkdevicePage
     title: i18n.tr("Link a Device")
 
     visible: true
-    Camera {
-
+    // header: PageHeader {
+    //   title: i18n.tr("Link a Device")
+    //     id: pageHeader
+    //     clip:true
+    //     width: parent.width
+    //     height: units.gu(6)
+    // }
+    head.actions: [
+        Action {
+            iconName: "add"
+            text: i18n.tr("Add device")
+            onTriggered: addDevice()
+        }
+    ]
+    function addDevice(){
+      pageStack.push(Qt.resolvedUrl("AddLinkedDevicesPage.qml"))
     }
+    Column {
+      anchors.fill: parent;
 
-}
+      // fruitModel.append({"cost": 5.95, "name":"Pizza"})
+      ListModel {
+        id: deviceModel
+      }
+    //  ListItem.ThinDivider {}
+     Component{
+          id: devicesDelegate
+          // property var device : linkedDevicesModel.getDevice(index)
+            ListItem{
+                // text: name;
+                ListItemLayout {
+                    id: devicesListLayout
+                    title.text: name
+                }
+                leadingActions: ListItemActions {
+                        actions: [
+                            Action {
+                                iconName: "delete"
+                                onTriggered: {
+                                    PopupUtils.open(Qt.resolvedUrl("../dialogs/ConfirmationDialog.qml"),
+                                    linkdevicePage, {
+                                        title: i18n.tr("Delete selected Device?"),
+                                        text: i18n.tr("This will permanently delete the selected Device."),
+                                        onAccept: function() {
+                                          // console.log(id);
+                                            linkedDevicesModel.unlinkDevice(id)
+                                            refresh();
+                                        }
+                                    })
+                                }
+                            }
+                        ]
+                    }
+            }
+
+      }
+      ListView {
+        id: listView
+        anchors.fill: parent;
+        anchors.margins: 20
+        clip: true
+        model:deviceModel
+        delegate: devicesDelegate
+        // swipeEnabled : true
+
+
+
+
+
+
+
+        Component.onCompleted: {
+          refresh()
+
+          // console.log(JSON.stringify(deviceModel));
+        }
+        function refresh(){
+          deviceModel.clear()
+          textsecure.refreshDevices()
+          // console.log(linkedDevicesModel.getDevice(1).name);
+          // console.log(linkedDevicesModel.len);
+          for (var i =1;i<linkedDevicesModel.len;i++ ){
+            deviceModel.append(linkedDevicesModel.getDevice(i))
+          }
+        }
+
+     }
+   }
+ }
