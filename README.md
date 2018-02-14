@@ -13,14 +13,14 @@ What works
  * Photo, video, audio and contact attachments in both direct and group mode
  * Preview for photo and audio attachments
  * Storing conversations
+ * Encrypted message store
+ * Desktop client provisioning/syncing
 
 What is missing
 ---------------
 
  * Push notifications
  * Most settings that are available in the Android app
- * Encrypted message store
- * Desktop client provisioning/syncing
  * Encrypted phone calls
 
 There are still bugs and UI/UX quirks.
