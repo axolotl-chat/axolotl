@@ -22,6 +22,7 @@ func init() {
 
 func setup() {
 	helpers.SetupLogging()
+	log.SetLevel(log.InfoLevel)
 	log.Infof("Starting Signal for Ubuntu version %s", config.AppVersion)
 	config.SetupConfig()
 	//encrypted?

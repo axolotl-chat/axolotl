@@ -16,16 +16,20 @@ MainView {
 	anchorToKeyboard: true
 
 	id: root
-
+	objectName: "root"
 	property var messagesModel
 
 	visible: true
 	width: units.gu(45)
 	height: units.gu(80)
-
 	PageStack {
 		id: pageStack
-
+		VerificationCodePage {
+			id: verifyCodePage
+		}
+		SigninPage {
+			id: signinPage
+		}
 		Component {
 			id: dialogPage
 			DialogPage {}
@@ -46,20 +50,14 @@ MainView {
 			SettingsPage {}
 		}
 
-		Component {
-			id: verifyCodePage
-			VerificationCodePage {}
-		}
+
 
 		Component {
 			id: passwordPage
 			PasswordPage {}
 		}
 
-		Component {
-			id: signInPage
-			SignInPage {}
-		}
+
 
 		Component {
 			id: picker
@@ -101,7 +99,7 @@ MainView {
 	}
 
 	function getPhoneNumber() {
-		pageStack.push(signInPage)
+		pageStack.push(signinPage)
 	}
 
 	function getVerificationCode() {
