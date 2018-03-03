@@ -1,3 +1,7 @@
+0.3.20 (Mar 03 2018)
+--------------------
+* fix PasswordInput page preventing Start of app, fix Advancedsettings Page, fix appearing keyboard on Startup, more elegant solution for fix in 0.3.19
+
 0.3.19 (Feb 28 2018)
 --------------------
 * fix register process
