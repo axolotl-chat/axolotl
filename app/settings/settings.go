@@ -13,6 +13,7 @@ type Settings struct {
 	SendByEnter     bool   `yaml:"sendByEnter"`
 	EncryptDatabase bool   `yaml:"encryptDatabase"`
 	CountryCode     string `yaml:"countrysDatabase"`
+	Registered      bool   `yaml:"registered"`
 }
 
 var SettingsModel *Settings

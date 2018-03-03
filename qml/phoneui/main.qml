@@ -24,16 +24,27 @@ MainView {
 	height: units.gu(80)
 	PageStack {
 		id: pageStack
-		VerificationCodePage {
-			id: verifyCodePage
-		}
+		// Component {
+		// 	id: verifyCodePage
+		// 	VerificationCodePage {}
+		// }
 		SigninPage {
 			id: signinPage
+			visible: false
+
 		}
-		Component {
-			id: dialogPage
-			DialogPage {}
+		VerificationCodePage {
+			id: verifyCodePage
+			visible: false
 		}
+		// Component {
+		// 	id: signinPage
+		// 	SigninPage {}
+		// }
+		// Component {
+		// 	id: dialogPage
+		// 	DialogPage {}
+		// }
 
 		Component {
 			id: dialogsPage
@@ -86,7 +97,7 @@ MainView {
 	}
 	//
 	function initialize() {
-
+		// if(!settingsModel.registered)pageStack.push(Qt.resolvedUrl("ui/SigninPage.qml"));
 		if(settingsModel.encryptDatabase)pageStack.push(passwordPage);
 		else{
 			if(storeModel.setupDb(""))pageStack.push(dialogsPage);
