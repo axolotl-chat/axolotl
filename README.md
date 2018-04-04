@@ -28,21 +28,19 @@ There are still bugs and UI/UX quirks.
 Installation
 ------------
 
-Download the latest release from the app store or build it yourself (you'll need docker running)
-
-    ./build.sh rel
-
-Install on a phone connected via adb
-
-    ./install.sh
-
-For more details check the [INSTALL.md](https://github.com/nanu-c/textsecure-qml/blob/master/docs/INSTALL.md).
+The build-system is now integrated in the `clickable` Version 3.2.0.
+* Install [Golang] (https://golang.org/doc/install)
+* Check out this git `go get -d https://github.com/nanu-c/textsecure-qml`
+* `cd $GOPATH/src/github.com/nanu-c/textsecure-qml`
+* Get dependencies `go get -d ./...`
+* Get [clickable](https://github.com/bhdouglass/clickable#install)
+* Run clickable `clickable`, this also transfers the click package to the Ubuntu Touch Phone
+* Run `clickable launch logs` to start signal and watch the log
 
 Contributing
 -----------
 
-User and developer discussions happen on the [mailing list] (https://groups.google.com/forum/#!forum/textsecure-go), everything else
-is on github.
+Please fill issues here on github https://github.com/nanu-c/textsecure-qml/issues .
 
 Migrating from `janimo/textsecure-qml`
 --------------------------------------
