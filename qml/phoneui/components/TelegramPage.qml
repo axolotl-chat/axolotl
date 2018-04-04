@@ -1,4 +1,4 @@
-import QtQuick 2.2
+import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Connectivity 1.0
 import "TelegramColors.js" as TelegramColors
@@ -18,7 +18,7 @@ Page {
     }
     property bool onlineIndicationOnly: false
 
-    property alias title: header.title
+    // property alias title: telegramheader.title
     property string pageImage: ""
     property string pageTitle: i18n.tr("Signal")
     property string pageSubtitle: ""
@@ -29,12 +29,11 @@ Page {
 
     property alias body: body.children
     property alias searchTerm: searchField.text
-    property alias busy: activityIndicator.running
+    property alias busy: activity.running
 
     signal headerClicked();
-
-    TelegramHeader {
-        id: header
+    header:TelegramHeader {
+        id: telegramheader
         chatId: page.chatId
         chatPhoto: pageImage
         title: pageTitle
@@ -45,7 +44,7 @@ Page {
 
         onClicked: headerClicked()
     }
-
+    //
     TextField {
         id: searchField
         visible: isSearching
@@ -62,43 +61,53 @@ Page {
             }
         }
     }
+    // header:PageHeader{
+    //   contents: telegramheader
+    //   leadingActionBar{
+    //
+    //       actions:[
+    //         Action {
+    //           id: backAction
+    //           visible: isSearching
+    //           iconName: isInSelectionMode ? "close" : "back"
+    //           onTriggered: {
+    //               if (isSearching) {
+    //                   searchFinished();
+    //                   return;
+    //               }
+    //               if (isInSelectionMode) {
+    //                   selectionCanceled();
+    //                   return;
+    //               }
+    //               back();
+    //               if (typeof onBackPressed === 'function') {
+    //                   onBackPressed();
+    //               }
+    //           }
+    //         }
+    //     ]
+    //   }
+    //
+    // }
 
-    head {
-        id: head
-        contents: isSearching ? searchField : header
-
-        backAction: Action {
-            id: backAction
-            iconName: isInSelectionMode ? "close" : "back"
-            onTriggered: {
-                if (isSearching) {
-                    searchFinished();
-                    return;
-                }
-                if (isInSelectionMode) {
-                    selectionCanceled();
-                    return;
-                }
-                back();
-                if (typeof onBackPressed === 'function') {
-                    onBackPressed();
-                }
-            }
-        }
-    }
 
     Rectangle {
         id: body
-        anchors.fill: parent
+        // anchors.fill: parent
+        anchors {
+            top: telegramheader.bottom
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
         // Due to some fancy Page behavior, in fact,
         // this doesn't end up as white anyway..
         color: TelegramColors.page_background
     }
 
     ActivityIndicator {
-        id: activityIndicator
+        id: activity
         anchors.centerIn: parent
-        z: 101
     }
 
     Rectangle {
@@ -106,11 +115,11 @@ Page {
         anchors.fill: parent
         z: 100
         color: "#44000000"
-        visible: activityIndicator.running
+        visible: activity.running
         MouseArea {
             anchors.fill: parent
             preventStealing: true
-            enabled: activityIndicator.running
+            enabled: activity.running
         }
     }
 

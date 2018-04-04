@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.4
 import Ubuntu.Components 0.1
 import "../components"
 
@@ -10,7 +10,7 @@ TelegramPage {
     property alias errorLabel: errorLabel
 
     id: page
-    head.backAction.visible: true
+    //head.backAction.visible: true
     objectName: "setPasswordPage"
     pageTitle: settingsModel.encryptDatabase ? i18n.tr("Change passphrase") : i18n.tr("Create passphrase")
     onlineIndicationOnly: true

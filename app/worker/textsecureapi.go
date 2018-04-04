@@ -59,13 +59,18 @@ func RunBackend() {
 	client := &textsecure.Client{
 		GetConfig: config.GetConfig,
 		GetPhoneNumber: func() string {
+
 			phoneNumber := ui.GetPhoneNumber()
 			return phoneNumber
 		},
 		GetVerificationCode: func() string {
-			verificationCode := ui.GetVerificationCode()
-			settings.SettingsModel.Registered = true
-			return verificationCode
+			if !settings.SettingsModel.Registered {
+				log.Debugf("settings.SettingsModel.Registered = false")
+				verificationCode := ui.GetVerificationCode()
+				settings.SettingsModel.Registered = true
+				return verificationCode
+			}
+			return ""
 		},
 		GetStoragePassword: func() string {
 			password := ui.GetStoragePassword()

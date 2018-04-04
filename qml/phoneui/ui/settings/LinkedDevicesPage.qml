@@ -20,18 +20,18 @@ TelegramPage {
     //     width: parent.width
     //     height: units.gu(6)
     // }
-    head.actions: [
-        Action {
-            iconName: "add"
-            text: i18n.tr("Add device")
-            onTriggered: addDevice()
-        },
-        Action {
-            iconName: "view-refresh"
-            text: i18n.tr("Refresh devices")
-            onTriggered: refresh()
-        }
-    ]
+    //head.actions: [
+    //     Action {
+    //         iconName: "add"
+    //         text: i18n.tr("Add device")
+    //         onTriggered: addDevice()
+    //     },
+    //     Action {
+    //         iconName: "view-refresh"
+    //         text: i18n.tr("Refresh devices")
+    //         onTriggered: refresh()
+    //     }
+    // ]
     function addDevice(){
       pageStack.push(Qt.resolvedUrl("AddLinkedDevicesPage.qml"))
     }

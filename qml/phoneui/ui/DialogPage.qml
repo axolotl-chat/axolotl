@@ -13,7 +13,7 @@ import "../js/time.js" as Time
 TelegramPage {
     id: dialogPage
 
-    title: messagesModel.name
+
     pageSubtitle: !messagesModel.isGroup?messagesModel.tel : ""
     pageImage: avatarImage(messagesModel.tel)
 
@@ -162,8 +162,10 @@ TelegramPage {
             onTriggered: list.deleteSelected()
         }
     ]
-
-    head.actions: list.isInSelectionMode ? selectionActions : defaultActions
+    header:PageHeader{
+      title: messagesModel.name
+      // trailingActionBar: list.isInSelectionMode ? selectionActions : defaultActions
+    }
 
     isInSelectionMode: list.isInSelectionMode
     onSelectionCanceled: {

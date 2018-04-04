@@ -11,44 +11,45 @@ TelegramPage {
 
 
     property var messagesToForward: []
-
-    head.actions: [
-            Action {
-                iconName: "search"
-                text: i18n.tr("Search")
-                visible: !isSearching
-                onTriggered: searchPressed()
-            },
-            Action {
-                iconName: "compose"
-                enabled: isConnected
-                onTriggered: newChat()
-            },
-            Action {
-                iconName: "contact-group"
-                text: i18n.tr("New group")
-                enabled: isConnected
-                onTriggered: newGroupChat()
-            },
-            Action {
-                iconName: "ok"
-                text: i18n.tr("Mark all read")
-                enabled: isConnected
-                onTriggered: markAllRead()
-            },
-            Action {
-                iconName: "settings"
-                text: i18n.tr("Settings")
-                onTriggered: openSettings()
-            },
-            Action {
-                iconName: "help"
-                text: i18n.tr("Help")
-                onTriggered: openHelp()
-            }
+    parent.telegramheader.trailingActionBar.actions:[
+        Action {
+            iconName: "connect-no"
+            visible: !isConnected
+        },
+        Action {
+            iconName: "search"
+            text: i18n.tr("Search")
+            visible: !isSearching
+            onTriggered: searchPressed()
+        },
+        Action {
+            iconName: "compose"
+            enabled: isConnected
+            onTriggered: newChat()
+        },
+        Action {
+            iconName: "contact-group"
+            text: i18n.tr("New group")
+            enabled: isConnected
+            onTriggered: newGroupChat()
+        },
+        Action {
+            iconName: "ok"
+            text: i18n.tr("Mark all read")
+            enabled: isConnected
+            onTriggered: markAllRead()
+        },
+        Action {
+            iconName: "settings"
+            text: i18n.tr("Settings")
+            onTriggered: openSettings()
+        },
+        Action {
+            iconName: "help"
+            text: i18n.tr("Help")
+            onTriggered: openHelp()
+        }
         ]
-
-    head.backAction.visible: isSearching || messagesToForward.length > 0
 
     body: Item {
         anchors.fill: parent

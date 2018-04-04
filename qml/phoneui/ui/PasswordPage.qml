@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.4
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
 
@@ -9,7 +9,7 @@ TelegramPage {
     property alias errorLabel: errorLabel
 
     id: page
-    head.backAction.visible: false
+    //head.backAction.visible: false
     objectName: "passwordPage"
     pageTitle: i18n.tr("Enter passphrase")
     onlineIndicationOnly: true

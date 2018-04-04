@@ -1,5 +1,5 @@
-import QtQuick 2.2
-import Ubuntu.Components 1.0
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Telephony.PhoneNumber 0.1
 import "../js/country_data.js" as CountryData
@@ -11,7 +11,7 @@ TelegramPage {
     pageTitle: i18n.tr("Connect with Signal")
 
     objectName: "signinPage"
-    head.backAction.visible: false
+    // //head.backAction.visible: false
 
     onlineIndicationOnly: true
 

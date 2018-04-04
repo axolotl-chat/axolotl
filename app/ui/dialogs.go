@@ -29,7 +29,6 @@ func GetStoragePassword() string {
 
 func GetPhoneNumber() string {
 	n := GetTextFromDialog("getPhoneNumber", "signinPage", "numberEntered")
-
 	num, _ := libphonenumber.Parse(n, "")
 	c := libphonenumber.GetRegionCodeForCountryCode(int(num.GetCountryCode()))
 	s := libphonenumber.GetNationalSignificantNumber(num)

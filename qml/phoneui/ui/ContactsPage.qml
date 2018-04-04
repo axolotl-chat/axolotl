@@ -61,16 +61,16 @@ TelegramPage {
     }
     pageSubtitle: ""
 
-    head.actions: {
-        if (isSearching) {
-            return actionsNone;
-        } else if (isSelectingGroup) {
-            return isGroupCountSatisfied ? actionsNewGroupChat : actionsNone;
-        } else {
-            // also includes blockUserMode
-            return actionsNewChat;
-        }
-    }
+    // //head.actions: {
+    //     if (isSearching) {
+    //         return actionsNone;
+    //     } else if (isSelectingGroup) {
+    //         return isGroupCountSatisfied ? actionsNewGroupChat : actionsNone;
+    //     } else {
+    //         // also includes blockUserMode
+    //         return actionsNewChat;
+    //     }
+    // }
 
     body: Item {
         anchors.fill: parent

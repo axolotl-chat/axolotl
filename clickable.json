@@ -3,6 +3,18 @@
   "kill": "qmlscene",
   "gopath": "/home/nanu/src/go",
   "app": "textsecure",
+  "ignore":[
+    ".*",
+    ".clickable",
+    ".git",
+    ".gitignore",
+    ".gitmodules",
+    "click",
+    "docker",
+    "main.go",
+    "po",
+    "scripts"
+  ],
   "postbuild": "bash ../scripts/postbuild.sh",
-  "dependencies":"libzbar-dev qtbase5-private-dev:armhf qtdeclarative5-private-dev:armhf libqt5opengl5-dev:armhf"
+  "dependencies":"libzbar-dev"
 }

@@ -3,9 +3,8 @@ import Ubuntu.Components 1.3
 import "TelegramColors.js" as TelegramColors
 
 // This component is intented for use in Ubuntu Header content.
-Item {
-    id: header
-
+PageHeader {
+    id: telegramheader
     property int chatId: 0
     property string chatPhoto: ""
     property string title: ""
@@ -16,17 +15,14 @@ Item {
     clip: true
 
     signal clicked()
-
-    // set this component height to page header contents height by default
-    // otherwise we might encounter weird resizing behaviors
     height: units.gu(7)
-
     Avatar {
         id: headerImage
 
-        chatId: header.chatId
-        chatTitle: header.title
-        chatPhoto: header.chatPhoto
+        chatId: telegramheader.chatId
+        chatTitle: telegramheader.title
+        chatPhoto: telegramheader.chatPhoto
+        // isLogo: false
 
         width: height
         height: parent.height * 4 / 5.0
@@ -44,7 +40,8 @@ Item {
             loops: Animation.Infinite
             duration: 5000
             alwaysRunToEnd: false
-            running: isConnecting && headerImage.isLogo
+            // running: isConnecting && headerImage.isLogo
+            running: isConnecting
             properties: "rotation"
 
             onRunningChanged: {
@@ -162,7 +159,7 @@ Item {
         anchors.fill: parent
         onClicked: {
             mouse.accepted = true;
-            header.clicked();
+            telegramheader.clicked();
         }
     }
 }

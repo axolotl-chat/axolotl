@@ -24,27 +24,21 @@ MainView {
 	height: units.gu(80)
 	PageStack {
 		id: pageStack
-		// Component {
-		// 	id: verifyCodePage
-		// 	VerificationCodePage {}
-		// }
+
 		SigninPage {
 			id: signinPage
 			visible: false
-
 		}
+
 		VerificationCodePage {
 			id: verifyCodePage
 			visible: false
 		}
-		// Component {
-		// 	id: signinPage
-		// 	SigninPage {}
-		// }
-		// Component {
-		// 	id: dialogPage
-		// 	DialogPage {}
-		// }
+
+		Component {
+			id: dialogPage
+			DialogPage {}
+		}
 
 		Component {
 			id: dialogsPage
@@ -61,14 +55,10 @@ MainView {
 			SettingsPage {}
 		}
 
-
-
 		Component {
 			id: passwordPage
 			PasswordPage {}
 		}
-
-
 
 		Component {
 			id: picker
@@ -100,7 +90,10 @@ MainView {
 		// if(!settingsModel.registered)pageStack.push(Qt.resolvedUrl("ui/SigninPage.qml"));
 		if(settingsModel.encryptDatabase)pageStack.push(passwordPage);
 		else{
-			if(storeModel.setupDb(""))pageStack.push(dialogsPage);
+			if(storeModel.setupDb("")){
+				pageStack.clear();
+				pageStack.push(dialogsPage);
+			}
 			else {
 				settingsModel.encryptDatabase = true
 				pageStack.push(passwordPage);
@@ -131,7 +124,7 @@ MainView {
 	}
 
 	function openHelp() {
-                Qt.openUrlExternally("https://github.com/nanu-c/textsecure-qml/issues")
+    Qt.openUrlExternally("https://github.com/nanu-c/textsecure-qml/issues")
 	}
 
 	function newChat() {
