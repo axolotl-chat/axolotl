@@ -374,7 +374,7 @@ TelegramPage {
                 isAction: false
                 isSent: msg.isSent
                 isRead: msg.isRead
-                isGroupChat: isGroupChat
+                isGroupChat: messagesModel.isGroup
 		/*
                 actionType: model.actionType
                 actionTitle: model.actionTitle

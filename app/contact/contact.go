@@ -13,7 +13,7 @@ import (
 	"bitbucket.org/llg/vcard"
 	"github.com/godbus/dbus"
 	vcard_go "github.com/mapaiva/vcard-go"
-	"github.com/morph027/textsecure"
+	"github.com/aebruno/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/ttacon/libphonenumber"

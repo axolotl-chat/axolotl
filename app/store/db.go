@@ -133,6 +133,9 @@ func (ds *DataStore) SetupDb(password string) bool {
 		return false
 	}
 	LoadMessagesFromDB()
+
+	log.Printf("Db setup finished")
+
 	return true
 }
 func (ds *DataStore) ResetDb() {

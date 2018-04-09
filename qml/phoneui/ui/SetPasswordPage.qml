@@ -1,5 +1,5 @@
 import QtQuick 2.4
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import "../components"
 
 TelegramPage {
@@ -12,9 +12,19 @@ TelegramPage {
     id: page
     //head.backAction.visible: true
     objectName: "setPasswordPage"
-    pageTitle: settingsModel.encryptDatabase ? i18n.tr("Change passphrase") : i18n.tr("Create passphrase")
     onlineIndicationOnly: true
-
+    header:PageHeader{
+      title: settingsModel.encryptDatabase ? i18n.tr("Change passphrase") : i18n.tr("Create passphrase")
+      leadingActionBar.actions:[
+        Action {
+          id: backAction
+          iconName: "back"
+          onTriggered:{
+              pageStack.pop();
+          }
+        }
+      ]
+    }
     body: Item {
         anchors {
             fill: parent

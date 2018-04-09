@@ -29,10 +29,29 @@ TelegramPage {
     property string videoPreviewSource: ""
 
     id: previewPage
-    title: i18n.tr("From: ") + senderName
+    header:PageHeader{
+      title: i18n.tr("From: ") + senderName
+      leadingActionBar.actions:[
+        Action {
+          id: backAction
+          iconName: "back"
+          onTriggered:{
+            back();
+          }
+        }
+      ]
+      trailingActionBar.actions: [
 
+          Action {
+              iconName: "save"
+              text: i18n.tr("Save")
+              onTriggered: save()
+              visible: saveAndShareVisible()
+          }
+      ]
+    }
     //head.actions: [
-    // 
+    //
     //     Action {
     //         iconName: "save"
     //         text: i18n.tr("Save")
@@ -61,6 +80,9 @@ TelegramPage {
                 "contentType": ContentType.Videos
             });
         }
+    }
+    function back() {
+        pageStack.pop();
     }
 
     body: Item {

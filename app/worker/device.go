@@ -11,8 +11,8 @@ import (
 	"time"
 
 	log "github.com/Sirupsen/logrus"
+	"github.com/aebruno/textsecure"
 	"github.com/clsung/grcode"
-	"github.com/morph027/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/store"
 	"github.com/nanu-c/textsecure-qml/app/ui"
 )

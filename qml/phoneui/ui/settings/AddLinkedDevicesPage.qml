@@ -10,13 +10,22 @@ TelegramPage {
     title: i18n.tr("Link a Device")
     height: units.gu(68)
     visible: true
-    // header: PageHeader {
-    //   title: i18n.tr("Link a Device")
-    //     id: pageHeader
-    //     clip:true
-    //     width: parent.width
-    //     height: units.gu(6)
-    // }
+    header: PageHeader {
+      title: i18n.tr("Link a Device")
+        id: pageHeader
+        clip:true
+        width: parent.width
+        height: units.gu(6)
+        leadingActionBar.actions:[
+          Action {
+            id: backAction
+            iconName: "back"
+            onTriggered:{
+              back();
+            }
+          }
+        ]
+    }
 
     Rectangle {
         width: parent.width -100

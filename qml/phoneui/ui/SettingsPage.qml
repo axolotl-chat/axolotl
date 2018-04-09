@@ -22,13 +22,31 @@ import Ubuntu.Components.ListItems 1.0 as ListItem
 import "../components"
 
 TelegramPage {
-    title: i18n.tr("Settings")
+    header:PageHeader{
+      title: i18n.tr("Settings")
+      id: pageHeader
+      leadingActionBar.actions:[
+        Action {
+          id: backAction
+          iconName: "back"
+          onTriggered:{
+            back();
+          }
+        }
+      ]
+    }
     property bool bug1341671workaround: true
-
+    function back() {
+        pageStack.pop();
+    }
     Column {
         id: settingsColumn
-
-        anchors.fill: parent
+        anchors {
+          top: pageHeader.bottom
+          left: parent.left
+          right: parent.right
+          bottom: parent.bottom
+        }
         ListItem.Standard {
           text: settingsModel.encryptDatabase ? i18n.tr("Change passphrase") : i18n.tr("Create passphrase")
           onClicked: pageStack.push(Qt.resolvedUrl("SetPasswordPage.qml"))

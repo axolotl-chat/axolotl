@@ -49,28 +49,38 @@ TelegramPage {
             onTriggered: createChatPressed()
         }
     ]
-
-    pageTitle: {
-        if (groupChatMode) {
-            return i18n.tr("New group");
-        } else if (addToGroupMode) {
-            return i18n.tr("Update group");
-        } else {
-            return i18n.tr("Contacts");
+    header:PageHeader{
+      title: {
+          if (groupChatMode) {
+              return i18n.tr("New group");
+          } else if (addToGroupMode) {
+              return i18n.tr("Update group");
+          } else {
+              return i18n.tr("Contacts");
+          }
+      }
+      leadingActionBar.actions:[
+        Action {
+          id: backAction
+          iconName: "back"
+          onTriggered:{
+              pageStack.pop();
+          }
         }
+      ]
+      trailingActionBar.actions: {
+          if (isSearching) {
+              return actionsNone;
+          } else if (isSelectingGroup) {
+              return isGroupCountSatisfied ? actionsNewGroupChat : actionsNone;
+          } else {
+              // also includes blockUserMode
+              return actionsNewChat;
+          }
+      }
     }
-    pageSubtitle: ""
 
-    // //head.actions: {
-    //     if (isSearching) {
-    //         return actionsNone;
-    //     } else if (isSelectingGroup) {
-    //         return isGroupCountSatisfied ? actionsNewGroupChat : actionsNone;
-    //     } else {
-    //         // also includes blockUserMode
-    //         return actionsNewChat;
-    //     }
-    // }
+    pageSubtitle: ""
 
     body: Item {
         anchors.fill: parent

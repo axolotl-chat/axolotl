@@ -8,8 +8,8 @@ import (
 	"time"
 
 	log "github.com/Sirupsen/logrus"
+	"github.com/aebruno/textsecure"
 	"github.com/gosexy/gettext"
-	"github.com/morph027/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/contact"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
@@ -59,9 +59,11 @@ func RunBackend() {
 	client := &textsecure.Client{
 		GetConfig: config.GetConfig,
 		GetPhoneNumber: func() string {
-
-			phoneNumber := ui.GetPhoneNumber()
-			return phoneNumber
+			if !settings.SettingsModel.Registered {
+				phoneNumber := ui.GetPhoneNumber()
+				return phoneNumber
+			}
+			return ""
 		},
 		GetVerificationCode: func() string {
 			if !settings.SettingsModel.Registered {
@@ -125,6 +127,8 @@ func RunBackend() {
 		s.Name = store.TelToName(s.Tel)
 	}
 
+	// store.LoadMessagesFromDB()
+	// qml.Changed(store.SessionsModel, &store.SessionsModel.Len)
 	for {
 		if err := textsecure.StartListening(); err != nil {
 			log.Println(err)

@@ -11,7 +11,9 @@ TelegramPage {
     id: page
     //head.backAction.visible: false
     objectName: "passwordPage"
-    pageTitle: i18n.tr("Enter passphrase")
+    header:PageHeader{
+      title: i18n.tr("Enter passphrase")
+    }
     onlineIndicationOnly: true
 
     body: Item {

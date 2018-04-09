@@ -40,9 +40,9 @@ MainView {
 			DialogPage {}
 		}
 
-		Component {
+		DialogsPage {
 			id: dialogsPage
-			DialogsPage {}
+			visible: false
 		}
 
 		Component {

@@ -24,20 +24,28 @@ import "../../components"
 
 
 TelegramPage {
-    title: i18n.tr("Advanced")
     id: advancedSettings
-    // header: PageHeader {
-    //       id: asph
-    //       leadingActionBar.actions: [
-    //               Action {
-    //                   iconName: "back"
-    //                   text: "Back"
-    //               }
-    //           ]
-    //     }
+    header: PageHeader {
+      title: i18n.tr("Advanced")
+          id: pageHeader
+          leadingActionBar.actions: [
+            Action {
+              iconName: "back"
+              text: "Back"
+              onTriggered:{
+                back();
+              }
+            }
+          ]
+    }
 
     Column {
-        anchors.fill: parent
+      anchors {
+        top: pageHeader.bottom
+        left: parent.left
+        right: parent.right
+        bottom: parent.bottom
+      }
 
         ListItem.Subtitled {
             text: i18n.tr("Unregistering")

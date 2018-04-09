@@ -3,7 +3,7 @@ package store
 import (
 	"log"
 
-	"github.com/morph027/textsecure"
+	"github.com/aebruno/textsecure"
 	qml "github.com/nanu-c/qml-go"
 )
 

@@ -13,13 +13,34 @@ TelegramPage {
     title: i18n.tr("Link a Device")
 
     visible: true
-    // header: PageHeader {
-    //   title: i18n.tr("Link a Device")
-    //     id: pageHeader
-    //     clip:true
-    //     width: parent.width
-    //     height: units.gu(6)
-    // }
+    header: PageHeader {
+      title: i18n.tr("Link a Device")
+        id: pageHeader
+        clip:true
+        width: parent.width
+        height: units.gu(6)
+        trailingActionBar.actions:[
+            Action {
+                iconName: "add"
+                text: i18n.tr("Add device")
+                onTriggered: addDevice()
+            },
+            Action {
+                iconName: "view-refresh"
+                text: i18n.tr("Refresh devices")
+                onTriggered: refresh()
+            }
+        ]
+        leadingActionBar.actions:[
+          Action {
+            id: backAction
+            iconName: "back"
+            onTriggered:{
+              back();
+            }
+          }
+        ]
+    }
     //head.actions: [
     //     Action {
     //         iconName: "add"
@@ -43,7 +64,12 @@ TelegramPage {
       }
     }
     Column {
-      anchors.fill: parent;
+      anchors {
+        top: pageHeader.bottom
+        left: parent.left
+        right: parent.right
+        bottom: parent.bottom
+      }
 
       // fruitModel.append({"cost": 5.95, "name":"Pizza"})
       ListModel {

@@ -95,7 +95,7 @@ Page {
         id: body
         // anchors.fill: parent
         anchors {
-            top: telegramheader.bottom
+            top: header.bottom
             left: parent.left
             right: parent.right
             bottom: parent.bottom

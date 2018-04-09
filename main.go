@@ -39,7 +39,6 @@ func RunUI() error {
 
 	ui.SetComponent()
 	ui.Win.Show()
-
 	go worker.RunBackend()
 	// store.SetupDB()
 	// if store.DS == nil {

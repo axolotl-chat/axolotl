@@ -7,7 +7,7 @@ import (
 	"time"
 
 	humanize "github.com/dustin/go-humanize"
-		"github.com/morph027/textsecure"
+		"github.com/aebruno/textsecure"
 )
 
 // Model for existing chat sessions

@@ -116,8 +116,8 @@ ListItemWithActions {
                 }
                 width: visible ? units.gu(3) : 0
                 height: width
-                visible: !messageDelegate.outgoing && !groupUpdate && isGroupChat
-
+                visible: !messageDelegate.outgoing && isGroupChat
+                // visible:true
                 chatId: senderId
                 chatTitle: senderDisplayName
                 chatPhoto: senderImage
@@ -235,6 +235,7 @@ ListItemWithActions {
                                 // essentially we're intercepting the mouse click event
                                 // let through by ListItemWithActions, see if there's a
                                 // link and open it.
+                                console.log(isGroupChat);
                                 mouse.accepted = true;
                                 var link = messageLabel.linkAt(mouse.x, mouse.y);
                                 if (link.length > 0) {
