@@ -132,7 +132,7 @@ func (ds *DataStore) SetupDb(password string) bool {
 		log.Errorf("Couldn't open db: " + err.Error())
 		return false
 	}
-	LoadMessagesFromDB()
+	// LoadMessagesFromDB()
 
 	log.Printf("Db setup finished")
 

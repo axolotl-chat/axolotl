@@ -17,7 +17,7 @@ Rectangle {
 
     ColoredImage {
         id: bubbleArrow
-        visible: ! groupUpdate
+        visible: false
         source: Qt.resolvedUrl("../images/conversation_bubble_arrow.png")
         color: root.color
         asynchronous: false

@@ -1,6 +1,11 @@
 package store
 
-import "github.com/nanu-c/textsecure-qml/app/helpers"
+import (
+	"log"
+
+	qml "github.com/nanu-c/qml-go"
+	"github.com/nanu-c/textsecure-qml/app/helpers"
+)
 
 type Message struct {
 	ID         int64
@@ -49,6 +54,7 @@ func UpdateMessageRead(m *Message) error {
 	return err
 }
 func LoadMessagesFromDB() error {
+	log.Printf("Loading Messages")
 	err := DS.Dbx.Select(&AllGroups, groupsSelect)
 	if err != nil {
 		return err
@@ -75,6 +81,7 @@ func LoadMessagesFromDB() error {
 			m.HTime = helpers.HumanizeTimestamp(m.SentAt)
 		}
 	}
+	qml.Changed(SessionsModel, &SessionsModel.Len)
 	return nil
 }
 

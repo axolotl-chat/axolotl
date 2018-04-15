@@ -10,6 +10,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/aebruno/textsecure"
 	"github.com/gosexy/gettext"
+	qml "github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/contact"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
@@ -47,7 +48,6 @@ func (Api *TextsecureAPI) IdentityInfo(id string) string {
 
 func (Api *TextsecureAPI) ContactsImported(path string) {
 	config.VcardPath = path
-
 	err := store.RefreshContacts()
 	if err != nil {
 		ui.ShowError(err)
@@ -86,6 +86,9 @@ func RunBackend() {
 					log.WithFields(log.Fields{
 						"error": err,
 					}).Error("Failed to open encrypted database")
+				} else {
+					store.LoadMessagesFromDB()
+					SendUnsentMessages()
 				}
 			}
 
@@ -119,16 +122,18 @@ func RunBackend() {
 		Api.HasContacts = true
 		store.RefreshContacts()
 	}
+	if !settings.SettingsModel.EncryptDatabase {
 
-	SendUnsentMessages()
+		store.LoadMessagesFromDB()
+		SendUnsentMessages()
+	}
+	//Load Messages
 
 	// Make sure to use names not numbers in session titles
 	for _, s := range store.SessionsModel.Sess {
 		s.Name = store.TelToName(s.Tel)
 	}
-
-	// store.LoadMessagesFromDB()
-	// qml.Changed(store.SessionsModel, &store.SessionsModel.Len)
+	qml.Changed(store.SessionsModel, &store.SessionsModel.Len)
 	for {
 		if err := textsecure.StartListening(); err != nil {
 			log.Println(err)

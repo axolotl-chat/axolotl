@@ -11,8 +11,6 @@ MainView {
 
 	automaticOrientation: false
 
-	// useDeprecatedToolbar: false
-
 	anchorToKeyboard: true
 
 	id: root
@@ -87,7 +85,6 @@ MainView {
 	}
 	//
 	function initialize() {
-		// if(!settingsModel.registered)pageStack.push(Qt.resolvedUrl("ui/SigninPage.qml"));
 		if(settingsModel.encryptDatabase)pageStack.push(passwordPage);
 		else{
 			if(storeModel.setupDb("")){

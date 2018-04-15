@@ -58,6 +58,7 @@ TelegramPage {
             iconName:"info"
             text: i18n.tr("Verify identity")
             visible: !isGroupChat
+
             onTriggered: {
                 PopupUtils.open(Qt.resolvedUrl("dialogs/InfoDialog.qml"),
                 dialogPage, {
@@ -163,8 +164,26 @@ TelegramPage {
         }
     ]
     header:PageHeader{
-      title: messagesModel.name
-      // trailingActionBar: list.isInSelectionMode ? selectionActions : defaultActions
+      title:  messagesModel.name
+      // Item{
+      //   Avatar {
+      //       id: headerImage
+      //       chatId: chatId
+      //       chatTitle: messagesModel.name
+      //       chatPhoto: senderImage
+      //       width: height
+      //       height: parent.height * 4 / 5.0
+      //       anchors {
+      //           left: parent.left
+      //           top: parent.top
+      //           topMargin: 3
+      //           left
+      //
+      //       }
+      //     }
+      // }
+
+      trailingActionBar.actions: list.isInSelectionMode ? selectionActions : defaultActions
     }
 
     isInSelectionMode: list.isInSelectionMode
@@ -365,7 +384,7 @@ TelegramPage {
             clip: true
 
             listModel: messagesModel.len
-            listDelegate: TelegramDelegate {
+            listDelegate: SignalMessageDelegate {
                 id: delegate
                 property int ii: messagesModel.len - 1 - index
                 property var msg: messagesModel.getMessages(ii)
@@ -395,13 +414,13 @@ TelegramPage {
                 thumbnail: list.getThumbnail(msg)
                 attachment: msg.attachment
                 senderColor: Avatar.getColor(senderId)
-                // senderImage:
-                //  {
-                //     if (!outgoing && !list.isInSelectionMode) {
-                //         return avatarImage(msg.source)
-                //     }
-                //     return "";
-                // }
+                senderImage:
+                 {
+                    if (!outgoing && !list.isInSelectionMode) {
+                        return avatarImage(msg.source)
+                    }
+                    return "";
+                }
                 /*
                 photo: model.photo
                 video: model.video

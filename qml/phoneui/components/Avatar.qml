@@ -69,7 +69,7 @@ Item {
             root.clicked();
         }
     }
-
+    //TODO. get at least 2 letterss
     function getInitialsFromTitle(title) {
         var text = "";
         if (title.length > 0) {

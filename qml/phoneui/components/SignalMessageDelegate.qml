@@ -112,9 +112,9 @@ ListItemWithActions {
                 anchors {
                     left: parent.left
                     leftMargin: visible ? units.gu(1) : 0
-                    bottom: sectionVisible ? bubble.bottom : parent.bottom
+                    top: sectionVisible ? bubble.top : parent.top
                 }
-                width: visible ? units.gu(3) : 0
+                width: visible ? units.gu(4) : 0
                 height: width
                 visible: !messageDelegate.outgoing && isGroupChat
                 // visible:true
@@ -235,7 +235,7 @@ ListItemWithActions {
                                 // essentially we're intercepting the mouse click event
                                 // let through by ListItemWithActions, see if there's a
                                 // link and open it.
-                                console.log(isGroupChat);
+                                // console.log(isGroupChat);
                                 mouse.accepted = true;
                                 var link = messageLabel.linkAt(mouse.x, mouse.y);
                                 if (link.length > 0) {
