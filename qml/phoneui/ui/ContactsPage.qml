@@ -22,6 +22,13 @@ TelegramPage {
     property alias isSelectingGroup: contactListView.isInSelectionMode
     property bool isGroupCountSatisfied: addToGroupMode || contactListView.selectedItems.count > 0
     property var actionsNone: []
+    property list<Action> actionIsSearching: [
+            Action {
+                     iconName: "close"
+                     text: i18n.tr("Close")
+                     visible: isSearching
+                     onTriggered: isSearching = false;
+                 }]
     property list<Action> actionsSearch: [
         Action {
             iconName: "search"
@@ -64,18 +71,37 @@ TelegramPage {
           id: backAction
           iconName: "back"
           onTriggered:{
-              pageStack.pop();
+              backToDialogsPage();
           }
         }
       ]
       trailingActionBar.actions: {
           if (isSearching) {
-              return actionsNone;
+              return actionIsSearching;
           } else if (isSelectingGroup) {
-              return isGroupCountSatisfied ? actionsNewGroupChat : actionsNone;
+              return isGroupCountSatisfied ? actionsNewGroupChat : actionsSearch;
           } else {
               // also includes blockUserMode
               return actionsNewChat;
+          }
+      }
+      TextField {
+          id: searchField
+          visible: isSearching
+          enabled: isSearching
+          anchors {
+              left: parent.left
+              rightMargin: units.gu(2)
+              leftMargin: units.gu(2)
+              topMargin: units.gu(1)
+              top: parent.top
+          }
+          inputMethodHints: Qt.ImhNoPredictiveText
+
+          onTextChanged: {
+              if (typeof onSearchTermChanged === 'function') {
+                  onSearchTermChanged(text);
+              }
           }
       }
     }

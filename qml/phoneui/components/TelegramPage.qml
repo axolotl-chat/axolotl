@@ -48,6 +48,7 @@ Page {
     TextField {
         id: searchField
         visible: isSearching
+        enabled: isSearching
         anchors {
             left: parent.left
             right: parent.right

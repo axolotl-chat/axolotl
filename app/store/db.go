@@ -8,10 +8,10 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/jmoiron/sqlx"
+	_ "github.com/mutecomm/go-sqlcipher"
+	qml "github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/settings"
-
-	_ "github.com/mutecomm/go-sqlcipher"
 )
 
 var DS *DataStore
@@ -96,6 +96,7 @@ var (
 
 // Decrypt database and closes connection
 func (ds *DataStore) Decrypt(dbPath string) error {
+	log.Debugf("Decrypt Db")
 	query := fmt.Sprintf("ATTACH DATABASE '%s' AS plaintext KEY '';", dbPath)
 	if DS.Dbx == nil {
 		log.Errorf("Dbx is nil")
@@ -132,8 +133,8 @@ func (ds *DataStore) SetupDb(password string) bool {
 		log.Errorf("Couldn't open db: " + err.Error())
 		return false
 	}
-	// LoadMessagesFromDB()
-
+	LoadMessagesFromDB()
+	qml.Changed(SessionsModel, &SessionsModel.Len)
 	log.Printf("Db setup finished")
 
 	return true
@@ -179,7 +180,7 @@ func (ds *DataStore) DecryptDb(password string) bool {
 	DS.Dbx = nil
 	DS, err = NewStorage("")
 	if err != nil {
-		log.Errorf("Couldn't open db: " + err.Error())
+		log.Debugf("Couldn't open db: " + err.Error())
 		return false
 	}
 	return false
@@ -264,6 +265,7 @@ func NewDataStore(dbPath, saltPath, password string) (*DataStore, error) {
 			log.Errorf("Failed to get key: " + err.Error())
 			return nil, err
 		}
+		log.Debugf("Connecting to encrypted data store finished")
 
 		params = fmt.Sprintf("%s&_pragma_key=x'%X'&_pragma_cipher_page_size=4096", params, key)
 	}
@@ -284,7 +286,7 @@ func NewDataStore(dbPath, saltPath, password string) (*DataStore, error) {
 	_, err = db.Exec(messagesSchema)
 
 	if err != nil {
-		log.Errorf("Failed exec messageSchema")
+		log.Debugf("Failed exec messageSchema (Happens also on encrypted db)")
 
 		return nil, err
 	}
@@ -298,6 +300,7 @@ func NewDataStore(dbPath, saltPath, password string) (*DataStore, error) {
 	if err != nil {
 		return nil, err
 	}
+	log.Debugf("NewDataStore finished")
 
 	return &DataStore{Dbx: db}, nil
 }

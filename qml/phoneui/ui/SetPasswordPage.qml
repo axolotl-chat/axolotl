@@ -52,11 +52,7 @@ TelegramPage {
             visible: settingsModel.encryptDatabase
             placeholderText: i18n.tr("Old passphrase")
             echoMode: TextInput.Password
-            // Keys.onEnterPressed: done()
-            // Keys.onReturnPressed: done()
-
             horizontalAlignment: TextInput.AlignHCenter
-
             Component.onCompleted: {
               forceActiveFocus();
 	          }
@@ -74,11 +70,7 @@ TelegramPage {
 
             placeholderText: i18n.tr("New passphrase")
             echoMode: TextInput.Password
-            // Keys.onEnterPressed: done()
-            // Keys.onReturnPressed: done()
-
             horizontalAlignment: TextInput.AlignHCenter
-
             Component.onCompleted: {
               forceActiveFocus();
 	          }
@@ -92,18 +84,11 @@ TelegramPage {
                 left: parent.left
                 right: parent.right
             }
-
             placeholderText: i18n.tr("Repeat new passphrase")
             echoMode: TextInput.Password
             Keys.onEnterPressed: done()
             Keys.onReturnPressed: done()
-
             horizontalAlignment: TextInput.AlignHCenter
-
-            Component.onCompleted: {
-
-            }
-
         }
 
         TelegramButton {
@@ -156,8 +141,8 @@ TelegramPage {
                 busy = false;
               }
             }
-            storeModel.encryptDb(passwordTextField.text)
-            pageStack.push(dialogsPage)
+            storeModel.encryptDb(passwordTextField.text);
+b           backToDialogsPage();
           }
           else{
              setError(i18n.tr("Passphrases don\'t match!"))
@@ -170,14 +155,16 @@ TelegramPage {
         }
     }
     function rmDone() {
-      if (passwordTextField.text.length>0) {
+      if (oldPasswordTextField.text.length>0) {
+        console.log("rmDone");
         clearError();
         if(storeModel.decryptDb(oldPasswordTextField.text)){
           setError(i18n.tr("Incorrect old passphrase!"))
           busy = false;
         }
         else {
-          pageStack.push(dialogsPage)
+          console.log("rmDone1");
+          backToDialogsPage();
         }
       }
       else {

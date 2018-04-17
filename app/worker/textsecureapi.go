@@ -27,6 +27,9 @@ type TextsecureAPI struct {
 }
 
 var Api = &TextsecureAPI{}
+var client = &textsecure.Client{}
+var sessionStarted = false
+var isEncrypted = true
 
 //unregister  signal id
 func (Api *TextsecureAPI) Unregister() {
@@ -55,8 +58,10 @@ func (Api *TextsecureAPI) ContactsImported(path string) {
 }
 func RunBackend() {
 	log.Debugf("Run Backend")
+	isEncrypted = settings.SettingsModel.EncryptDatabase
+	sessionStarted := false
 	Api = &TextsecureAPI{}
-	client := &textsecure.Client{
+	client = &textsecure.Client{
 		GetConfig: config.GetConfig,
 		GetPhoneNumber: func() string {
 			if !settings.SettingsModel.Registered {
@@ -87,11 +92,10 @@ func RunBackend() {
 						"error": err,
 					}).Error("Failed to open encrypted database")
 				} else {
-					store.LoadMessagesFromDB()
-					SendUnsentMessages()
+					Api.StartAfterDecryption()
+
 				}
 			}
-
 			return password
 		},
 		MessageHandler:   messageHandler,
@@ -105,6 +109,39 @@ func RunBackend() {
 		client.GetLocalContacts = contact.GetDesktopContacts
 	}
 	// start connection to openwhisper
+	// if !isEncrypted {
+	// 	startSession()
+	// }
+
+	//Load Messages
+
+	// Make sure to use names not numbers in session titles
+
+	qml.Changed(store.SessionsModel, &store.SessionsModel.Len)
+	for {
+		if !isEncrypted {
+			if !sessionStarted {
+				log.Debugf("Start Session after Decryption")
+				startSession()
+
+			}
+			if err := textsecure.StartListening(); err != nil {
+				log.Println(err)
+			}
+		}
+		time.Sleep(3 * time.Second)
+
+	}
+}
+func (Api *TextsecureAPI) StartAfterDecryption() {
+
+	log.Debugf("DB Encrypted, ready to start")
+	SendUnsentMessages()
+	isEncrypted = false
+}
+
+func startSession() {
+	log.Debugf("starting Signal connection")
 	err := textsecure.Setup(client)
 	if _, ok := err.(*strconv.NumError); ok {
 		ui.ShowError(fmt.Errorf("Switching to unencrypted session store, removing %s\nThis will reset your sessions and reregister your phone.\n", config.StorageDir))
@@ -115,30 +152,14 @@ func RunBackend() {
 		ui.ShowError(err)
 		return
 	}
-
+	sessionStarted = true
 	Api.PhoneNumber = config.Config.Tel
-
 	if helpers.Exists(config.ContactsFile) {
 		Api.HasContacts = true
 		store.RefreshContacts()
 	}
-	if !settings.SettingsModel.EncryptDatabase {
-
-		store.LoadMessagesFromDB()
-		SendUnsentMessages()
-	}
-	//Load Messages
-
-	// Make sure to use names not numbers in session titles
 	for _, s := range store.SessionsModel.Sess {
 		s.Name = store.TelToName(s.Tel)
-	}
-	qml.Changed(store.SessionsModel, &store.SessionsModel.Len)
-	for {
-		if err := textsecure.StartListening(); err != nil {
-			log.Println(err)
-			time.Sleep(3 * time.Second)
-		}
 	}
 }
 func (Api *TextsecureAPI) FilterContacts(sub string) {

@@ -1,6 +1,6 @@
 {
   "template": "go",
-  "kill": "qmlscene",
+  "kill": "textsecure",
   "gopath": "/home/nanu/src/go",
   "app": "textsecure",
   "ignore":[

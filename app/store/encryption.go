@@ -42,6 +42,8 @@ func getSalt(path string) ([]byte, error) {
 
 // Get raw key data for use with sqlcipher
 func getKey(saltPath, password string) ([]byte, error) {
+	log.Debugf("getKey")
+
 	salt, err := getSalt(saltPath)
 	if err != nil {
 		log.Errorf("Failed to get salt")

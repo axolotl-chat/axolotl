@@ -28,15 +28,35 @@ TelegramPage {
           title: "Signal"
           contents:Item{
             Avatar{
+              id: dialogsAvatar
               anchors.leftMargin: 5
               anchors.topMargin: 10
               anchors.left:parent.left
               anchors.top:parent.top
             }
+            TextField {
+                id: searchField
+                visible: isSearching
+                enabled: isSearching
+                anchors {
+                    left: dialogsAvatar.right
+                    rightMargin: units.gu(2)
+                    leftMargin: units.gu(2)
+                    topMargin: units.gu(1)
+                    top: parent.top
+                }
+                inputMethodHints: Qt.ImhNoPredictiveText
+
+                onTextChanged: {
+                    if (typeof onSearchTermChanged === 'function') {
+                        onSearchTermChanged(text);
+                    }
+                }
+            }
           }
           trailingActionBar.actions:[
              Action {
-                 iconName: "connect-no"
+                 iconName: "weather-storm"
                  visible: !isConnected
              },
              Action {
@@ -48,33 +68,42 @@ TelegramPage {
              Action {
                  iconName: "compose"
                  enabled: isConnected
+                 visible: !isSearching
                  onTriggered: newChat()
              },
              Action {
                  iconName: "contact-group"
                  text: i18n.tr("New group")
                  enabled: isConnected
+                 visible: !isSearching
                  onTriggered: newGroupChat()
              },
              Action {
                  iconName: "ok"
                  text: i18n.tr("Mark all read")
+                 visible: !isSearching
                  enabled: isConnected
                  onTriggered: markAllRead()
              },
              Action {
                  iconName: "settings"
                  text: i18n.tr("Settings")
+                 visible: !isSearching
                  onTriggered: openSettings()
              },
              Action {
                  iconName: "help"
                  text: i18n.tr("Help")
+                 visible: !isSearching
                  onTriggered: openHelp()
+             },
+             Action {
+                 iconName: "close"
+                 text: i18n.tr("Close")
+                 visible: isSearching
+                 onTriggered: isSearching = false;
              }
           ]
-        // onClicked: headerClicked()
-        // width: parent ? parent.width - units.gu(2) : undefined
     }
 
     Rectangle {
@@ -86,7 +115,6 @@ TelegramPage {
       }
       ListView {
         id: dialogsListView
-        // color: "steelblue"
         anchors {
           top: parent.top
           left: parent.left
@@ -134,15 +162,6 @@ TelegramPage {
                   messagesToForward = [];
               }
             }
-
-            Component.onCompleted: {
-                // FIXME: workaround for qtubuntu not returning values depending on the grid unit definition
-                // for Flickable.maximumFlickVelocity and Flickable.flickDeceleration
-                // storeModel.setupDb("")
-            }
-
-        //
-
       }
     }
     DelegateUtils {
@@ -150,19 +169,18 @@ TelegramPage {
     }
   }
 
-    // function searchPressed() {
-    //     isSearching = true;
-    //     searchField.forceActiveFocus();
-    // }
-    //
-    // function searchFinished() {
-    //     if (!isSearching) return;
-    //
-    //     isSearching = false;
-    //     searchField.text = "";
-    // }
-    // function onSearchTermChanged(t) {
-    //     textsecure.FilterSessions(t)
-    // }
+    function searchPressed() {
+        isSearching = true;
+        searchField.forceActiveFocus();
+    }
+    function searchFinished() {
+        if (!isSearching) return;
+
+        isSearching = false;
+        searchField.text = "";
+    }
+    function onSearchTermChanged(t) {
+        textsecure.filterSessions(t)
+    }
 
 }

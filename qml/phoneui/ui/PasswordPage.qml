@@ -1,5 +1,5 @@
 import QtQuick 2.4
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 0.1
 
 import "../components"
@@ -78,7 +78,7 @@ TelegramPage {
             }
             width: parent.width
 
-            enabled: isConnected && passwordTextField.text !== ""
+            enabled: passwordTextField.text !== ""
             text: i18n.tr("Submit passphrase")
             onClicked: done()
         }
@@ -100,8 +100,8 @@ TelegramPage {
                               title: i18n.tr("Disable passphrase?"),
                               text: i18n.tr("This will permanently delete all messages!."),
                               onAccept: function() {
-                                  storeModel.resetDb()
-                                  pageStack.push(dialogsPage);
+                                  storeModel.resetDb();
+                                  backToDialogsPage();
                               }
                           })
             }
@@ -121,7 +121,12 @@ TelegramPage {
         if (passwordTextField.text.length > 0) {
             busy = true;
             clearError();
-            if (storeModel.setupDb(passwordTextField.text))pageStack.push(dialogsPage);
+            if (storeModel.setupDb(passwordTextField.text)){
+              console.log("yes");
+              textsecure.startAfterDecryption();
+              backToDialogsPage();
+
+            }
             else  {
               setError(i18n.tr("Invalid passphrase!"))
               busy = false;
