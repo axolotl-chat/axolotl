@@ -17,8 +17,6 @@ TelegramPage {
       title: i18n.tr("Link a Device")
         id: pageHeader
         clip:true
-        width: parent.width
-        height: units.gu(6)
         trailingActionBar.actions:[
             Action {
                 iconName: "add"

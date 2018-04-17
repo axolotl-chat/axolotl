@@ -4,18 +4,12 @@ import "../../components"
 import Ubuntu.Content 1.1
 
 TelegramPage {
-
     id: addlinkdevice
-    width: units.gu(40)
-    title: i18n.tr("Link a Device")
-    height: units.gu(68)
     visible: true
     header: PageHeader {
       title: i18n.tr("Link a Device")
         id: pageHeader
-        clip:true
         width: parent.width
-        height: units.gu(6)
         leadingActionBar.actions:[
           Action {
             id: backAction
@@ -34,6 +28,7 @@ TelegramPage {
         border.color: "black"
         border.width: 5
         radius: 10
+        anchors.top: pageHeader.bottom
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
         Camera {

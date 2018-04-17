@@ -142,7 +142,7 @@ TelegramPage {
               }
             }
             storeModel.encryptDb(passwordTextField.text);
-b           backToDialogsPage();
+            backToDialogsPage();
           }
           else{
              setError(i18n.tr("Passphrases don\'t match!"))
