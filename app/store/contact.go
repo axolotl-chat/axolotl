@@ -36,6 +36,8 @@ func RefreshContacts() error {
 	ContactsModel.Contacts = c
 	ContactsModel.Len = len(c)
 	qml.Changed(ContactsModel, &ContactsModel.Len)
+	qml.Changed(SessionsModel, &SessionsModel.Len)
+
 	return nil
 }
 func TelToName(tel string) string {

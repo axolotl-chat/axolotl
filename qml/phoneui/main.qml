@@ -146,8 +146,7 @@ MainView {
 	}
 
 	function backToDialogsPage() {
-		console.log("backToDialogsPage");
-
+		// console.log("backToDialogsPage");
 		while (pageStack.depth > 0 &&
 		pageStack.currentPage.objectName !== "dialogsPage") {
 			pageStack.pop();

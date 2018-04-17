@@ -411,7 +411,7 @@ TelegramPage {
                 senderName: outgoing? "You" : msg.getName()
                 senderDisplayName: outgoing ? "" : senderName
                 mediaType: msg.cType
-                thumbnail: list.getThumbnail(msg)
+                thumbnail: isGroupChat ?  list.getThumbnail(msg) : ""
                 attachment: msg.attachment
                 senderColor: Avatar.getColor(senderId)
                 senderImage:
@@ -644,7 +644,8 @@ TelegramPage {
     }
 
     function onBackPressed() {
-        textsecure.setActiveSessionID("")
+        textsecure.setActiveSessionID("");
+        backToDialogsPage();
     }
 
 }

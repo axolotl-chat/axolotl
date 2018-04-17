@@ -117,7 +117,6 @@ func RunBackend() {
 
 	// Make sure to use names not numbers in session titles
 
-	qml.Changed(store.SessionsModel, &store.SessionsModel.Len)
 	for {
 		if !isEncrypted {
 			if !sessionStarted {
@@ -161,6 +160,8 @@ func startSession() {
 	for _, s := range store.SessionsModel.Sess {
 		s.Name = store.TelToName(s.Tel)
 	}
+	qml.Changed(store.SessionsModel, &store.SessionsModel.Len)
+
 }
 func (Api *TextsecureAPI) FilterContacts(sub string) {
 	sub = strings.ToUpper(sub)

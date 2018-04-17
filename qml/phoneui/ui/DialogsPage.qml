@@ -38,6 +38,9 @@ TelegramPage {
                 id: searchField
                 visible: isSearching
                 enabled: isSearching
+                activeFocusOnPress: isSearching
+                readOnly: !isSearching
+                selectByMouse: isSearching
                 anchors {
                     left: dialogsAvatar.right
                     rightMargin: units.gu(2)
@@ -129,7 +132,7 @@ TelegramPage {
           id: dialogsListItem
           property var ses: sessionsModel.getSession(index)
           // FIXME Error
-          thumbnail: avatarImage(ses.tel)
+          // thumbnail: avatarImage(ses.tel)
           dialogId: uid(ses.tel)
           message: ses.last
           unreadCount: ses.unread

@@ -60,7 +60,7 @@ func GetConfig() (*textsecure.Config, error) {
 	Config.StorageDir = StorageDir
 	Config.UserAgent = fmt.Sprintf("TextSecure %s for Ubuntu Phone", AppVersion)
 	Config.UnencryptedStorage = true
-	Config.LogLevel = "debug"
+	Config.LogLevel = "info"
 	Config.AlwaysTrustPeerID = true
 	rootCA := filepath.Join(ConfigDir, "rootCA.crt")
 	if helpers.Exists(rootCA) {

@@ -122,7 +122,6 @@ TelegramPage {
             busy = true;
             clearError();
             if (storeModel.setupDb(passwordTextField.text)){
-              console.log("yes");
               textsecure.startAfterDecryption();
               backToDialogsPage();
 

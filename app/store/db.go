@@ -130,7 +130,7 @@ func (ds *DataStore) SetupDb(password string) bool {
 	err = os.MkdirAll(dbDir, 0700)
 	DS, err = NewStorage(password)
 	if err != nil {
-		log.Errorf("Couldn't open db: " + err.Error())
+		log.Debugf("Couldn't open db: " + err.Error())
 		return false
 	}
 	LoadMessagesFromDB()

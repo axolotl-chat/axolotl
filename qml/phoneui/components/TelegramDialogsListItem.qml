@@ -28,7 +28,7 @@ ListItemWithActions {
     property bool isTyping: false
     property string whoIsTyping : ""
     property string message: ""
-    property string thumbnail: ""
+    property string thumbnail: avatarImage(ses.tel)
     property int mediaType: 0
 
     property string title: ""

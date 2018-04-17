@@ -158,8 +158,8 @@ PageHeader {
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            mouse.accepted = true;
-            telegramheader.clicked();
+        //     mouse.accepted = true;
+        //     telegramheader.clicked();
         }
     }
 }
