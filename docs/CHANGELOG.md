@@ -1,3 +1,20 @@
+0.3.22 (Apr 17 2018)
+--------------------
+* Update to Ubuntu Components 1.3
+* Build with clickable
+* Make the search functional
+* Avatars in GroupChats
+* Disabling the Password works now
+* Sending a contact includes now the name
+* Set default loglevel to Info
+* Fix crash on startup, when db is still encrypted but incoming messages are waiting
+
+
+
+0.3.21 (Mar 03 2018)
+--------------------
+* late night typo, preventing showing a dialog
+
 0.3.20 (Mar 03 2018)
 --------------------
 * fix PasswordInput page preventing Start of app, fix Advancedsettings Page, fix appearing keyboard on Startup, more elegant solution for fix in 0.3.19
