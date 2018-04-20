@@ -45,7 +45,7 @@ Item {
         interval: 2000
         repeat: true
         onTriggered: {
-          print("capturing");
+          // print("capturing");
           textsecure.addDevice();
           camera.startAndConfigure();
         }

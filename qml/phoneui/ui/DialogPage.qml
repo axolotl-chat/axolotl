@@ -644,6 +644,7 @@ TelegramPage {
     }
 
     function onBackPressed() {
+        textsecure.markSessionsRead(messagesModel.tel);
         textsecure.setActiveSessionID("");
         backToDialogsPage();
     }

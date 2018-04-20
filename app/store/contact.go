@@ -1,8 +1,8 @@
 package store
 
 import (
-	"github.com/aebruno/textsecure"
 	qml "github.com/nanu-c/qml-go"
+	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/config"
 )
 

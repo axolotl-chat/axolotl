@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/aebruno/textsecure"
+	"github.com/nanu-c/textsecure"
 	qml "github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/nanu-c/textsecure-qml/app/lang"

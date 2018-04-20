@@ -23,6 +23,7 @@ func init() {
 func setup() {
 	helpers.SetupLogging()
 	log.SetLevel(log.InfoLevel)
+	// log.SetLevel(log.DebugLevel)
 	log.Infof("Starting Signal for Ubuntu version %s", config.AppVersion)
 	config.SetupConfig()
 }

@@ -3,7 +3,7 @@ package store
 import (
 	"log"
 
-	"github.com/aebruno/textsecure"
+	"github.com/nanu-c/textsecure"
 	qml "github.com/nanu-c/qml-go"
 )
 
