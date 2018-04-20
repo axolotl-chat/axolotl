@@ -11,9 +11,9 @@ import (
 	"strings"
 
 	"bitbucket.org/llg/vcard"
-	"github.com/aebruno/textsecure"
 	"github.com/godbus/dbus"
 	vcard_go "github.com/mapaiva/vcard-go"
+	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/ttacon/libphonenumber"

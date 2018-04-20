@@ -61,8 +61,6 @@ TelegramPage {
                 })
             }
         }
-
-        ListItem.ThinDivider {}
         ListItem.Standard {
             control: CheckBox {
                 checked: settingsModel.sendByEnter
@@ -77,8 +75,6 @@ TelegramPage {
 
             onClicked: control.checked = !control.checked
         }
-
-        ListItem.ThinDivider {}
         ListItem.Subtitled {
             text: i18n.tr("Submit debug log")
             subText: "Signal "+appVersion

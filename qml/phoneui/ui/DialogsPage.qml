@@ -10,7 +10,7 @@ import "../js/time.js" as Time
 
 TelegramPage {
     id: dialogsPage
-
+    focus: !isSearching
     property bool isSecretChat: false
     property bool isConnecting: false
     property bool isOnline: NetworkingStatus.online
@@ -35,6 +35,11 @@ TelegramPage {
               anchors.top:parent.top
             }
             TextField {
+               onActiveFocusChanged: {console.log("focus2") }
+                onFocusChanged:{
+                  console.log("focus")
+                }
+                focus: isSearching
                 id: searchField
                 visible: isSearching
                 enabled: isSearching

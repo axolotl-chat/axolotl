@@ -8,9 +8,9 @@ import (
 	"time"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/aebruno/textsecure"
 	"github.com/gosexy/gettext"
 	qml "github.com/nanu-c/qml-go"
+	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/contact"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
@@ -135,7 +135,6 @@ func RunBackend() {
 func (Api *TextsecureAPI) StartAfterDecryption() {
 
 	log.Debugf("DB Encrypted, ready to start")
-	SendUnsentMessages()
 	isEncrypted = false
 }
 
@@ -160,6 +159,7 @@ func startSession() {
 	for _, s := range store.SessionsModel.Sess {
 		s.Name = store.TelToName(s.Tel)
 	}
+	SendUnsentMessages()
 	qml.Changed(store.SessionsModel, &store.SessionsModel.Len)
 
 }
