@@ -11,6 +11,10 @@ TelegramPage {
         id: resultComponent
         ContentItem {}
     }
+    header:PageHeader{
+          id:pageHeader
+          title: i18n.tr("Content Picker")
+    }
 
     visible: false
     property var url

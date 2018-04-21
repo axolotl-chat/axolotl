@@ -59,7 +59,7 @@ func (Api *TextsecureAPI) ContactsImported(path string) {
 func RunBackend() {
 	log.Debugf("Run Backend")
 	isEncrypted = settings.SettingsModel.EncryptDatabase
-	sessionStarted := false
+	sessionStarted = false
 	Api = &TextsecureAPI{}
 	client = &textsecure.Client{
 		GetConfig: config.GetConfig,
@@ -125,7 +125,7 @@ func RunBackend() {
 
 			}
 			if err := textsecure.StartListening(); err != nil {
-				log.Println(err)
+				log.Debugln(err)
 			}
 		}
 		time.Sleep(3 * time.Second)

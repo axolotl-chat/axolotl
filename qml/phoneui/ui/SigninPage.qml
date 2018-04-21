@@ -8,11 +8,13 @@ import "../components"
 TelegramPage {
     id: page
     property alias errorLabel: errorLabel
-    pageTitle: i18n.tr("Connect with Signal")
 
     objectName: "signinPage"
     // //head.backAction.visible: false
-
+    header:PageHeader{
+          id:pageHeader
+          title: i18n.tr("Connect with Signal")
+    }
     onlineIndicationOnly: true
 
     body: Item {

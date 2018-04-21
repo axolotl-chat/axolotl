@@ -11,8 +11,11 @@ TelegramPage {
     id: page
     //head.backAction.visible: false
     objectName: "codeVerificationPage"
-    pageTitle: i18n.tr("Verifying number")
     onlineIndicationOnly: true
+    header:PageHeader{
+          id:pageHeader
+          title: i18n.tr("Verifying number")
+    }
 
     body: Item {
         anchors {

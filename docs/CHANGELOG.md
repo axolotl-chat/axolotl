@@ -1,3 +1,6 @@
+0.3.23 (Apr 21 2018)
+* Reconnect correctly after disconection
+
 0.3.22 (Apr 17 2018)
 --------------------
 * Update to Ubuntu Components 1.3
