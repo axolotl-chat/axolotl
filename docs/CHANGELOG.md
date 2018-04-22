@@ -1,4 +1,9 @@
+0.3.24 (Apr 22 2018)
+--------------------
+* starting a new Chat is working again
+
 0.3.23 (Apr 21 2018)
+--------------------
 * Reconnect correctly after disconection
 
 0.3.22 (Apr 17 2018)

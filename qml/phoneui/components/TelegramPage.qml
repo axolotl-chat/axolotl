@@ -67,6 +67,17 @@ Page {
         }
     }
 
+    function searchPressed() {
+        isSearching = true;
+        searchField.forceActiveFocus();
+    }
+
+    function searchFinished() {
+        if (!isSearching) return;
+
+        isSearching = false;
+        searchField.text = "";
+    }
 
     function back() {
         pageStack.pop();
