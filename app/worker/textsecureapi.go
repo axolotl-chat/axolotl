@@ -24,6 +24,7 @@ type TextsecureAPI struct {
 	PushToken       string
 	ActiveSessionID string
 	PhoneNumber     string
+	LogLevel        bool
 }
 
 var Api = &TextsecureAPI{}
@@ -35,6 +36,9 @@ var isEncrypted = true
 func (Api *TextsecureAPI) Unregister() {
 	os.RemoveAll(config.StorageDir)
 	os.Remove(config.ConfigFile)
+	os.RemoveAll(config.DataDir)
+	os.Remove(config.ContactsFile)
+	settings.SettingsModel.EncryptDatabase = false
 	os.Exit(1)
 }
 
@@ -56,11 +60,28 @@ func (Api *TextsecureAPI) ContactsImported(path string) {
 		ui.ShowError(err)
 	}
 }
+func (Api *TextsecureAPI) SetLogLevel() {
+	// Api.LogLevel = !Api.LogLevel
+	if Api.LogLevel == true {
+		config.Config.LogLevel = "debug"
+		log.SetLevel(log.DebugLevel)
+		settings.SettingsModel.DebugLog = true
+	} else {
+		config.Config.LogLevel = "info"
+		log.SetLevel(log.InfoLevel)
+		settings.SettingsModel.DebugLog = false
+		log.Infof("Set LogLevel to info")
+	}
+	Api.SaveSettings()
+	textsecure.WriteConfig(config.ConfigFile, config.Config)
+}
 func RunBackend() {
 	log.Debugf("Run Backend")
+
 	isEncrypted = settings.SettingsModel.EncryptDatabase
 	sessionStarted = false
 	Api = &TextsecureAPI{}
+	Api.LogLevel = settings.SettingsModel.DebugLog
 	client = &textsecure.Client{
 		GetConfig: config.GetConfig,
 		GetPhoneNumber: func() string {

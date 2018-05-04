@@ -2,8 +2,8 @@ package ui
 
 import (
 	log "github.com/Sirupsen/logrus"
-	"github.com/nanu-c/textsecure"
 	qml "github.com/nanu-c/qml-go"
+	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/settings"
 	"github.com/nanu-c/textsecure-qml/app/store"
@@ -27,6 +27,7 @@ func RegistrationDone() {
 	log.Println("Registered")
 	Win.Root().Call("registered")
 	textsecure.WriteConfig(config.ConfigFile, config.Config)
+	settings.SettingsModel.Registered = true
 }
 func SetComponent() error {
 	component, err := Engine.LoadFile(config.MainQml)
@@ -44,6 +45,11 @@ func InitModels() {
 	settings.SettingsModel, err = settings.LoadSettings()
 	if err != nil {
 		log.Println(err)
+	} else {
+		if settings.SettingsModel.Registered {
+			log.Debugf("Already registered")
+
+		}
 	}
 	Engine.Context().SetVar("contactsModel", store.ContactsModel)
 	Engine.Context().SetVar("settingsModel", settings.SettingsModel)

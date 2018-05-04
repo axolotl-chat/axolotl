@@ -74,7 +74,7 @@ TelegramPage {
                  onTriggered: searchPressed()
              },
              Action {
-                 iconName: "compose"
+                 iconName: "address-book-app-symbolic"
                  enabled: isConnected
                  visible: !isSearching
                  onTriggered: newChat()

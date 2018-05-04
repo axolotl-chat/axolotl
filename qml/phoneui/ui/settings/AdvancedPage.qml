@@ -92,5 +92,18 @@ TelegramPage {
                 }
             }
         }
+        ListItem.Standard {
+            control: CheckBox {
+                checked: textsecure.logLevel
+
+                onCheckedChanged: {
+                    textsecure.setLogLevel()
+                }
+
+            }
+            text: i18n.tr("Activate Debuglog")
+
+            onClicked: control.checked = !control.checked
+        }
     }
 }

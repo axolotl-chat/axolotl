@@ -11,8 +11,8 @@ import (
 	"time"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/nanu-c/textsecure"
 	"github.com/clsung/grcode"
+	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/store"
 	"github.com/nanu-c/textsecure-qml/app/ui"
 )
@@ -44,7 +44,7 @@ func interpretQR(img image.Image) {
 	}
 	if len(results) > 0 {
 		if strings.Contains(results[0], "tsdevice") {
-			log.Println("found tsdevice")
+			log.Debugln("found tsdevice")
 			uuid, pub_key, err := extractUuidPubKey(results[0])
 			if err != nil {
 				log.Fatal(err)
@@ -87,11 +87,8 @@ func extractUuidPubKey(qr string) (string, string, error) {
 		rest := qr[eUuid+1:]
 		sPub_key := strings.Index(rest, "=")
 		pub_key := rest[sPub_key+1:]
-		log.Println(uuid)
-		log.Println(pub_key)
 		pub_key = strings.Replace(pub_key, "%2F", "/", -1)
 		pub_key = strings.Replace(pub_key, "%2B", "+", -1)
-		log.Println(pub_key)
 		return uuid, pub_key, nil
 	} else {
 

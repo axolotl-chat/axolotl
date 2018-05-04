@@ -33,6 +33,7 @@ var (
 	ContactsFile string
 	SettingsFile string
 	LogFile      string
+	LogLevel     string
 	DataDir      string
 	StorageDir   string
 	AttachDir    string
@@ -60,7 +61,7 @@ func GetConfig() (*textsecure.Config, error) {
 	Config.StorageDir = StorageDir
 	Config.UserAgent = fmt.Sprintf("TextSecure %s for Ubuntu Phone", AppVersion)
 	Config.UnencryptedStorage = true
-	Config.LogLevel = "info"
+	// Config.LogLevel
 	Config.AlwaysTrustPeerID = true
 	rootCA := filepath.Join(ConfigDir, "rootCA.crt")
 	if helpers.Exists(rootCA) {

@@ -85,18 +85,20 @@ MainView {
 	}
 	//
 	function initialize() {
-		if(settingsModel.encryptDatabase)pageStack.push(passwordPage);
-		else{
-			if(storeModel.setupDb("")){
-				pageStack.clear();
-				pageStack.push(dialogsPage);
+		// if (settingsModel.registered){
+			if(settingsModel.encryptDatabase)pageStack.push(passwordPage);
+			else{
+				if(storeModel.setupDb("")){
+					pageStack.clear();
+					pageStack.push(dialogsPage);
+				}
+				else {
+					settingsModel.encryptDatabase = true
+					pageStack.push(passwordPage);
+				}
 			}
-			else {
-				settingsModel.encryptDatabase = true
-				pageStack.push(passwordPage);
-			}
-		}
-
+		// }
+		// else console.log("Not registered");
 	}
 
 	function getPhoneNumber() {
@@ -147,8 +149,7 @@ MainView {
 
 	function backToDialogsPage() {
 		// console.log("backToDialogsPage");
-		while (pageStack.depth > 0 &&
-		pageStack.currentPage.objectName !== "dialogsPage") {
+		while (pageStack.depth > 0) {
 			pageStack.pop();
 		}
 		if (pageStack.depth === 0) {
