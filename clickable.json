@@ -3,6 +3,7 @@
   "kill": "textsecure",
   "gopath": "/home/nanu/src/go",
   "app": "textsecure",
+  "sdk": "ubuntu-sdk-15.04",
   "ignore":[
     ".*",
     ".clickable",

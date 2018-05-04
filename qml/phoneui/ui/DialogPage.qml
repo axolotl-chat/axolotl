@@ -262,12 +262,15 @@ TelegramPage {
                         Qt.inputMethod.commit();
                         if (message.text.length === 0) return;
                         sendMessage(message.text);
+                        Qt.inputMethod.hide();
                     } else {
                         event.accepted = false;
+                        Qt.inputMethod.hide();
                     }
                 }
 		Component.onCompleted: {
-				forceActiveFocus();
+				// forceActiveFocus();
+        Qt.inputMethod.hide();
 		}
 
             }

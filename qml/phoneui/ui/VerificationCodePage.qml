@@ -7,7 +7,7 @@ TelegramPage {
     property alias errorLabel: errorLabel
     property alias countdownText: countdownLabel.text
     property alias countdownTimer: countdownTimer
-
+    // codeEntereingEnabled: false
     id: page
     //head.backAction.visible: false
     objectName: "codeVerificationPage"
@@ -76,7 +76,7 @@ TelegramPage {
             horizontalAlignment: TextInput.AlignHCenter
 
             Component.onCompleted: {
-                forceActiveFocus();
+                // forceActiveFocus();
             }
         }
 
@@ -170,6 +170,7 @@ TelegramPage {
 
     function done() {
         if (busy) return;
+        parent.focus = true
 
         Qt.inputMethod.commit();
         Qt.inputMethod.hide();
