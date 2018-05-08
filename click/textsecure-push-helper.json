@@ -1,4 +1,3 @@
 {
-    "exec": "pushHelper",
-    "app_id": "textsecure.nanuc_textsecure"
+    "exec": "textsecure-helper"
 }

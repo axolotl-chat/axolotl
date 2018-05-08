@@ -77,7 +77,7 @@ func (Api *TextsecureAPI) SetLogLevel() {
 }
 func RunBackend() {
 	log.Debugf("Run Backend")
-
+	notification()
 	isEncrypted = settings.SettingsModel.EncryptDatabase
 	sessionStarted = false
 	Api = &TextsecureAPI{}

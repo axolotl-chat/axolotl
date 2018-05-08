@@ -8,8 +8,8 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 
-	"github.com/nanu-c/textsecure"
 	qml "github.com/nanu-c/qml-go"
+	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/nanu-c/textsecure-qml/app/store"
 )
@@ -54,6 +54,7 @@ func SendMessage(s *store.Session, m *store.Message) {
 func SendMessageLoop(to, message string, group bool, att io.Reader, flags int) uint64 {
 	var err error
 	var ts uint64
+	var count int
 	for {
 		err = nil
 		if flags == msgFlagResetSession {
@@ -87,6 +88,12 @@ func SendMessageLoop(to, message string, group bool, att io.Reader, flags int) u
 		log.Println(err)
 		//If sending failed, try again after a while
 		time.Sleep(3 * time.Second)
+		count++
+		if count == 2 {
+			// return nil, new Error("sending")
+			break
+
+		}
 	}
 	return ts
 }
