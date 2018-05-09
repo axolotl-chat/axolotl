@@ -1,0 +1,49 @@
+package worker
+
+import (
+	log "github.com/Sirupsen/logrus"
+	"github.com/nanu-c/textsecure-qml/app/push"
+
+	"launchpad.net/go-dbus/v1"
+)
+
+func notification() {
+	// SignalBusModel.Init()
+	var (
+		err  error
+		conn *dbus.Connection
+	)
+	// SignalBusModel = &SignalBus{}
+	// SignalBusModel.Init()
+	log.Infof("I want to send a notification")
+	// Connect to Session or System buses.
+	if conn, err = dbus.Connect(dbus.SessionBus); err != nil {
+		log.Infof("Connection error:", err)
+	}
+	log.Infof("I established a connection")
+	bus, err := dbus.Connect(dbus.SessionBus)
+	if err != nil {
+		log.Fatal("Cannot connect to bus", err)
+	}
+
+	signalBus := push.New(bus)
+	go push.PostOffice(bus)
+	// Create an object proxy
+	obj := conn.Object("com.ubuntu.Postal", "/com/ubuntu/Postal/textsecure_2Enanuc")
+
+	log.Infof("I have an object")
+
+	// summary := fmt.Sprintf(gettext.Gettext("%s. @%s"), "Signal", "signalMEssage")
+	// action := fmt.Sprintf("%s/%s", "tsdevice", "chatId")
+	// var epoch int64 = 200
+	pushMsg := push.NewStandardPushMessage("signal", "Nachricht")
+	log.Infof("I set a message")
+
+	// Call object methods.
+	_, err = obj.Call("textsecure.nanuc_textsecure", "com.ubuntu.Postal.Post", &pushMsg)
+	if err != nil {
+		log.Infof("Notification error:", err)
+	}
+	log.Infof("I send a notification")
+
+}

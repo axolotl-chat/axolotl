@@ -1,0 +1,18 @@
+package worker
+
+import (
+	log "github.com/Sirupsen/logrus"
+	"github.com/godbus/dbus"
+)
+
+func notification() {
+	conn, err := dbus.SessionBus()
+	if err != nil {
+		log.Printf(err.Error())
+	}
+	obj := conn.Object("com.ubuntu.Postal", "/com/ubuntu/Postal/textsecure_2Enanuc")
+	call := obj.Call("com.ubuntu.Postal.Post", 0, "textsecure.nanuc_textsecure", map[string]dbus.Variant{}, int32(5000))
+	if call.Err != nil {
+		log.Printf(call.Err.Error())
+	}
+}

@@ -1,0 +1,74 @@
+package worker
+
+import (
+	log "github.com/Sirupsen/logrus"
+	"github.com/godbus/dbus"
+	"github.com/nanu-c/textsecure-qml/app/push"
+)
+
+func notification() {
+	conn, err := dbus.SessionBus()
+	if err != nil {
+		log.Infof(err.Error())
+	}
+	log.Infof("created dbusconnection")
+
+	// Basic usage
+	// Create a Notification to send
+	iconName := "mail-unread"
+	n := Notification{
+		AppName:       "textsecure.nanuc_textsecure",
+		ReplacesID:    uint32(0),
+		AppIcon:       iconName,
+		Summary:       "Test",
+		Body:          "This is a test of the DBus bindings for go.",
+		Actions:       []string{"cancel", "Cancel", "open", "Open"}, // tuples of (action_key, label)
+		Hints:         map[string]dbus.Variant{},
+		ExpireTimeout: int32(5000),
+	}
+
+	// Ship it!
+	log.Infof("created notification")
+
+	createdID, err := SendNotification(conn, n)
+	if err != nil {
+		log.Infof("error sending notification: %v", err.Error())
+	}
+	log.Infof("created notification with id: %v", createdID)
+
+}
+type Notification struct {
+	AppName       string
+	ReplacesID    uint32 // (atomically) replaces notification with this ID. Optional.
+	AppIcon       string // See icons here: http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html Optional.
+	Summary       string
+	Body          string
+	Actions       []string // tuples of (action_key, label), e.g.: []string{"cancel", "Cancel", "open", "Open"}
+	Hints         map[string]dbus.Variant
+	ExpireTimeout int32 // milliseconds to show notification
+}
+
+// SendNotification is provided for convenience.
+// Use if you only want to deliver a notification and dont care about events.
+func SendNotification(conn *dbus.Conn, note Notification) (uint32, error) {
+	log.Infof("try to send Notification")
+	obj := conn.Object(" com.ubuntu.Postal", "/com/ubuntu/Postal/textsecure_2Enanuc")
+	log.Infof(obj.Destination())
+	// obj.Destination()
+	n :=push.NewStandardPushMessage("test","test2")
+	call := obj.Call("com.ubuntu.Postal.Post", 0,
+		note.AppName,
+		n)
+	log.Infof("after Call")
+
+	if call.Err != nil {
+		return 0, call.Err
+	}
+	var ret uint32
+	err := call.Store(&ret)
+	if err != nil {
+		log.Printf("error getting uint32 ret value: %v", err)
+		return ret, err
+	}
+	return ret, nil
+}
