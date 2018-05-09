@@ -1,3 +1,8 @@
+0.3.25 (May 10 2018)
+--------------------
+* local Push Notifications as long as the app is running
+* Enable Dbug Log in Options
+
 0.3.24 (Apr 22 2018)
 --------------------
 * starting a new Chat is working again
