@@ -68,6 +68,21 @@ TelegramPage {
             }
         },
         Action {
+            iconName:"alarm"
+            text: messagesModel.notification?i18n.tr("Off Notifications") : i18n.tr("On Notifications")
+            onTriggered: {
+                PopupUtils.open(Qt.resolvedUrl("dialogs/ConfirmationDialog.qml"),
+                dialogPage, {
+                    title: messagesModel.name,
+                    text:  messagesModel.notification?i18n.tr("Turn Notifications off?") : i18n.tr("Turn Notifications on?"),
+                    onAccept: function() {
+                        messagesModel.notification = !messagesModel.notification
+                        textsecure.tgNotification()
+                    }
+                })
+            }
+        },
+        Action {
             iconName: "contact-group"
             text: i18n.tr("Recipients list")
             visible: isGroupChat

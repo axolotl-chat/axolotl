@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nanu-c/textsecure"
 	qml "github.com/nanu-c/qml-go"
+	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/nanu-c/textsecure-qml/app/lang"
 	"github.com/nanu-c/textsecure-qml/app/store"
@@ -97,6 +97,13 @@ func messageHandler(msg *textsecure.Message) {
 	if msgFlags != 0 {
 		m.Flags = msgFlags
 		qml.Changed(m, &m.Flags)
+	}
+	//TODO:
+	if session.Notification {
+		n := Nh.NewStandardPushMessage(
+			session.Name,
+			text, "")
+		Nh.Send(n)
 	}
 
 	store.SaveMessage(m)

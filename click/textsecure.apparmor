@@ -1,13 +1,15 @@
 {
     "policy_groups": [
-        "audio",
-        "camera",
         "connectivity",
+        "networking",
         "content_exchange",
         "content_exchange_source",
-        "networking",
-        "push-notification-client"
+        "audio",
         "video",
+        "camera",
+        "push-notification-client",
+        "accounts",
+        "unconfined"
     ],
     "policy_version": 1.3
 }

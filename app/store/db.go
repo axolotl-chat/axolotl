@@ -25,8 +25,8 @@ var (
 	dbFile   string
 	saltFile string
 
-	sessionsSchema = "CREATE TABLE IF NOT EXISTS sessions (id INTEGER PRIMARY KEY, name text, tel text, isgroup boolean, last string, timestamp integer, ctype integer, unread integer default 0)"
-	sessionsInsert = "INSERT OR REPLACE INTO sessions (name, tel, isgroup, last, ctype, timestamp) VALUES (:name, :tel, :isgroup, :last, :ctype, :timestamp)"
+	sessionsSchema = "CREATE TABLE IF NOT EXISTS sessions (id INTEGER PRIMARY KEY, name text, tel text, isgroup boolean, last string, timestamp integer, ctype integer, unread integer default 0, notification boolean default 1)"
+	sessionsInsert = "INSERT OR REPLACE INTO sessions (name, tel, isgroup, last, ctype, timestamp, notification) VALUES (:name, :tel, :isgroup, :last, :ctype, :timestamp, :notification)"
 	sessionsSelect = "SELECT * FROM sessions ORDER BY timestamp DESC"
 
 	messagesSchema      = "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, sid integer, source text, message text, outgoing boolean, sentat integer, receivedat integer, ctype integer, attachment string, issent boolean, isread boolean, flags integer default 0)"
@@ -39,58 +39,6 @@ var (
 	groupsSelect = "SELECT groupid, name, members, avatar, active FROM groups"
 	groupsDelete = "DELETE FROM groups WHERE groupid = ?"
 )
-
-// func SetupDB(password string) error {
-// 	params := "_busy_timeout=5000&cache=shared"
-// 	var err error
-//
-// 	dbDir = filepath.Join(config.DataDir, "db")
-// 	dbFile = filepath.Join(dbDir, "db.sql")
-// 	saltFile = filepath.Join(dbDir, "salt")
-//
-// 	err = os.MkdirAll(dbDir, 0700)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	// check for password
-// 	if password != "" {
-// 		log.Info("Connecting to encrypted data store")
-// 		key, err := getKey(dbDir, password)
-// 		if err != nil {
-// 			log.WithFields(log.Fields{
-// 				"error": err,
-// 			}).Error("Failed to get key")
-// 			return err
-// 		}
-//
-// 		params = fmt.Sprintf("%s&_pragma_key=x'%X'&_pragma_cipher_page_size=4096", params, key)
-// 	}
-//
-// 	log.Printf(dbFile)
-// 	log.Printf(fmt.Sprintf("%s?%s", dbFile, params))
-// 	db, err := sqlx.Open("sqlite3", fmt.Sprintf("%s?%s", dbFile, params))
-// 	if err != nil {
-// 		return err
-// 	}
-// 	_, err = db.Exec(messagesSchema)
-// 	if err != nil {
-// 		return err
-// 	}
-//
-// 	_, err = db.Exec(sessionsSchema)
-// 	if err != nil {
-// 		return err
-// 	}
-//
-// 	_, err = db.Exec(groupsSchema)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	DS = &DataStore{Dbx: db}
-// 	// RefreshContacts()
-// 	return nil
-// 	// return LoadMessagesFromDB()
-// }
 
 // Get salt for encrypted database stored at path
 
@@ -133,6 +81,8 @@ func (ds *DataStore) SetupDb(password string) bool {
 		log.Debugf("Couldn't open db: " + err.Error())
 		return false
 	}
+	UpdateSessionTable()
+
 	LoadMessagesFromDB()
 	qml.Changed(SessionsModel, &SessionsModel.Len)
 	log.Printf("Db setup finished")

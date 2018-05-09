@@ -4,23 +4,25 @@ import (
 	"os"
 	"time"
 
+	log "github.com/Sirupsen/logrus"
 	qml "github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
 )
 
 type Session struct {
-	ID        int64
-	Name      string
-	Tel       string
-	IsGroup   bool
-	Last      string
-	Timestamp uint64
-	When      string
-	CType     int
-	Messages  []*Message
-	Unread    int
-	Active    bool
-	Len       int
+	ID           int64
+	Name         string
+	Tel          string
+	IsGroup      bool
+	Last         string
+	Timestamp    uint64
+	When         string
+	CType        int
+	Messages     []*Message
+	Unread       int
+	Active       bool
+	Len          int
+	Notification bool
 }
 type Sessions struct {
 	Sess []*Session
@@ -49,10 +51,35 @@ func SaveSession(s *Session) error {
 	return err
 }
 func UpdateSession(s *Session) error {
-	_, err := DS.Dbx.NamedExec("UPDATE sessions SET name = :name, timestamp = :timestamp, ctype = :ctype, last = :last, unread = :unread WHERE id = :id", s)
+	_, err := DS.Dbx.NamedExec("UPDATE sessions SET name = :name, timestamp = :timestamp, ctype = :ctype, last = :last, unread = :unread, notification = :notification WHERE id = :id", s)
 	if err != nil {
 		return err
 	}
+	return err
+}
+func UpdateSessionTable() error {
+	statement, err := DS.Dbx.Prepare("SELECT * FROM sessions limit 1")
+
+	// Exec("SHOW COLUMNS FROM `sessions` LIKE 'notification'")
+	// log.Infof(res)
+	if err != nil {
+		return err
+	}
+	res, err := statement.Query()
+	if err != nil {
+		return err
+	}
+	// len()
+
+	col, err := res.Columns()
+	if len(col) == 8 {
+		log.Infof("Update session schema")
+		_, err := DS.Dbx.Exec("ALTER TABLE sessions ADD COLUMN notification bool NOT NULL DEFAULT 1")
+		if err != nil {
+			return err
+		}
+	}
+
 	return err
 }
 func DeleteSession(tel string) error {
@@ -111,6 +138,10 @@ func (s *Session) Add(text string, source string, file string, mimetype string, 
 func (s *Session) MarkRead() {
 	s.Unread = 0
 	qml.Changed(s, &s.Unread)
+	UpdateSession(s)
+}
+func (s *Session) ToggleSessionNotifcation() {
+	s.Notification = !s.Notification
 	UpdateSession(s)
 }
 

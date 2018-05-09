@@ -77,7 +77,7 @@ func (Api *TextsecureAPI) SetLogLevel() {
 }
 func RunBackend() {
 	log.Debugf("Run Backend")
-	notification()
+	go notification()
 	isEncrypted = settings.SettingsModel.EncryptDatabase
 	sessionStarted = false
 	Api = &TextsecureAPI{}
@@ -205,4 +205,9 @@ func (Api *TextsecureAPI) GetActiveSessionID() string {
 }
 func (Api *TextsecureAPI) SetActiveSessionID(sId string) {
 	Api.ActiveSessionID = sId
+}
+func (Api *TextsecureAPI) TgNotification() {
+	sess := store.SessionsModel.Get(Api.ActiveSessionID)
+	sess.ToggleSessionNotifcation()
+	store.UpdateSession(sess)
 }
