@@ -57,11 +57,10 @@ func UpdateSession(s *Session) error {
 	}
 	return err
 }
+
+// This is needed for version .26
 func UpdateSessionTable() error {
 	statement, err := DS.Dbx.Prepare("SELECT * FROM sessions limit 1")
-
-	// Exec("SHOW COLUMNS FROM `sessions` LIKE 'notification'")
-	// log.Infof(res)
 	if err != nil {
 		return err
 	}
@@ -69,7 +68,6 @@ func UpdateSessionTable() error {
 	if err != nil {
 		return err
 	}
-	// len()
 
 	col, err := res.Columns()
 	if len(col) == 8 {
@@ -140,8 +138,17 @@ func (s *Session) MarkRead() {
 	qml.Changed(s, &s.Unread)
 	UpdateSession(s)
 }
-func (s *Session) ToggleSessionNotifcation() {
-	s.Notification = !s.Notification
+func (s *Session) ToggleSessionNotifcation(notification bool) {
+	s.Notification = notification
+	txt := ""
+	if s.Notification {
+		txt = "notifications on"
+	} else {
+		txt = "notifications off"
+
+	}
+	qml.Changed(s, &s.Notification)
+	log.Debugf(txt)
 	UpdateSession(s)
 }
 

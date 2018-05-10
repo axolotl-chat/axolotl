@@ -77,7 +77,7 @@ TelegramPage {
                     text:  messagesModel.notification?i18n.tr("Turn Notifications off?") : i18n.tr("Turn Notifications on?"),
                     onAccept: function() {
                         messagesModel.notification = !messagesModel.notification
-                        textsecure.tgNotification()
+                        textsecure.tgNotification(messagesModel.notification )
                     }
                 })
             }

@@ -1,43 +1,11 @@
 package worker
 
-import (
-	"encoding/json"
-	"log"
-	"time"
-
-	"launchpad.net/go-dbus/v1"
-)
-
-var (
-	sessionBus *dbus.Connection
-	err        error
-	Nh         *NotificationHandler
-)
-
-func notification() {
-
-	if sessionBus, err = dbus.Connect(dbus.SessionBus); err != nil {
-		log.Fatal("Connection error: ", err)
-	}
-	Nh = NewLegacyHandler(sessionBus, "textsecure.nanuc_textsecure")
-	// n := Nh.NewStandardPushMessage(
-	// 	"test",
-	// 	"test", "")
-	// for {
-	// 	if err := Nh.Send(n); err != nil {
-	// 		log.Printf(err.Error())
-	// 	}
-	// 	time.Sleep(3 * time.Second)
-	//
-	// }
-
-}
-
 /*
  * Copyright 2014 Canonical Ltd.
  *
  * Authors:
  * Sergio Schvezov: sergio.schvezov@cannical.com
+ * Aaron Kimmig: aaron@nanu-c.org
  *
  * ciborium is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,6 +19,29 @@ func notification() {
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+import (
+	"encoding/json"
+	"time"
+
+	log "github.com/Sirupsen/logrus"
+
+	"launchpad.net/go-dbus/v1"
+)
+
+var (
+	sessionBus *dbus.Connection
+	err        error
+	Nh         *NotificationHandler
+)
+
+func notificationInit() {
+	if sessionBus, err = dbus.Connect(dbus.SessionBus); err != nil {
+		log.Fatal("Connection error: ", err)
+	}
+	Nh = NewLegacyHandler(sessionBus, "textsecure.nanuc_textsecure")
+
+}
 
 // Notifications lives on a well-knwon bus.Address
 
@@ -70,7 +61,7 @@ type NotificationHandler struct {
 
 func NewLegacyHandler(conn *dbus.Connection, application string) *NotificationHandler {
 	return &NotificationHandler{
-		dbusObject:  conn.Object(dbusName, "/com/ubuntu/Postal/textsecure_2Enanuc"),
+		dbusObject:  conn.Object(dbusName, "/com/ubuntu/Postal/textsecure_2enanuc"),
 		application: application,
 	}
 }

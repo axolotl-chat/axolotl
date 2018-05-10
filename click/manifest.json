@@ -1,6 +1,6 @@
 {
     "name": "textsecure.nanuc",
-    "version": "0.3.25",
+    "version": "0.3.26",
     "description": "A Signal compatible messaging client for Ubuntu phones",
     "title": "Signal client",
     "architecture": "armhf",
@@ -10,10 +10,7 @@
             "apparmor": "textsecure.apparmor",
             "desktop": "textsecure.desktop",
             "urls": "textsecure.url-dispatcher",
-            "content-hub": "textsecure.content-hub"
-        },
-        "push": {
-            "apparmor": "textsecure-push.apparmor",
+            "content-hub": "textsecure.content-hub",
             "push-helper": "textsecure-push-helper.json"
         }
     },

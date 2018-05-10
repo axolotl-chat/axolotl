@@ -1,3 +1,9 @@
+0.3.26 (May 10 2018)
+--------------------
+* Fix Apparmor policy (thanks @DanChapman and @DanChapman)
+* Clean up
+* Disable Notifications in chatoptions
+
 0.3.25 (May 10 2018)
 --------------------
 * local Push Notifications as long as the app is running
