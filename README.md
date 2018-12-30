@@ -29,11 +29,15 @@ Installation
 ------------
 
 The build-system is now integrated in the `clickable` Version 3.2.0.
-* Install [Golang] (https://golang.org/doc/install)
+* Install [Golang] (https://golang.org/doc/install
+* Add gopath to ~/.bashrc https://github.com/golang/go/wiki/SettingGOPATH
 * Check out this git `go get -d https://github.com/nanu-c/textsecure-qml`
 * `cd $GOPATH/src/github.com/nanu-c/textsecure-qml`
+* install dependencies `sudo apt install mercurial bzr`
 * Get dependencies `go get -d ./...`
 * Get [clickable](https://github.com/bhdouglass/clickable#install)
+* Build the modified docker container with `cd docker&& docker build -t nanuc/ut-textsecure-sdk:16.04 .`
+* Back to main dir, then
 * Run clickable `clickable`, this also transfers the click package to the Ubuntu Touch Phone
 * Run `clickable launch logs` to start signal and watch the log
 
