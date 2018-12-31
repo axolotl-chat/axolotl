@@ -1,9 +1,6 @@
 {
   "template": "go",
   "kill": "textsecure",
-  "gopath": "/home/nanu/src/go",
-  "app": "textsecure",
-  "sdk": "ubuntu-sdk-15.04",
   "ignore":[
     ".*",
     ".clickable",
@@ -17,5 +14,6 @@
     "scripts"
   ],
   "postbuild": "bash ../scripts/postbuild.sh",
-  "dependencies":"libzbar-dev"
+  "dependencies":"libzbar-dev",
+  "docker_image":"nanuc/ut-textsecure-sdk:16.04"
 }
