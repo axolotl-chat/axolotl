@@ -10,7 +10,10 @@
             "apparmor": "textsecure.apparmor",
             "desktop": "textsecure.desktop",
             "urls": "textsecure.url-dispatcher",
-            "content-hub": "textsecure.content-hub",
+            "content-hub": "textsecure.content-hub"
+        },
+        "push": {
+            "apparmor": "textsecure-push.apparmor",
             "push-helper": "textsecure-push-helper.json"
         }
     },
