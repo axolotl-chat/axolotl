@@ -31,7 +31,7 @@ TelegramPage {
           leadingActionBar.actions: [
             Action {
               iconName: "back"
-              text: "Back"
+              text: i18n.tr("Back")
               onTriggered:{
                 back();
               }
@@ -74,23 +74,6 @@ TelegramPage {
             text: i18n.tr("Enter key sends")
 
             onClicked: control.checked = !control.checked
-        }
-        ListItem.Subtitled {
-            text: i18n.tr("Submit debug log")
-            subText: "Signal "+appVersion
-            onClicked: {
-                var ret = textsecure.submitDebugLog()
-
-                var url = ret[0]
-
-                if (url != "") {
-                    PopupUtils.open(Qt.resolvedUrl("../dialogs/InfoDialog.qml"),
-                    root, {
-                        title: i18n.tr("Success!"),
-                        textWithLink: i18n.tr("Copy this URL and add it to your issue report or support email:")+"<br> <a href='"+ url + "'>"+url+"</a>"
-                    })
-                }
-            }
         }
         ListItem.Standard {
             control: CheckBox {

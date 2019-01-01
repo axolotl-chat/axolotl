@@ -3,5 +3,5 @@
     "policy_groups": [
         "push-notification-client"
     ],
-    "policy_version": 1.3
+    "policy_version": 16.04
 }
