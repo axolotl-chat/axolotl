@@ -24,7 +24,7 @@ TelegramPage {
     Rectangle {
         width: parent.width -100
         height: parent.height -100
-        color: "red"
+        color: "white"
         border.color: "black"
         border.width: 5
         radius: 10
