@@ -98,8 +98,11 @@ func messageHandler(msg *textsecure.Message) {
 		m.Flags = msgFlags
 		qml.Changed(m, &m.Flags)
 	}
-	//TODO:
+	//TODO: have only one message per chat
 	if session.Notification {
+		if settings.EncryptDatabase{
+			text = "Encrypted message"
+		}
 		n := Nh.NewStandardPushMessage(
 			session.Name,
 			text, "")
