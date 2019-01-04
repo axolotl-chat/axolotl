@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-04 21:12+0100\n"
+"POT-Creation-Date: 2019-01-04 23:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,12 +19,12 @@ msgstr ""
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:17
 #: ../qml/phoneui/ui/SetPasswordPage.qml:105
-#: ../qml/phoneui/ui/SettingsPage.qml:51
+#: ../qml/phoneui/ui/SettingsPage.qml:54
 msgid "Change passphrase"
 msgstr ""
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:17
-#: ../qml/phoneui/ui/SettingsPage.qml:51
+#: ../qml/phoneui/ui/SettingsPage.qml:54
 msgid "Create passphrase"
 msgstr ""
 
@@ -82,7 +82,6 @@ msgid "OK"
 msgstr ""
 
 #: ../qml/phoneui/ui/settings/AdvancedPage.qml:29
-#: ../qml/phoneui/ui/SettingsPage.qml:55
 msgid "Advanced"
 msgstr ""
 
@@ -91,47 +90,34 @@ msgid "Back"
 msgstr ""
 
 #: ../qml/phoneui/ui/settings/AdvancedPage.qml:51
+#: ../qml/phoneui/ui/SettingsPage.qml:64
 msgid "Unregistering"
 msgstr ""
 
 #: ../qml/phoneui/ui/settings/AdvancedPage.qml:56
+#: ../qml/phoneui/ui/SettingsPage.qml:69
 msgid "Disable Signal messages and calls?"
 msgstr ""
 
 #: ../qml/phoneui/ui/settings/AdvancedPage.qml:57
+#: ../qml/phoneui/ui/SettingsPage.qml:70
 msgid ""
 "Disable Signal messages and calls by unregistering from the server. You will "
 "need to re-register your phone number to use them again in the future."
 msgstr ""
 
 #: ../qml/phoneui/ui/settings/AdvancedPage.qml:74
+#: ../qml/phoneui/ui/SettingsPage.qml:86
 msgid "Enter key sends"
 msgstr ""
 
 #: ../qml/phoneui/ui/settings/AdvancedPage.qml:87
+#: ../qml/phoneui/ui/SettingsPage.qml:97
 msgid "Activate Debuglog"
 msgstr ""
 
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:13
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:17
 #: ../qml/phoneui/ui/settings/AddLinkedDevicesPage.qml:10
 msgid "Link a Device"
-msgstr ""
-
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:23
-msgid "Add device"
-msgstr ""
-
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:28
-msgid "Refresh devices"
-msgstr ""
-
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:94
-msgid "Delete selected Device?"
-msgstr ""
-
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:95
-msgid "This will permanently delete the selected Device."
 msgstr ""
 
 #: ../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:10
@@ -199,8 +185,16 @@ msgstr ""
 msgid "Forward message to %1?"
 msgstr ""
 
-#: ../qml/phoneui/ui/SettingsPage.qml:59
+#: ../qml/phoneui/ui/SettingsPage.qml:53
+msgid "Privacy"
+msgstr ""
+
+#: ../qml/phoneui/ui/SettingsPage.qml:58
 msgid "Linked Devices"
+msgstr ""
+
+#: ../qml/phoneui/ui/SettingsPage.qml:59
+msgid "Add/Remove linked devices"
 msgstr ""
 
 #: ../qml/phoneui/ui/ContactsPage.qml:47
@@ -302,15 +296,15 @@ msgstr ""
 msgid "Select all"
 msgstr ""
 
-#: ../qml/phoneui/ui/DialogPage.qml:157 ../qml/phoneui/ui/DialogPage.qml:648
+#: ../qml/phoneui/ui/DialogPage.qml:157 ../qml/phoneui/ui/DialogPage.qml:663
 msgid "Message details"
 msgstr ""
 
-#: ../qml/phoneui/ui/DialogPage.qml:164 ../qml/phoneui/ui/DialogPage.qml:482
+#: ../qml/phoneui/ui/DialogPage.qml:164 ../qml/phoneui/ui/DialogPage.qml:483
 msgid "Copy text"
 msgstr ""
 
-#: ../qml/phoneui/ui/DialogPage.qml:170 ../qml/phoneui/ui/DialogPage.qml:488
+#: ../qml/phoneui/ui/DialogPage.qml:170 ../qml/phoneui/ui/DialogPage.qml:489
 msgid "Forward message"
 msgstr ""
 
@@ -322,23 +316,23 @@ msgstr ""
 msgid "Send Signal message"
 msgstr ""
 
-#: ../qml/phoneui/ui/DialogPage.qml:465
+#: ../qml/phoneui/ui/DialogPage.qml:466
 msgid "Delete"
 msgstr ""
 
-#: ../qml/phoneui/ui/DialogPage.qml:470
+#: ../qml/phoneui/ui/DialogPage.qml:471
 msgid "Delete selected message?"
 msgstr ""
 
-#: ../qml/phoneui/ui/DialogPage.qml:471
+#: ../qml/phoneui/ui/DialogPage.qml:472
 msgid "This will permanently delete the selected message."
 msgstr ""
 
-#: ../qml/phoneui/ui/DialogPage.qml:602
+#: ../qml/phoneui/ui/DialogPage.qml:617
 msgid "No messages here yet..."
 msgstr ""
 
-#: ../qml/phoneui/ui/DialogPage.qml:640
+#: ../qml/phoneui/ui/DialogPage.qml:655
 msgid "Group members"
 msgstr ""
 
