@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"POT-Creation-Date: 2019-01-04 21:09+0100\n"
 "PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -11,176 +11,448 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-msgid "Image"
-msgstr "Resim"
 
-msgid "Video"
-msgstr "Video"
+#: ../qml/phoneui/ui/SetPasswordPage.qml:17
+#: ../qml/phoneui/ui/SetPasswordPage.qml:105
+#: ../qml/phoneui/ui/SettingsPage.qml:51
+msgid "Change passphrase"
+msgstr ""
 
-msgid "Audio"
-msgstr "Ses"
+#: ../qml/phoneui/ui/SetPasswordPage.qml:17
+#: ../qml/phoneui/ui/SettingsPage.qml:51
+msgid "Create passphrase"
+msgstr ""
 
-msgid "Contact"
-msgstr "Kişi"
+#: ../qml/phoneui/ui/SetPasswordPage.qml:53
+msgid "Old passphrase"
+msgstr ""
 
-msgid "Settings"
-msgstr "Ayarlar"
+#: ../qml/phoneui/ui/SetPasswordPage.qml:71
+#, fuzzy
+msgid "New passphrase"
+msgstr "Yeni mesaj"
 
+#: ../qml/phoneui/ui/SetPasswordPage.qml:87
+msgid "Repeat new passphrase"
+msgstr ""
+
+#: ../qml/phoneui/ui/SetPasswordPage.qml:105
+#: ../qml/phoneui/ui/PasswordPage.qml:82
+msgid "Submit passphrase"
+msgstr ""
+
+#: ../qml/phoneui/ui/SetPasswordPage.qml:120
+#: ../qml/phoneui/ui/PasswordPage.qml:96 ../qml/phoneui/ui/PasswordPage.qml:100
+msgid "Disable passphrase?"
+msgstr ""
+
+#: ../qml/phoneui/ui/SetPasswordPage.qml:140
+#: ../qml/phoneui/ui/SetPasswordPage.qml:162
+#: ../qml/phoneui/ui/SetPasswordPage.qml:171
+msgid "Incorrect old passphrase!"
+msgstr ""
+
+#: ../qml/phoneui/ui/SetPasswordPage.qml:148
+msgid "Passphrases don't match!"
+msgstr ""
+
+#: ../qml/phoneui/ui/SetPasswordPage.qml:153
+msgid "New passphrase to short(6)!"
+msgstr ""
+
+#: ../qml/phoneui/ui/IntroPage.qml:25
+msgid ""
+"<h3>Thanks for trying out Signal!</h3><br><br>             File bugs and "
+"feature requests on github:<br>            <a href='https://github.com/nanu-"
+"c/textsecure-qml/issues'>https://github.com/nanu-c/textsecure-qml/issues</"
+"a><br>"
+msgstr ""
+
+#: ../qml/phoneui/ui/IntroPage.qml:40
+#: ../qml/phoneui/ui/dialogs/ErrorMessageDialog.qml:12
+#: ../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:8
+#: ../qml/phoneui/ui/dialogs/InfoDialog.qml:17
+#: ../qml/phoneui/ui/ContactsPage.qml:54
+#: ../qml/phoneui/ui/VerificationCodePage.qml:94
+msgid "OK"
+msgstr ""
+
+#: ../qml/phoneui/ui/settings/AdvancedPage.qml:29
+#: ../qml/phoneui/ui/SettingsPage.qml:55
 msgid "Advanced"
 msgstr "Gelişmiş"
 
-msgid "Save"
-msgstr "Kaydet"
+#: ../qml/phoneui/ui/settings/AdvancedPage.qml:34
+msgid "Back"
+msgstr ""
 
-msgid "Search"
-msgstr "Ara"
-
-msgid "Refresh"
-msgstr "Yenile"
-
-msgid "New group"
-msgstr "Yeni grup"
-
-msgid "Update group"
-msgstr "Grubu güncelle"
-
-msgid "Group name"
-msgstr "Grup adı"
-
-msgid "Call"
-msgstr "Arama"
-
-msgid "Reset secure session"
-msgstr "Güvenli oturumu sıfırla"
-
-msgid "Reset secure session?"
-msgstr "Güvenli oturumu sıfırla?"
-
-msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
-msgstr "Bu sohbette şifreleme sorunları yaşıyorsanız bu işlem yardımcı olabilir. Mesajlarınız saklanacaktır."
-
-msgid "Verify identity"
-msgstr "Kimliği doğrula"
-
-msgid "Recipients list"
-msgstr "Katılımcı listesi"
-
-msgid "Leave group"
-msgstr "Gruptan ayrıl"
-
-msgid "Leave group?"
-msgstr "Gruptan ayrıl?"
-
-msgid "Are you sure you want to leave this group?"
-msgstr "Bu gruptan ayrılmak istediğinize emin misiniz?"
-
-msgid "Delete conversation"
-msgstr "Sohbeti sil"
-
-msgid "Delete conversation?"
-msgstr "Sohbeti sil?"
-
-msgid "This will permanently delete all messages in this conversation."
-msgstr "Bu işlem bu sohbetteki tüm mesajları kalıcı olarak silecektir."
-
-msgid "Select all"
-msgstr "Hepsini seç"
-
-msgid "Message details"
-msgstr "Mesaj ayrıntıları"
-
-msgid "Copy text"
-msgstr "Metni kopyala"
-
-msgid "Forward message"
-msgstr "Mesajı yönlendir"
-
-msgid "Delete message"
-msgstr "Mesaj sil"
-
-msgid "Send Signal message"
-msgstr "Signal mesajı gönder"
-
-msgid "Delete"
-msgstr "Sil"
-
-msgid "Group members"
-msgstr "Grup üyeleri"
-
-msgid "Connect with Signal"
-msgstr "Signal'le bağlan"
-
-msgid "YOUR COUNTRY"
-msgstr "ÜLKENİZ"
-
-msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
-msgstr "ÜLKE KODUNUZ VE TELEFON NUMARANIZ"
-
-msgid "Verify your phone number to connect with Signal."
-msgstr "Signal'le bağlanmak için telefon numaranızı doğrulayın."
-
-msgid "Registration transmits some contact information to the server. It is not stored."
-msgstr "Kayıt işlemi ile bazı kişi bilgileriniz sunucuya gönderilecek. Fakat bu bilgiler sunucuda saklanmıyor."
-
-msgid "Register"
-msgstr "Kayıt ol"
-
-msgid "Double-check that this is your number! We're about to verify it with an SMS."
-msgstr "Numaranızı ikinci kez kontrol ediniz! Numaranızı bir SMS ile doğrulamak üzereyiz."
-
-msgid "Cancel"
-msgstr "İptal"
-
-msgid "Mark all read"
-msgstr "Tümünü okundu olarak işaretle"
-
-msgid "Help"
-msgstr "Yardım"
-
+#: ../qml/phoneui/ui/settings/AdvancedPage.qml:51
 msgid "Unregistering"
 msgstr "Kayıt siliniyor"
 
+#: ../qml/phoneui/ui/settings/AdvancedPage.qml:56
 msgid "Disable Signal messages and calls?"
 msgstr "Signal mesajlarını ve aramalarını devre dışı bırak?"
 
-msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
-msgstr "Sunucudaki kaydınızı silerek Signal mesajlarını ve aramalarını devre dışı bırakın. Bu özellikleri gelecekte yeniden kullanabilmeniz için telefon numaranızı tekrar kaydetmeniz gerekir."
+#: ../qml/phoneui/ui/settings/AdvancedPage.qml:57
+msgid ""
+"Disable Signal messages and calls by unregistering from the server. You will "
+"need to re-register your phone number to use them again in the future."
+msgstr ""
+"Sunucudaki kaydınızı silerek Signal mesajlarını ve aramalarını devre dışı "
+"bırakın. Bu özellikleri gelecekte yeniden kullanabilmeniz için telefon "
+"numaranızı tekrar kaydetmeniz gerekir."
 
+#: ../qml/phoneui/ui/settings/AdvancedPage.qml:74
 msgid "Enter key sends"
 msgstr "Enter tuşu gönderir"
 
-msgid "Submit debug log"
+#: ../qml/phoneui/ui/settings/AdvancedPage.qml:87
+#, fuzzy
+msgid "Activate Debuglog"
 msgstr "Hata ayıklama günlüğünü gönder"
 
-msgid "Success!"
-msgstr "Başarılı!"
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:13
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:17
+#: ../qml/phoneui/ui/settings/AddLinkedDevicesPage.qml:10
+msgid "Link a Device"
+msgstr ""
 
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:23
+msgid "Add device"
+msgstr ""
+
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:28
+#, fuzzy
+msgid "Refresh devices"
+msgstr "Yenile"
+
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:94
+#, fuzzy
+msgid "Delete selected Device?"
+msgstr "Mesaj sil"
+
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:95
+#, fuzzy
+msgid "This will permanently delete the selected Device."
+msgstr "Bu işlem bu sohbetteki tüm mesajları kalıcı olarak silecektir."
+
+#: ../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:10
+msgid "Cancel"
+msgstr "İptal"
+
+#: ../qml/phoneui/ui/SigninPage.qml:16
+msgid "Connect with Signal"
+msgstr "Signal'le bağlan"
+
+#: ../qml/phoneui/ui/SigninPage.qml:28
+msgid "YOUR COUNTRY"
+msgstr "ÜLKENİZ"
+
+#: ../qml/phoneui/ui/SigninPage.qml:65
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr "ÜLKE KODUNUZ VE TELEFON NUMARANIZ"
+
+#: ../qml/phoneui/ui/SigninPage.qml:147
+msgid "Verify your phone number to connect with Signal."
+msgstr "Signal'le bağlanmak için telefon numaranızı doğrulayın."
+
+#: ../qml/phoneui/ui/SigninPage.qml:148
+msgid ""
+"Registration transmits some contact information to the server. It is not "
+"stored."
+msgstr ""
+"Kayıt işlemi ile bazı kişi bilgileriniz sunucuya gönderilecek. Fakat bu "
+"bilgiler sunucuda saklanmıyor."
+
+#: ../qml/phoneui/ui/SigninPage.qml:162
+msgid "Register"
+msgstr "Kayıt ol"
+
+#: ../qml/phoneui/ui/SigninPage.qml:191
+msgid ""
+"Double-check that this is your number! We're about to verify it with an SMS."
+msgstr ""
+"Numaranızı ikinci kez kontrol ediniz! Numaranızı bir SMS ile doğrulamak "
+"üzereyiz."
+
+#: ../qml/phoneui/ui/DialogsPage.qml:72 ../qml/phoneui/ui/ContactsPage.qml:35
+#: ../qml/phoneui/ui/ContactsPage.qml:42
+msgid "Search"
+msgstr "Ara"
+
+#: ../qml/phoneui/ui/DialogsPage.qml:84 ../qml/phoneui/ui/ContactsPage.qml:62
+msgid "New group"
+msgstr "Yeni grup"
+
+#: ../qml/phoneui/ui/DialogsPage.qml:91
+msgid "Mark all read"
+msgstr "Tümünü okundu olarak işaretle"
+
+#: ../qml/phoneui/ui/DialogsPage.qml:98 ../qml/phoneui/ui/SettingsPage.qml:26
+msgid "Settings"
+msgstr "Ayarlar"
+
+#: ../qml/phoneui/ui/DialogsPage.qml:104
+msgid "Help"
+msgstr "Yardım"
+
+#: ../qml/phoneui/ui/DialogsPage.qml:110 ../qml/phoneui/ui/ContactsPage.qml:28
+msgid "Close"
+msgstr ""
+
+#: ../qml/phoneui/ui/DialogsPage.qml:160
+#, fuzzy, qt-format
+msgid "Forward message to %1?"
+msgstr "Mesajı yönlendir"
+
+#: ../qml/phoneui/ui/SettingsPage.qml:59
+msgid "Linked Devices"
+msgstr ""
+
+#: ../qml/phoneui/ui/ContactsPage.qml:47
+msgid "Refresh"
+msgstr "Yenile"
+
+#: ../qml/phoneui/ui/ContactsPage.qml:64 ../qml/phoneui/ui/DialogPage.qml:112
+msgid "Update group"
+msgstr "Grubu güncelle"
+
+#: ../qml/phoneui/ui/ContactsPage.qml:66
+#, fuzzy
+msgid "Contacts"
+msgstr "Kişi"
+
+#: ../qml/phoneui/ui/ContactsPage.qml:119
+#, fuzzy
+msgid "No contacts"
+msgstr "Kişi"
+
+#: ../qml/phoneui/ui/ContactsPage.qml:137
+msgid "Group name"
+msgstr "Grup adı"
+
+#: ../qml/phoneui/ui/ContactsPage.qml:247
+#, fuzzy, qt-format
+msgid "%1 members"
+msgstr "Grup üyeleri"
+
+#: ../qml/phoneui/ui/PickerPage.qml:16
+msgid "Content Picker"
+msgstr ""
+
+#: ../qml/phoneui/ui/DialogPage.qml:35
+msgid "Call"
+msgstr "Arama"
+
+#: ../qml/phoneui/ui/DialogPage.qml:44
+msgid "Reset secure session"
+msgstr "Güvenli oturumu sıfırla"
+
+#: ../qml/phoneui/ui/DialogPage.qml:49
+msgid "Reset secure session?"
+msgstr "Güvenli oturumu sıfırla?"
+
+#: ../qml/phoneui/ui/DialogPage.qml:50
+msgid ""
+"This may help if you're having encryption problems in this conversation. "
+"Your messages will be kept."
+msgstr ""
+"Bu sohbette şifreleme sorunları yaşıyorsanız bu işlem yardımcı olabilir. "
+"Mesajlarınız saklanacaktır."
+
+#: ../qml/phoneui/ui/DialogPage.qml:59 ../qml/phoneui/ui/DialogPage.qml:65
+msgid "Verify identity"
+msgstr "Kimliği doğrula"
+
+#: ../qml/phoneui/ui/DialogPage.qml:72
+msgid "Off Notifications"
+msgstr ""
+
+#: ../qml/phoneui/ui/DialogPage.qml:72
+msgid "On Notifications"
+msgstr ""
+
+#: ../qml/phoneui/ui/DialogPage.qml:77
+msgid "Turn Notifications off?"
+msgstr ""
+
+#: ../qml/phoneui/ui/DialogPage.qml:77
+msgid "Turn Notifications on?"
+msgstr ""
+
+#: ../qml/phoneui/ui/DialogPage.qml:87
+msgid "Recipients list"
+msgstr "Katılımcı listesi"
+
+#: ../qml/phoneui/ui/DialogPage.qml:96
+msgid "Leave group"
+msgstr "Gruptan ayrıl"
+
+#: ../qml/phoneui/ui/DialogPage.qml:102
+msgid "Leave group?"
+msgstr "Gruptan ayrıl?"
+
+#: ../qml/phoneui/ui/DialogPage.qml:103
+msgid "Are you sure you want to leave this group?"
+msgstr "Bu gruptan ayrılmak istediğinize emin misiniz?"
+
+#: ../qml/phoneui/ui/DialogPage.qml:125
+msgid "Delete conversation"
+msgstr "Sohbeti sil"
+
+#: ../qml/phoneui/ui/DialogPage.qml:129
+msgid "Delete conversation?"
+msgstr "Sohbeti sil?"
+
+#: ../qml/phoneui/ui/DialogPage.qml:130
+msgid "This will permanently delete all messages in this conversation."
+msgstr "Bu işlem bu sohbetteki tüm mesajları kalıcı olarak silecektir."
+
+#: ../qml/phoneui/ui/DialogPage.qml:144
+msgid "Select all"
+msgstr "Hepsini seç"
+
+#: ../qml/phoneui/ui/DialogPage.qml:157 ../qml/phoneui/ui/DialogPage.qml:648
+msgid "Message details"
+msgstr "Mesaj ayrıntıları"
+
+#: ../qml/phoneui/ui/DialogPage.qml:164 ../qml/phoneui/ui/DialogPage.qml:482
+msgid "Copy text"
+msgstr "Metni kopyala"
+
+#: ../qml/phoneui/ui/DialogPage.qml:170 ../qml/phoneui/ui/DialogPage.qml:488
+msgid "Forward message"
+msgstr "Mesajı yönlendir"
+
+#: ../qml/phoneui/ui/DialogPage.qml:177
+msgid "Delete message"
+msgstr "Mesaj sil"
+
+#: ../qml/phoneui/ui/DialogPage.qml:270
+msgid "Send Signal message"
+msgstr "Signal mesajı gönder"
+
+#: ../qml/phoneui/ui/DialogPage.qml:465
+msgid "Delete"
+msgstr "Sil"
+
+#: ../qml/phoneui/ui/DialogPage.qml:470
+#, fuzzy
+msgid "Delete selected message?"
+msgstr "Mesaj sil"
+
+#: ../qml/phoneui/ui/DialogPage.qml:471
+#, fuzzy
+msgid "This will permanently delete the selected message."
+msgstr "Bu işlem bu sohbetteki tüm mesajları kalıcı olarak silecektir."
+
+#: ../qml/phoneui/ui/DialogPage.qml:602
+msgid "No messages here yet..."
+msgstr ""
+
+#: ../qml/phoneui/ui/DialogPage.qml:640
+msgid "Group members"
+msgstr "Grup üyeleri"
+
+#: ../qml/phoneui/ui/VerificationCodePage.qml:17
 msgid "Verifying number"
 msgstr "Numara doğrulanıyor"
 
-msgid "Signal will now automatically verify your number with a confirmation SMS message."
+#: ../qml/phoneui/ui/VerificationCodePage.qml:33
+msgid ""
+"Signal will now automatically verify your number with a confirmation SMS "
+"message."
 msgstr "Signal şimdi otomatik bir onay SMS mesajı ile numaranızı doğrulayacak."
 
+#: ../qml/phoneui/ui/VerificationCodePage.qml:44
+#: ../qml/phoneui/ui/VerificationCodePage.qml:110
 msgid "Waiting for SMS verification..."
 msgstr "SMS doğrulama bekleniliyor..."
 
-msgid "Sent"
-msgstr "Gönderildi"
+#: ../qml/phoneui/ui/VerificationCodePage.qml:71
+msgid "Code"
+msgstr ""
 
-msgid "Received"
-msgstr "Alındı"
+#: ../qml/phoneui/ui/VerificationCodePage.qml:134
+msgid "Calling you (this may take a while)..."
+msgstr ""
 
-msgid "New message"
-msgstr "Yeni mesaj"
+#: ../qml/phoneui/ui/VerificationCodePage.qml:139
+msgid "Please wait a moment and try again"
+msgstr ""
 
-msgid "Secure session reset."
-msgstr "Güvenli oturumu sıfırla."
+#: ../qml/phoneui/ui/VerificationCodePage.qml:149
+msgid "Incorrect code. Please try again."
+msgstr ""
 
-msgid "You have left the group."
-msgstr "Gruptan ayrıldınız."
+#: ../qml/phoneui/ui/PasswordPage.qml:15
+msgid "Enter passphrase"
+msgstr ""
 
-msgid "Their identity (they read):"
-msgstr "Onların kimliği (onların okuduğu):"
+#: ../qml/phoneui/ui/PasswordPage.qml:58
+msgid "Passphrase"
+msgstr ""
 
-msgid "Your identity (you read):"
-msgstr "Sizin kimliğiniz (sizin okuduğunuz):"
+#: ../qml/phoneui/ui/PasswordPage.qml:101
+#, fuzzy
+msgid "This will permanently delete all messages!."
+msgstr "Bu işlem bu sohbetteki tüm mesajları kalıcı olarak silecektir."
+
+#: ../qml/phoneui/ui/PasswordPage.qml:130
+msgid "Invalid passphrase!"
+msgstr ""
+
+#: ../qml/phoneui/ui/PreviewPage.qml:33
+msgid "From: "
+msgstr ""
+
+#: ../qml/phoneui/ui/PreviewPage.qml:47
+msgid "Save"
+msgstr "Kaydet"
+
+#: ../qml/phoneui/components/SignalMessageDelegate.qml:183
+#, fuzzy
+msgid "Forwarded from "
+msgstr "Mesajı yönlendir"
+
+#: ../qml/phoneui/components/TelegramPage.qml:23
+msgid "Signal"
+msgstr ""
+
+#: ../qml/phoneui/components/AttachPanel.qml:87
+msgid "Image"
+msgstr "Resim"
+
+#: ../qml/phoneui/components/AttachPanel.qml:98
+msgid "Video"
+msgstr "Video"
+
+#: ../qml/phoneui/components/AttachPanel.qml:109
+msgid "Audio"
+msgstr "Ses"
+
+#: ../qml/phoneui/components/AttachPanel.qml:120
+msgid "Contact"
+msgstr "Kişi"
+
+#~ msgid "Success!"
+#~ msgstr "Başarılı!"
+
+#~ msgid "Sent"
+#~ msgstr "Gönderildi"
+
+#~ msgid "Received"
+#~ msgstr "Alındı"
+
+#~ msgid "Secure session reset."
+#~ msgstr "Güvenli oturumu sıfırla."
+
+#~ msgid "You have left the group."
+#~ msgstr "Gruptan ayrıldınız."
+
+#~ msgid "Their identity (they read):"
+#~ msgstr "Onların kimliği (onların okuduğu):"
+
+#~ msgid "Your identity (you read):"
+#~ msgstr "Sizin kimliğiniz (sizin okuduğunuz):"

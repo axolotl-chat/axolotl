@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-29 11:36+0200\n"
+"POT-Creation-Date: 2019-01-04 21:09+0100\n"
 "PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -10,176 +10,438 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-msgid "Image"
-msgstr "உருவம்"
 
-msgid "Video"
-msgstr "காணொளி"
+#: ../qml/phoneui/ui/SetPasswordPage.qml:17
+#: ../qml/phoneui/ui/SetPasswordPage.qml:105
+#: ../qml/phoneui/ui/SettingsPage.qml:51
+msgid "Change passphrase"
+msgstr ""
 
-msgid "Audio"
-msgstr "ஒலி"
+#: ../qml/phoneui/ui/SetPasswordPage.qml:17
+#: ../qml/phoneui/ui/SettingsPage.qml:51
+msgid "Create passphrase"
+msgstr ""
 
-msgid "Contact"
-msgstr "தொடர்பு"
+#: ../qml/phoneui/ui/SetPasswordPage.qml:53
+msgid "Old passphrase"
+msgstr ""
 
-msgid "Settings"
-msgstr "அமைப்புகள்"
+#: ../qml/phoneui/ui/SetPasswordPage.qml:71
+#, fuzzy
+msgid "New passphrase"
+msgstr "புதிய செய்தி"
 
+#: ../qml/phoneui/ui/SetPasswordPage.qml:87
+msgid "Repeat new passphrase"
+msgstr ""
+
+#: ../qml/phoneui/ui/SetPasswordPage.qml:105
+#: ../qml/phoneui/ui/PasswordPage.qml:82
+msgid "Submit passphrase"
+msgstr ""
+
+#: ../qml/phoneui/ui/SetPasswordPage.qml:120
+#: ../qml/phoneui/ui/PasswordPage.qml:96 ../qml/phoneui/ui/PasswordPage.qml:100
+msgid "Disable passphrase?"
+msgstr ""
+
+#: ../qml/phoneui/ui/SetPasswordPage.qml:140
+#: ../qml/phoneui/ui/SetPasswordPage.qml:162
+#: ../qml/phoneui/ui/SetPasswordPage.qml:171
+msgid "Incorrect old passphrase!"
+msgstr ""
+
+#: ../qml/phoneui/ui/SetPasswordPage.qml:148
+msgid "Passphrases don't match!"
+msgstr ""
+
+#: ../qml/phoneui/ui/SetPasswordPage.qml:153
+msgid "New passphrase to short(6)!"
+msgstr ""
+
+#: ../qml/phoneui/ui/IntroPage.qml:25
+msgid ""
+"<h3>Thanks for trying out Signal!</h3><br><br>             File bugs and "
+"feature requests on github:<br>            <a href='https://github.com/nanu-"
+"c/textsecure-qml/issues'>https://github.com/nanu-c/textsecure-qml/issues</"
+"a><br>"
+msgstr ""
+
+#: ../qml/phoneui/ui/IntroPage.qml:40
+#: ../qml/phoneui/ui/dialogs/ErrorMessageDialog.qml:12
+#: ../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:8
+#: ../qml/phoneui/ui/dialogs/InfoDialog.qml:17
+#: ../qml/phoneui/ui/ContactsPage.qml:54
+#: ../qml/phoneui/ui/VerificationCodePage.qml:94
+msgid "OK"
+msgstr ""
+
+#: ../qml/phoneui/ui/settings/AdvancedPage.qml:29
+#: ../qml/phoneui/ui/SettingsPage.qml:55
 msgid "Advanced"
 msgstr "மேம்பட்ட"
 
-msgid "Save"
-msgstr "சேமி"
-
-msgid "Search"
-msgstr "தேடல்"
-
-msgid "Refresh"
-msgstr "புதுப்பி."
-
-msgid "New group"
-msgstr "புதிய குழு"
-
-msgid "Update group"
-msgstr "குழுவை மேம்படுத்து"
-
-msgid "Group name"
-msgstr "குழுவின் பெயர்"
-
-msgid "Call"
-msgstr "அழை"
-
-msgid "Reset secure session"
+#: ../qml/phoneui/ui/settings/AdvancedPage.qml:34
+msgid "Back"
 msgstr ""
 
-msgid "Reset secure session?"
-msgstr "பாதுகாப்பான அமர்வை மீட்டமைக்க?"
-
-msgid "This may help if you're having encryption problems in this conversation. Your messages will be kept."
-msgstr ""
-
-msgid "Verify identity"
-msgstr "அடையாளத்தை சரிபார்"
-
-msgid "Recipients list"
-msgstr "பெறுநர்கள் பட்டியல்"
-
-msgid "Leave group"
-msgstr "குழுவிலுருந்து விலகு"
-
-msgid "Leave group?"
-msgstr "குழுவிலுருந்து விலகலாமா?"
-
-msgid "Are you sure you want to leave this group?"
-msgstr "நீங்கள் குழுவை விட்டு நிச்சயமாக விலகவேண்டுமா?"
-
-msgid "Delete conversation"
-msgstr ""
-
-msgid "Delete conversation?"
-msgstr "உரையாடலை நீக்கு ?"
-
-msgid "This will permanently delete all messages in this conversation."
-msgstr "இந்த உரையாடலை நிரந்தரமாக நீக்கீவிடும்.."
-
-msgid "Select all"
-msgstr "அனைத்து தேர்வுசெய்"
-
-msgid "Message details"
-msgstr "செய்தி விவரங்கள்"
-
-msgid "Copy text"
-msgstr "உரை நகலெடு"
-
-msgid "Forward message"
-msgstr "செய்தியை முன்னோக்கியனுப்பு"
-
-msgid "Delete message"
-msgstr "செய்தியை நீக்கு"
-
-msgid "Send Signal message"
-msgstr ""
-
-msgid "Delete"
-msgstr "நீக்கு"
-
-msgid "Group members"
-msgstr "குழு உறுப்பினர்கள்"
-
-msgid "Connect with Signal"
-msgstr ""
-
-msgid "YOUR COUNTRY"
-msgstr "உங்கள் நாடு"
-
-msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
-msgstr "உங்கள் நாட்டின் குறியீடு மற்றும் உங்கள் தொலைபேசி எண்"
-
-msgid "Verify your phone number to connect with Signal."
-msgstr ""
-
-msgid "Registration transmits some contact information to the server. It is not stored."
-msgstr "பதிவுசெய்வது சர்வருக்கு சில தொடர்புத்தகவல்களை அனுப்புகிறது. இது சேமிக்கப்படாது."
-
-msgid "Register"
-msgstr "பதிவு செய்"
-
-msgid "Double-check that this is your number! We're about to verify it with an SMS."
-msgstr "இந்த உங்கள் எண்தானா என இருமுறை சரிபாருங்கள்! நாங்கள் ஒரு SMS மூலம் இதை சரிபார்க்கப்போகிறோம்."
-
-msgid "Cancel"
-msgstr "இரத்து"
-
-msgid "Mark all read"
-msgstr "அனைத்தையும் படித்தாக குறியிடு"
-
-msgid "Help"
-msgstr "உதவி"
-
+#: ../qml/phoneui/ui/settings/AdvancedPage.qml:51
 msgid "Unregistering"
 msgstr "பதிவுநீக்குதல்"
 
+#: ../qml/phoneui/ui/settings/AdvancedPage.qml:56
 msgid "Disable Signal messages and calls?"
 msgstr "சமிக்ஞை குறுஞ்செய்தி மற்றும் அழைப்பை முடக்கு ?"
 
-msgid "Disable Signal messages and calls by unregistering from the server. You will need to re-register your phone number to use them again in the future."
+#: ../qml/phoneui/ui/settings/AdvancedPage.qml:57
+msgid ""
+"Disable Signal messages and calls by unregistering from the server. You will "
+"need to re-register your phone number to use them again in the future."
 msgstr ""
 
+#: ../qml/phoneui/ui/settings/AdvancedPage.qml:74
 msgid "Enter key sends"
 msgstr "பதிவு விசை அனுப்பும்"
 
-msgid "Submit debug log"
+#: ../qml/phoneui/ui/settings/AdvancedPage.qml:87
+msgid "Activate Debuglog"
 msgstr ""
 
-msgid "Success!"
-msgstr "வெற்றி!"
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:13
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:17
+#: ../qml/phoneui/ui/settings/AddLinkedDevicesPage.qml:10
+msgid "Link a Device"
+msgstr ""
 
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:23
+msgid "Add device"
+msgstr ""
+
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:28
+#, fuzzy
+msgid "Refresh devices"
+msgstr "புதுப்பி."
+
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:94
+#, fuzzy
+msgid "Delete selected Device?"
+msgstr "செய்தியை நீக்கு"
+
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:95
+#, fuzzy
+msgid "This will permanently delete the selected Device."
+msgstr "இந்த உரையாடலை நிரந்தரமாக நீக்கீவிடும்.."
+
+#: ../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:10
+msgid "Cancel"
+msgstr "இரத்து"
+
+#: ../qml/phoneui/ui/SigninPage.qml:16
+msgid "Connect with Signal"
+msgstr ""
+
+#: ../qml/phoneui/ui/SigninPage.qml:28
+msgid "YOUR COUNTRY"
+msgstr "உங்கள் நாடு"
+
+#: ../qml/phoneui/ui/SigninPage.qml:65
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr "உங்கள் நாட்டின் குறியீடு மற்றும் உங்கள் தொலைபேசி எண்"
+
+#: ../qml/phoneui/ui/SigninPage.qml:147
+msgid "Verify your phone number to connect with Signal."
+msgstr ""
+
+#: ../qml/phoneui/ui/SigninPage.qml:148
+msgid ""
+"Registration transmits some contact information to the server. It is not "
+"stored."
+msgstr ""
+"பதிவுசெய்வது சர்வருக்கு சில தொடர்புத்தகவல்களை அனுப்புகிறது. இது சேமிக்கப்படாது."
+
+#: ../qml/phoneui/ui/SigninPage.qml:162
+msgid "Register"
+msgstr "பதிவு செய்"
+
+#: ../qml/phoneui/ui/SigninPage.qml:191
+msgid ""
+"Double-check that this is your number! We're about to verify it with an SMS."
+msgstr ""
+"இந்த உங்கள் எண்தானா என இருமுறை சரிபாருங்கள்! நாங்கள் ஒரு SMS மூலம் இதை "
+"சரிபார்க்கப்போகிறோம்."
+
+#: ../qml/phoneui/ui/DialogsPage.qml:72 ../qml/phoneui/ui/ContactsPage.qml:35
+#: ../qml/phoneui/ui/ContactsPage.qml:42
+msgid "Search"
+msgstr "தேடல்"
+
+#: ../qml/phoneui/ui/DialogsPage.qml:84 ../qml/phoneui/ui/ContactsPage.qml:62
+msgid "New group"
+msgstr "புதிய குழு"
+
+#: ../qml/phoneui/ui/DialogsPage.qml:91
+msgid "Mark all read"
+msgstr "அனைத்தையும் படித்தாக குறியிடு"
+
+#: ../qml/phoneui/ui/DialogsPage.qml:98 ../qml/phoneui/ui/SettingsPage.qml:26
+msgid "Settings"
+msgstr "அமைப்புகள்"
+
+#: ../qml/phoneui/ui/DialogsPage.qml:104
+msgid "Help"
+msgstr "உதவி"
+
+#: ../qml/phoneui/ui/DialogsPage.qml:110 ../qml/phoneui/ui/ContactsPage.qml:28
+msgid "Close"
+msgstr ""
+
+#: ../qml/phoneui/ui/DialogsPage.qml:160
+#, fuzzy, qt-format
+msgid "Forward message to %1?"
+msgstr "செய்தியை முன்னோக்கியனுப்பு"
+
+#: ../qml/phoneui/ui/SettingsPage.qml:59
+msgid "Linked Devices"
+msgstr ""
+
+#: ../qml/phoneui/ui/ContactsPage.qml:47
+msgid "Refresh"
+msgstr "புதுப்பி."
+
+#: ../qml/phoneui/ui/ContactsPage.qml:64 ../qml/phoneui/ui/DialogPage.qml:112
+msgid "Update group"
+msgstr "குழுவை மேம்படுத்து"
+
+#: ../qml/phoneui/ui/ContactsPage.qml:66
+#, fuzzy
+msgid "Contacts"
+msgstr "தொடர்பு"
+
+#: ../qml/phoneui/ui/ContactsPage.qml:119
+#, fuzzy
+msgid "No contacts"
+msgstr "தொடர்பு"
+
+#: ../qml/phoneui/ui/ContactsPage.qml:137
+msgid "Group name"
+msgstr "குழுவின் பெயர்"
+
+#: ../qml/phoneui/ui/ContactsPage.qml:247
+#, fuzzy, qt-format
+msgid "%1 members"
+msgstr "குழு உறுப்பினர்கள்"
+
+#: ../qml/phoneui/ui/PickerPage.qml:16
+msgid "Content Picker"
+msgstr ""
+
+#: ../qml/phoneui/ui/DialogPage.qml:35
+msgid "Call"
+msgstr "அழை"
+
+#: ../qml/phoneui/ui/DialogPage.qml:44
+msgid "Reset secure session"
+msgstr ""
+
+#: ../qml/phoneui/ui/DialogPage.qml:49
+msgid "Reset secure session?"
+msgstr "பாதுகாப்பான அமர்வை மீட்டமைக்க?"
+
+#: ../qml/phoneui/ui/DialogPage.qml:50
+msgid ""
+"This may help if you're having encryption problems in this conversation. "
+"Your messages will be kept."
+msgstr ""
+
+#: ../qml/phoneui/ui/DialogPage.qml:59 ../qml/phoneui/ui/DialogPage.qml:65
+msgid "Verify identity"
+msgstr "அடையாளத்தை சரிபார்"
+
+#: ../qml/phoneui/ui/DialogPage.qml:72
+msgid "Off Notifications"
+msgstr ""
+
+#: ../qml/phoneui/ui/DialogPage.qml:72
+msgid "On Notifications"
+msgstr ""
+
+#: ../qml/phoneui/ui/DialogPage.qml:77
+msgid "Turn Notifications off?"
+msgstr ""
+
+#: ../qml/phoneui/ui/DialogPage.qml:77
+msgid "Turn Notifications on?"
+msgstr ""
+
+#: ../qml/phoneui/ui/DialogPage.qml:87
+msgid "Recipients list"
+msgstr "பெறுநர்கள் பட்டியல்"
+
+#: ../qml/phoneui/ui/DialogPage.qml:96
+msgid "Leave group"
+msgstr "குழுவிலுருந்து விலகு"
+
+#: ../qml/phoneui/ui/DialogPage.qml:102
+msgid "Leave group?"
+msgstr "குழுவிலுருந்து விலகலாமா?"
+
+#: ../qml/phoneui/ui/DialogPage.qml:103
+msgid "Are you sure you want to leave this group?"
+msgstr "நீங்கள் குழுவை விட்டு நிச்சயமாக விலகவேண்டுமா?"
+
+#: ../qml/phoneui/ui/DialogPage.qml:125
+msgid "Delete conversation"
+msgstr ""
+
+#: ../qml/phoneui/ui/DialogPage.qml:129
+msgid "Delete conversation?"
+msgstr "உரையாடலை நீக்கு ?"
+
+#: ../qml/phoneui/ui/DialogPage.qml:130
+msgid "This will permanently delete all messages in this conversation."
+msgstr "இந்த உரையாடலை நிரந்தரமாக நீக்கீவிடும்.."
+
+#: ../qml/phoneui/ui/DialogPage.qml:144
+msgid "Select all"
+msgstr "அனைத்து தேர்வுசெய்"
+
+#: ../qml/phoneui/ui/DialogPage.qml:157 ../qml/phoneui/ui/DialogPage.qml:648
+msgid "Message details"
+msgstr "செய்தி விவரங்கள்"
+
+#: ../qml/phoneui/ui/DialogPage.qml:164 ../qml/phoneui/ui/DialogPage.qml:482
+msgid "Copy text"
+msgstr "உரை நகலெடு"
+
+#: ../qml/phoneui/ui/DialogPage.qml:170 ../qml/phoneui/ui/DialogPage.qml:488
+msgid "Forward message"
+msgstr "செய்தியை முன்னோக்கியனுப்பு"
+
+#: ../qml/phoneui/ui/DialogPage.qml:177
+msgid "Delete message"
+msgstr "செய்தியை நீக்கு"
+
+#: ../qml/phoneui/ui/DialogPage.qml:270
+msgid "Send Signal message"
+msgstr ""
+
+#: ../qml/phoneui/ui/DialogPage.qml:465
+msgid "Delete"
+msgstr "நீக்கு"
+
+#: ../qml/phoneui/ui/DialogPage.qml:470
+#, fuzzy
+msgid "Delete selected message?"
+msgstr "செய்தியை நீக்கு"
+
+#: ../qml/phoneui/ui/DialogPage.qml:471
+#, fuzzy
+msgid "This will permanently delete the selected message."
+msgstr "இந்த உரையாடலை நிரந்தரமாக நீக்கீவிடும்.."
+
+#: ../qml/phoneui/ui/DialogPage.qml:602
+msgid "No messages here yet..."
+msgstr ""
+
+#: ../qml/phoneui/ui/DialogPage.qml:640
+msgid "Group members"
+msgstr "குழு உறுப்பினர்கள்"
+
+#: ../qml/phoneui/ui/VerificationCodePage.qml:17
 msgid "Verifying number"
 msgstr "எண் சரிபார்க்கபடுகிறது"
 
-msgid "Signal will now automatically verify your number with a confirmation SMS message."
+#: ../qml/phoneui/ui/VerificationCodePage.qml:33
+msgid ""
+"Signal will now automatically verify your number with a confirmation SMS "
+"message."
 msgstr ""
 
+#: ../qml/phoneui/ui/VerificationCodePage.qml:44
+#: ../qml/phoneui/ui/VerificationCodePage.qml:110
 msgid "Waiting for SMS verification..."
 msgstr "சரிபார்க்கும் SMS-க்கு காத்திருக்கிறது..."
 
-msgid "Sent"
-msgstr "அனுப்பபட்டது"
-
-msgid "Received"
-msgstr "பெறப்பட்டது"
-
-msgid "New message"
-msgstr "புதிய செய்தி"
-
-msgid "Secure session reset."
+#: ../qml/phoneui/ui/VerificationCodePage.qml:71
+msgid "Code"
 msgstr ""
 
-msgid "You have left the group."
-msgstr "நீங்கள் குழுவை விட்டு விலகினீர்கள்."
+#: ../qml/phoneui/ui/VerificationCodePage.qml:134
+msgid "Calling you (this may take a while)..."
+msgstr ""
 
-msgid "Their identity (they read):"
-msgstr "அவர்களின் அடையாளம் (அவர்கள் படிக்க):"
+#: ../qml/phoneui/ui/VerificationCodePage.qml:139
+msgid "Please wait a moment and try again"
+msgstr ""
 
-msgid "Your identity (you read):"
-msgstr "உங்களின் அடையாளம் (நீங்கள் படிக்க):"
+#: ../qml/phoneui/ui/VerificationCodePage.qml:149
+msgid "Incorrect code. Please try again."
+msgstr ""
+
+#: ../qml/phoneui/ui/PasswordPage.qml:15
+msgid "Enter passphrase"
+msgstr ""
+
+#: ../qml/phoneui/ui/PasswordPage.qml:58
+msgid "Passphrase"
+msgstr ""
+
+#: ../qml/phoneui/ui/PasswordPage.qml:101
+#, fuzzy
+msgid "This will permanently delete all messages!."
+msgstr "இந்த உரையாடலை நிரந்தரமாக நீக்கீவிடும்.."
+
+#: ../qml/phoneui/ui/PasswordPage.qml:130
+msgid "Invalid passphrase!"
+msgstr ""
+
+#: ../qml/phoneui/ui/PreviewPage.qml:33
+msgid "From: "
+msgstr ""
+
+#: ../qml/phoneui/ui/PreviewPage.qml:47
+msgid "Save"
+msgstr "சேமி"
+
+#: ../qml/phoneui/components/SignalMessageDelegate.qml:183
+#, fuzzy
+msgid "Forwarded from "
+msgstr "செய்தியை முன்னோக்கியனுப்பு"
+
+#: ../qml/phoneui/components/TelegramPage.qml:23
+msgid "Signal"
+msgstr ""
+
+#: ../qml/phoneui/components/AttachPanel.qml:87
+msgid "Image"
+msgstr "உருவம்"
+
+#: ../qml/phoneui/components/AttachPanel.qml:98
+msgid "Video"
+msgstr "காணொளி"
+
+#: ../qml/phoneui/components/AttachPanel.qml:109
+msgid "Audio"
+msgstr "ஒலி"
+
+#: ../qml/phoneui/components/AttachPanel.qml:120
+msgid "Contact"
+msgstr "தொடர்பு"
+
+#~ msgid "Success!"
+#~ msgstr "வெற்றி!"
+
+#~ msgid "Sent"
+#~ msgstr "அனுப்பபட்டது"
+
+#~ msgid "Received"
+#~ msgstr "பெறப்பட்டது"
+
+#~ msgid "You have left the group."
+#~ msgstr "நீங்கள் குழுவை விட்டு விலகினீர்கள்."
+
+#~ msgid "Their identity (they read):"
+#~ msgstr "அவர்களின் அடையாளம் (அவர்கள் படிக்க):"
+
+#~ msgid "Your identity (you read):"
+#~ msgstr "உங்களின் அடையாளம் (நீங்கள் படிக்க):"

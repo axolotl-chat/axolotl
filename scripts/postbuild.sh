@@ -1,5 +1,15 @@
 #!/bin/bash
 
+
+
+
+# Translations
+# generate pot file
+echo "update translations"
+find ../qml/* -iname "*.qml" | xargs xgettext --from-code utf-8 -C --qt --keyword=tr -o ../click/textsecure.nanuc.pot
+find ../po/* -exec msgmerge --update {} ../click/textsecure.nanuc.pot \;
+rm ../po/*~~
+
 # mkdir -p ../build/tmp/qml
 # cp -a ../qml/phoneui ../build/tmp/qml
 # cp -a ../docs/CHANGELOG.md ../build/tmp
