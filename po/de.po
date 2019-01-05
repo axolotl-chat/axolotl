@@ -175,7 +175,7 @@ msgstr "Nachricht weiterleiten an %1?"
 
 #: ../qml/phoneui/ui/SettingsPage.qml:54
 msgid "Privacy"
-msgstr ""
+msgstr "Sicherheit"
 
 #: ../qml/phoneui/ui/SettingsPage.qml:61
 msgid "Linked Devices"
@@ -183,7 +183,7 @@ msgstr "Verknüpfte Geräte"
 
 #: ../qml/phoneui/ui/SettingsPage.qml:62
 msgid "Add/Remove linked devices"
-msgstr ""
+msgstr "Verknüpfte Geräte hinzufügen/löschen"
 
 #: ../qml/phoneui/ui/SettingsPage.qml:69
 msgid "Unregistering"
