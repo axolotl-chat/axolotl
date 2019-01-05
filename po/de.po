@@ -2,9 +2,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-05 13:54+0100\n"
+"POT-Creation-Date: 2019-01-05 18:24+0100\n"
 "PO-Revision-Date: 2019-01-04 23:10+0100\n"
-"Last-Translator: Daniel Frost <one@frostinfo.de>\n""Language-Team: none\n"
+"Last-Translator: Daniel Frost <one@frostinfo.de>\n"
+"Language-Team: none\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -56,7 +57,8 @@ msgid "Passphrases don't match!"
 msgstr "Eingaben stimmen nicht überein!"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:153
-msgid "New passphrase to short(6)!"
+#, fuzzy
+msgid "New passphrase too short(6)!"
 msgstr "Passwort zu kurz (6)!"
 
 #: ../qml/phoneui/ui/IntroPage.qml:25
@@ -79,40 +81,6 @@ msgstr ""
 #: ../qml/phoneui/ui/VerificationCodePage.qml:94
 msgid "OK"
 msgstr "OK"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:29
-#: ../qml/phoneui/ui/SettingsPage.qml:55
-msgid "Advanced"
-msgstr "Weitere Einstellungen"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:34
-msgid "Back"
-msgstr "Zurück"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:51
-msgid "Unregistering"
-msgstr "Registrierung löschen"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:56
-msgid "Disable Signal messages and calls?"
-msgstr "Signal-Nachrichten und -Anrufe deaktivieren?"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:57
-msgid ""
-"Disable Signal messages and calls by unregistering from the server. You will "
-"need to re-register your phone number to use them again in the future."
-msgstr ""
-"Signal-Nachrichten und -Anrufe durch Löschen Ihrer Registrierung vom Server "
-"deaktivieren. Sie werden Ihre Rufnummer erneut registrieren müssen, um "
-"zukünftig wieder verschlüsselt zu kommunizieren."
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:74
-msgid "Enter key sends"
-msgstr "Eingabetaste sendet"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:87
-msgid "Activate Debuglog"
-msgstr "Diagnoseprotokoll aktivieren"
 
 #: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:13
 #: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:17
@@ -424,7 +392,8 @@ msgid "Passphrase"
 msgstr "Passwort"
 
 #: ../qml/phoneui/ui/PasswordPage.qml:101
-msgid "This will permanently delete all messages!."
+#, fuzzy
+msgid "This will permanently delete all messages!"
 msgstr "Alle Nachrichten unwiderruflich löschen!"
 
 #: ../qml/phoneui/ui/PasswordPage.qml:130
