@@ -68,7 +68,7 @@ TelegramPage {
             }
         },
         Action {
-            iconName:"alarm"
+            iconName:"notification"
             text: messagesModel.notification?i18n.tr("Off Notifications") : i18n.tr("On Notifications")
             onTriggered: {
                 PopupUtils.open(Qt.resolvedUrl("dialogs/ConfirmationDialog.qml"),
@@ -83,7 +83,7 @@ TelegramPage {
             }
         },
         Action {
-            iconName: "contact-group"
+          iconSource: Qt.resolvedUrl("../images/ic_group_black_24dp.png")
             text: i18n.tr("Recipients list")
             visible: isGroupChat
             onTriggered: {
