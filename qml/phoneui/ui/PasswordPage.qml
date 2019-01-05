@@ -98,7 +98,7 @@ TelegramPage {
               PopupUtils.open(Qt.resolvedUrl("dialogs/ConfirmationDialog.qml"),
                           resetButton, {
                               title: i18n.tr("Disable passphrase?"),
-                              text: i18n.tr("This will permanently delete all messages!."),
+                              text: i18n.tr("This will permanently delete all messages!"),
                               onAccept: function() {
                                   storeModel.resetDb();
                                   backToDialogsPage();

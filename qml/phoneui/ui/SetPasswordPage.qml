@@ -150,7 +150,7 @@ TelegramPage {
           }
         }
         else{
-          setError(i18n.tr("New passphrase to short(6)!"))
+          setError(i18n.tr("New passphrase too short(6)!"))
           busy = false;
         }
     }

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-05 10:53+0100\n"
+"POT-Creation-Date: 2019-01-05 13:54+0100\n"
 "PO-Revision-Date: 2018-04-01 17:58+0100\n"
 "Last-Translator: advocatux <advocatux@airpost.net>\n"
 "Language-Team: UBports Spanish Team\n"
@@ -62,8 +62,9 @@ msgid "Passphrases don't match!"
 msgstr ""
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:153
-msgid "New passphrase to short(6)!"
-msgstr ""
+#, fuzzy
+msgid "New passphrase too short(6)!"
+msgstr "Nuevo mensaje"
 
 #: ../qml/phoneui/ui/IntroPage.qml:25
 msgid ""
@@ -396,7 +397,7 @@ msgstr ""
 
 #: ../qml/phoneui/ui/PasswordPage.qml:101
 #, fuzzy
-msgid "This will permanently delete all messages!."
+msgid "This will permanently delete all messages!"
 msgstr "Esto borrará permanentemente el mensaje seleccionado."
 
 #: ../qml/phoneui/ui/PasswordPage.qml:130
