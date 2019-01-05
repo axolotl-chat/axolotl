@@ -62,15 +62,18 @@ func (Api *TextsecureAPI) ContactsImported(path string) {
 }
 func (Api *TextsecureAPI) SetLogLevel() {
 	// Api.LogLevel = !Api.LogLevel
-	if Api.LogLevel == true {
+	if Api.LogLevel == false {
 		config.Config.LogLevel = "debug"
 		log.SetLevel(log.DebugLevel)
 		settings.SettingsModel.DebugLog = true
+		log.Infof("Set LogLevel to debug")
+		Api.LogLevel = true
 	} else {
 		config.Config.LogLevel = "info"
 		log.SetLevel(log.InfoLevel)
 		settings.SettingsModel.DebugLog = false
 		log.Infof("Set LogLevel to info")
+		Api.LogLevel = false
 	}
 	Api.SaveSettings()
 	textsecure.WriteConfig(config.ConfigFile, config.Config)

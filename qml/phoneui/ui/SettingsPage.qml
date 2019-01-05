@@ -80,7 +80,7 @@ TelegramPage {
             }
         }
         ListItem.Standard {
-            control: CheckBox {
+            control: Switch {
                 checked: settingsModel.sendByEnter
                 onCheckedChanged: {
                     settingsModel.sendByEnter = checked
@@ -89,18 +89,23 @@ TelegramPage {
 
             }
             text: i18n.tr("Enter key sends")
-            onClicked: control.checked = !control.checked
         }
         ListItem.Standard {
-            control: CheckBox {
+            control: Switch {
                 checked: textsecure.logLevel
                 onCheckedChanged: {
-                    textsecure.setLogLevel()
+
+                }
+                onClicked: {
+                  textsecure.setLogLevel()
+                  checked = textsecure.logLevel
+
                 }
 
             }
             text: i18n.tr("Activate Debuglog")
-            onClicked: control.checked = !control.checked
+            onClicked: {
+            }
         }
     }
 }
