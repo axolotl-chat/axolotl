@@ -26,6 +26,11 @@ TelegramPage {
     header:PageHeader{
           id:pageHeader
           title: "Signal"
+          StyleHints {
+              foregroundColor: "white"
+              backgroundColor: "#238eec"
+              dividerColor: UbuntuColors.slate
+          }
           contents:Item{
             Avatar{
               id: dialogsAvatar
@@ -74,13 +79,13 @@ TelegramPage {
                  onTriggered: searchPressed()
              },
              Action {
-                 iconName: "address-book-app-symbolic"
+                 iconSource: Qt.resolvedUrl("../images/ic_contacts_white_48dp.png")
                  enabled: isConnected
                  visible: !isSearching
                  onTriggered: newChat()
              },
              Action {
-                 iconName: "contact-group"
+                 iconSource: Qt.resolvedUrl("../images/ic_group_white_24dp.png")
                  text: i18n.tr("New group")
                  enabled: isConnected
                  visible: !isSearching

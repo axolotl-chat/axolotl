@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-04 23:00+0100\n"
+"POT-Creation-Date: 2019-01-05 10:53+0100\n"
 "PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -13,12 +13,12 @@ msgstr ""
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:17
 #: ../qml/phoneui/ui/SetPasswordPage.qml:105
-#: ../qml/phoneui/ui/SettingsPage.qml:54
+#: ../qml/phoneui/ui/SettingsPage.qml:55
 msgid "Change passphrase"
 msgstr ""
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:17
-#: ../qml/phoneui/ui/SettingsPage.qml:54
+#: ../qml/phoneui/ui/SettingsPage.qml:55
 msgid "Create passphrase"
 msgstr ""
 
@@ -76,44 +76,30 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:29
-msgid "Advanced"
-msgstr "மேம்பட்ட"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:34
-msgid "Back"
-msgstr ""
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:51
-#: ../qml/phoneui/ui/SettingsPage.qml:64
-msgid "Unregistering"
-msgstr "பதிவுநீக்குதல்"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:56
-#: ../qml/phoneui/ui/SettingsPage.qml:69
-msgid "Disable Signal messages and calls?"
-msgstr "சமிக்ஞை குறுஞ்செய்தி மற்றும் அழைப்பை முடக்கு ?"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:57
-#: ../qml/phoneui/ui/SettingsPage.qml:70
-msgid ""
-"Disable Signal messages and calls by unregistering from the server. You will "
-"need to re-register your phone number to use them again in the future."
-msgstr ""
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:74
-#: ../qml/phoneui/ui/SettingsPage.qml:86
-msgid "Enter key sends"
-msgstr "பதிவு விசை அனுப்பும்"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:87
-#: ../qml/phoneui/ui/SettingsPage.qml:97
-msgid "Activate Debuglog"
-msgstr ""
-
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:13
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:17
 #: ../qml/phoneui/ui/settings/AddLinkedDevicesPage.qml:10
 msgid "Link a Device"
 msgstr ""
+
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:23
+msgid "Add device"
+msgstr ""
+
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:28
+#, fuzzy
+msgid "Refresh devices"
+msgstr "புதுப்பி."
+
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:94
+#, fuzzy
+msgid "Delete selected Device?"
+msgstr "செய்தியை நீக்கு"
+
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:95
+#, fuzzy
+msgid "This will permanently delete the selected Device."
+msgstr "இந்த உரையாடலை நிரந்தரமாக நீக்கீவிடும்.."
 
 #: ../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:10
 msgid "Cancel"
@@ -153,46 +139,68 @@ msgstr ""
 "இந்த உங்கள் எண்தானா என இருமுறை சரிபாருங்கள்! நாங்கள் ஒரு SMS மூலம் இதை "
 "சரிபார்க்கப்போகிறோம்."
 
-#: ../qml/phoneui/ui/DialogsPage.qml:72 ../qml/phoneui/ui/ContactsPage.qml:35
+#: ../qml/phoneui/ui/DialogsPage.qml:77 ../qml/phoneui/ui/ContactsPage.qml:35
 #: ../qml/phoneui/ui/ContactsPage.qml:42
 msgid "Search"
 msgstr "தேடல்"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:84 ../qml/phoneui/ui/ContactsPage.qml:62
+#: ../qml/phoneui/ui/DialogsPage.qml:89 ../qml/phoneui/ui/ContactsPage.qml:62
 msgid "New group"
 msgstr "புதிய குழு"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:91
+#: ../qml/phoneui/ui/DialogsPage.qml:96
 msgid "Mark all read"
 msgstr "அனைத்தையும் படித்தாக குறியிடு"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:98 ../qml/phoneui/ui/SettingsPage.qml:26
+#: ../qml/phoneui/ui/DialogsPage.qml:103 ../qml/phoneui/ui/SettingsPage.qml:27
 msgid "Settings"
 msgstr "அமைப்புகள்"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:104
+#: ../qml/phoneui/ui/DialogsPage.qml:109
 msgid "Help"
 msgstr "உதவி"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:110 ../qml/phoneui/ui/ContactsPage.qml:28
+#: ../qml/phoneui/ui/DialogsPage.qml:115 ../qml/phoneui/ui/ContactsPage.qml:28
 msgid "Close"
 msgstr ""
 
-#: ../qml/phoneui/ui/DialogsPage.qml:160
+#: ../qml/phoneui/ui/DialogsPage.qml:165
 #, fuzzy, qt-format
 msgid "Forward message to %1?"
 msgstr "செய்தியை முன்னோக்கியனுப்பு"
 
-#: ../qml/phoneui/ui/SettingsPage.qml:53
+#: ../qml/phoneui/ui/SettingsPage.qml:54
 msgid "Privacy"
 msgstr ""
 
-#: ../qml/phoneui/ui/SettingsPage.qml:58
+#: ../qml/phoneui/ui/SettingsPage.qml:61
 msgid "Linked Devices"
 msgstr ""
 
-#: ../qml/phoneui/ui/SettingsPage.qml:59
+#: ../qml/phoneui/ui/SettingsPage.qml:62
 msgid "Add/Remove linked devices"
+msgstr ""
+
+#: ../qml/phoneui/ui/SettingsPage.qml:69
+msgid "Unregistering"
+msgstr "பதிவுநீக்குதல்"
+
+#: ../qml/phoneui/ui/SettingsPage.qml:74
+msgid "Disable Signal messages and calls?"
+msgstr "சமிக்ஞை குறுஞ்செய்தி மற்றும் அழைப்பை முடக்கு ?"
+
+#: ../qml/phoneui/ui/SettingsPage.qml:75
+msgid ""
+"Disable Signal messages and calls by unregistering from the server. You will "
+"need to re-register your phone number to use them again in the future."
+msgstr ""
+
+#: ../qml/phoneui/ui/SettingsPage.qml:91
+msgid "Enter key sends"
+msgstr "பதிவு விசை அனுப்பும்"
+
+#: ../qml/phoneui/ui/SettingsPage.qml:102
+msgid "Activate Debuglog"
 msgstr ""
 
 #: ../qml/phoneui/ui/ContactsPage.qml:47
@@ -419,17 +427,8 @@ msgstr "ஒலி"
 msgid "Contact"
 msgstr "தொடர்பு"
 
-#, fuzzy
-#~ msgid "Refresh devices"
-#~ msgstr "புதுப்பி."
-
-#, fuzzy
-#~ msgid "Delete selected Device?"
-#~ msgstr "செய்தியை நீக்கு"
-
-#, fuzzy
-#~ msgid "This will permanently delete the selected Device."
-#~ msgstr "இந்த உரையாடலை நிரந்தரமாக நீக்கீவிடும்.."
+#~ msgid "Advanced"
+#~ msgstr "மேம்பட்ட"
 
 #~ msgid "Success!"
 #~ msgstr "வெற்றி!"

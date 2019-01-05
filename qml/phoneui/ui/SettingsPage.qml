@@ -19,6 +19,7 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.0 as ListItem
+import Ubuntu.Components.Popups 1.0
 import "../components"
 
 TelegramPage {
@@ -48,19 +49,23 @@ TelegramPage {
           bottom: parent.bottom
         }
         ListItem.Subtitled {
-          iconSource: "ic_security_white_24dp.png"
+          iconSource: Qt.resolvedUrl("../images/ic_security_white_24dp.png")
           iconFrame: false
           text: i18n.tr("Privacy")
           subText: settingsModel.encryptDatabase ? i18n.tr("Change passphrase") : i18n.tr("Create passphrase")
           onClicked: pageStack.push(Qt.resolvedUrl("SetPasswordPage.qml"))
         }
         ListItem.Subtitled {
+          iconSource: Qt.resolvedUrl("../images/ic_laptop_white_24dp.png")
+          iconFrame: false
           text: i18n.tr("Linked Devices")
           subText: i18n.tr("Add/Remove linked devices")
 
           onClicked: pageStack.push(Qt.resolvedUrl("settings/LinkedDevicesPage.qml"))
         }
         ListItem.Subtitled {
+          iconSource: Qt.resolvedUrl("../images/clear_profile_avatar.png")
+          iconFrame: false
             text: i18n.tr("Unregistering")
             subText: textsecure.phoneNumber
             onClicked: {

@@ -25,9 +25,6 @@ TelegramPage {
         width: parent.width -100
         height: parent.height -100
         color: "white"
-        border.color: "black"
-        border.width: 5
-        radius: 10
         anchors.top: pageHeader.bottom
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
