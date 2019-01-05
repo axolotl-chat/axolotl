@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-05 13:54+0100\n"
+"POT-Creation-Date: 2019-01-05 19:16+0100\n"
 "PO-Revision-Date: 2019-01-05 14:18+0100\n"
 "Last-Translator: advocatux <advocatux@airpost.net>\n"
 "Language-Team: UBports Spanish Team\n"
@@ -206,7 +206,7 @@ msgstr ""
 msgid "Enter key sends"
 msgstr "Enviar con la tecla Intro"
 
-#: ../qml/phoneui/ui/SettingsPage.qml:102
+#: ../qml/phoneui/ui/SettingsPage.qml:106
 msgid "Activate Debuglog"
 msgstr "Activar el registro de depuración"
 

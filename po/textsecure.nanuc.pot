@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-05 13:54+0100\n"
+"POT-Creation-Date: 2019-01-05 19:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -198,7 +198,7 @@ msgstr ""
 msgid "Enter key sends"
 msgstr ""
 
-#: ../qml/phoneui/ui/SettingsPage.qml:102
+#: ../qml/phoneui/ui/SettingsPage.qml:106
 msgid "Activate Debuglog"
 msgstr ""
 

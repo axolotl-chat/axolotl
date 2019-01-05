@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-05 13:54+0100\n"
+"POT-Creation-Date: 2019-01-05 19:26+0100\n"
 "PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -68,10 +68,10 @@ msgid ""
 "c/textsecure-qml/issues'>https://github.com/nanu-c/textsecure-qml/issues</"
 "a><br>"
 msgstr ""
-"<h3>Merci d'essayer Signal !</h3><br><br>             Signalez les problèmes et "
-"les demandes de fonctionnalités sur GitHub :<br>            <a href='https://github.com/nanu-"
-"c/textsecure-qml/issues'>https://github.com/nanu-c/textsecure-qml/issues</"
-"a><br>"
+"<h3>Merci d'essayer Signal !</h3><br><br>             Signalez les problèmes "
+"et les demandes de fonctionnalités sur GitHub :<br>            <a "
+"href='https://github.com/nanu-c/textsecure-qml/issues'>https://github.com/"
+"nanu-c/textsecure-qml/issues</a><br>"
 
 #: ../qml/phoneui/ui/IntroPage.qml:40
 #: ../qml/phoneui/ui/dialogs/ErrorMessageDialog.qml:12
@@ -105,8 +105,7 @@ msgstr "Supprimer l'appareil sélectionné ?"
 #: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:95
 #, fuzzy
 msgid "This will permanently delete the selected Device."
-msgstr ""
-"Cela supprimera définitivement l'appareil sélectionné."
+msgstr "Cela supprimera définitivement l'appareil sélectionné."
 
 #: ../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:10
 msgid "Cancel"
@@ -202,15 +201,15 @@ msgid ""
 "Disable Signal messages and calls by unregistering from the server. You will "
 "need to re-register your phone number to use them again in the future."
 msgstr ""
-"Désactive les messages et les appels provenant de Signal en vous désinscrivant du serveur. "
-"Vous devrez réinscrire votre numéro de téléphone pour les utiliser à "
-"nouveau."
+"Désactive les messages et les appels provenant de Signal en vous "
+"désinscrivant du serveur. Vous devrez réinscrire votre numéro de téléphone "
+"pour les utiliser à nouveau."
 
 #: ../qml/phoneui/ui/SettingsPage.qml:91
 msgid "Enter key sends"
 msgstr "Envoi par la touche Entrée"
 
-#: ../qml/phoneui/ui/SettingsPage.qml:102
+#: ../qml/phoneui/ui/SettingsPage.qml:106
 #, fuzzy
 msgid "Activate Debuglog"
 msgstr "Activer le journal des anomalies"
@@ -371,8 +370,8 @@ msgid ""
 "Signal will now automatically verify your number with a confirmation SMS "
 "message."
 msgstr ""
-"Signal va maintenant automatiquement vérifier votre numéro à l'aide d'un texto "
-"de confirmation."
+"Signal va maintenant automatiquement vérifier votre numéro à l'aide d'un "
+"texto de confirmation."
 
 #: ../qml/phoneui/ui/VerificationCodePage.qml:44
 #: ../qml/phoneui/ui/VerificationCodePage.qml:110
@@ -406,8 +405,7 @@ msgstr "Mot de passe"
 #: ../qml/phoneui/ui/PasswordPage.qml:101
 #, fuzzy
 msgid "This will permanently delete all messages!"
-msgstr ""
-"Cela supprimera définitivement tous les messages !"
+msgstr "Cela supprimera définitivement tous les messages !"
 
 #: ../qml/phoneui/ui/PasswordPage.qml:130
 msgid "Invalid passphrase!"
