@@ -6,8 +6,8 @@
 # Translations
 # generate pot file
 echo "update translations"
-find ../qml/* -iname "*.qml" | xargs xgettext --from-code utf-8 -C --qt --keyword=tr -o ../click/textsecure.nanuc.pot
-find ../po/* -exec msgmerge --update {} ../click/textsecure.nanuc.pot \;
+find ../qml/* -iname "*.qml" | xargs xgettext --from-code utf-8 -C --qt --keyword=tr -o ../po/textsecure.nanuc.pot
+find ../po/* -exec msgmerge --update {} ../po/textsecure.nanuc.pot \;
 rm ../po/*~~
 
 # mkdir -p ../build/tmp/qml
@@ -21,6 +21,7 @@ cp -a ../click/* ../build/tmp
 # fi
 
 # Build and include translations
+cp ../po/textsecure.nanuc.pot ../build/tmp/
 for po in ../po/*.po; do
 	loc=$(echo $(basename $po)|cut -d'.' -f1)
 	dir=../build/tmp/share/locale/$loc/LC_MESSAGES

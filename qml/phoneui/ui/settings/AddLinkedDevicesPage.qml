@@ -24,10 +24,7 @@ TelegramPage {
     Rectangle {
         width: parent.width -100
         height: parent.height -100
-        color: "red"
-        border.color: "black"
-        border.width: 5
-        radius: 10
+        color: "white"
         anchors.top: pageHeader.bottom
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter

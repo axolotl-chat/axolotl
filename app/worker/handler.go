@@ -11,6 +11,7 @@ import (
 	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/nanu-c/textsecure-qml/app/lang"
 	"github.com/nanu-c/textsecure-qml/app/store"
+	"github.com/nanu-c/textsecure-qml/app/settings"
 )
 
 //messageHandler is used on incoming message
@@ -98,8 +99,11 @@ func messageHandler(msg *textsecure.Message) {
 		m.Flags = msgFlags
 		qml.Changed(m, &m.Flags)
 	}
-	//TODO:
+	//TODO: have only one message per chat
 	if session.Notification {
+		if settings.SettingsModel.EncryptDatabase{
+			text = "Encrypted message"
+		}
 		n := Nh.NewStandardPushMessage(
 			session.Name,
 			text, "")

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-04 21:09+0100\n"
+"POT-Creation-Date: 2019-01-05 13:54+0100\n"
 "PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -13,12 +13,12 @@ msgstr ""
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:17
 #: ../qml/phoneui/ui/SetPasswordPage.qml:105
-#: ../qml/phoneui/ui/SettingsPage.qml:51
+#: ../qml/phoneui/ui/SettingsPage.qml:55
 msgid "Change passphrase"
 msgstr ""
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:17
-#: ../qml/phoneui/ui/SettingsPage.qml:51
+#: ../qml/phoneui/ui/SettingsPage.qml:55
 msgid "Create passphrase"
 msgstr ""
 
@@ -56,8 +56,9 @@ msgid "Passphrases don't match!"
 msgstr ""
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:153
-msgid "New passphrase to short(6)!"
-msgstr ""
+#, fuzzy
+msgid "New passphrase too short(6)!"
+msgstr "新信息"
 
 #: ../qml/phoneui/ui/IntroPage.qml:25
 msgid ""
@@ -75,40 +76,6 @@ msgstr ""
 #: ../qml/phoneui/ui/VerificationCodePage.qml:94
 msgid "OK"
 msgstr ""
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:29
-#: ../qml/phoneui/ui/SettingsPage.qml:55
-msgid "Advanced"
-msgstr "高级"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:34
-msgid "Back"
-msgstr ""
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:51
-msgid "Unregistering"
-msgstr "反注册"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:56
-msgid "Disable Signal messages and calls?"
-msgstr "禁用暗号信息和呼叫？"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:57
-msgid ""
-"Disable Signal messages and calls by unregistering from the server. You will "
-"need to re-register your phone number to use them again in the future."
-msgstr ""
-"注销暗号将会禁用暗号信息和呼叫。如果您还想使用该功能，则必须使用您的手机号码"
-"重新注册。"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:74
-msgid "Enter key sends"
-msgstr "按下回车键发送"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:87
-#, fuzzy
-msgid "Activate Debuglog"
-msgstr "发送调试日志"
 
 #: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:13
 #: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:17
@@ -170,39 +137,72 @@ msgid ""
 "Double-check that this is your number! We're about to verify it with an SMS."
 msgstr "请仔细复查您的号码，我们将通过短信进行验证。"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:72 ../qml/phoneui/ui/ContactsPage.qml:35
+#: ../qml/phoneui/ui/DialogsPage.qml:77 ../qml/phoneui/ui/ContactsPage.qml:35
 #: ../qml/phoneui/ui/ContactsPage.qml:42
 msgid "Search"
 msgstr "搜索"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:84 ../qml/phoneui/ui/ContactsPage.qml:62
+#: ../qml/phoneui/ui/DialogsPage.qml:89 ../qml/phoneui/ui/ContactsPage.qml:62
 msgid "New group"
 msgstr "新群组"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:91
+#: ../qml/phoneui/ui/DialogsPage.qml:96
 msgid "Mark all read"
 msgstr "全部标记为已读"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:98 ../qml/phoneui/ui/SettingsPage.qml:26
+#: ../qml/phoneui/ui/DialogsPage.qml:103 ../qml/phoneui/ui/SettingsPage.qml:27
 msgid "Settings"
 msgstr "设置"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:104
+#: ../qml/phoneui/ui/DialogsPage.qml:109
 msgid "Help"
 msgstr "帮助"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:110 ../qml/phoneui/ui/ContactsPage.qml:28
+#: ../qml/phoneui/ui/DialogsPage.qml:115 ../qml/phoneui/ui/ContactsPage.qml:28
 msgid "Close"
 msgstr ""
 
-#: ../qml/phoneui/ui/DialogsPage.qml:160
+#: ../qml/phoneui/ui/DialogsPage.qml:165
 #, fuzzy, qt-format
 msgid "Forward message to %1?"
 msgstr "转发"
 
-#: ../qml/phoneui/ui/SettingsPage.qml:59
+#: ../qml/phoneui/ui/SettingsPage.qml:54
+msgid "Privacy"
+msgstr ""
+
+#: ../qml/phoneui/ui/SettingsPage.qml:61
 msgid "Linked Devices"
 msgstr ""
+
+#: ../qml/phoneui/ui/SettingsPage.qml:62
+msgid "Add/Remove linked devices"
+msgstr ""
+
+#: ../qml/phoneui/ui/SettingsPage.qml:69
+msgid "Unregistering"
+msgstr "反注册"
+
+#: ../qml/phoneui/ui/SettingsPage.qml:74
+msgid "Disable Signal messages and calls?"
+msgstr "禁用暗号信息和呼叫？"
+
+#: ../qml/phoneui/ui/SettingsPage.qml:75
+msgid ""
+"Disable Signal messages and calls by unregistering from the server. You will "
+"need to re-register your phone number to use them again in the future."
+msgstr ""
+"注销暗号将会禁用暗号信息和呼叫。如果您还想使用该功能，则必须使用您的手机号码"
+"重新注册。"
+
+#: ../qml/phoneui/ui/SettingsPage.qml:91
+msgid "Enter key sends"
+msgstr "按下回车键发送"
+
+#: ../qml/phoneui/ui/SettingsPage.qml:102
+#, fuzzy
+msgid "Activate Debuglog"
+msgstr "发送调试日志"
 
 #: ../qml/phoneui/ui/ContactsPage.qml:47
 msgid "Refresh"
@@ -306,15 +306,15 @@ msgstr "这将会永久的删除此会话中的所有信息。"
 msgid "Select all"
 msgstr "全选"
 
-#: ../qml/phoneui/ui/DialogPage.qml:157 ../qml/phoneui/ui/DialogPage.qml:648
+#: ../qml/phoneui/ui/DialogPage.qml:157 ../qml/phoneui/ui/DialogPage.qml:663
 msgid "Message details"
 msgstr "信息详情"
 
-#: ../qml/phoneui/ui/DialogPage.qml:164 ../qml/phoneui/ui/DialogPage.qml:482
+#: ../qml/phoneui/ui/DialogPage.qml:164 ../qml/phoneui/ui/DialogPage.qml:483
 msgid "Copy text"
 msgstr "复制文本"
 
-#: ../qml/phoneui/ui/DialogPage.qml:170 ../qml/phoneui/ui/DialogPage.qml:488
+#: ../qml/phoneui/ui/DialogPage.qml:170 ../qml/phoneui/ui/DialogPage.qml:489
 msgid "Forward message"
 msgstr "转发"
 
@@ -326,25 +326,25 @@ msgstr "删除"
 msgid "Send Signal message"
 msgstr "发送暗号信息"
 
-#: ../qml/phoneui/ui/DialogPage.qml:465
+#: ../qml/phoneui/ui/DialogPage.qml:466
 msgid "Delete"
-msgstr "删除"
-
-#: ../qml/phoneui/ui/DialogPage.qml:470
-#, fuzzy
-msgid "Delete selected message?"
 msgstr "删除"
 
 #: ../qml/phoneui/ui/DialogPage.qml:471
 #, fuzzy
+msgid "Delete selected message?"
+msgstr "删除"
+
+#: ../qml/phoneui/ui/DialogPage.qml:472
+#, fuzzy
 msgid "This will permanently delete the selected message."
 msgstr "这将会永久的删除此会话中的所有信息。"
 
-#: ../qml/phoneui/ui/DialogPage.qml:602
+#: ../qml/phoneui/ui/DialogPage.qml:617
 msgid "No messages here yet..."
 msgstr ""
 
-#: ../qml/phoneui/ui/DialogPage.qml:640
+#: ../qml/phoneui/ui/DialogPage.qml:655
 msgid "Group members"
 msgstr "群组成员"
 
@@ -389,7 +389,7 @@ msgstr ""
 
 #: ../qml/phoneui/ui/PasswordPage.qml:101
 #, fuzzy
-msgid "This will permanently delete all messages!."
+msgid "This will permanently delete all messages!"
 msgstr "这将会永久的删除此会话中的所有信息。"
 
 #: ../qml/phoneui/ui/PasswordPage.qml:130
@@ -428,6 +428,9 @@ msgstr "音频"
 #: ../qml/phoneui/components/AttachPanel.qml:120
 msgid "Contact"
 msgstr "联系人"
+
+#~ msgid "Advanced"
+#~ msgstr "高级"
 
 #~ msgid "Success!"
 #~ msgstr "成功！"

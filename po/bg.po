@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-04 21:09+0100\n"
+"POT-Creation-Date: 2019-01-05 13:54+0100\n"
 "PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -14,12 +14,12 @@ msgstr ""
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:17
 #: ../qml/phoneui/ui/SetPasswordPage.qml:105
-#: ../qml/phoneui/ui/SettingsPage.qml:51
+#: ../qml/phoneui/ui/SettingsPage.qml:55
 msgid "Change passphrase"
 msgstr ""
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:17
-#: ../qml/phoneui/ui/SettingsPage.qml:51
+#: ../qml/phoneui/ui/SettingsPage.qml:55
 msgid "Create passphrase"
 msgstr ""
 
@@ -57,8 +57,9 @@ msgid "Passphrases don't match!"
 msgstr ""
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:153
-msgid "New passphrase to short(6)!"
-msgstr ""
+#, fuzzy
+msgid "New passphrase too short(6)!"
+msgstr "Ново съобщение"
 
 #: ../qml/phoneui/ui/IntroPage.qml:25
 msgid ""
@@ -76,41 +77,6 @@ msgstr ""
 #: ../qml/phoneui/ui/VerificationCodePage.qml:94
 msgid "OK"
 msgstr ""
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:29
-#: ../qml/phoneui/ui/SettingsPage.qml:55
-msgid "Advanced"
-msgstr "Допълнителни"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:34
-msgid "Back"
-msgstr ""
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:51
-msgid "Unregistering"
-msgstr "Отписване"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:56
-msgid "Disable Signal messages and calls?"
-msgstr "Деактивирай Signal съобщения и обаждания?"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:57
-msgid ""
-"Disable Signal messages and calls by unregistering from the server. You will "
-"need to re-register your phone number to use them again in the future."
-msgstr ""
-"Деактивирайте Signal съобщения и обаждания като се дерегистрирате от "
-"сървъра. Ще трябва да регистрирате своят номер отново, за да ползвате "
-"услугите в бъдеще."
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:74
-msgid "Enter key sends"
-msgstr "Клавишът Enter се използва за изпращане"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:87
-#, fuzzy
-msgid "Activate Debuglog"
-msgstr "Изпрати доклад"
 
 #: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:13
 #: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:17
@@ -174,39 +140,73 @@ msgid ""
 "Double-check that this is your number! We're about to verify it with an SMS."
 msgstr "Проверете, че това е Вашия номер! Следва да го проверим чрез SMS."
 
-#: ../qml/phoneui/ui/DialogsPage.qml:72 ../qml/phoneui/ui/ContactsPage.qml:35
+#: ../qml/phoneui/ui/DialogsPage.qml:77 ../qml/phoneui/ui/ContactsPage.qml:35
 #: ../qml/phoneui/ui/ContactsPage.qml:42
 msgid "Search"
 msgstr "Търси"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:84 ../qml/phoneui/ui/ContactsPage.qml:62
+#: ../qml/phoneui/ui/DialogsPage.qml:89 ../qml/phoneui/ui/ContactsPage.qml:62
 msgid "New group"
 msgstr "Нова група"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:91
+#: ../qml/phoneui/ui/DialogsPage.qml:96
 msgid "Mark all read"
 msgstr "Маркирай всички като прочетени"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:98 ../qml/phoneui/ui/SettingsPage.qml:26
+#: ../qml/phoneui/ui/DialogsPage.qml:103 ../qml/phoneui/ui/SettingsPage.qml:27
 msgid "Settings"
 msgstr "Настройки"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:104
+#: ../qml/phoneui/ui/DialogsPage.qml:109
 msgid "Help"
 msgstr "Помощ"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:110 ../qml/phoneui/ui/ContactsPage.qml:28
+#: ../qml/phoneui/ui/DialogsPage.qml:115 ../qml/phoneui/ui/ContactsPage.qml:28
 msgid "Close"
 msgstr ""
 
-#: ../qml/phoneui/ui/DialogsPage.qml:160
+#: ../qml/phoneui/ui/DialogsPage.qml:165
 #, fuzzy, qt-format
 msgid "Forward message to %1?"
 msgstr "Препрати съобщението"
 
-#: ../qml/phoneui/ui/SettingsPage.qml:59
+#: ../qml/phoneui/ui/SettingsPage.qml:54
+msgid "Privacy"
+msgstr ""
+
+#: ../qml/phoneui/ui/SettingsPage.qml:61
 msgid "Linked Devices"
 msgstr ""
+
+#: ../qml/phoneui/ui/SettingsPage.qml:62
+msgid "Add/Remove linked devices"
+msgstr ""
+
+#: ../qml/phoneui/ui/SettingsPage.qml:69
+msgid "Unregistering"
+msgstr "Отписване"
+
+#: ../qml/phoneui/ui/SettingsPage.qml:74
+msgid "Disable Signal messages and calls?"
+msgstr "Деактивирай Signal съобщения и обаждания?"
+
+#: ../qml/phoneui/ui/SettingsPage.qml:75
+msgid ""
+"Disable Signal messages and calls by unregistering from the server. You will "
+"need to re-register your phone number to use them again in the future."
+msgstr ""
+"Деактивирайте Signal съобщения и обаждания като се дерегистрирате от "
+"сървъра. Ще трябва да регистрирате своят номер отново, за да ползвате "
+"услугите в бъдеще."
+
+#: ../qml/phoneui/ui/SettingsPage.qml:91
+msgid "Enter key sends"
+msgstr "Клавишът Enter се използва за изпращане"
+
+#: ../qml/phoneui/ui/SettingsPage.qml:102
+#, fuzzy
+msgid "Activate Debuglog"
+msgstr "Изпрати доклад"
 
 #: ../qml/phoneui/ui/ContactsPage.qml:47
 msgid "Refresh"
@@ -311,15 +311,15 @@ msgstr "Това ще изтрие невъзвращаемо всичките �
 msgid "Select all"
 msgstr "Избери всичко"
 
-#: ../qml/phoneui/ui/DialogPage.qml:157 ../qml/phoneui/ui/DialogPage.qml:648
+#: ../qml/phoneui/ui/DialogPage.qml:157 ../qml/phoneui/ui/DialogPage.qml:663
 msgid "Message details"
 msgstr "Информация за съобщението"
 
-#: ../qml/phoneui/ui/DialogPage.qml:164 ../qml/phoneui/ui/DialogPage.qml:482
+#: ../qml/phoneui/ui/DialogPage.qml:164 ../qml/phoneui/ui/DialogPage.qml:483
 msgid "Copy text"
 msgstr "Копирай текста"
 
-#: ../qml/phoneui/ui/DialogPage.qml:170 ../qml/phoneui/ui/DialogPage.qml:488
+#: ../qml/phoneui/ui/DialogPage.qml:170 ../qml/phoneui/ui/DialogPage.qml:489
 msgid "Forward message"
 msgstr "Препрати съобщението"
 
@@ -331,25 +331,25 @@ msgstr "Изтрий съобщението"
 msgid "Send Signal message"
 msgstr "Изпрати Signal съобщение"
 
-#: ../qml/phoneui/ui/DialogPage.qml:465
+#: ../qml/phoneui/ui/DialogPage.qml:466
 msgid "Delete"
 msgstr "Изтрий"
 
-#: ../qml/phoneui/ui/DialogPage.qml:470
+#: ../qml/phoneui/ui/DialogPage.qml:471
 #, fuzzy
 msgid "Delete selected message?"
 msgstr "Изтрий съобщението"
 
-#: ../qml/phoneui/ui/DialogPage.qml:471
+#: ../qml/phoneui/ui/DialogPage.qml:472
 #, fuzzy
 msgid "This will permanently delete the selected message."
 msgstr "Това ще изтрие невъзвращаемо всичките съобщения в този разговор."
 
-#: ../qml/phoneui/ui/DialogPage.qml:602
+#: ../qml/phoneui/ui/DialogPage.qml:617
 msgid "No messages here yet..."
 msgstr ""
 
-#: ../qml/phoneui/ui/DialogPage.qml:640
+#: ../qml/phoneui/ui/DialogPage.qml:655
 msgid "Group members"
 msgstr "Членове на групата"
 
@@ -396,7 +396,7 @@ msgstr ""
 
 #: ../qml/phoneui/ui/PasswordPage.qml:101
 #, fuzzy
-msgid "This will permanently delete all messages!."
+msgid "This will permanently delete all messages!"
 msgstr "Това ще изтрие невъзвращаемо всичките съобщения в този разговор."
 
 #: ../qml/phoneui/ui/PasswordPage.qml:130
@@ -435,6 +435,9 @@ msgstr "Аудио"
 #: ../qml/phoneui/components/AttachPanel.qml:120
 msgid "Contact"
 msgstr "Контакт"
+
+#~ msgid "Advanced"
+#~ msgstr "Допълнителни"
 
 #~ msgid "Success!"
 #~ msgstr "Успех!"

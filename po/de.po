@@ -2,10 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-04 21:09+0100\n"
+"POT-Creation-Date: 2019-01-05 13:54+0100\n"
 "PO-Revision-Date: 2019-01-04 23:10+0100\n"
-"Last-Translator: Daniel Frost <one@frostinfo.de>\n"
-"Language-Team: none\n"
+"Last-Translator: Daniel Frost <one@frostinfo.de>\n""Language-Team: none\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -15,12 +14,12 @@ msgstr ""
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:17
 #: ../qml/phoneui/ui/SetPasswordPage.qml:105
-#: ../qml/phoneui/ui/SettingsPage.qml:51
+#: ../qml/phoneui/ui/SettingsPage.qml:55
 msgid "Change passphrase"
 msgstr "Passwort ändern"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:17
-#: ../qml/phoneui/ui/SettingsPage.qml:51
+#: ../qml/phoneui/ui/SettingsPage.qml:55
 msgid "Create passphrase"
 msgstr "Passwort anlegen"
 
@@ -176,39 +175,73 @@ msgstr ""
 "Bitte kontrollieren Sie noch einmal Ihre Rufnummer. Diese wird anschließend "
 "durch eine SMS überprüft."
 
-#: ../qml/phoneui/ui/DialogsPage.qml:72 ../qml/phoneui/ui/ContactsPage.qml:35
+#: ../qml/phoneui/ui/DialogsPage.qml:77 ../qml/phoneui/ui/ContactsPage.qml:35
 #: ../qml/phoneui/ui/ContactsPage.qml:42
 msgid "Search"
 msgstr "Suchen"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:84 ../qml/phoneui/ui/ContactsPage.qml:62
+#: ../qml/phoneui/ui/DialogsPage.qml:89 ../qml/phoneui/ui/ContactsPage.qml:62
 msgid "New group"
 msgstr "Neue Gruppe"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:91
+#: ../qml/phoneui/ui/DialogsPage.qml:96
 msgid "Mark all read"
 msgstr "Alle als gelesen markieren"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:98 ../qml/phoneui/ui/SettingsPage.qml:26
+#: ../qml/phoneui/ui/DialogsPage.qml:103 ../qml/phoneui/ui/SettingsPage.qml:27
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:104
+#: ../qml/phoneui/ui/DialogsPage.qml:109
 msgid "Help"
 msgstr "Hilfe"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:110 ../qml/phoneui/ui/ContactsPage.qml:28
+#: ../qml/phoneui/ui/DialogsPage.qml:115 ../qml/phoneui/ui/ContactsPage.qml:28
 msgid "Close"
 msgstr "Schließen"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:160
-#, qt-format
+#: ../qml/phoneui/ui/DialogsPage.qml:165
+#, fuzzy, qt-format
 msgid "Forward message to %1?"
 msgstr "Nachricht weiterleiten an %1?"
 
-#: ../qml/phoneui/ui/SettingsPage.qml:59
+#: ../qml/phoneui/ui/SettingsPage.qml:54
+msgid "Privacy"
+msgstr ""
+
+#: ../qml/phoneui/ui/SettingsPage.qml:61
 msgid "Linked Devices"
 msgstr "Verknüpfte Geräte"
+
+#: ../qml/phoneui/ui/SettingsPage.qml:62
+msgid "Add/Remove linked devices"
+msgstr ""
+
+#: ../qml/phoneui/ui/SettingsPage.qml:69
+msgid "Unregistering"
+msgstr "Registrierung löschen"
+
+#: ../qml/phoneui/ui/SettingsPage.qml:74
+msgid "Disable Signal messages and calls?"
+msgstr "Signal-Nachrichten und -Anrufe deaktivieren?"
+
+#: ../qml/phoneui/ui/SettingsPage.qml:75
+msgid ""
+"Disable Signal messages and calls by unregistering from the server. You will "
+"need to re-register your phone number to use them again in the future."
+msgstr ""
+"Signal-Nachrichten und -Anrufe durch Löschen Ihrer Registrierung vom Server "
+"deaktivieren. Sie werden Ihre Rufnummer erneut registrieren müssen, um "
+"zukünftig wieder verschlüsselt zu kommunizieren."
+
+#: ../qml/phoneui/ui/SettingsPage.qml:91
+msgid "Enter key sends"
+msgstr "Eingabetaste sendet"
+
+#: ../qml/phoneui/ui/SettingsPage.qml:102
+#, fuzzy
+msgid "Activate Debuglog"
+msgstr "Diagnoseprotokoll übermitteln"
 
 #: ../qml/phoneui/ui/ContactsPage.qml:47
 msgid "Refresh"
@@ -311,15 +344,15 @@ msgstr "Alle Nachrichten dieser Unterhaltung unwiderruflich löschen."
 msgid "Select all"
 msgstr "Alle auswählen"
 
-#: ../qml/phoneui/ui/DialogPage.qml:157 ../qml/phoneui/ui/DialogPage.qml:648
+#: ../qml/phoneui/ui/DialogPage.qml:157 ../qml/phoneui/ui/DialogPage.qml:663
 msgid "Message details"
 msgstr "Nachrichtendetails"
 
-#: ../qml/phoneui/ui/DialogPage.qml:164 ../qml/phoneui/ui/DialogPage.qml:482
+#: ../qml/phoneui/ui/DialogPage.qml:164 ../qml/phoneui/ui/DialogPage.qml:483
 msgid "Copy text"
 msgstr "Text kopieren"
 
-#: ../qml/phoneui/ui/DialogPage.qml:170 ../qml/phoneui/ui/DialogPage.qml:488
+#: ../qml/phoneui/ui/DialogPage.qml:170 ../qml/phoneui/ui/DialogPage.qml:489
 msgid "Forward message"
 msgstr "Nachricht weiterleiten"
 
@@ -331,23 +364,23 @@ msgstr "Nachrichten löschen"
 msgid "Send Signal message"
 msgstr "Signal-Nachricht senden"
 
-#: ../qml/phoneui/ui/DialogPage.qml:465
+#: ../qml/phoneui/ui/DialogPage.qml:466
 msgid "Delete"
 msgstr "Löschen"
 
-#: ../qml/phoneui/ui/DialogPage.qml:470
+#: ../qml/phoneui/ui/DialogPage.qml:471
 msgid "Delete selected message?"
 msgstr "Gewählte Nachricht löschen?"
 
-#: ../qml/phoneui/ui/DialogPage.qml:471
+#: ../qml/phoneui/ui/DialogPage.qml:472
 msgid "This will permanently delete the selected message."
 msgstr "Gewählte Nachrichten werden unwiderruflich gelöscht."
 
-#: ../qml/phoneui/ui/DialogPage.qml:602
+#: ../qml/phoneui/ui/DialogPage.qml:617
 msgid "No messages here yet..."
 msgstr "Bisher keine Nachrichten vorhanden..."
 
-#: ../qml/phoneui/ui/DialogPage.qml:640
+#: ../qml/phoneui/ui/DialogPage.qml:655
 msgid "Group members"
 msgstr "Gruppenmitglieder"
 
@@ -429,6 +462,9 @@ msgstr "Audio"
 #: ../qml/phoneui/components/AttachPanel.qml:120
 msgid "Contact"
 msgstr "Kontakt"
+
+#~ msgid "Advanced"
+#~ msgstr "Weitere Einstellungen"
 
 #~ msgid "Success!"
 #~ msgstr "Erfolgreich!"

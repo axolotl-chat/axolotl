@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-04 21:09+0100\n"
-"PO-Revision-Date: 2018-04-01 17:58+0100\n"
+"POT-Creation-Date: 2019-01-05 13:54+0100\n"
+"PO-Revision-Date: 2019-01-05 14:18+0100\n"
 "Last-Translator: advocatux <advocatux@airpost.net>\n"
 "Language-Team: UBports Spanish Team\n"
 "Language: es\n"
@@ -19,51 +18,50 @@ msgstr ""
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:17
 #: ../qml/phoneui/ui/SetPasswordPage.qml:105
-#: ../qml/phoneui/ui/SettingsPage.qml:51
+#: ../qml/phoneui/ui/SettingsPage.qml:55
 msgid "Change passphrase"
-msgstr ""
+msgstr "Cambiar contraseña"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:17
-#: ../qml/phoneui/ui/SettingsPage.qml:51
+#: ../qml/phoneui/ui/SettingsPage.qml:55
 msgid "Create passphrase"
-msgstr ""
+msgstr "Crear contraseña"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:53
 msgid "Old passphrase"
-msgstr ""
+msgstr "Contraseña antigua"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:71
-#, fuzzy
 msgid "New passphrase"
-msgstr "Nuevo mensaje"
+msgstr "Nueva contraseña"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:87
 msgid "Repeat new passphrase"
-msgstr ""
+msgstr "Repetir nueva contraseña"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:105
 #: ../qml/phoneui/ui/PasswordPage.qml:82
 msgid "Submit passphrase"
-msgstr ""
+msgstr "Enviar contraseña"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:120
 #: ../qml/phoneui/ui/PasswordPage.qml:96 ../qml/phoneui/ui/PasswordPage.qml:100
 msgid "Disable passphrase?"
-msgstr ""
+msgstr "¿Desactivar contraseña?"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:140
 #: ../qml/phoneui/ui/SetPasswordPage.qml:162
 #: ../qml/phoneui/ui/SetPasswordPage.qml:171
 msgid "Incorrect old passphrase!"
-msgstr ""
+msgstr "¡Contraseña antigua incorrecta!"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:148
 msgid "Passphrases don't match!"
-msgstr ""
+msgstr "¡Las contraseñas no coinciden!"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:153
-msgid "New passphrase to short(6)!"
-msgstr ""
+msgid "New passphrase too short(6)!"
+msgstr "¡Nueva contraseña demasiado corta(6)!"
 
 #: ../qml/phoneui/ui/IntroPage.qml:25
 msgid ""
@@ -72,6 +70,10 @@ msgid ""
 "c/textsecure-qml/issues'>https://github.com/nanu-c/textsecure-qml/issues</"
 "a><br>"
 msgstr ""
+"<h3>!Gracias por probar Signal!</h3><br><br>             Informe de errores "
+"o solicitud de mejoras en GitHub:<br>            <a href='https://github.com/"
+"nanu-c/textsecure-qml/issues'>https://github.com/nanu-c/textsecure-qml/"
+"issues</a><br>"
 
 #: ../qml/phoneui/ui/IntroPage.qml:40
 #: ../qml/phoneui/ui/dialogs/ErrorMessageDialog.qml:12
@@ -80,67 +82,29 @@ msgstr ""
 #: ../qml/phoneui/ui/ContactsPage.qml:54
 #: ../qml/phoneui/ui/VerificationCodePage.qml:94
 msgid "OK"
-msgstr "Vale"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:29
-#: ../qml/phoneui/ui/SettingsPage.qml:55
-msgid "Advanced"
-msgstr "Avanzado"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:34
-msgid "Back"
-msgstr ""
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:51
-msgid "Unregistering"
-msgstr "Anular el registro"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:56
-msgid "Disable Signal messages and calls?"
-msgstr "¿Deshabilitar los mensajes y llamadas de Signal?"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:57
-msgid ""
-"Disable Signal messages and calls by unregistering from the server. You will "
-"need to re-register your phone number to use them again in the future."
-msgstr ""
-"Deshabilite los mensajes y llamadas de Signal anulando el registro del "
-"servidor. Necesitará registrar de nuevo su número de teléfono para usarlos "
-"en el futuro."
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:74
-msgid "Enter key sends"
-msgstr "Enviar con la tecla Intro"
-
-#: ../qml/phoneui/ui/settings/AdvancedPage.qml:87
-#, fuzzy
-msgid "Activate Debuglog"
-msgstr "Enviar registro de depuración"
+msgstr "Aceptar"
 
 #: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:13
 #: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:17
 #: ../qml/phoneui/ui/settings/AddLinkedDevicesPage.qml:10
 msgid "Link a Device"
-msgstr ""
+msgstr "Vincular un dispositivo"
 
 #: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:23
 msgid "Add device"
-msgstr ""
+msgstr "Añadir dispositivo"
 
 #: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:28
-#, fuzzy
 msgid "Refresh devices"
-msgstr "Recargar"
+msgstr "Recargar dispositivos"
 
 #: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:94
-#, fuzzy
 msgid "Delete selected Device?"
-msgstr "¿Borrar el mensaje seleccionado?"
+msgstr "¿Borrar el dispositivo seleccionado?"
 
 #: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:95
-#, fuzzy
 msgid "This will permanently delete the selected Device."
-msgstr "Esto borrará permanentemente el mensaje seleccionado."
+msgstr "Esto borrará permanentemente el dispositivo seleccionado."
 
 #: ../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:10
 msgid "Cancel"
@@ -179,39 +143,72 @@ msgid ""
 msgstr ""
 "¡Revise que este es su número! Estamos a punto de verificarlo con un SMS."
 
-#: ../qml/phoneui/ui/DialogsPage.qml:72 ../qml/phoneui/ui/ContactsPage.qml:35
+#: ../qml/phoneui/ui/DialogsPage.qml:77 ../qml/phoneui/ui/ContactsPage.qml:35
 #: ../qml/phoneui/ui/ContactsPage.qml:42
 msgid "Search"
 msgstr "Buscar"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:84 ../qml/phoneui/ui/ContactsPage.qml:62
+#: ../qml/phoneui/ui/DialogsPage.qml:89 ../qml/phoneui/ui/ContactsPage.qml:62
 msgid "New group"
 msgstr "Nuevo grupo"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:91
+#: ../qml/phoneui/ui/DialogsPage.qml:96
 msgid "Mark all read"
 msgstr "Marcar todo como leído"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:98 ../qml/phoneui/ui/SettingsPage.qml:26
+#: ../qml/phoneui/ui/DialogsPage.qml:103 ../qml/phoneui/ui/SettingsPage.qml:27
 msgid "Settings"
 msgstr "Configuración"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:104
+#: ../qml/phoneui/ui/DialogsPage.qml:109
 msgid "Help"
 msgstr "Ayuda"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:110 ../qml/phoneui/ui/ContactsPage.qml:28
+#: ../qml/phoneui/ui/DialogsPage.qml:115 ../qml/phoneui/ui/ContactsPage.qml:28
 msgid "Close"
-msgstr ""
+msgstr "Cerrar"
 
-#: ../qml/phoneui/ui/DialogsPage.qml:160
+#: ../qml/phoneui/ui/DialogsPage.qml:165
 #, qt-format
 msgid "Forward message to %1?"
 msgstr "¿Reenviar mensaje a %1?"
 
-#: ../qml/phoneui/ui/SettingsPage.qml:59
+#: ../qml/phoneui/ui/SettingsPage.qml:54
+msgid "Privacy"
+msgstr "Privacidad"
+
+#: ../qml/phoneui/ui/SettingsPage.qml:61
 msgid "Linked Devices"
+msgstr "Dispositivos vinculados"
+
+#: ../qml/phoneui/ui/SettingsPage.qml:62
+msgid "Add/Remove linked devices"
+msgstr "Añadir o eliminar dispositivos vinculados"
+
+#: ../qml/phoneui/ui/SettingsPage.qml:69
+msgid "Unregistering"
+msgstr "Anular el registro"
+
+#: ../qml/phoneui/ui/SettingsPage.qml:74
+msgid "Disable Signal messages and calls?"
+msgstr "¿Deshabilitar los mensajes y llamadas de Signal?"
+
+#: ../qml/phoneui/ui/SettingsPage.qml:75
+msgid ""
+"Disable Signal messages and calls by unregistering from the server. You will "
+"need to re-register your phone number to use them again in the future."
 msgstr ""
+"Desactive los mensajes y llamadas de Signal anulando el registro del "
+"servidor. Necesitará registrar de nuevo su número de teléfono para usarlos "
+"en el futuro."
+
+#: ../qml/phoneui/ui/SettingsPage.qml:91
+msgid "Enter key sends"
+msgstr "Enviar con la tecla Intro"
+
+#: ../qml/phoneui/ui/SettingsPage.qml:102
+msgid "Activate Debuglog"
+msgstr "Activar el registro de depuración"
 
 #: ../qml/phoneui/ui/ContactsPage.qml:47
 msgid "Refresh"
@@ -240,7 +237,7 @@ msgstr "%1 miembros"
 
 #: ../qml/phoneui/ui/PickerPage.qml:16
 msgid "Content Picker"
-msgstr ""
+msgstr "Selector de contenido"
 
 #: ../qml/phoneui/ui/DialogPage.qml:35
 msgid "Call"
@@ -268,19 +265,19 @@ msgstr "Verificar la identidad"
 
 #: ../qml/phoneui/ui/DialogPage.qml:72
 msgid "Off Notifications"
-msgstr ""
+msgstr "Notificaciones desactivadas"
 
 #: ../qml/phoneui/ui/DialogPage.qml:72
 msgid "On Notifications"
-msgstr ""
+msgstr "Notificaciones activadas"
 
 #: ../qml/phoneui/ui/DialogPage.qml:77
 msgid "Turn Notifications off?"
-msgstr ""
+msgstr "¿Desactivar notificaciones?"
 
 #: ../qml/phoneui/ui/DialogPage.qml:77
 msgid "Turn Notifications on?"
-msgstr ""
+msgstr "¿Activar notificaciones?"
 
 #: ../qml/phoneui/ui/DialogPage.qml:87
 msgid "Recipients list"
@@ -314,15 +311,15 @@ msgstr "Esto borrará permanentemente todos los mensajes en esta conversación."
 msgid "Select all"
 msgstr "Seleccionar todo"
 
-#: ../qml/phoneui/ui/DialogPage.qml:157 ../qml/phoneui/ui/DialogPage.qml:648
+#: ../qml/phoneui/ui/DialogPage.qml:157 ../qml/phoneui/ui/DialogPage.qml:663
 msgid "Message details"
 msgstr "Detalles del mensaje"
 
-#: ../qml/phoneui/ui/DialogPage.qml:164 ../qml/phoneui/ui/DialogPage.qml:482
+#: ../qml/phoneui/ui/DialogPage.qml:164 ../qml/phoneui/ui/DialogPage.qml:483
 msgid "Copy text"
 msgstr "Copiar texto"
 
-#: ../qml/phoneui/ui/DialogPage.qml:170 ../qml/phoneui/ui/DialogPage.qml:488
+#: ../qml/phoneui/ui/DialogPage.qml:170 ../qml/phoneui/ui/DialogPage.qml:489
 msgid "Forward message"
 msgstr "Reenviar mensaje"
 
@@ -334,23 +331,23 @@ msgstr "Borrar mensaje"
 msgid "Send Signal message"
 msgstr "Enviar mensaje de Signal"
 
-#: ../qml/phoneui/ui/DialogPage.qml:465
+#: ../qml/phoneui/ui/DialogPage.qml:466
 msgid "Delete"
 msgstr "Borrar"
 
-#: ../qml/phoneui/ui/DialogPage.qml:470
+#: ../qml/phoneui/ui/DialogPage.qml:471
 msgid "Delete selected message?"
 msgstr "¿Borrar el mensaje seleccionado?"
 
-#: ../qml/phoneui/ui/DialogPage.qml:471
+#: ../qml/phoneui/ui/DialogPage.qml:472
 msgid "This will permanently delete the selected message."
 msgstr "Esto borrará permanentemente el mensaje seleccionado."
 
-#: ../qml/phoneui/ui/DialogPage.qml:602
+#: ../qml/phoneui/ui/DialogPage.qml:617
 msgid "No messages here yet..."
 msgstr "No hay mensajes aún..."
 
-#: ../qml/phoneui/ui/DialogPage.qml:640
+#: ../qml/phoneui/ui/DialogPage.qml:655
 msgid "Group members"
 msgstr "Miembros del grupo"
 
@@ -389,20 +386,19 @@ msgstr "Código incorrecto. Inténtelo de nuevo."
 
 #: ../qml/phoneui/ui/PasswordPage.qml:15
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Introducir contraseña"
 
 #: ../qml/phoneui/ui/PasswordPage.qml:58
 msgid "Passphrase"
-msgstr ""
+msgstr "Contraseña"
 
 #: ../qml/phoneui/ui/PasswordPage.qml:101
-#, fuzzy
-msgid "This will permanently delete all messages!."
-msgstr "Esto borrará permanentemente el mensaje seleccionado."
+msgid "This will permanently delete all messages!"
+msgstr "¡Esto borrará permanentemente todos los mensajes!"
 
 #: ../qml/phoneui/ui/PasswordPage.qml:130
 msgid "Invalid passphrase!"
-msgstr ""
+msgstr "¡Contraseña no válida!"
 
 #: ../qml/phoneui/ui/PreviewPage.qml:33
 msgid "From: "
@@ -418,7 +414,7 @@ msgstr "Reenviado desde "
 
 #: ../qml/phoneui/components/TelegramPage.qml:23
 msgid "Signal"
-msgstr ""
+msgstr "Signal"
 
 #: ../qml/phoneui/components/AttachPanel.qml:87
 msgid "Image"
@@ -430,45 +426,8 @@ msgstr "Vídeo"
 
 #: ../qml/phoneui/components/AttachPanel.qml:109
 msgid "Audio"
-msgstr "Audio"
+msgstr "Sonido"
 
 #: ../qml/phoneui/components/AttachPanel.qml:120
 msgid "Contact"
 msgstr "Contacto"
-
-#~ msgid "TextSecure"
-#~ msgstr "TextSecure"
-
-#~ msgid "Success!"
-#~ msgstr "¡Éxito!"
-
-#~ msgid "Copy this URL and add it to your issue report or support email:"
-#~ msgstr ""
-#~ "Copie esta URL y añádala a su informe de errores o correo de soporte:"
-
-#~ msgid "Master password"
-#~ msgstr "Contraseña maestra"
-
-#~ msgid "Please enter the password.\n"
-#~ msgstr "Introduzca la contraseña.\n"
-
-#~ msgid "Enter"
-#~ msgstr "Pulse intro"
-
-#~ msgid "Sent"
-#~ msgstr "Enviado"
-
-#~ msgid "Received"
-#~ msgstr "Recibido"
-
-#~ msgid "Secure session reset."
-#~ msgstr "Reiniciar la sesión segura."
-
-#~ msgid "You have left the group."
-#~ msgstr "Ha dejado el grupo."
-
-#~ msgid "Their identity (they read):"
-#~ msgstr "Identidad de ellos (leen):"
-
-#~ msgid "Your identity (you read):"
-#~ msgstr "Su identidad (lee):"

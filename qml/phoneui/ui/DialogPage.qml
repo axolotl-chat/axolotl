@@ -68,7 +68,7 @@ TelegramPage {
             }
         },
         Action {
-            iconName:"alarm"
+            iconName:"notification"
             text: messagesModel.notification?i18n.tr("Off Notifications") : i18n.tr("On Notifications")
             onTriggered: {
                 PopupUtils.open(Qt.resolvedUrl("dialogs/ConfirmationDialog.qml"),
@@ -83,7 +83,7 @@ TelegramPage {
             }
         },
         Action {
-            iconName: "contact-group"
+          iconSource: Qt.resolvedUrl("../images/ic_group_black_24dp.png")
             text: i18n.tr("Recipients list")
             visible: isGroupChat
             onTriggered: {
@@ -363,7 +363,7 @@ TelegramPage {
                         fillMode: Image.PreserveAspectFit
                         focus: false
                         enabled: isConnected
-                        source: enabled ? "../images/ic_send.png" : "../images/ic_send_disabled.png"
+                        source: enabled ? "../images/ic_send_push.png" : "../images/ic_send_disabled.png"
 
                         MouseArea {
                             anchors.fill: sendButton
@@ -402,6 +402,7 @@ TelegramPage {
             clip: true
 
             listModel: messagesModel.len
+
             listDelegate: SignalMessageDelegate {
                 id: delegate
                 property int ii: messagesModel.len - 1 - index
@@ -594,6 +595,20 @@ TelegramPage {
                 color: TelegramColors.chat_section
             }
 
+
+            Image {
+                anchors {
+                    left: parent.left
+                    leftMargin: units.gu(0.5)
+                    verticalCenter: parent.verticalCenter
+                }
+                // height: units.gu(1.5)
+                fillMode: Image.PreserveAspectFit
+                smooth: true
+                antialiasing: true
+                asynchronous: true
+                source: Qt.resolvedUrl("../images/files/android/conversation_list_empty_state.png")
+            }
             Label {
                 id: pageLabel
                 color: "white"
