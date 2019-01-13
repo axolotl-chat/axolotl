@@ -124,6 +124,7 @@ func RunBackend() {
 		},
 		MessageHandler:   messageHandler,
 		ReceiptHandler:   receiptHandler,
+		SyncSentHandler: 	syncSentHandler,
 		RegistrationDone: ui.RegistrationDone,
 	}
 

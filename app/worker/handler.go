@@ -214,6 +214,7 @@ func syncSentHandler(msg *textsecure.Message, timestamp uint64) {
 		m.Flags = msgFlags
 		qml.Changed(m, &m.Flags)
 	}
+	m.IsSent =true
 	//TODO: have only one message per chat
 	// if session.Notification {
 	// 	if settings.SettingsModel.EncryptDatabase{
