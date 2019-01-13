@@ -52,7 +52,7 @@ Item {
 
         sourceSize.width: 128
         sourceSize.height: 128
-        source: Qt.resolvedUrl(thumbnail)
+        source: thumbnail ? Qt.resolvedUrl(thumbnail) :  Qt.resolvedUrl(attachment)
 
         onStatusChanged:  {
             if (status === Image.Error) {
