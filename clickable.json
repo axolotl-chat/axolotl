@@ -14,6 +14,5 @@
     "scripts"
   ],
   "postbuild": "bash ../scripts/postbuild.sh",
-  "dependencies":"libzbar-dev",
-  "docker_image":"nanuc/ut-textsecure-sdk:16.04"
+  "dependencies_target": ["libzbar-dev", "qml-module-qtcontacts"]
 }

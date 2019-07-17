@@ -32,6 +32,7 @@ func RegistrationDone() {
 func SetComponent() error {
 	component, err := Engine.LoadFile(config.MainQml)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 	Win = component.CreateWindow(nil)

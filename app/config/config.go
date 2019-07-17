@@ -86,9 +86,11 @@ func SetupConfig() {
 	} else {
 		user, err := user.Current()
 		if err != nil {
-			log.Fatal(err)
+			// log.Fatal(err)
+			HomeDir = "/home/phablet"
+		} else {
+			HomeDir = user.HomeDir
 		}
-		HomeDir = user.HomeDir
 	}
 	CacheDir = filepath.Join(HomeDir, ".cache/", AppName)
 	LogFileName := []string{"application-click-", AppName, "_textsecure_", AppVersion, ".log"}

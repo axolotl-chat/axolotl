@@ -24,22 +24,24 @@ import (
 	"encoding/json"
 	"time"
 
-	log "github.com/Sirupsen/logrus"
-
 	"launchpad.net/go-dbus/v1"
 )
 
 var (
-	sessionBus *dbus.Connection
-	err        error
-	Nh         *NotificationHandler
+	sessionBus       *dbus.Connection
+	err              error
+	Nh               *NotificationHandler
+	useNotifications bool
 )
 
 func notificationInit() {
 	if sessionBus, err = dbus.Connect(dbus.SessionBus); err != nil {
-		log.Fatal("Connection error: ", err)
+		//log.Fatal("Connection error: ", err)
+		useNotifications = false
+	} else {
+		useNotifications = true
+		Nh = NewLegacyHandler(sessionBus, "textsecure.nanuc_textsecure")
 	}
-	Nh = NewLegacyHandler(sessionBus, "textsecure.nanuc_textsecure")
 
 }
 
@@ -67,14 +69,17 @@ func NewLegacyHandler(conn *dbus.Connection, application string) *NotificationHa
 }
 
 func (n *NotificationHandler) Send(m *PushMessage) error {
-	var pushMessage string
-	if out, err := json.Marshal(m); err == nil {
-		pushMessage = string(out)
-	} else {
+	if useNotifications {
+		var pushMessage string
+		if out, err := json.Marshal(m); err == nil {
+			pushMessage = string(out)
+		} else {
+			return err
+		}
+		_, err := n.dbusObject.Call(dbusInterface, dbusPostMethod, "textsecure.nanuc_textsecure", pushMessage)
 		return err
 	}
-	_, err := n.dbusObject.Call(dbusInterface, dbusPostMethod, "textsecure.nanuc_textsecure", pushMessage)
-	return err
+	return nil
 }
 
 // NewStandardPushMessage creates a base Notification with common
