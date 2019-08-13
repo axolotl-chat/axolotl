@@ -54,9 +54,6 @@ TelegramPage {
                     countries.push(c)
                 }
                 countrySelector.model = countries
-                // lolz
-                //countrySelector.selectedIndex = countries.indexOf('United States')
-
             }
         }
 

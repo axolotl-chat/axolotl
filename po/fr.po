@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-05 19:26+0100\n"
+"POT-Creation-Date: 2019-08-13 11:47+0200\n"
 "PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -11,6 +11,52 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: ../qml/phoneui/components/TelegramPage.qml:23
+msgid "Signal"
+msgstr "Signal"
+
+#: ../qml/phoneui/components/SignalMessageDelegate.qml:183
+#, fuzzy
+msgid "Forwarded from "
+msgstr "Transféré à partir de"
+
+#: ../qml/phoneui/components/AttachPanel.qml:87
+msgid "Image"
+msgstr "Image"
+
+#: ../qml/phoneui/components/AttachPanel.qml:98
+msgid "Video"
+msgstr "Vidéo"
+
+#: ../qml/phoneui/components/AttachPanel.qml:109
+msgid "Audio"
+msgstr "Audio"
+
+#: ../qml/phoneui/components/AttachPanel.qml:120
+msgid "Contact"
+msgstr "Contact"
+
+#: ../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:8
+#: ../qml/phoneui/ui/dialogs/ErrorMessageDialog.qml:12
+#: ../qml/phoneui/ui/dialogs/InfoDialog.qml:17
+#: ../qml/phoneui/ui/ContactsPage.qml:54
+#: ../qml/phoneui/ui/VerificationCodePage.qml:94
+#: ../qml/phoneui/ui/IntroPage.qml:40
+msgid "OK"
+msgstr "Valider"
+
+#: ../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:10
+msgid "Cancel"
+msgstr "Annuler"
+
+#: ../qml/phoneui/ui/PreviewPage.qml:33
+msgid "From: "
+msgstr "De :"
+
+#: ../qml/phoneui/ui/PreviewPage.qml:47
+msgid "Save"
+msgstr "Enregistrer"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:17
 #: ../qml/phoneui/ui/SetPasswordPage.qml:105
@@ -61,120 +107,9 @@ msgstr "Les nouveaux mots de passe ne sont pas identiques"
 msgid "New passphrase too short(6)!"
 msgstr "Le nouveau mot de passe est trop court !"
 
-#: ../qml/phoneui/ui/IntroPage.qml:25
-msgid ""
-"<h3>Thanks for trying out Signal!</h3><br><br>             File bugs and "
-"feature requests on github:<br>            <a href='https://github.com/nanu-"
-"c/textsecure-qml/issues'>https://github.com/nanu-c/textsecure-qml/issues</"
-"a><br>"
-msgstr ""
-"<h3>Merci d'essayer Signal !</h3><br><br>             Signalez les problèmes "
-"et les demandes de fonctionnalités sur GitHub :<br>            <a "
-"href='https://github.com/nanu-c/textsecure-qml/issues'>https://github.com/"
-"nanu-c/textsecure-qml/issues</a><br>"
-
-#: ../qml/phoneui/ui/IntroPage.qml:40
-#: ../qml/phoneui/ui/dialogs/ErrorMessageDialog.qml:12
-#: ../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:8
-#: ../qml/phoneui/ui/dialogs/InfoDialog.qml:17
-#: ../qml/phoneui/ui/ContactsPage.qml:54
-#: ../qml/phoneui/ui/VerificationCodePage.qml:94
-msgid "OK"
-msgstr "Valider"
-
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:13
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:17
-#: ../qml/phoneui/ui/settings/AddLinkedDevicesPage.qml:10
-msgid "Link a Device"
-msgstr "Lier un appareil"
-
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:23
-msgid "Add device"
-msgstr "Ajouter un appareil"
-
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:28
-#, fuzzy
-msgid "Refresh devices"
-msgstr "Actualiser les appareils"
-
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:94
-#, fuzzy
-msgid "Delete selected Device?"
-msgstr "Supprimer l'appareil sélectionné ?"
-
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:95
-#, fuzzy
-msgid "This will permanently delete the selected Device."
-msgstr "Cela supprimera définitivement l'appareil sélectionné."
-
-#: ../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:10
-msgid "Cancel"
-msgstr "Annuler"
-
-#: ../qml/phoneui/ui/SigninPage.qml:16
-msgid "Connect with Signal"
-msgstr "Se connecter avec Signal"
-
-#: ../qml/phoneui/ui/SigninPage.qml:28
-msgid "YOUR COUNTRY"
-msgstr "VOTRE PAYS"
-
-#: ../qml/phoneui/ui/SigninPage.qml:65
-msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
-msgstr "VOTRE CODE PAYS ET VOTRE NUMÉRO DE TÉLÉPHONE"
-
-#: ../qml/phoneui/ui/SigninPage.qml:147
-msgid "Verify your phone number to connect with Signal."
-msgstr "Vérifier votre numéro de téléphone pour vous connecter avec Signal"
-
-#: ../qml/phoneui/ui/SigninPage.qml:148
-msgid ""
-"Registration transmits some contact information to the server. It is not "
-"stored."
-msgstr ""
-"L'inscription transmettra des informations de contact au serveur. Elle ne "
-"seront pas stockées."
-
-#: ../qml/phoneui/ui/SigninPage.qml:162
-msgid "Register"
-msgstr "S'inscrire"
-
-#: ../qml/phoneui/ui/SigninPage.qml:191
-msgid ""
-"Double-check that this is your number! We're about to verify it with an SMS."
-msgstr ""
-"Vérifiez qu'il s’agit bien de votre numéro ! Nous allons envoyer un texto de "
-"vérification."
-
-#: ../qml/phoneui/ui/DialogsPage.qml:77 ../qml/phoneui/ui/ContactsPage.qml:35
-#: ../qml/phoneui/ui/ContactsPage.qml:42
-msgid "Search"
-msgstr "Rechercher"
-
-#: ../qml/phoneui/ui/DialogsPage.qml:89 ../qml/phoneui/ui/ContactsPage.qml:62
-msgid "New group"
-msgstr "Nouveau groupe"
-
-#: ../qml/phoneui/ui/DialogsPage.qml:96
-msgid "Mark all read"
-msgstr "Tout marquer comme lu"
-
-#: ../qml/phoneui/ui/DialogsPage.qml:103 ../qml/phoneui/ui/SettingsPage.qml:27
+#: ../qml/phoneui/ui/SettingsPage.qml:27 ../qml/phoneui/ui/DialogsPage.qml:103
 msgid "Settings"
 msgstr "Paramètres"
-
-#: ../qml/phoneui/ui/DialogsPage.qml:109
-msgid "Help"
-msgstr "Aide"
-
-#: ../qml/phoneui/ui/DialogsPage.qml:115 ../qml/phoneui/ui/ContactsPage.qml:28
-msgid "Close"
-msgstr "Fermer"
-
-#: ../qml/phoneui/ui/DialogsPage.qml:165
-#, fuzzy, qt-format
-msgid "Forward message to %1?"
-msgstr "Faire suivre le message à %1 ?"
 
 #: ../qml/phoneui/ui/SettingsPage.qml:54
 msgid "Privacy"
@@ -214,9 +149,99 @@ msgstr "Envoi par la touche Entrée"
 msgid "Activate Debuglog"
 msgstr "Activer le journal des anomalies"
 
+#: ../qml/phoneui/ui/SigninPage.qml:16
+msgid "Connect with Signal"
+msgstr "Se connecter avec Signal"
+
+#: ../qml/phoneui/ui/SigninPage.qml:28
+msgid "YOUR COUNTRY"
+msgstr "VOTRE PAYS"
+
+#: ../qml/phoneui/ui/SigninPage.qml:62
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr "VOTRE CODE PAYS ET VOTRE NUMÉRO DE TÉLÉPHONE"
+
+#: ../qml/phoneui/ui/SigninPage.qml:145
+msgid "Verify your phone number to connect with Signal."
+msgstr "Vérifier votre numéro de téléphone pour vous connecter avec Signal"
+
+#: ../qml/phoneui/ui/SigninPage.qml:146
+msgid ""
+"Registration transmits some contact information to the server. It is not "
+"stored."
+msgstr ""
+"L'inscription transmettra des informations de contact au serveur. Elle ne "
+"seront pas stockées."
+
+#: ../qml/phoneui/ui/SigninPage.qml:160
+msgid "Register"
+msgstr "S'inscrire"
+
+#: ../qml/phoneui/ui/SigninPage.qml:189
+msgid ""
+"Double-check that this is your number! We're about to verify it with an SMS."
+msgstr ""
+"Vérifiez qu'il s’agit bien de votre numéro ! Nous allons envoyer un texto de "
+"vérification."
+
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:13
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:17
+#: ../qml/phoneui/ui/settings/AddLinkedDevicesPage.qml:10
+msgid "Link a Device"
+msgstr "Lier un appareil"
+
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:23
+msgid "Add device"
+msgstr "Ajouter un appareil"
+
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:28
+#, fuzzy
+msgid "Refresh devices"
+msgstr "Actualiser les appareils"
+
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:94
+#, fuzzy
+msgid "Delete selected Device?"
+msgstr "Supprimer l'appareil sélectionné ?"
+
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:95
+#, fuzzy
+msgid "This will permanently delete the selected Device."
+msgstr "Cela supprimera définitivement l'appareil sélectionné."
+
+#: ../qml/phoneui/ui/PasswordPage.qml:15
+msgid "Enter passphrase"
+msgstr "Saisissez un mot de passe"
+
+#: ../qml/phoneui/ui/PasswordPage.qml:58
+msgid "Passphrase"
+msgstr "Mot de passe"
+
+#: ../qml/phoneui/ui/PasswordPage.qml:101
+#, fuzzy
+msgid "This will permanently delete all messages!"
+msgstr "Cela supprimera définitivement tous les messages !"
+
+#: ../qml/phoneui/ui/PasswordPage.qml:130
+msgid "Invalid passphrase!"
+msgstr "Mot de passe non valide !"
+
+#: ../qml/phoneui/ui/ContactsPage.qml:28 ../qml/phoneui/ui/DialogsPage.qml:115
+msgid "Close"
+msgstr "Fermer"
+
+#: ../qml/phoneui/ui/ContactsPage.qml:35 ../qml/phoneui/ui/ContactsPage.qml:42
+#: ../qml/phoneui/ui/DialogsPage.qml:77
+msgid "Search"
+msgstr "Rechercher"
+
 #: ../qml/phoneui/ui/ContactsPage.qml:47
 msgid "Refresh"
 msgstr "Actualiser"
+
+#: ../qml/phoneui/ui/ContactsPage.qml:62 ../qml/phoneui/ui/DialogsPage.qml:89
+msgid "New group"
+msgstr "Nouveau groupe"
 
 #: ../qml/phoneui/ui/ContactsPage.qml:64 ../qml/phoneui/ui/DialogPage.qml:112
 msgid "Update group"
@@ -244,6 +269,52 @@ msgstr "%1 membres"
 #: ../qml/phoneui/ui/PickerPage.qml:16
 msgid "Content Picker"
 msgstr "Sélecteur de contenu"
+
+#: ../qml/phoneui/ui/VerificationCodePage.qml:17
+msgid "Verifying number"
+msgstr "Vérification du numéro"
+
+#: ../qml/phoneui/ui/VerificationCodePage.qml:33
+msgid ""
+"Signal will now automatically verify your number with a confirmation SMS "
+"message."
+msgstr ""
+"Signal va maintenant automatiquement vérifier votre numéro à l'aide d'un "
+"texto de confirmation."
+
+#: ../qml/phoneui/ui/VerificationCodePage.qml:44
+#: ../qml/phoneui/ui/VerificationCodePage.qml:110
+msgid "Waiting for SMS verification..."
+msgstr "Attente du texto de vérification..."
+
+#: ../qml/phoneui/ui/VerificationCodePage.qml:71
+msgid "Code"
+msgstr "Code"
+
+#: ../qml/phoneui/ui/VerificationCodePage.qml:134
+msgid "Calling you (this may take a while)..."
+msgstr "Nous vons appelons (cela peut prendre un moment)..."
+
+#: ../qml/phoneui/ui/VerificationCodePage.qml:139
+msgid "Please wait a moment and try again"
+msgstr "Veuillez attendre un moment et réessayer"
+
+#: ../qml/phoneui/ui/VerificationCodePage.qml:149
+msgid "Incorrect code. Please try again."
+msgstr "Code incorrect. Veuillez réessayer."
+
+#: ../qml/phoneui/ui/DialogsPage.qml:96
+msgid "Mark all read"
+msgstr "Tout marquer comme lu"
+
+#: ../qml/phoneui/ui/DialogsPage.qml:109
+msgid "Help"
+msgstr "Aide"
+
+#: ../qml/phoneui/ui/DialogsPage.qml:165
+#, fuzzy, qt-format
+msgid "Forward message to %1?"
+msgstr "Faire suivre le message à %1 ?"
 
 #: ../qml/phoneui/ui/DialogPage.qml:35
 msgid "Call"
@@ -361,88 +432,17 @@ msgstr "Aucun message ici pour le moment..."
 msgid "Group members"
 msgstr "Membres du groupe"
 
-#: ../qml/phoneui/ui/VerificationCodePage.qml:17
-msgid "Verifying number"
-msgstr "Vérification du numéro"
-
-#: ../qml/phoneui/ui/VerificationCodePage.qml:33
+#: ../qml/phoneui/ui/IntroPage.qml:25
 msgid ""
-"Signal will now automatically verify your number with a confirmation SMS "
-"message."
+"<h3>Thanks for trying out Signal!</h3><br><br>             File bugs and "
+"feature requests on github:<br>            <a href='https://github.com/nanu-"
+"c/textsecure-qml/issues'>https://github.com/nanu-c/textsecure-qml/issues</"
+"a><br>"
 msgstr ""
-"Signal va maintenant automatiquement vérifier votre numéro à l'aide d'un "
-"texto de confirmation."
-
-#: ../qml/phoneui/ui/VerificationCodePage.qml:44
-#: ../qml/phoneui/ui/VerificationCodePage.qml:110
-msgid "Waiting for SMS verification..."
-msgstr "Attente du texto de vérification..."
-
-#: ../qml/phoneui/ui/VerificationCodePage.qml:71
-msgid "Code"
-msgstr "Code"
-
-#: ../qml/phoneui/ui/VerificationCodePage.qml:134
-msgid "Calling you (this may take a while)..."
-msgstr "Nous vons appelons (cela peut prendre un moment)..."
-
-#: ../qml/phoneui/ui/VerificationCodePage.qml:139
-msgid "Please wait a moment and try again"
-msgstr "Veuillez attendre un moment et réessayer"
-
-#: ../qml/phoneui/ui/VerificationCodePage.qml:149
-msgid "Incorrect code. Please try again."
-msgstr "Code incorrect. Veuillez réessayer."
-
-#: ../qml/phoneui/ui/PasswordPage.qml:15
-msgid "Enter passphrase"
-msgstr "Saisissez un mot de passe"
-
-#: ../qml/phoneui/ui/PasswordPage.qml:58
-msgid "Passphrase"
-msgstr "Mot de passe"
-
-#: ../qml/phoneui/ui/PasswordPage.qml:101
-#, fuzzy
-msgid "This will permanently delete all messages!"
-msgstr "Cela supprimera définitivement tous les messages !"
-
-#: ../qml/phoneui/ui/PasswordPage.qml:130
-msgid "Invalid passphrase!"
-msgstr "Mot de passe non valide !"
-
-#: ../qml/phoneui/ui/PreviewPage.qml:33
-msgid "From: "
-msgstr "De :"
-
-#: ../qml/phoneui/ui/PreviewPage.qml:47
-msgid "Save"
-msgstr "Enregistrer"
-
-#: ../qml/phoneui/components/SignalMessageDelegate.qml:183
-#, fuzzy
-msgid "Forwarded from "
-msgstr "Transféré à partir de"
-
-#: ../qml/phoneui/components/TelegramPage.qml:23
-msgid "Signal"
-msgstr "Signal"
-
-#: ../qml/phoneui/components/AttachPanel.qml:87
-msgid "Image"
-msgstr "Image"
-
-#: ../qml/phoneui/components/AttachPanel.qml:98
-msgid "Video"
-msgstr "Vidéo"
-
-#: ../qml/phoneui/components/AttachPanel.qml:109
-msgid "Audio"
-msgstr "Audio"
-
-#: ../qml/phoneui/components/AttachPanel.qml:120
-msgid "Contact"
-msgstr "Contact"
+"<h3>Merci d'essayer Signal !</h3><br><br>             Signalez les problèmes "
+"et les demandes de fonctionnalités sur GitHub :<br>            <a "
+"href='https://github.com/nanu-c/textsecure-qml/issues'>https://github.com/"
+"nanu-c/textsecure-qml/issues</a><br>"
 
 #~ msgid "Advanced"
 #~ msgstr "Avancé"

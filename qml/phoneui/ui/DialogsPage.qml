@@ -40,9 +40,9 @@ TelegramPage {
               anchors.top:parent.top
             }
             TextField {
-               onActiveFocusChanged: {console.log("focus2") }
+               onActiveFocusChanged: {
+                }
                 onFocusChanged:{
-                  console.log("focus")
                 }
                 focus: isSearching
                 id: searchField
