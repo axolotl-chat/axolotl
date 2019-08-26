@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	"github.com/gosexy/gettext"
 	qml "github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure"

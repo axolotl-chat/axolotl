@@ -27,7 +27,7 @@ snap install --classic go -->
 ##set $GOPATH
 ## get go dependencies
 ```
-go get -v -d github.com/Sirupsen/logrus
+go get -v -d github.com/sirupsen/logrus
 go get -v -d github.com/godbus/dbus
 go get -v -d github.com/dustin/go-humanize
 go get -v -d github.com/godbus/dbus

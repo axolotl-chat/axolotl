@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"syscall"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mutecomm/go-sqlcipher"
 	qml "github.com/nanu-c/qml-go"

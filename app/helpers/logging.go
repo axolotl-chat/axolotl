@@ -3,7 +3,7 @@ package helpers
 import (
 	"os"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 )
 
 func SetupLogging() error {
