@@ -35,7 +35,6 @@ The build-system is now integrated in the `clickable` Version 3.2.0.
 * Check out this git `go get -d github.com/nanu-c/textsecure-qml`
 * `cd $(go env GOPATH)/src/github.com/nanu-c/textsecure-qml`
 * Get [clickable](https://github.com/bhdouglass/clickable#install)
-* Build the modified docker container with `cd docker&& docker build -t nanuc/ut-textsecure-sdk:16.04 .`
 * Back to main dir, then
 * Run `clickable`, this also transfers the click package to the Ubuntu Touch Phone
 * Run `clickable launch logs` to start signal and watch the log
