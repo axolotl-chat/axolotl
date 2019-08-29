@@ -1,3 +1,6 @@
+0.4.3 (Aug 18 2019)
+--------------------
+* fix unregistering
 0.4.2 (Aug 18 2019)
 --------------------
 * Update protobufs and wrong imports

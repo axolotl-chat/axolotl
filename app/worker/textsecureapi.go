@@ -34,11 +34,30 @@ var isEncrypted = true
 
 //unregister  signal id
 func (Api *TextsecureAPI) Unregister() {
-	os.RemoveAll(config.StorageDir)
-	os.Remove(config.ConfigFile)
-	os.RemoveAll(config.DataDir)
-	os.Remove(config.ContactsFile)
-	settings.SettingsModel.EncryptDatabase = false
+	err := os.Remove("/home/phablet/local/share/textsecure.nanuc/db.sql")
+	if err != nil {
+		log.Error(err)
+	}
+	err = os.Remove(config.ContactsFile)
+	if err != nil {
+		log.Error(err)
+	}
+	err = os.Remove(config.SettingsFile)
+	if err != nil {
+		log.Error(err)
+	}
+	err = os.RemoveAll(config.StorageDir)
+	if err != nil {
+		log.Error(err)
+	}
+	err = os.RemoveAll(config.DataDir + config.AppName)
+	if err != nil {
+		log.Error(err)
+	}
+	err = os.RemoveAll(config.CacheDir + config.AppName)
+	if err != nil {
+		log.Error(err)
+	}
 	os.Exit(1)
 }
 

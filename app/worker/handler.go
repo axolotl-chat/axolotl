@@ -1,7 +1,6 @@
 package worker
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"strings"
@@ -18,8 +17,6 @@ import (
 //messageHandler is used on incoming message
 func messageHandler(msg *textsecure.Message) {
 	var err error
-	fmt.Sprintf("Expire timer %d", msg.XpireTimer())
-
 	f := ""
 	mt := ""
 	if len(msg.Attachments()) > 0 {
@@ -37,10 +34,6 @@ func messageHandler(msg *textsecure.Message) {
 		text = lang.SessionReset
 		msgFlags = msgFlagResetSession
 	}
-	// if msg.XpireTimer() >{
-	// 	text = lang.SessionReset
-	// 	msgFlags = msgFlagResetSession
-	// }
 	//Group Message
 	gr := msg.Group()
 
