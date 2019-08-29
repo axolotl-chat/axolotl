@@ -1,7 +1,7 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.0
-import Ubuntu.Components.Popups 1.0
+import Ubuntu.Components.Popups 1.3
 import Ubuntu.Connectivity 1.0
 
 import "../components"
@@ -17,7 +17,7 @@ TelegramPage {
     property bool onlineIndicationOnly: false
     property bool isConnected: {
         if (onlineIndicationOnly) {
-            return isOnline;
+            return true;
         } else if (root.activeFocus) {
             return isOnline;
         } return true; // Don't indicate connectivity.
@@ -40,9 +40,9 @@ TelegramPage {
               anchors.top:parent.top
             }
             TextField {
-               onActiveFocusChanged: {console.log("focus2") }
+               onActiveFocusChanged: {
+                }
                 onFocusChanged:{
-                  console.log("focus")
                 }
                 focus: isSearching
                 id: searchField

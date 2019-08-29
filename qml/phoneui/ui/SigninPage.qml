@@ -1,6 +1,6 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import Ubuntu.Components.Popups 1.0
+import Ubuntu.Components.Popups 1.3
 import Ubuntu.Telephony.PhoneNumber 0.1
 import "../js/country_data.js" as CountryData
 import "../components"
@@ -13,6 +13,8 @@ TelegramPage {
     // //head.backAction.visible: false
     header:PageHeader{
           id:pageHeader
+          leadingActionBar.actions:[
+          ]
           title: i18n.tr("Connect with Signal")
     }
     onlineIndicationOnly: true
@@ -54,9 +56,6 @@ TelegramPage {
                     countries.push(c)
                 }
                 countrySelector.model = countries
-                // lolz
-                //countrySelector.selectedIndex = countries.indexOf('United States')
-
             }
         }
 

@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"regexp"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	"github.com/nanu-c/textsecure-qml/app/config"
 )
 

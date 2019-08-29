@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-05 19:16+0100\n"
+"POT-Creation-Date: 2019-08-26 23:14+0200\n"
 "PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -11,6 +11,52 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: ../qml/phoneui/components/TelegramPage.qml:24
+msgid "Signal"
+msgstr ""
+
+#: ../qml/phoneui/components/SignalMessageDelegate.qml:183
+#, fuzzy
+msgid "Forwarded from "
+msgstr "Prepošli správu"
+
+#: ../qml/phoneui/components/AttachPanel.qml:87
+msgid "Image"
+msgstr ""
+
+#: ../qml/phoneui/components/AttachPanel.qml:98
+msgid "Video"
+msgstr ""
+
+#: ../qml/phoneui/components/AttachPanel.qml:109
+msgid "Audio"
+msgstr "Audio"
+
+#: ../qml/phoneui/components/AttachPanel.qml:120
+msgid "Contact"
+msgstr ""
+
+#: ../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:8
+#: ../qml/phoneui/ui/dialogs/ErrorMessageDialog.qml:12
+#: ../qml/phoneui/ui/dialogs/InfoDialog.qml:17
+#: ../qml/phoneui/ui/ContactsPage.qml:54
+#: ../qml/phoneui/ui/VerificationCodePage.qml:96
+#: ../qml/phoneui/ui/IntroPage.qml:40
+msgid "OK"
+msgstr ""
+
+#: ../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:10
+msgid "Cancel"
+msgstr ""
+
+#: ../qml/phoneui/ui/PreviewPage.qml:33
+msgid "From: "
+msgstr ""
+
+#: ../qml/phoneui/ui/PreviewPage.qml:47
+msgid "Save"
+msgstr "Uložiť"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:17
 #: ../qml/phoneui/ui/SetPasswordPage.qml:105
@@ -61,114 +107,9 @@ msgstr ""
 msgid "New passphrase too short(6)!"
 msgstr "Nová správa"
 
-#: ../qml/phoneui/ui/IntroPage.qml:25
-msgid ""
-"<h3>Thanks for trying out Signal!</h3><br><br>             File bugs and "
-"feature requests on github:<br>            <a href='https://github.com/nanu-"
-"c/textsecure-qml/issues'>https://github.com/nanu-c/textsecure-qml/issues</"
-"a><br>"
-msgstr ""
-
-#: ../qml/phoneui/ui/IntroPage.qml:40
-#: ../qml/phoneui/ui/dialogs/ErrorMessageDialog.qml:12
-#: ../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:8
-#: ../qml/phoneui/ui/dialogs/InfoDialog.qml:17
-#: ../qml/phoneui/ui/ContactsPage.qml:54
-#: ../qml/phoneui/ui/VerificationCodePage.qml:94
-msgid "OK"
-msgstr ""
-
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:13
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:17
-#: ../qml/phoneui/ui/settings/AddLinkedDevicesPage.qml:10
-msgid "Link a Device"
-msgstr ""
-
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:23
-msgid "Add device"
-msgstr ""
-
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:28
-msgid "Refresh devices"
-msgstr ""
-
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:94
-#, fuzzy
-msgid "Delete selected Device?"
-msgstr "Zmaž správu"
-
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:95
-msgid "This will permanently delete the selected Device."
-msgstr ""
-
-#: ../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:10
-msgid "Cancel"
-msgstr ""
-
-#: ../qml/phoneui/ui/SigninPage.qml:16
-msgid "Connect with Signal"
-msgstr ""
-
-#: ../qml/phoneui/ui/SigninPage.qml:28
-msgid "YOUR COUNTRY"
-msgstr "TVOJA KRAJINA"
-
-#: ../qml/phoneui/ui/SigninPage.qml:65
-msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
-msgstr "Tvoj kód krajiny a telefónne číslo"
-
-#: ../qml/phoneui/ui/SigninPage.qml:147
-msgid "Verify your phone number to connect with Signal."
-msgstr ""
-
-#: ../qml/phoneui/ui/SigninPage.qml:148
-msgid ""
-"Registration transmits some contact information to the server. It is not "
-"stored."
-msgstr ""
-"Pri registrácii budú odoslané niektoré Vaše kontakné údaje na vzdialený "
-"server. Tieto údaje nebudú trvalo uložené."
-
-#: ../qml/phoneui/ui/SigninPage.qml:162
-msgid "Register"
-msgstr "Registrovať"
-
-#: ../qml/phoneui/ui/SigninPage.qml:191
-msgid ""
-"Double-check that this is your number! We're about to verify it with an SMS."
-msgstr ""
-"Skontrolujte pre istotu znovu, že ste správne zadali Vaše telefónne číslo! "
-"Prebehne overenie pomocou SMS."
-
-#: ../qml/phoneui/ui/DialogsPage.qml:77 ../qml/phoneui/ui/ContactsPage.qml:35
-#: ../qml/phoneui/ui/ContactsPage.qml:42
-msgid "Search"
-msgstr "Hľadaj"
-
-#: ../qml/phoneui/ui/DialogsPage.qml:89 ../qml/phoneui/ui/ContactsPage.qml:62
-msgid "New group"
-msgstr "Nová skupina"
-
-#: ../qml/phoneui/ui/DialogsPage.qml:96
-msgid "Mark all read"
-msgstr "Označ všetky prečítané"
-
-#: ../qml/phoneui/ui/DialogsPage.qml:103 ../qml/phoneui/ui/SettingsPage.qml:27
+#: ../qml/phoneui/ui/SettingsPage.qml:27 ../qml/phoneui/ui/DialogsPage.qml:103
 msgid "Settings"
 msgstr "Nastavenia"
-
-#: ../qml/phoneui/ui/DialogsPage.qml:109
-msgid "Help"
-msgstr ""
-
-#: ../qml/phoneui/ui/DialogsPage.qml:115 ../qml/phoneui/ui/ContactsPage.qml:28
-msgid "Close"
-msgstr ""
-
-#: ../qml/phoneui/ui/DialogsPage.qml:165
-#, fuzzy, qt-format
-msgid "Forward message to %1?"
-msgstr "Prepošli správu"
 
 #: ../qml/phoneui/ui/SettingsPage.qml:54
 msgid "Privacy"
@@ -205,9 +146,96 @@ msgstr "Odoslať stiskom klávesy Enter"
 msgid "Activate Debuglog"
 msgstr "Odošli ladiaci log"
 
+#: ../qml/phoneui/ui/SigninPage.qml:18
+msgid "Connect with Signal"
+msgstr ""
+
+#: ../qml/phoneui/ui/SigninPage.qml:30
+msgid "YOUR COUNTRY"
+msgstr "TVOJA KRAJINA"
+
+#: ../qml/phoneui/ui/SigninPage.qml:64
+msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+msgstr "Tvoj kód krajiny a telefónne číslo"
+
+#: ../qml/phoneui/ui/SigninPage.qml:146
+msgid "Verify your phone number to connect with Signal."
+msgstr ""
+
+#: ../qml/phoneui/ui/SigninPage.qml:147
+msgid ""
+"Registration transmits some contact information to the server. It is not "
+"stored."
+msgstr ""
+"Pri registrácii budú odoslané niektoré Vaše kontakné údaje na vzdialený "
+"server. Tieto údaje nebudú trvalo uložené."
+
+#: ../qml/phoneui/ui/SigninPage.qml:161
+msgid "Register"
+msgstr "Registrovať"
+
+#: ../qml/phoneui/ui/SigninPage.qml:190
+msgid ""
+"Double-check that this is your number! We're about to verify it with an SMS."
+msgstr ""
+"Skontrolujte pre istotu znovu, že ste správne zadali Vaše telefónne číslo! "
+"Prebehne overenie pomocou SMS."
+
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:13
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:17
+#: ../qml/phoneui/ui/settings/AddLinkedDevicesPage.qml:10
+msgid "Link a Device"
+msgstr ""
+
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:23
+msgid "Add device"
+msgstr ""
+
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:28
+msgid "Refresh devices"
+msgstr ""
+
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:94
+#, fuzzy
+msgid "Delete selected Device?"
+msgstr "Zmaž správu"
+
+#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:95
+msgid "This will permanently delete the selected Device."
+msgstr ""
+
+#: ../qml/phoneui/ui/PasswordPage.qml:15
+msgid "Enter passphrase"
+msgstr ""
+
+#: ../qml/phoneui/ui/PasswordPage.qml:58
+msgid "Passphrase"
+msgstr ""
+
+#: ../qml/phoneui/ui/PasswordPage.qml:101
+msgid "This will permanently delete all messages!"
+msgstr ""
+
+#: ../qml/phoneui/ui/PasswordPage.qml:130
+msgid "Invalid passphrase!"
+msgstr ""
+
+#: ../qml/phoneui/ui/ContactsPage.qml:28 ../qml/phoneui/ui/DialogsPage.qml:115
+msgid "Close"
+msgstr ""
+
+#: ../qml/phoneui/ui/ContactsPage.qml:35 ../qml/phoneui/ui/ContactsPage.qml:42
+#: ../qml/phoneui/ui/DialogsPage.qml:77
+msgid "Search"
+msgstr "Hľadaj"
+
 #: ../qml/phoneui/ui/ContactsPage.qml:47
 msgid "Refresh"
 msgstr ""
+
+#: ../qml/phoneui/ui/ContactsPage.qml:62 ../qml/phoneui/ui/DialogsPage.qml:89
+msgid "New group"
+msgstr "Nová skupina"
 
 #: ../qml/phoneui/ui/ContactsPage.qml:64 ../qml/phoneui/ui/DialogPage.qml:112
 msgid "Update group"
@@ -233,6 +261,50 @@ msgstr "Členovia skupiny"
 #: ../qml/phoneui/ui/PickerPage.qml:16
 msgid "Content Picker"
 msgstr ""
+
+#: ../qml/phoneui/ui/VerificationCodePage.qml:17
+msgid "Verifying number"
+msgstr "Overovanie čísla"
+
+#: ../qml/phoneui/ui/VerificationCodePage.qml:35
+msgid ""
+"Signal will now automatically verify your number with a confirmation SMS "
+"message."
+msgstr ""
+
+#: ../qml/phoneui/ui/VerificationCodePage.qml:46
+#: ../qml/phoneui/ui/VerificationCodePage.qml:112
+msgid "Waiting for SMS verification..."
+msgstr "Čakanie na SMS overovanie..."
+
+#: ../qml/phoneui/ui/VerificationCodePage.qml:73
+msgid "Code"
+msgstr ""
+
+#: ../qml/phoneui/ui/VerificationCodePage.qml:136
+msgid "Calling you (this may take a while)..."
+msgstr ""
+
+#: ../qml/phoneui/ui/VerificationCodePage.qml:141
+msgid "Please wait a moment and try again"
+msgstr ""
+
+#: ../qml/phoneui/ui/VerificationCodePage.qml:151
+msgid "Incorrect code. Please try again."
+msgstr ""
+
+#: ../qml/phoneui/ui/DialogsPage.qml:96
+msgid "Mark all read"
+msgstr "Označ všetky prečítané"
+
+#: ../qml/phoneui/ui/DialogsPage.qml:109
+msgid "Help"
+msgstr ""
+
+#: ../qml/phoneui/ui/DialogsPage.qml:165
+#, fuzzy, qt-format
+msgid "Forward message to %1?"
+msgstr "Prepošli správu"
 
 #: ../qml/phoneui/ui/DialogPage.qml:35
 msgid "Call"
@@ -345,84 +417,12 @@ msgstr ""
 msgid "Group members"
 msgstr "Členovia skupiny"
 
-#: ../qml/phoneui/ui/VerificationCodePage.qml:17
-msgid "Verifying number"
-msgstr "Overovanie čísla"
-
-#: ../qml/phoneui/ui/VerificationCodePage.qml:33
+#: ../qml/phoneui/ui/IntroPage.qml:25
 msgid ""
-"Signal will now automatically verify your number with a confirmation SMS "
-"message."
-msgstr ""
-
-#: ../qml/phoneui/ui/VerificationCodePage.qml:44
-#: ../qml/phoneui/ui/VerificationCodePage.qml:110
-msgid "Waiting for SMS verification..."
-msgstr "Čakanie na SMS overovanie..."
-
-#: ../qml/phoneui/ui/VerificationCodePage.qml:71
-msgid "Code"
-msgstr ""
-
-#: ../qml/phoneui/ui/VerificationCodePage.qml:134
-msgid "Calling you (this may take a while)..."
-msgstr ""
-
-#: ../qml/phoneui/ui/VerificationCodePage.qml:139
-msgid "Please wait a moment and try again"
-msgstr ""
-
-#: ../qml/phoneui/ui/VerificationCodePage.qml:149
-msgid "Incorrect code. Please try again."
-msgstr ""
-
-#: ../qml/phoneui/ui/PasswordPage.qml:15
-msgid "Enter passphrase"
-msgstr ""
-
-#: ../qml/phoneui/ui/PasswordPage.qml:58
-msgid "Passphrase"
-msgstr ""
-
-#: ../qml/phoneui/ui/PasswordPage.qml:101
-msgid "This will permanently delete all messages!"
-msgstr ""
-
-#: ../qml/phoneui/ui/PasswordPage.qml:130
-msgid "Invalid passphrase!"
-msgstr ""
-
-#: ../qml/phoneui/ui/PreviewPage.qml:33
-msgid "From: "
-msgstr ""
-
-#: ../qml/phoneui/ui/PreviewPage.qml:47
-msgid "Save"
-msgstr "Uložiť"
-
-#: ../qml/phoneui/components/SignalMessageDelegate.qml:183
-#, fuzzy
-msgid "Forwarded from "
-msgstr "Prepošli správu"
-
-#: ../qml/phoneui/components/TelegramPage.qml:23
-msgid "Signal"
-msgstr ""
-
-#: ../qml/phoneui/components/AttachPanel.qml:87
-msgid "Image"
-msgstr ""
-
-#: ../qml/phoneui/components/AttachPanel.qml:98
-msgid "Video"
-msgstr ""
-
-#: ../qml/phoneui/components/AttachPanel.qml:109
-msgid "Audio"
-msgstr "Audio"
-
-#: ../qml/phoneui/components/AttachPanel.qml:120
-msgid "Contact"
+"<h3>Thanks for trying out Signal!</h3><br><br>             File bugs and "
+"feature requests on github:<br>            <a href='https://github.com/nanu-"
+"c/textsecure-qml/issues'>https://github.com/nanu-c/textsecure-qml/issues</"
+"a><br>"
 msgstr ""
 
 #~ msgid "Advanced"

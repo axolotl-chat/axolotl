@@ -11,7 +11,7 @@ import (
 	"path/filepath"
 	"strconv"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	_ "github.com/mutecomm/go-sqlcipher"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/settings"

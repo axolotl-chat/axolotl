@@ -5,7 +5,7 @@ import (
 	_ "image/jpeg"
 	_ "image/png"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 
 	"github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure-qml/app/config"
@@ -30,13 +30,18 @@ func setup() {
 
 func RunUI() error {
 	ui.SetEngine()
+	log.Infof("test")
+
 	ui.Engine.AddImageProvider("avatar", store.AvatarImageProvider)
 	ui.InitModels()
+
 	ui.Engine.Context().SetVar("textsecure", worker.Api)
 	ui.Engine.Context().SetVar("appVersion", config.AppVersion)
 	ui.Engine.Context().SetVar("cacheDir", config.CacheDir)
 	ui.SetComponent()
+
 	ui.Win.Show()
+
 	go worker.RunBackend()
 	if config.IsPushHelper {
 		push.PushHelperProcess()

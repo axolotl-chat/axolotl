@@ -13,7 +13,7 @@ rm ../po/*~~
 # mkdir -p ../build/tmp/qml
 # cp -a ../qml/phoneui ../build/tmp/qml
 # cp -a ../docs/CHANGELOG.md ../build/tmp
-cp -a ../click/* ../build/tmp
+cp -a ../click/* ../build/install
 # cp -a ../lib ../build/tmp
 # if [ $mode = "dev" ];then
 # 	#copy config.yml or rootCA.pem

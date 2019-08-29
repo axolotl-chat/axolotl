@@ -5,6 +5,6 @@ import "TelegramColors.js" as TelegramColors
 Text {
     verticalAlignment: TextInput.AlignVCenter
     horizontalAlignment: TextInput.AlignHCenter
-
+    wrapMode: Text.WordWrap
     color: TelegramColors.grey
 }
