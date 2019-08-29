@@ -1,6 +1,7 @@
 package worker
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"strings"
@@ -10,13 +11,14 @@ import (
 	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/nanu-c/textsecure-qml/app/lang"
-	"github.com/nanu-c/textsecure-qml/app/store"
 	"github.com/nanu-c/textsecure-qml/app/settings"
+	"github.com/nanu-c/textsecure-qml/app/store"
 )
 
 //messageHandler is used on incoming message
 func messageHandler(msg *textsecure.Message) {
 	var err error
+	fmt.Sprintf("Expire timer %d", msg.XpireTimer())
 
 	f := ""
 	mt := ""
@@ -35,6 +37,10 @@ func messageHandler(msg *textsecure.Message) {
 		text = lang.SessionReset
 		msgFlags = msgFlagResetSession
 	}
+	// if msg.XpireTimer() >{
+	// 	text = lang.SessionReset
+	// 	msgFlags = msgFlagResetSession
+	// }
 	//Group Message
 	gr := msg.Group()
 
@@ -101,7 +107,7 @@ func messageHandler(msg *textsecure.Message) {
 	}
 	//TODO: have only one message per chat
 	if session.Notification {
-		if settings.SettingsModel.EncryptDatabase{
+		if settings.SettingsModel.EncryptDatabase {
 			text = "Encrypted message"
 		}
 		n := Nh.NewStandardPushMessage(
@@ -113,7 +119,12 @@ func messageHandler(msg *textsecure.Message) {
 	store.SaveMessage(m)
 	store.UpdateSession(session)
 }
+func receiptMessageHandler(msg *textsecure.Message) {
 
+}
+func typingMessageHandler(msg *textsecure.Message) {
+
+}
 func receiptHandler(source string, devID uint32, timestamp uint64) {
 	s := store.SessionsModel.Get(source)
 	for i := len(s.Messages) - 1; i >= 0; i-- {
@@ -214,7 +225,7 @@ func syncSentHandler(msg *textsecure.Message, timestamp uint64) {
 		m.Flags = msgFlags
 		qml.Changed(m, &m.Flags)
 	}
-	m.IsSent =true
+	m.IsSent = true
 	//TODO: have only one message per chat
 	// if session.Notification {
 	// 	if settings.SettingsModel.EncryptDatabase{

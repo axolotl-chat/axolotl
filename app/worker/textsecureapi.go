@@ -7,7 +7,6 @@ import (
 	"strings"
 	"time"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/gosexy/gettext"
 	qml "github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure"
@@ -17,6 +16,7 @@ import (
 	"github.com/nanu-c/textsecure-qml/app/settings"
 	"github.com/nanu-c/textsecure-qml/app/store"
 	"github.com/nanu-c/textsecure-qml/app/ui"
+	log "github.com/sirupsen/logrus"
 )
 
 type TextsecureAPI struct {
@@ -122,10 +122,12 @@ func RunBackend() {
 			}
 			return password
 		},
-		MessageHandler:   messageHandler,
-		ReceiptHandler:   receiptHandler,
-		SyncSentHandler: 	syncSentHandler,
-		RegistrationDone: ui.RegistrationDone,
+		MessageHandler:        messageHandler,
+		ReceiptHandler:        receiptHandler,
+		ReceiptMessageHandler: receiptMessageHandler,
+		TypingMessageHandler:  typingMessageHandler,
+		SyncSentHandler:       syncSentHandler,
+		RegistrationDone:      ui.RegistrationDone,
 	}
 
 	if config.IsPhone {
