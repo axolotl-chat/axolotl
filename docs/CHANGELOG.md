@@ -1,3 +1,23 @@
+0.4.2 (Aug 18 2019)
+--------------------
+* Update protobufs and wrong imports
+* Registration Failures like RateLimiting are shown
+* support for clickable desktop
+
+0.4.1
+--------------------
+* Update translations in German, Spanish, French and English typos -&gt; thanks to advocatux, Anne017, Danfro and RobertZenz
+* Debuglog switch works now
+0.4.0
+--------------------
+* Fix Build
+* Fix language creations
+* UX improvements
+0.3.261 (May 12 2018)
+--------------------
+* Manifest.json changes to pass click-review
+* Add clickable.json for 16.04
+
 0.3.26 (May 10 2018)
 --------------------
 * Fix Apparmor policy (thanks @DanChapman and @DanChapman)
