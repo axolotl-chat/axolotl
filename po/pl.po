@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-13 11:47+0200\n"
+"POT-Creation-Date: 2019-08-26 23:14+0200\n"
 "PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
-#: ../qml/phoneui/components/TelegramPage.qml:23
+#: ../qml/phoneui/components/TelegramPage.qml:24
 msgid "Signal"
 msgstr ""
 
@@ -42,7 +42,7 @@ msgstr "Kontakt"
 #: ../qml/phoneui/ui/dialogs/ErrorMessageDialog.qml:12
 #: ../qml/phoneui/ui/dialogs/InfoDialog.qml:17
 #: ../qml/phoneui/ui/ContactsPage.qml:54
-#: ../qml/phoneui/ui/VerificationCodePage.qml:94
+#: ../qml/phoneui/ui/VerificationCodePage.qml:96
 #: ../qml/phoneui/ui/IntroPage.qml:40
 msgid "OK"
 msgstr ""
@@ -150,23 +150,23 @@ msgstr "Enter wysyła"
 msgid "Activate Debuglog"
 msgstr "Wyślij raport debugowania."
 
-#: ../qml/phoneui/ui/SigninPage.qml:16
+#: ../qml/phoneui/ui/SigninPage.qml:18
 msgid "Connect with Signal"
 msgstr "Połącz z aplikacją Signal"
 
-#: ../qml/phoneui/ui/SigninPage.qml:28
+#: ../qml/phoneui/ui/SigninPage.qml:30
 msgid "YOUR COUNTRY"
 msgstr "TWÓJ KRAJ"
 
-#: ../qml/phoneui/ui/SigninPage.qml:62
+#: ../qml/phoneui/ui/SigninPage.qml:64
 msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
 msgstr "KOD TWOJEGO KRAJU I NUMER TELEFONU"
 
-#: ../qml/phoneui/ui/SigninPage.qml:145
+#: ../qml/phoneui/ui/SigninPage.qml:146
 msgid "Verify your phone number to connect with Signal."
 msgstr "Weryfikuj swój numer telefonu, aby połączyć się z Signal."
 
-#: ../qml/phoneui/ui/SigninPage.qml:146
+#: ../qml/phoneui/ui/SigninPage.qml:147
 msgid ""
 "Registration transmits some contact information to the server. It is not "
 "stored."
@@ -174,11 +174,11 @@ msgstr ""
 "Podczas rejestracji, niektóre informacje o kontakcie zostaną przesłane "
 "tymczasowo na serwer. Nie będą one zapisane."
 
-#: ../qml/phoneui/ui/SigninPage.qml:160
+#: ../qml/phoneui/ui/SigninPage.qml:161
 msgid "Register"
 msgstr "Rejestracja"
 
-#: ../qml/phoneui/ui/SigninPage.qml:189
+#: ../qml/phoneui/ui/SigninPage.qml:190
 msgid ""
 "Double-check that this is your number! We're about to verify it with an SMS."
 msgstr "Upewnij się, że to jest Twój numer! Zamierzamy zweryfikować go SMSem."
@@ -275,7 +275,7 @@ msgstr ""
 msgid "Verifying number"
 msgstr "Weryfikowanie numeru"
 
-#: ../qml/phoneui/ui/VerificationCodePage.qml:33
+#: ../qml/phoneui/ui/VerificationCodePage.qml:35
 msgid ""
 "Signal will now automatically verify your number with a confirmation SMS "
 "message."
@@ -283,24 +283,24 @@ msgstr ""
 "Za chwilę Signal automatycznie zweryfikuje Twój numer za pomocą wiadomości "
 "SMS."
 
-#: ../qml/phoneui/ui/VerificationCodePage.qml:44
-#: ../qml/phoneui/ui/VerificationCodePage.qml:110
+#: ../qml/phoneui/ui/VerificationCodePage.qml:46
+#: ../qml/phoneui/ui/VerificationCodePage.qml:112
 msgid "Waiting for SMS verification..."
 msgstr "Oczekiwanie na weryfikację SMS..."
 
-#: ../qml/phoneui/ui/VerificationCodePage.qml:71
+#: ../qml/phoneui/ui/VerificationCodePage.qml:73
 msgid "Code"
 msgstr ""
 
-#: ../qml/phoneui/ui/VerificationCodePage.qml:134
+#: ../qml/phoneui/ui/VerificationCodePage.qml:136
 msgid "Calling you (this may take a while)..."
 msgstr ""
 
-#: ../qml/phoneui/ui/VerificationCodePage.qml:139
+#: ../qml/phoneui/ui/VerificationCodePage.qml:141
 msgid "Please wait a moment and try again"
 msgstr ""
 
-#: ../qml/phoneui/ui/VerificationCodePage.qml:149
+#: ../qml/phoneui/ui/VerificationCodePage.qml:151
 msgid "Incorrect code. Please try again."
 msgstr ""
 

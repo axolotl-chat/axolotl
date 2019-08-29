@@ -15,6 +15,8 @@ TelegramPage {
     header:PageHeader{
           id:pageHeader
           title: i18n.tr("Verifying number")
+          leadingActionBar.actions:[
+          ]
     }
 
     body: Item {

@@ -6,12 +6,12 @@ import (
 	"path/filepath"
 	"syscall"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mutecomm/go-sqlcipher"
 	qml "github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/settings"
+	log "github.com/sirupsen/logrus"
 )
 
 var DS *DataStore
@@ -174,8 +174,9 @@ func (ds *DataStore) EncryptDb(password string) bool {
 	DS.SetupDb(password)
 	return false
 }
+
+// NewStorage
 func NewStorage(password string) (*DataStore, error) {
-	log.Debugf("New Storage")
 	// Set more restrictive umask to ensure database files are created 0600
 	syscall.Umask(0077)
 
@@ -191,8 +192,6 @@ func NewStorage(password string) (*DataStore, error) {
 	saltFile := ""
 
 	if password != "" {
-		log.Debugf("New Storage: Password not empty")
-
 		saltFile = filepath.Join(dbDir, "salt")
 	}
 

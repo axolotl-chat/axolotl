@@ -11,9 +11,10 @@ Page {
     property bool isOnline: NetworkingStatus.online
     property bool isConnected: {
         if (onlineIndicationOnly) {
-            return isOnline;
+            return true;
         } else if (root.activeFocus) {
-            return isOnline;
+            return true;
+            // return isOnline;
         } return true; // Don't indicate connectivity.
     }
     property bool onlineIndicationOnly: false

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-13 11:47+0200\n"
+"POT-Creation-Date: 2019-08-26 23:14+0200\n"
 "PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ../qml/phoneui/components/TelegramPage.qml:23
+#: ../qml/phoneui/components/TelegramPage.qml:24
 msgid "Signal"
 msgstr ""
 
@@ -41,7 +41,7 @@ msgstr "Liên lạc"
 #: ../qml/phoneui/ui/dialogs/ErrorMessageDialog.qml:12
 #: ../qml/phoneui/ui/dialogs/InfoDialog.qml:17
 #: ../qml/phoneui/ui/ContactsPage.qml:54
-#: ../qml/phoneui/ui/VerificationCodePage.qml:94
+#: ../qml/phoneui/ui/VerificationCodePage.qml:96
 #: ../qml/phoneui/ui/IntroPage.qml:40
 msgid "OK"
 msgstr ""
@@ -147,23 +147,23 @@ msgstr "Phím Enter gửi đi"
 msgid "Activate Debuglog"
 msgstr ""
 
-#: ../qml/phoneui/ui/SigninPage.qml:16
+#: ../qml/phoneui/ui/SigninPage.qml:18
 msgid "Connect with Signal"
 msgstr ""
 
-#: ../qml/phoneui/ui/SigninPage.qml:28
+#: ../qml/phoneui/ui/SigninPage.qml:30
 msgid "YOUR COUNTRY"
 msgstr "QUỐC GIA BẠN"
 
-#: ../qml/phoneui/ui/SigninPage.qml:62
+#: ../qml/phoneui/ui/SigninPage.qml:64
 msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
 msgstr "MÃ SỐ QUỐC GIA VÀ SỐ ĐIỆN THOẠI BẠN"
 
-#: ../qml/phoneui/ui/SigninPage.qml:145
+#: ../qml/phoneui/ui/SigninPage.qml:146
 msgid "Verify your phone number to connect with Signal."
 msgstr "Xác minh số điện thoại của bạn để kết nối với Signal."
 
-#: ../qml/phoneui/ui/SigninPage.qml:146
+#: ../qml/phoneui/ui/SigninPage.qml:147
 msgid ""
 "Registration transmits some contact information to the server. It is not "
 "stored."
@@ -171,11 +171,11 @@ msgstr ""
 "Thủ tục đăng ký sẽ gửi một số chi tiết liên lạc đến máy chủ. Chúng không "
 "được lưu trữ lại."
 
-#: ../qml/phoneui/ui/SigninPage.qml:160
+#: ../qml/phoneui/ui/SigninPage.qml:161
 msgid "Register"
 msgstr "Đăng ký"
 
-#: ../qml/phoneui/ui/SigninPage.qml:189
+#: ../qml/phoneui/ui/SigninPage.qml:190
 msgid ""
 "Double-check that this is your number! We're about to verify it with an SMS."
 msgstr ""
@@ -272,7 +272,7 @@ msgstr ""
 msgid "Verifying number"
 msgstr "Kiểm Chứng Số Điện Thoại"
 
-#: ../qml/phoneui/ui/VerificationCodePage.qml:33
+#: ../qml/phoneui/ui/VerificationCodePage.qml:35
 msgid ""
 "Signal will now automatically verify your number with a confirmation SMS "
 "message."
@@ -280,24 +280,24 @@ msgstr ""
 "Bây giờ, Signal sẽ tự động xác minh số điện thoại của bạn với một tin nhắn "
 "SMS."
 
-#: ../qml/phoneui/ui/VerificationCodePage.qml:44
-#: ../qml/phoneui/ui/VerificationCodePage.qml:110
+#: ../qml/phoneui/ui/VerificationCodePage.qml:46
+#: ../qml/phoneui/ui/VerificationCodePage.qml:112
 msgid "Waiting for SMS verification..."
 msgstr "Chờ kiểm chứng SMS..."
 
-#: ../qml/phoneui/ui/VerificationCodePage.qml:71
+#: ../qml/phoneui/ui/VerificationCodePage.qml:73
 msgid "Code"
 msgstr ""
 
-#: ../qml/phoneui/ui/VerificationCodePage.qml:134
+#: ../qml/phoneui/ui/VerificationCodePage.qml:136
 msgid "Calling you (this may take a while)..."
 msgstr ""
 
-#: ../qml/phoneui/ui/VerificationCodePage.qml:139
+#: ../qml/phoneui/ui/VerificationCodePage.qml:141
 msgid "Please wait a moment and try again"
 msgstr ""
 
-#: ../qml/phoneui/ui/VerificationCodePage.qml:149
+#: ../qml/phoneui/ui/VerificationCodePage.qml:151
 msgid "Incorrect code. Please try again."
 msgstr ""
 
