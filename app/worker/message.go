@@ -19,6 +19,7 @@ var (
 	msgFlagGroupUpdate  = 2
 	msgFlagGroupLeave   = 4
 	msgFlagResetSession = 8
+	msgFlagSetTimer     = 9
 )
 
 func (Api *TextsecureAPI) SendMessage(to, message string) error {

@@ -34,7 +34,7 @@ TelegramPage {
             }
         }
 
-        OptionSelector {
+          OptionSelector {
             id: countrySelector
             anchors {
                 top: country.bottom
