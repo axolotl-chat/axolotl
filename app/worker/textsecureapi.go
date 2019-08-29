@@ -46,6 +46,18 @@ func (Api *TextsecureAPI) Unregister() {
 	if err != nil {
 		log.Error(err)
 	}
+	err = os.Remove(config.ConfigFile)
+	if err != nil {
+		log.Error(err)
+	}
+	err = os.RemoveAll("/home/phablet/.cache/textsecure.nanuc/qmlcache")
+	if err != nil {
+		log.Error(err)
+	}
+	err = os.Remove("/home/phablet/.config/textsecure.nanuc/config.yml")
+	if err != nil {
+		log.Error(err)
+	}
 	err = os.RemoveAll(config.StorageDir)
 	if err != nil {
 		log.Error(err)
