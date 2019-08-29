@@ -34,7 +34,7 @@ var isEncrypted = true
 
 //unregister  signal id
 func (Api *TextsecureAPI) Unregister() {
-	err := os.Remove("/home/phablet/local/share/textsecure.nanuc/db.sql")
+	err := os.Remove("/home/phablet/local/share/textsecure.nanuc/db/db.sql")
 	if err != nil {
 		log.Error(err)
 	}
