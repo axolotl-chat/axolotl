@@ -4,11 +4,12 @@ import (
 	"encoding/base64"
 	"errors"
 	"io/ioutil"
-	"log"
 	"os"
 	"path/filepath"
 	"regexp"
 	"strings"
+
+	log "github.com/sirupsen/logrus"
 
 	"bitbucket.org/llg/vcard"
 	"github.com/godbus/dbus"
@@ -85,14 +86,32 @@ func GetAddressBookContactsFromContentHub() ([]textsecure.Contact, error) {
 		return textsecure.ReadContacts(config.ContactsFile)
 	}
 	config.VcardPath = strings.TrimPrefix(config.VcardPath, "file://")
-	contacts, err := getContactsFromVCardFile(config.VcardPath)
+	newContacts, err := getContactsFromVCardFile(config.VcardPath)
 	if err != nil {
 		return nil, err
 	}
-
+	contacts, err := textsecure.ReadContacts(config.ContactsFile)
+	//check for duplicates in the old contact list
+	for _, c := range newContacts {
+		found := false
+		for i := range contacts {
+			if contacts[i].Name == c.Name {
+				contacts[i].Tel = c.Tel
+				found = true
+			}
+		}
+		if !found {
+			contacts = append(contacts)
+		}
+	}
+	//sort by name
+	// sort.Slice(contacts, func(i, j int) bool { return contacts[i].Name < contacts[j].Name })
 	err = textsecure.WriteContacts(config.ContactsFile, contacts)
 	if err != nil {
 		return nil, err
+	}
+	for i := range contacts {
+		log.Infof(string(i))
 	}
 	return contacts, nil
 }

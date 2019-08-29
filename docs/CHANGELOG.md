@@ -1,3 +1,7 @@
+0.4.4 (Aug 18 2019)
+--------------------
+* fix contacts import, old contacts are not replaced anymore
+* fix trailing 
 0.4.3 (Aug 18 2019)
 --------------------
 * fix unregistering

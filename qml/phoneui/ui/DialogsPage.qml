@@ -67,6 +67,8 @@ TelegramPage {
                 }
             }
           }
+          leadingActionBar.actions:[
+          ]
           trailingActionBar.actions:[
              Action {
                  iconName: "weather-storm"
