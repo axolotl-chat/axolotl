@@ -4,12 +4,12 @@ import Ubuntu.Components.ListItems 1.3
 import Ubuntu.Components.Popups 1.3
 import Ubuntu.Connectivity 1.0
 
-import "../components"
-import "../components/listitems"
-import "../js/time.js" as Time
+import "../../components"
+import "../../components/listitems"
+import "../../js/time.js" as Time
 
 TelegramPage {
-    id: dialogsPage
+    id: chatListPage
     focus: !isSearching
     property bool isSecretChat: false
     property bool isConnecting: false
@@ -71,25 +71,19 @@ TelegramPage {
           ]
           trailingActionBar.actions:[
              Action {
-                 iconName: "weather-storm"
-                 visible: !isConnected
-             },
-             Action {
                  iconName: "search"
                  text: i18n.tr("Search")
                  visible: !isSearching
                  onTriggered: searchPressed()
              },
              Action {
-                 iconSource: Qt.resolvedUrl("../images/ic_contacts_white_48dp.png")
-                 enabled: isConnected
+                 iconSource: Qt.resolvedUrl("../../images/ic_contacts_white_48dp.png")
                  visible: !isSearching
                  onTriggered: newChat()
              },
              Action {
-                 iconSource: Qt.resolvedUrl("../images/ic_group_white_24dp.png")
+                 iconSource: Qt.resolvedUrl("../../images/ic_group_white_24dp.png")
                  text: i18n.tr("New group")
-                 enabled: isConnected
                  visible: !isSearching
                  onTriggered: newGroupChat()
              },
@@ -97,7 +91,6 @@ TelegramPage {
                  iconName: "ok"
                  text: i18n.tr("Mark all read")
                  visible: !isSearching
-                 enabled: isConnected
                  onTriggered: markAllRead()
              },
              Action {
@@ -120,7 +113,16 @@ TelegramPage {
              }
           ]
     }
-
+    WaitingBar {
+        id: waitingBar
+        connectionState: isConnected
+        z: 10
+        anchors {
+          top: pageHeader.bottom
+          left: parent.left
+          right: parent.right
+        }
+    }
     Rectangle {
       anchors {
         top: pageHeader.bottom
@@ -140,8 +142,8 @@ TelegramPage {
         z: 1
 	      cacheBuffer: units.gu(8)*20
 	      model: sessionsModel.len
-        delegate: TelegramDialogsListItem {
-          id: dialogsListItem
+        delegate: ChatListItem {
+          id: chatListItem
           property var ses: sessionsModel.getSession(index)
           // FIXME Error
           // thumbnail: avatarImage(ses.tel)
@@ -162,7 +164,7 @@ TelegramPage {
               var properties = {};
 
               if (messagesToForward.length > 0) {
-                  PopupUtils.open(Qt.resolvedUrl("dialogs/ConfirmationDialog.qml"),
+                  PopupUtils.open(Qt.resolvedUrl("../dialogs/ConfirmationDialog.qml"),
                     dialogsListItem, {
                       text: i18n.tr("Forward message to %1?".arg(title)),
                       onAccept: function() {
@@ -173,7 +175,7 @@ TelegramPage {
                     }
                   );
               } else {
-                  openChatById(dialogsListItem.title, ses.tel, properties);
+                  openChatById(chatListItem.title, ses.tel, properties);
                   messagesToForward = [];
               }
             }

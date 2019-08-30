@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-29 13:24+0200\n"
+"POT-Creation-Date: 2019-08-30 23:47+0200\n"
 "PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -39,16 +39,51 @@ msgstr ""
 
 #: ../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:8
 #: ../qml/phoneui/ui/dialogs/ErrorMessageDialog.qml:12
+#: ../qml/phoneui/ui/dialogs/AddContactDialog.qml:10
 #: ../qml/phoneui/ui/dialogs/InfoDialog.qml:17
-#: ../qml/phoneui/ui/ContactsPage.qml:54
+#: ../qml/phoneui/ui/ContactsPage.qml:70
 #: ../qml/phoneui/ui/VerificationCodePage.qml:96
 #: ../qml/phoneui/ui/IntroPage.qml:40
 msgid "OK"
 msgstr ""
 
 #: ../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:10
+#: ../qml/phoneui/ui/dialogs/AddContactDialog.qml:12
 msgid "Cancel"
 msgstr "中止"
+
+#: ../qml/phoneui/ui/pages/ChatList.qml:75
+#: ../qml/phoneui/ui/ContactsPage.qml:35 ../qml/phoneui/ui/ContactsPage.qml:42
+msgid "Search"
+msgstr "検索"
+
+#: ../qml/phoneui/ui/pages/ChatList.qml:86
+#: ../qml/phoneui/ui/ContactsPage.qml:78
+msgid "New group"
+msgstr "新規グループ"
+
+#: ../qml/phoneui/ui/pages/ChatList.qml:92
+msgid "Mark all read"
+msgstr "すべて既読にする"
+
+#: ../qml/phoneui/ui/pages/ChatList.qml:98
+#: ../qml/phoneui/ui/SettingsPage.qml:27
+msgid "Settings"
+msgstr "設定"
+
+#: ../qml/phoneui/ui/pages/ChatList.qml:104
+msgid "Help"
+msgstr ""
+
+#: ../qml/phoneui/ui/pages/ChatList.qml:110
+#: ../qml/phoneui/ui/ContactsPage.qml:28
+msgid "Close"
+msgstr ""
+
+#: ../qml/phoneui/ui/pages/ChatList.qml:169
+#, fuzzy, qt-format
+msgid "Forward message to %1?"
+msgstr "メッセージの転送"
 
 #: ../qml/phoneui/ui/PreviewPage.qml:33
 msgid "From: "
@@ -106,10 +141,6 @@ msgstr ""
 #, fuzzy
 msgid "New passphrase too short(6)!"
 msgstr "新規メッセージ"
-
-#: ../qml/phoneui/ui/SettingsPage.qml:27 ../qml/phoneui/ui/DialogsPage.qml:103
-msgid "Settings"
-msgstr "設定"
 
 #: ../qml/phoneui/ui/SettingsPage.qml:54
 msgid "Privacy"
@@ -220,40 +251,35 @@ msgstr ""
 msgid "Invalid passphrase!"
 msgstr ""
 
-#: ../qml/phoneui/ui/ContactsPage.qml:28 ../qml/phoneui/ui/DialogsPage.qml:115
-msgid "Close"
-msgstr ""
-
-#: ../qml/phoneui/ui/ContactsPage.qml:35 ../qml/phoneui/ui/ContactsPage.qml:42
-#: ../qml/phoneui/ui/DialogsPage.qml:77
-msgid "Search"
-msgstr "検索"
-
 #: ../qml/phoneui/ui/ContactsPage.qml:47
 msgid "Refresh"
 msgstr ""
 
-#: ../qml/phoneui/ui/ContactsPage.qml:62 ../qml/phoneui/ui/DialogsPage.qml:89
-msgid "New group"
-msgstr "新規グループ"
+#: ../qml/phoneui/ui/ContactsPage.qml:52
+msgid "Add contact"
+msgstr ""
 
-#: ../qml/phoneui/ui/ContactsPage.qml:64 ../qml/phoneui/ui/DialogPage.qml:112
+#: ../qml/phoneui/ui/ContactsPage.qml:56
+msgid "Add Contact"
+msgstr ""
+
+#: ../qml/phoneui/ui/ContactsPage.qml:80 ../qml/phoneui/ui/DialogPage.qml:112
 msgid "Update group"
 msgstr "グループを更新する"
 
-#: ../qml/phoneui/ui/ContactsPage.qml:66
+#: ../qml/phoneui/ui/ContactsPage.qml:82
 msgid "Contacts"
 msgstr ""
 
-#: ../qml/phoneui/ui/ContactsPage.qml:119
+#: ../qml/phoneui/ui/ContactsPage.qml:135
 msgid "No contacts"
 msgstr ""
 
-#: ../qml/phoneui/ui/ContactsPage.qml:137
+#: ../qml/phoneui/ui/ContactsPage.qml:153
 msgid "Group name"
 msgstr "グループ名"
 
-#: ../qml/phoneui/ui/ContactsPage.qml:247
+#: ../qml/phoneui/ui/ContactsPage.qml:263
 #, fuzzy, qt-format
 msgid "%1 members"
 msgstr "グループメンバー"
@@ -293,19 +319,6 @@ msgstr ""
 msgid "Incorrect code. Please try again."
 msgstr ""
 
-#: ../qml/phoneui/ui/DialogsPage.qml:96
-msgid "Mark all read"
-msgstr "すべて既読にする"
-
-#: ../qml/phoneui/ui/DialogsPage.qml:109
-msgid "Help"
-msgstr ""
-
-#: ../qml/phoneui/ui/DialogsPage.qml:165
-#, fuzzy, qt-format
-msgid "Forward message to %1?"
-msgstr "メッセージの転送"
-
 #: ../qml/phoneui/ui/DialogPage.qml:35
 msgid "Call"
 msgstr "通話"
@@ -329,19 +342,19 @@ msgid "Verify identity"
 msgstr "本人確認"
 
 #: ../qml/phoneui/ui/DialogPage.qml:72
-msgid "Off Notifications"
+msgid "Mute"
 msgstr ""
 
 #: ../qml/phoneui/ui/DialogPage.qml:72
-msgid "On Notifications"
+msgid "Unmute"
 msgstr ""
 
 #: ../qml/phoneui/ui/DialogPage.qml:77
-msgid "Turn Notifications off?"
+msgid "Mute notifications?"
 msgstr ""
 
 #: ../qml/phoneui/ui/DialogPage.qml:77
-msgid "Turn Notifications on?"
+msgid "Unmute notifications?"
 msgstr ""
 
 #: ../qml/phoneui/ui/DialogPage.qml:87
@@ -376,15 +389,15 @@ msgstr ""
 msgid "Select all"
 msgstr "すべて選択"
 
-#: ../qml/phoneui/ui/DialogPage.qml:157 ../qml/phoneui/ui/DialogPage.qml:663
+#: ../qml/phoneui/ui/DialogPage.qml:157 ../qml/phoneui/ui/DialogPage.qml:667
 msgid "Message details"
 msgstr "メッセージの詳細"
 
-#: ../qml/phoneui/ui/DialogPage.qml:164 ../qml/phoneui/ui/DialogPage.qml:483
+#: ../qml/phoneui/ui/DialogPage.qml:164 ../qml/phoneui/ui/DialogPage.qml:487
 msgid "Copy text"
 msgstr "テキストをコピー"
 
-#: ../qml/phoneui/ui/DialogPage.qml:170 ../qml/phoneui/ui/DialogPage.qml:489
+#: ../qml/phoneui/ui/DialogPage.qml:170 ../qml/phoneui/ui/DialogPage.qml:493
 msgid "Forward message"
 msgstr "メッセージの転送"
 
@@ -396,24 +409,24 @@ msgstr "メッセージの削除"
 msgid "Send Signal message"
 msgstr ""
 
-#: ../qml/phoneui/ui/DialogPage.qml:466
+#: ../qml/phoneui/ui/DialogPage.qml:470
 msgid "Delete"
 msgstr "削除"
 
-#: ../qml/phoneui/ui/DialogPage.qml:471
+#: ../qml/phoneui/ui/DialogPage.qml:475
 #, fuzzy
 msgid "Delete selected message?"
 msgstr "メッセージの削除"
 
-#: ../qml/phoneui/ui/DialogPage.qml:472
+#: ../qml/phoneui/ui/DialogPage.qml:476
 msgid "This will permanently delete the selected message."
 msgstr ""
 
-#: ../qml/phoneui/ui/DialogPage.qml:617
+#: ../qml/phoneui/ui/DialogPage.qml:621
 msgid "No messages here yet..."
 msgstr ""
 
-#: ../qml/phoneui/ui/DialogPage.qml:655
+#: ../qml/phoneui/ui/DialogPage.qml:659
 msgid "Group members"
 msgstr "グループメンバー"
 

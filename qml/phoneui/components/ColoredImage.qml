@@ -54,7 +54,7 @@ Item {
         property color keyColorIn: "#ffffff"
         property real threshold: 0.1
 
-        readonly property string mirroredShader: "
+        readonly property string mirroredShader: "\
             uniform highp mat4 qt_Matrix;
             attribute highp vec4 qt_Vertex;
             attribute highp vec2 qt_MultiTexCoord0;

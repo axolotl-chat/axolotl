@@ -1,10 +1,11 @@
-import QtQuick 2.4
+import QtQuick 2.9
 import Ubuntu.Components 1.3
-import Ubuntu.Components.Popups 1.0
+import Ubuntu.Components.Popups 1.3
 import Ubuntu.PushNotifications 0.1
 
 import 'components'
 import 'ui'
+import 'ui/pages'
 
 MainView {
 	applicationName: "textsecure.nanuc"
@@ -38,8 +39,8 @@ MainView {
 			DialogPage {}
 		}
 
-		DialogsPage {
-			id: dialogsPage
+		ChatList {
+			id: chatListPage
 			visible: false
 		}
 
@@ -85,12 +86,12 @@ MainView {
 	}
 	//
 	function initialize() {
-		// if (settingsModel.registered){
+			// if (settingsModel.registered){
 			if(settingsModel.encryptDatabase)pageStack.push(passwordPage);
 			else{
 				if(storeModel.setupDb("")){
 					pageStack.clear();
-					pageStack.push(dialogsPage);
+					pageStack.push(chatListPage);
 				}
 				else {
 					settingsModel.encryptDatabase = true
@@ -110,7 +111,7 @@ MainView {
 	}
 
 	function registered() {
-		pageStack.push(dialogsPage)
+		pageStack.push(chatListPage)
 	}
 
 	function error(errorMsg) {
@@ -147,22 +148,23 @@ MainView {
 		pageStack.push(contactsPage, properties);
 	}
 
-	function backToDialogsPage() {
-		// console.log("backToDialogsPage");
-		while (pageStack.depth > 0) {
-			pageStack.pop();
-		}
-		if (pageStack.depth === 0) {
-			pageStack.push(dialogsPage);
-		}
+	function backToChatListPage() {
+		textsecure.leaveChat();
+		pageStack.clear();
+		pageStack.push(chatListPage);
 	}
 
 	function openChatById(chatId, tel, properties) {
 		if (pageStack.depth > 0 && pageStack.currentPage.objectName === "chatPage") {
 			if (pageStack.currentPage.chatId === chatId) return;
 		}
+		else if(pageStack.depth>1){
+			while(pageStack.depth>1){
+				pageStack.pop();
+			}
+		}
 		if (typeof properties === "undefined") properties = { };
-		// backToDialogsPage();
+		// backToChatListPage();
 		textsecure.setActiveSessionID(tel)
 		textsecure.markSessionsRead(tel)
 		messagesModel = sessionsModel.get(tel);
@@ -173,7 +175,7 @@ MainView {
 	function forwardMessages(messages) {
 		var properties = { messagesToForward: messages };
 		console.log(messages)
-		pageStack.push(dialogsPage, properties);
+		pageStack.push(chatListPage, properties);
 	}
 
 	function uid(tel) {

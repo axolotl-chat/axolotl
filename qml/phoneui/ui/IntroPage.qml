@@ -38,7 +38,7 @@ TelegramPage {
             width: parent.width
 
             text: i18n.tr("OK")
-            onClicked: pageStack.push(dialogsPage)
+            onClicked: pageStack.push(chatListPage)
         }
     }
 }

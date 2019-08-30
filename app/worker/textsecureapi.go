@@ -91,6 +91,16 @@ func (Api *TextsecureAPI) ContactsImported(path string) {
 		ui.ShowError(err)
 	}
 }
+func (Api *TextsecureAPI) AddContact(name string, phone string) {
+	err := contact.AddContact(name, phone)
+	if err != nil {
+		ui.ShowError(err)
+	}
+	err = store.RefreshContacts()
+	if err != nil {
+		ui.ShowError(err)
+	}
+}
 func (Api *TextsecureAPI) SetLogLevel() {
 	// Api.LogLevel = !Api.LogLevel
 	if Api.LogLevel == false {
@@ -212,11 +222,12 @@ func startSession() {
 	Api.PhoneNumber = config.Config.Tel
 	if helpers.Exists(config.ContactsFile) {
 		Api.HasContacts = true
-		store.RefreshContacts()
+		go store.RefreshContacts()
 	}
 	for _, s := range store.SessionsModel.Sess {
 		s.Name = store.TelToName(s.Tel)
 	}
+	go store.SessionsModel.UpdateSessionNames()
 	SendUnsentMessages()
 	qml.Changed(store.SessionsModel, &store.SessionsModel.Len)
 
@@ -241,7 +252,12 @@ func (Api *TextsecureAPI) GetActiveSessionID() string {
 	return Api.ActiveSessionID
 }
 func (Api *TextsecureAPI) SetActiveSessionID(sId string) {
+	// store.Sessions.ActiveChat = sId
 	Api.ActiveSessionID = sId
+}
+func (Api *TextsecureAPI) LeaveChat() {
+	// store.Sessions.ActiveChat = ""
+	Api.ActiveSessionID = ""
 }
 func (Api *TextsecureAPI) TgNotification(notification bool) {
 	sess := store.SessionsModel.Get(Api.ActiveSessionID)

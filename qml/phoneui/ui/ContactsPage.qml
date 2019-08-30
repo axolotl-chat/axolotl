@@ -1,7 +1,7 @@
-import QtQuick 2.4
+import QtQuick 2.9
 import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.0 as ListItem
-import Ubuntu.Components.Popups 1.0
+import Ubuntu.Components.ListItems 1.3 as ListItem
+import Ubuntu.Components.Popups 1.3
 // import Ubuntu.Contacts 0.1
 import "../components"
 import "../components/listitems"
@@ -46,6 +46,22 @@ TelegramPage {
             iconName: "reload"
             text: i18n.tr("Refresh")
             onTriggered: refreshContacts()
+        },
+        Action {
+            iconName: "add"
+            text: i18n.tr("Add contact")
+            onTriggered: {
+                PopupUtils.open(Qt.resolvedUrl("dialogs/AddContactDialog.qml"),
+                contactsPage, {
+                    title: i18n.tr("Add Contact"),
+                    // onAccept: function() {
+                    //   console.log(inputName)
+                    //   console.log(inputName.text)
+                    //   getPhoneNumber()
+                    //   // addContact()
+                    // }
+                })
+            }
         }
     ]
     property list<Action> actionsNewGroupChat: [
@@ -71,7 +87,7 @@ TelegramPage {
           id: backAction
           iconName: "back"
           onTriggered:{
-              backToDialogsPage();
+              backToChatListPage();
           }
         }
       ]
@@ -173,7 +189,7 @@ TelegramPage {
             }
 
             listModel: contactsModel.len
-            listDelegate: TelegramContactsListItem {
+            listDelegate: ContactsListItem {
                 id: contactDelegate
                 property var contact : contactsModel.getContact(index)
                 userId: uid(contact.tel)
@@ -293,7 +309,14 @@ TelegramPage {
     function onBackPressed() {
         contactListView.cancelSelection();
     }
-
+    function addContact(name, phone) {
+      textsecure.addContact(name, phone)
+    }
+    function getPhoneNumber() {
+      console.log(inputName.text)
+      // var n = "+" + countryTextField.text + userTextField.text;
+      // return n.replace(/[\s\-\(\)]/g, '')
+    }
     function cancelChatPressed() {
         contactListView.cancelSelection();
     }

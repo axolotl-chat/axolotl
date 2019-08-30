@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-29 13:24+0200\n"
+"POT-Creation-Date: 2019-08-30 23:47+0200\n"
 "PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -39,16 +39,51 @@ msgstr "Contact"
 
 #: ../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:8
 #: ../qml/phoneui/ui/dialogs/ErrorMessageDialog.qml:12
+#: ../qml/phoneui/ui/dialogs/AddContactDialog.qml:10
 #: ../qml/phoneui/ui/dialogs/InfoDialog.qml:17
-#: ../qml/phoneui/ui/ContactsPage.qml:54
+#: ../qml/phoneui/ui/ContactsPage.qml:70
 #: ../qml/phoneui/ui/VerificationCodePage.qml:96
 #: ../qml/phoneui/ui/IntroPage.qml:40
 msgid "OK"
 msgstr "Valider"
 
 #: ../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:10
+#: ../qml/phoneui/ui/dialogs/AddContactDialog.qml:12
 msgid "Cancel"
 msgstr "Annuler"
+
+#: ../qml/phoneui/ui/pages/ChatList.qml:75
+#: ../qml/phoneui/ui/ContactsPage.qml:35 ../qml/phoneui/ui/ContactsPage.qml:42
+msgid "Search"
+msgstr "Rechercher"
+
+#: ../qml/phoneui/ui/pages/ChatList.qml:86
+#: ../qml/phoneui/ui/ContactsPage.qml:78
+msgid "New group"
+msgstr "Nouveau groupe"
+
+#: ../qml/phoneui/ui/pages/ChatList.qml:92
+msgid "Mark all read"
+msgstr "Tout marquer comme lu"
+
+#: ../qml/phoneui/ui/pages/ChatList.qml:98
+#: ../qml/phoneui/ui/SettingsPage.qml:27
+msgid "Settings"
+msgstr "Paramètres"
+
+#: ../qml/phoneui/ui/pages/ChatList.qml:104
+msgid "Help"
+msgstr "Aide"
+
+#: ../qml/phoneui/ui/pages/ChatList.qml:110
+#: ../qml/phoneui/ui/ContactsPage.qml:28
+msgid "Close"
+msgstr "Fermer"
+
+#: ../qml/phoneui/ui/pages/ChatList.qml:169
+#, fuzzy, qt-format
+msgid "Forward message to %1?"
+msgstr "Faire suivre le message à %1 ?"
 
 #: ../qml/phoneui/ui/PreviewPage.qml:33
 msgid "From: "
@@ -106,10 +141,6 @@ msgstr "Les nouveaux mots de passe ne sont pas identiques"
 #, fuzzy
 msgid "New passphrase too short(6)!"
 msgstr "Le nouveau mot de passe est trop court !"
-
-#: ../qml/phoneui/ui/SettingsPage.qml:27 ../qml/phoneui/ui/DialogsPage.qml:103
-msgid "Settings"
-msgstr "Paramètres"
 
 #: ../qml/phoneui/ui/SettingsPage.qml:54
 msgid "Privacy"
@@ -226,42 +257,39 @@ msgstr "Cela supprimera définitivement tous les messages !"
 msgid "Invalid passphrase!"
 msgstr "Mot de passe non valide !"
 
-#: ../qml/phoneui/ui/ContactsPage.qml:28 ../qml/phoneui/ui/DialogsPage.qml:115
-msgid "Close"
-msgstr "Fermer"
-
-#: ../qml/phoneui/ui/ContactsPage.qml:35 ../qml/phoneui/ui/ContactsPage.qml:42
-#: ../qml/phoneui/ui/DialogsPage.qml:77
-msgid "Search"
-msgstr "Rechercher"
-
 #: ../qml/phoneui/ui/ContactsPage.qml:47
 msgid "Refresh"
 msgstr "Actualiser"
 
-#: ../qml/phoneui/ui/ContactsPage.qml:62 ../qml/phoneui/ui/DialogsPage.qml:89
-msgid "New group"
-msgstr "Nouveau groupe"
+#: ../qml/phoneui/ui/ContactsPage.qml:52
+#, fuzzy
+msgid "Add contact"
+msgstr "Aucun contact"
 
-#: ../qml/phoneui/ui/ContactsPage.qml:64 ../qml/phoneui/ui/DialogPage.qml:112
+#: ../qml/phoneui/ui/ContactsPage.qml:56
+#, fuzzy
+msgid "Add Contact"
+msgstr "Aucun contact"
+
+#: ../qml/phoneui/ui/ContactsPage.qml:80 ../qml/phoneui/ui/DialogPage.qml:112
 msgid "Update group"
 msgstr "Mettre à jour le groupe"
 
-#: ../qml/phoneui/ui/ContactsPage.qml:66
+#: ../qml/phoneui/ui/ContactsPage.qml:82
 #, fuzzy
 msgid "Contacts"
 msgstr "Contacts"
 
-#: ../qml/phoneui/ui/ContactsPage.qml:119
+#: ../qml/phoneui/ui/ContactsPage.qml:135
 #, fuzzy
 msgid "No contacts"
 msgstr "Aucun contact"
 
-#: ../qml/phoneui/ui/ContactsPage.qml:137
+#: ../qml/phoneui/ui/ContactsPage.qml:153
 msgid "Group name"
 msgstr "Nom du groupe"
 
-#: ../qml/phoneui/ui/ContactsPage.qml:247
+#: ../qml/phoneui/ui/ContactsPage.qml:263
 #, fuzzy, qt-format
 msgid "%1 members"
 msgstr "%1 membres"
@@ -303,19 +331,6 @@ msgstr "Veuillez attendre un moment et réessayer"
 msgid "Incorrect code. Please try again."
 msgstr "Code incorrect. Veuillez réessayer."
 
-#: ../qml/phoneui/ui/DialogsPage.qml:96
-msgid "Mark all read"
-msgstr "Tout marquer comme lu"
-
-#: ../qml/phoneui/ui/DialogsPage.qml:109
-msgid "Help"
-msgstr "Aide"
-
-#: ../qml/phoneui/ui/DialogsPage.qml:165
-#, fuzzy, qt-format
-msgid "Forward message to %1?"
-msgstr "Faire suivre le message à %1 ?"
-
 #: ../qml/phoneui/ui/DialogPage.qml:35
 msgid "Call"
 msgstr "Appeler"
@@ -341,20 +356,22 @@ msgid "Verify identity"
 msgstr "Vérifier l’identité"
 
 #: ../qml/phoneui/ui/DialogPage.qml:72
-msgid "Off Notifications"
-msgstr "Notifications désactivées"
+msgid "Mute"
+msgstr ""
 
 #: ../qml/phoneui/ui/DialogPage.qml:72
-msgid "On Notifications"
+msgid "Unmute"
+msgstr ""
+
+#: ../qml/phoneui/ui/DialogPage.qml:77
+#, fuzzy
+msgid "Mute notifications?"
 msgstr "Notifications activées"
 
 #: ../qml/phoneui/ui/DialogPage.qml:77
-msgid "Turn Notifications off?"
-msgstr "Désactiver les notifications ?"
-
-#: ../qml/phoneui/ui/DialogPage.qml:77
-msgid "Turn Notifications on?"
-msgstr "Activer les notifications ?"
+#, fuzzy
+msgid "Unmute notifications?"
+msgstr "Notifications activées"
 
 #: ../qml/phoneui/ui/DialogPage.qml:87
 msgid "Recipients list"
@@ -389,15 +406,15 @@ msgstr ""
 msgid "Select all"
 msgstr "Tout sélectionner"
 
-#: ../qml/phoneui/ui/DialogPage.qml:157 ../qml/phoneui/ui/DialogPage.qml:663
+#: ../qml/phoneui/ui/DialogPage.qml:157 ../qml/phoneui/ui/DialogPage.qml:667
 msgid "Message details"
 msgstr "Détails du message"
 
-#: ../qml/phoneui/ui/DialogPage.qml:164 ../qml/phoneui/ui/DialogPage.qml:483
+#: ../qml/phoneui/ui/DialogPage.qml:164 ../qml/phoneui/ui/DialogPage.qml:487
 msgid "Copy text"
 msgstr "Copier le texte"
 
-#: ../qml/phoneui/ui/DialogPage.qml:170 ../qml/phoneui/ui/DialogPage.qml:489
+#: ../qml/phoneui/ui/DialogPage.qml:170 ../qml/phoneui/ui/DialogPage.qml:493
 msgid "Forward message"
 msgstr "Faire suivre le message"
 
@@ -409,26 +426,26 @@ msgstr "Supprimer le message"
 msgid "Send Signal message"
 msgstr "Envoyer un message via Signal"
 
-#: ../qml/phoneui/ui/DialogPage.qml:466
+#: ../qml/phoneui/ui/DialogPage.qml:470
 msgid "Delete"
 msgstr "Supprimer"
 
-#: ../qml/phoneui/ui/DialogPage.qml:471
+#: ../qml/phoneui/ui/DialogPage.qml:475
 #, fuzzy
 msgid "Delete selected message?"
 msgstr "Supprimer le message selectionné ?"
 
-#: ../qml/phoneui/ui/DialogPage.qml:472
+#: ../qml/phoneui/ui/DialogPage.qml:476
 #, fuzzy
 msgid "This will permanently delete the selected message."
 msgstr ""
 "Cela supprimera définitivement tous les messages dans cette conversation."
 
-#: ../qml/phoneui/ui/DialogPage.qml:617
+#: ../qml/phoneui/ui/DialogPage.qml:621
 msgid "No messages here yet..."
 msgstr "Aucun message ici pour le moment..."
 
-#: ../qml/phoneui/ui/DialogPage.qml:655
+#: ../qml/phoneui/ui/DialogPage.qml:659
 msgid "Group members"
 msgstr "Membres du groupe"
 
@@ -443,6 +460,15 @@ msgstr ""
 "et les demandes de fonctionnalités sur GitHub :<br>            <a "
 "href='https://github.com/nanu-c/textsecure-qml/issues'>https://github.com/"
 "nanu-c/textsecure-qml/issues</a><br>"
+
+#~ msgid "Off Notifications"
+#~ msgstr "Notifications désactivées"
+
+#~ msgid "Turn Notifications off?"
+#~ msgstr "Désactiver les notifications ?"
+
+#~ msgid "Turn Notifications on?"
+#~ msgstr "Activer les notifications ?"
 
 #~ msgid "Advanced"
 #~ msgstr "Avancé"

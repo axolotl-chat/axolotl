@@ -85,6 +85,9 @@ Item {
             }
             text += lastchar;
         }
+        else{
+          text = "n/a"
+        }
         return text.toUpperCase();
     }
 }

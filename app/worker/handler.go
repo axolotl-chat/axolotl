@@ -103,10 +103,14 @@ func messageHandler(msg *textsecure.Message) {
 		if settings.SettingsModel.EncryptDatabase {
 			text = "Encrypted message"
 		}
-		n := Nh.NewStandardPushMessage(
-			session.Name,
-			text, "")
-		Nh.Send(n)
+		//only send a notification, when it's not the current chat
+		// if session.ID != store.Sessions.GetActiveChat {
+		if true {
+			n := Nh.NewStandardPushMessage(
+				session.Name,
+				text, "")
+			Nh.Send(n)
+		}
 	}
 
 	store.SaveMessage(m)

@@ -4,9 +4,9 @@ import (
 	"os"
 	"time"
 
-	log "github.com/sirupsen/logrus"
 	qml "github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
+	log "github.com/sirupsen/logrus"
 )
 
 type Session struct {
@@ -25,8 +25,9 @@ type Session struct {
 	Notification bool
 }
 type Sessions struct {
-	Sess []*Session
-	Len  int
+	Sess       []*Session
+	ActiveChat string
+	Len        int
 }
 
 //TODO that hasn't to  be in the db controller
@@ -97,9 +98,15 @@ func DeleteSession(tel string) error {
 	return nil
 }
 func (s *Sessions) GetSession(i int) *Session {
-	return s.Sess[i]
+	if i >= 0 && i < len(s.Sess) {
+		return s.Sess[i]
+	}
+	return nil
 }
 
+// func (s *Sessions) GetActiveChat() *string {
+// 	return s.ActiveChat
+// }
 func (s *Session) Add(text string, source string, file string, mimetype string, outgoing bool, sessionID string) *Message {
 
 	ctype := helpers.ContentTypeMessage
@@ -184,7 +191,16 @@ func (s *Sessions) Get(tel string) *Session {
 	SaveSession(ses)
 	return ses
 }
-
+func (s *Sessions) UpdateSessionNames() {
+	for _, ses := range s.Sess {
+		if ses.IsGroup == false {
+			log.Infof(TelToName(ses.Tel))
+			ses.Name = TelToName(ses.Tel)
+			UpdateSession(ses)
+		}
+	}
+	qml.Changed(&SessionsModel, &SessionsModel.Len)
+}
 func (s *Sessions) GetIndex(tel string) int {
 	for i, ses := range s.Sess {
 		if ses.Tel == tel {

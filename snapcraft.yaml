@@ -1,0 +1,27 @@
+name: textsecure
+version: git
+summary: An signal client.
+description: |
+  HTTPLab let you inspect HTTP requests and forge responses.
+
+confinement: devmode
+base: core18
+
+parts:
+  textsecure:
+    plugin: go
+    go-importpath: github.com/nanu-c/textsecure-qml
+    source: .
+    source-type: git
+    build-packages:
+      - gcc
+      - mercurial
+      - bzr
+      - libzbar-dev
+      - qtbase5-dev
+      - qtdeclarative5-dev
+      - qtbase5-private-dev
+
+apps:
+  httplab:
+    command: bin/httplab

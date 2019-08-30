@@ -95,7 +95,6 @@ func SetupConfig() {
 	CacheDir = filepath.Join(HomeDir, ".cache/", AppName)
 	LogFileName := []string{"application-click-", AppName, "_textsecure_", AppVersion, ".log"}
 	LogFile = filepath.Join(HomeDir, ".cache/", "upstart/", strings.Join(LogFileName, ""))
-	log.Printf("LogFile: " + LogFile)
 	ConfigDir = filepath.Join(HomeDir, ".config/", AppName)
 	ContactsFile = filepath.Join(ConfigDir, "contacts.yml")
 	SettingsFile = filepath.Join(ConfigDir, "settings.yml")

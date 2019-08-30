@@ -32,9 +32,9 @@ func RefreshContacts() error {
 	if err != nil {
 		return err
 	}
-
 	ContactsModel.Contacts = c
 	ContactsModel.Len = len(c)
+	SessionsModel.UpdateSessionNames()
 	qml.Changed(ContactsModel, &ContactsModel.Len)
 	qml.Changed(SessionsModel, &SessionsModel.Len)
 

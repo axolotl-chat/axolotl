@@ -69,12 +69,12 @@ TelegramPage {
         },
         Action {
             iconName:"notification"
-            text: messagesModel.notification?i18n.tr("Off Notifications") : i18n.tr("On Notifications")
+            text: messagesModel.notification?i18n.tr("Mute") : i18n.tr("Unmute")
             onTriggered: {
                 PopupUtils.open(Qt.resolvedUrl("dialogs/ConfirmationDialog.qml"),
                 dialogPage, {
                     title: messagesModel.name,
-                    text:  messagesModel.notification?i18n.tr("Turn Notifications off?") : i18n.tr("Turn Notifications on?"),
+                    text:  messagesModel.notification?i18n.tr("Mute notifications?") : i18n.tr("Unmute notifications?"),
                     onAccept: function() {
                         messagesModel.notification = !messagesModel.notification
                         textsecure.tgNotification(messagesModel.notification )
@@ -131,7 +131,7 @@ TelegramPage {
                     onAccept: function() {
                         textsecure.deleteSession(messagesModel.tel)
                         textsecure.setActiveSessionID("")
-                        pageStack.push(dialogsPage);
+                        pageStack.push(chatListPage);
                     }
                 })
             }
@@ -379,7 +379,11 @@ TelegramPage {
                 }
             }
         }
-
+        WaitingBar {
+            id: waitingBar
+            // connectionState: Telegram.connections.connectionState
+            z: 10
+        }
         MultipleSelectionListView {
             id: list
             property string sels
@@ -679,7 +683,7 @@ TelegramPage {
     function onBackPressed() {
         textsecure.markSessionsRead(messagesModel.tel);
         textsecure.setActiveSessionID("");
-        backToDialogsPage();
+        backToChatListPage();
     }
 
 }

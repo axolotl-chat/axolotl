@@ -79,6 +79,23 @@ func GetAddressBookContactsFromDBus() ([]textsecure.Contact, error) {
 
 	return parseVCards(vcardContacts)
 }
+func AddContact(name string, phone string) error {
+	contacts, err := textsecure.ReadContacts(config.ContactsFile)
+	if err != nil {
+		os.Create(config.ContactsFile)
+		// return err
+	}
+	contact := &textsecure.Contact{
+		Name: name,
+		Tel:  phone,
+	}
+	contacts = append(contacts, *contact)
+	err = textsecure.WriteContacts(config.ContactsFile, contacts)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
 // getAddgetAddressBookContactsFromContentHub gets the phone contacts via the content hub
 func GetAddressBookContactsFromContentHub() ([]textsecure.Contact, error) {
@@ -110,9 +127,9 @@ func GetAddressBookContactsFromContentHub() ([]textsecure.Contact, error) {
 	if err != nil {
 		return nil, err
 	}
-	for i := range contacts {
-		log.Infof(string(i))
-	}
+	// for i := range contacts {
+	// 	// log.Infof(string(i))
+	// }
 	return contacts, nil
 }
 

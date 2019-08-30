@@ -101,7 +101,7 @@ TelegramPage {
                               text: i18n.tr("This will permanently delete all messages!"),
                               onAccept: function() {
                                   storeModel.resetDb();
-                                  backToDialogsPage();
+                                  backToChatListPage();
                               }
                           })
             }
@@ -123,7 +123,7 @@ TelegramPage {
             clearError();
             if (storeModel.setupDb(passwordTextField.text)){
               textsecure.startAfterDecryption();
-              backToDialogsPage();
+              backToChatListPage();
 
             }
             else  {
