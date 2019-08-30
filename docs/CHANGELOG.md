@@ -1,11 +1,15 @@
-0.4.4 (Aug 18 2019)
+0.4.5 (Aug 31 2019)
+--------------------
+* import a singel contact thats not in the contact Book
+* UX improvements
+0.4.4 (Aug 30 2019)
 --------------------
 * fix contacts import, old contacts are not replaced anymore
-* fix trailing 
-0.4.3 (Aug 18 2019)
+* fix leading actions on dialog page
+0.4.3 (Aug 29 2019)
 --------------------
 * fix unregistering
-0.4.2 (Aug 18 2019)
+0.4.2 (Aug 30 2019)
 --------------------
 * Update protobufs and wrong imports
 * Registration Failures like RateLimiting are shown
