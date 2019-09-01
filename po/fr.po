@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-30 23:47+0200\n"
-"PO-Revision-Date: 2016-02-29 11:36+0200\n"
+"POT-Creation-Date: 2019-08-31 01:46+0200\n"
+"PO-Revision-Date: 2019-09-01 19:02+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: fr\n"
@@ -17,9 +17,8 @@ msgid "Signal"
 msgstr "Signal"
 
 #: ../qml/phoneui/components/SignalMessageDelegate.qml:183
-#, fuzzy
 msgid "Forwarded from "
-msgstr "Transféré à partir de"
+msgstr "Transféré depuis"
 
 #: ../qml/phoneui/components/AttachPanel.qml:87
 msgid "Image"
@@ -81,9 +80,9 @@ msgid "Close"
 msgstr "Fermer"
 
 #: ../qml/phoneui/ui/pages/ChatList.qml:169
-#, fuzzy, qt-format
+#, qt-format
 msgid "Forward message to %1?"
-msgstr "Faire suivre le message à %1 ?"
+msgstr "Transférer le message à %1 ?"
 
 #: ../qml/phoneui/ui/PreviewPage.qml:33
 msgid "From: "
@@ -109,7 +108,6 @@ msgid "Old passphrase"
 msgstr "Ancien mot de passe"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:71
-#, fuzzy
 msgid "New passphrase"
 msgstr "Nouveau mot de passe"
 
@@ -138,7 +136,6 @@ msgid "Passphrases don't match!"
 msgstr "Les nouveaux mots de passe ne sont pas identiques"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:153
-#, fuzzy
 msgid "New passphrase too short(6)!"
 msgstr "Le nouveau mot de passe est trop court !"
 
@@ -176,9 +173,8 @@ msgid "Enter key sends"
 msgstr "Envoi par la touche Entrée"
 
 #: ../qml/phoneui/ui/SettingsPage.qml:106
-#, fuzzy
 msgid "Activate Debuglog"
-msgstr "Activer le journal des anomalies"
+msgstr "Activer le journal des erreurs"
 
 #: ../qml/phoneui/ui/SigninPage.qml:18
 msgid "Connect with Signal"
@@ -226,19 +222,16 @@ msgid "Add device"
 msgstr "Ajouter un appareil"
 
 #: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:28
-#, fuzzy
 msgid "Refresh devices"
 msgstr "Actualiser les appareils"
 
 #: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:94
-#, fuzzy
 msgid "Delete selected Device?"
 msgstr "Supprimer l'appareil sélectionné ?"
 
 #: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:95
-#, fuzzy
 msgid "This will permanently delete the selected Device."
-msgstr "Cela supprimera définitivement l'appareil sélectionné."
+msgstr "Cette action supprimera définitivement l'appareil sélectionné."
 
 #: ../qml/phoneui/ui/PasswordPage.qml:15
 msgid "Enter passphrase"
@@ -249,9 +242,8 @@ msgid "Passphrase"
 msgstr "Mot de passe"
 
 #: ../qml/phoneui/ui/PasswordPage.qml:101
-#, fuzzy
 msgid "This will permanently delete all messages!"
-msgstr "Cela supprimera définitivement tous les messages !"
+msgstr "Cette action supprimera définitivement tous les messages !"
 
 #: ../qml/phoneui/ui/PasswordPage.qml:130
 msgid "Invalid passphrase!"
@@ -262,26 +254,22 @@ msgid "Refresh"
 msgstr "Actualiser"
 
 #: ../qml/phoneui/ui/ContactsPage.qml:52
-#, fuzzy
 msgid "Add contact"
-msgstr "Aucun contact"
+msgstr "Ajouter un contact"
 
 #: ../qml/phoneui/ui/ContactsPage.qml:56
-#, fuzzy
 msgid "Add Contact"
-msgstr "Aucun contact"
+msgstr "Ajouter un contact"
 
 #: ../qml/phoneui/ui/ContactsPage.qml:80 ../qml/phoneui/ui/DialogPage.qml:112
 msgid "Update group"
 msgstr "Mettre à jour le groupe"
 
 #: ../qml/phoneui/ui/ContactsPage.qml:82
-#, fuzzy
 msgid "Contacts"
 msgstr "Contacts"
 
 #: ../qml/phoneui/ui/ContactsPage.qml:135
-#, fuzzy
 msgid "No contacts"
 msgstr "Aucun contact"
 
@@ -290,7 +278,7 @@ msgid "Group name"
 msgstr "Nom du groupe"
 
 #: ../qml/phoneui/ui/ContactsPage.qml:263
-#, fuzzy, qt-format
+#, qt-format
 msgid "%1 members"
 msgstr "%1 membres"
 
@@ -357,21 +345,19 @@ msgstr "Vérifier l’identité"
 
 #: ../qml/phoneui/ui/DialogPage.qml:72
 msgid "Mute"
-msgstr ""
+msgstr "Silencieux"
 
 #: ../qml/phoneui/ui/DialogPage.qml:72
 msgid "Unmute"
-msgstr ""
+msgstr "Activé"
 
 #: ../qml/phoneui/ui/DialogPage.qml:77
-#, fuzzy
 msgid "Mute notifications?"
-msgstr "Notifications activées"
+msgstr "Activer les notifications ?"
 
 #: ../qml/phoneui/ui/DialogPage.qml:77
-#, fuzzy
 msgid "Unmute notifications?"
-msgstr "Notifications activées"
+msgstr "Désactiver les notifications ?"
 
 #: ../qml/phoneui/ui/DialogPage.qml:87
 msgid "Recipients list"
@@ -387,7 +373,7 @@ msgstr "Quitter le groupe ?"
 
 #: ../qml/phoneui/ui/DialogPage.qml:103
 msgid "Are you sure you want to leave this group?"
-msgstr "Êtes-vous sûr(e) de vouloir quitter ce groupe ?"
+msgstr "Voulez-vous vraiment quitter ce groupe ?"
 
 #: ../qml/phoneui/ui/DialogPage.qml:125
 msgid "Delete conversation"
@@ -431,15 +417,12 @@ msgid "Delete"
 msgstr "Supprimer"
 
 #: ../qml/phoneui/ui/DialogPage.qml:475
-#, fuzzy
 msgid "Delete selected message?"
 msgstr "Supprimer le message selectionné ?"
 
 #: ../qml/phoneui/ui/DialogPage.qml:476
-#, fuzzy
 msgid "This will permanently delete the selected message."
-msgstr ""
-"Cela supprimera définitivement tous les messages dans cette conversation."
+msgstr "Cette action supprimera définitivement le message sélectionné."
 
 #: ../qml/phoneui/ui/DialogPage.qml:621
 msgid "No messages here yet..."
