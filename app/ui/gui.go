@@ -1,10 +1,13 @@
 package ui
 
 import (
+	"fmt"
+
 	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/settings"
 	"github.com/nanu-c/textsecure-qml/app/store"
+	"github.com/nanu-c/textsecure-qml/app/webserver"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -23,10 +26,11 @@ func GroupUpdateMsg(tels []string, title string) string {
 	return s + "Title is now '" + title + "'."
 }
 func RegistrationDone() {
-	log.Println("Registered")
+	fmt.Println("Registered")
 	// Win.Root().Call("registered")
 	textsecure.WriteConfig(config.ConfigFile, config.Config)
 	settings.SettingsModel.Registered = true
+	webserver.RegistrationDone()
 }
 func SetComponent() error {
 	// component, err := Engine.LoadFile(config.MainQml)

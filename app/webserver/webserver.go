@@ -37,6 +37,8 @@ func Run() error {
 	return nil
 }
 
+var requestChannel chan string
+
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
@@ -53,7 +55,6 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-
 	log.Println("Client Connected")
 	err = ws.WriteMessage(1, []byte("Hi Client!"))
 	if err != nil {
@@ -77,6 +78,14 @@ type SendMessageMessage struct {
 	To      string `json:"to"`
 	Message string `json:"message"`
 }
+type RequestCodeMessage struct {
+	Type string `json:"request"`
+	Tel  string `json:"tel"`
+}
+type SendCodeMessage struct {
+	Type string `json:"request"`
+	Code string `json:"code"`
+}
 
 func sync() {
 	for {
@@ -94,7 +103,7 @@ func wsReader(conn *websocket.Conn) {
 		}
 		incomingMessage := Message{}
 		json.Unmarshal([]byte(p), &incomingMessage)
-		fmt.Println(string(p), incomingMessage.Type)
+		// fmt.Println(string(p), incomingMessage.Type)
 		if incomingMessage.Type == "getChatList" {
 			sendChatList(conn)
 		}
@@ -104,12 +113,34 @@ func wsReader(conn *websocket.Conn) {
 			id := getMessageListMessage.ID
 			activeChat = getMessageListMessage.ID
 			sendMessageList(conn, id)
-
 		}
 		if incomingMessage.Type == "sendMessage" {
 			sendMessageMessage := SendMessageMessage{}
 			json.Unmarshal([]byte(p), &sendMessageMessage)
 			sender.SendMessageHelper(sendMessageMessage.To, sendMessageMessage.Message, "")
+			go UpdateChatList()
+		}
+		if incomingMessage.Type == "requestCode" {
+			if requestChannel != nil {
+				requestCodeMessage := RequestCodeMessage{}
+				json.Unmarshal([]byte(p), &requestCodeMessage)
+				requestChannel <- requestCodeMessage.Tel
+			}
+		}
+		if incomingMessage.Type == "sendCode" {
+			if requestChannel != nil {
+				sendCodeMessage := SendCodeMessage{}
+				json.Unmarshal([]byte(p), &sendCodeMessage)
+				requestChannel <- sendCodeMessage.Code
+			}
+			// sender.SendMessageHelper(sendMessageMessage.To, sendMessageMessage.Message, "")
+		}
+		if incomingMessage.Type == "getRegistrationStatus" {
+			if registered {
+				sendRequest(conn, "registrationDone")
+			} else {
+				sendRequest(conn, "getPhoneNumber")
+			}
 
 		}
 
@@ -118,7 +149,7 @@ func wsReader(conn *websocket.Conn) {
 func webserver() {
 	http.Handle("/", http.FileServer(http.Dir("./axolotl-web")))
 	http.HandleFunc("/ws", wsEndpoint)
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":9080", nil)
 }
 func print(stdout io.ReadCloser) {
 	scanner := bufio.NewScanner(stdout)
@@ -164,14 +195,64 @@ func sendMessageList(client *websocket.Conn, id string) {
 		return
 	}
 }
+
+var test = false
+
 func UpdateChatList() {
 	// fmt.Println("updateChatList")
+	// rq := make(chan string)
 	for client := range clients {
 		sendChatList(client)
+		// if !test {
+		// 	RequestInput("getPhoneNumber", rq)
+		// } else {
+		// 	RequestInput("getVerificationCode", rq)
+		// }
 	}
 	if activeChat != "" {
 		for client := range clients {
 			sendMessageList(client, activeChat)
 		}
 	}
+}
+
+type SendRequest struct {
+	Type string
+}
+
+func sendRequest(client *websocket.Conn, requestType string) {
+	var err error
+
+	request := &SendRequest{
+		Type: requestType,
+	}
+	message := &[]byte{}
+	*message, err = json.Marshal(request)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
+		log.Println(err)
+		return
+	}
+}
+
+var registered = false
+
+func RegistrationDone() {
+	registered = true
+	for client := range clients {
+		sendRequest(client, "registrationDone")
+	}
+}
+func RequestInput(request string) string {
+	fmt.Println(request)
+	for client := range clients {
+		sendRequest(client, request)
+	}
+	requestChannel = make(chan string)
+	text := <-requestChannel
+	requestChannel = nil
+	return text
 }

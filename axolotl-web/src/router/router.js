@@ -5,24 +5,32 @@ Vue.use(Router);
 
 const base = "/";
 
-let router = new Router({
+export default new Router({
   mode: "history",
   base,
   routes: [
   {
-    path: "/",
+    path: "/chatList",
     name: "chatList",
-    component:  () => import("@/components/ChatList.vue")
+    component:  () => import("@/pages/ChatList.vue")
   },
   {
     path: "/chat/:id",
     name: "chat",
     props: route => ({
       chatId: route.params.id,
-      sidebar: true,
     }),
-    component:  () => import("@/components/Chat.vue")
+    component:  () => import("@/pages/Chat.vue")
+  },
+  {
+    path: "/",
+    name: "register",
+    component:  () => import("@/pages/Register.vue")
+  },
+  {
+    path: "/verify",
+    name: "verify",
+    component:  () => import("@/pages/Verification.vue")
   },
   ]
 });
-export default router

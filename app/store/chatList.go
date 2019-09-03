@@ -105,7 +105,6 @@ func DeleteSession(tel string) error {
 	return nil
 }
 func (s *Sessions) GetSession(i int) *Session {
-	fmt.Println(i)
 	return s.Sess[0]
 }
 func (s *Sessions) GetMessageList(id string) (error, *MessageList) {

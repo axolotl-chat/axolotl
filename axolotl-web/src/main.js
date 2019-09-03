@@ -5,12 +5,14 @@ import store from './store/store'
 import router from "./router/router";
 import BootstrapVue from 'bootstrap-vue'
 import VueChatScroll from 'vue-chat-scroll'
+import VueHead from 'vue-head'
 
+Vue.use(VueHead)
 Vue.use(VueChatScroll)
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false
-Vue.use(VueNativeSock, 'ws://172.17.0.2:8080/ws',
-// Vue.use(VueNativeSock, 'http://[::1]:8080/ws',
+// Vue.use(VueNativeSock, 'ws://172.17.0.2:9080/ws',
+Vue.use(VueNativeSock, 'ws://[::1]:9080/ws',
   { store: store,
     // format: 'json',
     reconnection: true, // (Boolean) whether to reconnect automatically (false)
@@ -18,7 +20,7 @@ Vue.use(VueNativeSock, 'ws://172.17.0.2:8080/ws',
     reconnectionDelay: 3000, // (Number) how long to initially wait before attempting a new (1000) }
   }
 )
-new Vue({
+export default new Vue({
   store,
   router,
   render: h => h(App),

@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     chatList: [],
     messageList: [],
+    request: '',
     socket: {
       isConnected: false,
       message: '',
@@ -25,13 +26,27 @@ export default new Vuex.Store({
         SEND_MESSAGE(){
 
         },
+        SET_REQUEST(state, request){
+          state.request = request;
+          if(request=="getPhoneNumber"){
+            window.router.push("/")
+          }
+          else if (request == "getVerificationCode") {
+            window.router.push("/verify")
+          }
+          else if (request =="registrationDone") {
+            window.router.push("/chatList")
+            this.dispatch("getChatList")
+          }
+          // this.dispatch("requestCode", "+123456")
+        },
         SET_MESSAGELIST(state, messageList){
               state.messageList = messageList;
         },
         SOCKET_ONOPEN (state, event)  {
           Vue.prototype.$socket = event.currentTarget
           state.socket.isConnected = true
-          this.dispatch("getChatList")
+          this.dispatch("getRegistrationStatus")
           // Vue.prototype.$socket.send("getChatList")
 
         },
@@ -51,6 +66,9 @@ export default new Vuex.Store({
             }
             if(Object.keys(messageData)[0]=="MessageList"){
               this.commit("SET_MESSAGELIST",messageData["MessageList"] );
+            }
+            if(Object.keys(messageData)[0]=="Type"){
+              this.commit("SET_REQUEST",messageData["Type"] );
             }
             state.socket.message = message.data
           }
@@ -94,6 +112,38 @@ export default new Vuex.Store({
         }
         console.log(JSON.stringify(message))
         Vue.prototype.$socket.send(JSON.stringify(message))
+      }
+    },
+      requestCode:function(context, tel){
+        if(this.state.socket.isConnected){
+          var message = {
+            "request":"requestCode",
+            "tel":  tel,
+          }
+          console.log(JSON.stringify(message))
+          Vue.prototype.$socket.send(JSON.stringify(message))
+        }
+    },
+    sendCode:function(context, code){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"sendCode",
+          "code":  code,
+        }
+        console.log(JSON.stringify(message))
+        Vue.prototype.$socket.send(JSON.stringify(message))
+        window.router.push("/chatList")
+
+      }
+    },
+    getRegistrationStatus:function(context, code){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"getRegistrationStatus",
+        }
+        console.log(JSON.stringify(message))
+        Vue.prototype.$socket.send(JSON.stringify(message))
+
       }
     },
   }

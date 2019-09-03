@@ -1,11 +1,8 @@
 
 <template>
   <div class="chat">
-    <div class="header">
-      <button class="btn" @click="back"><</button>
-    </div>
     <div class="chatList-container">
-      <div class="chatList row" v-if="messages.length>0" v-chat-scroll>>
+      <div class="chatList row" v-if="messages.length>0" v-chat-scroll>
 
           <div v-for="message in messages.slice().reverse()" :class="{'col-12':true, 'sent':message.Outgoing, 'reply':!message.Outgoing}" >
             <div class="row w-100">
@@ -59,8 +56,10 @@ export default {
       return(this.chatId)
     },
     sendMessage(){
-      this.$store.dispatch("sendMessage", {to:this.chatId, message:this.messageInput});
-      this.messageInput=""
+      if(this.messageInput!=""){
+        this.$store.dispatch("sendMessage", {to:this.chatId, message:this.messageInput});
+        this.messageInput=""
+      }
     },
     humanifyDate(date){
       var now = new Date();
@@ -98,12 +97,6 @@ export default {
 <style scoped>
 .header {
   text-align: left;
-}
-.chatList-container{
-  width:100%;
-  overflow:hidden;
-  height:calc(100vh - 200px);
-
 }
 .chatList{
   height:calc(100vh - 200px);
