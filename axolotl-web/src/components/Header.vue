@@ -39,6 +39,7 @@ export default {
     width:100%;
     height:50px;
     background-color:#2090ea;
+    top: 0px;
   }
   .btn{
     color:#FFF;

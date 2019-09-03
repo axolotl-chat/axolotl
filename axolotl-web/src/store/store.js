@@ -60,7 +60,7 @@ export default new Vuex.Store({
         SOCKET_ONMESSAGE (state, message)  {
           if(message.data!="Hi Client!"){
             var messageData =JSON.parse(message.data)
-
+            console.log(messageData);
             if(Object.keys(messageData)[0]=="ChatList"){
               this.commit("SET_CHATLIST",messageData["ChatList"] );
             }

@@ -58,7 +58,7 @@ func RunUI() error {
 		push.PushHelperProcess()
 	}
 	// cmd := exec.Command("webapp-container", "http://[::1]:8080/")
-	cmd := exec.Command("qmlscene", "qml/Main.qml")
+	cmd := exec.Command("qmlscene", "--scaling", "qml/Main.qml")
 	// cmd := exec.Command("webapp-container", "--app-id='textsecure.nanuc'", "$@", "axolotl-web/index.html")
 	log.Printf("Starting Axolotl-gui")
 	stdout, _ := cmd.StdoutPipe()

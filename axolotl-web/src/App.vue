@@ -18,16 +18,16 @@ export default {
     HeaderComp
   },
   mounted(){
-    console.log("blub")
-    document.getElementsByClassName("header")[0].innerHTML=
-    "Your screen resolution is: " + screen.width + "x" + screen.height+"<br>"+navigator.userAgent;
-    const viewportmeta = document.querySelector('meta[name=viewport]');
-    viewportmeta.setAttribute('content', "initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0");
+    // document.getElementsByClassName("header")[0].innerHTML=
+    // "Your screen resolution is: " + screen.width + "x" + screen.height+"<br>"+navigator.userAgent;
+    // const viewportmeta = document.querySelector('meta[name=viewport]');
+    // viewportmeta.setAttribute('content', "initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0");
   }
 }
 </script>
 <style>
 #app{
+  padding-top:50px;
 
 }
 </style>
