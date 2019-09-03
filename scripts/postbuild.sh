@@ -21,7 +21,7 @@ cp -a ../click/* ../build/install
 # fi
 
 # Build and include translations
-cp ../po/textsecure.nanuc.pot ../build/tmp/
+mkdir ../build/tmp/ && cp ../po/textsecure.nanuc.pot ../build/tmp/
 for po in ../po/*.po; do
 	loc=$(echo $(basename $po)|cut -d'.' -f1)
 	dir=../build/tmp/share/locale/$loc/LC_MESSAGES

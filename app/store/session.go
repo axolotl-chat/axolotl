@@ -187,8 +187,8 @@ func (s *Sessions) Get(tel string) *Session {
 	ses := &Session{Tel: tel, Name: TelToName(tel), Active: true, IsGroup: tel[0] != '+', Notification: true}
 	s.Sess = append(s.Sess, ses)
 	s.Len++
-	qml.Changed(s, &s.Len)
 	SaveSession(ses)
+	qml.Changed(s, &s.Len)
 	return ses
 }
 func (s *Sessions) UpdateSessionNames() {

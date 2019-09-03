@@ -1,3 +1,8 @@
+0.4.6 (Sep 04 2019) Hotfix
+--------------------
+* fix Contact import working properly
+* fix recieving messages
+* still not fixed: open new chat
 0.4.5 (Aug 31 2019)
 --------------------
 * import a singel contact thats not in the contact Book

@@ -118,7 +118,7 @@ func GetAddressBookContactsFromContentHub() ([]textsecure.Contact, error) {
 			}
 		}
 		if !found {
-			contacts = append(contacts)
+			contacts = append(contacts, c)
 		}
 	}
 	//sort by name

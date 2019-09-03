@@ -208,7 +208,7 @@ TelegramPage {
                         }
                         contactListView.refreshSubtitle();
                     } else {
-                        openSimpleChat(contact);
+                        // openSimpleChat(contact);
                     }
                 }
             }
@@ -331,6 +331,7 @@ TelegramPage {
     }
 
     function openSimpleChat(contact) {
+        console.log("openSimpleChat")
         Qt.inputMethod.hide();
         searchFinished();
         openChatById(contact.name, contact.tel);
