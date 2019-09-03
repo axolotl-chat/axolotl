@@ -6,3 +6,5 @@ gopath/*
 .clickable/*
 *po~
 *~~
+*dist
+*node_modules
