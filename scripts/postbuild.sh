@@ -1,8 +1,5 @@
 #!/bin/bash
 
-
-
-
 # Translations
 # generate pot file
 echo "update translations"
@@ -28,3 +25,6 @@ for po in ../po/*.po; do
 	mkdir -p $dir
 	msgfmt $po -o $dir/textsecure.nanuc.mo
 done
+
+# Build axolotl-web
+cd ../axolotl-web&&npm run build && mkdir ../build/install/axolotl-web&&cp dist/* ../build/install/axolotl-web -r

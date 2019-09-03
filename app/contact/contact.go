@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"sort"
 	"strings"
 
 	log "github.com/sirupsen/logrus"
@@ -83,7 +84,6 @@ func AddContact(name string, phone string) error {
 	contacts, err := textsecure.ReadContacts(config.ContactsFile)
 	if err != nil {
 		os.Create(config.ContactsFile)
-		// return err
 	}
 	contact := &textsecure.Contact{
 		Name: name,
@@ -118,11 +118,11 @@ func GetAddressBookContactsFromContentHub() ([]textsecure.Contact, error) {
 			}
 		}
 		if !found {
-			contacts = append(contacts)
+			contacts = append(contacts, c)
 		}
 	}
 	//sort by name
-	// sort.Slice(contacts, func(i, j int) bool { return contacts[i].Name < contacts[j].Name })
+	sort.Slice(contacts, func(i, j int) bool { return contacts[i].Name < contacts[j].Name })
 	err = textsecure.WriteContacts(config.ContactsFile, contacts)
 	if err != nil {
 		return nil, err

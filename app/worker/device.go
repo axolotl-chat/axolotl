@@ -10,11 +10,10 @@ import (
 	"strings"
 	"time"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/clsung/grcode"
 	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/store"
-	"github.com/nanu-c/textsecure-qml/app/ui"
+	log "github.com/sirupsen/logrus"
 )
 
 var qr = false
@@ -66,8 +65,8 @@ func interpretQR(img image.Image) {
 }
 func (Api *TextsecureAPI) AddDevice() error {
 	// log.Println("addDevice")
-	img := ui.Win.Snapshot()
-	ReadQr(img)
+	// img := ui.Win.Snapshot()
+	// ReadQr(img)
 	return nil
 }
 func (Api *TextsecureAPI) UnlinkDevice(id int) error {

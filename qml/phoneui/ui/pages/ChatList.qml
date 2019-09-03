@@ -3,6 +3,9 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3
 import Ubuntu.Components.Popups 1.3
 import Ubuntu.Connectivity 1.0
+import Morph.Web 0.1
+
+
 
 import "../../components"
 import "../../components/listitems"
@@ -130,60 +133,65 @@ TelegramPage {
         right: parent.right
         bottom: parent.bottom
       }
-      ListView {
-        id: dialogsListView
-        anchors {
-          top: parent.top
-          left: parent.left
-          right: parent.right
-          bottom: parent.bottom
-        }
-        clip: true
-        z: 1
-	      cacheBuffer: units.gu(8)*20
-	      model: sessionsModel.len
-        delegate: ChatListItem {
-          id: chatListItem
-          property var ses: sessionsModel.getSession(index)
-          // FIXME Error
-          // thumbnail: avatarImage(ses.tel)
-          dialogId: uid(ses.tel)
-          message: ses.last
-          unreadCount: ses.unread
-          mediaType: ses.cType
-          height: visible? (messagesToForward.length > 0 ? 0 : units.gu(8)) : 0
-          visible: ses.len > 0
-
-          title: ses.name
-          messageDate: ses.when
-          isGroupChat: ses.isGroup
-
-          onItemClicked: {
-              mouse.accepted = true;
-              // searchFinished();
-              var properties = {};
-
-              if (messagesToForward.length > 0) {
-                  PopupUtils.open(Qt.resolvedUrl("../dialogs/ConfirmationDialog.qml"),
-                    dialogsListItem, {
-                      text: i18n.tr("Forward message to %1?".arg(title)),
-                      onAccept: function() {
-                        properties['messagesToForward'] = messagesToForward;
-                        openChatById(dialogId, ses.tel, properties);
-                        messagesToForward = [];
-                      }
-                    }
-                  );
-              } else {
-                  openChatById(chatListItem.title, ses.tel, properties);
-                  messagesToForward = [];
-              }
-            }
+      WebView  {
+          id: webView
+          anchors.fill: parent
+          url: "http://[::1]:8080/"
       }
-    }
-    DelegateUtils {
-      id: delegateUtils
-    }
+    //   ListView {
+    //     id: dialogsListView
+    //     anchors {
+    //       top: parent.top
+    //       left: parent.left
+    //       right: parent.right
+    //       bottom: parent.bottom
+    //     }
+    //     clip: true
+    //     z: 1
+	  //     cacheBuffer: units.gu(8)*20
+	  //     model: sessionsModel.len
+    //     delegate: ChatListItem {
+    //       id: chatListItem
+    //       property var ses: sessionsModel.getSession(index)
+    //       // FIXME Error
+    //       // thumbnail: avatarImage(ses.tel)
+    //       dialogId: uid(ses.tel)
+    //       message: ses.last
+    //       unreadCount: ses.unread
+    //       mediaType: ses.cType
+    //       height: visible? (messagesToForward.length > 0 ? 0 : units.gu(8)) : 0
+    //       visible: ses.len > 0
+    //
+    //       title: ses.name
+    //       messageDate: ses.when
+    //       isGroupChat: ses.isGroup
+    //
+    //       onItemClicked: {
+    //           mouse.accepted = true;
+    //           // searchFinished();
+    //           var properties = {};
+    //
+    //           if (messagesToForward.length > 0) {
+    //               PopupUtils.open(Qt.resolvedUrl("../dialogs/ConfirmationDialog.qml"),
+    //                 dialogsListItem, {
+    //                   text: i18n.tr("Forward message to %1?".arg(title)),
+    //                   onAccept: function() {
+    //                     properties['messagesToForward'] = messagesToForward;
+    //                     openChatById(dialogId, ses.tel, properties);
+    //                     messagesToForward = [];
+    //                   }
+    //                 }
+    //               );
+    //           } else {
+    //               openChatById(chatListItem.title, ses.tel, properties);
+    //               messagesToForward = [];
+    //           }
+    //         }
+    //   }
+    // }
+    // DelegateUtils {
+    //   id: delegateUtils
+    // }
   }
 
     function searchPressed() {

@@ -1,10 +1,11 @@
 package store
 
 import (
+	"errors"
+	"fmt"
 	"os"
 	"time"
 
-	qml "github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
 	log "github.com/sirupsen/logrus"
 )
@@ -24,10 +25,16 @@ type Session struct {
 	Len          int
 	Notification bool
 }
+type MessageList struct {
+	ID       string
+	Session  *Session
+	Messages []*Message
+}
 type Sessions struct {
 	Sess       []*Session
 	ActiveChat string
 	Len        int
+	Type       string
 }
 
 //TODO that hasn't to  be in the db controller
@@ -94,14 +101,30 @@ func DeleteSession(tel string) error {
 	index := SessionsModel.GetIndex(s.Tel)
 	SessionsModel.Sess = append(SessionsModel.Sess[:index], SessionsModel.Sess[index+1:]...)
 	SessionsModel.Len--
-	qml.Changed(SessionsModel, &SessionsModel.Len)
+	//qml.Changed(SessionsModel, &SessionsModel.Len)
 	return nil
 }
 func (s *Sessions) GetSession(i int) *Session {
-	if i >= 0 && i < len(s.Sess) {
-		return s.Sess[i]
+	fmt.Println(i)
+	return s.Sess[0]
+}
+func (s *Sessions) GetMessageList(id string) (error, *MessageList) {
+	index := SessionsModel.GetIndex(id)
+	if index != -1 {
+		messageList := &MessageList{
+			ID:      id,
+			Session: s.GetSession(index),
+		}
+		err := DS.Dbx.Select(&messageList.Messages, messagesSelectWhere, messageList.Session.ID)
+		if err != nil {
+			fmt.Println(err)
+			return err, nil
+		}
+		return nil, messageList
+	} else {
+		return errors.New("wrong index"), nil
 	}
-	return nil
+
 }
 
 // func (s *Sessions) GetActiveChat() *string {
@@ -127,13 +150,13 @@ func (s *Session) Add(text string, source string, file string, mimetype string, 
 	s.Last = text
 	s.Len++
 	s.CType = ctype
-	qml.Changed(s, &s.Last)
-	qml.Changed(s, &s.Len)
-	qml.Changed(s, &s.CType)
+	//qml.Changed(s, &s.Last)
+	//qml.Changed(s, &s.Len)
+	//qml.Changed(s, &s.CType)
 	//FIXME
 	if !outgoing && sessionID != s.Tel {
 		s.Unread++
-		qml.Changed(s, &s.Unread)
+		//qml.Changed(s, &s.Unread)
 	}
 	UpdateSession(s)
 
@@ -142,7 +165,7 @@ func (s *Session) Add(text string, source string, file string, mimetype string, 
 }
 func (s *Session) MarkRead() {
 	s.Unread = 0
-	qml.Changed(s, &s.Unread)
+	//qml.Changed(s, &s.Unread)
 	UpdateSession(s)
 }
 func (s *Session) ToggleSessionNotifcation(notification bool) {
@@ -154,7 +177,7 @@ func (s *Session) ToggleSessionNotifcation(notification bool) {
 		txt = "notifications off"
 
 	}
-	qml.Changed(s, &s.Notification)
+	//qml.Changed(s, &s.Notification)
 	log.Debugf(txt)
 	UpdateSession(s)
 }
@@ -171,10 +194,10 @@ func UpdateTimestamps() {
 			}
 			for _, m := range s.Messages {
 				m.HTime = helpers.HumanizeTimestamp(m.SentAt)
-				qml.Changed(m, &m.HTime)
+				//qml.Changed(m, &m.HTime)
 			}
 			s.When = s.Messages[len(s.Messages)-1].HTime
-			qml.Changed(s, &s.When)
+			//qml.Changed(s, &s.When)
 		}
 	}
 }
@@ -187,19 +210,18 @@ func (s *Sessions) Get(tel string) *Session {
 	ses := &Session{Tel: tel, Name: TelToName(tel), Active: true, IsGroup: tel[0] != '+', Notification: true}
 	s.Sess = append(s.Sess, ses)
 	s.Len++
-	qml.Changed(s, &s.Len)
+	//qml.Changed(s, &s.Len)
 	SaveSession(ses)
 	return ses
 }
 func (s *Sessions) UpdateSessionNames() {
 	for _, ses := range s.Sess {
 		if ses.IsGroup == false {
-			log.Infof(TelToName(ses.Tel))
 			ses.Name = TelToName(ses.Tel)
 			UpdateSession(ses)
 		}
 	}
-	qml.Changed(&SessionsModel, &SessionsModel.Len)
+	//qml.Changed(&SessionsModel, &SessionsModel.Len)
 }
 func (s *Sessions) GetIndex(tel string) int {
 	for i, ses := range s.Sess {
@@ -222,9 +244,40 @@ func (s *Session) moveToTop() {
 
 	// force a length change update
 	SessionsModel.Len--
-	qml.Changed(SessionsModel, &SessionsModel.Len)
+	//qml.Changed(SessionsModel, &SessionsModel.Len)
 	SessionsModel.Len++
-	qml.Changed(SessionsModel, &SessionsModel.Len)
+	//qml.Changed(SessionsModel, &SessionsModel.Len)
 
 	topSession = s.Tel
+}
+func LoadChats() error {
+	log.Printf("Loading Chats")
+	err := DS.Dbx.Select(&AllGroups, groupsSelect)
+	if err != nil {
+		return err
+	}
+	for _, g := range AllGroups {
+		Groups[g.GroupID] = g
+	}
+
+	err = DS.Dbx.Select(&AllSessions, sessionsSelect)
+	if err != nil {
+		return err
+	}
+	for _, s := range AllSessions {
+		s.When = helpers.HumanizeTimestamp(s.Timestamp)
+		s.Active = !s.IsGroup || (Groups[s.Tel] != nil && Groups[s.Tel].Active)
+		SessionsModel.Sess = append(SessionsModel.Sess, s)
+		SessionsModel.Len++
+		err = DS.Dbx.Select(&s.Messages, messagesSelectWhereLastMessage, s.ID)
+		// s.Len = len(s.Messages)
+		if err != nil {
+			return err
+		}
+		for _, m := range s.Messages {
+			m.HTime = helpers.HumanizeTimestamp(m.SentAt)
+		}
+	}
+	//qml.Changed(SessionsModel, &SessionsModel.Len)
+	return nil
 }

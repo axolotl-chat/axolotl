@@ -4,9 +4,10 @@ import (
 	"errors"
 	"os"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/nanu-c/textsecure-qml/app/contact"
+	"github.com/nanu-c/textsecure-qml/app/sender"
 	"github.com/nanu-c/textsecure-qml/app/ui"
+	log "github.com/sirupsen/logrus"
 )
 
 func (Api *TextsecureAPI) SendContactAttachment(to, message string, file string) error {
@@ -34,6 +35,6 @@ func (Api *TextsecureAPI) SendAttachmentToApi(to, message string, file string) e
 		return nil
 	}
 
-	go SendMessageHelper(to, message, file)
+	go sender.SendMessageHelper(to, message, file)
 	return nil
 }

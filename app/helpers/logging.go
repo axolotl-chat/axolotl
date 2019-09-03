@@ -7,7 +7,7 @@ import (
 )
 
 func SetupLogging() error {
-	log.SetLevel(log.InfoLevel)
+	log.SetLevel(log.DebugLevel)
 	log.SetOutput(os.Stdout)
 	return nil
 }

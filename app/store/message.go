@@ -3,7 +3,6 @@ package store
 import (
 	"log"
 
-	qml "github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
 )
 
@@ -81,10 +80,21 @@ func LoadMessagesFromDB() error {
 			m.HTime = helpers.HumanizeTimestamp(m.SentAt)
 		}
 	}
-	qml.Changed(SessionsModel, &SessionsModel.Len)
+	//qml.Changed(SessionsModel, &SessionsModel.Len)
 	return nil
 }
 
+// func LoadMessagesList(id int64) (error, *MessageList) {
+// 	messageList := &MessageList{
+// 		ID: id,
+// 	}
+// 	log.Printf("Loading Messages for " + string(id))
+// 	err := DS.Dbx.Select(&messageList.Messages, messagesSelectWhere, id)
+// 	if err != nil {
+// 		return err, nil
+// 	}
+// 	return nil, messageList
+// }
 func DeleteMessage(id int64) error {
 	_, err := DS.Dbx.Exec("DELETE FROM messages WHERE id = ?", id)
 	return err

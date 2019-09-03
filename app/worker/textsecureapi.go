@@ -8,11 +8,13 @@ import (
 	"time"
 
 	"github.com/gosexy/gettext"
-	qml "github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/contact"
+	"github.com/nanu-c/textsecure-qml/app/handler"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
+	"github.com/nanu-c/textsecure-qml/app/push"
+	"github.com/nanu-c/textsecure-qml/app/sender"
 	"github.com/nanu-c/textsecure-qml/app/settings"
 	"github.com/nanu-c/textsecure-qml/app/store"
 	"github.com/nanu-c/textsecure-qml/app/ui"
@@ -121,7 +123,8 @@ func (Api *TextsecureAPI) SetLogLevel() {
 }
 func RunBackend() {
 	log.Debugf("Run Backend")
-	go notificationInit()
+	store.DS.SetupDb("")
+	go push.NotificationInit()
 	isEncrypted = settings.SettingsModel.EncryptDatabase
 	sessionStarted = false
 	Api = &TextsecureAPI{}
@@ -163,11 +166,11 @@ func RunBackend() {
 			}
 			return password
 		},
-		MessageHandler:        messageHandler,
-		ReceiptHandler:        receiptHandler,
-		ReceiptMessageHandler: receiptMessageHandler,
-		TypingMessageHandler:  typingMessageHandler,
-		SyncSentHandler:       syncSentHandler,
+		MessageHandler:        handler.MessageHandler,
+		ReceiptHandler:        handler.ReceiptHandler,
+		ReceiptMessageHandler: handler.ReceiptMessageHandler,
+		TypingMessageHandler:  handler.TypingMessageHandler,
+		SyncSentHandler:       handler.SyncSentHandler,
 		RegistrationDone:      ui.RegistrationDone,
 	}
 
@@ -222,14 +225,13 @@ func startSession() {
 	Api.PhoneNumber = config.Config.Tel
 	if helpers.Exists(config.ContactsFile) {
 		Api.HasContacts = true
-		go store.RefreshContacts()
+		store.RefreshContacts()
 	}
 	for _, s := range store.SessionsModel.Sess {
 		s.Name = store.TelToName(s.Tel)
 	}
-	go store.SessionsModel.UpdateSessionNames()
-	SendUnsentMessages()
-	qml.Changed(store.SessionsModel, &store.SessionsModel.Len)
+	sender.SendUnsentMessages()
+	// //qml.Changed(store.SessionsModel, &store.SessionsModel.Len)
 
 }
 func (Api *TextsecureAPI) FilterContacts(sub string) {
@@ -242,24 +244,23 @@ func (Api *TextsecureAPI) FilterContacts(sub string) {
 		}
 	}
 
-	cm := &store.Contacts{fc, len(fc)}
-	ui.Engine.Context().SetVar("contactsModel", cm)
+	// cm := &store.Contacts{fc, len(fc)}
+	// ui.Engine.Context().SetVar("contactsModel", cm)
 }
 func (Api *TextsecureAPI) SaveSettings() error {
 	return settings.SaveSettings(settings.SettingsModel)
 }
 func (Api *TextsecureAPI) GetActiveSessionID() string {
-	return Api.ActiveSessionID
+	return store.ActiveSessionID
 }
 func (Api *TextsecureAPI) SetActiveSessionID(sId string) {
-	// store.Sessions.ActiveChat = sId
-	Api.ActiveSessionID = sId
+	store.ActiveSessionID = sId
 }
 func (Api *TextsecureAPI) LeaveChat() {
 	// store.Sessions.ActiveChat = ""
-	Api.ActiveSessionID = ""
+	store.ActiveSessionID = ""
 }
 func (Api *TextsecureAPI) TgNotification(notification bool) {
-	sess := store.SessionsModel.Get(Api.ActiveSessionID)
+	sess := store.SessionsModel.Get(store.ActiveSessionID)
 	sess.ToggleSessionNotifcation(notification)
 }

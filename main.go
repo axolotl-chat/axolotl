@@ -1,61 +1,84 @@
 package main
 
 import (
+	"bufio"
 	"flag"
+	"fmt"
 	_ "image/jpeg"
 	_ "image/png"
+	"io"
+	"os/exec"
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/nanu-c/textsecure-qml/app/push"
-	"github.com/nanu-c/textsecure-qml/app/store"
 	"github.com/nanu-c/textsecure-qml/app/ui"
+	"github.com/nanu-c/textsecure-qml/app/webserver"
 	"github.com/nanu-c/textsecure-qml/app/worker"
 )
 
 func init() {
 	flag.StringVar(&config.MainQml, "qml", "qml/phoneui/main.qml", "The qml file to load.")
 }
+func print(stdout io.ReadCloser) {
+	scanner := bufio.NewScanner(stdout)
+	scanner.Split(bufio.ScanWords)
+	for scanner.Scan() {
+		m := scanner.Text()
+		fmt.Println(m)
+	}
+}
 
 func setup() {
+	go webserver.Run()
+
+	config.SetupConfig()
 	helpers.SetupLogging()
-	log.SetLevel(log.InfoLevel)
+	log.SetLevel(log.DebugLevel)
 	// log.SetLevel(log.DebugLevel)
 	log.Infof("Starting Signal for Ubuntu version %s", config.AppVersion)
-	config.SetupConfig()
 }
 
 func RunUI() error {
 	ui.SetEngine()
-	log.Infof("test")
-
-	ui.Engine.AddImageProvider("avatar", store.AvatarImageProvider)
+	//
+	// ui.Engine.AddImageProvider("avatar", store.AvatarImageProvider)
 	ui.InitModels()
-
-	ui.Engine.Context().SetVar("textsecure", worker.Api)
-	ui.Engine.Context().SetVar("appVersion", config.AppVersion)
-	ui.Engine.Context().SetVar("cacheDir", config.CacheDir)
+	//
+	// ui.Engine.Context().SetVar("textsecure", worker.Api)
+	// ui.Engine.Context().SetVar("appVersion", config.AppVersion)
+	// ui.Engine.Context().SetVar("cacheDir", config.CacheDir)
 	ui.SetComponent()
-
-	ui.Win.Show()
-
+	//
+	// ui.Win.Show()
 	go worker.RunBackend()
 	if config.IsPushHelper {
 		push.PushHelperProcess()
 	}
-	ui.Win.Wait()
+	// cmd := exec.Command("webapp-container", "http://[::1]:8080/")
+	cmd := exec.Command("qmlscene", "qml/Main.qml")
+
+	log.Printf("Starting Axolotl-gui")
+	stdout, _ := cmd.StdoutPipe()
+	stderr, _ := cmd.StderrPipe()
+	err := cmd.Run()
+	go print(stdout)
+	go print(stderr)
+	log.Printf("Axolotl-gui finished with error: %v", err)
+
+	// ui.Wmsgstr ""
+
 	return nil
 }
 
 func main() {
 	setup()
 	log.Println("Setup completed")
-
-	err := qml.Run(RunUI)
-	if err != nil {
-		log.Fatal(err)
-	}
+	RunUI()
+	// err := qml.Run(RunUI)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 }

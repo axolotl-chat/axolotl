@@ -1,4 +1,4 @@
-package worker
+package handler
 
 import (
 	"io/ioutil"
@@ -6,16 +6,17 @@ import (
 	"strings"
 	"time"
 
-	qml "github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/nanu-c/textsecure-qml/app/lang"
+	"github.com/nanu-c/textsecure-qml/app/push"
 	"github.com/nanu-c/textsecure-qml/app/settings"
 	"github.com/nanu-c/textsecure-qml/app/store"
+	"github.com/nanu-c/textsecure-qml/app/webserver"
 )
 
 //messageHandler is used on incoming message
-func messageHandler(msg *textsecure.Message) {
+func MessageHandler(msg *textsecure.Message) {
 	var err error
 	f := ""
 	mt := ""
@@ -32,7 +33,7 @@ func messageHandler(msg *textsecure.Message) {
 	text := msg.Message()
 	if msg.Flags() == textsecure.EndSessionFlag {
 		text = lang.SessionReset
-		msgFlags = msgFlagResetSession
+		msgFlags = helpers.MsgFlagResetSession
 	}
 	//Group Message
 	gr := msg.Group()
@@ -68,11 +69,11 @@ func messageHandler(msg *textsecure.Message) {
 		if gr.Flags == textsecure.GroupUpdateFlag {
 			dm, _ := helpers.MembersDiffAndUnion(members, strings.Join(gr.Members, ","))
 			text = store.GroupUpdateMsg(dm, gr.Name)
-			msgFlags = msgFlagGroupUpdate
+			msgFlags = helpers.MsgFlagGroupUpdate
 		}
 		if gr.Flags == textsecure.GroupLeaveFlag {
 			text = store.TelToName(msg.Source()) + " has left the group."
-			msgFlags = msgFlagGroupLeave
+			msgFlags = helpers.MsgFlagGroupLeave
 		}
 	}
 
@@ -81,22 +82,22 @@ func messageHandler(msg *textsecure.Message) {
 		s = gr.Hexid
 	}
 	session := store.SessionsModel.Get(s)
-	m := session.Add(text, msg.Source(), f, mt, false, Api.ActiveSessionID)
+	m := session.Add(text, msg.Source(), f, mt, false, store.ActiveSessionID)
 	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
 	m.SentAt = msg.Timestamp()
 	m.HTime = helpers.HumanizeTimestamp(m.SentAt)
-	qml.Changed(m, &m.HTime)
+	//qml.Changed(m, &m.HTime)
 	session.Timestamp = m.SentAt
 	session.When = m.HTime
-	qml.Changed(session, &session.When)
+	//qml.Changed(session, &session.When)
 	if gr != nil && gr.Flags == textsecure.GroupUpdateFlag {
 		session.Name = gr.Name
-		qml.Changed(session, &session.Name)
+		//qml.Changed(session, &session.Name)
 	}
 
 	if msgFlags != 0 {
 		m.Flags = msgFlags
-		qml.Changed(m, &m.Flags)
+		//qml.Changed(m, &m.Flags)
 	}
 	//TODO: have only one message per chat
 	if session.Notification {
@@ -106,29 +107,29 @@ func messageHandler(msg *textsecure.Message) {
 		//only send a notification, when it's not the current chat
 		// if session.ID != store.Sessions.GetActiveChat {
 		if true {
-			n := Nh.NewStandardPushMessage(
+			n := push.Nh.NewStandardPushMessage(
 				session.Name,
 				text, "")
-			Nh.Send(n)
+			push.Nh.Send(n)
 		}
 	}
-
+	webserver.UpdateChatList()
 	store.SaveMessage(m)
 	store.UpdateSession(session)
 }
-func receiptMessageHandler(msg *textsecure.Message) {
-
+func ReceiptMessageHandler(msg *textsecure.Message) {
+	webserver.UpdateChatList()
 }
-func typingMessageHandler(msg *textsecure.Message) {
-
+func TypingMessageHandler(msg *textsecure.Message) {
+	webserver.UpdateChatList()
 }
-func receiptHandler(source string, devID uint32, timestamp uint64) {
+func ReceiptHandler(source string, devID uint32, timestamp uint64) {
 	s := store.SessionsModel.Get(source)
 	for i := len(s.Messages) - 1; i >= 0; i-- {
 		m := s.Messages[i]
 		if m.SentAt == timestamp {
 			m.IsRead = true
-			qml.Changed(m, &m.IsRead)
+			//qml.Changed(m, &m.IsRead)
 			store.UpdateMessageRead(m)
 			return
 		}
@@ -136,7 +137,7 @@ func receiptHandler(source string, devID uint32, timestamp uint64) {
 	log.Printf("Message with timestamp %d not found\n", timestamp)
 }
 
-func syncSentHandler(msg *textsecure.Message, timestamp uint64) {
+func SyncSentHandler(msg *textsecure.Message, timestamp uint64) {
 	var err error
 
 	f := ""
@@ -154,7 +155,7 @@ func syncSentHandler(msg *textsecure.Message, timestamp uint64) {
 	text := msg.Message()
 	if msg.Flags() == textsecure.EndSessionFlag {
 		text = lang.SessionReset
-		msgFlags = msgFlagResetSession
+		msgFlags = helpers.MsgFlagResetSession
 	}
 	//Group Message
 	gr := msg.Group()
@@ -190,11 +191,11 @@ func syncSentHandler(msg *textsecure.Message, timestamp uint64) {
 		if gr.Flags == textsecure.GroupUpdateFlag {
 			dm, _ := helpers.MembersDiffAndUnion(members, strings.Join(gr.Members, ","))
 			text = store.GroupUpdateMsg(dm, gr.Name)
-			msgFlags = msgFlagGroupUpdate
+			msgFlags = helpers.MsgFlagGroupUpdate
 		}
 		if gr.Flags == textsecure.GroupLeaveFlag {
 			text = store.TelToName(msg.Source()) + " has left the group."
-			msgFlags = msgFlagGroupLeave
+			msgFlags = helpers.MsgFlagGroupLeave
 		}
 	}
 
@@ -203,24 +204,24 @@ func syncSentHandler(msg *textsecure.Message, timestamp uint64) {
 		s = gr.Hexid
 	}
 	session := store.SessionsModel.Get(s)
-	// m := session.Add(text, msg.Source(), f, mt, false, Api.ActiveSessionID)
-	m := session.Add(text, "", f, mt, true, Api.ActiveSessionID)
+	// m := session.Add(text, msg.Source(), f, mt, false, store.ActiveSessionID)
+	m := session.Add(text, "", f, mt, true, store.ActiveSessionID)
 
 	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
 	m.SentAt = msg.Timestamp()
 	m.HTime = helpers.HumanizeTimestamp(m.SentAt)
-	qml.Changed(m, &m.HTime)
+	//qml.Changed(m, &m.HTime)
 	session.Timestamp = m.SentAt
 	session.When = m.HTime
-	qml.Changed(session, &session.When)
+	//qml.Changed(session, &session.When)
 	if gr != nil && gr.Flags == textsecure.GroupUpdateFlag {
 		session.Name = gr.Name
-		qml.Changed(session, &session.Name)
+		//qml.Changed(session, &session.Name)
 	}
 
 	if msgFlags != 0 {
 		m.Flags = msgFlags
-		qml.Changed(m, &m.Flags)
+		//qml.Changed(m, &m.Flags)
 	}
 	m.IsSent = true
 	//TODO: have only one message per chat

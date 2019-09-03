@@ -1,4 +1,4 @@
-package worker
+package push
 
 /*
  * Copyright 2014 Canonical Ltd.
@@ -34,7 +34,7 @@ var (
 	useNotifications bool
 )
 
-func notificationInit() {
+func NotificationInit() {
 	if sessionBus, err = dbus.Connect(dbus.SessionBus); err != nil {
 		//log.Fatal("Connection error: ", err)
 		useNotifications = false

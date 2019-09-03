@@ -5,10 +5,10 @@ import (
 	"strings"
 
 	"github.com/nanu-c/textsecure"
-	qml "github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/nanu-c/textsecure-qml/app/lang"
+	"github.com/nanu-c/textsecure-qml/app/sender"
 	"github.com/nanu-c/textsecure-qml/app/store"
 	"github.com/nanu-c/textsecure-qml/app/ui"
 )
@@ -39,9 +39,9 @@ func (Api *TextsecureAPI) NewGroup(name string, members string) error {
 	}
 	store.SaveGroup(store.Groups[group.Hexid])
 	session := store.SessionsModel.Get(group.Hexid)
-	msg := session.Add(GroupUpdateMsg(append(m, config.Config.Tel), name), "", "", "", true, Api.ActiveSessionID)
-	msg.Flags = msgFlagGroupNew
-	qml.Changed(msg, &msg.Flags)
+	msg := session.Add(GroupUpdateMsg(append(m, config.Config.Tel), name), "", "", "", true, store.ActiveSessionID)
+	msg.Flags = helpers.MsgFlagGroupNew
+	//qml.Changed(msg, &msg.Flags)
 	store.SaveMessage(msg)
 
 	return nil
@@ -62,28 +62,28 @@ func (Api *TextsecureAPI) UpdateGroup(hexid, name string, members string) error 
 	}
 	store.UpdateGroup(store.Groups[hexid])
 	session := store.SessionsModel.Get(hexid)
-	msg := session.Add(ui.GroupUpdateMsg(dm, name), "", "", "", true, Api.ActiveSessionID)
-	msg.Flags = msgFlagGroupUpdate
-	qml.Changed(msg, &msg.Flags)
+	msg := session.Add(ui.GroupUpdateMsg(dm, name), "", "", "", true, store.ActiveSessionID)
+	msg.Flags = helpers.MsgFlagGroupUpdate
+	//qml.Changed(msg, &msg.Flags)
 	store.SaveMessage(msg)
 	session.Name = name
-	qml.Changed(session, &session.Name)
+	//qml.Changed(session, &session.Name)
 	store.UpdateSession(session)
-	go SendMessage(session, msg)
+	go sender.SendMessage(session, msg)
 	return nil
 }
 
 func (Api *TextsecureAPI) LeaveGroup(hexid string) error {
 	session := store.SessionsModel.Get(hexid)
-	msg := session.Add(lang.YouLeftGroup, "", "", "", true, Api.ActiveSessionID)
-	msg.Flags = msgFlagGroupLeave
-	qml.Changed(msg, &msg.Flags)
+	msg := session.Add(lang.YouLeftGroup, "", "", "", true, store.ActiveSessionID)
+	msg.Flags = helpers.MsgFlagGroupLeave
+	//qml.Changed(msg, &msg.Flags)
 	store.SaveMessage(msg)
 	session.Active = false
-	qml.Changed(session, &session.Active)
+	//qml.Changed(session, &session.Active)
 	store.Groups[hexid].Active = false
 	err := store.UpdateGroup(store.Groups[hexid])
-	go SendMessage(session, msg)
+	go sender.SendMessage(session, msg)
 	return err
 }
 func GroupUpdateMsg(tels []string, title string) string {

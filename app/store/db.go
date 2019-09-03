@@ -8,7 +8,6 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mutecomm/go-sqlcipher"
-	qml "github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/settings"
 	log "github.com/sirupsen/logrus"
@@ -29,9 +28,10 @@ var (
 	sessionsInsert = "INSERT OR REPLACE INTO sessions (name, tel, isgroup, last, ctype, timestamp, notification) VALUES (:name, :tel, :isgroup, :last, :ctype, :timestamp, :notification)"
 	sessionsSelect = "SELECT * FROM sessions ORDER BY timestamp DESC"
 
-	messagesSchema      = "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, sid integer, source text, message text, outgoing boolean, sentat integer, receivedat integer, ctype integer, attachment string, issent boolean, isread boolean, flags integer default 0)"
-	messagesInsert      = "INSERT INTO messages (sid, source, message, outgoing, sentat, receivedat, ctype, attachment, issent, isread, flags) VALUES (:sid, :source, :message, :outgoing, :sentat, :receivedat, :ctype, :attachment, :issent, :isread, :flags)"
-	messagesSelectWhere = "SELECT * FROM messages WHERE sid = ?"
+	messagesSchema                 = "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, sid integer, source text, message text, outgoing boolean, sentat integer, receivedat integer, ctype integer, attachment string, issent boolean, isread boolean, flags integer default 0)"
+	messagesInsert                 = "INSERT INTO messages (sid, source, message, outgoing, sentat, receivedat, ctype, attachment, issent, isread, flags) VALUES (:sid, :source, :message, :outgoing, :sentat, :receivedat, :ctype, :attachment, :issent, :isread, :flags)"
+	messagesSelectWhere            = "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT 20"
+	messagesSelectWhereLastMessage = "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT 1"
 
 	groupsSchema = "CREATE TABLE IF NOT EXISTS groups (id INTEGER PRIMARY KEY, groupid TEXT, name TEXT, members TEXT, avatar BLOB, avatarid INTEGER, avatar_key BLOB, avatar_content_type TEXT, relay TEXT, active INTEGER DEFAULT 1)"
 	groupsInsert = "INSERT OR REPLACE INTO groups (groupid, name, members, avatar) VALUES (:groupid, :name, :members, :avatar)"
@@ -83,8 +83,8 @@ func (ds *DataStore) SetupDb(password string) bool {
 	}
 	UpdateSessionTable()
 
-	LoadMessagesFromDB()
-	qml.Changed(SessionsModel, &SessionsModel.Len)
+	LoadChats()
+	//qml.Changed(SessionsModel, &SessionsModel.Len)
 	log.Printf("Db setup finished")
 
 	return true

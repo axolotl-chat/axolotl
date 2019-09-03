@@ -13,12 +13,12 @@ func GetTextFromDialog(fun, obj, signal string) string {
 		}
 	}()
 	log.Debugf("Opening Dialog: " + fun)
-	Win.Root().Call(fun)
-	p := Win.Root().ObjectByName(obj)
+	// Win.Root().Call(fun)
+	// p := Win.Root().ObjectByName(obj)
 	ch := make(chan string)
-	p.On(signal, func(text string) {
-		ch <- text
-	})
+	// p.On(signal, func(text string) {
+	// 	ch <- text
+	// })
 	text := <-ch
 	return text
 }
@@ -40,6 +40,6 @@ func GetVerificationCode() string {
 	return GetTextFromDialog("getVerificationCode", "codeVerificationPage", "codeEntered")
 }
 func ShowError(err error) {
-	Win.Root().Call("error", err.Error())
+	// Win.Root().Call("error", err.Error())
 	log.Errorf(err.Error())
 }

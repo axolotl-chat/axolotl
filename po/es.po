@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-30 23:47+0200\n"
+"POT-Creation-Date: 2019-09-02 22:36+0200\n"
 "PO-Revision-Date: 2019-01-05 14:18+0100\n"
 "Last-Translator: advocatux <advocatux@airpost.net>\n"
 "Language-Team: UBports Spanish Team\n"
@@ -55,38 +55,33 @@ msgstr "Aceptar"
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: ../qml/phoneui/ui/pages/ChatList.qml:75
+#: ../qml/phoneui/ui/pages/ChatList.qml:78
 #: ../qml/phoneui/ui/ContactsPage.qml:35 ../qml/phoneui/ui/ContactsPage.qml:42
 msgid "Search"
 msgstr "Buscar"
 
-#: ../qml/phoneui/ui/pages/ChatList.qml:86
+#: ../qml/phoneui/ui/pages/ChatList.qml:89
 #: ../qml/phoneui/ui/ContactsPage.qml:78
 msgid "New group"
 msgstr "Nuevo grupo"
 
-#: ../qml/phoneui/ui/pages/ChatList.qml:92
+#: ../qml/phoneui/ui/pages/ChatList.qml:95
 msgid "Mark all read"
 msgstr "Marcar todo como leído"
 
-#: ../qml/phoneui/ui/pages/ChatList.qml:98
+#: ../qml/phoneui/ui/pages/ChatList.qml:101
 #: ../qml/phoneui/ui/SettingsPage.qml:27
 msgid "Settings"
 msgstr "Configuración"
 
-#: ../qml/phoneui/ui/pages/ChatList.qml:104
+#: ../qml/phoneui/ui/pages/ChatList.qml:107
 msgid "Help"
 msgstr "Ayuda"
 
-#: ../qml/phoneui/ui/pages/ChatList.qml:110
+#: ../qml/phoneui/ui/pages/ChatList.qml:113
 #: ../qml/phoneui/ui/ContactsPage.qml:28
 msgid "Close"
 msgstr "Cerrar"
-
-#: ../qml/phoneui/ui/pages/ChatList.qml:169
-#, qt-format
-msgid "Forward message to %1?"
-msgstr "¿Reenviar mensaje a %1?"
 
 #: ../qml/phoneui/ui/PreviewPage.qml:33
 msgid "From: "
@@ -448,6 +443,9 @@ msgstr ""
 "o solicitud de mejoras en GitHub:<br>            <a href='https://github.com/"
 "nanu-c/textsecure-qml/issues'>https://github.com/nanu-c/textsecure-qml/"
 "issues</a><br>"
+
+#~ msgid "Forward message to %1?"
+#~ msgstr "¿Reenviar mensaje a %1?"
 
 #~ msgid "Off Notifications"
 #~ msgstr "Notificaciones desactivadas"

@@ -4,7 +4,6 @@ import (
 	"log"
 
 	"github.com/nanu-c/textsecure"
-	qml "github.com/nanu-c/qml-go"
 )
 
 type LinkedDevices struct {
@@ -35,7 +34,7 @@ func (c *LinkedDevices) RefreshDevices() error {
 
 	LinkedDevicesModel.LinkedDevices = d[:]
 	LinkedDevicesModel.Len = len(d)
-	qml.Changed(LinkedDevicesModel, &LinkedDevicesModel.Len)
+	//qml.Changed(LinkedDevicesModel, &LinkedDevicesModel.Len)
 	return nil
 }
 func (c *LinkedDevices) UnlinkDevice(id int) error {
@@ -50,7 +49,7 @@ func (c *LinkedDevices) DeleteDevice() error {
 
 	LinkedDevicesModel.LinkedDevices = d[:]
 	LinkedDevicesModel.Len = len(d)
-	qml.Changed(LinkedDevicesModel, &LinkedDevicesModel.Len)
+	//qml.Changed(LinkedDevicesModel, &LinkedDevicesModel.Len)
 	return nil
 }
 func RefreshDevices() error {
@@ -61,6 +60,6 @@ func RefreshDevices() error {
 
 	LinkedDevicesModel.LinkedDevices = d[:]
 	LinkedDevicesModel.Len = len(d)
-	qml.Changed(LinkedDevicesModel, &LinkedDevicesModel.Len)
+	//qml.Changed(LinkedDevicesModel, &LinkedDevicesModel.Len)
 	return nil
 }

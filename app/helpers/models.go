@@ -7,10 +7,17 @@ import (
 	"time"
 
 	humanize "github.com/dustin/go-humanize"
-		"github.com/nanu-c/textsecure"
+	"github.com/nanu-c/textsecure"
 )
 
 // Model for existing chat sessions
+var (
+	MsgFlagGroupNew     = 1
+	MsgFlagGroupUpdate  = 2
+	MsgFlagGroupLeave   = 4
+	MsgFlagResetSession = 8
+	MsgFlagSetTimer     = 9
+)
 
 func HumanizeTimestamp(ts uint64) string {
 	nowms := uint64(time.Now().UnixNano() / 1000000)

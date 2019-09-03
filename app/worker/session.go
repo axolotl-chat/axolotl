@@ -3,17 +3,19 @@ package worker
 import (
 	"strings"
 
+	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/nanu-c/textsecure-qml/app/lang"
+	"github.com/nanu-c/textsecure-qml/app/sender"
 	"github.com/nanu-c/textsecure-qml/app/store"
 	"github.com/nanu-c/textsecure-qml/app/ui"
 )
 
 func (Api *TextsecureAPI) EndSession(tel string) error {
 	session := store.SessionsModel.Get(tel)
-	m := session.Add(lang.SessionReset, "", "", "", true, Api.ActiveSessionID)
-	m.Flags = msgFlagResetSession
+	m := session.Add(lang.SessionReset, "", "", "", true, store.ActiveSessionID)
+	m.Flags = helpers.MsgFlagResetSession
 	store.SaveMessage(m)
-	go SendMessage(session, m)
+	go sender.SendMessage(session, m)
 	return nil
 }
 
@@ -49,5 +51,5 @@ func (Api *TextsecureAPI) FilterSessions(sub string) {
 		}
 	}
 
-	ui.Engine.Context().SetVar("sessionsModel", sm)
+	// ui.Engine.Context().SetVar("sessionsModel", sm)
 }

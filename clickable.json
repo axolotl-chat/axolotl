@@ -11,7 +11,8 @@
     "docker",
     "main.go",
     "po",
-    "scripts"
+    "scripts",
+    "axolotl-web"
   ],
   "postbuild": "bash ../scripts/postbuild.sh",
   "dependencies_target": ["libzbar-dev", "qml-module-qtcontacts"]

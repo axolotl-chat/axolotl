@@ -1,7 +1,6 @@
 package store
 
 import (
-	qml "github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/config"
 )
@@ -35,8 +34,8 @@ func RefreshContacts() error {
 	ContactsModel.Contacts = c
 	ContactsModel.Len = len(c)
 	SessionsModel.UpdateSessionNames()
-	qml.Changed(ContactsModel, &ContactsModel.Len)
-	qml.Changed(SessionsModel, &SessionsModel.Len)
+	//qml.Changed(ContactsModel, &ContactsModel.Len)
+	//qml.Changed(SessionsModel, &SessionsModel.Len)
 
 	return nil
 }

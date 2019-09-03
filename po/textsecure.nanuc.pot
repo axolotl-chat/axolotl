@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-31 01:46+0200\n"
+"POT-Creation-Date: 2019-09-03 02:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -56,37 +56,32 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../qml/phoneui/ui/pages/ChatList.qml:75
+#: ../qml/phoneui/ui/pages/ChatList.qml:78
 #: ../qml/phoneui/ui/ContactsPage.qml:35 ../qml/phoneui/ui/ContactsPage.qml:42
 msgid "Search"
 msgstr ""
 
-#: ../qml/phoneui/ui/pages/ChatList.qml:86
+#: ../qml/phoneui/ui/pages/ChatList.qml:89
 #: ../qml/phoneui/ui/ContactsPage.qml:78
 msgid "New group"
 msgstr ""
 
-#: ../qml/phoneui/ui/pages/ChatList.qml:92
+#: ../qml/phoneui/ui/pages/ChatList.qml:95
 msgid "Mark all read"
 msgstr ""
 
-#: ../qml/phoneui/ui/pages/ChatList.qml:98
+#: ../qml/phoneui/ui/pages/ChatList.qml:101
 #: ../qml/phoneui/ui/SettingsPage.qml:27
 msgid "Settings"
 msgstr ""
 
-#: ../qml/phoneui/ui/pages/ChatList.qml:104
+#: ../qml/phoneui/ui/pages/ChatList.qml:107
 msgid "Help"
 msgstr ""
 
-#: ../qml/phoneui/ui/pages/ChatList.qml:110
+#: ../qml/phoneui/ui/pages/ChatList.qml:113
 #: ../qml/phoneui/ui/ContactsPage.qml:28
 msgid "Close"
-msgstr ""
-
-#: ../qml/phoneui/ui/pages/ChatList.qml:169
-#, qt-format
-msgid "Forward message to %1?"
 msgstr ""
 
 #: ../qml/phoneui/ui/PreviewPage.qml:33

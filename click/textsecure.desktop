@@ -1,7 +1,7 @@
 [Desktop Entry]
-Name=Signal
+Name=Axolotl
 Exec=textsecure %u
-Icon=textsecure.png
+Icon=axolotl.png
 Terminal=false
 Type=Application
 X-Ubuntu-Touch=true
