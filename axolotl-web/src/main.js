@@ -8,8 +8,8 @@ import VueChatScroll from 'vue-chat-scroll'
 Vue.use(VueChatScroll)
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false
-Vue.use(VueNativeSock, 'ws://192.168.1.196:9080/ws',
-// Vue.use(VueNativeSock, 'ws://[::1]:9080/ws',
+// Vue.use(VueNativeSock, 'ws://192.168.1.196:9080/ws',
+Vue.use(VueNativeSock, 'ws://[::1]:9080/ws',
   { store: store,
     // format: 'json',
     reconnection: true, // (Boolean) whether to reconnect automatically (false)
