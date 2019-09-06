@@ -15,5 +15,6 @@
     "axolotl-web"
   ],
   "postbuild": "$ROOT/scripts/postbuild.sh $INSTALL_DIR",
+  "clickable_minimum_required":"6.0.3",
   "dependencies_target": ["libzbar-dev", "qml-module-qtcontacts"]
 }
