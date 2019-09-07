@@ -31,7 +31,7 @@ Installation
 The build-system is now integrated in the `clickable` Version 3.2.0.
 * Install [Golang] (https://golang.org/doc/install)
 * Add gopath to ~/.bashrc https://github.com/golang/go/wiki/SettingGOPATH
-* install dependencies `sudo apt install mercurial bzr`
+* install dependencies `sudo apt install mercurial bzr hg`
 * Check out this git `go get -d github.com/nanu-c/textsecure-qml`
 * `cd $(go env GOPATH)/src/github.com/nanu-c/textsecure-qml`
 * Get [clickable](https://github.com/bhdouglass/clickable#install)
