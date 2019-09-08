@@ -5,11 +5,22 @@ import store from './store/store'
 import router from "./router/router";
 import BootstrapVue from 'bootstrap-vue'
 import VueChatScroll from 'vue-chat-scroll'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faArrowLeft,
+         faEllipsisV,
+         faPencilAlt,
+        faPlus} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+library.add(faArrowLeft, faEllipsisV, faPencilAlt, faPlus)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(VueChatScroll)
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false
-// Vue.use(VueNativeSock, 'ws://192.168.1.196:9080/ws',
-Vue.use(VueNativeSock, 'ws://[::1]:9080/ws',
+var websocketAdress = "ws://[::1]:9080/ws";
+if(process.env.NODE_ENV=="development")
+  websocketAdress =  'ws://localhost:9080/ws';
+Vue.use(VueNativeSock, websocketAdress,
   { store: store,
     // format: 'json',
     reconnection: true, // (Boolean) whether to reconnect automatically (false)

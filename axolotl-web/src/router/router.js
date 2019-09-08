@@ -32,5 +32,16 @@ export default new Router({
     name: "verify",
     component:  () => import("@/pages/Verification.vue")
   },
+  {
+    path: "/contacts",
+    name: "contacts",
+    component:  () => import("@/pages/Contacts.vue")
+  },
+      { path: '/a', redirect: to => {
+        const { hash, params, query } = to
+         return "/ws"
+      // the function receives the target route as the argument
+      // return redirect path/location here.
+    }}
   ]
 });

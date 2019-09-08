@@ -2,11 +2,12 @@
   <div :class="route()+' header '">
     <div class="container">
       <div class="row">
-        <div v-if="route()=='chat'">
-          <button class="back btn" @click="back()"><</button>
-          <!-- {{route()}} -->
+        <div v-if="route()!='chatList' && route()!='register' ">
+          <button class="back btn" @click="back()"><font-awesome-icon icon="arrow-left" /></button>
         </div>
-        <!-- <router-link :to="'/register'" class="btn">register</router-link> -->
+        <div v-else class="">
+          <button class="btn"><font-awesome-icon icon="ellipsis-v" /></button>
+        </div>
       </div>
     </div>
   </div>
@@ -40,6 +41,7 @@ export default {
     height:50px;
     background-color:#2090ea;
     top: 0px;
+    z-index:2;
   }
   .btn{
     color:#FFF;

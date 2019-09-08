@@ -125,6 +125,25 @@ func (s *Sessions) GetMessageList(id string) (error, *MessageList) {
 	}
 
 }
+func (s *Sessions) GetMoreMessageList(id string, lastId string) (error, *MessageList) {
+	index := SessionsModel.GetIndex(id)
+	if index != -1 {
+		messageList := &MessageList{
+			ID:      id,
+			Session: s.GetSession(index),
+		}
+		err := DS.Dbx.Select(&messageList.Messages, messagesSelectWhereMore, messageList.Session.ID, lastId)
+		fmt.Println(lastId)
+		if err != nil {
+			fmt.Println(err)
+			return err, nil
+		}
+		return nil, messageList
+	} else {
+		return errors.New("wrong index"), nil
+	}
+
+}
 
 // func (s *Sessions) GetActiveChat() *string {
 // 	return s.ActiveChat

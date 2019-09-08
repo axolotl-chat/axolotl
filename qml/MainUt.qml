@@ -1,14 +1,18 @@
 import QtQuick 2.9
+import Ubuntu.Components 1.3
 import QtWebEngine 1.7
-import QtQuick.Window 2.13
 
-Window {
-  width:400
-  height:600
+MainView {
+  applicationName: "textsecure.nanuc"
+
+  automaticOrientation: false
+
+  anchorToKeyboard: true
+
   WebEngineView  {
     anchors.fill: parent
       id: webView
-      url: "http://localhost:9080/"
+      url: "http://localhost:9080/axolotl"
       // url: "https://google.de"
       settings.showScrollBars: false
       onJavaScriptConsoleMessage: {

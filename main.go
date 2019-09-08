@@ -8,6 +8,7 @@ import (
 	_ "image/png"
 	"io"
 	"os/exec"
+	"sync"
 
 	log "github.com/sirupsen/logrus"
 
@@ -19,8 +20,11 @@ import (
 	"github.com/nanu-c/textsecure-qml/app/worker"
 )
 
+var sys string
+
 func init() {
 	flag.StringVar(&config.MainQml, "qml", "qml/phoneui/main.qml", "The qml file to load.")
+	flag.StringVar(&sys, "sys", "", "Usage")
 }
 func print(stdout io.ReadCloser) {
 	scanner := bufio.NewScanner(stdout)
@@ -32,16 +36,12 @@ func print(stdout io.ReadCloser) {
 }
 
 func setup() {
-	go webserver.Run()
-
 	config.SetupConfig()
 	helpers.SetupLogging()
 	log.SetLevel(log.DebugLevel)
-	// log.SetLevel(log.DebugLevel)
 	log.Infof("Starting Signal for Ubuntu version %s", config.AppVersion)
 }
-
-func RunUI() error {
+func runBackend() {
 	ui.SetEngine()
 	//
 	// ui.Engine.AddImageProvider("avatar", store.AvatarImageProvider)
@@ -57,8 +57,21 @@ func RunUI() error {
 	if config.IsPushHelper {
 		push.PushHelperProcess()
 	}
+}
+func runUI() error {
+	defer wg.Done()
 	// cmd := exec.Command("webapp-container", "http://[::1]:8080/")
-	cmd := exec.Command("qmlscene", "--scaling", "qml/Main.qml")
+
+	var cmd *exec.Cmd
+	if sys == "ut" {
+		cmd = exec.Command("qmlscene", "--scaling", "qml/MainUt.qml")
+	} else if sys == "me" {
+		cmd = exec.Command("/home/nanu/Qt/5.13.0/gcc_64/bin/qmlscene", "--scaling", "qml/Main.qml")
+
+	} else {
+		cmd = exec.Command("qmlscene", "--scaling", "qml/Main.qml")
+
+	}
 	// cmd := exec.Command("webapp-container", "--app-id='textsecure.nanuc'", "$@", "axolotl-web/index.html")
 	log.Printf("Starting Axolotl-gui")
 	stdout, _ := cmd.StdoutPipe()
@@ -67,18 +80,27 @@ func RunUI() error {
 	go print(stdout)
 	go print(stderr)
 	log.Printf("Axolotl-gui finished with error: %v", err)
-
-	// ui.Wmsgstr ""
-
 	return nil
 }
+func runWebserver() {
+	// Decrement the counter when the goroutine completes.
+	defer wg.Done()
+	log.Printf("Axolotl server started")
+
+	// Fetch the URL.
+	webserver.Run()
+}
+
+var wg sync.WaitGroup
 
 func main() {
+
 	setup()
+	runBackend()
 	log.Println("Setup completed")
-	RunUI()
-	// err := qml.Run(RunUI)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+	wg.Add(1)
+	go runWebserver()
+	wg.Add(1)
+	go runUI()
+	wg.Wait()
 }

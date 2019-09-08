@@ -18,6 +18,7 @@ export default {
     HeaderComp
   },
   mounted(){
+    console.log(process.env.NODE_ENV)
     // document.getElementsByClassName("header")[0].innerHTML=
     // "Your screen resolution is: " + screen.width + "x" + screen.height+"<br>"+navigator.userAgent;
     // const viewportmeta = document.querySelector('meta[name=viewport]');

@@ -7,9 +7,13 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
+	"strconv"
 	"time"
 
 	"github.com/gorilla/websocket"
+	"github.com/nanu-c/textsecure"
+	"github.com/nanu-c/textsecure-qml/app/contact"
 	"github.com/nanu-c/textsecure-qml/app/sender"
 	"github.com/nanu-c/textsecure-qml/app/store"
 )
@@ -20,20 +24,21 @@ var activeChat = ""
 type MessageListEnvelope struct {
 	MessageList *store.MessageList
 }
+type MoreMessageListEnvelope struct {
+	MoreMessageList *store.MessageList
+}
 type ChatListEnvelope struct {
 	ChatList []*store.Session
 }
+type ContactListEnvelope struct {
+	ContactList []textsecure.Contact
+}
 
 func Run() error {
-	// cmd := exec.Command("qmlscene", "qml/Main.qml")
 	log.Printf("Starting Axolotl-gui")
-	go webserver()
 	go sync()
-	// stdout, _ := cmd.StdoutPipe()
-	// err := cmd.Run()
-	// go print(stdout)
-	// log.Printf("Axolotl-gui finished with error: %v", err)
-
+	go attachmentServer()
+	webserver()
 	return nil
 }
 
@@ -56,9 +61,9 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 	log.Println("Client Connected")
-	err = ws.WriteMessage(1, []byte("Hi Client!"))
+	// err = ws.WriteMessage(1, []byte("Hi Client!"))
 	if err != nil {
-		log.Println(err)
+		// log.Println(err)
 	}
 	// listen indefinitely for new messages coming
 	// through on our WebSocket connection
@@ -72,6 +77,10 @@ type Message struct {
 type GetMessageListMessage struct {
 	Type string `json:"request"`
 	ID   string `json:"id"`
+}
+type GetMoreMessages struct {
+	Type   string `json:"request"`
+	LastID string `json:"lastId"`
 }
 type SendMessageMessage struct {
 	Type    string `json:"request"`
@@ -106,36 +115,43 @@ func wsReader(conn *websocket.Conn) {
 		// fmt.Println(string(p), incomingMessage.Type)
 		if incomingMessage.Type == "getChatList" {
 			sendChatList(conn)
-		}
-		if incomingMessage.Type == "getMessageList" {
+		} else if incomingMessage.Type == "getMessageList" {
 			getMessageListMessage := GetMessageListMessage{}
 			json.Unmarshal([]byte(p), &getMessageListMessage)
 			id := getMessageListMessage.ID
 			activeChat = getMessageListMessage.ID
 			sendMessageList(conn, id)
-		}
-		if incomingMessage.Type == "sendMessage" {
+		} else if incomingMessage.Type == "getMoreMessages" {
+			getMoreMessages := GetMoreMessages{}
+			json.Unmarshal([]byte(p), &getMoreMessages)
+			sendMoreMessageList(conn, activeChat, getMoreMessages.LastID)
+		} else if incomingMessage.Type == "leaveChat" {
+			activeChat = ""
+		} else if incomingMessage.Type == "sendMessage" {
 			sendMessageMessage := SendMessageMessage{}
 			json.Unmarshal([]byte(p), &sendMessageMessage)
 			sender.SendMessageHelper(sendMessageMessage.To, sendMessageMessage.Message, "")
 			go UpdateChatList()
-		}
-		if incomingMessage.Type == "requestCode" {
+		} else if incomingMessage.Type == "getContacts" {
+			go sendContactList(conn)
+		} else if incomingMessage.Type == "addContact" {
+			fmt.Printf("addContact")
+			contact.AddContact("Aaron", "+436706070770")
+			go sendContactList(conn)
+		} else if incomingMessage.Type == "requestCode" {
 			if requestChannel != nil {
 				requestCodeMessage := RequestCodeMessage{}
 				json.Unmarshal([]byte(p), &requestCodeMessage)
 				requestChannel <- requestCodeMessage.Tel
 			}
-		}
-		if incomingMessage.Type == "sendCode" {
+		} else if incomingMessage.Type == "sendCode" {
 			if requestChannel != nil {
 				sendCodeMessage := SendCodeMessage{}
 				json.Unmarshal([]byte(p), &sendCodeMessage)
 				requestChannel <- sendCodeMessage.Code
 			}
 			// sender.SendMessageHelper(sendMessageMessage.To, sendMessageMessage.Message, "")
-		}
-		if incomingMessage.Type == "getRegistrationStatus" {
+		} else if incomingMessage.Type == "getRegistrationStatus" {
 			if registered {
 				sendRequest(conn, "registrationDone")
 			} else {
@@ -146,8 +162,54 @@ func wsReader(conn *websocket.Conn) {
 
 	}
 }
+func attachmentsHandler(w http.ResponseWriter, r *http.Request) {
+	Filename := r.URL.Query().Get("file")
+	fmt.Println(Filename)
+	if Filename == "" {
+		//Get not set, send a 400 bad request
+		http.Error(w, "Get 'file' not specified in url.", 400)
+		return
+	}
+	fmt.Println("Client requests: " + Filename)
+
+	//Check if file exists and open
+	Openfile, err := os.Open(Filename)
+	defer Openfile.Close() //Close after function return
+	if err != nil {
+		//File not found, send 404
+		http.Error(w, "File not found.", 404)
+		return
+	}
+	//File is found, create and send the correct headers
+
+	//Get the Content-Type of the file
+	//Create a buffer to store the header of the file in
+	FileHeader := make([]byte, 512)
+	//Copy the headers into the FileHeader buffer
+	Openfile.Read(FileHeader)
+	//Get content type of file
+	FileContentType := http.DetectContentType(FileHeader)
+
+	//Get the file size
+	FileStat, _ := Openfile.Stat()                     //Get info from file
+	FileSize := strconv.FormatInt(FileStat.Size(), 10) //Get file size as a string
+
+	//Send the headers
+	w.Header().Set("Content-Disposition", "attachment; filename="+Filename)
+	w.Header().Set("Content-Type", FileContentType)
+	w.Header().Set("Content-Length", FileSize)
+
+	//Send the file
+	//We read 512 bytes from the file already, so we reset the offset back to 0
+	Openfile.Seek(0, 0)
+	io.Copy(w, Openfile) //'Copy' the file to the client
+	return
+}
+func attachmentServer() {
+}
 func webserver() {
-	http.Handle("/", http.FileServer(http.Dir("./axolotl-web")))
+	http.Handle("/", http.FileServer(http.Dir("./axolotl-web/dist")))
+	http.HandleFunc("/attachments", attachmentsHandler)
 	http.HandleFunc("/ws", wsEndpoint)
 	http.ListenAndServe(":9080", nil)
 }
@@ -166,6 +228,22 @@ func sendChatList(client *websocket.Conn) {
 	}
 	message := &[]byte{}
 	*message, err = json.Marshal(chatListEnvelope)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
+		log.Println(err)
+		return
+	}
+}
+func sendContactList(client *websocket.Conn) {
+	var err error
+	contactListEnvelope := &ContactListEnvelope{
+		ContactList: store.ContactsModel.Contacts,
+	}
+	message := &[]byte{}
+	*message, err = json.Marshal(contactListEnvelope)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -195,23 +273,39 @@ func sendMessageList(client *websocket.Conn, id string) {
 		return
 	}
 }
+func sendMoreMessageList(client *websocket.Conn, id string, lastId string) {
+	message := &[]byte{}
+	err, messageList := store.SessionsModel.GetMoreMessageList(id, lastId)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	moreMessageListEnvelope := &MoreMessageListEnvelope{
+		MoreMessageList: messageList,
+	}
+	*message, err = json.Marshal(moreMessageListEnvelope)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
+		log.Println(err)
+		return
+	}
+}
 
 var test = false
 
 func UpdateChatList() {
-	// fmt.Println("updateChatList")
-	// rq := make(chan string)
-	for client := range clients {
-		sendChatList(client)
-		// if !test {
-		// 	RequestInput("getPhoneNumber", rq)
+
+	if activeChat == "" {
+		// 	for client := range clients {
+		// 		fmt.Printf("blub")
+		// 		// sendMessageList(client, activeChat)
+		// 	}
 		// } else {
-		// 	RequestInput("getVerificationCode", rq)
-		// }
-	}
-	if activeChat != "" {
 		for client := range clients {
-			sendMessageList(client, activeChat)
+			sendChatList(client)
 		}
 	}
 }

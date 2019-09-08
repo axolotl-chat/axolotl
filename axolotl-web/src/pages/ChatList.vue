@@ -3,7 +3,7 @@
   <div class="chatList">
     <div v-if="chats.length>0" class="row">
       <router-link :to="'/chat/'+chat.Tel" v-for="chat in chats" class="col-12 chat">
-        <div class="row">
+        <div class="row chat-entry">
           <div class="avatar col-3">
             <div class="badge-name">{{chat.Name[0]}}</div>
           </div>
@@ -18,6 +18,8 @@
       No chats aviable
     </div>
     <!-- {{chats}} -->
+    <router-link :to="'/contacts/'" class="btn start-chat"><font-awesome-icon icon="pencil-alt" /></router-link>
+
   </div>
 </template>
 
@@ -28,12 +30,10 @@ export default {
     msg: String
   },
   created(){
-    // console.log("ChatList", this);
     this.$store.dispatch("getChatList");
+    this.$store.dispatch("clearMessageList");
     // this.$store.dispatch('addResponses', "1");
     // Vue.prototype.$store.dispatch("getChatList")
-
-    // this.$store.dispatch("getChatList")
   },
   computed: {
     chats () {
@@ -44,7 +44,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 .avatar {
     justify-content: center;
     display: flex;
@@ -77,7 +77,7 @@ export default {
 .meta .preview{
   font-size:15px;
 }
-.chat .row{
+.row.chat-entry{
   border-bottom:1px solid grey;
   border-bottom: 1px solid #c2c2c2;
   padding: 10px;
@@ -87,5 +87,19 @@ a.chat{
 }
 a:hover.chat{
   text-decoration:none;
+}
+.btn.start-chat {
+  position: fixed;
+  bottom: 16px;
+  right: 20%;
+  background-color: #2090ea;
+  color: #FFF;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

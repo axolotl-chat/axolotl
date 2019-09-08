@@ -21,7 +21,8 @@ for po in ../../../po/*.po; do
 	mkdir -p $dir
 	msgfmt $po -o $dir/textsecure.nanuc.mo
 done
-$a  = pwd
 # Build axolotl-web
-cd ../../../axolotl-web&&npm run build && mkdir $@/axolotl-web&&cp dist/* $@/axolotl-web -r
+$a = pwd
+cd ../../../axolotl-web&&npm run build && mkdir $@/axolotl-web&&ls -lah dist &&cp dist $@/axolotl-web/ -r && ls -lah $@
+# cd ../../../axolotl-web&&npm run build && mkdir $@/axolotl-web&&rm -rf $@/axolotl-web/dist &&cp dist $@/axolotl-web/dist -r
 cd $a

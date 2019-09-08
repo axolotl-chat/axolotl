@@ -8,6 +8,7 @@ export default new Vuex.Store({
     chatList: [],
     messageList: [],
     request: '',
+    contacts:[],
     socket: {
       isConnected: false,
       message: '',
@@ -43,6 +44,21 @@ export default new Vuex.Store({
         SET_MESSAGELIST(state, messageList){
               state.messageList = messageList;
         },
+        SET_MORE_MESSAGELIST(state, messageList){
+              if(messageList.Messages!= null){
+                state.messageList.Messages = state.messageList.Messages.concat(messageList.Messages);
+
+              }
+        },
+        CLEAR_MESSAGELIST(state){
+          state.messageList = {};
+        },
+        SET_CONTACTS(state, contacts){
+              state.contacts = contacts;
+        },
+        LEAVE_CHAT(state){
+          this.commit("CLEAR_MESSAGELIST");
+        },
         SOCKET_ONOPEN (state, event)  {
           Vue.prototype.$socket = event.currentTarget
           state.socket.isConnected = true
@@ -64,11 +80,17 @@ export default new Vuex.Store({
             if(Object.keys(messageData)[0]=="ChatList"){
               this.commit("SET_CHATLIST",messageData["ChatList"] );
             }
-            if(Object.keys(messageData)[0]=="MessageList"){
+            else if(Object.keys(messageData)[0]=="MessageList"){
               this.commit("SET_MESSAGELIST",messageData["MessageList"] );
             }
-            if(Object.keys(messageData)[0]=="Type"){
+            else if(Object.keys(messageData)[0]=="Type"){
               this.commit("SET_REQUEST",messageData["Type"] );
+            }
+            else if(Object.keys(messageData)[0]=="ContactList"){
+              this.commit("SET_CONTACTS",messageData["ContactList"] );
+            }
+            else if(Object.keys(messageData)[0]=="MoreMessageList"){
+              this.commit("SET_MORE_MESSAGELIST",messageData["MoreMessageList"] );
             }
             state.socket.message = message.data
           }
@@ -99,9 +121,29 @@ export default new Vuex.Store({
           "request":"getMessageList",
           "id":  chatId
         }
-        console.log(JSON.stringify(message))
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
+    },
+    getMoreMessages:function(){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"getMoreMessages",
+          "lastId":  String(this.state.messageList.Messages.slice(-1)[0].ID)
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
+      }
+    },
+    clearMessageList:function(){
+      this.commit("CLEAR_MESSAGELIST");
+    },
+    leaveChat:function(){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"leaveChat",
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
+      }
+      this.commit("LEAVE_CHAT");
     },
     sendMessage:function(context, messageContainer){
       if(this.state.socket.isConnected){
@@ -110,10 +152,26 @@ export default new Vuex.Store({
           "to":  messageContainer.to,
           "message":  messageContainer.message
         }
-        console.log(JSON.stringify(message))
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
+    getContacts:function(){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"getContacts",
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
+      }
+    },
+    addContact:function(){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"addContact",
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
+      }
+    },
+    // registration functions
       requestCode:function(context, tel){
         if(this.state.socket.isConnected){
           var message = {

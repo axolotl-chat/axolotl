@@ -89,7 +89,18 @@ func AddContact(name string, phone string) error {
 		Name: name,
 		Tel:  phone,
 	}
+
+	// found := false
+	// for i := range contacts {
+	// 	if contacts[i].Name == name {
+	// 		contacts[i].Tel = phone
+	// 		found = true
+	// 	}
+	// }
+	// if !found {
+	// }
 	contacts = append(contacts, *contact)
+	sort.Slice(contacts, func(i, j int) bool { return contacts[i].Name < contacts[j].Name })
 	err = textsecure.WriteContacts(config.ContactsFile, contacts)
 	if err != nil {
 		return err
