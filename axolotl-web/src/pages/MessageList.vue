@@ -2,7 +2,7 @@
 <template>
   <div class="chat">
     <div class="chatList-container">
-      <div class="chatList row" v-if="messages && messages.length>0" v-chat-scroll="{always: false, smooth: true}" v-on:scroll="handleScroll">
+      <div id="messageList" class="chatList row" v-if="messages && messages.length>0" v-chat-scroll="{always: false, smooth: true}" v-on:scroll="handleScroll">
 
           <div v-for="message in messages.slice().reverse()" :class="{'col-12':true, 'sent':message.Outgoing, 'reply':!message.Outgoing}" >
             <div class="row w-100">
@@ -73,7 +73,8 @@ export default {
   },
   data() {
     return {
-      messageInput: ""
+      messageInput: "",
+      scrolled:false
     }
   },
   methods: {
@@ -103,10 +104,17 @@ export default {
       if(minutes<60)return Math.floor(minutes)+" minutes ago";
       var hours = minutes/60
       if(hours<24)return Math.floor(hours)+" hours ago";
-      return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
+      return date.getDate() +"."+(date.getMonth() + 1) +  " " + date.getHours() + ":" + date.getMinutes()
+      // return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes()
     },
     back(){
       this.$router.go(-1)
+    },scrollDown(){
+      if(!this.scrolled){
+        var objDiv = document.getElementById("messageList");
+        objDiv.scrollTop = objDiv.scrollHeight;
+        this.scrolled=true;
+      }
     }
 
   },
@@ -114,8 +122,8 @@ export default {
     this.$store.dispatch("getMessageList", this.getId());
   },
   mounted(){
-    window.scrollTo(0,document.body.scrollHeight);
-
+    setTimeout(this.scrollDown
+    , 500)
   },
   computed: {
     messages () {
@@ -151,7 +159,7 @@ export default {
   scrollbar-width: none;
 }
 .chatList > div:last-child {
-    padding-bottom: 99px;
+    padding-bottom: 50px;
 }
 .avatar {
     justify-content: center;

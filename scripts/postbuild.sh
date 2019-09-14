@@ -24,4 +24,3 @@
 cp -a ../../../click/* $@
 # Build axolotl-web
 cd ../../../axolotl-web&&npm run build && mkdir $@/axolotl-web&&cp dist $@/axolotl-web/ -r
-# cd ../../../axolotl-web&&npm run build && mkdir $@/axolotl-web&&rm -rf $@/axolotl-web/dist &&cp dist $@/axolotl-web/dist -r

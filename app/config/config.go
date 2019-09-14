@@ -3,11 +3,12 @@ package config
 import (
 	"flag"
 	"fmt"
-	"log"
 	"os"
 	"os/user"
 	"path/filepath"
 	"strings"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
@@ -108,4 +109,43 @@ func SetupConfig() {
 	os.MkdirAll(AttachDir, 0700)
 	StorageDir = filepath.Join(DataDir, ".storage")
 
+}
+func Unregister() {
+	err := os.Remove(HomeDir + "/.local/share/textsecure.nanuc/db/db.sql")
+	if err != nil {
+		log.Error(err)
+	}
+	err = os.Remove(ContactsFile)
+	if err != nil {
+		log.Error(err)
+	}
+	err = os.Remove(SettingsFile)
+	if err != nil {
+		log.Error(err)
+	}
+	err = os.Remove(ConfigFile)
+	if err != nil {
+		log.Error(err)
+	}
+	err = os.RemoveAll(HomeDir + "/.cache/textsecure.nanuc/qmlcache")
+	if err != nil {
+		log.Error(err)
+	}
+	err = os.Remove(HomeDir + "/.config/textsecure.nanuc/config.yml")
+	if err != nil {
+		log.Error(err)
+	}
+	err = os.RemoveAll(StorageDir)
+	if err != nil {
+		log.Error(err)
+	}
+	err = os.RemoveAll(DataDir + AppName)
+	if err != nil {
+		log.Error(err)
+	}
+	err = os.RemoveAll(CacheDir + AppName)
+	if err != nil {
+		log.Error(err)
+	}
+	os.Exit(1)
 }

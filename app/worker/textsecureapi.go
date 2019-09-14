@@ -36,43 +36,7 @@ var isEncrypted = true
 
 //unregister  signal id
 func (Api *TextsecureAPI) Unregister() {
-	err := os.Remove("/home/phablet/.local/share/textsecure.nanuc/db/db.sql")
-	if err != nil {
-		log.Error(err)
-	}
-	err = os.Remove(config.ContactsFile)
-	if err != nil {
-		log.Error(err)
-	}
-	err = os.Remove(config.SettingsFile)
-	if err != nil {
-		log.Error(err)
-	}
-	err = os.Remove(config.ConfigFile)
-	if err != nil {
-		log.Error(err)
-	}
-	err = os.RemoveAll("/home/phablet/.cache/textsecure.nanuc/qmlcache")
-	if err != nil {
-		log.Error(err)
-	}
-	err = os.Remove("/home/phablet/.config/textsecure.nanuc/config.yml")
-	if err != nil {
-		log.Error(err)
-	}
-	err = os.RemoveAll(config.StorageDir)
-	if err != nil {
-		log.Error(err)
-	}
-	err = os.RemoveAll(config.DataDir + config.AppName)
-	if err != nil {
-		log.Error(err)
-	}
-	err = os.RemoveAll(config.CacheDir + config.AppName)
-	if err != nil {
-		log.Error(err)
-	}
-	os.Exit(1)
+	config.Unregister()
 }
 
 //get identitys
@@ -197,6 +161,7 @@ func RunBackend() {
 			}
 			if err := textsecure.StartListening(); err != nil {
 				log.Debugln(err)
+				ui.ShowError(err)
 			}
 		}
 		time.Sleep(3 * time.Second)

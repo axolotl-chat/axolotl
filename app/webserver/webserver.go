@@ -14,6 +14,7 @@ import (
 
 	"github.com/gorilla/websocket"
 	"github.com/nanu-c/textsecure"
+	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/contact"
 	"github.com/nanu-c/textsecure-qml/app/sender"
 	"github.com/nanu-c/textsecure-qml/app/store"
@@ -147,8 +148,10 @@ func wsReader(conn *websocket.Conn) {
 		} else if incomingMessage.Type == "sendMessage" {
 			sendMessageMessage := SendMessageMessage{}
 			json.Unmarshal([]byte(p), &sendMessageMessage)
-			sender.SendMessageHelper(sendMessageMessage.To, sendMessageMessage.Message, "")
-			go UpdateChatList()
+			err, m := sender.SendMessageHelper(sendMessageMessage.To, sendMessageMessage.Message, "")
+			if err == nil {
+				MessageHandler(m)
+			}
 		} else if incomingMessage.Type == "getContacts" {
 			go sendContactList(conn)
 		} else if incomingMessage.Type == "addContact" {
@@ -195,6 +198,8 @@ func wsReader(conn *websocket.Conn) {
 			go sendDeviceList(conn)
 		} else if incomingMessage.Type == "getDevices" {
 			go sendDeviceList(conn)
+		} else if incomingMessage.Type == "unregister" {
+			config.Unregister()
 		}
 	}
 }
@@ -354,13 +359,31 @@ var test = false
 func UpdateChatList() {
 
 	if activeChat == "" {
-		// 	for client := range clients {
-		// 		fmt.Printf("blub")
-		// 		// sendMessageList(client, activeChat)
-		// 	}
-		// } else {
 		for client := range clients {
 			sendChatList(client)
+		}
+	}
+}
+
+type MessageRecieved struct {
+	MessageRecieved *store.Message
+}
+
+func MessageHandler(msg *store.Message) {
+	messageRecieved := &MessageRecieved{
+		MessageRecieved: msg,
+	}
+	for client := range clients {
+		var err error
+		message := &[]byte{}
+		*message, err = json.Marshal(messageRecieved)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
+			log.Println(err)
+			return
 		}
 	}
 }
@@ -404,4 +427,33 @@ func RequestInput(request string) string {
 	text := <-requestChannel
 	requestChannel = nil
 	return text
+}
+func sendError(client *websocket.Conn, errorMessage string) {
+	var err error
+
+	request := &SendError{
+		Type:  "Error",
+		Error: errorMessage,
+	}
+	message := &[]byte{}
+	*message, err = json.Marshal(request)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
+		log.Println(err)
+		return
+	}
+}
+
+type SendError struct {
+	Type  string
+	Error string
+}
+
+func ShowError(errorMessage string) {
+	for client := range clients {
+		sendError(client, errorMessage)
+	}
 }

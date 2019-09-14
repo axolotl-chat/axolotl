@@ -10,6 +10,7 @@ export default new Vuex.Store({
     request: '',
     contacts:[],
     devices: [],
+    error: null,
     socket: {
       isConnected: false,
       message: '',
@@ -22,6 +23,10 @@ export default new Vuex.Store({
   },
 
   mutations: {
+
+    SET_ERROR(state, error){
+          state.error = error;
+    },
         SET_CHATLIST(state, chatList){
               state.chatList = chatList;
         },
@@ -51,8 +56,23 @@ export default new Vuex.Store({
         SET_MORE_MESSAGELIST(state, messageList){
               if(messageList.Messages!= null){
                 state.messageList.Messages = state.messageList.Messages.concat(messageList.Messages);
-
               }
+        },
+        SET_MESSAGE_RECIEVED(state, message){
+          if(state.messageList.ID==message.Source){
+            var tmpList = state.messageList.Messages;
+            tmpList.push(message);
+            tmpList.sort(function(a, b){
+                return b.ID-a.ID
+            })
+            state.messageList.Messages = tmpList;
+          }
+          state.chatList.forEach((chat, i)=>{
+            if(chat.Tel == message.Source){
+              state.chatList[i].Messages = [message]
+            }
+          })
+
         },
         CLEAR_MESSAGELIST(state){
           state.messageList = {};
@@ -80,16 +100,16 @@ export default new Vuex.Store({
         SOCKET_ONMESSAGE (state, message)  {
           if(message.data!="Hi Client!"){
             var messageData =JSON.parse(message.data)
-            console.log(messageData);
+            if(typeof messageData.Error !="undefined"){
+              this.commit("SET_ERROR", messageData["Error"] );
+            }
             if(Object.keys(messageData)[0]=="ChatList"){
               this.commit("SET_CHATLIST",messageData["ChatList"] );
             }
             else if(Object.keys(messageData)[0]=="MessageList"){
               this.commit("SET_MESSAGELIST",messageData["MessageList"] );
             }
-            else if(Object.keys(messageData)[0]=="Type"){
-              this.commit("SET_REQUEST",messageData["Type"] );
-            }
+
             else if(Object.keys(messageData)[0]=="ContactList"){
               this.commit("SET_CONTACTS",messageData["ContactList"] );
             }
@@ -98,6 +118,12 @@ export default new Vuex.Store({
             }
             else if(Object.keys(messageData)[0]=="DeviceList"){
               this.commit("SET_DEVICELIST",messageData["DeviceList"] );
+            }
+            else if(Object.keys(messageData)[0]=="MessageRecieved"){
+              this.commit("SET_MESSAGE_RECIEVED",messageData["MessageRecieved"] );
+            }
+            else if(Object.keys(messageData)[0]=="Type"){
+              this.commit("SET_REQUEST",messageData["Type"] );
             }
             state.socket.message = message.data
           }
@@ -120,6 +146,7 @@ export default new Vuex.Store({
           "request":"addDevice",
           "url":url,
         }
+        console.log("ad",url);
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
@@ -233,6 +260,15 @@ export default new Vuex.Store({
       if(this.state.socket.isConnected){
         var message = {
           "request":"getRegistrationStatus",
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
+
+      }
+    },
+    unregister:function(){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"unregister",
         }
         Vue.prototype.$socket.send(JSON.stringify(message))
 

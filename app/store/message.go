@@ -22,19 +22,19 @@ type Message struct {
 	Flags      int
 }
 
-func SaveMessage(m *Message) error {
+func SaveMessage(m *Message) (error, *Message) {
 	res, err := DS.Dbx.NamedExec(messagesInsert, m)
 	if err != nil {
-		return err
+		return err, nil
 	}
 
 	id, err := res.LastInsertId()
 	if err != nil {
-		return err
+		return err, nil
 	}
 
 	m.ID = id
-	return nil
+	return nil, m
 }
 
 func UpdateMessageSent(m *Message) error {

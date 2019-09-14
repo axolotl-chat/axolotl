@@ -2,6 +2,7 @@
   <div id="app">
     <header-comp></header-comp>
     <div class="container">
+      <error-modal  v-if="error"/>
       <router-view />
     </div>
   </div>
@@ -12,11 +13,13 @@ import store from './store/store'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import HeaderComp from "@/components/Header.vue"
+import ErrorModal from "@/components/ErrorModal.vue"
 import qwebchannel from 'qwebchannel'
 export default {
   name: 'axolotl-web',
   components: {
-    HeaderComp
+    HeaderComp,
+    ErrorModal
   },
   mounted(){
     console.log(process.env.NODE_ENV)
@@ -83,12 +86,19 @@ export default {
     };
 
     console.log('websocket: end injection');
+  },
+  computed: {
+    error () {
+      return this.$store.state.error
+    }
   }
+
 }
 </script>
 <style>
 #app{
   padding-top:50px;
+  font-family:"ubuntu"
 }
 #app >.container{
   position:relative;

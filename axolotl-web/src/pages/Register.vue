@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="register">
     <VuePhoneNumberInput v-model="phone" @update="updatePhone" :callingCode="cc" class="phoneInput" />
-    <button class="btn" @click="requestCode()"> request code </button>
+    <button class="btn btn-primary" @click="requestCode()"> request code </button>
   </div>
 </template>
 
@@ -35,8 +35,18 @@ export default {
 }
 </script>
 <style scoped>
+  .register{
+    display:flex;
+    flex-direction: column;
+  }
   .phoneInput{
     margin-top:30px;
+  }
+  .btn{
+    max-width: 300px;
+    margin: auto;
+    margin-top: auto;
+    margin-top: 50px;
   }
 </style>
 

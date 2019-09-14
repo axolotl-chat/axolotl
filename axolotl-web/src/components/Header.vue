@@ -2,7 +2,16 @@
   <div :class="route()+' header '">
     <div class="container">
       <div class="header-row row">
-        <div v-if="route()!='chatList' && route()!='register' ">
+        <div v-if="route()=='chat'" class="message-list-container">
+          <button class="back btn" @click="back()">
+            <font-awesome-icon icon="arrow-left" /></button>
+            <div v-if="messageList.Session" class="header-text">{{messageList.Session.Name}}</div>
+        </div>
+        <div v-else-if="route()=='register' ">
+          <div class="header-text">Connect with Signal</div>
+
+        </div>
+        <div v-else-if="route()!='chatList' && route()!='register' ">
           <button class="back btn" @click="back()">
             <font-awesome-icon icon="arrow-left" /></button>
         </div>
@@ -56,6 +65,11 @@
 
       },
     },
+    computed: {
+      messageList() {
+        return this.$store.state.messageList
+      }
+    },
     mounted() {
       window.router = this.$router;
       console.info('App this router:', this.$router)
@@ -88,8 +102,21 @@
     display: block!important;
     border-radius: 0px;
     right: 5px;
+    left: auto;
   }
   .back {
     font-size: 20px;
   }
+  .message-list-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .header-text{
+    font-weight:bold;
+    font-size:20px;
+    padding-left:10px;
+    color:#FFFFFF;
+  }
+
 </style>

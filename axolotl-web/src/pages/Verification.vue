@@ -1,7 +1,7 @@
 <template>
   <div>
     <Sms v-model="cc" class="codeInput"></Sms>
-    <button class="btn" @click="sendCode()"> send Code </button>
+    <button class="btn btn-primary" @click="sendCode()"> send Code </button>
   </div>
 </template>
 
@@ -35,6 +35,14 @@ export default {
 <style scoped>
   .codeInput{
     margin-top:30px;
+    display:flex;
+    flex-direction: column;
+  }
+  .btn{
+    max-width: 300px;
+    margin: auto;
+    margin-top: auto;
+    margin-top: 50px;
   }
 </style>
 

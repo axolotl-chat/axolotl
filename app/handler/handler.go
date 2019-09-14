@@ -113,11 +113,16 @@ func MessageHandler(msg *textsecure.Message) {
 			push.Nh.Send(n)
 		}
 	}
-	webserver.UpdateChatList()
-	store.SaveMessage(m)
+	err, msgSend := store.SaveMessage(m)
+	if err != nil {
+		log.Printf("Error saving %s\n", err.Error())
+	}
 	store.UpdateSession(session)
+	// webserver.UpdateChatList()
+	webserver.MessageHandler(msgSend)
 }
 func ReceiptMessageHandler(msg *textsecure.Message) {
+	webserver.UpdateChatList()
 	webserver.UpdateChatList()
 }
 func TypingMessageHandler(msg *textsecure.Message) {

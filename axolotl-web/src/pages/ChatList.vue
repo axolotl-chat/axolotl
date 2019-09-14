@@ -7,9 +7,16 @@
           <div class="avatar col-3">
             <div class="badge-name">{{chat.Name[0]}}</div>
           </div>
-  				<div class="meta col-9">
-  					<p class="name">{{chat.Name}}</p>
-  					<p class="preview" v-if="chat.Messages">{{chat.Messages[0].Message}}</p>
+  				<div class="meta col-9 row">
+            <div class="col-9">
+  					       <p class="name">{{chat.Name}}</p>
+            </div>
+            <div class="col-3">
+                <p class="time">{{humanifyDate(chat.Messages[chat.Messages.length-1].SentAt)}}</p>
+            </div>
+            <div class="col-12">
+              <p class="preview" v-if="chat.Messages">{{chat.Messages[chat.Messages.length-1].Message}}</p>
+            </div>
           </div>
 				</div>
       </router-link>
@@ -34,6 +41,20 @@ export default {
     this.$store.dispatch("clearMessageList");
     // this.$store.dispatch('addResponses', "1");
     // Vue.prototype.$store.dispatch("getChatList")
+  },
+  methods:{
+    humanifyDate(inputDate){
+      var now = new Date();
+      var date = new Date(inputDate);
+      var diff=(now-date)/1000;
+      var seconds = diff;
+      if(seconds<60)return "now";
+      var minutes = seconds/60;
+      if(minutes<60)return Math.floor(minutes)+" MIN";
+      var hours = minutes/60
+      if(hours<24)return Math.floor(hours)+" H";
+      return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
+    },
   },
   computed: {
     chats () {
@@ -105,5 +126,7 @@ a:hover.chat{
 .chatList .preview{
   overflow: hidden;
   height: 20px;
+}.chatList .time{
+  font-size:12px;
 }
 </style>

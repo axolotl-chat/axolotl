@@ -12,21 +12,22 @@ import (
 	"github.com/nanu-c/textsecure-qml/app/store"
 )
 
-func SendMessageHelper(to, message, file string) error {
+func SendMessageHelper(to, message, file string) (error, *store.Message) {
 	var err error
 	if file != "" {
 		file, err = store.CopyAttachment(file)
 		// log.Printf("got Attachment:" + file)
 		if err != nil {
 			log.Printf("Error Attachment:" + err.Error())
-			return err
+			return err, nil
 		}
 	}
 	session := store.SessionsModel.Get(to)
 	m := session.Add(message, "", file, "", true, store.ActiveSessionID)
-	store.SaveMessage(m)
+	m.Source = to
+	_, savedM:= store.SaveMessage(m)
 	go SendMessage(session, m)
-	return nil
+	return nil, savedM
 }
 func SendMessage(s *store.Session, m *store.Message) {
 	var att io.Reader

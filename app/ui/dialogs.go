@@ -62,6 +62,6 @@ func GetVerificationCode() string {
 	return GetTextFromWs("getVerificationCode", "codeVerificationPage", "codeEntered")
 }
 func ShowError(err error) {
-	// Win.Root().Call("error", err.Error())
+	webserver.ShowError(err.Error())
 	log.Errorf(err.Error())
 }

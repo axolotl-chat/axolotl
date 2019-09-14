@@ -6,7 +6,8 @@ import (
 )
 
 func (Api *TextsecureAPI) SendMessage(to, message string) error {
-	return sender.SendMessageHelper(to, message, "")
+	err, _ := sender.SendMessageHelper(to, message, "")
+	return err
 }
 func (Api *TextsecureAPI) DeleteMessage(msg *store.Message, tel string) {
 	store.DeleteMessage(msg.ID)
