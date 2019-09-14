@@ -177,6 +177,7 @@ export default new Vuex.Store({
       }
     },
     getMessageList:function(context, chatId){
+      this.commit("CLEAR_MESSAGELIST");
       if(this.state.socket.isConnected){
         var message = {
           "request":"getMessageList",

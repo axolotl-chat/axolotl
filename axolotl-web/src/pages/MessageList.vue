@@ -56,7 +56,7 @@
         <div class="row">
 
           <textarea id="messageInput" class="col-9" type="textarea" v-model="messageInput" />
-          <div class="col-3 text-center">
+          <div class="col-3 text-right">
             <button class="btn send" @click="sendMessage"><font-awesome-icon icon="paper-plane" /></button>
           </div>
         </div>
@@ -119,9 +119,10 @@ export default {
 
   },
   created(){
-    this.$store.dispatch("getMessageList", this.getId());
+
   },
   mounted(){
+    this.$store.dispatch("getMessageList", this.getId());
     setTimeout(this.scrollDown
     , 500)
   },

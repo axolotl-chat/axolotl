@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="verify">
     <Sms v-model="cc" class="codeInput"></Sms>
     <button class="btn btn-primary" @click="sendCode()"> send Code </button>
   </div>
@@ -33,10 +33,12 @@ export default {
 }
 </script>
 <style scoped>
-  .codeInput{
-    margin-top:30px;
+  .verify{
     display:flex;
     flex-direction: column;
+  }
+  .codeInput{
+    margin-top:30px;
   }
   .btn{
     max-width: 300px;

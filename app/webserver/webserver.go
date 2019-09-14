@@ -315,6 +315,7 @@ func sendDeviceList(client *websocket.Conn) {
 
 func sendMessageList(client *websocket.Conn, id string) {
 	message := &[]byte{}
+
 	err, messageList := store.SessionsModel.GetMessageList(id)
 	if err != nil {
 		fmt.Println(err)

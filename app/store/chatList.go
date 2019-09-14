@@ -26,7 +26,7 @@ type Session struct {
 	Notification bool
 }
 type MessageList struct {
-	ID       string
+	ID       int
 	Session  *Session
 	Messages []*Message
 }
@@ -105,13 +105,13 @@ func DeleteSession(tel string) error {
 	return nil
 }
 func (s *Sessions) GetSession(i int) *Session {
-	return s.Sess[0]
+	return s.Sess[i]
 }
 func (s *Sessions) GetMessageList(id string) (error, *MessageList) {
 	index := SessionsModel.GetIndex(id)
 	if index != -1 {
 		messageList := &MessageList{
-			ID:      id,
+			ID:      index,
 			Session: s.GetSession(index),
 		}
 		err := DS.Dbx.Select(&messageList.Messages, messagesSelectWhere, messageList.Session.ID)
@@ -129,7 +129,7 @@ func (s *Sessions) GetMoreMessageList(id string, lastId string) (error, *Message
 	index := SessionsModel.GetIndex(id)
 	if index != -1 {
 		messageList := &MessageList{
-			ID:      id,
+			ID:      index,
 			Session: s.GetSession(index),
 		}
 		err := DS.Dbx.Select(&messageList.Messages, messagesSelectWhereMore, messageList.Session.ID, lastId)
