@@ -20,7 +20,7 @@ export default new Router({
     props: route => ({
       chatId: route.params.id,
     }),
-    component:  () => import("@/pages/Chat.vue")
+    component:  () => import("@/pages/MessageList.vue")
   },
   {
     path: "/",

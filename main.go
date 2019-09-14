@@ -7,7 +7,6 @@ import (
 	_ "image/jpeg"
 	_ "image/png"
 	"io"
-	"os/exec"
 	"sync"
 
 	log "github.com/sirupsen/logrus"
@@ -60,26 +59,7 @@ func runBackend() {
 }
 func runUI() error {
 	defer wg.Done()
-	// cmd := exec.Command("webapp-container", "http://[::1]:8080/")
-
-	var cmd *exec.Cmd
-	if sys == "ut" {
-		cmd = exec.Command("qmlscene", "--scaling", "qml/MainUt.qml")
-	} else if sys == "me" {
-		cmd = exec.Command("/home/nanu/Qt/5.13.0/gcc_64/bin/qmlscene", "--scaling", "qml/Main.qml")
-
-	} else {
-		cmd = exec.Command("qmlscene", "--scaling", "qml/Main.qml")
-
-	}
-	// cmd := exec.Command("webapp-container", "--app-id='textsecure.nanuc'", "$@", "axolotl-web/index.html")
-	log.Printf("Starting Axolotl-gui")
-	stdout, _ := cmd.StdoutPipe()
-	stderr, _ := cmd.StderrPipe()
-	err := cmd.Run()
-	go print(stdout)
-	go print(stderr)
-	log.Printf("Axolotl-gui finished with error: %v", err)
+	ui.RunUi(sys)
 	return nil
 }
 func runWebserver() {

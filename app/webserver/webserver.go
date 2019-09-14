@@ -3,12 +3,14 @@ package webserver
 import (
 	"bufio"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gorilla/websocket"
@@ -95,6 +97,10 @@ type SendCodeMessage struct {
 	Type string `json:"request"`
 	Code string `json:"code"`
 }
+type AddDesktopSyncMessage struct {
+	Type string `json:"request"`
+	Url  string `json:"url"`
+}
 
 func sync() {
 	for {
@@ -156,6 +162,19 @@ func wsReader(conn *websocket.Conn) {
 				sendRequest(conn, "registrationDone")
 			} else {
 				sendRequest(conn, "getPhoneNumber")
+			}
+		} else if incomingMessage.Type == "addDesktopSync" {
+			addDesktopSyncMessage := AddDesktopSyncMessage{}
+			json.Unmarshal([]byte(p), &addDesktopSyncMessage)
+			if addDesktopSyncMessage.Url != "" {
+				if strings.Contains(addDesktopSyncMessage.Url, "tsdevice") {
+					fmt.Printf("found tsdevice")
+					uuid, pubKey, err := extractUuidPubKey(addDesktopSyncMessage.Url)
+					if err != nil {
+						fmt.Println(err)
+					}
+					textsecure.AddNewLinkedDevice(uuid, pubKey)
+				}
 			}
 
 		}
@@ -349,4 +368,21 @@ func RequestInput(request string) string {
 	text := <-requestChannel
 	requestChannel = nil
 	return text
+}
+func extractUuidPubKey(qr string) (string, string, error) {
+	sUuid := strings.Index(qr, "=")
+	eUuid := strings.Index(qr, "&")
+	if sUuid > -1 {
+		uuid := qr[sUuid+1 : eUuid]
+		rest := qr[eUuid+1:]
+		sPub_key := strings.Index(rest, "=")
+		pub_key := rest[sPub_key+1:]
+		pub_key = strings.Replace(pub_key, "%2F", "/", -1)
+		pub_key = strings.Replace(pub_key, "%2B", "+", -1)
+		return uuid, pub_key, nil
+	} else {
+
+		log.Println("no uuid/pubkey found")
+		return "", "", errors.New("Wrong qr" + qr)
+	}
 }

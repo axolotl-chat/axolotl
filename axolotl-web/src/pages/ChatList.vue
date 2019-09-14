@@ -95,9 +95,9 @@ a:hover.chat{
   background-color: #2090ea;
   color: #FFF;
   border-radius: 50%;
-  width: 70px;
-  height: 70px;
-  font-size: 30px;
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
