@@ -10,9 +10,13 @@
         </div>
       </div>
     </router-link>
-    <add-contact-modal />
-    <button class="btn add-contact" @click="addContact"><font-awesome-icon icon="plus" /></button>
-
+    <div v-if="addContactModal" class="addContactModal">
+      <add-contact-modal
+      @close="addContactModal=false"
+      @add="addContact($event)"
+      />
+    </div>
+    <button class="btn add-contact" @click="addContactModal=true"><font-awesome-icon icon="plus" /></button>
   </div>
 </template>
 
@@ -26,12 +30,19 @@ export default {
   components: {
     AddContactModal
   },
+  data() {
+    return {
+      addContactModal: false
+    }
+  },
   mounted(){
     this.$store.dispatch("getContacts")
   },
   methods: {
-    addContact(){
-      this.$store.dispatch("addContact")
+    addContact(data){
+      this.$store.dispatch("addContact", data)
+      this.addContactModal=false
+
     }
   },
   computed: {
@@ -51,9 +62,9 @@ export default {
   background-color: #2090ea;
   color: #FFF;
   border-radius: 50%;
-  width: 70px;
-  height: 70px;
-  font-size: 30px;
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
   display: flex;
   justify-content: center;
   align-items: center;

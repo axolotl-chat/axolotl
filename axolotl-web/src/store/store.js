@@ -9,6 +9,7 @@ export default new Vuex.Store({
     messageList: [],
     request: '',
     contacts:[],
+    devices: [],
     socket: {
       isConnected: false,
       message: '',
@@ -26,6 +27,9 @@ export default new Vuex.Store({
         },
         SEND_MESSAGE(){
 
+        },
+        SET_DEVICELIST(state, devices){
+          state.devices = devices
         },
         SET_REQUEST(state, request){
           state.request = request;
@@ -56,7 +60,7 @@ export default new Vuex.Store({
         SET_CONTACTS(state, contacts){
               state.contacts = contacts;
         },
-        LEAVE_CHAT(state){
+        LEAVE_CHAT(){
           this.commit("CLEAR_MESSAGELIST");
         },
         SOCKET_ONOPEN (state, event)  {
@@ -66,7 +70,7 @@ export default new Vuex.Store({
           // Vue.prototype.$socket.send("getChatList")
 
         },
-        SOCKET_ONCLOSE (state, event)  {
+        SOCKET_ONCLOSE (state)  {
           state.socket.isConnected = false
         },
         SOCKET_ONERROR (state, event)  {
@@ -92,6 +96,9 @@ export default new Vuex.Store({
             else if(Object.keys(messageData)[0]=="MoreMessageList"){
               this.commit("SET_MORE_MESSAGELIST",messageData["MoreMessageList"] );
             }
+            else if(Object.keys(messageData)[0]=="DeviceList"){
+              this.commit("SET_DEVICELIST",messageData["DeviceList"] );
+            }
             state.socket.message = message.data
           }
 
@@ -107,6 +114,33 @@ export default new Vuex.Store({
   },
 
   actions: {
+    addDevice:function(state,url){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"addDevice",
+          "url":url,
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
+      }
+    },
+    delDevice:function(state,id){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"delDevice",
+          "id":id,
+        }
+        console.log(message);
+        Vue.prototype.$socket.send(JSON.stringify(message))
+      }
+    },
+    getDevices:function(){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"getDevices",
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
+      }
+    },
     getChatList:function(){
       if(this.state.socket.isConnected){
         var message = {
@@ -163,10 +197,13 @@ export default new Vuex.Store({
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
-    addContact:function(){
-      if(this.state.socket.isConnected){
+    addContact:function(context, contact){
+      if(this.state.socket.isConnected
+        &&contact.name!="" && contact.phone!=""){
         var message = {
           "request":"addContact",
+          "name": contact.name,
+          "phone": contact.phone,
         }
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
@@ -178,7 +215,6 @@ export default new Vuex.Store({
             "request":"requestCode",
             "tel":  tel,
           }
-          console.log(JSON.stringify(message))
           Vue.prototype.$socket.send(JSON.stringify(message))
         }
     },
@@ -188,18 +224,16 @@ export default new Vuex.Store({
           "request":"sendCode",
           "code":  code,
         }
-        console.log(JSON.stringify(message))
         Vue.prototype.$socket.send(JSON.stringify(message))
         window.router.push("/chatList")
 
       }
     },
-    getRegistrationStatus:function(context, code){
+    getRegistrationStatus:function(){
       if(this.state.socket.isConnected){
         var message = {
           "request":"getRegistrationStatus",
         }
-        console.log(JSON.stringify(message))
         Vue.prototype.$socket.send(JSON.stringify(message))
 
       }

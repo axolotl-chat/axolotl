@@ -70,7 +70,7 @@ func InitModels() {
 func RunUi(sys string) {
 	// cmd := exec.Command("webapp-container", "http://[::1]:8080/")
 	var cmd *exec.Cmd
-	log.Printf("Axolotl-gui starting for sys: %v", sys)
+	log.Infof("Axolotl-gui starting for sys: %v", sys)
 
 	if sys == "ut" {
 		cmd = exec.Command("qmlscene", "--scaling", "qml/ut/MainUt.qml")
@@ -111,8 +111,8 @@ func RunUi(sys string) {
 		log.Fatal("failed to capture stdout or stderr\n")
 	}
 	outStr, errStr := string(stdout), string(stderr)
-	fmt.Printf("\nout:\n%s\nerr:\n%s\n", outStr, errStr)
-	log.Printf("Axolotl-gui finished with error: %v", err)
+	log.Infof("\nout:\n%s\nerr:\n%s\n", outStr, errStr)
+	log.Infof("Axolotl-gui finished with error: %v", err)
 
 }
 func copyAndCapture(w io.Writer, r io.Reader) ([]byte, error) {

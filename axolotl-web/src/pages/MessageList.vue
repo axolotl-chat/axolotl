@@ -47,7 +47,7 @@
           </div>
         </div>
 
-        <div v-else >
+        <div v-else class="no-entries">
           No Messages aviable
         </div>
       </div>
@@ -93,9 +93,9 @@ export default {
       }
       // Any code to be executed when the window is scrolled
     },
-    humanifyDate(date){
+    humanifyDate(inputDate){
       var now = new Date();
-      var date = new Date(date);
+      var date = new Date(inputDate);
       var diff=(now-date)/1000;
       var seconds = diff;
       if(seconds<60)return "now";

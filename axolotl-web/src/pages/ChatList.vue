@@ -14,7 +14,7 @@
 				</div>
       </router-link>
     </div>
-    <div v-else >
+    <div v-else class="no-entries">
       No chats aviable
     </div>
     <!-- {{chats}} -->

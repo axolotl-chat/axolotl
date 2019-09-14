@@ -31,7 +31,7 @@ Window {
       top: parent.top
       left: parent.left
       right: parent.right
-      bottom: showKeyboard.top
+      bottom: parent.bottom
     }
       id: webView
       url: "http://localhost:9080/"

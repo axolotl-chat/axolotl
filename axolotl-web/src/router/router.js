@@ -37,6 +37,11 @@ export default new Router({
     name: "contacts",
     component:  () => import("@/pages/Contacts.vue")
   },
+  {
+    path: "/devices",
+    name: "contacts",
+    component:  () => import("@/pages/DeviceList.vue")
+  },
       { path: '/a', redirect: to => {
         const { hash, params, query } = to
          return "/ws"

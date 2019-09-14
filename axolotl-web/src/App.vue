@@ -93,4 +93,16 @@ export default {
 .btn:focus{
   box-shadow:none;
 }
+.btn{
+  border-radius:0px;
+}
+.btn-primary {
+  background-color: #2090ea;
+}
+.no-entries {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 </style>

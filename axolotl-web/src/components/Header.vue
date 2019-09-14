@@ -15,17 +15,13 @@
               <font-awesome-icon icon="ellipsis-v" />
             </button>
             <div v-if="showSettingsMenu" class="dropdown-menu" id="settings-dropdown" aria-labelledby="dropdownMenuButton">
-              <button class="dropdown-item" @click="linkDevice">
-                Link Device
-                </button>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
+              <router-link class="dropdown-item" :to="'/devices/'">
+                Linked devices
+              </router-link>
+              <button class="dropdown-item" href="#"></button>
+              <button class="dropdown-item" @click="unregister">Unregister</button>
             </div>
           </div>
-        </div>
-        <div v-else="route()=='chatList'">
-          <button class="btn" @click="openSettings">
-            <font-awesome-icon icon="ellipsis-v" /></button>
         </div>
       </div>
     </div>
@@ -49,16 +45,16 @@
       },
       back() {
         this.$router.go(-1)
-        that.$store.dispatch("clearMessageList");
+        this.showSettingsMenu =false;
+        this.$store.dispatch("clearMessageList");
       },
       toggleSettings() {
         this.showSettingsMenu = !this.showSettingsMenu;
       },
-      linkDevice() {
-        var result = window.prompt("desktopLink");
-        this.showSettingsMenu = false;
-        console.log("desktopSync", result, typeof result)
-      }
+      unregister(){
+        this.$store.dispatch("unregister");
+
+      },
     },
     mounted() {
       window.router = this.$router;
@@ -73,7 +69,11 @@
     width: 100%;
     background-color: #2090ea;
     top: 0px;
+    height:50px;
     z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .btn {
     color: #FFF;
@@ -89,6 +89,6 @@
     border-radius: 0px;
   }
   .back {
-    font-size: 30px;
+    font-size: 20px;
   }
 </style>

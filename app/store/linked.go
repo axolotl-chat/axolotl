@@ -2,8 +2,9 @@ package store
 
 import (
 	"log"
-
+	"strings"
 	"github.com/nanu-c/textsecure"
+	"errors"
 )
 
 type LinkedDevices struct {
@@ -31,7 +32,6 @@ func (c *LinkedDevices) RefreshDevices() error {
 	if err != nil {
 		return err
 	}
-
 	LinkedDevicesModel.LinkedDevices = d[:]
 	LinkedDevicesModel.Len = len(d)
 	//qml.Changed(LinkedDevicesModel, &LinkedDevicesModel.Len)
@@ -49,17 +49,42 @@ func (c *LinkedDevices) DeleteDevice() error {
 
 	LinkedDevicesModel.LinkedDevices = d[:]
 	LinkedDevicesModel.Len = len(d)
-	//qml.Changed(LinkedDevicesModel, &LinkedDevicesModel.Len)
 	return nil
 }
-func RefreshDevices() error {
+func RefreshDevices() (*LinkedDevices,error ) {
 	d, err := textsecure.LinkedDevices()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	LinkedDevicesModel.LinkedDevices = d[:]
 	LinkedDevicesModel.Len = len(d)
 	//qml.Changed(LinkedDevicesModel, &LinkedDevicesModel.Len)
+	return LinkedDevicesModel, nil
+}
+func AddDevice(url string) error{
+	uuid, pubKey, err := extractUuidPubKey(url)
+	if err != nil {
+		return err
+	}
+	textsecure.AddNewLinkedDevice(uuid, pubKey)
+	RefreshDevices()
 	return nil
+}	
+func extractUuidPubKey(qr string) (string, string, error) {
+	sUuid := strings.Index(qr, "=")
+	eUuid := strings.Index(qr, "&")
+	if sUuid > -1 {
+		uuid := qr[sUuid+1 : eUuid]
+		rest := qr[eUuid+1:]
+		sPub_key := strings.Index(rest, "=")
+		pub_key := rest[sPub_key+1:]
+		pub_key = strings.Replace(pub_key, "%2F", "/", -1)
+		pub_key = strings.Replace(pub_key, "%2B", "+", -1)
+		return uuid, pub_key, nil
+	} else {
+
+		log.Println("no uuid/pubkey found")
+		return "", "", errors.New("Wrong qr" + qr)
+	}
 }

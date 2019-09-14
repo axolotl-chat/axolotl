@@ -3,7 +3,6 @@ package webserver
 import (
 	"bufio"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -34,6 +33,9 @@ type ChatListEnvelope struct {
 }
 type ContactListEnvelope struct {
 	ContactList []textsecure.Contact
+}
+type DeviceListEnvelope struct {
+	DeviceList []textsecure.DeviceInfo
 }
 
 func Run() error {
@@ -97,9 +99,18 @@ type SendCodeMessage struct {
 	Type string `json:"request"`
 	Code string `json:"code"`
 }
-type AddDesktopSyncMessage struct {
+type AddDeviceMessage struct {
 	Type string `json:"request"`
 	Url  string `json:"url"`
+}
+type DelDeviceMessage struct {
+	Type string `json:"request"`
+	Id   int    `json:"id"`
+}
+type AddContactMessage struct {
+	Type  string `json:"request"`
+	Name  string `json:"name"`
+	Phone string `json:"phone"`
 }
 
 func sync() {
@@ -142,7 +153,10 @@ func wsReader(conn *websocket.Conn) {
 			go sendContactList(conn)
 		} else if incomingMessage.Type == "addContact" {
 			fmt.Printf("addContact")
-			contact.AddContact("Aaron", "+436706070770")
+			addContactMessage := AddContactMessage{}
+			json.Unmarshal([]byte(p), &addContactMessage)
+			log.Println(addContactMessage.Name)
+			contact.AddContact(addContactMessage.Name, addContactMessage.Phone)
 			go sendContactList(conn)
 		} else if incomingMessage.Type == "requestCode" {
 			if requestChannel != nil {
@@ -163,22 +177,25 @@ func wsReader(conn *websocket.Conn) {
 			} else {
 				sendRequest(conn, "getPhoneNumber")
 			}
-		} else if incomingMessage.Type == "addDesktopSync" {
-			addDesktopSyncMessage := AddDesktopSyncMessage{}
-			json.Unmarshal([]byte(p), &addDesktopSyncMessage)
-			if addDesktopSyncMessage.Url != "" {
-				if strings.Contains(addDesktopSyncMessage.Url, "tsdevice") {
+		} else if incomingMessage.Type == "addDevice" {
+			addDeviceMessage := AddDeviceMessage{}
+			json.Unmarshal([]byte(p), &addDeviceMessage)
+			fmt.Println(addDeviceMessage.Url)
+			if addDeviceMessage.Url != "" {
+				if strings.Contains(addDeviceMessage.Url, "tsdevice") {
 					fmt.Printf("found tsdevice")
-					uuid, pubKey, err := extractUuidPubKey(addDesktopSyncMessage.Url)
-					if err != nil {
-						fmt.Println(err)
-					}
-					textsecure.AddNewLinkedDevice(uuid, pubKey)
+					store.AddDevice(addDeviceMessage.Url)
 				}
 			}
-
+		} else if incomingMessage.Type == "delDevice" {
+			delDeviceMessage := DelDeviceMessage{}
+			json.Unmarshal([]byte(p), &delDeviceMessage)
+			log.Println(delDeviceMessage.Id)
+			textsecure.UnlinkDevice(delDeviceMessage.Id)
+			go sendDeviceList(conn)
+		} else if incomingMessage.Type == "getDevices" {
+			go sendDeviceList(conn)
 		}
-
 	}
 }
 func attachmentsHandler(w http.ResponseWriter, r *http.Request) {
@@ -258,6 +275,7 @@ func sendChatList(client *websocket.Conn) {
 }
 func sendContactList(client *websocket.Conn) {
 	var err error
+	store.RefreshContacts()
 	contactListEnvelope := &ContactListEnvelope{
 		ContactList: store.ContactsModel.Contacts,
 	}
@@ -272,6 +290,24 @@ func sendContactList(client *websocket.Conn) {
 		return
 	}
 }
+func sendDeviceList(client *websocket.Conn) {
+	var err error
+	devices, err := textsecure.LinkedDevices()
+	deviceListEnvelope := &DeviceListEnvelope{
+		DeviceList: devices,
+	}
+	message := &[]byte{}
+	*message, err = json.Marshal(deviceListEnvelope)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
+		log.Println(err)
+		return
+	}
+}
+
 func sendMessageList(client *websocket.Conn, id string) {
 	message := &[]byte{}
 	err, messageList := store.SessionsModel.GetMessageList(id)
@@ -368,21 +404,4 @@ func RequestInput(request string) string {
 	text := <-requestChannel
 	requestChannel = nil
 	return text
-}
-func extractUuidPubKey(qr string) (string, string, error) {
-	sUuid := strings.Index(qr, "=")
-	eUuid := strings.Index(qr, "&")
-	if sUuid > -1 {
-		uuid := qr[sUuid+1 : eUuid]
-		rest := qr[eUuid+1:]
-		sPub_key := strings.Index(rest, "=")
-		pub_key := rest[sPub_key+1:]
-		pub_key = strings.Replace(pub_key, "%2F", "/", -1)
-		pub_key = strings.Replace(pub_key, "%2B", "+", -1)
-		return uuid, pub_key, nil
-	} else {
-
-		log.Println("no uuid/pubkey found")
-		return "", "", errors.New("Wrong qr" + qr)
-	}
 }
