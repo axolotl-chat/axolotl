@@ -7,6 +7,7 @@ import (
 	_ "image/jpeg"
 	_ "image/png"
 	"io"
+	"os"
 	"sync"
 
 	log "github.com/sirupsen/logrus"
@@ -60,6 +61,7 @@ func runBackend() {
 func runUI() error {
 	defer wg.Done()
 	ui.RunUi(sys)
+	os.Exit(0)
 	return nil
 }
 func runWebserver() {

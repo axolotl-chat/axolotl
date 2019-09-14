@@ -57,7 +57,7 @@
 
           <textarea id="messageInput" class="col-9" type="textarea" v-model="messageInput" />
           <div class="col-3 text-center">
-            <button class="btn send" @click="sendMessage">send</button>
+            <button class="btn send" @click="sendMessage"><font-awesome-icon icon="paper-plane" /></button>
           </div>
         </div>
       </div>
@@ -158,6 +158,9 @@ export default {
     display: flex;
     align-items: center;
 }
+.message-text{
+  overflow-wrap: break-word;
+}
 .reply{
   text-align:left;
   margin-bottom:10px;
@@ -217,5 +220,9 @@ video,
 .send{
   background-color:#2090ea;
   color:#FFF;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
 }
 </style>

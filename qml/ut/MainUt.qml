@@ -118,4 +118,7 @@ Page {
       anchors.fill: parent
     }
   }
+  Component.onCompleted:{
+    webView.reloadAndBypassCache();
+  }
 }

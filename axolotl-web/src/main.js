@@ -10,9 +10,10 @@ import { faArrowLeft,
          faEllipsisV,
          faPencilAlt,
          faTrash,
+         faPaperPlane,
         faPlus} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-library.add(faArrowLeft, faEllipsisV, faPencilAlt, faPlus, faTrash)
+library.add(faArrowLeft, faEllipsisV, faPencilAlt, faPlus, faTrash, faPaperPlane,)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(VueChatScroll)

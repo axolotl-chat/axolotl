@@ -58,7 +58,7 @@ export default {
 .btn.add-contact {
   position: fixed;
   bottom: 16px;
-  right: 20%;
+  right: 10px;
   background-color: #2090ea;
   color: #FFF;
   border-radius: 50%;

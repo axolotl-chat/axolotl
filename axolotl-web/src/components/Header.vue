@@ -87,6 +87,7 @@
   #settings-dropdown{
     display: block!important;
     border-radius: 0px;
+    right: 5px;
   }
   .back {
     font-size: 20px;

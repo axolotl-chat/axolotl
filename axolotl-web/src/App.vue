@@ -90,6 +90,9 @@ export default {
 #app{
   padding-top:50px;
 }
+#app >.container{
+  position:relative;
+}
 .btn:focus{
   box-shadow:none;
 }
