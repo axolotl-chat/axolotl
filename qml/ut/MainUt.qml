@@ -14,25 +14,25 @@ UITK.Page {
   property QtObject requestTest
   property QtObject wsClient
   id: root
-  WebSocketServer {
-    id: server
-    listen: true
-    port: 12345
-
-    onClientConnected: {
-      console.log('BlobSaver: websocket server connected');
-      wsClient = webSocket
-      webSocket.onTextMessageReceived.connect(function(base64data) {
-        console.log('base64data');
-        var path = BlobSaver.write(base64data);
-        fileDownloaded(path);
-      });
-    }
-
-    onErrorStringChanged: {
-      console.log('BlobSaver: websocket server error', errorString);
-    }
-  }
+  // WebSocketServer {
+  //   id: server
+  //   listen: true
+  //   port: 12345
+  //
+  //   onClientConnected: {
+  //     console.log('BlobSaver: websocket server connected');
+  //     wsClient = webSocket
+  //     webSocket.onTextMessageReceived.connect(function(base64data) {
+  //       console.log('base64data');
+  //       var path = BlobSaver.write(base64data);
+  //       fileDownloaded(path);
+  //     });
+  //   }
+  //
+  //   onErrorStringChanged: {
+  //     console.log('BlobSaver: websocket server error', errorString);
+  //   }
+  // }
   WebEngineView {
     id: webView
     profile:webProfile

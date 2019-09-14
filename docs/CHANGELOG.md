@@ -1,3 +1,12 @@
+0.6.0 (Sept 14 2019) Axolotl-Alpha
+--------------------
+* remove go-qml bindings
+* new ux
+* display attachments inline
+* know bugs because of the complete rewrite of the client:
+** no group creation, no notification config, no content hub integration(no contact import, no saving)
+** no support of encrypted db
+
 0.4.5 (Aug 31 2019)
 --------------------
 * import a singel contact thats not in the contact Book

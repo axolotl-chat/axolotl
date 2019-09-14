@@ -2,7 +2,7 @@
 <template>
   <div class="chat">
     <div class="chatList-container">
-      <div id="messageList" class="chatList row" v-if="messages && messages.length>0" v-chat-scroll="{always: false, smooth: true}" v-on:scroll="handleScroll">
+      <div id="messageList" class="chatList row" v-if="messages && messages.length>0" v-chat-scroll="{always: false, smooth: true}" @scroll="handleScroll($event)">
 
           <div v-for="message in messages.slice().reverse()" :class="{'col-12':true, 'sent':message.Outgoing, 'reply':!message.Outgoing}" >
             <div class="row w-100">
@@ -88,8 +88,10 @@ export default {
       }
     },
     handleScroll (event) {
+      console.log(event)
 
-      if(event.target.scrollTop==0){
+      if(event.target.scrollTop<50){
+        console.log("load more messages")
         this.$store.dispatch("getMoreMessages");
       }
       // Any code to be executed when the window is scrolled
@@ -110,11 +112,7 @@ export default {
     back(){
       this.$router.go(-1)
     },scrollDown(){
-      if(!this.scrolled){
-        var objDiv = document.getElementById("messageList");
-        objDiv.scrollTop = objDiv.scrollHeight;
-        this.scrolled=true;
-      }
+      window.scrollTo(0,document.body.scrollHeight);
     }
 
   },
@@ -124,7 +122,15 @@ export default {
   mounted(){
     this.$store.dispatch("getMessageList", this.getId());
     setTimeout(this.scrollDown
-    , 500)
+    , 800)
+      document.addEventListener("scroll", (e) => {
+        var scrolled = document.scrollingElement.scrollTop;
+        console.log(scrolled)
+        if(scrolled==0){
+          console.log("load more messages")
+          this.$store.dispatch("getMoreMessages");
+        }
+      });
   },
   computed: {
     messages () {
@@ -140,7 +146,6 @@ export default {
   text-align: left;
 }
 .chatList{
-  height:calc(100vh - 200px);
   overflow: hidden auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -160,7 +165,7 @@ export default {
   scrollbar-width: none;
 }
 .chatList > div:last-child {
-    padding-bottom: 50px;
+    padding-bottom: 100px;
 }
 .avatar {
     justify-content: center;

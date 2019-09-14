@@ -45,47 +45,47 @@ export default {
     // "Your screen resolution is: " + screen.width + "x" + screen.height+"<br>"+navigator.userAgent;
     // const viewportmeta = document.querySelector('meta[name=viewport]');
     // viewportmeta.setAttribute('content', "initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0");
-    console.log('websocket: start injection');
-    var that = this;
-    function initWebSocket() {
-        window.blobsaverSocket = new WebSocket('ws://localhost:12345');
-
-        window.blobsaverSocket.onclose = function() {
-            console.error('BlobSaver: websocket closed');
-        };
-
-        window.blobsaverSocket.onerror = function(error) {
-            console.error('BlobSaver: websocket', error);
-        };
-
-        window.blobsaverSocket.onopen = function() {
-            console.log('BlobSaver: websocket opened');
-        };
-        window.blobsaverSocket.onmessage = function (event) {
-            console.log(event.data);
-            that.$store.dispatch("addDesktopSync",event.data);
-          }
-    }
-
-    window.addEventListener('load', initWebSocket, false);
-
-    window.URL.createObjectURL = function(obj) {
-        // TODO check if the obj is a blob
-
-        console.log('BlobSaver: createObjectURL interceptor');
-
-        var reader = new FileReader();
-        reader.readAsDataURL(obj);
-        reader.onloadend = function() {
-            console.log('BlobSaver: createObjectURL sending message');
-            window.blobsaverSocket.send({type:file,
-                                         data:reader.result});
-        };
-
-        throw 'stop'; // Throw an error here to stop execution (continuing execution would likely result in an error from the download manager)
-    };
-
-    console.log('websocket: end injection');
+    // console.log('websocket: start injection');
+    // var that = this;
+    // function initWebSocket() {
+    //     window.blobsaverSocket = new WebSocket('ws://localhost:12345');
+    //
+    //     window.blobsaverSocket.onclose = function() {
+    //         console.error('BlobSaver: websocket closed');
+    //     };
+    //
+    //     window.blobsaverSocket.onerror = function(error) {
+    //         console.error('BlobSaver: websocket', error);
+    //     };
+    //
+    //     window.blobsaverSocket.onopen = function() {
+    //         console.log('BlobSaver: websocket opened');
+    //     };
+    //     window.blobsaverSocket.onmessage = function (event) {
+    //         console.log(event.data);
+    //         that.$store.dispatch("addDesktopSync",event.data);
+    //       }
+    // }
+    //
+    // window.addEventListener('load', initWebSocket, false);
+    //
+    // window.URL.createObjectURL = function(obj) {
+    //     // TODO check if the obj is a blob
+    //
+    //     console.log('BlobSaver: createObjectURL interceptor');
+    //
+    //     var reader = new FileReader();
+    //     reader.readAsDataURL(obj);
+    //     reader.onloadend = function() {
+    //         console.log('BlobSaver: createObjectURL sending message');
+    //         window.blobsaverSocket.send({type:file,
+    //                                      data:reader.result});
+    //     };
+    //
+    //     throw 'stop'; // Throw an error here to stop execution (continuing execution would likely result in an error from the download manager)
+    // };
+    //
+    // console.log('websocket: end injection');
   },
   computed: {
     error () {

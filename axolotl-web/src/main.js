@@ -21,7 +21,7 @@ Vue.use(BootstrapVue)
 Vue.config.productionTip = false
 var websocketAdress = "ws://[::1]:9080/ws";
 if(process.env.NODE_ENV=="development")
-  websocketAdress =  'ws://localhost:9080/ws';
+  websocketAdress =  'ws://10.0.10.196:9080/ws';
 Vue.use(VueNativeSock, websocketAdress,
   { store: store,
     // format: 'json',
