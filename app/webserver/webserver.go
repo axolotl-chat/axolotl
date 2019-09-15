@@ -113,6 +113,10 @@ type AddContactMessage struct {
 	Name  string `json:"name"`
 	Phone string `json:"phone"`
 }
+type RefreshContactsMessage struct {
+	Type string `json:"request"`
+	Url  string `json:"url"`
+}
 
 func sync() {
 	for {
@@ -200,6 +204,12 @@ func wsReader(conn *websocket.Conn) {
 			go sendDeviceList(conn)
 		} else if incomingMessage.Type == "unregister" {
 			config.Unregister()
+		} else if incomingMessage.Type == "refreshContacts" {
+			refreshContactsMessage := RefreshContactsMessage{}
+			json.Unmarshal([]byte(p), &refreshContactsMessage)
+			config.VcardPath = refreshContactsMessage.Url
+			contact.GetAddressBookContactsFromContentHub()
+			go sendContactList(conn)
 		}
 	}
 }

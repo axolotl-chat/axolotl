@@ -1,3 +1,7 @@
+0.6.1 (Sept 14 2019) Axolotl-Alpha
+--------------------
+* Import contacts from content hub
+
 0.6.0 (Sept 14 2019) Axolotl-Alpha
 --------------------
 * remove go-qml bindings

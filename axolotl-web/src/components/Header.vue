@@ -9,7 +9,26 @@
         </div>
         <div v-else-if="route()=='register' ">
           <div class="header-text">Connect with Signal</div>
-
+        </div>
+        <div v-else-if="route()=='contacts' " class="row w-100">
+          <div class="col-2">
+            <button class="back btn" @click="back()">
+              <font-awesome-icon icon="arrow-left" />
+            </button>
+          </div>
+          <div class="col-10 text-right">
+            <div class="dropdown">
+              <button class="btn"
+                      type="button"
+                      @click="toggleSettings"
+                      id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <font-awesome-icon icon="ellipsis-v" />
+              </button>
+              <div v-if="showSettingsMenu" class="dropdown-menu" id="settings-dropdown" aria-labelledby="dropdownMenuButton">
+                <button class="dropdown-item" @click="refreshContacts">Refresh</button>
+              </div>
+            </div>
+          </div>
         </div>
         <div v-else-if="route()!='chatList' && route()!='register' ">
           <button class="back btn" @click="back()">
@@ -27,7 +46,6 @@
               <router-link class="dropdown-item" :to="'/devices/'">
                 Linked devices
               </router-link>
-              <button class="dropdown-item" href="#"></button>
               <button class="dropdown-item" @click="unregister">Unregister</button>
             </div>
           </div>
@@ -62,8 +80,13 @@
       },
       unregister(){
         this.$store.dispatch("unregister");
-
       },
+      refreshContacts(){
+        var result = window.prompt("refreshContacts");
+        this.showSettingsMenu = false;
+        console.log(result);
+        this.$store.dispatch("refreshContacts", result);
+      }
     },
     computed: {
       messageList() {

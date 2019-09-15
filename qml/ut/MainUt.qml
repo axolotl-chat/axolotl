@@ -6,13 +6,19 @@ import Ubuntu.Components.Popups 1.3 as UITK_Popups
 import QtWebSockets 1.0
 import QtMultimedia 5.8
 import QtQuick.Controls.Suru 2.2
+import Ubuntu.Content 1.3
 
 import 'components'
 
 
 UITK.Page {
-  property QtObject requestTest
+  property QtObject requestContent
   property QtObject wsClient
+  property var handler
+  property var contentType
+  property var activeTransfer
+  property var selectionType
+  property var requestContentHub : false
   id: root
   // WebSocketServer {
   //   id: server
@@ -51,14 +57,51 @@ UITK.Page {
     }
     onJavaScriptDialogRequested: function(request) {
       request.accepted = true;
-      desktopLinkDialog.request = request; // keep the reference to the request
-      desktopLinkDialog.visible = true;
-      request.dialogAccept(desktopId.text)
-      requestTest = request;
+      console.log(request.message)
+      if(request.message =="desktopLink"){
+        desktopLinkDialog.request = request; // keep the reference to the request
+        desktopLinkDialog.visible = true;
+        request.dialogAccept(desktopId.text)
+      } else if(request.message =="refreshContacts"){
+        root.requestContent = request
+        root.requestContentHub = true
+        root.contentType = ContentType.Contacts
+        root.handler = ContentHandler.Source
+        root.selectionType = ContentTransfer.Multiple
+      }
+
     }
   }
   WebEngineProfile{
     id:webProfile
+  }
+  ContentPeerPicker {
+    id: peerPicker
+    anchors { fill: parent;}
+    visible: root.requestContentHub
+    showTitle: false
+    contentType: root.contentType //ContentType.Pictures
+    handler: root.handler //ContentHandler.Source
+    // selectionType: root.selectionType
+
+    onPeerSelected: {
+        peer.selectionType = root.selectionType
+        root.activeTransfer = peer.request()
+    }
+    onCancelPressed: {
+        requestContentHub=false
+    }
+}
+
+  Connections {
+      target: root.activeTransfer
+      onStateChanged: {
+          if (root.activeTransfer.state === ContentTransfer.Charged)
+              requestContentHub=false
+              if (root.activeTransfer.items.length > 0) {
+                requestContent.dialogAccept(root.activeTransfer.items[0].url);
+              }
+      }
   }
 UITK_Popups.Dialog {
     id: desktopLinkDialog

@@ -25,7 +25,9 @@ export default new Vuex.Store({
   mutations: {
 
     SET_ERROR(state, error){
-          state.error = error;
+      if(!error){
+        state.error = error;
+      }
     },
         SET_CHATLIST(state, chatList){
               state.chatList = chatList;
@@ -232,6 +234,15 @@ export default new Vuex.Store({
           "request":"addContact",
           "name": contact.name,
           "phone": contact.phone,
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
+      }
+    },
+    refreshContacts:function(context, chUrl){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"refreshContacts",
+          "url": chUrl
         }
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
