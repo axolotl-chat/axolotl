@@ -5,14 +5,15 @@
       <router-link :to="'/chat/'+chat.Tel" v-for="chat in chats" class="col-12 chat">
         <div class="row chat-entry">
           <div class="avatar col-3">
-            <div class="badge-name">{{chat.Name[0]}}</div>
+            <div v-if="chat.IsGroup" class="badge-name"><font-awesome-icon icon="user-friends" /></div>
+            <div v-else class="badge-name">{{chat.Name[0]}}</div>
           </div>
   				<div class="meta col-9 row">
             <div class="col-9">
   					       <p class="name">{{chat.Name}}</p>
             </div>
             <div class="col-3">
-                <p class="time">{{humanifyDate(chat.Messages[chat.Messages.length-1].SentAt)}}</p>
+                <p v-if="chat.Messages" class="time">{{humanifyDate(chat.Messages[chat.Messages.length-1].SentAt)}}</p>
             </div>
             <div class="col-12">
               <p class="preview" v-if="chat.Messages">{{chat.Messages[chat.Messages.length-1].Message}}</p>

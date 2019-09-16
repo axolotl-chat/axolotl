@@ -86,11 +86,13 @@ export default {
         this.$store.dispatch("sendMessage", {to:this.chatId, message:this.messageInput});
         this.messageInput=""
       }
+      this.scrollDown()
     },
     handleScroll (event) {
       console.log(event)
 
-      if(event.target.scrollTop<50){
+      if(event.target.scrollTop<50&& this.$store.state.messageList.Messages.length>20){
+
         console.log("load more messages")
         this.$store.dispatch("getMoreMessages");
       }
@@ -125,7 +127,6 @@ export default {
     , 800)
       document.addEventListener("scroll", (e) => {
         var scrolled = document.scrollingElement.scrollTop;
-        console.log(scrolled)
         if(scrolled==0){
           console.log("load more messages")
           this.$store.dispatch("getMoreMessages");

@@ -7,6 +7,7 @@
         </div>
         <div class="meta col-9">
           <p class="name">{{contact.Name}}</p>
+          <p class="number">{{contact.Tel}}</p>
         </div>
       </div>
     </router-link>
@@ -68,5 +69,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.number{
+  font-size:14px;
 }
 </style>

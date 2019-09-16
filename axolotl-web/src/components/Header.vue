@@ -1,14 +1,20 @@
 <template>
   <div :class="route()+' header '">
-    <div class="container">
+    <div class="container" >
+      <div class="overlay" v-if="showSettingsMenu" @click="showSettingsMenu=false"/>
       <div class="header-row row">
         <div v-if="route()=='chat'" class="message-list-container">
-          <button class="back btn" @click="back()">
-            <font-awesome-icon icon="arrow-left" /></button>
+          <router-link class="btn" :to="'/chatList'">
+            <font-awesome-icon icon="arrow-left" />
+          </router-link>
             <div v-if="messageList.Session" class="header-text">{{messageList.Session.Name}}</div>
         </div>
         <div v-else-if="route()=='register' ">
           <div class="header-text">Connect with Signal</div>
+        </div>
+        <div v-else-if="route()=='devices' " >
+          <button class="back btn" @click="back()">
+            <font-awesome-icon icon="arrow-left" /></button>
         </div>
         <div v-else-if="route()=='contacts' " class="row w-100">
           <div class="col-2">
@@ -25,14 +31,10 @@
                 <font-awesome-icon icon="ellipsis-v" />
               </button>
               <div v-if="showSettingsMenu" class="dropdown-menu" id="settings-dropdown" aria-labelledby="dropdownMenuButton">
-                <button class="dropdown-item" @click="refreshContacts">Refresh</button>
+                <button class="dropdown-item" @click="refreshContacts">Add Contacts</button>
               </div>
             </div>
           </div>
-        </div>
-        <div v-else-if="route()!='chatList' && route()!='register' ">
-          <button class="back btn" @click="back()">
-            <font-awesome-icon icon="arrow-left" /></button>
         </div>
         <div v-else-if="route()=='chatList'" class="settings-container">
           <div class="dropdown">
@@ -43,12 +45,16 @@
               <font-awesome-icon icon="ellipsis-v" />
             </button>
             <div v-if="showSettingsMenu" class="dropdown-menu" id="settings-dropdown" aria-labelledby="dropdownMenuButton">
-              <router-link class="dropdown-item" :to="'/devices/'">
+              <router-link class="dropdown-item" :to="'/devices/'" @click="showSettingsMenu=false">
                 Linked devices
               </router-link>
               <button class="dropdown-item" @click="unregister">Unregister</button>
             </div>
           </div>
+        </div>
+        <div v-else>
+          <button class="back btn" @click="back()">
+            <font-awesome-icon icon="arrow-left" /></button>
         </div>
       </div>
     </div>
@@ -79,6 +85,7 @@
         this.showSettingsMenu = !this.showSettingsMenu;
       },
       unregister(){
+        this.showSettingsMenu = false;
         this.$store.dispatch("unregister");
       },
       refreshContacts(){
@@ -91,16 +98,27 @@
     computed: {
       messageList() {
         return this.$store.state.messageList
-      }
+      },
+
     },
     mounted() {
       window.router = this.$router;
       console.info('App this router:', this.$router)
+    },
+    watch:{
+    $route (to, from){
+        this.showSettingsMenu = false;
     }
+}
   }
 </script>
 
 <style scoped>
+  .overlay{
+    position: fixed;
+    width:100vh;
+    height:100vh;
+  }
   .header {
     position: fixed;
     width: 100%;

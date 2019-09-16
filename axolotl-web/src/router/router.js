@@ -39,7 +39,7 @@ export default new Router({
   },
   {
     path: "/devices",
-    name: "contacts",
+    name: "devices",
     component:  () => import("@/pages/DeviceList.vue")
   },
       { path: '/a', redirect: to => {

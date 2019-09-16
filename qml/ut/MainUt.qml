@@ -12,7 +12,7 @@ import 'components'
 
 
 UITK.Page {
-  property QtObject requestContent
+  property QtObject request
   property QtObject wsClient
   property var handler
   property var contentType
@@ -61,9 +61,9 @@ UITK.Page {
       if(request.message =="desktopLink"){
         desktopLinkDialog.request = request; // keep the reference to the request
         desktopLinkDialog.visible = true;
-        request.dialogAccept(desktopId.text)
+        root.request = request;
       } else if(request.message =="refreshContacts"){
-        root.requestContent = request
+        root.request = request
         root.requestContentHub = true
         root.contentType = ContentType.Contacts
         root.handler = ContentHandler.Source
@@ -99,7 +99,7 @@ UITK.Page {
           if (root.activeTransfer.state === ContentTransfer.Charged)
               requestContentHub=false
               if (root.activeTransfer.items.length > 0) {
-                requestContent.dialogAccept(root.activeTransfer.items[0].url);
+                request.dialogAccept(root.activeTransfer.items[0].url);
               }
       }
   }
@@ -133,8 +133,6 @@ UITK_Popups.Dialog {
     UITK.Button {
       text: "cancel"
       onClicked: {
-        console.log(requestTest)
-        requestTest.dialogReject()
         UITK_Popups.PopupUtils.close(desktopLinkDialog)
       }
     }
@@ -142,8 +140,7 @@ UITK_Popups.Dialog {
       text: "Add"
       color: UITK.UbuntuColors.green
       onClicked: {
-        wsClient.sendTextMessage(desktopId.text)
-        requestTest.dialogAccept()
+        request.dialogAccept(desktopId.text)
         UITK_Popups.PopupUtils.close(desktopLinkDialog)
       }
     }
