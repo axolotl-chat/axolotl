@@ -1,3 +1,7 @@
+0.6.2 (Sept 14 2019) Axolotl-Alpha
+--------------------
+* More stable ux, dialogs/menu closing, show phone numbers in contact list
+
 0.6.1 (Sept 14 2019) Axolotl-Alpha
 --------------------
 * Import contacts from content hub
