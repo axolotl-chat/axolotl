@@ -190,6 +190,7 @@ export default new Vuex.Store({
     },
     getMoreMessages:function(){
       if(this.state.socket.isConnected && typeof this.state.messageList.Messages !="undefined"
+        && this.state.messageList.Messages !=null
         &&this.state.messageList.Messages.length>20 && this.state.messageList.Messages.slice(-1)[0].ID>1){
         var message = {
           "request":"getMoreMessages",

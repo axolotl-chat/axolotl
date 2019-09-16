@@ -91,9 +91,10 @@ export default {
     handleScroll (event) {
       console.log(event)
 
-      if(event.target.scrollTop<50&& this.$store.state.messageList.Messages.length>20){
-
-        console.log("load more messages")
+      if(event.target.scrollTop<50
+        && this.$store.state.messageList.Messages!=null
+        &&this.$store.state.messageList.Messages.length>20){
+        // console.log("load more messages")
         this.$store.dispatch("getMoreMessages");
       }
       // Any code to be executed when the window is scrolled

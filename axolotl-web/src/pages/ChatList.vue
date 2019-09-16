@@ -13,10 +13,10 @@
   					       <p class="name">{{chat.Name}}</p>
             </div>
             <div class="col-3">
-                <p v-if="chat.Messages" class="time">{{humanifyDate(chat.Messages[chat.Messages.length-1].SentAt)}}</p>
+                <p v-if="chat.Messages&&chat.Messages!=null" class="time">{{humanifyDate(chat.Messages[chat.Messages.length-1].SentAt)}}</p>
             </div>
             <div class="col-12">
-              <p class="preview" v-if="chat.Messages">{{chat.Messages[chat.Messages.length-1].Message}}</p>
+              <p class="preview" v-if="chat.Messages&&chat.Messages!=null">{{chat.Messages[chat.Messages.length-1].Message}}</p>
             </div>
           </div>
 				</div>
