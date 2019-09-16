@@ -53,8 +53,8 @@
           </div>
         </div>
         <div v-else>
-          <button class="back btn" @click="back()">
-            <font-awesome-icon icon="arrow-left" /></button>
+          <!-- <button class="back btn" @click="back()">
+            <font-awesome-icon icon="arrow-left" /></button> -->
         </div>
       </div>
     </div>
