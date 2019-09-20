@@ -5,6 +5,7 @@ import (
 	"io"
 	"os"
 	"os/exec"
+	"os/signal"
 	"sync"
 
 	"github.com/nanu-c/textsecure"
@@ -13,6 +14,7 @@ import (
 	"github.com/nanu-c/textsecure-qml/app/store"
 	"github.com/nanu-c/textsecure-qml/app/webserver"
 	log "github.com/sirupsen/logrus"
+	"github.com/zserge/lorca"
 )
 
 // var Win *qml.Window
@@ -69,6 +71,34 @@ func InitModels() {
 }
 func RunUi(sys string) {
 	// cmd := exec.Command("webapp-container", "http://[::1]:8080/")
+	if sys == "ut" || sys == "me" {
+		runUIUbuntuTouch(sys)
+	} else {
+		fmt.Println("start lorca")
+		ui, err := lorca.New("", "", 480, 720)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer ui.Close()
+
+		// A simple way to know when UI is ready (uses body.onload event in JS)
+		ui.Bind("start", func() {
+			log.Println("UI is ready")
+		})
+		ui.Load(fmt.Sprintf("http://localhost:9080"))
+
+		// Wait until the interrupt signal arrives or browser window is closed
+		sigc := make(chan os.Signal)
+		signal.Notify(sigc, os.Interrupt)
+		select {
+		case <-sigc:
+		case <-ui.Done():
+		}
+
+		log.Println("exiting...")
+	}
+}
+func runUIUbuntuTouch(sys string) {
 	var cmd *exec.Cmd
 	log.Infof("Axolotl-gui starting for sys: %v", sys)
 
@@ -113,7 +143,6 @@ func RunUi(sys string) {
 	outStr, errStr := string(stdout), string(stderr)
 	log.Infof("\nout:\n%s\nerr:\n%s\n", outStr, errStr)
 	log.Infof("Axolotl-gui finished with error: %v", err)
-
 }
 func copyAndCapture(w io.Writer, r io.Reader) ([]byte, error) {
 	var out []byte
