@@ -1,16 +1,10 @@
 package worker
 
-// #cgo darwin pkg-config: zbar
-// #cgo LDFLAGS: -lzbar
-// #include <zbar.h>
-import "C"
 import (
 	"errors"
 	"image"
 	"strings"
-	"time"
 
-	"github.com/clsung/grcode"
 	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/store"
 	log "github.com/sirupsen/logrus"
@@ -30,34 +24,34 @@ func interpretQR(img image.Image) {
 	// 		log.Println("Qr Reader:", r)
 	// 	}
 	// }()
-	results := []string{}
-	scanner := grcode.NewScanner()
-	defer scanner.Close()
-	scanner.SetConfig(0, C.ZBAR_CFG_ENABLE, 1)
-	zImg := grcode.NewZbarImage(img)
-	defer zImg.Close()
-	scanner.Scan(zImg)
-	symbol := zImg.GetSymbol()
-	for ; symbol != nil; symbol = symbol.Next() {
-		results = append(results, symbol.Data())
-	}
-	if len(results) > 0 {
-		if strings.Contains(results[0], "tsdevice") {
-			log.Debugln("found tsdevice")
-			uuid, pub_key, err := extractUuidPubKey(results[0])
-			if err != nil {
-				log.Fatal(err)
-			}
-			qr = true
-			pub_key = pub_key
-			textsecure.AddNewLinkedDevice(uuid, pub_key)
-			timer := time.NewTimer(10 * time.Second)
-			go func() {
-				<-timer.C
-				qr = false
-			}()
-		}
-	}
+	// results := []string{}
+	// scanner := grcode.NewScanner()
+	// defer scanner.Close()
+	// scanner.SetConfig(0, C.ZBAR_CFG_ENABLE, 1)
+	// zImg := grcode.NewZbarImage(img)
+	// defer zImg.Close()
+	// scanner.Scan(zImg)
+	// symbol := zImg.GetSymbol()
+	// for ; symbol != nil; symbol = symbol.Next() {
+	// 	results = append(results, symbol.Data())
+	// }
+	// if len(results) > 0 {
+	// 	if strings.Contains(results[0], "tsdevice") {
+	// 		log.Debugln("found tsdevice")
+	// 		uuid, pub_key, err := extractUuidPubKey(results[0])
+	// 		if err != nil {
+	// 			log.Fatal(err)
+	// 		}
+	// 		qr = true
+	// 		pub_key = pub_key
+	// 		textsecure.AddNewLinkedDevice(uuid, pub_key)
+	// 		timer := time.NewTimer(10 * time.Second)
+	// 		go func() {
+	// 			<-timer.C
+	// 			qr = false
+	// 		}()
+	// 	}
+	// }
 
 	// log.Println(results)
 	// return result
