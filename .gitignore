@@ -6,3 +6,4 @@ gopath/*
 .clickable/*
 *po~
 *~~
+*.snap

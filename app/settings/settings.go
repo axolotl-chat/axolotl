@@ -3,9 +3,9 @@ package settings
 import (
 	"io/ioutil"
 
-	log "github.com/sirupsen/logrus"
+	yaml "github.com/go-yaml/yaml"
 	"github.com/nanu-c/textsecure-qml/app/config"
-	yaml "gopkg.in/yaml.v2"
+	log "github.com/sirupsen/logrus"
 )
 
 // Model for application settings
