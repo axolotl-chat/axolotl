@@ -117,6 +117,10 @@ type RefreshContactsMessage struct {
 	Type string `json:"request"`
 	Url  string `json:"url"`
 }
+type UploadVcf struct {
+	Type string `json:"request"`
+	Vcf  string `json:"vcf"`
+}
 
 func sync() {
 	for {
@@ -208,6 +212,29 @@ func wsReader(conn *websocket.Conn) {
 			refreshContactsMessage := RefreshContactsMessage{}
 			json.Unmarshal([]byte(p), &refreshContactsMessage)
 			config.VcardPath = refreshContactsMessage.Url
+			contact.GetAddressBookContactsFromContentHub()
+			go sendContactList(conn)
+		} else if incomingMessage.Type == "uploadVcf" {
+			uploadVcf := UploadVcf{}
+			json.Unmarshal([]byte(p), &uploadVcf)
+			f, err := os.Create("import.vcf")
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			l, err := f.WriteString(uploadVcf.Vcf)
+			if err != nil {
+				fmt.Println(err)
+				f.Close()
+				return
+			}
+			fmt.Println(l, "bytes written successfully")
+			err = f.Close()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			config.VcardPath = "import.vcf"
 			contact.GetAddressBookContactsFromContentHub()
 			go sendContactList(conn)
 		}

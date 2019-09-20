@@ -55,6 +55,10 @@ UITK.Page {
       var msg = "[Axolotl Web View] [JS] (%1:%2) %3".arg(sourceID).arg(lineNumber).arg(message)
       console.log(msg)
     }
+    Component.onCompleted: {
+      webView.runJavaScript('ut = "ut"');
+      webView.runJavaScript('console.log(ut)');
+    }
     onJavaScriptDialogRequested: function(request) {
       request.accepted = true;
       console.log(request.message)

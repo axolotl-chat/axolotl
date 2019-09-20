@@ -32,11 +32,12 @@
               </button>
               <div v-if="showSettingsMenu" class="dropdown-menu" id="settings-dropdown" aria-labelledby="dropdownMenuButton">
                 <button class="dropdown-item" @click="refreshContacts">Add Contacts</button>
+                <input id="addVcf" type="file" @change="readVcf" style="position: fixed; top: -100em">
               </div>
             </div>
           </div>
         </div>
-        <div v-else-if="route()=='chatList'" class="settings-container">
+        <div v-else-if="route()=='chatList'" class="settings-container row col-12">
           <div class="dropdown">
             <button class="btn"
                     type="button"
@@ -89,10 +90,28 @@
         this.$store.dispatch("unregister");
       },
       refreshContacts(){
-        var result = window.prompt("refreshContacts");
-        this.showSettingsMenu = false;
-        console.log(result);
-        this.$store.dispatch("refreshContacts", result);
+        if(typeof ut !="undefined"){
+          var result = window.prompt("refreshContacts");
+          console.log(result);
+          this.$store.dispatch("refreshContacts", result);
+        } else {
+          this.showSettingsMenu = false;
+          document.getElementById("addVcf").click()
+        }
+      },
+      readVcf(evt) {
+          var f = evt.target.files[0];
+          if (f) {
+            var r = new FileReader();
+            var that = this;
+            r.onload = function(e) {
+                var vcf = e.target.result;
+                that.$store.dispatch("uploadVcf", vcf);
+            }
+            r.readAsText(f)
+          } else {
+            alert("Failed to load file");
+          }
       }
     },
     computed: {
@@ -128,6 +147,11 @@
     z-index: 2;
     display: flex;
     justify-content: center;
+    align-items: center;
+  }
+  .header .text-right{
+    justify-content: flex-end;
+    display: flex;
     align-items: center;
   }
   .btn {

@@ -240,6 +240,15 @@ export default new Vuex.Store({
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
+    uploadVcf(context, vcf) {
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"uploadVcf",
+          "vcf": vcf
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
+      }
+    },
     refreshContacts:function(context, chUrl){
       if(this.state.socket.isConnected){
         var message = {

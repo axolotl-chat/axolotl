@@ -7,3 +7,4 @@ gopath/*
 *po~
 *~~
 *.snap
+*.vcf

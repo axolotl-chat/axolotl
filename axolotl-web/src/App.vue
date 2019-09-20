@@ -97,10 +97,10 @@ export default {
 </script>
 <style>
 #app{
-  padding-top:50px;
   font-family:"ubuntu"
 }
 #app >.container{
+  padding-top: 50px;
   position:relative;
 }
 .btn:focus{
