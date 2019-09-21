@@ -178,6 +178,16 @@ export default new Vuex.Store({
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
+    delChat:function(state,id){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"delChat",
+          "id":id,
+        }
+        console.log(message);
+        Vue.prototype.$socket.send(JSON.stringify(message))
+      }
+    },
     getMessageList:function(context, chatId){
       this.commit("CLEAR_MESSAGELIST");
       if(this.state.socket.isConnected){

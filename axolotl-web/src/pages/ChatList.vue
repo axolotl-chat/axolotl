@@ -2,25 +2,34 @@
 <template>
   <div class="chatList">
     <div v-if="chats.length>0" class="row">
-      <router-link :to="'/chat/'+chat.Tel" v-for="chat in chats" class="col-12 chat">
+      <button id="chat.id"  v-for="chat in chats" class="btn col-12 chat"
+      v-longclick="editChat"
+      @click="enterChat('/chat/'+chat.Tel)"
+          >
         <div class="row chat-entry">
-          <div class="avatar col-3">
+          <div v-if="!editActive" class="avatar col-3">
             <div v-if="chat.IsGroup" class="badge-name"><font-awesome-icon icon="user-friends" /></div>
             <div v-else class="badge-name">{{chat.Name[0]}}</div>
+          </div>
+          <div v-else class="col-3 avatar" @click="editDeactivate">
+            <font-awesome-icon icon="times"  />
           </div>
   				<div class="meta col-9 row">
             <div class="col-9">
   					       <p class="name">{{chat.Name}}</p>
             </div>
-            <div class="col-3">
+            <div v-if="!editActive" class="col-3">
                 <p v-if="chat.Messages&&chat.Messages!=null" class="time">{{humanifyDate(chat.Messages[chat.Messages.length-1].SentAt)}}</p>
             </div>
-            <div class="col-12">
+            <div v-else class="col-3">
+              <font-awesome-icon icon="trash"  @click="delChat($event, chat)"/>
+            </div>
+            <div v-if="!editActive" class="col-12">
               <p class="preview" v-if="chat.Messages&&chat.Messages!=null">{{chat.Messages[chat.Messages.length-1].Message}}</p>
             </div>
           </div>
 				</div>
-      </router-link>
+      </button>
     </div>
     <div v-else class="no-entries">
       No chats aviable
@@ -43,6 +52,11 @@ export default {
     // this.$store.dispatch('addResponses', "1");
     // Vue.prototype.$store.dispatch("getChatList")
   },
+  data() {
+    return {
+      editActive: false
+    }
+  },
   methods:{
     humanifyDate(inputDate){
       var now = new Date();
@@ -56,6 +70,29 @@ export default {
       if(hours<24)return Math.floor(hours)+" H";
       return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
     },
+    editChat(e){
+      this.editActive=true;
+      // this.preventDefault()
+    },
+    editDeactivate(e){
+      this.editActive=false;
+      e.preventDefault();
+      e.stopPropagation();
+    },
+    delChat(e, chat){
+      console.log(chat.ID)
+
+      this.editActive=false;
+      e.preventDefault();
+      e.stopPropagation();
+      this.$store.dispatch("delChat", chat.Tel);
+    },
+    enterChat(e){
+      if(!this.editActive){
+        router.push (e)
+      }
+
+    }
   },
   computed: {
     chats () {

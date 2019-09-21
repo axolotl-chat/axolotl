@@ -121,6 +121,10 @@ type UploadVcf struct {
 	Type string `json:"request"`
 	Vcf  string `json:"vcf"`
 }
+type DelChatMessage struct {
+	Type string `json:"request"`
+	ID   string `json:"id"`
+}
 
 func sync() {
 	for {
@@ -237,6 +241,11 @@ func wsReader(conn *websocket.Conn) {
 			config.VcardPath = "import.vcf"
 			contact.GetAddressBookContactsFromContentHub()
 			go sendContactList(conn)
+		} else if incomingMessage.Type == "delChat" {
+			delChatMessage := DelChatMessage{}
+			json.Unmarshal([]byte(p), &delChatMessage)
+			store.DeleteSession(delChatMessage.ID)
+			sendChatList(conn)
 		}
 	}
 }
