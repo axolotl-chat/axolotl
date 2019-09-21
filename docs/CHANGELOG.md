@@ -1,3 +1,11 @@
+0.6.3 (Sept 14 2019) Axolotl-Alpha
+--------------------
+* remove chats,
+* crossplattform webview,
+* contacts import on non ut devices,
+* snaps are building (but not running)
+* remove zbar dependencies
+
 0.6.2 (Sept 14 2019) Axolotl-Alpha
 --------------------
 * More stable ux, dialogs/menu closing, show phone numbers in contact list
