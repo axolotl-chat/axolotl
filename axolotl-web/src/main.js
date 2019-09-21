@@ -21,7 +21,7 @@ library.add(faArrowLeft, faEllipsisV, faPencilAlt, faPlus, faTrash, faPaperPlane
 
 import { longClickDirective } from 'vue-long-click'
 
-const longClickInstance = longClickDirective({delay: 600, interval: 0})
+const longClickInstance = longClickDirective({delay: 800, interval: 0})
 Vue.directive('longclick', longClickInstance)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(VueChatScroll)

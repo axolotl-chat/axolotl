@@ -75,7 +75,7 @@ func RunUi(sys string) {
 		runUIUbuntuTouch(sys)
 	} else {
 		fmt.Println("start lorca")
-		ui, err := lorca.New("", "", 480, 720)
+		ui, err := lorca.New("", "", 480, 720, "--hide-scrollbars")
 		if err != nil {
 			log.Fatal(err)
 		}

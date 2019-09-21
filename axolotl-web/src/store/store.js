@@ -184,7 +184,6 @@ export default new Vuex.Store({
           "request":"delChat",
           "id":id,
         }
-        console.log(message);
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },

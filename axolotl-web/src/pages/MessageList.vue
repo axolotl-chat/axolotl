@@ -55,7 +55,8 @@
       <div class="container">
         <div class="row">
 
-          <textarea id="messageInput" class="col-9" type="textarea" v-model="messageInput" />
+          <textarea id="messageInput" class="col-9" type="textarea" v-model="messageInput"
+          onkeyup="if(this.scrollWidth > this.clientWidth)this.style.width=this.scrollWidth+'px';"/>
           <div class="col-3 text-right">
             <button class="btn send" @click="sendMessage"><font-awesome-icon icon="paper-plane" /></button>
           </div>

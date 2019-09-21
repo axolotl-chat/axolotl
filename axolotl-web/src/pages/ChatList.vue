@@ -3,7 +3,6 @@
   <div class="chatList">
     <div v-if="chats.length>0" class="row">
       <button id="chat.id"  v-for="chat in chats" class="btn col-12 chat"
-      v-longclick="editChat"
       @click="enterChat('/chat/'+chat.Tel)"
           >
         <div class="row chat-entry">
@@ -14,7 +13,7 @@
           <div v-else class="col-3 avatar" @click="editDeactivate">
             <font-awesome-icon icon="times"  />
           </div>
-  				<div class="meta col-9 row">
+  				<div class="meta col-9 row" v-longclick="editChat">
             <div class="col-9">
   					       <p class="name">{{chat.Name}}</p>
             </div>
@@ -54,7 +53,8 @@ export default {
   },
   data() {
     return {
-      editActive: false
+      editActive: false,
+      editWasActive: false
     }
   },
   methods:{
@@ -72,12 +72,13 @@ export default {
     },
     editChat(e){
       this.editActive=true;
-      // this.preventDefault()
     },
     editDeactivate(e){
       this.editActive=false;
       e.preventDefault();
       e.stopPropagation();
+      this.editWasActive = true;
+
     },
     delChat(e, chat){
       console.log(chat.ID)
@@ -86,6 +87,7 @@ export default {
       e.preventDefault();
       e.stopPropagation();
       this.$store.dispatch("delChat", chat.Tel);
+      this.editWasActive = true;
     },
     enterChat(e){
       if(!this.editActive){

@@ -22,7 +22,7 @@ export default {
     ErrorModal
   },
   mounted(){
-    console.log(process.env.NODE_ENV)
+    // console.log(process.env.NODE_ENV)
     // new qwebchannel.QWebChannel(qt.webChannelTransport, function(channel) {
     // // all published objects are available in channel.objects under
     // // the identifier set in their attached WebChannel.id property
@@ -96,6 +96,9 @@ export default {
 }
 </script>
 <style>
+::-webkit-scrollbar {
+    display: none;
+}
 #app{
   font-family:"ubuntu"
 }
@@ -113,7 +116,7 @@ export default {
   background-color: #2090ea;
 }
 .no-entries {
-    height: 100vh;
+    height: 90vh;
     display: flex;
     justify-content: center;
     align-items: center;
