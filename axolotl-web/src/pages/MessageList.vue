@@ -54,9 +54,10 @@
     <div class="messageInputBox">
       <div class="container">
         <div class="row">
-
-          <textarea id="messageInput" class="col-9" type="textarea" v-model="messageInput"
-          onkeyup="if(this.scrollWidth > this.clientWidth)this.style.width=this.scrollWidth+'px';"/>
+          <div class="messageInput-container col-9">
+            <textarea id="messageInput" type="textarea" v-model="messageInput"
+            onkeyup="if(this.scrollHeight > this.clientHeight)this.style.height=this.scrollHeight+'px';console.log('blub')"/>
+          </div>
           <div class="col-3 text-right">
             <button class="btn send" @click="sendMessage"><font-awesome-icon icon="paper-plane" /></button>
           </div>
@@ -86,8 +87,10 @@ export default {
       if(this.messageInput!=""){
         this.$store.dispatch("sendMessage", {to:this.chatId, message:this.messageInput});
         this.messageInput=""
+        document.getElementById("messageInput").style.height="auto";
       }
-      this.scrollDown()
+
+      this.scrollDown();
     },
     handleScroll (event) {
       console.log(event)
@@ -225,13 +228,25 @@ video,
     height:80px;
     z-index:2;
     background-color:#FFF;
+
+
+}
+.messageInput-container{
+  position: relative;
 }
 #messageInput{
   padding-right:10px;
-  border-radius:10px;
+  border-radius:0px;
   border:none;
   resize: none;
+  position: absolute;
+  bottom:0px;
+  width:100%;
+  max-height: 250px;
   border:1px solid #2090ea;
+  ::-webkit-scrollbar {
+      display: block;
+  }
 
 }
 .send{
