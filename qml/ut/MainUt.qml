@@ -56,8 +56,8 @@ UITK.Page {
       console.log(msg)
     }
     Component.onCompleted: {
-      webView.runJavaScript('ut = "ut"');
-      webView.runJavaScript('console.log(ut)');
+      webView.runJavaScript('window.ut = "ut"');
+      webView.runJavaScript('console.log(window.ut)');
     }
     onJavaScriptDialogRequested: function(request) {
       request.accepted = true;
