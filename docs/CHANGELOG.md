@@ -1,3 +1,9 @@
+0.6.4 (Sept 23 2019) Axolotl-Alpha
+--------------------
+* delete/edit contacts
+* dynamicaly growing messagefield
+* chat/contacts action headers
+
 0.6.3 (Sept 21 2019) Axolotl-Alpha
 --------------------
 * remove chats,
