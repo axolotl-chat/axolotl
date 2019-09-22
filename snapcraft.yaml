@@ -19,5 +19,5 @@ parts:
       - bzr
 
 apps:
-  httplab:
+  axolotl:
     command: bin/textsecure-qml

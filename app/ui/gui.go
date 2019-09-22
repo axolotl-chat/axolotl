@@ -77,6 +77,7 @@ func RunUi(sys string) {
 		fmt.Println("start lorca")
 		ui, err := lorca.New("", "", 480, 720, "--hide-scrollbars")
 		if err != nil {
+			log.Debugln("lorca error")
 			log.Fatal(err)
 		}
 		defer ui.Close()
