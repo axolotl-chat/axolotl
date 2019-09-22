@@ -113,6 +113,16 @@ type AddContactMessage struct {
 	Name  string `json:"name"`
 	Phone string `json:"phone"`
 }
+type EditContactMessage struct {
+	Type  string `json:"request"`
+	Name  string `json:"name"`
+	Phone string `json:"phone"`
+	ID    int    `json:"id"`
+}
+type DelContactMessage struct {
+	Type string `json:"request"`
+	ID   int    `json:"id"`
+}
 type RefreshContactsMessage struct {
 	Type string `json:"request"`
 	Url  string `json:"url"`
@@ -241,10 +251,28 @@ func wsReader(conn *websocket.Conn) {
 			config.VcardPath = "import.vcf"
 			contact.GetAddressBookContactsFromContentHub()
 			go sendContactList(conn)
+		} else if incomingMessage.Type == "delContact" {
+			fmt.Println("delContact")
+			delContactMessage := DelContactMessage{}
+			json.Unmarshal([]byte(p), &delContactMessage)
+			contact.DelContact(delContactMessage.ID)
+			go sendContactList(conn)
+		} else if incomingMessage.Type == "editContact" {
+			fmt.Println("editContact")
+			editContactMessage := EditContactMessage{}
+			json.Unmarshal([]byte(p), &editContactMessage)
+			replaceContact := textsecure.Contact{
+				Tel:  editContactMessage.Phone,
+				Name: editContactMessage.Name,
+			}
+			contact.EditContact(editContactMessage.ID, replaceContact)
+			store.RefreshContacts()
+			go sendContactList(conn)
 		} else if incomingMessage.Type == "delChat" {
 			delChatMessage := DelChatMessage{}
 			json.Unmarshal([]byte(p), &delChatMessage)
 			store.DeleteSession(delChatMessage.ID)
+			store.RefreshContacts()
 			sendChatList(conn)
 		}
 	}
@@ -326,7 +354,6 @@ func sendChatList(client *websocket.Conn) {
 }
 func sendContactList(client *websocket.Conn) {
 	var err error
-	store.RefreshContacts()
 	contactListEnvelope := &ContactListEnvelope{
 		ContactList: store.ContactsModel.Contacts,
 	}

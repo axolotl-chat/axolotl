@@ -3,6 +3,7 @@ package contact
 import (
 	"encoding/base64"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -102,6 +103,49 @@ func AddContact(name string, phone string) error {
 	contacts = append(contacts, *contact)
 	sort.Slice(contacts, func(i, j int) bool { return contacts[i].Name < contacts[j].Name })
 	err = textsecure.WriteContacts(config.ContactsFile, contacts)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+func DelContact(id int) error {
+	contacts, err := textsecure.ReadContacts(config.ContactsFile)
+	if err != nil {
+		os.Create(config.ContactsFile)
+	}
+	newContactList := []textsecure.Contact{}
+	for i := range contacts {
+		if i != id {
+			newContactList = append(newContactList, contacts[i])
+		} else {
+			fmt.Println(contacts[i].Tel)
+			fmt.Println(id)
+		}
+	}
+	err = textsecure.WriteContacts(config.ContactsFile, newContactList)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+func EditContact(id int, contact textsecure.Contact) error {
+	contacts, err := textsecure.ReadContacts(config.ContactsFile)
+	if err != nil {
+		os.Create(config.ContactsFile)
+	}
+	newContactList := []textsecure.Contact{}
+
+	for i := range contacts {
+		if i != id {
+			newContactList = append(newContactList, contacts[i])
+		} else {
+			newContactList = append(newContactList, contact)
+			fmt.Println(contacts[i].Tel)
+			fmt.Println(id)
+		}
+	}
+	sort.Slice(newContactList, func(i, j int) bool { return newContactList[i].Name < newContactList[j].Name })
+	err = textsecure.WriteContacts(config.ContactsFile, newContactList)
 	if err != nil {
 		return err
 	}

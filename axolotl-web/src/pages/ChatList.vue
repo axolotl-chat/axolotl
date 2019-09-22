@@ -1,17 +1,19 @@
 
 <template>
   <div class="chatList">
+    <div v-if="editActive" class="actions-header">
+      <button class="btn hide-actions" @click="editDeactivate">
+        <font-awesome-icon icon="times"/>
+      </button>
+    </div>
     <div v-if="chats.length>0" class="row">
       <button id="chat.id"  v-for="chat in chats" class="btn col-12 chat"
       @click="enterChat('/chat/'+chat.Tel)"
           >
         <div class="row chat-entry">
-          <div v-if="!editActive" class="avatar col-3">
+          <div class="avatar col-3">
             <div v-if="chat.IsGroup" class="badge-name"><font-awesome-icon icon="user-friends" /></div>
             <div v-else class="badge-name">{{chat.Name[0]}}</div>
-          </div>
-          <div v-else class="col-3 avatar" @click="editDeactivate">
-            <font-awesome-icon icon="times"  />
           </div>
   				<div class="meta col-9 row" v-longclick="editChat">
             <div class="col-9">
@@ -20,10 +22,10 @@
             <div v-if="!editActive" class="col-3">
                 <p v-if="chat.Messages&&chat.Messages!=null" class="time">{{humanifyDate(chat.Messages[chat.Messages.length-1].SentAt)}}</p>
             </div>
-            <div v-else class="col-3">
+            <div v-else class="col-3 text-right">
               <font-awesome-icon icon="trash"  @click="delChat($event, chat)"/>
             </div>
-            <div v-if="!editActive" class="col-12">
+            <div class="col-12">
               <p class="preview" v-if="chat.Messages&&chat.Messages!=null">{{chat.Messages[chat.Messages.length-1].Message}}</p>
             </div>
           </div>
@@ -50,6 +52,9 @@ export default {
     this.$store.dispatch("clearMessageList");
     // this.$store.dispatch('addResponses', "1");
     // Vue.prototype.$store.dispatch("getChatList")
+  },
+  mounted(){
+    this.$store.dispatch("getContacts")
   },
   data() {
     return {
@@ -106,6 +111,20 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.actions-header {
+    position: fixed;
+    background-color: #cacaca;
+    width: 100%;
+    left: 0;
+    display: flex;
+    justify-content: end;
+    z-index: 2;
+    top: 0;
+    height: 51px;
+}
+.hide-actions{
+  padding-right:40px;
+}
 .avatar {
     justify-content: center;
     display: flex;
@@ -133,7 +152,7 @@ export default {
 }
 .meta .name{
   font-weight:bold;
-  font-size:20px;
+  font-size: 18px;
 }
 .meta .preview{
   font-size:15px;

@@ -267,6 +267,29 @@ export default new Vuex.Store({
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
+    delContact:function(state,tel){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"delContact",
+          "phone":tel,
+        }
+        console.log(message);
+
+        Vue.prototype.$socket.send(JSON.stringify(message))
+      }
+    },
+    editContact:function(state,data){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"editContact",
+          "phone":data.contact.Tel,
+          "name":data.contact.Name,
+          "id": data.id
+        }
+        console.log(message);
+        Vue.prototype.$socket.send(JSON.stringify(message))
+      }
+    },
     // registration functions
       requestCode:function(context, tel){
         if(this.state.socket.isConnected){
