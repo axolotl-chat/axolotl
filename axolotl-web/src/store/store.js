@@ -10,6 +10,7 @@ export default new Vuex.Store({
     request: '',
     contacts:[],
     devices: [],
+    gui:null,
     error: null,
     socket: {
       isConnected: false,
@@ -49,6 +50,13 @@ export default new Vuex.Store({
           else if (request =="registrationDone") {
             window.router.push("/chatList")
             this.dispatch("getChatList")
+          }
+          else if (request =="registrationDone") {
+            window.router.push("/chatList")
+            this.dispatch("getChatList")
+          } else if (request =="setConfigUt") {
+
+            this.commit("SET_CONFIG_GUI");
           }
           // this.dispatch("requestCode", "+123456")
         },
@@ -139,6 +147,10 @@ export default new Vuex.Store({
         SOCKET_RECONNECT_ERROR(state) {
           state.socket.reconnectError = true;
         },
+        SET_CONFIG_GUI(state) {
+          console.log("set gui as ut");
+          state.gui = "ut";
+        }
   },
 
   actions: {
@@ -148,7 +160,7 @@ export default new Vuex.Store({
           "request":"addDevice",
           "url":url,
         }
-        console.log("ad",url);
+        console.log("add device",url);
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
@@ -158,7 +170,6 @@ export default new Vuex.Store({
           "request":"delDevice",
           "id":id,
         }
-        console.log(message);
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
@@ -273,8 +284,6 @@ export default new Vuex.Store({
           "request":"delContact",
           "phone":tel,
         }
-        console.log(message);
-
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
@@ -286,7 +295,6 @@ export default new Vuex.Store({
           "name":data.contact.Name,
           "id": data.id
         }
-        console.log(message);
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },

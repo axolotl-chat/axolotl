@@ -93,8 +93,6 @@ export default {
       this.scrollDown();
     },
     handleScroll (event) {
-      console.log(event)
-
       if(event.target.scrollTop<50
         && this.$store.state.messageList.Messages!=null
         &&this.$store.state.messageList.Messages.length>20){

@@ -81,7 +81,6 @@ export default {
     saveContact(data){
       this.editContactModal=false
       this.showActions = false;
-      console.log(JSON.parse(JSON.stringify(data)))
       this.$store.dispatch("editContact", data)
     },
     showContactAction(){

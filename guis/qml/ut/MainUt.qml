@@ -20,25 +20,6 @@ UITK.Page {
   property var selectionType
   property var requestContentHub : false
   id: root
-  // WebSocketServer {
-  //   id: server
-  //   listen: true
-  //   port: 12345
-  //
-  //   onClientConnected: {
-  //     console.log('BlobSaver: websocket server connected');
-  //     wsClient = webSocket
-  //     webSocket.onTextMessageReceived.connect(function(base64data) {
-  //       console.log('base64data');
-  //       var path = BlobSaver.write(base64data);
-  //       fileDownloaded(path);
-  //     });
-  //   }
-  //
-  //   onErrorStringChanged: {
-  //     console.log('BlobSaver: websocket server error', errorString);
-  //   }
-  // }
   WebEngineView {
     id: webView
     profile:webProfile
@@ -54,10 +35,6 @@ UITK.Page {
     onJavaScriptConsoleMessage: {
       var msg = "[Axolotl Web View] [JS] (%1:%2) %3".arg(sourceID).arg(lineNumber).arg(message)
       console.log(msg)
-    }
-    Component.onCompleted: {
-      webView.runJavaScript('window.ut = "ut"');
-      webView.runJavaScript('console.log(window.ut)');
     }
     onJavaScriptDialogRequested: function(request) {
       request.accepted = true;
@@ -169,9 +146,6 @@ UITK_Popups.Dialog {
       //     easing: UbuntuAnimation.StandardEasing
       //   }
       // }
-    }
-    Component.onCompleted: {
-      console.log( root.height)
     }
     Rectangle {
     color: "white"

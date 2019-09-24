@@ -25,7 +25,7 @@ var e string
 
 func init() {
 	flag.StringVar(&config.MainQml, "qml", "qml/phoneui/main.qml", "The qml file to load.")
-	flag.StringVar(&e, "e", "", "Usage")
+	flag.StringVar(&config.Gui, "e", "", "use either electron, ut, lorca or me")
 }
 func print(stdout io.ReadCloser) {
 	scanner := bufio.NewScanner(stdout)
@@ -61,16 +61,18 @@ func runBackend() {
 }
 func runUI() error {
 	defer wg.Done()
-	if e != "ut" && e != "me" && e != "lorca" {
-		ui.RunUi(e)
+	fmt.Println(config.Gui)
+	if config.Gui != "ut" && config.Gui != "me" && config.Gui != "lorca" {
+		ui.RunUi(config.Gui)
 		runElectron()
 	} else {
-		ui.RunUi(e)
+		ui.RunUi(config.Gui)
 	}
 	os.Exit(0)
 	return nil
 }
 func runElectron() {
+	fmt.Println("start electron")
 	var a, _ = astilectron.New(astilectron.Options{
 		AppName:            "axolotl",
 		AppIconDefaultPath: "axolotl-web/public/axolotl.png", // If path is relative, it must be relative to the data directory

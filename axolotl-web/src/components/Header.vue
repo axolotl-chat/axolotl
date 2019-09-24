@@ -90,9 +90,8 @@
         this.$store.dispatch("unregister");
       },
       refreshContacts(){
-        if(typeof ut !="undefined"){
+        if(this.gui=="ut"){
           var result = window.prompt("refreshContacts");
-          console.log(result);
           this.$store.dispatch("refreshContacts", result);
         } else {
           this.showSettingsMenu = false;
@@ -118,7 +117,9 @@
       messageList() {
         return this.$store.state.messageList
       },
-
+      gui() {
+        return this.$store.state.gui
+      },
     },
     mounted() {
       window.router = this.$router;

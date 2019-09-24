@@ -8,7 +8,7 @@ confinement: devmode
 base: core18
 
 parts:
-  textsecure:
+  axolotl:
     plugin: go
     go-importpath: github.com/nanu-c/textsecure-qml
     source: .

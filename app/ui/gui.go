@@ -101,11 +101,11 @@ func RunUi(e string) {
 }
 func runUIUbuntuTouch(e string) {
 	var cmd *exec.Cmd
-	log.Infof("Axolotl-gui starting for sys: %v", e)
+	log.Infof("Axolotl-gui starting for sys: %v", config.Gui)
 
-	if e == "ut" {
+	if config.Gui == "ut" {
 		cmd = exec.Command("qmlscene", "--scaling", "guis/qml/ut/MainUt.qml")
-	} else if e == "me" {
+	} else if config.Gui == "me" {
 		cmd = exec.Command("/home/nanu/Qt/5.13.0/gcc_64/bin/qmlscene", "--scaling", "guis/qml/Main.qml")
 
 	} else {

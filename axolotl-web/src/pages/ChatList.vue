@@ -86,8 +86,6 @@ export default {
 
     },
     delChat(e, chat){
-      console.log(chat.ID)
-
       this.editActive=false;
       e.preventDefault();
       e.stopPropagation();

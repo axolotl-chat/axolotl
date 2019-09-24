@@ -25,7 +25,7 @@ var (
 	IsPhone      bool
 	IsPushHelper bool
 	MainQml      string
-
+	Gui          string
 	HomeDir      string
 	ConfigDir    string
 	CacheDir     string

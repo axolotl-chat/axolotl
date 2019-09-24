@@ -202,6 +202,9 @@ func wsReader(conn *websocket.Conn) {
 			} else {
 				sendRequest(conn, "getPhoneNumber")
 			}
+			if config.Gui == "ut" {
+				sendRequest(conn, "setConfigUt")
+			}
 		} else if incomingMessage.Type == "addDevice" {
 			addDeviceMessage := AddDeviceMessage{}
 			json.Unmarshal([]byte(p), &addDeviceMessage)

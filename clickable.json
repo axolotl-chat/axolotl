@@ -19,7 +19,9 @@
     "main",
     "output",
     "bind*.go",
-    "*.syso"
+    "*.syso",
+    "*.go",
+    "dist"
   ],
   "postbuild": "$ROOT/scripts/postbuild.sh $INSTALL_DIR",
   "dependencies_target": ["qml-module-qtcontacts"]
