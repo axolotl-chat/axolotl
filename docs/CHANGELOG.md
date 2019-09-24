@@ -1,3 +1,9 @@
+0.6.5 (Sept 24 2019) Axolotl-Alpha
+--------------------
+* versions for raspberryPi and windows
+* fix contacts import in ut
+
+
 0.6.4 (Sept 23 2019) Axolotl-Alpha
 --------------------
 * delete/edit contacts
