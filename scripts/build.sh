@@ -1,7 +1,7 @@
 go clean
 
 echo "Build ut linux armhf"
-clickable build
+clickable clean build
 
 echo "Build linux amd64 snap"
 mkdir -p build/linux-amd64-snap
