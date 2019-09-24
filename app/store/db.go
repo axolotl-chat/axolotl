@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"syscall"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mutecomm/go-sqlcipher"
@@ -179,7 +178,7 @@ func (ds *DataStore) EncryptDb(password string) bool {
 // NewStorage
 func NewStorage(password string) (*DataStore, error) {
 	// Set more restrictive umask to ensure database files are created 0600
-	syscall.Umask(0077)
+	// syscall.Umask(0077)
 
 	dbDir = filepath.Join(config.DataDir, "db")
 	err := os.MkdirAll(dbDir, 0700)

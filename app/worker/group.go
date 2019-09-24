@@ -7,7 +7,6 @@ import (
 	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
-	"github.com/nanu-c/textsecure-qml/app/lang"
 	"github.com/nanu-c/textsecure-qml/app/sender"
 	"github.com/nanu-c/textsecure-qml/app/store"
 	"github.com/nanu-c/textsecure-qml/app/ui"
@@ -75,7 +74,7 @@ func (Api *TextsecureAPI) UpdateGroup(hexid, name string, members string) error 
 
 func (Api *TextsecureAPI) LeaveGroup(hexid string) error {
 	session := store.SessionsModel.Get(hexid)
-	msg := session.Add(lang.YouLeftGroup, "", "", "", true, store.ActiveSessionID)
+	msg := session.Add("You have left the group.", "", "", "", true, store.ActiveSessionID)
 	msg.Flags = helpers.MsgFlagGroupLeave
 	//qml.Changed(msg, &msg.Flags)
 	store.SaveMessage(msg)

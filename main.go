@@ -10,6 +10,7 @@ import (
 	"os"
 	"sync"
 
+	astilectron "github.com/asticode/go-astilectron"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/nanu-c/textsecure-qml/app/config"
@@ -20,11 +21,11 @@ import (
 	"github.com/nanu-c/textsecure-qml/app/worker"
 )
 
-var sys string
+var e string
 
 func init() {
 	flag.StringVar(&config.MainQml, "qml", "qml/phoneui/main.qml", "The qml file to load.")
-	flag.StringVar(&sys, "sys", "", "Usage")
+	flag.StringVar(&e, "e", "", "Usage")
 }
 func print(stdout io.ReadCloser) {
 	scanner := bufio.NewScanner(stdout)
@@ -60,9 +61,34 @@ func runBackend() {
 }
 func runUI() error {
 	defer wg.Done()
-	ui.RunUi(sys)
+	if e != "ut" && e != "me" && e != "lorca" {
+		ui.RunUi(e)
+		runElectron()
+	} else {
+		ui.RunUi(e)
+	}
 	os.Exit(0)
 	return nil
+}
+func runElectron() {
+	var a, _ = astilectron.New(astilectron.Options{
+		AppName:            "axolotl",
+		AppIconDefaultPath: "axolotl-web/public/axolotl.png", // If path is relative, it must be relative to the data directory
+		AppIconDarwinPath:  "axolotl-web/public/axolotl.png", // Same here
+		BaseDirectoryPath:  "dist",
+	})
+	defer a.Close()
+
+	// Start astilectron
+	a.Start()
+	var w, _ = a.NewWindow("http://localhost:9080", &astilectron.WindowOptions{
+		Center: astilectron.PtrBool(true),
+		Height: astilectron.PtrInt(600),
+		Width:  astilectron.PtrInt(600),
+	})
+	w.Create()
+	// Blocking pattern
+	a.Wait()
 }
 func runWebserver() {
 	// Decrement the counter when the goroutine completes.

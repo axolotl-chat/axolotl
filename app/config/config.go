@@ -12,7 +12,6 @@ import (
 
 	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
-	"github.com/nanu-c/textsecure-qml/app/lang"
 )
 
 var AppName = "textsecure.nanuc"
@@ -72,7 +71,6 @@ func GetConfig() (*textsecure.Config, error) {
 	return Config, err
 }
 func SetupConfig() {
-	lang.SetupTranslations(AppName)
 
 	IsPhone = helpers.Exists("/home/phablet")
 	IsPushHelper = filepath.Base(os.Args[0]) == "pushHelper"

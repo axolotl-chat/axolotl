@@ -9,3 +9,8 @@ gopath/*
 *.snap
 *.vcf
 main
+
+output
+bind*.go
+*.syso
+dist

@@ -7,7 +7,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gosexy/gettext"
 	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/contact"
@@ -46,8 +45,8 @@ func (Api *TextsecureAPI) IdentityInfo(id string) string {
 	if err != nil {
 		log.Println(err)
 	}
-	return gettext.Gettext("Their identity (they read):") + "<br>" + fmt.Sprintf("% 0X", theirID) + "<br><br>" +
-		gettext.Gettext("Your identity (you read):") + "<br><br>" + fmt.Sprintf("% 0X", myID)
+	return "Their identity (they read):" + "<br>" + fmt.Sprintf("% 0X", theirID) + "<br><br>" +
+		"Your identity (you read):" + "<br><br>" + fmt.Sprintf("% 0X", myID)
 }
 
 func (Api *TextsecureAPI) ContactsImported(path string) {

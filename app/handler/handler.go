@@ -8,7 +8,6 @@ import (
 
 	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
-	"github.com/nanu-c/textsecure-qml/app/lang"
 	"github.com/nanu-c/textsecure-qml/app/push"
 	"github.com/nanu-c/textsecure-qml/app/settings"
 	"github.com/nanu-c/textsecure-qml/app/store"
@@ -32,7 +31,7 @@ func MessageHandler(msg *textsecure.Message) {
 
 	text := msg.Message()
 	if msg.Flags() == textsecure.EndSessionFlag {
-		text = lang.SessionReset
+		text = "Secure session reset."
 		msgFlags = helpers.MsgFlagResetSession
 	}
 	//Group Message
@@ -159,7 +158,7 @@ func SyncSentHandler(msg *textsecure.Message, timestamp uint64) {
 
 	text := msg.Message()
 	if msg.Flags() == textsecure.EndSessionFlag {
-		text = lang.SessionReset
+		text = "Secure session reset."
 		msgFlags = helpers.MsgFlagResetSession
 	}
 	//Group Message

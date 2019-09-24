@@ -69,11 +69,11 @@ func InitModels() {
 
 	go store.UpdateTimestamps()
 }
-func RunUi(sys string) {
+func RunUi(e string) {
 	// cmd := exec.Command("webapp-container", "http://[::1]:8080/")
-	if sys == "ut" || sys == "me" {
-		runUIUbuntuTouch(sys)
-	} else {
+	if e == "ut" || e == "me" {
+		runUIUbuntuTouch(e)
+	} else if e == "lorca" {
 		fmt.Println("start lorca")
 		ui, err := lorca.New("", "", 480, 720, "--hide-scrollbars")
 		if err != nil {
@@ -99,17 +99,17 @@ func RunUi(sys string) {
 		log.Println("exiting...")
 	}
 }
-func runUIUbuntuTouch(sys string) {
+func runUIUbuntuTouch(e string) {
 	var cmd *exec.Cmd
-	log.Infof("Axolotl-gui starting for sys: %v", sys)
+	log.Infof("Axolotl-gui starting for sys: %v", e)
 
-	if sys == "ut" {
-		cmd = exec.Command("qmlscene", "--scaling", "qml/ut/MainUt.qml")
-	} else if sys == "me" {
-		cmd = exec.Command("/home/nanu/Qt/5.13.0/gcc_64/bin/qmlscene", "--scaling", "qml/Main.qml")
+	if e == "ut" {
+		cmd = exec.Command("qmlscene", "--scaling", "guis/qml/ut/MainUt.qml")
+	} else if e == "me" {
+		cmd = exec.Command("/home/nanu/Qt/5.13.0/gcc_64/bin/qmlscene", "--scaling", "guis/qml/Main.qml")
 
 	} else {
-		cmd = exec.Command("qmlscene", "--scaling", "qml/Main.qml")
+		cmd = exec.Command("qmlscene", "--scaling", "guis/qml/Main.qml")
 	}
 	var stdout, stderr []byte
 	var errStdout, errStderr error
