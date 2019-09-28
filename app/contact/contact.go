@@ -4,7 +4,6 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -13,9 +12,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"bitbucket.org/llg/vcard"
-	"github.com/godbus/dbus"
-	vcard_go "github.com/mapaiva/vcard-go"
+	"github.com/mapaiva/vcard-go"
 	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
@@ -23,16 +20,16 @@ import (
 )
 
 func PhoneFromVCardFile(file string) (string, error) {
-	r, err := os.Open(file)
-	if err != nil {
-		return "", err
-	}
-	defer r.Close()
-	cards, err := vcard_go.GetVCards(file)
-
-	if len(cards) > 0 {
-		return cards[0].FormattedName + " " + cards[0].Phone, nil
-	}
+	// r, err := os.Open(file)
+	// if err != nil {
+	// 	return "", err
+	// }
+	// defer r.Close()
+	// // cards, err := vcard_go.GetVCards(file)
+	//
+	// if len(cards) > 0 {
+	// 	return cards[0].FormattedName + " " + cards[0].Phone, nil
+	// }
 
 	return "", errors.New("No phone number for contact.")
 }
@@ -54,33 +51,6 @@ func GetDesktopContacts() ([]textsecure.Contact, error) {
 	return textsecure.ReadContacts(filepath.Join(config.ConfigDir, "contacts.yml"))
 }
 
-// getAddgetAddressBookContactsFromDBus gets the phone contacts via the address-book DBus service
-func GetAddressBookContactsFromDBus() ([]textsecure.Contact, error) {
-	var o dbus.ObjectPath
-	var vcardContacts []string
-
-	conn, err := dbus.SessionBus()
-	if err != nil {
-		return nil, err
-	}
-
-	obj := conn.Object("com.canonical.pim", "/com/canonical/pim/AddressBook")
-	err = obj.Call("com.canonical.pim.AddressBook.query", 0, "", "", []string{}).Store(&o)
-	if err != nil {
-		return nil, err
-	}
-	obj2 := conn.Object("com.canonical.pim", o)
-	err = obj2.Call("com.canonical.pim.AddressBookView.contactsDetails", 0, []string{}, int32(0), int32(-1)).Store(&vcardContacts)
-	if err != nil {
-		return nil, err
-	}
-	obj.Call("com.canonical.pim.AddressBook.close", 0)
-	if err != nil {
-		return nil, err
-	}
-
-	return parseVCards(vcardContacts)
-}
 func AddContact(name string, phone string) error {
 	contacts, err := textsecure.ReadContacts(config.ContactsFile)
 	if err != nil {
@@ -190,41 +160,29 @@ func GetAddressBookContactsFromContentHub() ([]textsecure.Contact, error) {
 
 // getContactsFromVCardFile reads contacts from a VCF file
 func getContactsFromVCardFile(path string) ([]textsecure.Contact, error) {
-	b, err := ioutil.ReadFile(path)
+	vcardContacts, err := vcard.GetVCards(path)
 	if err != nil {
-		return nil, err
+		log.Fatal(err)
 	}
-	vcardContacts := strings.SplitAfter(string(b), "END:VCARD")
-	return parseVCards(vcardContacts)
-}
-func parseVCards(vcardContacts []string) ([]textsecure.Contact, error) {
-
-	country := defaultCountry()
-
-	// for now allocate space for 3 phones for each contact.
-	// FIXME: make it cleaner by using up only as much space as needed.
 	contacts := make([]textsecure.Contact, len(vcardContacts)*3)
+	country := defaultCountry()
 
 	i := 0
 	for _, c := range vcardContacts {
-		di := vcard.NewDirectoryInfoReader(strings.NewReader(c))
-		vc := &vcard.VCard{}
-		vc.ReadFrom(di)
-		for t := 0; t < len(vc.Telephones); t++ {
-			contacts[i].Name = vc.FormattedName
-			contacts[i].Tel = FormatE164(vc.Telephones[t].Number, country)
-			if vc.Photo.Data != "" {
-				b, err := base64.StdEncoding.DecodeString(vc.Photo.Data)
+		log.Debugln("Import " + c.FormattedName)
+		if len(c.Phone) > 0 {
+			contacts[i].Name = c.FormattedName
+			contacts[i].Tel = FormatE164(c.Phone, country)
+			if c.Photo != "" {
+				b, err := base64.StdEncoding.DecodeString(c.Photo)
 				if err == nil {
 					contacts[i].Photo = string(b)
-				} else {
-					log.Printf("Parsing VCard %d %s\n", i, err.Error())
 				}
 			}
 			i++
 		}
 	}
-	return contacts[:i], nil
+	return contacts, nil
 }
 
 func defaultCountry() string {

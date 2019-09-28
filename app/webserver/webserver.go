@@ -230,6 +230,7 @@ func wsReader(conn *websocket.Conn) {
 			json.Unmarshal([]byte(p), &refreshContactsMessage)
 			config.VcardPath = refreshContactsMessage.Url
 			contact.GetAddressBookContactsFromContentHub()
+			store.RefreshContacts()
 			go sendContactList(conn)
 		} else if incomingMessage.Type == "uploadVcf" {
 			uploadVcf := UploadVcf{}
@@ -253,6 +254,7 @@ func wsReader(conn *websocket.Conn) {
 			}
 			config.VcardPath = "import.vcf"
 			contact.GetAddressBookContactsFromContentHub()
+			store.RefreshContacts()
 			go sendContactList(conn)
 		} else if incomingMessage.Type == "delContact" {
 			fmt.Println("delContact")
