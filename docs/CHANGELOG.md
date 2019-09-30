@@ -1,3 +1,7 @@
+0.6.6 (Sept 30 2019) Axolotl-Alpha
+--------------------
+* rewrite vcf parsing
+
 0.6.5 (Sept 24 2019) Axolotl-Alpha
 --------------------
 * versions for raspberryPi and windows
