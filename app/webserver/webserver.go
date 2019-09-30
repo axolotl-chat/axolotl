@@ -186,7 +186,7 @@ func wsReader(conn *websocket.Conn) {
 			json.Unmarshal([]byte(p), &sendMessageMessage)
 			err, m := sender.SendMessageHelper(sendMessageMessage.To, sendMessageMessage.Message, "")
 			if err == nil {
-				MessageHandler(m)
+				go MessageHandler(m)
 			}
 		} else if incomingMessage.Type == "getContacts" {
 			go sendContactList(conn)
