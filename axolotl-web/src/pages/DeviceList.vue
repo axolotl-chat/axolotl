@@ -2,7 +2,7 @@
 <template>
   <div class="deviceList">
     <div v-if="devices.length>1" class="row">
-      <div v-for="device in devices" v-if="device.id!=1" v-bind:key="device.id" 
+      <div v-for="device in devices" v-if="device.id!=1" v-bind:key="device.id"
         class="col-12 device row">
         <div class="col-10">
           {{device.name}} <br/>

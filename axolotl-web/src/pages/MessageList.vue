@@ -87,6 +87,8 @@ export default {
       if(this.messageInput!=""){
         this.$store.dispatch("sendMessage", {to:this.chatId, message:this.messageInput});
         this.messageInput=""
+        if(this.$store.state.messageList.Messages==null)
+        this.$store.dispatch("getMessageList", this.getId());
         document.getElementById("messageInput").style.height="auto";
       }
 

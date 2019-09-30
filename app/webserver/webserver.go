@@ -176,8 +176,9 @@ func wsReader(conn *websocket.Conn) {
 			createChatMessage := CreateChatMessage{}
 			json.Unmarshal([]byte(p), &createChatMessage)
 			log.Println("Create chat for ", createChatMessage.Tel)
-			sess := createChat(createChatMessage.Tel)
-			sendMessageList(conn, sess.Tel)
+			createChat(createChatMessage.Tel)
+			activeChat = createChatMessage.Tel
+			store.ActiveSessionID = activeChat
 		} else if incomingMessage.Type == "leaveChat" {
 			activeChat = ""
 			store.ActiveSessionID = ""
@@ -415,6 +416,7 @@ func sendMessageList(client *websocket.Conn, id string) {
 		fmt.Println(err)
 		return
 	}
+	log.Debugln(messageList)
 	messageList.Session.MarkRead()
 	chatListEnvelope := &MessageListEnvelope{
 		MessageList: messageList,

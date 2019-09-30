@@ -108,8 +108,8 @@ export default new Vuex.Store({
         SOCKET_ONCLOSE (state)  {
           state.socket.isConnected = false
         },
-        SOCKET_ONERROR (state, event)  {
-          console.error(state, event)
+        SOCKET_ONERROR ()  {
+          // console.error(state, event)
         },
         // default handler called for all methods
         SOCKET_ONMESSAGE (state, message)  {
@@ -146,14 +146,12 @@ export default new Vuex.Store({
 
         },
         // mutations for reconnect methods
-        SOCKET_RECONNECT(state, count) {
-          console.info(state, count)
+        SOCKET_RECONNECT() {
         },
         SOCKET_RECONNECT_ERROR(state) {
           state.socket.reconnectError = true;
         },
         SET_CONFIG_GUI(state) {
-          console.log("set gui as ut");
           state.gui = "ut";
         }
   },
@@ -165,7 +163,6 @@ export default new Vuex.Store({
           "request":"addDevice",
           "url":url,
         }
-        console.log("add device",url);
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
@@ -237,7 +234,6 @@ export default new Vuex.Store({
       this.commit("LEAVE_CHAT");
     },
     createChat:function(context, tel){
-      console.log("create chat ", tel);
       if(this.state.socket.isConnected){
         var message = {
           "request":"createChat",
