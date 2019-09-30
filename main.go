@@ -40,7 +40,7 @@ func setup() {
 	config.SetupConfig()
 	helpers.SetupLogging()
 	log.SetLevel(log.DebugLevel)
-	log.Infof("Starting Signal for Ubuntu version %s", config.AppVersion)
+	log.Infoln("Starting Signal for Ubuntu version", config.AppVersion)
 }
 func runBackend() {
 	ui.SetEngine()

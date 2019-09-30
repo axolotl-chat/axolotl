@@ -36,6 +36,9 @@ export default new Vuex.Store({
         SEND_MESSAGE(){
 
         },
+        CREATE_CHAT(state, tel){
+          window.router.push('/chat/'+tel)
+        },
         SET_DEVICELIST(state, devices){
           state.devices = devices
         },
@@ -62,6 +65,8 @@ export default new Vuex.Store({
         },
         SET_MESSAGELIST(state, messageList){
               state.messageList = messageList;
+              // router.push('/chat/'+)
+
         },
         SET_MORE_MESSAGELIST(state, messageList){
               if(messageList.Messages!= null){
@@ -230,6 +235,17 @@ export default new Vuex.Store({
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
       this.commit("LEAVE_CHAT");
+    },
+    createChat:function(context, tel){
+      console.log("create chat ", tel);
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"createChat",
+          "tel": tel
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
+      }
+      this.commit("CREATE_CHAT", tel);
     },
     sendMessage:function(context, messageContainer){
       if(this.state.socket.isConnected){

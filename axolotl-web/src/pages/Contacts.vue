@@ -88,7 +88,7 @@ export default {
     },
     contactClick(contact){
       if(!this.showActions){
-        router.push('/chat/'+contact.Tel)
+        this.$store.dispatch("createChat", contact.Tel)
       }
     },
     editContactModalOpen(contact,id){

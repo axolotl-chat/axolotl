@@ -5,12 +5,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"os"
 	"strconv"
 	"strings"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/gorilla/websocket"
 	"github.com/nanu-c/textsecure"
@@ -135,6 +136,10 @@ type DelChatMessage struct {
 	Type string `json:"request"`
 	ID   string `json:"id"`
 }
+type CreateChatMessage struct {
+	Type string `json:"request"`
+	Tel  string `json:"tel"`
+}
 
 func sync() {
 	for {
@@ -160,13 +165,22 @@ func wsReader(conn *websocket.Conn) {
 			json.Unmarshal([]byte(p), &getMessageListMessage)
 			id := getMessageListMessage.ID
 			activeChat = getMessageListMessage.ID
+			store.ActiveSessionID = activeChat
+			log.Debugln("Enter chat ", id)
 			sendMessageList(conn, id)
 		} else if incomingMessage.Type == "getMoreMessages" {
 			getMoreMessages := GetMoreMessages{}
 			json.Unmarshal([]byte(p), &getMoreMessages)
 			sendMoreMessageList(conn, activeChat, getMoreMessages.LastID)
+		} else if incomingMessage.Type == "createChat" {
+			createChatMessage := CreateChatMessage{}
+			json.Unmarshal([]byte(p), &createChatMessage)
+			log.Println("Create chat for ", createChatMessage.Tel)
+			sess := createChat(createChatMessage.Tel)
+			sendMessageList(conn, sess.Tel)
 		} else if incomingMessage.Type == "leaveChat" {
 			activeChat = ""
+			store.ActiveSessionID = ""
 		} else if incomingMessage.Type == "sendMessage" {
 			sendMessageMessage := SendMessageMessage{}
 			json.Unmarshal([]byte(p), &sendMessageMessage)
@@ -390,7 +404,9 @@ func sendDeviceList(client *websocket.Conn) {
 		return
 	}
 }
-
+func createChat(tel string) *store.Session {
+	return store.SessionsModel.Get(tel)
+}
 func sendMessageList(client *websocket.Conn, id string) {
 	message := &[]byte{}
 
@@ -399,6 +415,7 @@ func sendMessageList(client *websocket.Conn, id string) {
 		fmt.Println(err)
 		return
 	}
+	messageList.Session.MarkRead()
 	chatListEnvelope := &MessageListEnvelope{
 		MessageList: messageList,
 	}

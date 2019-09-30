@@ -109,6 +109,9 @@ func (s *Sessions) GetSession(i int) *Session {
 }
 func (s *Sessions) GetMessageList(id string) (error, *MessageList) {
 	index := SessionsModel.GetIndex(id)
+	if index == -1 {
+		index = int(SessionsModel.Get(id).ID)
+	}
 	if index != -1 {
 		messageList := &MessageList{
 			ID:      id,
