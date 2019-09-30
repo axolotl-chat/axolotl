@@ -1,3 +1,7 @@
+0.6.7 (Sept 30 2019) Axolotl-Alpha
+--------------------
+* fix entering new chat and show first sent message
+
 0.6.6 (Sept 30 2019) Axolotl-Alpha
 --------------------
 * rewrite vcf parsing
