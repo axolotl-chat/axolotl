@@ -12,6 +12,8 @@ export default new Vuex.Store({
     devices: [],
     gui:null,
     error: null,
+    newGroupName:null,
+    newGroupMembers:[],
     socket: {
       isConnected: false,
       message: '',
@@ -142,8 +144,6 @@ export default new Vuex.Store({
             }
             state.socket.message = message.data
           }
-
-
         },
         // mutations for reconnect methods
         SOCKET_RECONNECT() {
@@ -153,7 +153,7 @@ export default new Vuex.Store({
         },
         SET_CONFIG_GUI(state) {
           state.gui = "ut";
-        }
+        },
   },
 
   actions: {
@@ -344,6 +344,17 @@ export default new Vuex.Store({
       if(this.state.socket.isConnected){
         var message = {
           "request":"unregister",
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
+
+      }
+    },
+    createNewGroup:function(context, data){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"createGroup",
+          "groupName": data.groupName,
+          "groupMembers": data.groupMembers,
         }
         Vue.prototype.$socket.send(JSON.stringify(message))
 

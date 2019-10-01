@@ -42,6 +42,11 @@ export default new Router({
     name: "devices",
     component:  () => import("@/pages/DeviceList.vue")
   },
+  {
+    path: "/newGroup",
+    name: "newGroup",
+    component:  () => import("@/pages/NewGroup.vue")
+  },
       { path: '/a', redirect: to => {
         const { hash, params, query } = to
          return "/ws"

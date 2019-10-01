@@ -12,6 +12,15 @@
         <div v-else-if="route()=='register' ">
           <div class="header-text">Connect with Signal</div>
         </div>
+        <div v-else-if="route()=='newGroup' " class="list-header-container">
+          <router-link class="btn" :to="'/chatList'">
+            <font-awesome-icon icon="arrow-left" />
+          </router-link>
+          <div class="header-text">New group</div>
+          <button class="btn create-group" @click="createGroup">
+            <font-awesome-icon icon="check" />
+          </button>
+        </div>
         <div v-else-if="route()=='devices' " >
           <button class="back btn" @click="back()">
             <font-awesome-icon icon="arrow-left" /></button>
@@ -46,6 +55,9 @@
               <font-awesome-icon icon="ellipsis-v" />
             </button>
             <div v-if="showSettingsMenu" class="dropdown-menu" id="settings-dropdown" aria-labelledby="dropdownMenuButton">
+              <router-link class="dropdown-item" :to="'/newGroup'" @click="showSettingsMenu=false">
+                New group
+              </router-link>
               <router-link class="dropdown-item" :to="'/devices/'" @click="showSettingsMenu=false">
                 Linked devices
               </router-link>
@@ -97,6 +109,9 @@
           this.showSettingsMenu = false;
           document.getElementById("addVcf").click()
         }
+      },
+      createGroup(){
+
       },
       readVcf(evt) {
           var f = evt.target.files[0];
@@ -163,6 +178,10 @@
     width: 100%;
     display: flex;
     justify-content: flex-end;
+  }
+  .list-header-container{
+    display:flex;
+    align-items: center;
   }
   #settings-dropdown{
     display: block!important;

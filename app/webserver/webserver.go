@@ -197,6 +197,7 @@ func wsReader(conn *websocket.Conn) {
 			json.Unmarshal([]byte(p), &addContactMessage)
 			log.Println(addContactMessage.Name)
 			contact.AddContact(addContactMessage.Name, addContactMessage.Phone)
+			store.RefreshContacts()
 			go sendContactList(conn)
 		} else if incomingMessage.Type == "requestCode" {
 			if requestChannel != nil {
