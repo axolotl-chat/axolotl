@@ -1,3 +1,9 @@
+0.6.8 (Sept 30 2019) Axolotl-Alpha
+--------------------
+* creat Group Chats
+* sort chat list
+* cleanup log
+
 0.6.7 (Sept 30 2019) Axolotl-Alpha
 --------------------
 * fix entering new chat and show first sent message

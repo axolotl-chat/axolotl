@@ -133,7 +133,6 @@ export default {
       document.addEventListener("scroll", (e) => {
         var scrolled = document.scrollingElement.scrollTop;
         if(scrolled==0){
-          console.log("load more messages")
           this.$store.dispatch("getMoreMessages");
         }
       });

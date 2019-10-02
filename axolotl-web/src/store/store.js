@@ -361,7 +361,6 @@ export default new Vuex.Store({
           "name": data.name,
           "members": data.members,
         }
-        console.log(message);
         Vue.prototype.$socket.send(JSON.stringify(message))
 
       }

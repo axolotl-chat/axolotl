@@ -88,7 +88,6 @@ func runElectron() {
 		Width:  astilectron.PtrInt(600),
 	})
 	w.Create()
-	w.OpenDevTools()
 	// Blocking pattern
 	a.Wait()
 }
