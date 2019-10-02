@@ -17,9 +17,6 @@
             <font-awesome-icon icon="arrow-left" />
           </router-link>
           <div class="header-text">New group</div>
-          <button class="btn create-group" @click="createGroup">
-            <font-awesome-icon icon="check" />
-          </button>
         </div>
         <div v-else-if="route()=='devices' " >
           <button class="back btn" @click="back()">
@@ -138,7 +135,6 @@
     },
     mounted() {
       window.router = this.$router;
-      console.info('App this router:', this.$router)
     },
     watch:{
     $route (to, from){

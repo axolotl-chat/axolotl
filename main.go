@@ -61,7 +61,6 @@ func runBackend() {
 }
 func runUI() error {
 	defer wg.Done()
-	fmt.Println(config.Gui)
 	if config.Gui != "ut" && config.Gui != "me" && config.Gui != "lorca" {
 		ui.RunUi(config.Gui)
 		runElectron()
@@ -72,7 +71,7 @@ func runUI() error {
 	return nil
 }
 func runElectron() {
-	fmt.Println("start electron")
+	log.Infoln("Start electron")
 	var a, _ = astilectron.New(astilectron.Options{
 		AppName:            "axolotl",
 		AppIconDefaultPath: "axolotl-web/public/axolotl.png", // If path is relative, it must be relative to the data directory
@@ -89,6 +88,7 @@ func runElectron() {
 		Width:  astilectron.PtrInt(600),
 	})
 	w.Create()
+	w.OpenDevTools()
 	// Blocking pattern
 	a.Wait()
 }

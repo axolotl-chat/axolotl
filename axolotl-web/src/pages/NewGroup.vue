@@ -5,7 +5,11 @@
       <input type="text" v-model="newGroupName" @change="setGroupName" class="form-control" id="group-name" placeholder="Enter group name">
 
     </div>
-    <button class="btn add-group-members" @click="addMembersModal=true"><font-awesome-icon icon="plus" /> Members</button>
+    <button class="btn add-group-members" @click="addMembersModal=true">
+      <font-awesome-icon icon="plus" /> Members</button>
+    <button class="btn create-group" @click="createGroup">
+      <font-awesome-icon icon="check" /> Create group
+    </button>
     <add-group-members-modal  v-if="addMembersModal"
     :allreadyAdded="newGroupMembers"
     @add="addGroupMemeber"
@@ -39,9 +43,11 @@ export default {
   props: {
     msg: String
   },
+  mounted(){
+    this.$store.dispatch("getContacts")
+  },
   methods:{
     setGroupName(){
-      this.$store.dispatch("setNewGroupName", this.newGroupName)
     },
     addGroupMemeber(groupMember){
       var found = this.newGroupMembers.find(function(element) {
@@ -54,6 +60,16 @@ export default {
       if(this.newGroupMembers.length>1)
       this.newGroupMembers= this.newGroupMembers.filter((item,j)=>j!=i)
       else this.newGroupMembers = [];
+    },
+    createGroup(){
+      if(this.newGroupName!=null&&this.newGroupMembers.length>0){
+        var members = [];
+        this.newGroupMembers.forEach(m=>members.push(m.Tel))
+        this.$store.dispatch("createNewGroup",{
+          name: this.newGroupName,
+          members: members
+        })
+      }
     }
   },
   data() {

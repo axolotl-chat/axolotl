@@ -59,7 +59,7 @@ func GetConfig() (*textsecure.Config, error) {
 		Config = &textsecure.Config{}
 	}
 	Config.StorageDir = StorageDir
-	fmt.Printf(StorageDir)
+	log.Debugln(ConfigDir)
 	Config.UserAgent = fmt.Sprintf("TextSecure %s for Ubuntu Phone", AppVersion)
 	Config.UnencryptedStorage = true
 	// Config.LogLevel

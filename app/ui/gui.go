@@ -32,7 +32,7 @@ func GroupUpdateMsg(tels []string, title string) string {
 	return s + "Title is now '" + title + "'."
 }
 func RegistrationDone() {
-	fmt.Println("Registered")
+	log.Infoln("Registered")
 	// Win.Root().Call("registered")
 	textsecure.WriteConfig(config.ConfigFile, config.Config)
 	settings.SettingsModel.Registered = true

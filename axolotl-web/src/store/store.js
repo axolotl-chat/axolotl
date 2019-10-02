@@ -45,18 +45,23 @@ export default new Vuex.Store({
           state.devices = devices
         },
         SET_REQUEST(state, request){
+          var type = request["Type"]
           state.request = request;
-          if(request=="getPhoneNumber"){
+          if(type=="getPhoneNumber"){
             window.router.push("/")
           }
-          else if (request == "getVerificationCode") {
+          else if (type == "getVerificationCode") {
             window.router.push("/verify")
           }
-          else if (request =="registrationDone") {
+          else if (type =="registrationDone") {
             window.router.push("/chatList")
             this.dispatch("getChatList")
           }
-          else if (request =="registrationDone") {
+          else if (type =="requestEnterChat") {
+            window.router.push("/chat/"+request["Chat"])
+            this.dispatch("getChatList")
+          }
+          else if (type =="registrationDone") {
             window.router.push("/chatList")
             this.dispatch("getChatList")
           } else if (request =="setConfigUt") {
@@ -140,7 +145,7 @@ export default new Vuex.Store({
               this.commit("SET_MESSAGE_RECIEVED",messageData["MessageRecieved"] );
             }
             else if(Object.keys(messageData)[0]=="Type"){
-              this.commit("SET_REQUEST",messageData["Type"] );
+              this.commit("SET_REQUEST",messageData );
             }
             state.socket.message = message.data
           }
@@ -353,9 +358,10 @@ export default new Vuex.Store({
       if(this.state.socket.isConnected){
         var message = {
           "request":"createGroup",
-          "groupName": data.groupName,
-          "groupMembers": data.groupMembers,
+          "name": data.name,
+          "members": data.members,
         }
+        console.log(message);
         Vue.prototype.$socket.send(JSON.stringify(message))
 
       }

@@ -101,7 +101,9 @@ export default {
   },
   computed: {
     chats () {
-      return this.$store.state.chatList
+      return this.$store.state.chatList.filter(e=>e.Messages!=null).sort(function(a, b) {
+        return b.Messages[b.Messages.length-1].SentAt - a.Messages[a.Messages.length-1].SentAt;
+      });
     }
   }
 }
