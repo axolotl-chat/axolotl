@@ -2,10 +2,11 @@ package sender
 
 import (
 	"io"
-	"log"
 	"os"
 	"strings"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
@@ -16,16 +17,16 @@ func SendMessageHelper(to, message, file string) (error, *store.Message) {
 	var err error
 	if file != "" {
 		file, err = store.CopyAttachment(file)
-		// log.Printf("got Attachment:" + file)
+		log.Debugln("[axolotl] attachment: " + file)
 		if err != nil {
-			log.Printf("Error Attachment:" + err.Error())
+			log.Errorln("Error Attachment:" + err.Error())
 			return err, nil
 		}
 	}
 	session := store.SessionsModel.Get(to)
 	m := session.Add(message, "", file, "", true, store.ActiveSessionID)
 	m.Source = to
-	_, savedM:= store.SaveMessage(m)
+	_, savedM := store.SaveMessage(m)
 	go SendMessage(session, m)
 	return nil, savedM
 }

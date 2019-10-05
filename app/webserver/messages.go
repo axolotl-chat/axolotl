@@ -90,3 +90,10 @@ type CreateGroupMessage struct {
 	Name    string   `json:"name"`
 	Members []string `json:"members"`
 }
+type SendAttachmentMessage struct {
+	Type    string `json:"request"`
+	AType   string `json:"type"`
+	Path    string `json:"path"`
+	To      string `json:"to"`
+	Message string `json:"message"`
+}

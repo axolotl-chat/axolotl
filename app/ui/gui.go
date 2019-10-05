@@ -32,8 +32,7 @@ func GroupUpdateMsg(tels []string, title string) string {
 	return s + "Title is now '" + title + "'."
 }
 func RegistrationDone() {
-	log.Infoln("Registered")
-	// Win.Root().Call("registered")
+	log.Infoln("[axolotl] Registered")
 	textsecure.WriteConfig(config.ConfigFile, config.Config)
 	settings.SettingsModel.Registered = true
 	webserver.RegistrationDone()
@@ -57,7 +56,7 @@ func InitModels() {
 		log.Println(err)
 	} else {
 		if settings.SettingsModel.Registered {
-			log.Debugf("Already registered")
+			log.Debugf("[axolotl] Already registered")
 		}
 	}
 	// Engine.Context().SetVar("contactsModel", store.ContactsModel)
@@ -74,17 +73,17 @@ func RunUi(e string) {
 	if e == "ut" || e == "me" {
 		runUIUbuntuTouch(e)
 	} else if e == "lorca" {
-		fmt.Println("start lorca")
+		fmt.Println("[axolotl] start lorca")
 		ui, err := lorca.New("", "", 480, 720, "--hide-scrollbars")
 		if err != nil {
-			log.Debugln("lorca error")
+			log.Debugln("[axolotl] lorca error")
 			log.Fatal(err)
 		}
 		defer ui.Close()
 
 		// A simple way to know when UI is ready (uses body.onload event in JS)
 		ui.Bind("start", func() {
-			log.Println("UI is ready")
+			log.Println("[axolotl] UI is ready")
 		})
 		ui.Load(fmt.Sprintf("http://localhost:9080"))
 
@@ -96,12 +95,12 @@ func RunUi(e string) {
 		case <-ui.Done():
 		}
 
-		log.Println("exiting...")
+		log.Println("[axolotl] exiting...")
 	}
 }
 func runUIUbuntuTouch(e string) {
 	var cmd *exec.Cmd
-	log.Infof("Axolotl-gui starting for sys: %v", config.Gui)
+	log.Infof("[axolotl] Axolotl-gui starting for sys: %v", config.Gui)
 
 	if config.Gui == "ut" {
 		cmd = exec.Command("qmlscene", "--scaling", "guis/qml/ut/MainUt.qml")
@@ -139,11 +138,11 @@ func runUIUbuntuTouch(e string) {
 		log.Fatalf("cmd.Run() failed with %s\n", err)
 	}
 	if errStdout != nil || errStderr != nil {
-		log.Fatal("failed to capture stdout or stderr\n")
+		log.Fatal("[axolotl] failed to capture stdout or stderr\n")
 	}
 	outStr, errStr := string(stdout), string(stderr)
 	log.Infof("\nout:\n%s\nerr:\n%s\n", outStr, errStr)
-	log.Infof("Axolotl-gui finished with error: %v", err)
+	log.Infof("[axolotl] Axolotl-gui finished with error: %v", err)
 }
 func copyAndCapture(w io.Writer, r io.Reader) ([]byte, error) {
 	var out []byte

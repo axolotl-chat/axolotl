@@ -85,7 +85,7 @@ func (Api *TextsecureAPI) SetLogLevel() {
 	textsecure.WriteConfig(config.ConfigFile, config.Config)
 }
 func RunBackend() {
-	log.Debugf("Run Backend")
+	log.Debugf("[axolotl] Run Backend")
 	store.DS.SetupDb("")
 	go push.NotificationInit()
 	isEncrypted = settings.SettingsModel.EncryptDatabase
@@ -112,16 +112,16 @@ func RunBackend() {
 		},
 		GetStoragePassword: func() string {
 			password := ui.GetStoragePassword()
-			log.Debugf("Asking for password")
+			log.Debugf("[axolotl] Asking for password")
 
 			if settings.SettingsModel.EncryptDatabase {
-				log.Debugf("Attempting to open encrypted datastore")
+				log.Debugf("[axolotl] Attempting to open encrypted datastore")
 				var err error
 				store.DS, err = store.NewStorage(password)
 				if err != nil {
 					log.WithFields(log.Fields{
 						"error": err,
-					}).Error("Failed to open encrypted database")
+					}).Error("[axolotl] Failed to open encrypted database")
 				} else {
 					Api.StartAfterDecryption()
 
@@ -154,7 +154,7 @@ func RunBackend() {
 	for {
 		if !isEncrypted {
 			if !sessionStarted {
-				log.Debugf("Start Session after Decryption")
+				log.Debugf("[axolotl] Start Session after Decryption")
 				startSession()
 
 			}
@@ -169,15 +169,15 @@ func RunBackend() {
 }
 func (Api *TextsecureAPI) StartAfterDecryption() {
 
-	log.Debugf("DB Encrypted, ready to start")
+	log.Debugf("[axolotl] DB Encrypted, ready to start")
 	isEncrypted = false
 }
 
 func startSession() {
-	log.Debugf("starting Signal connection")
+	log.Debugf("[axolotl] starting Signal connection")
 	err := textsecure.Setup(client)
 	if _, ok := err.(*strconv.NumError); ok {
-		ui.ShowError(fmt.Errorf("Switching to unencrypted session store, removing %s\nThis will reset your sessions and reregister your phone.\n", config.StorageDir))
+		ui.ShowError(fmt.Errorf("[axolotl] Switching to unencrypted session store, removing %s\nThis will reset your sessions and reregister your phone.\n", config.StorageDir))
 		os.RemoveAll(config.StorageDir)
 		os.Exit(1)
 	}

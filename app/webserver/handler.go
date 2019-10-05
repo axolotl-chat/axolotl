@@ -3,9 +3,13 @@ package webserver
 import (
 	"encoding/json"
 	"fmt"
-	"log"
+	"os"
+	"strings"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/gorilla/websocket"
+	"github.com/nanu-c/textsecure-qml/app/sender"
 	"github.com/nanu-c/textsecure-qml/app/store"
 )
 
@@ -125,4 +129,26 @@ func ShowError(errorMessage string) {
 	for client := range clients {
 		sendError(client, errorMessage)
 	}
+}
+
+func sendAttachment(attachment SendAttachmentMessage) error {
+	// log.Infoln("[axolotl] send attachment ", attachment.Path)
+	// Do not allow sending attachments larger than 100M for now
+	var maxAttachmentSize int64 = 100 * 1024 * 1024
+	// log.Printf("SendAttachmentApi")
+	file := strings.TrimPrefix(attachment.Path, "file://")
+	fi, err := os.Stat(file)
+	if err != nil {
+		log.Errorln("[axolotl] attachment error:", err)
+		return err
+	}
+	if fi.Size() > maxAttachmentSize {
+		log.Errorln("[axolotl] attachment error: Attachment too large, not sending")
+		return nil
+	}
+	err, m := sender.SendMessageHelper(attachment.To, attachment.Message, file)
+	if err == nil {
+		go MessageHandler(m)
+	}
+	return nil
 }

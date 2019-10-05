@@ -49,7 +49,7 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-	log.Println("Client Connected")
+	log.Println("[axolotl] Client Connected")
 	// err = ws.WriteMessage(1, []byte("Hi Client!"))
 	if err != nil {
 		// log.Println(err)
@@ -89,7 +89,7 @@ func wsReader(conn *websocket.Conn) {
 			id := getMessageListMessage.ID
 			activeChat = getMessageListMessage.ID
 			store.ActiveSessionID = activeChat
-			log.Debugln("Enter chat ", id)
+			log.Debugln("[axolotl] Enter chat ", id)
 			sendMessageList(conn, id)
 		case "getMoreMessages":
 			getMoreMessages := GetMoreMessages{}
@@ -117,6 +117,7 @@ func wsReader(conn *websocket.Conn) {
 		case "sendMessage":
 			sendMessageMessage := SendMessageMessage{}
 			json.Unmarshal([]byte(p), &sendMessageMessage)
+			log.Debugln("send message ", sendMessageMessage.To)
 			err, m := sender.SendMessageHelper(sendMessageMessage.To, sendMessageMessage.Message, "")
 			if err == nil {
 				go MessageHandler(m)
@@ -224,6 +225,14 @@ func wsReader(conn *websocket.Conn) {
 			store.DeleteSession(delChatMessage.ID)
 			store.RefreshContacts()
 			sendChatList(conn)
+		case "sendAttachment":
+			sendAttachmentMessage := SendAttachmentMessage{}
+			json.Unmarshal([]byte(p), &sendAttachmentMessage)
+			sendAttachment(sendAttachmentMessage)
+
+			// store.DeleteSession(sendAttachmentMessage.ID)
+			// store.RefreshContacts()
+			// sendChatList(conn)
 		}
 	}
 }

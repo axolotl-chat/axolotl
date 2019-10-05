@@ -38,7 +38,7 @@ UITK.Page {
     }
     onJavaScriptDialogRequested: function(request) {
       request.accepted = true;
-      console.log(request.message)
+      console.log("request: ",request.message)
       if(request.message =="desktopLink"){
         desktopLinkDialog.request = request; // keep the reference to the request
         desktopLinkDialog.visible = true;
@@ -49,7 +49,25 @@ UITK.Page {
         root.contentType = ContentType.Contacts
         root.handler = ContentHandler.Source
         root.selectionType = ContentTransfer.Multiple
-      }
+      } else if(request.message =="photo"){
+        root.request = request
+        root.requestContentHub = true
+        root.contentType = ContentType.Pictures
+        root.handler = ContentHandler.Source
+        root.selectionType = ContentTransfer.Single
+      } else if(request.message =="video"){
+        root.request = request
+        root.requestContentHub = true
+        root.contentType = ContentType.Videos
+        root.handler = ContentHandler.Source
+        root.selectionType = ContentTransfer.Single
+      } else if(request.message =="document"){
+      root.request = request
+      root.requestContentHub = true
+      root.contentType = ContentType.Documents
+      root.handler = ContentHandler.Source
+      root.selectionType = ContentTransfer.Single
+    }
 
     }
   }

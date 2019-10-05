@@ -71,7 +71,7 @@ func runUI() error {
 	return nil
 }
 func runElectron() {
-	log.Infoln("Start electron")
+	log.Infoln("[axolotl] Start electron")
 	var a, _ = astilectron.New(astilectron.Options{
 		AppName:            "axolotl",
 		AppIconDefaultPath: "axolotl-web/public/axolotl.png", // If path is relative, it must be relative to the data directory

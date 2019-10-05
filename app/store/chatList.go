@@ -79,7 +79,7 @@ func UpdateSessionTable() error {
 
 	col, err := res.Columns()
 	if len(col) == 8 {
-		log.Infof("Update session schema")
+		log.Infof("[axolotl] Update session schema")
 		_, err := DS.Dbx.Exec("ALTER TABLE sessions ADD COLUMN notification bool NOT NULL DEFAULT 1")
 		if err != nil {
 			return err
@@ -199,7 +199,7 @@ func (s *Session) ToggleSessionNotifcation(notification bool) {
 
 	}
 	//qml.Changed(s, &s.Notification)
-	log.Debugf(txt)
+	log.Debugln("[axolotl] ", txt)
 	UpdateSession(s)
 }
 
@@ -272,7 +272,7 @@ func (s *Session) moveToTop() {
 	topSession = s.Tel
 }
 func LoadChats() error {
-	log.Printf("Loading Chats")
+	log.Printf("[axolotl] Loading Chats")
 	err := DS.Dbx.Select(&AllGroups, groupsSelect)
 	if err != nil {
 		return err

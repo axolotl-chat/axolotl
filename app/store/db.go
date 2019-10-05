@@ -85,7 +85,7 @@ func (ds *DataStore) SetupDb(password string) bool {
 
 	LoadChats()
 	//qml.Changed(SessionsModel, &SessionsModel.Len)
-	log.Printf("Db setup finished")
+	log.Printf("[axolotl] Db setup finished")
 
 	return true
 }
@@ -203,31 +203,31 @@ func NewStorage(password string) (*DataStore, error) {
 	return ds, nil
 }
 func NewDataStore(dbPath, saltPath, password string) (*DataStore, error) {
-	log.Debugf("NewDataStore")
+	log.Debugf("[axolotl] NewDataStore")
 
 	params := "_busy_timeout=5000&cache=shared"
 
 	if password != "" && saltPath != "" {
-		log.Info("Connecting to encrypted data store")
+		log.Info("[axolotl] Connecting to encrypted data store")
 		key, err := getKey(saltPath, password)
 		if err != nil {
-			log.Errorf("Failed to get key: " + err.Error())
+			log.Errorf("[axolotl] Failed to get key: " + err.Error())
 			return nil, err
 		}
-		log.Debugf("Connecting to encrypted data store finished")
+		log.Debugf("[axolotl] Connecting to encrypted data store finished")
 
 		params = fmt.Sprintf("%s&_pragma_key=x'%X'&_pragma_cipher_page_size=4096", params, key)
 	}
 
 	db, err := sqlx.Open("sqlite3", fmt.Sprintf("%s?%s", dbPath, params))
 	if err != nil {
-		log.Errorf("Failed to open DB")
+		log.Errorf("[axolotl] Failed to open DB")
 		return nil, err
 	}
 
 	err = db.Ping()
 	if err != nil {
-		log.Errorf("Failed to ping db")
+		log.Errorf("[axolotl] Failed to ping db")
 
 		return nil, err
 	}
@@ -235,7 +235,7 @@ func NewDataStore(dbPath, saltPath, password string) (*DataStore, error) {
 	_, err = db.Exec(messagesSchema)
 
 	if err != nil {
-		log.Debugf("Failed exec messageSchema (Happens also on encrypted db)")
+		log.Debugf("[axolotl] Failed exec messageSchema (Happens also on encrypted db)")
 
 		return nil, err
 	}
@@ -249,7 +249,7 @@ func NewDataStore(dbPath, saltPath, password string) (*DataStore, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Debugf("NewDataStore finished")
+	log.Debugf("[axolotl] NewDataStore finished")
 
 	return &DataStore{Dbx: db}, nil
 }

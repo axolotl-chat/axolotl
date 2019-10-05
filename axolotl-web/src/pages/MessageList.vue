@@ -56,32 +56,80 @@
         <div class="row">
           <div class="messageInput-container col-9">
             <textarea id="messageInput" type="textarea" v-model="messageInput"
-            onkeyup="if(this.scrollHeight > this.clientHeight)this.style.height=this.scrollHeight+'px';console.log('blub')"/>
+            onkeyup="if(this.scrollHeight > this.clientHeight)this.style.height=this.scrollHeight+'px';"/>
           </div>
-          <div class="col-3 text-right">
+          <div v-if="messageInput!=''" class="col-3 text-right">
             <button class="btn send" @click="sendMessage"><font-awesome-icon icon="paper-plane" /></button>
+          </div>
+          <div v-else class="col-3 text-right">
+            <button class="btn send" @click="loadAttachmentDialog"><font-awesome-icon icon="plus" /></button>
           </div>
         </div>
       </div>
     </div>
+    <attachment-bar v-if="showAttachmentsBar"
+    @close="showAttachmentsBar=false"
+    @send="callContentHub($event)" />
+    <input id="attachment" type="file" @change="sendDesktopAttachment" style="position: fixed; top: -100em">
+
   </div>
 </template>
 
 <script>
+import AttachmentBar from "@/components/AttachmentBar"
 export default {
   name: 'Chat',
   props: {
     chatId: String
   },
+  components:{
+    AttachmentBar
+  },
   data() {
     return {
       messageInput: "",
-      scrolled:false
+      scrolled:false,
+      showAttachmentsBar:false
     }
   },
   methods: {
     getId: function() {
       return(this.chatId)
+    },
+    callContentHub(type) {
+      this.showAttachmentsBar = false;
+      if(this.gui=="ut"){
+        var result = window.prompt(type);
+        this.showSettingsMenu = false;
+        if(result!="canceld")
+        this.$store.dispatch("sendAttachment", {type:type, path:result, to: this.chatId, message:this.messageInput});
+      } else {
+        // this.showSettingsMenu = false;
+        // document.getElementById("addVcf").click()
+      }
+    },
+    loadAttachmentDialog(){
+      if(this.gui=="ut"){
+      this.showAttachmentsBar=true
+      }
+      else{
+        document.getElementById("attachment").click()
+
+      }
+    },
+    sendDesktopAttachment(evt){
+      var f = evt.target.files[0];
+      if (f) {
+        var r = new FileReader();
+        var that = this;
+        r.onload = function(e) {
+            var attachment = e.target.result;
+            that.$store.dispatch("uploadAttachment", attachment);
+        }
+        r.readAsText(f)
+      } else {
+        alert("Failed to load file");
+      }
     },
     sendMessage(){
       if(this.messageInput!=""){
@@ -140,7 +188,10 @@ export default {
   computed: {
     messages () {
       return this.$store.state.messageList.Messages
-    }
+    },
+    gui() {
+      return this.$store.state.gui
+    },
   }
 }
 </script>

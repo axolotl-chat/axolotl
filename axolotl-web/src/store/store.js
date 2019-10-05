@@ -277,11 +277,20 @@ export default new Vuex.Store({
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
-    uploadVcf(context, vcf) {
+    uploadVcf:function(context, vcf) {
       if(this.state.socket.isConnected){
         var message = {
           "request":"uploadVcf",
           "vcf": vcf
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
+      }
+    },
+    uploadAttachment:function(context, attachment) {
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"uploadAttachment",
+          "attachment": attachment
         }
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
@@ -365,5 +374,18 @@ export default new Vuex.Store({
 
       }
     },
+    sendAttachment:function(context, data){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"sendAttachment",
+          "type": data.type,
+          "path": data.path,
+          "to": data.to,
+          "message": data.message,
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
+
+      }
+    }
   }
 });
