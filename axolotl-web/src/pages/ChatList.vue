@@ -33,7 +33,7 @@
       </button>
     </div>
     <div v-else class="no-entries">
-      No chats aviable
+      No chats available
     </div>
     <!-- {{chats}} -->
     <router-link :to="'/contacts/'" class="btn start-chat"><font-awesome-icon icon="pencil-alt" /></router-link>

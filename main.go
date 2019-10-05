@@ -40,7 +40,7 @@ func setup() {
 	config.SetupConfig()
 	helpers.SetupLogging()
 	log.SetLevel(log.DebugLevel)
-	log.Infoln("Starting Signal for Ubuntu version", config.AppVersion)
+	log.Infoln("[axolotl] Starting Signal for Ubuntu version", config.AppVersion)
 }
 func runBackend() {
 	ui.SetEngine()
@@ -94,7 +94,7 @@ func runElectron() {
 func runWebserver() {
 	// Decrement the counter when the goroutine completes.
 	defer wg.Done()
-	log.Printf("Axolotl server started")
+	log.Printf("[axolotl] Axolotl server started")
 
 	// Fetch the URL.
 	webserver.Run()
@@ -106,7 +106,7 @@ func main() {
 
 	setup()
 	runBackend()
-	log.Println("Setup completed")
+	log.Println("[axolotl] Setup completed")
 	wg.Add(1)
 	go runWebserver()
 	wg.Add(1)

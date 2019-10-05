@@ -24,7 +24,7 @@ var clients = make(map[*websocket.Conn]bool)
 var activeChat = ""
 
 func Run() error {
-	log.Printf("Starting axolotl ws")
+	log.Printf("[axolotl] Starting axolotl ws")
 	go sync()
 	go attachmentServer()
 	webserver()
@@ -56,6 +56,9 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	}
 	// listen indefinitely for new messages coming
 	// through on our WebSocket connection
+	SetGui()
+	UpdateChatList()
+	UpdateContactList()
 	wsReader(ws)
 }
 
@@ -121,7 +124,7 @@ func wsReader(conn *websocket.Conn) {
 		case "getContacts":
 			go sendContactList(conn)
 		case "addContact":
-			fmt.Printf("addContact")
+			log.Infoln("Add contact")
 			addContactMessage := AddContactMessage{}
 			json.Unmarshal([]byte(p), &addContactMessage)
 			log.Println(addContactMessage.Name)
@@ -146,9 +149,6 @@ func wsReader(conn *websocket.Conn) {
 				sendRequest(conn, "registrationDone")
 			} else {
 				sendRequest(conn, "getPhoneNumber")
-			}
-			if config.Gui == "ut" {
-				sendRequest(conn, "setConfigUt")
 			}
 		case "addDevice":
 			addDeviceMessage := AddDeviceMessage{}

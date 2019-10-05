@@ -60,7 +60,6 @@ UITK.Page {
     id: peerPicker
     anchors { fill: parent;}
     visible: root.requestContentHub
-    showTitle: false
     contentType: root.contentType //ContentType.Pictures
     handler: root.handler //ContentHandler.Source
     // selectionType: root.selectionType
@@ -70,6 +69,7 @@ UITK.Page {
         root.activeTransfer = peer.request()
     }
     onCancelPressed: {
+        request.dialogAccept("canceld");
         requestContentHub=false
     }
 }

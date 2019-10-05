@@ -150,3 +150,33 @@ func UpdateContactList() {
 		}
 	}
 }
+
+type SendGui struct {
+	Gui string
+}
+
+func SetGui() {
+
+	if activeChat == "" {
+		for client := range clients {
+			var err error
+			gui := config.Gui
+			if gui == "" {
+				gui = "standard"
+			}
+			request := &SendGui{
+				Gui: gui,
+			}
+			message := &[]byte{}
+			*message, err = json.Marshal(request)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
+				log.Println(err)
+				return
+			}
+		}
+	}
+}

@@ -16,7 +16,7 @@
       </div>
     </div>
     <div v-else class="no-entries" >
-      No devices aviable
+      No devices available
     </div>
     <button @click="linkDevice" class="btn start-chat"><font-awesome-icon icon="plus" /></button>
 

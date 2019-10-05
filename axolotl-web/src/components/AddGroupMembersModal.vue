@@ -11,6 +11,7 @@
         <div class="modal-body">
           <div class="contact-list">
             <div v-for="(contact, i) in contacts"
+                v-if="contacts.length>0"
                 class="btn col-12 chat">
               <div class="row chat-entry">
                 <div class="avatar col-3" @click="contactClick(contact)">
@@ -22,10 +23,13 @@
                 </div>
               </div>
             </div>
+            <div v-else>Enter Contacts in list first<div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div>
   </div>
 </template>
 

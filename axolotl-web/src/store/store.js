@@ -64,9 +64,6 @@ export default new Vuex.Store({
           else if (type =="registrationDone") {
             window.router.push("/chatList")
             this.dispatch("getChatList")
-          } else if (request =="setConfigUt") {
-
-            this.commit("SET_CONFIG_GUI");
           }
           // this.dispatch("requestCode", "+123456")
         },
@@ -144,6 +141,9 @@ export default new Vuex.Store({
             else if(Object.keys(messageData)[0]=="MessageRecieved"){
               this.commit("SET_MESSAGE_RECIEVED",messageData["MessageRecieved"] );
             }
+            else if(Object.keys(messageData)[0]=="Gui"){
+              this.commit("SET_CONFIG_GUI", messageData["Gui"]);
+            }
             else if(Object.keys(messageData)[0]=="Type"){
               this.commit("SET_REQUEST",messageData );
             }
@@ -156,8 +156,8 @@ export default new Vuex.Store({
         SOCKET_RECONNECT_ERROR(state) {
           state.socket.reconnectError = true;
         },
-        SET_CONFIG_GUI(state) {
-          state.gui = "ut";
+        SET_CONFIG_GUI(state, gui) {
+          state.gui =  gui;
         },
   },
 

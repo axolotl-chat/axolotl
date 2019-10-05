@@ -99,8 +99,11 @@
         this.$store.dispatch("unregister");
       },
       refreshContacts(){
+        console.log("Import contacts for gui " + this.gui)
+        this.showSettingsMenu = false;
         if(this.gui=="ut"){
           var result = window.prompt("refreshContacts");
+          if(result!="canceld")
           this.$store.dispatch("refreshContacts", result);
         } else {
           this.showSettingsMenu = false;
