@@ -1,4 +1,11 @@
-0.6.8 (Sept 30 2019) Axolotl-Alpha
+0.6.9 (Okt 06 2019) Axolotl-Alpha
+--------------------
+* send attachments ut
+* fix import contacts on ut
+* Create groups: show contact list also the first time the modal is opened
+* Clean logs and 2 typos thanks @TotalSonic
+
+0.6.8 (Okt 2 2019) Axolotl-Alpha
 --------------------
 * creat Group Chats
 * sort chat list
