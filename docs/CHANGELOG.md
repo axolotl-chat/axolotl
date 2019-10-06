@@ -1,3 +1,8 @@
+0.6.10 (Okt 06 2019) Axolotl-Alpha -rc1
+--------------------
+* support for encrypted db's
+
+
 0.6.9 (Okt 06 2019) Axolotl-Alpha
 --------------------
 * send attachments ut

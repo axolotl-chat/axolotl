@@ -16,7 +16,7 @@ import (
 
 var AppName = "textsecure.nanuc"
 
-var AppVersion = "0.6.9"
+var AppVersion = "0.6.10"
 
 // Do not allow sending attachments larger than 100M for now
 var MaxAttachmentSize int64 = 100 * 1024 * 1024
@@ -62,6 +62,7 @@ func GetConfig() (*textsecure.Config, error) {
 	log.Debugln(ConfigDir)
 	Config.UserAgent = fmt.Sprintf("TextSecure %s for Ubuntu Phone", AppVersion)
 	Config.UnencryptedStorage = true
+
 	// Config.LogLevel
 	Config.AlwaysTrustPeerID = true
 	rootCA := filepath.Join(ConfigDir, "rootCA.crt")
