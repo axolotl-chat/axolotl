@@ -357,6 +357,17 @@ export default new Vuex.Store({
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
+    setPassword:function(context, password){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"setPassword",
+          "pw":  password.pw,
+          "currentPw": password.cPw
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
+        window.router.push("/chatList")
+      }
+    },
     getRegistrationStatus:function(){
       if(this.state.socket.isConnected){
         var message = {

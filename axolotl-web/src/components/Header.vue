@@ -13,7 +13,13 @@
           <div class="header-text">Connect with Signal</div>
         </div>
         <div v-else-if="route()=='password' ">
-          <div class="header-text">Enter Password</div>
+          <div class="header-text">Enter password</div>
+        </div>
+        <div v-else-if="route()=='setPassword' " class="list-header-container">
+          <router-link class="btn" :to="'/chatList'">
+            <font-awesome-icon icon="arrow-left" />
+          </router-link>
+          <div class="header-text">Set db encryption password</div>
         </div>
         <div v-else-if="route()=='newGroup' " class="list-header-container">
           <router-link class="btn" :to="'/chatList'">
@@ -60,6 +66,9 @@
               </router-link>
               <router-link class="dropdown-item" :to="'/devices/'" @click="showSettingsMenu=false">
                 Linked devices
+              </router-link>
+              <router-link class="dropdown-item" :to="'/setPassword/'" @click="showSettingsMenu=false">
+                Set password
               </router-link>
               <button class="dropdown-item" @click="unregister">Unregister</button>
             </div>

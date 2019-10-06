@@ -11,10 +11,10 @@ import (
 	"path/filepath"
 	"strconv"
 
-	log "github.com/sirupsen/logrus"
 	_ "github.com/mutecomm/go-sqlcipher"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/settings"
+	log "github.com/sirupsen/logrus"
 	"golang.org/x/crypto/scrypt"
 )
 
@@ -42,7 +42,7 @@ func getSalt(path string) ([]byte, error) {
 
 // Get raw key data for use with sqlcipher
 func getKey(saltPath, password string) ([]byte, error) {
-	log.Debugf("getKey")
+	log.Debugf("[axolotl] get decryption key")
 
 	salt, err := getSalt(saltPath)
 	if err != nil {

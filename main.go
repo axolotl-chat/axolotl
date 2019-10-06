@@ -46,7 +46,6 @@ func runBackend() {
 	ui.SetEngine()
 	//
 	// ui.Engine.AddImageProvider("avatar", store.AvatarImageProvider)
-	ui.InitModels()
 	//
 	// ui.Engine.Context().SetVar("textsecure", worker.Api)
 	// ui.Engine.Context().SetVar("appVersion", config.AppVersion)

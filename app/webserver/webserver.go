@@ -17,6 +17,7 @@ import (
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/contact"
 	"github.com/nanu-c/textsecure-qml/app/sender"
+	"github.com/nanu-c/textsecure-qml/app/settings"
 	"github.com/nanu-c/textsecure-qml/app/store"
 )
 
@@ -150,7 +151,23 @@ func wsReader(conn *websocket.Conn) {
 				json.Unmarshal([]byte(p), &sendPasswordMessage)
 				requestChannel <- sendPasswordMessage.Pw
 			}
-			// sender.SendMessageHelper(sendMessageMessage.To, sendMessageMessage.Message, "")
+		case "setPassword":
+			setPasswordMessage := SetPasswordMessage{}
+			json.Unmarshal([]byte(p), &setPasswordMessage)
+			log.Infoln("[axolotl] set password")
+			if settings.SettingsModel.EncryptDatabase {
+				if !store.DS.DecryptDb(setPasswordMessage.CurrentPw) {
+					// setError(i18n.tr("Incorrect old passphrase!"))
+				}
+			}
+			if setPasswordMessage.Pw != "" {
+				store.DS.EncryptDb(setPasswordMessage.Pw)
+				settings.SettingsModel.EncryptDatabase = true
+			} else {
+				settings.SettingsModel.EncryptDatabase = false
+			}
+			settings.SaveSettings(settings.SettingsModel)
+			os.Exit(0)
 		case "getRegistrationStatus":
 			if requestPassword {
 				sendRequest(conn, "getEncryptionPw")

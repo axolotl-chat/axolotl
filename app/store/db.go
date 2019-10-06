@@ -44,7 +44,7 @@ var (
 
 // Decrypt database and closes connection
 func (ds *DataStore) Decrypt(dbPath string) error {
-	log.Debugf("Decrypt Db")
+	log.Debugf("[axoltol] Decrypt Db")
 	query := fmt.Sprintf("ATTACH DATABASE '%s' AS plaintext KEY '';", dbPath)
 	if DS.Dbx == nil {
 		log.Errorf("Dbx is nil")
@@ -78,7 +78,7 @@ func (ds *DataStore) SetupDb(password string) bool {
 	err = os.MkdirAll(dbDir, 0700)
 	DS, err = NewStorage(password)
 	if err != nil {
-		log.Debugf("Couldn't open db: " + err.Error())
+		log.Debugln("[axolotl] setupDb: Couldn't open db: "+err.Error(), password)
 		return false
 	}
 	UpdateSessionTable()
@@ -127,6 +127,8 @@ func (ds *DataStore) DecryptDb(password string) bool {
 		return true
 	}
 	settings.SettingsModel.EncryptDatabase = false
+	settings.SaveSettings(settings.SettingsModel)
+
 	DS.Dbx = nil
 	DS, err = NewStorage("")
 	if err != nil {
@@ -136,7 +138,7 @@ func (ds *DataStore) DecryptDb(password string) bool {
 	return false
 }
 func (ds *DataStore) EncryptDb(password string) bool {
-	log.Info("EncryptDb: Encrypting database..")
+	log.Info("[axolotl] EncryptDb: Encrypting database..")
 	dbDir = filepath.Join(config.DataDir, "db")
 	dbFile = filepath.Join(dbDir, "db.sql")
 	tmp := filepath.Join(dbDir, "tmp.db")
@@ -170,6 +172,7 @@ func (ds *DataStore) EncryptDb(password string) bool {
 		return true
 	}
 	settings.SettingsModel.EncryptDatabase = true
+	settings.SaveSettings(settings.SettingsModel)
 	DS.Dbx = nil
 	DS.SetupDb(password)
 	return false
@@ -183,7 +186,7 @@ func NewStorage(password string) (*DataStore, error) {
 	dbDir = filepath.Join(config.DataDir, "db")
 	err := os.MkdirAll(dbDir, 0700)
 	if err != nil {
-		log.Debugf(err.Error())
+		log.Debugln("[axolotl] error open db ", err.Error())
 
 		return nil, err
 	}
@@ -235,7 +238,7 @@ func NewDataStore(dbPath, saltPath, password string) (*DataStore, error) {
 	_, err = db.Exec(messagesSchema)
 
 	if err != nil {
-		log.Debugf("[axolotl] Failed exec messageSchema (Happens also on encrypted db)")
+		log.Debugln("[axolotl] Failed exec messageSchema (Happens also on encrypted db):", err)
 
 		return nil, err
 	}

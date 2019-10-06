@@ -1,6 +1,6 @@
 <template>
   <div class="password">
-    <input v-model="pw"  class="codeInput form-control" />
+    <input v-model="pw"  type="password" class="codeInput form-control" />
     <button class="btn btn-primary" @click="sendPassword()"> Decrypt</button>
   </div>
 </template>

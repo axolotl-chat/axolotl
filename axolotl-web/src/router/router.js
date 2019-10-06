@@ -38,6 +38,11 @@ export default new Router({
     component:  () => import("@/pages/Password.vue")
   },
   {
+    path: "/setPassword",
+    name: "setPassword",
+    component:  () => import("@/pages/SetPassword.vue")
+  },
+  {
     path: "/contacts",
     name: "contacts",
     component:  () => import("@/pages/Contacts.vue")

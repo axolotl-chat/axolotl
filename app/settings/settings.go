@@ -38,6 +38,7 @@ func LoadSettings() (*Settings, error) {
 			log.SetLevel(log.DebugLevel)
 		}
 	}
+	SettingsModel = s
 
 	return s, nil
 }

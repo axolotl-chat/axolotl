@@ -89,12 +89,15 @@ func RunBackend() {
 	log.Debugf("[axolotl] Run Backend")
 	store.DS.SetupDb("")
 	go push.NotificationInit()
+	ui.InitModels()
+	settings.SaveSettings(settings.SettingsModel)
+
 	isEncrypted = settings.SettingsModel.EncryptDatabase
 	if isEncrypted {
 		pw := ""
 		for {
+			pw = ui.GetEncryptionPw()
 			if store.DS.SetupDb(pw) {
-				pw = ui.GetEncryptionPw()
 				log.Debugf("[axolotl] DB Encrypted, ready to start")
 				isEncrypted = false
 				break

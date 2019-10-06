@@ -46,6 +46,11 @@ type SendPasswordMessage struct {
 	Type string `json:"request"`
 	Pw   string `json:"pw"`
 }
+type SetPasswordMessage struct {
+	Type      string `json:"request"`
+	Pw        string `json:"pw"`
+	CurrentPw string `json:"CurrentPw"`
+}
 type SendCodeMessage struct {
 	Type string `json:"request"`
 	Code string `json:"code"`
