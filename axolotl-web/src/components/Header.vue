@@ -12,6 +12,9 @@
         <div v-else-if="route()=='register' ">
           <div class="header-text">Connect with Signal</div>
         </div>
+        <div v-else-if="route()=='password' ">
+          <div class="header-text">Enter Password</div>
+        </div>
         <div v-else-if="route()=='newGroup' " class="list-header-container">
           <router-link class="btn" :to="'/chatList'">
             <font-awesome-icon icon="arrow-left" />

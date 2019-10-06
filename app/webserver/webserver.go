@@ -144,9 +144,17 @@ func wsReader(conn *websocket.Conn) {
 				json.Unmarshal([]byte(p), &sendCodeMessage)
 				requestChannel <- sendCodeMessage.Code
 			}
+		case "sendPassword":
+			if requestChannel != nil {
+				sendPasswordMessage := SendPasswordMessage{}
+				json.Unmarshal([]byte(p), &sendPasswordMessage)
+				requestChannel <- sendPasswordMessage.Pw
+			}
 			// sender.SendMessageHelper(sendMessageMessage.To, sendMessageMessage.Message, "")
 		case "getRegistrationStatus":
-			if registered {
+			if requestPassword {
+				sendRequest(conn, "getEncryptionPw")
+			} else if registered {
 				sendRequest(conn, "registrationDone")
 			} else {
 				sendRequest(conn, "getPhoneNumber")

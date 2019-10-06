@@ -1,6 +1,7 @@
 package worker
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -89,6 +90,19 @@ func RunBackend() {
 	store.DS.SetupDb("")
 	go push.NotificationInit()
 	isEncrypted = settings.SettingsModel.EncryptDatabase
+	if isEncrypted {
+		pw := ""
+		for {
+			if store.DS.SetupDb(pw) {
+				pw = ui.GetEncryptionPw()
+				log.Debugf("[axolotl] DB Encrypted, ready to start")
+				isEncrypted = false
+				break
+			} else {
+				ui.ShowError(errors.New("wrong password"))
+			}
+		}
+	}
 	sessionStarted = false
 	Api = &TextsecureAPI{}
 	Api.LogLevel = settings.SettingsModel.DebugLog

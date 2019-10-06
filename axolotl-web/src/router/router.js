@@ -33,6 +33,11 @@ export default new Router({
     component:  () => import("@/pages/Verification.vue")
   },
   {
+    path: "/password",
+    name: "password",
+    component:  () => import("@/pages/Password.vue")
+  },
+  {
     path: "/contacts",
     name: "contacts",
     component:  () => import("@/pages/Contacts.vue")

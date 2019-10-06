@@ -31,12 +31,12 @@ cp axolotl-web/dist build/linux-arm64/axolotl-web -r
 
 echo "Build windows amd64"
 mkdir -p build/windows-amd64/axolotl-web
-env GOOS=windows GOARCH=amd64 go build -o build/windows-amd64/axolotl.exe .
+env GOOS=windows GOARCH=amd64 go build -ldflags -H=windowsgui -o build/windows-amd64/axolotl.exe .
 cp axolotl-web/dist build/windows-amd64/axolotl-web -r
 
 echo "Build windows 386"
 mkdir -p build/windows-386/axolotl-web
-env GOOS=windows GOARCH=386 go build -o build/windows-386/axolotl.exe .
+env GOOS=windows GOARCH=386 go build -ldflags -H=windowsgui -o build/windows-386/axolotl.exe .
 cp axolotl-web/dist build/windows-amd64/axolotl-web -r
 
 echo "Build darwin amd64"

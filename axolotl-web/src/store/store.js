@@ -53,6 +53,9 @@ export default new Vuex.Store({
           else if (type == "getVerificationCode") {
             window.router.push("/verify")
           }
+          else if (type == "getEncryptionPw") {
+            window.router.push("/password")
+          }
           else if (type =="registrationDone") {
             window.router.push("/chatList")
             this.dispatch("getChatList")
@@ -343,6 +346,15 @@ export default new Vuex.Store({
         Vue.prototype.$socket.send(JSON.stringify(message))
         window.router.push("/chatList")
 
+      }
+    },
+    sendPassword:function(context, password){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"sendPassword",
+          "pw":  password,
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
     getRegistrationStatus:function(){

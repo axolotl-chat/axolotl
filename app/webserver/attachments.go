@@ -1,22 +1,22 @@
 package webserver
 
 import (
-	"fmt"
 	"io"
 	"net/http"
 	"os"
 	"strconv"
+
+	log "github.com/sirupsen/logrus"
 )
 
 func attachmentsHandler(w http.ResponseWriter, r *http.Request) {
 	Filename := r.URL.Query().Get("file")
-	fmt.Println(Filename)
 	if Filename == "" {
 		//Get not set, send a 400 bad request
 		http.Error(w, "Get 'file' not specified in url.", 400)
 		return
 	}
-	fmt.Println("Client requests: " + Filename)
+	log.Debugln("[axolotl] open file: " + Filename)
 
 	//Check if file exists and open
 	Openfile, err := os.Open(Filename)
