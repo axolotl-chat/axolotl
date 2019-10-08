@@ -27,9 +27,68 @@ There are still bugs and UI/UX quirks.
 
 Installation
 ------------
+* Install [Golang] (https://golang.org/doc/install)
+* Install node js
+* Add gopath to ~/.bashrc https://github.com/golang/go/wiki/SettingGOPATH
+* install dependencies `sudo apt install mercurial bzr`
+* Check out this git `go get -d github.com/nanu-c/textsecure-qml`
+* `cd $(go env GOPATH)/src/github.com/nanu-c/textsecure-qml`
+* install axolotl-web dependencies: `cd axolotl-web&&npm install`
+
+```
+go clean
+
+echo "Build ut linux armhf"
+clickable clean build
+
+echo "Build linux amd64 snap"
+mkdir -p build/linux-amd64-snap
+snapcraft clean axolotl
+snapcraft
+mv *.snap build/linux-amd64-snap/
+
+echo "Build linux amd64"
+mkdir -p build/linux-amd64/axolotl-web
+env GOOS=linux GOARCH=amd64 go build -o build/linux-amd64/axolotl .
+cp axolotl-web/dist build/windows-amd64/axolotl-web -r
+
+echo "Build linux arm5"
+mkdir -p build/linux-arm5/axolotl-web
+env GOOS=linux GOARCH=arm GOARM=5 go build -o build/linux-arm5/axolotl .
+cp axolotl-web/dist build/linux-arm5/axolotl-web -r
+
+echo "Build linux arm7"
+mkdir -p build/linux-arm7/axolotl-web
+env GOOS=linux GOARCH=arm GOARM=7 go build -o build/linux-arm7/axolotl .
+cp axolotl-web/dist build/linux-arm7/axolotl-web -r
+
+echo "Build linux arm64"
+mkdir -p build/linux-arm64/axolotl-web
+env GOOS=linux GOARCH=arm64 go build -o build/linux-arm64/axolotl .
+cp axolotl-web/dist build/linux-arm64/axolotl-web -r
+
+echo "Build windows amd64"
+mkdir -p build/windows-amd64/axolotl-web
+env GOOS=windows GOARCH=amd64 go build -ldflags -H=windowsgui -o build/windows-amd64/axolotl.exe .
+cp axolotl-web/dist build/windows-amd64/axolotl-web -r
+
+echo "Build windows 386"
+mkdir -p build/windows-386/axolotl-web
+env GOOS=windows GOARCH=386 go build -ldflags -H=windowsgui -o build/windows-386/axolotl.exe .
+cp axolotl-web/dist build/windows-amd64/axolotl-web -r
+
+echo "Build darwin amd64"
+mkdir -p build/darwin-amd64/axolotl-web
+env GOOS=darwin GOARCH=amd64 go build -o build/darwin-amd64/axolotl .
+cp axolotl-web/dist build/darwin-amd64/axolotl-web -r
+```
+
+Installation on UT
+------------
 
 The build-system is now integrated in the `clickable` Version 3.2.0.
 * Install [Golang] (https://golang.org/doc/install)
+* Install node js
 * Add gopath to ~/.bashrc https://github.com/golang/go/wiki/SettingGOPATH
 * install dependencies `sudo apt install mercurial bzr`
 * Check out this git `go get -d github.com/nanu-c/textsecure-qml`
@@ -38,6 +97,8 @@ The build-system is now integrated in the `clickable` Version 3.2.0.
 * Back to main dir, then
 * Run `clickable`, this also transfers the click package to the Ubuntu Touch Phone
 * Run `clickable launch logs` to start signal and watch the log
+* install axolotl-web dependencies: `cd axolotl-web&&npm install`
+
 
 Contributing
 -----------
