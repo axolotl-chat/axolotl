@@ -12,6 +12,7 @@ export default new Vuex.Store({
     devices: [],
     gui:null,
     error: null,
+    loginError:null,
     newGroupName:null,
     newGroupMembers:[],
     socket: {
@@ -28,8 +29,8 @@ export default new Vuex.Store({
   mutations: {
 
     SET_ERROR(state, error){
-      if(!error){
-        state.error = error;
+      if(error=="wrong password"){
+        state.loginError = error;
       }
     },
         SET_CHATLIST(state, chatList){
@@ -54,6 +55,7 @@ export default new Vuex.Store({
             window.router.push("/verify")
           }
           else if (type == "getEncryptionPw") {
+            if(window.router.currentRoute.name !="password")
             window.router.push("/password")
           }
           else if (type =="registrationDone") {
@@ -67,6 +69,9 @@ export default new Vuex.Store({
           else if (type =="registrationDone") {
             window.router.push("/chatList")
             this.dispatch("getChatList")
+          }
+          else if (type =="Error") {
+            this.commit("SET_ERROR", request.Error)
           }
           // this.dispatch("requestCode", "+123456")
         },
