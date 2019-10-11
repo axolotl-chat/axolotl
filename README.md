@@ -100,6 +100,12 @@ The build-system is now integrated in the `clickable` Version 3.2.0.
 * install axolotl-web dependencies: `cd axolotl-web&&npm install`
 
 
+Run flags
+-----------
+
+* `-sys` for either `lorca`-> native chromium (has to be installed), `ut` -> runs in the ut enviroment, `me` -> qmlscene, or without that flag it runs electron
+* `-eDebug` show developer console in electron mode
+
 Contributing
 -----------
 

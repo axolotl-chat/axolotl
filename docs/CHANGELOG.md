@@ -1,3 +1,10 @@
+0.6.11 (Okt 11 2019) Axolotl-Alpha
+--------------------
+* indicate wrong password + unregister when password forgotten
+* fix empty contacts list, edit/delete contacts, hopefully also show always names in the chatList
+* show ratelimiting error in contact list
+* improve logging
+
 0.6.10 (Okt 06 2019) Axolotl-Alpha -rc1
 --------------------
 * support for encrypted db's
