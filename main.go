@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"flag"
-	"fmt"
 	_ "image/jpeg"
 	_ "image/png"
 	"io"
@@ -26,16 +25,16 @@ var e string
 func init() {
 	flag.StringVar(&config.MainQml, "qml", "qml/phoneui/main.qml", "The qml file to load.")
 	flag.StringVar(&config.Gui, "e", "", "use either electron, ut, lorca or me")
+	flag.BoolVar(&config.ElectronDebug, "eDebug", false, "use to show development console in electron")
 }
 func print(stdout io.ReadCloser) {
 	scanner := bufio.NewScanner(stdout)
 	scanner.Split(bufio.ScanWords)
 	for scanner.Scan() {
 		m := scanner.Text()
-		fmt.Println(m)
+		log.Println("[axolotl] ", m)
 	}
 }
-
 func setup() {
 	config.SetupConfig()
 	helpers.SetupLogging()
@@ -46,13 +45,7 @@ func runBackend() {
 	ui.SetEngine()
 	//
 	// ui.Engine.AddImageProvider("avatar", store.AvatarImageProvider)
-	//
-	// ui.Engine.Context().SetVar("textsecure", worker.Api)
-	// ui.Engine.Context().SetVar("appVersion", config.AppVersion)
-	// ui.Engine.Context().SetVar("cacheDir", config.CacheDir)
 	ui.SetComponent()
-	//
-	// ui.Win.Show()
 	go worker.RunBackend()
 	if config.IsPushHelper {
 		push.PushHelperProcess()
@@ -87,14 +80,15 @@ func runElectron() {
 		Width:  astilectron.PtrInt(600),
 	})
 	w.Create()
+	if config.ElectronDebug {
+		w.OpenDevTools()
+	}
 	// Blocking pattern
 	a.Wait()
 }
 func runWebserver() {
-	// Decrement the counter when the goroutine completes.
 	defer wg.Done()
 	log.Printf("[axolotl] Axolotl server started")
-
 	// Fetch the URL.
 	webserver.Run()
 }
@@ -102,7 +96,6 @@ func runWebserver() {
 var wg sync.WaitGroup
 
 func main() {
-
 	setup()
 	runBackend()
 	log.Println("[axolotl] Setup completed")

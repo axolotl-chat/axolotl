@@ -22,23 +22,25 @@ var AppVersion = "0.6.10"
 var MaxAttachmentSize int64 = 100 * 1024 * 1024
 
 var (
-	IsPhone      bool
-	IsPushHelper bool
-	MainQml      string
-	Gui          string
-	HomeDir      string
-	ConfigDir    string
-	CacheDir     string
-	ConfigFile   string
-	ContactsFile string
-	SettingsFile string
-	LogFile      string
-	LogLevel     string
-	DataDir      string
-	StorageDir   string
-	AttachDir    string
-	TsDeviceURL  string
-	VcardPath    string
+	IsPhone                bool
+	IsPushHelper           bool
+	MainQml                string
+	Gui                    string
+	ElectronDebug          bool
+	HomeDir                string
+	ConfigDir              string
+	CacheDir               string
+	ConfigFile             string
+	ContactsFile           string
+	RegisteredContactsFile string
+	SettingsFile           string
+	LogFile                string
+	LogLevel               string
+	DataDir                string
+	StorageDir             string
+	AttachDir              string
+	TsDeviceURL            string
+	VcardPath              string
 )
 
 var Config *textsecure.Config
@@ -82,7 +84,7 @@ func SetupConfig() {
 	}
 
 	if IsPushHelper {
-		log.Printf("isPushhelper")
+		log.Printf("[axolotl] use push helper")
 		HomeDir = "/home/phablet"
 	} else {
 		user, err := user.Current()
@@ -98,6 +100,7 @@ func SetupConfig() {
 	LogFile = filepath.Join(HomeDir, ".cache/", "upstart/", strings.Join(LogFileName, ""))
 	ConfigDir = filepath.Join(HomeDir, ".config/", AppName)
 	ContactsFile = filepath.Join(ConfigDir, "contacts.yml")
+	RegisteredContactsFile = filepath.Join(ConfigDir, "registeredContacts.yml")
 	SettingsFile = filepath.Join(ConfigDir, "settings.yml")
 	if _, err := os.Stat(SettingsFile); os.IsNotExist(err) {
 		os.OpenFile(SettingsFile, os.O_RDONLY|os.O_CREATE, 0700)

@@ -3,7 +3,6 @@ package contact
 import (
 	"encoding/base64"
 	"errors"
-	"fmt"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -60,16 +59,6 @@ func AddContact(name string, phone string) error {
 		Name: name,
 		Tel:  phone,
 	}
-
-	// found := false
-	// for i := range contacts {
-	// 	if contacts[i].Name == name {
-	// 		contacts[i].Tel = phone
-	// 		found = true
-	// 	}
-	// }
-	// if !found {
-	// }
 	contacts = append(contacts, *contact)
 	sort.Slice(contacts, func(i, j int) bool { return contacts[i].Name < contacts[j].Name })
 	err = textsecure.WriteContacts(config.ContactsFile, contacts)
@@ -78,40 +67,40 @@ func AddContact(name string, phone string) error {
 	}
 	return nil
 }
-func DelContact(id int) error {
+func DelContact(c textsecure.Contact) error {
 	contacts, err := textsecure.ReadContacts(config.ContactsFile)
+	log.Debugln("[axolotl] delete contact ", c)
 	if err != nil {
 		os.Create(config.ContactsFile)
 	}
 	newContactList := []textsecure.Contact{}
 	for i := range contacts {
-		if i != id {
+		if contacts[i].Tel != c.Tel {
 			newContactList = append(newContactList, contacts[i])
-		} else {
-			fmt.Println(contacts[i].Tel)
-			fmt.Println(id)
 		}
 	}
 	err = textsecure.WriteContacts(config.ContactsFile, newContactList)
+	// cs, err := textsecure.ReadContacts(config.ContactsFile)
 	if err != nil {
 		return err
 	}
 	return nil
 }
-func EditContact(id int, contact textsecure.Contact) error {
+func EditContact(cContact textsecure.Contact, editContact textsecure.Contact) error {
 	contacts, err := textsecure.ReadContacts(config.ContactsFile)
+
 	if err != nil {
 		os.Create(config.ContactsFile)
 	}
 	newContactList := []textsecure.Contact{}
 
 	for i := range contacts {
-		if i != id {
-			newContactList = append(newContactList, contacts[i])
+		if contacts[i].Tel == cContact.Tel {
+			newContactList = append(newContactList, editContact)
+			// log.Debugln(id, contacts[i].Tel)
 		} else {
-			newContactList = append(newContactList, contact)
-			fmt.Println(contacts[i].Tel)
-			fmt.Println(id)
+			newContactList = append(newContactList, contacts[i])
+			// log.Debugln(id, i)
 		}
 	}
 	sort.Slice(newContactList, func(i, j int) bool { return newContactList[i].Name < newContactList[j].Name })

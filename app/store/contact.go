@@ -1,8 +1,13 @@
 package store
 
 import (
+	"io/ioutil"
+
+	log "github.com/sirupsen/logrus"
+
 	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/config"
+	yaml "gopkg.in/yaml.v2"
 )
 
 type Contacts struct {
@@ -28,17 +33,52 @@ func GetContactForTel(tel string) *textsecure.Contact {
 }
 func RefreshContacts() error {
 	c, err := textsecure.GetRegisteredContacts()
+	log.Debugln("[axolotl] refresh contacts", len(c))
+
 	if err != nil {
-		return err
+		c, _ = readRegisteredContacts(config.RegisteredContactsFile)
+	} else {
+		writeRegisteredContacts(config.RegisteredContactsFile, c)
+
 	}
 	ContactsModel.Contacts = c
 	ContactsModel.Len = len(c)
 	SessionsModel.UpdateSessionNames()
+	if err != nil {
+		return err
+	}
 	//qml.Changed(ContactsModel, &ContactsModel.Len)
 	//qml.Changed(SessionsModel, &SessionsModel.Len)
 
 	return nil
 }
+
+type yamlContacts struct {
+	Contacts []textsecure.Contact
+}
+
+func writeRegisteredContacts(filename string, contacts []textsecure.Contact) error {
+	c := &yamlContacts{contacts}
+	b, err := yaml.Marshal(c)
+	if err != nil {
+		return err
+	}
+	return ioutil.WriteFile(filename, b, 0600)
+}
+func readRegisteredContacts(fileName string) ([]textsecure.Contact, error) {
+	b, err := ioutil.ReadFile(fileName)
+	if err != nil {
+		return nil, err
+	}
+
+	contacts := &yamlContacts{}
+	err = yaml.Unmarshal(b, contacts)
+	if err != nil {
+		return nil, err
+	}
+	return contacts.Contacts, nil
+}
+
 func TelToName(tel string) string {
 	if g, ok := Groups[tel]; ok {
 		return g.Name

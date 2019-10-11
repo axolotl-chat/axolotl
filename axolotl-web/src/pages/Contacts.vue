@@ -1,5 +1,6 @@
 <template>
   <div class="contact-list">
+    <div v-if="error!=null" class="alert alert-danger">Can't change contact list: {{error}}</div>
     <div v-if="showActions" class="actions-header">
       <button class="btn hide-actions">
         <font-awesome-icon icon="times"  @click="showActions=false"/>
@@ -100,6 +101,9 @@ export default {
   computed: {
     contacts () {
       return this.$store.state.contacts
+    },
+    error () {
+      return this.$store.state.ratelimitError;
     }
   }
 }

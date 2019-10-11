@@ -13,6 +13,7 @@ export default new Vuex.Store({
     gui:null,
     error: null,
     loginError:null,
+    ratelimitError:null,
     newGroupName:null,
     newGroupMembers:[],
     socket: {
@@ -31,6 +32,8 @@ export default new Vuex.Store({
     SET_ERROR(state, error){
       if(error=="wrong password"){
         state.loginError = error;
+      }else if(error=="Rate limit exceeded: 413"){
+        state.ratelimitError = error;
       }
     },
         SET_CHATLIST(state, chatList){
@@ -155,6 +158,9 @@ export default new Vuex.Store({
             else if(Object.keys(messageData)[0]=="Type"){
               this.commit("SET_REQUEST",messageData );
             }
+            else if(Object.keys(messageData)[0]=="Error"){
+              this.commit("SET_ERROR",messageData.Errorx );
+            }
             state.socket.message = message.data
           }
         },
@@ -213,7 +219,7 @@ export default new Vuex.Store({
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
-    getMessageList:function(context, chatId){
+    getMessageList:function(state, chatId){
       this.commit("CLEAR_MESSAGELIST");
       if(this.state.socket.isConnected){
         var message = {
@@ -246,7 +252,7 @@ export default new Vuex.Store({
       }
       this.commit("LEAVE_CHAT");
     },
-    createChat:function(context, tel){
+    createChat:function(state, tel){
       if(this.state.socket.isConnected){
         var message = {
           "request":"createChat",
@@ -256,7 +262,7 @@ export default new Vuex.Store({
       }
       this.commit("CREATE_CHAT", tel);
     },
-    sendMessage:function(context, messageContainer){
+    sendMessage:function(state, messageContainer){
       if(this.state.socket.isConnected){
         var message = {
           "request":"sendMessage",
@@ -274,7 +280,8 @@ export default new Vuex.Store({
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
-    addContact:function(context, contact){
+    addContact:function(state, contact){
+      state.ratelimitError = null;
       if(this.state.socket.isConnected
         &&contact.name!="" && contact.phone!=""){
         var message = {
@@ -285,7 +292,8 @@ export default new Vuex.Store({
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
-    uploadVcf:function(context, vcf) {
+    uploadVcf:function(state, vcf) {
+      state.ratelimitError = null;
       if(this.state.socket.isConnected){
         var message = {
           "request":"uploadVcf",
@@ -294,7 +302,7 @@ export default new Vuex.Store({
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
-    uploadAttachment:function(context, attachment) {
+    uploadAttachment:function(state, attachment) {
       if(this.state.socket.isConnected){
         var message = {
           "request":"uploadAttachment",
@@ -303,7 +311,7 @@ export default new Vuex.Store({
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
-    refreshContacts:function(context, chUrl){
+    refreshContacts:function(state, chUrl){
       if(this.state.socket.isConnected){
         var message = {
           "request":"refreshContacts",
@@ -312,16 +320,18 @@ export default new Vuex.Store({
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
-    delContact:function(state,tel){
+    delContact:function(state,id){
+      state.ratelimitError = null;
       if(this.state.socket.isConnected){
         var message = {
           "request":"delContact",
-          "phone":tel,
+          "id":id,
         }
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
     editContact:function(state,data){
+      state.ratelimitError = null;
       if(this.state.socket.isConnected){
         var message = {
           "request":"editContact",
@@ -333,7 +343,7 @@ export default new Vuex.Store({
       }
     },
     // registration functions
-      requestCode:function(context, tel){
+      requestCode:function(state, tel){
         if(this.state.socket.isConnected){
           var message = {
             "request":"requestCode",
@@ -342,7 +352,7 @@ export default new Vuex.Store({
           Vue.prototype.$socket.send(JSON.stringify(message))
         }
     },
-    sendCode:function(context, code){
+    sendCode:function(state, code){
       if(this.state.socket.isConnected){
         var message = {
           "request":"sendCode",
@@ -353,7 +363,7 @@ export default new Vuex.Store({
 
       }
     },
-    sendPassword:function(context, password){
+    sendPassword:function(state, password){
       if(this.state.socket.isConnected){
         var message = {
           "request":"sendPassword",
@@ -362,7 +372,7 @@ export default new Vuex.Store({
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
-    setPassword:function(context, password){
+    setPassword:function(state, password){
       if(this.state.socket.isConnected){
         var message = {
           "request":"setPassword",
@@ -391,7 +401,7 @@ export default new Vuex.Store({
 
       }
     },
-    createNewGroup:function(context, data){
+    createNewGroup:function(state, data){
       if(this.state.socket.isConnected){
         var message = {
           "request":"createGroup",
@@ -402,7 +412,7 @@ export default new Vuex.Store({
 
       }
     },
-    sendAttachment:function(context, data){
+    sendAttachment:function(state, data){
       if(this.state.socket.isConnected){
         var message = {
           "request":"sendAttachment",

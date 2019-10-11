@@ -99,7 +99,7 @@ func wsReader(conn *websocket.Conn) {
 		case "createChat":
 			createChatMessage := CreateChatMessage{}
 			json.Unmarshal([]byte(p), &createChatMessage)
-			log.Println("Create chat for ", createChatMessage.Tel)
+			log.Println("[axolotl] Create chat for ", createChatMessage.Tel)
 			createChat(createChatMessage.Tel)
 			activeChat = createChatMessage.Tel
 			store.ActiveSessionID = activeChat
@@ -118,7 +118,7 @@ func wsReader(conn *websocket.Conn) {
 		case "sendMessage":
 			sendMessageMessage := SendMessageMessage{}
 			json.Unmarshal([]byte(p), &sendMessageMessage)
-			log.Debugln("send message ", sendMessageMessage.To)
+			log.Debugln("[axolotl] send message to ", sendMessageMessage.To)
 			err, m := sender.SendMessageHelper(sendMessageMessage.To, sendMessageMessage.Message, "")
 			if err == nil {
 				go MessageHandler(m)
@@ -131,7 +131,10 @@ func wsReader(conn *websocket.Conn) {
 			json.Unmarshal([]byte(p), &addContactMessage)
 			log.Println(addContactMessage.Name)
 			contact.AddContact(addContactMessage.Name, addContactMessage.Phone)
-			store.RefreshContacts()
+			err = store.RefreshContacts()
+			if err != nil {
+				ShowError(err.Error())
+			}
 			go sendContactList(conn)
 		case "requestCode":
 			if requestChannel != nil {
@@ -201,7 +204,10 @@ func wsReader(conn *websocket.Conn) {
 			json.Unmarshal([]byte(p), &refreshContactsMessage)
 			config.VcardPath = refreshContactsMessage.Url
 			contact.GetAddressBookContactsFromContentHub()
-			store.RefreshContacts()
+			err = store.RefreshContacts()
+			if err != nil {
+				ShowError(err.Error())
+			}
 			go sendContactList(conn)
 		case "uploadVcf":
 			uploadVcf := UploadVcf{}
@@ -225,30 +231,43 @@ func wsReader(conn *websocket.Conn) {
 			}
 			config.VcardPath = "import.vcf"
 			contact.GetAddressBookContactsFromContentHub()
-			store.RefreshContacts()
+			err = store.RefreshContacts()
+			if err != nil {
+				ShowError(err.Error())
+			}
 			go sendContactList(conn)
 		case "delContact":
-			fmt.Println("delContact")
+			log.Println("[axolotl] delete contact")
 			delContactMessage := DelContactMessage{}
 			json.Unmarshal([]byte(p), &delContactMessage)
-			contact.DelContact(delContactMessage.ID)
+			contact.DelContact(store.ContactsModel.GetContact(delContactMessage.ID))
+			err = store.RefreshContacts()
+			if err != nil {
+				ShowError(err.Error())
+			}
 			go sendContactList(conn)
 		case "editContact":
-			fmt.Println("editContact")
 			editContactMessage := EditContactMessage{}
 			json.Unmarshal([]byte(p), &editContactMessage)
 			replaceContact := textsecure.Contact{
 				Tel:  editContactMessage.Phone,
 				Name: editContactMessage.Name,
 			}
-			contact.EditContact(editContactMessage.ID, replaceContact)
-			store.RefreshContacts()
+			log.Debugln("[axolotl ]editContact", editContactMessage.Name)
+			contact.EditContact(store.ContactsModel.GetContact(editContactMessage.ID), replaceContact)
+			err = store.RefreshContacts()
+			if err != nil {
+				ShowError(err.Error())
+			}
 			go sendContactList(conn)
 		case "delChat":
 			delChatMessage := DelChatMessage{}
 			json.Unmarshal([]byte(p), &delChatMessage)
 			store.DeleteSession(delChatMessage.ID)
-			store.RefreshContacts()
+			err = store.RefreshContacts()
+			if err != nil {
+				ShowError(err.Error())
+			}
 			sendChatList(conn)
 		case "sendAttachment":
 			sendAttachmentMessage := SendAttachmentMessage{}
@@ -256,7 +275,10 @@ func wsReader(conn *websocket.Conn) {
 			sendAttachment(sendAttachmentMessage)
 
 			// store.DeleteSession(sendAttachmentMessage.ID)
-			// store.RefreshContacts()
+			// err = store.RefreshContacts()
+			if err != nil {
+				ShowError(err.Error())
+			}
 			// sendChatList(conn)
 		}
 	}

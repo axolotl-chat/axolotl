@@ -98,7 +98,6 @@ func RequestInput(request string) string {
 	if request == "getEncryptionPw" {
 		requestPassword = true
 	}
-	fmt.Println(request)
 	for client := range clients {
 		sendRequest(client, request)
 	}

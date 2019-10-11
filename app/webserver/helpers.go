@@ -27,7 +27,7 @@ func sendChatList(client *websocket.Conn) {
 	}
 	err = client.WriteMessage(websocket.TextMessage, *message)
 	if err != nil {
-		log.Println(err)
+		log.Println("[textsecure] send error chat list ", err)
 		return
 	}
 }
@@ -43,7 +43,7 @@ func sendContactList(client *websocket.Conn) {
 		return
 	}
 	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
-		log.Println(err)
+		log.Println("[textsecure] send error contact list ", err)
 		return
 	}
 }
@@ -60,7 +60,7 @@ func sendDeviceList(client *websocket.Conn) {
 		return
 	}
 	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
-		log.Println(err)
+		log.Println("[textsecure] send error device list", err)
 		return
 	}
 }
@@ -107,7 +107,7 @@ func sendMessageList(client *websocket.Conn, id string) {
 		return
 	}
 	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
-		log.Println(err)
+		log.Println("[textsecure] send error message list", err)
 		return
 	}
 }
@@ -127,7 +127,7 @@ func sendMoreMessageList(client *websocket.Conn, id string, lastId string) {
 		return
 	}
 	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
-		log.Println(err)
+		log.Println("[textsecure] send error more message list", err)
 		return
 	}
 }
@@ -170,11 +170,11 @@ func SetGui() {
 			message := &[]byte{}
 			*message, err = json.Marshal(request)
 			if err != nil {
-				fmt.Println(err)
+				log.Errorln("[axolotl] set gui", err)
 				return
 			}
 			if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
-				log.Println(err)
+				log.Println("[textsecure] send error set gui", err)
 				return
 			}
 		}

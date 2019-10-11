@@ -58,5 +58,5 @@ func GetEncryptionPw() string {
 }
 func ShowError(err error) {
 	webserver.ShowError(err.Error())
-	log.Errorf(err.Error())
+	log.Errorln("[axolotl] error: ", err.Error())
 }

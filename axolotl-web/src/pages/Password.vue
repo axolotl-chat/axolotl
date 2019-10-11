@@ -2,7 +2,7 @@
   <div class="password">
 
     <div v-if="error" class="alert alert-danger">Password is wrong</div>
-    <input v-model="pw"  type="password" class="codeInput form-control" id="passwordInput"/>
+    <input v-model="pw"  type="password" class="codeInput form-control" id="passwordInput" @keydown="checkEnter($event)"/>
     <button class="btn btn-primary" @click="sendPassword"> Decrypt</button>
     <button v-if="error" class="btn btn-danger" @click="unregister"> Unregister</button>
   </div>
@@ -16,8 +16,12 @@ export default {
       this.$store.dispatch("sendPassword",this.pw);
       this.pw = null;
     },
+    checkEnter(e){
+      if(e.keyCode==13) this.sendPassword();
+    },
     unregister(){
-      console.log("vlub")
+      this.$store.dispatch("unregister");
+
     }
   },
   data() {
