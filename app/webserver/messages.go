@@ -20,6 +20,9 @@ type ContactListEnvelope struct {
 type DeviceListEnvelope struct {
 	DeviceList []textsecure.DeviceInfo
 }
+type CurrentChatEnvelope struct {
+	CurrentChat *store.Session
+}
 
 type Message struct {
 	Type string                 `json:"request"`
@@ -105,4 +108,8 @@ type SendAttachmentMessage struct {
 	Path    string `json:"path"`
 	To      string `json:"to"`
 	Message string `json:"message"`
+}
+type ToggleNotificationsMessage struct {
+	Type string `json:"request"`
+	Chat string `json:"chat"`
 }

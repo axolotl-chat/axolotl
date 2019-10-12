@@ -279,7 +279,14 @@ func wsReader(conn *websocket.Conn) {
 			if err != nil {
 				ShowError(err.Error())
 			}
-			// sendChatList(conn)
+		case "toggleNotifcations":
+			toggleNotificationsMessage := ToggleNotificationsMessage{}
+			json.Unmarshal([]byte(p), &toggleNotificationsMessage)
+			log.Debugln("[axolotl] toggle notification for: ", toggleNotificationsMessage.Chat)
+			s := store.SessionsModel.Get(toggleNotificationsMessage.Chat)
+			s.ToggleSessionNotifcation()
+			sendCurrentChat(conn, s)
+			sendChatList(conn)
 		}
 	}
 }

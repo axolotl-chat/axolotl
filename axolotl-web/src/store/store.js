@@ -15,6 +15,7 @@ export default new Vuex.Store({
     loginError:null,
     ratelimitError:null,
     newGroupName:null,
+    currentChat:null,
     newGroupMembers:[],
     socket: {
       isConnected: false,
@@ -38,6 +39,9 @@ export default new Vuex.Store({
     },
         SET_CHATLIST(state, chatList){
               state.chatList = chatList;
+        },
+        SET_CURRENT_CHAT(state, chat){
+          state.currentChat = chat;
         },
         SEND_MESSAGE(){
 
@@ -89,7 +93,7 @@ export default new Vuex.Store({
               }
         },
         SET_MESSAGE_RECIEVED(state, message){
-          if(state.messageList.ID==message.Source){
+          if(state.messageList.ID==message.ChatID){
             var tmpList = state.messageList.Messages;
             tmpList.push(message);
             tmpList.sort(function(a, b){
@@ -110,7 +114,8 @@ export default new Vuex.Store({
         SET_CONTACTS(state, contacts){
               state.contacts = contacts;
         },
-        LEAVE_CHAT(){
+        LEAVE_CHAT(state){
+          state.currentChat = null;
           this.commit("CLEAR_MESSAGELIST");
         },
         SOCKET_ONOPEN (state, event)  {
@@ -154,6 +159,9 @@ export default new Vuex.Store({
             }
             else if(Object.keys(messageData)[0]=="Gui"){
               this.commit("SET_CONFIG_GUI", messageData["Gui"]);
+            }
+            else if(Object.keys(messageData)[0]=="CurrentChat"){
+              this.commit("SET_CURRENT_CHAT", messageData["CurrentChat"]);
             }
             else if(Object.keys(messageData)[0]=="Type"){
               this.commit("SET_REQUEST",messageData );
@@ -243,6 +251,9 @@ export default new Vuex.Store({
     clearMessageList:function(){
       this.commit("CLEAR_MESSAGELIST");
     },
+    setCurrentChat:function(state, chat){
+      this.commit("SET_CURRENT_CHAT", chat);
+    },
     leaveChat:function(){
       if(this.state.socket.isConnected){
         var message = {
@@ -269,6 +280,16 @@ export default new Vuex.Store({
           "to":  messageContainer.to,
           "message":  messageContainer.message
         }
+        Vue.prototype.$socket.send(JSON.stringify(message))
+      }
+    },
+    toggleNotifcations:function(){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"toggleNotifcations",
+          "chat":this.state.currentChat.Tel
+        }
+        console.log(message);
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },

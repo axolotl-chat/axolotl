@@ -3,11 +3,30 @@
     <div class="container" >
       <div class="overlay" v-if="showSettingsMenu" @click="showSettingsMenu=false"/>
       <div class="header-row row">
-        <div v-if="route()=='chat'" class="message-list-container">
-          <router-link class="btn" :to="'/chatList'">
-            <font-awesome-icon icon="arrow-left" />
-          </router-link>
-            <div v-if="messageList.Session" class="header-text">{{messageList.Session.Name}}</div>
+        <div v-if="route()=='chat'" class="message-list-container row w-100">
+            <div class="col-10 chat-header">
+              <router-link class="btn" :to="'/chatList'">
+                <font-awesome-icon icon="arrow-left" />
+              </router-link>
+              <div v-if="currentChat.IsGroup" class="group-badge"><font-awesome-icon icon="user-friends" /></div>
+              <div v-else class="group-badge">{{currentChat.Name[0]}}</div>
+              <div v-if="!currentChat.Notification" class="mute-badge"> <font-awesome-icon class="mute" icon="volume-mute" /></div>
+              <div v-if="messageList.Session" class="header-text">{{currentChat.Name}}</div>
+            </div>
+            <div class="col-2 text-right">
+              <div class="dropdown">
+                <button class="btn"
+                        type="button"
+                        @click="toggleSettings"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <font-awesome-icon icon="ellipsis-v" />
+                </button>
+                <div v-if="showSettingsMenu" class="dropdown-menu" id="settings-dropdown" aria-labelledby="dropdownMenuButton">
+                  <button v-if="currentChat.Notification" class="dropdown-item" @click="toggleNotifications">Mute</button>
+                  <button v-else class="dropdown-item" @click="toggleNotifications">Unmute</button>
+                </div>
+              </div>
+            </div>
         </div>
         <div v-else-if="route()=='register' ">
           <div class="header-text">Connect with Signal</div>
@@ -106,6 +125,10 @@
       toggleSettings() {
         this.showSettingsMenu = !this.showSettingsMenu;
       },
+      toggleNotifications(){
+        this.showSettingsMenu = false;
+        this.$store.dispatch("toggleNotifcations");
+      },
       unregister(){
         this.showSettingsMenu = false;
         this.$store.dispatch("unregister");
@@ -143,6 +166,9 @@
     computed: {
       messageList() {
         return this.$store.state.messageList
+      },
+      currentChat() {
+        return this.$store.state.currentChat
       },
       gui() {
         return this.$store.state.gui
@@ -214,5 +240,22 @@
     padding-left:10px;
     color:#FFFFFF;
   }
-
+  .group-badge{
+    background-color:#FFF;
+    border-radius:50%;
+    width:28px;
+    height:28px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color: #2090ea;
+  }
+  .mute-badge {
+    color: #FFF;
+    margin-left: 10px;
+  }
+  .chat-header{
+    display:flex;
+    align-items:center;
+  }
 </style>

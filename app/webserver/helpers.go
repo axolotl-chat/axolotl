@@ -31,6 +31,24 @@ func sendChatList(client *websocket.Conn) {
 		return
 	}
 }
+func sendCurrentChat(client *websocket.Conn, s *store.Session) {
+	var err error
+	currentChatEnvelope := &CurrentChatEnvelope{
+		CurrentChat: s,
+	}
+	message := &[]byte{}
+	*message, err = json.Marshal(currentChatEnvelope)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	err = client.WriteMessage(websocket.TextMessage, *message)
+	if err != nil {
+		log.Println("[textsecure] send error current chat ", err)
+		return
+	}
+
+}
 func sendContactList(client *websocket.Conn) {
 	var err error
 	contactListEnvelope := &ContactListEnvelope{

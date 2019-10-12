@@ -160,6 +160,7 @@ func (s *Session) Add(text string, source string, file string, mimetype string, 
 	}
 	message := &Message{Message: text,
 		SID:        s.ID,
+		ChatID:     s.Tel,
 		Outgoing:   outgoing,
 		Source:     source,
 		CType:      ctype,
@@ -189,8 +190,8 @@ func (s *Session) MarkRead() {
 	//qml.Changed(s, &s.Unread)
 	UpdateSession(s)
 }
-func (s *Session) ToggleSessionNotifcation(notification bool) {
-	s.Notification = notification
+func (s *Session) ToggleSessionNotifcation() {
+	s.Notification = !s.Notification
 	txt := ""
 	if s.Notification {
 		txt = "notifications on"

@@ -243,5 +243,5 @@ func (Api *TextsecureAPI) LeaveChat() {
 }
 func (Api *TextsecureAPI) TgNotification(notification bool) {
 	sess := store.SessionsModel.Get(store.ActiveSessionID)
-	sess.ToggleSessionNotifcation(notification)
+	sess.ToggleSessionNotifcation()
 }

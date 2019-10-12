@@ -9,6 +9,7 @@ import (
 type Message struct {
 	ID         int64
 	SID        int64
+	ChatID     string
 	Source     string
 	Message    string
 	Outgoing   bool

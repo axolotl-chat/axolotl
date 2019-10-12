@@ -7,8 +7,8 @@
       </button>
     </div>
     <div v-if="chats.length>0" class="row">
-      <button id="chat.id"  v-for="chat in chats" class="btn col-12 chat"
-      @click="enterChat('/chat/'+chat.Tel)"
+      <button id="chat.id"  v-for="(chat) in chats" class="btn col-12 chat"
+      @click="enterChat(chat )"
           >
         <div class="row chat-entry">
           <div class="avatar col-3">
@@ -17,7 +17,12 @@
           </div>
   				<div class="meta col-9 row" v-longclick="editChat">
             <div class="col-9">
-  					       <p class="name">{{chat.Name}}</p>
+  					       <div class="name">
+                     <font-awesome-icon class="mute" v-if="!chat.Notification" icon="volume-mute" />
+                     <div>{{chat.Name}}</div>
+                     <div v-if="Number(chat.Unread)>0" class="counter badge badge-primary">{{chat.Unread}}</div>
+                   </div>
+
             </div>
             <div v-if="!editActive" class="col-3">
                 <p v-if="chat.Messages&&chat.Messages!=null" class="time">{{humanifyDate(chat.Messages[chat.Messages.length-1].SentAt)}}</p>
@@ -92,9 +97,10 @@ export default {
       this.$store.dispatch("delChat", chat.Tel);
       this.editWasActive = true;
     },
-    enterChat(e){
+    enterChat(chat){
       if(!this.editActive){
-        router.push (e)
+        this.$store.dispatch("setCurrentChat", chat);
+        router.push ('/chat/'+chat.Tel)
       }
 
     }
@@ -153,6 +159,8 @@ export default {
 .meta .name{
   font-weight:bold;
   font-size: 18px;
+  display:flex;
+  align-items: center;
 }
 .meta .preview{
   font-size:15px;
@@ -187,5 +195,20 @@ a:hover.chat{
   height: 20px;
 }.chatList .time{
   font-size:12px;
+}
+.chatList .mute{
+  color: #999;
+  margin-right: 10px;
+}
+.chatList .counter {
+  border: 1px solid #FFF;
+  border-radius: 50%;
+  background-color: #2090ea;
+  display:flex;
+  justify-content:center;
+  align-items: center;
+  margin-left:10px;
+  width: 28px;
+  height: 28px;
 }
 </style>

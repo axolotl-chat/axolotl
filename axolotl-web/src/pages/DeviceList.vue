@@ -5,7 +5,7 @@
       <div v-for="device in devices" v-if="device.id!=1" v-bind:key="device.id"
         class="col-12 device row">
         <div class="col-10">
-          {{device.name}} <br/>
+          <div class="device-name">{{device.name}}</div> <br/>
           <div class="meta">
             <span class="lastSeen">Last seen: {{humanifyDate(device.lastSeen)}}</span>
           </div>
@@ -125,5 +125,9 @@ a:hover.chat{
 }
 .lastSeen{
   font-size:10px;
+}
+.deviceList .device-name{
+  max-width:80%;
+  overflow:hidden;
 }
 </style>
