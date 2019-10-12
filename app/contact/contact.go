@@ -1,17 +1,18 @@
 package contact
 
 import (
-	"encoding/base64"
 	"errors"
+	"io"
 	"os"
 	"path/filepath"
 	"regexp"
 	"sort"
+	"strconv"
 	"strings"
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/mapaiva/vcard-go"
+	"github.com/emersion/go-vcard"
 	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
@@ -149,28 +150,56 @@ func GetAddressBookContactsFromContentHub() ([]textsecure.Contact, error) {
 
 // getContactsFromVCardFile reads contacts from a VCF file
 func getContactsFromVCardFile(path string) ([]textsecure.Contact, error) {
-	vcardContacts, err := vcard.GetVCards(path)
+	// vcardContacts, err := vcard.GetVCards(path)
+	f, err := os.Open(path)
 	if err != nil {
 		log.Fatal(err)
 	}
-	contacts := make([]textsecure.Contact, len(vcardContacts)*3)
-	country := defaultCountry()
+	defer f.Close()
 
-	i := 0
-	for _, c := range vcardContacts {
-		log.Debugln("Import " + c.FormattedName)
-		if len(c.Phone) > 0 {
-			contacts[i].Name = c.FormattedName
-			contacts[i].Tel = FormatE164(c.Phone, country)
-			if c.Photo != "" {
-				b, err := base64.StdEncoding.DecodeString(c.Photo)
-				if err == nil {
-					contacts[i].Photo = string(b)
-				}
+	dec := vcard.NewDecoder(f)
+	var contacts []textsecure.Contact
+	country := defaultCountry()
+	for {
+		card, err := dec.Decode()
+		if err == io.EOF {
+			break
+		} else if err != nil {
+			log.Fatal(err)
+		}
+		name := card.PreferredValue(vcard.FieldFormattedName)
+		log.Debugln("[axolotl] Import contact: " + name)
+		telNums := card.Values(vcard.FieldTelephone)
+		for index, tel := range telNums {
+			tmp := textsecure.Contact{}
+			tmp.Name = name
+			if index > 0 {
+				tmp.Name = name + " " + strconv.Itoa(index)
 			}
-			i++
+			tmp.Tel = FormatE164(tel, country)
+			contacts = append(contacts, tmp)
 		}
 	}
+
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	//
+	//
+	// i := 0
+	// for _, c := range vcardContacts {
+	// 	if len(c.Phone) > 0 {
+	// 		contacts[i].Name = c.FormattedName
+	// 		contacts[i].Tel = FormatE164(c.Phone
+	// 		if c.Photo != "" {
+	// 			b, err := base64.StdEncoding.DecodeString(c.Photo)
+	// 			if err == nil {
+	// 				contacts[i].Photo = string(b)
+	// 			}
+	// 		}
+	// 		i++
+	// 	}
+	// }
 	return contacts, nil
 }
 
