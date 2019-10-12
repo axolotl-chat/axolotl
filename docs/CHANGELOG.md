@@ -1,3 +1,12 @@
+0.6.12 (Okt 13 2019) Axolotl-Alpha
+--------------------
+* support notifications on non ut os
+* unread messages counter
+* enable/disable Notifications
+* show sender of message in group chats
+* support of contact imports with multiple numbers
+
+
 0.6.11 (Okt 11 2019) Axolotl-Alpha
 --------------------
 * indicate wrong password + unregister when password forgotten
