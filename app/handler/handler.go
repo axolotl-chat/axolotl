@@ -2,11 +2,14 @@ package handler
 
 import (
 	"io/ioutil"
-	"log"
 	"strings"
 	"time"
 
+	log "github.com/sirupsen/logrus"
+
+	"github.com/gen2brain/beeep"
 	"github.com/nanu-c/textsecure"
+	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/nanu-c/textsecure-qml/app/push"
 	"github.com/nanu-c/textsecure-qml/app/settings"
@@ -85,18 +88,14 @@ func MessageHandler(msg *textsecure.Message) {
 	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
 	m.SentAt = msg.Timestamp()
 	m.HTime = helpers.HumanizeTimestamp(m.SentAt)
-	//qml.Changed(m, &m.HTime)
 	session.Timestamp = m.SentAt
 	session.When = m.HTime
-	//qml.Changed(session, &session.When)
 	if gr != nil && gr.Flags == textsecure.GroupUpdateFlag {
 		session.Name = gr.Name
-		//qml.Changed(session, &session.Name)
 	}
 
 	if msgFlags != 0 {
 		m.Flags = msgFlags
-		//qml.Changed(m, &m.Flags)
 	}
 	//TODO: have only one message per chat
 	if session.Notification {
@@ -106,10 +105,17 @@ func MessageHandler(msg *textsecure.Message) {
 		//only send a notification, when it's not the current chat
 		// if session.ID != store.Sessions.GetActiveChat {
 		if true {
-			n := push.Nh.NewStandardPushMessage(
-				session.Name,
-				text, "")
-			push.Nh.Send(n)
+			if config.Gui == "ut" {
+				n := push.Nh.NewStandardPushMessage(
+					session.Name,
+					text, "")
+				push.Nh.Send(n)
+			} else {
+				err := beeep.Notify("Axolotl: "+session.Name, text, "axolotl-web/dist/public/axolotl.png")
+				if err != nil {
+					log.Errorln("[axolotl] notification ", err)
+				}
+			}
 		}
 	}
 	err, msgSend := store.SaveMessage(m)
