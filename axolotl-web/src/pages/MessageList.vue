@@ -10,6 +10,12 @@
                 <div class="avatar">
                 </div>
                 <div class="message">
+                  <div class="sender" v-if="!message.Outgoing&&isGroup">
+                    <div v-if="names[message.Source]">
+                      {{names[message.Source]}}
+                    </div>
+                    <div v-else>{{getName(message.Source)}}</div>
+                  </div>
                   <div v-if="message.Attachment!=''" class="attachment">
                     <div v-if="message.CType==2" class="attachment-img">
                       <img :src="'http://localhost:9080/attachments?file='+message.Attachment" />
@@ -76,6 +82,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import AttachmentBar from "@/components/AttachmentBar"
 export default {
   name: 'Chat',
@@ -89,7 +96,8 @@ export default {
     return {
       messageInput: "",
       scrolled:false,
-      showAttachmentsBar:false
+      showAttachmentsBar:false,
+      names:{}
     }
   },
   methods: {
@@ -107,6 +115,24 @@ export default {
         // this.showSettingsMenu = false;
         // document.getElementById("addVcf").click()
       }
+    },
+    getName(tel){
+      if(this.contacts!=null){
+        if(typeof this.names[tel]=="undefined"){
+          var contact = this.contacts.find(function(element) {
+            return element.Tel == tel;
+          });
+          if(typeof contact!="undefined"){
+            this.names[tel]=contact.Name;
+            return contact.Name
+          }else{
+            this.names[tel] = tel;
+            return tel
+          }
+        }else return this.names[tel]
+      }
+      return tel;
+
     },
     loadAttachmentDialog(){
       if(this.gui=="ut"){
@@ -185,10 +211,29 @@ export default {
         }
       });
   },
+  watch:{
+    contacts(o,n){
+      console.log("blub")
+      if(this.contacts!=null){
+        Object.keys(this.names).forEach((i)=>{
+          var contact = this.contacts.find(function(element) {
+            return element.Tel == i;
+          });
+          if(typeof contact!="undefined"){
+            this.names[i]=contact.Name;
+          }
+        });
+      }
+    }
+  },
   computed: {
     messages () {
       return this.$store.state.messageList.Messages
     },
+    isGroup () {
+      return this.$store.state.messageList.Session.IsGroup
+    },
+    ... mapState(['contacts']),
     gui() {
       return this.$store.state.gui
     },
@@ -259,6 +304,10 @@ export default {
   background-color:#dfdfdf;
   text-align:left;
   min-width:100px;
+}
+.sender{
+  font-size:0.9rem;
+  font-weight:bold;
 }
 video,
 .attachment-img img {
