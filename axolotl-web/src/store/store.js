@@ -52,6 +52,7 @@ export default new Vuex.Store({
 
         },
         CREATE_CHAT(state, tel){
+          state.currentChat = null;
           window.router.push('/chat/'+tel)
         },
         SET_DEVICELIST(state, devices){

@@ -104,6 +104,8 @@ func wsReader(conn *websocket.Conn) {
 			createChat(createChatMessage.Tel)
 			activeChat = createChatMessage.Tel
 			store.ActiveSessionID = activeChat
+			s := store.SessionsModel.Get(createChatMessage.Tel)
+			sendCurrentChat(conn, s)
 		case "leaveChat":
 			activeChat = ""
 			store.ActiveSessionID = ""
@@ -203,13 +205,7 @@ func wsReader(conn *websocket.Conn) {
 		case "refreshContacts":
 			refreshContactsMessage := RefreshContactsMessage{}
 			json.Unmarshal([]byte(p), &refreshContactsMessage)
-			config.VcardPath = refreshContactsMessage.Url
-			contact.GetAddressBookContactsFromContentHub()
-			err = store.RefreshContacts()
-			if err != nil {
-				ShowError(err.Error())
-			}
-			go sendContactList(conn)
+			go refreshContacts(conn, refreshContactsMessage.Url)
 		case "uploadVcf":
 			uploadVcf := UploadVcf{}
 			json.Unmarshal([]byte(p), &uploadVcf)

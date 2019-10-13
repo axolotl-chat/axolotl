@@ -8,9 +8,9 @@
               <router-link class="btn" :to="'/chatList'">
                 <font-awesome-icon icon="arrow-left" />
               </router-link>
-              <div v-if="currentChat.IsGroup" class="group-badge"><font-awesome-icon icon="user-friends" /></div>
+              <div v-if="currentChat!=null&&currentChat.IsGroup" class="group-badge"><font-awesome-icon icon="user-friends" /></div>
               <div v-else class="group-badge">{{currentChat.Name[0]}}</div>
-              <div v-if="!currentChat.Notification" class="mute-badge"> <font-awesome-icon class="mute" icon="volume-mute" /></div>
+              <div v-if="currentChat!=null&&!currentChat.Notification" class="mute-badge"> <font-awesome-icon class="mute" icon="volume-mute" /></div>
               <div v-if="messageList.Session" class="header-text">{{currentChat.Name}}</div>
             </div>
             <div class="col-2 text-right">
@@ -22,9 +22,9 @@
                   <font-awesome-icon icon="ellipsis-v" />
                 </button>
                 <div v-if="showSettingsMenu" class="dropdown-menu" id="settings-dropdown" aria-labelledby="dropdownMenuButton">
-                  <button v-if="currentChat.Notification" class="dropdown-item" @click="toggleNotifications">Mute</button>
+                  <button v-if="currentChat!=null&&currentChat.Notification" class="dropdown-item" @click="toggleNotifications">Mute</button>
                   <button v-else class="dropdown-item" @click="toggleNotifications">Unmute</button>
-                  <button v-if="!currentChat.IsGroup" class="dropdown-item" @click="verifyIdentity">Show identity</button>
+                  <button v-if="!currentChat!=null&&currentChat.IsGroup" class="dropdown-item" @click="verifyIdentity">Show identity</button>
                   <button class="dropdown-item" @click="resetEncryptionModal">Reset encryption</button>
 
                 </div>
