@@ -145,11 +145,13 @@ UITK_Popups.Dialog {
     }
 
   }
+  Connections {
+    id: keyboard
+    target: Qt.inputMethod
+  }
   Item {
     id: showKeyboard
-    property var kHeight: root.height * (root.landscape ? root.tablet ? 0.34 : 0.49 :
-        root.tablet ? 0.31 : 0.40)
-      height: kHeight
+    height: keyboard.target.visible ? keyboard.target.keyboardRectangle.height / (units.gridUnit / 8) : 0
     width: parent.width
     visible:Qt.inputMethod.visible
     anchors {
