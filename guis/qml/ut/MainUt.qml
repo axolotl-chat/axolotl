@@ -106,7 +106,7 @@ UITK_Popups.Dialog {
     id: desktopLinkDialog
     property QtObject request
     title: "Add signal desktop"
-    text: "Scan QR-Code with other app and paste it here"
+    text: "Scan QR-Code with Tagger from open store and paste the recieved code here"
 
     TextField {
       id: desktopId
@@ -130,7 +130,7 @@ UITK_Popups.Dialog {
       }
     }
     UITK.Button {
-      text: "cancel"
+      text: "Cancel"
       onClicked: {
         UITK_Popups.PopupUtils.close(desktopLinkDialog)
       }
