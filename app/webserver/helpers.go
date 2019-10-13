@@ -10,6 +10,7 @@ import (
 	"github.com/gorilla/websocket"
 	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/config"
+	"github.com/nanu-c/textsecure-qml/app/contact"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/nanu-c/textsecure-qml/app/store"
 )
@@ -48,6 +49,16 @@ func sendCurrentChat(client *websocket.Conn, s *store.Session) {
 		return
 	}
 
+}
+func refreshContacts(client *websocket.Conn, path string) {
+	var err error
+	config.VcardPath = path
+	contact.GetAddressBookContactsFromContentHub()
+	err = store.RefreshContacts()
+	if err != nil {
+		ShowError(err.Error())
+	}
+	go sendContactList(client)
 }
 func sendContactList(client *websocket.Conn) {
 	var err error
