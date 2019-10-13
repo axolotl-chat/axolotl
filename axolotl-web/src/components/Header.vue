@@ -24,7 +24,20 @@
                 <div v-if="showSettingsMenu" class="dropdown-menu" id="settings-dropdown" aria-labelledby="dropdownMenuButton">
                   <button v-if="currentChat.Notification" class="dropdown-item" @click="toggleNotifications">Mute</button>
                   <button v-else class="dropdown-item" @click="toggleNotifications">Unmute</button>
+                  <button v-if="!currentChat.IsGroup" class="dropdown-item" @click="verifyIdentity">Show identity</button>
+                  <button class="dropdown-item" @click="resetEncryptionModal">Reset encryption</button>
+
                 </div>
+                <identity-modal
+                v-if="showIdentityModal"
+                @close="showIdentityModal=false"
+                @confirm="showIdentityModal=false" />
+                <confirmation-modal
+                v-if="showConfirmationModal"
+                @close="showConfirmationModal=false"
+                @confirm="confirm"
+                :title="cMTitle"
+                :text="cMText" />
               </div>
             </div>
         </div>
@@ -103,14 +116,25 @@
 </template>
 
 <script>
+  import IdentityModal from "@/components/IdentityModal.vue"
+  import ConfirmationModal from "@/components/ConfirmationModal.vue"
   export default {
     name: 'Header',
+    components:{
+      ConfirmationModal,
+      IdentityModal
+    },
     props: {
       msg: String
     },
     data() {
       return {
-        showSettingsMenu: false
+        showSettingsMenu: false,
+        showConfirmationModal: false,
+        showIdentityModal:false,
+        cMTitle:"",
+        cMText: "",
+        cMType:""
       }
     },
     methods: {
@@ -128,6 +152,23 @@
       toggleNotifications(){
         this.showSettingsMenu = false;
         this.$store.dispatch("toggleNotifcations");
+      },
+      resetEncryptionModal(){
+        this.showSettingsMenu = false;
+        this.showConfirmationModal = true;
+        this.cMType="resetEncryption";
+        this.cMTitle="Reset secure session?";
+        this.cMText="This may help if you're having encryption problems in this conversation. Your messages will be kept.";
+      },
+      verifyIdentity(){
+        this.$store.dispatch("verifyIdentity");
+        this.showSettingsMenu = false;
+        this.showIdentityModal = true;
+      },
+      confirm(){
+        if(this.cMType=="resetEncryption")this.$store.dispatch("resetEncryption");
+        this.showConfirmationModal = false;
+        this.showIdentityModal = flase;
       },
       unregister(){
         this.showSettingsMenu = false;
@@ -172,6 +213,9 @@
       },
       gui() {
         return this.$store.state.gui
+      },
+      identity() {
+        return this.$store.state.identity
       },
     },
     mounted() {

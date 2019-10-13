@@ -16,6 +16,7 @@ import (
 	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/contact"
+	"github.com/nanu-c/textsecure-qml/app/helpers"
 	"github.com/nanu-c/textsecure-qml/app/sender"
 	"github.com/nanu-c/textsecure-qml/app/settings"
 	"github.com/nanu-c/textsecure-qml/app/store"
@@ -287,6 +288,26 @@ func wsReader(conn *websocket.Conn) {
 			s.ToggleSessionNotifcation()
 			sendCurrentChat(conn, s)
 			sendChatList(conn)
+		case "resetEncryption":
+			resetEncryptionMessage := ResetEncryptionMessage{}
+			json.Unmarshal([]byte(p), &resetEncryptionMessage)
+			log.Debugln("[axolotl] reset encryption for: ", resetEncryptionMessage.Chat)
+			s := store.SessionsModel.Get(resetEncryptionMessage.Chat)
+			m := s.Add("Secure session reset.", "", "", "", true, store.ActiveSessionID)
+			m.Flags = helpers.MsgFlagResetSession
+			store.SaveMessage(m)
+			go sender.SendMessage(s, m)
+			sendChatList(conn)
+		case "verifyIdentity":
+			verifyIdentityMessage := ToggleNotificationsMessage{}
+			json.Unmarshal([]byte(p), &verifyIdentityMessage)
+			log.Debugln("[axolotl] identity information for: ", verifyIdentityMessage.Chat)
+			myID := textsecure.MyIdentityKey()
+			theirID, err := textsecure.ContactIdentityKey(verifyIdentityMessage.Chat)
+			if err != nil {
+				log.Debugln("[axolotl] identity information ", err)
+			}
+			sendIdentityInfo(conn, myID, theirID)
 		}
 	}
 }

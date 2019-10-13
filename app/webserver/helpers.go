@@ -149,6 +149,25 @@ func sendMoreMessageList(client *websocket.Conn, id string, lastId string) {
 		return
 	}
 }
+func sendIdentityInfo(client *websocket.Conn, myId []byte, theirId []byte) {
+	var err error
+
+	message := &[]byte{}
+	identityEnvelope := &IdentityEnvelope{
+		Identity: fmt.Sprintf("% 0X", myId),
+		TheirId:  fmt.Sprintf("% 0X", theirId),
+	}
+	*message, err = json.Marshal(identityEnvelope)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
+		log.Println("[textsecure] send error identity info", err)
+		return
+	}
+
+}
 
 var test = false
 

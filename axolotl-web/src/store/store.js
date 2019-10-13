@@ -12,6 +12,10 @@ export default new Vuex.Store({
     devices: [],
     gui:null,
     error: null,
+    identity: {
+      me:null,
+      their:null
+    },
     loginError:null,
     ratelimitError:null,
     newGroupName:null,
@@ -34,7 +38,7 @@ export default new Vuex.Store({
       if(error=="wrong password"){
         state.loginError = error;
       }else if(error=="Rate limit exceeded: 413"){
-        state.ratelimitError = error;
+        state.ratelimitError = error+". Try again later!";
       }
     },
         SET_CHATLIST(state, chatList){
@@ -114,6 +118,10 @@ export default new Vuex.Store({
         SET_CONTACTS(state, contacts){
               state.contacts = contacts;
         },
+        SET_IDENTITY(state, identity){
+          state.identity.me = identity.Identity;
+          state.identity.their = identity.TheirId;
+        },
         LEAVE_CHAT(state){
           state.currentChat = null;
           this.commit("CLEAR_MESSAGELIST");
@@ -162,6 +170,9 @@ export default new Vuex.Store({
             }
             else if(Object.keys(messageData)[0]=="CurrentChat"){
               this.commit("SET_CURRENT_CHAT", messageData["CurrentChat"]);
+            }
+            else if(Object.keys(messageData)[0]=="Identity"){
+              this.commit("SET_IDENTITY", messageData);
             }
             else if(Object.keys(messageData)[0]=="Type"){
               this.commit("SET_REQUEST",messageData );
@@ -289,7 +300,24 @@ export default new Vuex.Store({
           "request":"toggleNotifcations",
           "chat":this.state.currentChat.Tel
         }
-        console.log(message);
+        Vue.prototype.$socket.send(JSON.stringify(message))
+      }
+    },
+    resetEncryption:function(){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"resetEncryption",
+          "chat":this.state.currentChat.Tel
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
+      }
+    },
+    verifyIdentity:function(){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"verifyIdentity",
+          "chat":this.state.currentChat.Tel
+        }
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },

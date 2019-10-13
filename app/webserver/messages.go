@@ -23,7 +23,10 @@ type DeviceListEnvelope struct {
 type CurrentChatEnvelope struct {
 	CurrentChat *store.Session
 }
-
+type IdentityEnvelope struct {
+	Identity string
+	TheirId  string
+}
 type Message struct {
 	Type string                 `json:"request"`
 	Data map[string]interface{} `json:"-"` // Rest of the fields should go here.
@@ -110,6 +113,14 @@ type SendAttachmentMessage struct {
 	Message string `json:"message"`
 }
 type ToggleNotificationsMessage struct {
+	Type string `json:"request"`
+	Chat string `json:"chat"`
+}
+type ResetEncryptionMessage struct {
+	Type string `json:"request"`
+	Chat string `json:"chat"`
+}
+type VerifyIdentityMessage struct {
 	Type string `json:"request"`
 	Chat string `json:"chat"`
 }
