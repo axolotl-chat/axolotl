@@ -175,6 +175,7 @@
         this.$store.dispatch("unregister");
       },
       refreshContacts(){
+        this.$store.state.importingContacts = true;
         console.log("Import contacts for gui " + this.gui)
         this.showSettingsMenu = false;
         if(this.gui=="ut"){

@@ -1,6 +1,7 @@
 <template>
   <div class="contact-list">
     <div v-if="error!=null" class="alert alert-danger">Can't change contact list: {{error}}</div>
+    <div v-if="importing" class="alert alert-warning">Importing contacts, head back later</div>
     <div v-if="showActions" class="actions-header">
       <button class="btn hide-actions">
         <font-awesome-icon icon="times"  @click="showActions=false"/>
@@ -63,7 +64,7 @@ export default {
       showActions: false,
       editContactModal: false,
       contact:null,
-      contactId:null
+      contactId:null,
     }
   },
   mounted(){
@@ -104,6 +105,9 @@ export default {
     },
     error () {
       return this.$store.state.ratelimitError;
+    },
+    importing () {
+      return this.$store.state.importingContacts;
     }
   }
 }

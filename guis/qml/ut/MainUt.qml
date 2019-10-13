@@ -133,6 +133,7 @@ UITK_Popups.Dialog {
       text: "Cancel"
       onClicked: {
         UITK_Popups.PopupUtils.close(desktopLinkDialog)
+        webView.focus = true;
       }
     }
     UITK.Button {

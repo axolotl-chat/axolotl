@@ -58,7 +58,7 @@ func refreshContacts(client *websocket.Conn, path string) {
 	if err != nil {
 		ShowError(err.Error())
 	}
-	go sendContactList(client)
+	// go sendContactList(client)
 }
 func sendContactList(client *websocket.Conn) {
 	var err error

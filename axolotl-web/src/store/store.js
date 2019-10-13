@@ -21,6 +21,7 @@ export default new Vuex.Store({
     newGroupName:null,
     currentChat:null,
     newGroupMembers:[],
+    importingContacts:false,
     socket: {
       isConnected: false,
       message: '',
@@ -116,6 +117,7 @@ export default new Vuex.Store({
           state.messageList = {};
         },
         SET_CONTACTS(state, contacts){
+          state.importingContacts = false;
               state.contacts = contacts;
         },
         SET_IDENTITY(state, identity){
@@ -321,8 +323,9 @@ export default new Vuex.Store({
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
-    getContacts:function(){
+    getContacts:function(state){
       if(this.state.socket.isConnected){
+        state.importingContacts = false;
         var message = {
           "request":"getContacts",
         }
@@ -343,6 +346,7 @@ export default new Vuex.Store({
     },
     uploadVcf:function(state, vcf) {
       state.ratelimitError = null;
+      state.importingContacts = true;
       if(this.state.socket.isConnected){
         var message = {
           "request":"uploadVcf",
@@ -361,6 +365,7 @@ export default new Vuex.Store({
       }
     },
     refreshContacts:function(state, chUrl){
+      state.importingContacts = true;
       if(this.state.socket.isConnected){
         var message = {
           "request":"refreshContacts",

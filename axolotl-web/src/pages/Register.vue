@@ -56,6 +56,7 @@ export default {
   .register{
     display:flex;
     flex-direction: column;
+    text-align:center;
   }
   .info{
     position:fixed;
