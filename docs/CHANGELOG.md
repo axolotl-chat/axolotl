@@ -1,3 +1,13 @@
+0.6.13 (Okt 15 2019) Axolotl-Alpha
+--------------------
+* Add Info page before registering
+* About and Settings page
+* creating a chat shows the correct title
+* mention tagger on ut for scanning the desktop qr-code
+* indicate that importing contacts takes times
+* add reset session and show identity
+* adding yourself to a group is not possible anymore
+
 0.6.12 (Okt 13 2019) Axolotl-Alpha
 --------------------
 * support notifications on non ut os
