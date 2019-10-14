@@ -51,7 +51,7 @@ func attachmentsHandler(w http.ResponseWriter, r *http.Request) {
 	io.Copy(w, Openfile) //'Copy' the file to the client
 	return
 }
-func avatarHandler(w http.ResponseWriter, r *http.Request) {
+func avatarsHandler(w http.ResponseWriter, r *http.Request) {
 	// Filename := r.URL.Query().Get("file")
 	// if Filename == "" {
 	// 	//Get not set, send a 400 bad request
