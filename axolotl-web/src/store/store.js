@@ -16,6 +16,7 @@ export default new Vuex.Store({
       me:null,
       their:null
     },
+    config:{},
     loginError:null,
     ratelimitError:null,
     newGroupName:null,
@@ -47,6 +48,9 @@ export default new Vuex.Store({
         },
         SET_CURRENT_CHAT(state, chat){
           state.currentChat = chat;
+        },
+        SET_CONFIG(state, config){
+          state.config = config;
         },
         SEND_MESSAGE(){
 
@@ -82,6 +86,9 @@ export default new Vuex.Store({
           else if (type =="registrationDone") {
             window.router.push("/chatList")
             this.dispatch("getChatList")
+          }
+          else if (type =="config") {
+            this.commit("SET_CONFIG", request)
           }
           else if (type =="Error") {
             this.commit("SET_ERROR", request.Error)
@@ -454,6 +461,14 @@ export default new Vuex.Store({
         }
         Vue.prototype.$socket.send(JSON.stringify(message))
 
+      }
+    },
+    getConfig:function(){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"getConfig",
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
     createNewGroup:function(state, data){

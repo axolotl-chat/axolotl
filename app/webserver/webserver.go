@@ -202,6 +202,8 @@ func wsReader(conn *websocket.Conn) {
 			go sendDeviceList(conn)
 		case "unregister":
 			config.Unregister()
+		case "getConfig":
+			sendConfig(conn)
 		case "refreshContacts":
 			refreshContactsMessage := RefreshContactsMessage{}
 			json.Unmarshal([]byte(p), &refreshContactsMessage)

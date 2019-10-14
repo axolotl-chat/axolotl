@@ -103,7 +103,10 @@ func createGroup(newGroupData CreateGroupMessage) *store.Session {
 		return nil
 	}
 	members := strings.Join(newGroupData.Members, ",")
-	members = members + "," + config.Config.Tel
+	if !strings.Contains(members, config.Config.Tel) {
+		log.Debugln(members, config.Config.Tel)
+		members = members + "," + config.Config.Tel
+	}
 	store.Groups[group.Hexid] = &store.GroupRecord{
 		GroupID: group.Hexid,
 		Name:    newGroupData.Name,
@@ -226,5 +229,24 @@ func SetGui() {
 				return
 			}
 		}
+	}
+}
+func sendConfig(client *websocket.Conn) {
+	var err error
+
+	message := &[]byte{}
+	configEnvelope := &ConfigEnvelope{
+		Type:             "config",
+		RegisteredNumber: config.Config.Tel,
+		Version:          config.AppVersion,
+	}
+	*message, err = json.Marshal(configEnvelope)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
+		log.Println("[textsecure] send config", err)
+		return
 	}
 }

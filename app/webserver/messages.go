@@ -27,6 +27,14 @@ type IdentityEnvelope struct {
 	Identity string
 	TheirId  string
 }
+type ConfigEnvelope struct {
+	Type             string
+	Version          string
+	RegisteredNumber string
+	Name             string
+	Notifications    bool
+	Encryption       bool
+}
 type Message struct {
 	Type string                 `json:"request"`
 	Data map[string]interface{} `json:"-"` // Rest of the fields should go here.

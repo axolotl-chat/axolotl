@@ -53,6 +53,12 @@
           </router-link>
           <div class="header-text">Set db encryption password</div>
         </div>
+        <div v-else-if="route()=='settings'" class="list-header-container">
+          <router-link class="btn" :to="'/chatList'">
+            <font-awesome-icon icon="arrow-left" />
+          </router-link>
+          <div class="header-text">Settings</div>
+        </div>
         <div v-else-if="route()=='newGroup' " class="list-header-container">
           <router-link class="btn" :to="'/chatList'">
             <font-awesome-icon icon="arrow-left" />
@@ -96,13 +102,9 @@
               <router-link class="dropdown-item" :to="'/newGroup'" @click="showSettingsMenu=false">
                 New group
               </router-link>
-              <router-link class="dropdown-item" :to="'/devices/'" @click="showSettingsMenu=false">
-                Linked devices
+              <router-link class="dropdown-item" :to="'/settings/'" @click="showSettingsMenu=false">
+                Settings
               </router-link>
-              <router-link class="dropdown-item" :to="'/setPassword/'" @click="showSettingsMenu=false">
-                Set password
-              </router-link>
-              <button class="dropdown-item" @click="unregister">Unregister</button>
             </div>
           </div>
         </div>

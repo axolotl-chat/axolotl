@@ -48,6 +48,11 @@ export default new Router({
     component:  () => import("@/pages/Contacts.vue")
   },
   {
+    path: "/settings",
+    name: "settings",
+    component:  () => import("@/pages/Settings.vue")
+  },
+  {
     path: "/devices",
     name: "devices",
     component:  () => import("@/pages/DeviceList.vue")
