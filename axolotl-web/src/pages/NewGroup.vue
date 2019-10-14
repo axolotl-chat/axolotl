@@ -2,10 +2,11 @@
   <div class="new-group">
     <div v-if="!creatingGroup" class="new-group-form">
       <div class="form-group">
-        <label for="group-name">Group name</label>
+        <label for="group-name"><b>Group name</b></label>
         <input type="text" v-model="newGroupName" @change="setGroupName" class="form-control" id="group-name" placeholder="Enter group name">
 
       </div>
+      <p>Note, you can't add yourself to a group.</p>
       <button class="btn add-group-members" @click="addMembersModal=true">
         <font-awesome-icon icon="plus" /> Members</button>
       <button class="btn create-group" @click="createGroup">
@@ -39,6 +40,7 @@
 
 <script>
 import AddGroupMembersModal from "@/components/AddGroupMembersModal.vue"
+import { mapState } from 'vuex';
 
 export default {
   name: 'newGroup',
@@ -49,6 +51,7 @@ export default {
     msg: String
   },
   mounted(){
+    this.$store.dispatch("getConfig")
     this.$store.dispatch("getContacts")
   },
   methods:{
@@ -58,7 +61,7 @@ export default {
       var found = this.newGroupMembers.find(function(element) {
           return element.Tel == groupMember.Tel;
       });
-      if(typeof found =="undefined")
+      if(typeof found =="undefined"&&groupMember.Tel != this.config.RegisteredNumber)
       this.newGroupMembers.push(groupMember)
     },
     removeMember(i){
@@ -70,7 +73,11 @@ export default {
       if(this.newGroupName!=null&&this.newGroupMembers.length>0){
         this.creatingGroup = true;
         var members = [];
-        this.newGroupMembers.forEach(m=>members.push(m.Tel))
+        this.newGroupMembers.forEach(m=>{
+          if(m.Tel!=this.config.RegisteredNumber)
+          members.push(m.Tel)
+        })
+        if(members.length>0)
         this.$store.dispatch("createNewGroup",{
           name: this.newGroupName,
           members: members
@@ -86,6 +93,7 @@ export default {
       creatingGroup:false
     };
   },
+  computed: mapState(['config'])
 }
 </script>
 <style scoped>
