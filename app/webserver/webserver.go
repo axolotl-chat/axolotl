@@ -313,6 +313,7 @@ func wsReader(conn *websocket.Conn) {
 func webserver() {
 	http.Handle("/", http.FileServer(http.Dir("./axolotl-web/dist")))
 	http.HandleFunc("/attachments", attachmentsHandler)
+	http.HandleFunc("/avatars", avatarsHandler)
 	http.HandleFunc("/ws", wsEndpoint)
 	http.ListenAndServe(":9080", nil)
 }

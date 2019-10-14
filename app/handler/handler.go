@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"bytes"
 	"io/ioutil"
 	"strings"
 	"time"
@@ -49,7 +50,7 @@ func MessageHandler(msg *textsecure.Message) {
 		av := []byte{}
 
 		if gr.Avatar != nil {
-			av, err = ioutil.ReadAll(gr.Avatar)
+			av, err = ioutil.ReadAll(bytes.NewReader(gr.Avatar))
 			if err != nil {
 				log.Println(err)
 				return
@@ -179,7 +180,7 @@ func SyncSentHandler(msg *textsecure.Message, timestamp uint64) {
 		av := []byte{}
 
 		if gr.Avatar != nil {
-			av, err = ioutil.ReadAll(gr.Avatar)
+			av, err = ioutil.ReadAll(bytes.NewReader(gr.Avatar))
 			if err != nil {
 				log.Println(err)
 				return
