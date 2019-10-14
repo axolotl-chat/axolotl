@@ -41,7 +41,7 @@ export default {
       if(password.localeCompare(passwordRepeat)!=0){
         this.passwordError=true;
       }
-      else if(password.length<7){
+      else if(password.length<7&&password.length>0){
         this.passwordUnsafe=true;
       }else{
         this.$store.dispatch("setPassword",{pw:this.password,cPw: this.passwordCurrent});

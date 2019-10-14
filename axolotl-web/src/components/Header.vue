@@ -48,10 +48,15 @@
           <div class="header-text">Enter password</div>
         </div>
         <div v-else-if="route()=='setPassword' " class="list-header-container">
-          <router-link class="btn" :to="'/chatList'">
+          <router-link class="btn" :to="'/settings'">
             <font-awesome-icon icon="arrow-left" />
           </router-link>
-          <div class="header-text">Set db encryption password</div>
+          <div class="header-text">Set encryption password</div>
+        </div>
+        <div v-else-if="route()=='about' " class="list-header-container">
+          <router-link class="btn" :to="'/settings'">
+            <font-awesome-icon icon="arrow-left" />
+          </router-link>
         </div>
         <div v-else-if="route()=='settings'" class="list-header-container">
           <router-link class="btn" :to="'/chatList'">
@@ -171,10 +176,6 @@
         if(this.cMType=="resetEncryption")this.$store.dispatch("resetEncryption");
         this.showConfirmationModal = false;
         this.showIdentityModal = flase;
-      },
-      unregister(){
-        this.showSettingsMenu = false;
-        this.$store.dispatch("unregister");
       },
       refreshContacts(){
         this.$store.state.importingContacts = true;
