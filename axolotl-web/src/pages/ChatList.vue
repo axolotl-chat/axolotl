@@ -60,6 +60,8 @@ export default {
   },
   mounted(){
     this.$store.dispatch("getContacts")
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
   },
   data() {
     return {
