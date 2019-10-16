@@ -115,7 +115,7 @@ export default new Vuex.Store({
             state.messageList.Messages = tmpList;
           }
           state.chatList.forEach((chat, i)=>{
-            if(chat.Tel == message.Source){
+            if(chat.Tel == message.ChatID){
               state.chatList[i].Messages = [message]
             }
           })
