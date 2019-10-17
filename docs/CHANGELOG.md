@@ -1,3 +1,12 @@
+0.6.13 (Okt 18 2019) Axolotl-Alpha
+--------------------
+* jump to top on showing chat list
+* fix app not focus on canceling desktop sync
+* fix incomming group message added to wrong chat
+* scroll down on enter chat is now faster
+* support for latest clickable
+* handle external urls externally
+
 0.6.13 (Okt 15 2019) Axolotl-Alpha
 --------------------
 * Add Info page before registering
