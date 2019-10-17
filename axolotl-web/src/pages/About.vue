@@ -6,13 +6,13 @@
     <div class="description">
       This is a free and open source signal client.
       You can support the development of axolotl either by filling <br/>
-      <a href="https://github.com/nanu-c/textsecure-qml/issues">issues at the bug tracker</a>. <br />
+      <a href="https://github.com/nanu-c/textsecure-qml/issues" @click="openExtern($event, 'https://github.com/nanu-c/textsecure-qml/issues')">issues at the bug tracker</a>. <br />
       or<br />
-      by becoming a <a href="https://www.patreon.com/bePatron?u=11219559">sponsor on patreon</a>.<br />
+      by becoming a <a href="https://www.patreon.com/bePatron?u=11219559" @click="openExtern($event, 'https://www.patreon.com/bePatron?u=11219559')">sponsor on patreon</a>.<br />
       <br />
       <font-awesome-icon id="heart" icon="heart" />
       <br />
-      <a href="https://axolotl.chat">https://axolotl.chat</a>
+      <a href="https://axolotl.chat" @click="openExtern($event, 'https://axolotl.chat')>https://axolotl.chat</a>
     </div>
   </div>
 </template>
@@ -33,7 +33,15 @@ export default {
       showConfirmationModal:false
     };
   },
-  computed: mapState(['config'])
+  methods:{
+    openExtern(e, url){
+      if(this.gui=="ut"){
+        e.preventDefault();
+        alert(url)
+      }
+    }
+  },
+  computed: mapState(['config', 'gui'])
 }
 </script>
 <style scoped>

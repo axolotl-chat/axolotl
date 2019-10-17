@@ -67,6 +67,9 @@ UITK.Page {
       root.contentType = ContentType.Documents
       root.handler = ContentHandler.Source
       root.selectionType = ContentTransfer.Single
+    } else if(request.message.includes("https")){
+        Qt.openUrlExternally(request.message);
+        request.dialogAccept();
     }
 
     }

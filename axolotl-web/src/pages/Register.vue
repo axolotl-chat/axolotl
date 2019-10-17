@@ -8,7 +8,7 @@
         <br />
         In the jingle jangle morning I'll come following you.
         <br />
-        <a href="https://axolotl.chat">https://axolotl.chat</a>
+        <a href="https://axolotl.chat"@click="openExtern($event, 'https://axolotl.chat')">https://axolotl.chat</a>
         <br />
         <font-awesome-icon id="heart" icon="heart" />
       </div>
@@ -24,6 +24,8 @@
 <script>
 import VuePhoneNumberInput from 'vue-phone-number-input';
 import 'vue-phone-number-input/dist/vue-phone-number-input.css';
+import { mapState } from 'vuex';
+
 export default {
   name: 'register',
   components: {
@@ -40,6 +42,12 @@ export default {
     },
     updatePhone(e){
       this.cc=e.formattedNumber;
+    },
+    openExtern(e,url){
+      if(this.gui=="ut"){
+        e.preventDefault();
+        alert(url)
+      }
     }
   },
   data() {
@@ -49,6 +57,8 @@ export default {
       infoPage:true,
     };
   },
+  computed: mapState(['gui'])
+
 }
 </script>
 <style scoped>
