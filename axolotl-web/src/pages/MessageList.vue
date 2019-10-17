@@ -203,7 +203,7 @@ export default {
   mounted(){
     this.$store.dispatch("getMessageList", this.getId());
     setTimeout(this.scrollDown
-    , 800)
+    , 300)
       document.addEventListener("scroll", (e) => {
         var scrolled = document.scrollingElement.scrollTop;
         if(scrolled==0){
