@@ -38,7 +38,7 @@ UITK.Page {
     }
     onJavaScriptDialogRequested: function(request) {
       request.accepted = true;
-      console.log("request: ",request.message)
+      console.log("[axolotl ut] request: ",request.message)
       if(request.message =="desktopLink"){
         desktopLinkDialog.request = request; // keep the reference to the request
         desktopLinkDialog.visible = true;
@@ -83,10 +83,12 @@ UITK.Page {
     // selectionType: root.selectionType
 
     onPeerSelected: {
+        webView.forceActiveFocus();
         peer.selectionType = root.selectionType
         root.activeTransfer = peer.request()
     }
     onCancelPressed: {
+        webView.forceActiveFocus();
         request.dialogAccept("canceld");
         requestContentHub=false
     }
@@ -133,7 +135,7 @@ UITK_Popups.Dialog {
       text: "Cancel"
       onClicked: {
         UITK_Popups.PopupUtils.close(desktopLinkDialog)
-        webView.focus = true;
+        request.dialogAccept()
       }
     }
     UITK.Button {
