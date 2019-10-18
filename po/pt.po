@@ -14,12 +14,12 @@ msgstr ""
 
 #: ../qml/phoneui/components/TelegramPage.qml:24
 msgid "Signal"
-msgstr ""
+msgstr "Signal"
 
 #: ../qml/phoneui/components/SignalMessageDelegate.qml:183
 #, fuzzy
 msgid "Forwarded from "
-msgstr "Reencaminhar a mensagem"
+msgstr "Encaminhado de"
 
 #: ../qml/phoneui/components/AttachPanel.qml:87
 msgid "Image"
@@ -45,7 +45,7 @@ msgstr "Contacto"
 #: ../qml/phoneui/ui/VerificationCodePage.qml:96
 #: ../qml/phoneui/ui/IntroPage.qml:40
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: ../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:10
 #: ../qml/phoneui/ui/dialogs/AddContactDialog.qml:12
@@ -78,16 +78,16 @@ msgstr "Ajuda"
 #: ../qml/phoneui/ui/pages/ChatList.qml:110
 #: ../qml/phoneui/ui/ContactsPage.qml:28
 msgid "Close"
-msgstr ""
+msgstr "Fechar"
 
 #: ../qml/phoneui/ui/pages/ChatList.qml:169
 #, fuzzy, qt-format
 msgid "Forward message to %1?"
-msgstr "Reencaminhar a mensagem"
+msgstr "Reencaminhar a mensagem para %1?"
 
 #: ../qml/phoneui/ui/PreviewPage.qml:33
 msgid "From: "
-msgstr ""
+msgstr "De: "
 
 #: ../qml/phoneui/ui/PreviewPage.qml:47
 msgid "Save"
@@ -97,70 +97,70 @@ msgstr "Gravar"
 #: ../qml/phoneui/ui/SetPasswordPage.qml:105
 #: ../qml/phoneui/ui/SettingsPage.qml:55
 msgid "Change passphrase"
-msgstr ""
+msgstr "Alterar frase-senha"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:17
 #: ../qml/phoneui/ui/SettingsPage.qml:55
 msgid "Create passphrase"
-msgstr ""
+msgstr "Criar frase-senha"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:53
 msgid "Old passphrase"
-msgstr ""
+msgstr "Frase-senha antiga"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:71
 #, fuzzy
 msgid "New passphrase"
-msgstr "Mensagem nova"
+msgstr "Frase-senha nova"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:87
 msgid "Repeat new passphrase"
-msgstr ""
+msgstr "Repetir nova frase-senha"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:105
 #: ../qml/phoneui/ui/PasswordPage.qml:82
 msgid "Submit passphrase"
-msgstr ""
+msgstr "Submeter frase-senha"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:120
 #: ../qml/phoneui/ui/PasswordPage.qml:96 ../qml/phoneui/ui/PasswordPage.qml:100
 msgid "Disable passphrase?"
-msgstr ""
+msgstr "Desativar frase-senha?"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:140
 #: ../qml/phoneui/ui/SetPasswordPage.qml:162
 #: ../qml/phoneui/ui/SetPasswordPage.qml:171
 msgid "Incorrect old passphrase!"
-msgstr ""
+msgstr "Frase-senha antiga incorreta"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:148
 msgid "Passphrases don't match!"
-msgstr ""
+msgstr "Frase-senhas não correspondem!"
 
 #: ../qml/phoneui/ui/SetPasswordPage.qml:153
 #, fuzzy
 msgid "New passphrase too short(6)!"
-msgstr "Mensagem nova"
+msgstr "Nova frase-senha muito pequena (6)!"
 
 #: ../qml/phoneui/ui/SettingsPage.qml:54
 msgid "Privacy"
-msgstr ""
+msgstr "Privacidade"
 
 #: ../qml/phoneui/ui/SettingsPage.qml:61
 msgid "Linked Devices"
-msgstr ""
+msgstr "Dispositivos ligados"
 
 #: ../qml/phoneui/ui/SettingsPage.qml:62
 msgid "Add/Remove linked devices"
-msgstr ""
+msgstr "Adicionar/Remover dispositivos ligados"
 
 #: ../qml/phoneui/ui/SettingsPage.qml:69
 msgid "Unregistering"
-msgstr "A eliminar o registo..."
+msgstr "A remover registo"
 
 #: ../qml/phoneui/ui/SettingsPage.qml:74
 msgid "Disable Signal messages and calls?"
-msgstr "Desativar as mensagens e chamadas Signal?"
+msgstr "Desativar as mensagens e chamadas do Signal?"
 
 #: ../qml/phoneui/ui/SettingsPage.qml:75
 msgid ""
@@ -218,11 +218,11 @@ msgstr ""
 #: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:17
 #: ../qml/phoneui/ui/settings/AddLinkedDevicesPage.qml:10
 msgid "Link a Device"
-msgstr ""
+msgstr "Ligar um dispositivo"
 
 #: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:23
 msgid "Add device"
-msgstr ""
+msgstr "Adicionar dispositivo"
 
 #: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:28
 #, fuzzy
@@ -232,20 +232,20 @@ msgstr "Recarregar"
 #: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:94
 #, fuzzy
 msgid "Delete selected Device?"
-msgstr "Apagar a mensagem"
+msgstr "Eliminar dispositivo selecionado?"
 
 #: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:95
 #, fuzzy
 msgid "This will permanently delete the selected Device."
-msgstr "Isto elimina permanentemente todas as mensagens nesta conversa."
+msgstr "Isto vai eliminar permanentemente o dispositivo selecionado."
 
 #: ../qml/phoneui/ui/PasswordPage.qml:15
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Introduzir frase-senha"
 
 #: ../qml/phoneui/ui/PasswordPage.qml:58
 msgid "Passphrase"
-msgstr ""
+msgstr "Frase-senha"
 
 #: ../qml/phoneui/ui/PasswordPage.qml:101
 #, fuzzy
@@ -254,7 +254,7 @@ msgstr "Isto elimina permanentemente todas as mensagens nesta conversa."
 
 #: ../qml/phoneui/ui/PasswordPage.qml:130
 msgid "Invalid passphrase!"
-msgstr ""
+msgstr "Frase-senha inválida!"
 
 #: ../qml/phoneui/ui/ContactsPage.qml:47
 msgid "Refresh"
@@ -263,12 +263,12 @@ msgstr "Recarregar"
 #: ../qml/phoneui/ui/ContactsPage.qml:52
 #, fuzzy
 msgid "Add contact"
-msgstr "Contacto"
+msgstr "Adicionar contacto"
 
 #: ../qml/phoneui/ui/ContactsPage.qml:56
 #, fuzzy
 msgid "Add Contact"
-msgstr "Contacto"
+msgstr "Adicionar contacto"
 
 #: ../qml/phoneui/ui/ContactsPage.qml:80 ../qml/phoneui/ui/DialogPage.qml:112
 msgid "Update group"
@@ -277,12 +277,12 @@ msgstr "Atualizar grupo"
 #: ../qml/phoneui/ui/ContactsPage.qml:82
 #, fuzzy
 msgid "Contacts"
-msgstr "Contacto"
+msgstr "Contactos"
 
 #: ../qml/phoneui/ui/ContactsPage.qml:135
 #, fuzzy
 msgid "No contacts"
-msgstr "Contacto"
+msgstr "Sem contactos"
 
 #: ../qml/phoneui/ui/ContactsPage.qml:153
 msgid "Group name"
@@ -291,11 +291,11 @@ msgstr "Nome do grupo"
 #: ../qml/phoneui/ui/ContactsPage.qml:263
 #, fuzzy, qt-format
 msgid "%1 members"
-msgstr "Membros do grupo"
+msgstr "%1 membros"
 
 #: ../qml/phoneui/ui/PickerPage.qml:16
 msgid "Content Picker"
-msgstr ""
+msgstr "Selecionador de conteúdo"
 
 #: ../qml/phoneui/ui/VerificationCodePage.qml:17
 msgid "Verifying number"
@@ -316,19 +316,19 @@ msgstr "A aguardar verificação sms..."
 
 #: ../qml/phoneui/ui/VerificationCodePage.qml:73
 msgid "Code"
-msgstr ""
+msgstr "Código"
 
 #: ../qml/phoneui/ui/VerificationCodePage.qml:136
 msgid "Calling you (this may take a while)..."
-msgstr ""
+msgstr "A ligar-lhe (isto pode demorar um bocado)..."
 
 #: ../qml/phoneui/ui/VerificationCodePage.qml:141
 msgid "Please wait a moment and try again"
-msgstr ""
+msgstr "Por favor, espere um momento e tente novamente"
 
 #: ../qml/phoneui/ui/VerificationCodePage.qml:151
 msgid "Incorrect code. Please try again."
-msgstr ""
+msgstr "Código incorreto. Por favor, tente novamente."
 
 #: ../qml/phoneui/ui/DialogPage.qml:35
 msgid "Call"
@@ -356,19 +356,19 @@ msgstr "Verificar a identidade"
 
 #: ../qml/phoneui/ui/DialogPage.qml:72
 msgid "Mute"
-msgstr ""
+msgstr "Silenciar"
 
 #: ../qml/phoneui/ui/DialogPage.qml:72
 msgid "Unmute"
-msgstr ""
+msgstr "Ativar som"
 
 #: ../qml/phoneui/ui/DialogPage.qml:77
 msgid "Mute notifications?"
-msgstr ""
+msgstr "Silenciar notificações"
 
 #: ../qml/phoneui/ui/DialogPage.qml:77
 msgid "Unmute notifications?"
-msgstr ""
+msgstr "Ativar som de notificações?"
 
 #: ../qml/phoneui/ui/DialogPage.qml:87
 msgid "Recipients list"
@@ -438,7 +438,7 @@ msgstr "Isto elimina permanentemente todas as mensagens nesta conversa."
 
 #: ../qml/phoneui/ui/DialogPage.qml:621
 msgid "No messages here yet..."
-msgstr ""
+msgstr "Ainda sem mensagens aqui..."
 
 #: ../qml/phoneui/ui/DialogPage.qml:659
 msgid "Group members"
