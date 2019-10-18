@@ -1,4 +1,6 @@
-0.6.13 (Okt 18 2019) Axolotl-Alpha
+0.6.14.1 (Okt 18 2019) Axolotl-Alpha
+* fix typo
+0.6.14 (Okt 18 2019) Axolotl-Alpha
 --------------------
 * jump to top on showing chat list
 * fix app not focus on canceling desktop sync
