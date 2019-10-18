@@ -77,9 +77,9 @@ export default {
       var seconds = diff;
       if(seconds<60)return "now";
       var minutes = seconds/60;
-      if(minutes<60)return Math.floor(minutes)+" MIN";
+      if(minutes<60)return Math.floor(minutes)+" min";
       var hours = minutes/60
-      if(hours<24)return Math.floor(hours)+" H";
+      if(hours<24)return Math.floor(hours)+" h";
       return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
     },
     editChat(e){

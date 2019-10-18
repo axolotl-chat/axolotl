@@ -1,8 +1,8 @@
 
 <template>
   <div class="chat">
-    <div class="chatList-container">
-      <div id="messageList" class="chatList row" v-if="messages && messages.length>0" v-chat-scroll="{always: false, smooth: true}" @scroll="handleScroll($event)">
+    <div class="messageList-container" id="messageList-container">
+      <div id="messageList" class="messageList row" v-if="messages && messages.length>0" v-chat-scroll="{always: false, smooth: true}" @scroll="handleScroll($event)">
 
           <div v-for="message in messages.slice().reverse()" :class="{'col-12':true, 'sent':message.Outgoing, 'reply':!message.Outgoing}" >
             <div class="row w-100">
@@ -60,14 +60,16 @@
     <div class="messageInputBox">
       <div class="container">
         <div class="row">
-          <div class="messageInput-container col-9">
+          <div class="messageInput-container col-10">
             <textarea id="messageInput" type="textarea" v-model="messageInput"
-            onkeyup="if(this.scrollHeight > this.clientHeight)this.style.height=this.scrollHeight+'px';"/>
+            @keyup="calcHeightsForInput"
+            @click="calcHeightsForInput"
+            @focusout="resetHeights"/>
           </div>
-          <div v-if="messageInput!=''" class="col-3 text-right">
+          <div v-if="messageInput!=''" class="col-2 text-right">
             <button class="btn send" @click="sendMessage"><font-awesome-icon icon="paper-plane" /></button>
           </div>
-          <div v-else class="col-3 text-right">
+          <div v-else class="col-2 text-right">
             <button class="btn send" @click="loadAttachmentDialog"><font-awesome-icon icon="plus" /></button>
           </div>
         </div>
@@ -164,6 +166,7 @@ export default {
         if(this.$store.state.messageList.Messages==null)
         this.$store.dispatch("getMessageList", this.getId());
         document.getElementById("messageInput").style.height="auto";
+        document.getElementById('messageList').style.marginBottom =0+'px';
       }
 
       this.scrollDown();
@@ -193,8 +196,23 @@ export default {
     back(){
       this.$router.go(-1)
     },scrollDown(){
-      window.scrollTo(0,document.body.scrollHeight);
+      document.getElementById("messageList-container").scrollTo(0,document.getElementById("messageList-container").scrollHeight);
+    },
+    resetHeights(){
+      document.getElementById("messageInput").style.height="33px";
+      document.getElementById('messageList-container').style.height=window.innerHeight-140+'px';
+    },
+    calcHeightsForInput(){
+      var el = document.getElementById("messageInput");
+      if(el.scrollHeight > el.clientHeight && el.scrollHeight<150){
+          el.style.height=el.scrollHeight+5+'px';
+          document.getElementById('messageList-container').style.height = window.innerHeight-el.scrollHeight-100+'px';
+          if(document.body.scrollTop+550<document.body.scrollHeight)
+          window.scrollTo(0,document.body.scrollHeight);
+        }
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     }
+
 
   },
   created(){
@@ -202,6 +220,7 @@ export default {
   },
   mounted(){
     this.$store.dispatch("getMessageList", this.getId());
+    window.addEventListener('resize', this.resetHeights);
     setTimeout(this.scrollDown
     , 300)
       document.addEventListener("scroll", (e) => {
@@ -213,7 +232,6 @@ export default {
   },
   watch:{
     contacts(o,n){
-      console.log("blub")
       if(this.contacts!=null){
         Object.keys(this.names).forEach((i)=>{
           var contact = this.contacts.find(function(element) {
@@ -246,11 +264,15 @@ export default {
 .header {
   text-align: left;
 }
-.chatList{
-  overflow: hidden auto;
+.messageList{
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+.messageList-container{
+  overflow: hidden auto;
+  height: calc(100vh - 140px);
+}
+
 .chat-list-container::-webkit-scrollbar {
     display: none;
 }
@@ -258,15 +280,15 @@ export default {
   position:relative;
   padding-top:30px;
 }
-.chat-list-container{
+/* .chat-list-container{
   padding-bottom:70px;
   overflow: hidden;
   height:90vh;
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
-.chatList > div:last-child {
-    padding-bottom: 100px;
+} */
+.messageList > div:last-child {
+    padding-bottom: 20px;
 }
 .avatar {
     justify-content: center;
@@ -318,15 +340,15 @@ video,
   background-color:#d3f2d7;
 }
 .messageInputBox {
-    position: fixed;
     bottom: 0px;
     width: 100%;
     left: 0px;
     padding: 10px;
     max-width:100vw;
-    height:80px;
+    height: 55px;
     z-index:2;
     background-color:#FFF;
+
 
 
 }
@@ -338,22 +360,27 @@ video,
   border-radius:0px;
   border:none;
   resize: none;
-  position: absolute;
-  bottom:0px;
-  width:100%;
-  max-height: 250px;
+  bottom: 0px;
+  width: 100%;
+  max-height: 150px;
   border:1px solid #2090ea;
+  height: 33px;
+  padding:3px 10px;
+  border-radius:4px;
   ::-webkit-scrollbar {
       display: block;
   }
 
 }
 .send{
-  background-color:#2090ea;
-  color:#FFF;
+  background-color: #2090ea;
+  color: #FFF;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  font-size: 20px;
+  width: 35px;
+  height: 35px;
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
