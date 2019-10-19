@@ -104,7 +104,7 @@ func createGroup(newGroupData CreateGroupMessage) *store.Session {
 	}
 	members := strings.Join(newGroupData.Members, ",")
 	if !strings.Contains(members, config.Config.Tel) {
-		log.Debugln(members, config.Config.Tel)
+		// log.Debugln(members, config.Config.Tel)
 		members = members + "," + config.Config.Tel
 	}
 	store.Groups[group.Hexid] = &store.GroupRecord{

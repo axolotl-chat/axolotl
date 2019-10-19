@@ -1,10 +1,10 @@
 <template>
   <div class="about">
     <img class="logo" src="/axolotl.png" />
-    <h1 class="title">Axolotl Alpha {{config.Version}}</h1>
+    <h1 class="title">Axolotl Beta {{config.Version}}</h1>
     <h2 class="subtitle">A cross-plattform signal client</h2>
     <div class="description">
-      This is a free and open source signal client.
+      This is a free and open source signal client written in golang and vuejs.
       You can support the development of axolotl either by filling <br/>
       <a href="https://github.com/nanu-c/textsecure-qml/issues" @click="openExtern($event, 'https://github.com/nanu-c/textsecure-qml/issues')">issues at the bug tracker</a>. <br />
       or<br />

@@ -2,11 +2,13 @@
   <div class="register">
     <div v-if="infoPage" class="page1 info">
       <img class="logo" src="/axolotl.png" />
-      <h1 class="title">Axolotl Alpha</h1>
+      <h1 class="title">Axolotl Beta</h1>
       <h2 class="subtitle">A cross-plattform signal client</h2>
       <div class="description">Hey! Mr. Tambourine Man, play a song for me,
         <br />
         In the jingle jangle morning I'll come following you.
+        <br />
+        It's beta, expect lot's of things not working.
         <br />
         <a href="https://axolotl.chat"@click="openExtern($event, 'https://axolotl.chat')">https://axolotl.chat</a>
         <br />

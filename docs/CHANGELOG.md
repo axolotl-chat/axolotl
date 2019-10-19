@@ -1,3 +1,8 @@
+0.7.0 (Okt 19 2019) Axolotl-Beta: first beta version
+--------------------
+* refactor message input field alittle bit more
+* cleanup log
+
 0.6.15 (Okt 19 2019) Axolotl-Alpha
 --------------------
 * refactor message input field

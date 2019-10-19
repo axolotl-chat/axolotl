@@ -9,10 +9,10 @@
         {{config.RegisteredNumber}}
       </div>
     </div>
-    <router-link class="btn" :to="'/devices/'">
+    <router-link class="btn btn-primary" :to="'/devices/'">
       Linked devices
     </router-link>
-    <router-link  class="btn" :to="'/setPassword/'">
+    <router-link  class="btn btn-primary" :to="'/setPassword/'">
       Set password
     </router-link>
 
@@ -64,6 +64,9 @@ export default {
   flex-direction: column;
   justify-content:center;
   align-items: center;
+}
+.btn{
+  margin-bottom: 10px;
 }
 .profile {
   margin: 40px 0px;

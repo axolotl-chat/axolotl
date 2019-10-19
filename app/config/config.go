@@ -16,7 +16,7 @@ import (
 
 var AppName = "textsecure.nanuc"
 
-var AppVersion = "0.6.15"
+var AppVersion = "0.7.0"
 
 // Do not allow sending attachments larger than 100M for now
 var MaxAttachmentSize int64 = 100 * 1024 * 1024
@@ -61,7 +61,7 @@ func GetConfig() (*textsecure.Config, error) {
 		Config = &textsecure.Config{}
 	}
 	Config.StorageDir = StorageDir
-	log.Debugln(ConfigDir)
+	log.Debugln("[axolotl] config path: ", ConfigDir)
 	Config.UserAgent = fmt.Sprintf("TextSecure %s for Ubuntu Phone", AppVersion)
 	Config.UnencryptedStorage = true
 

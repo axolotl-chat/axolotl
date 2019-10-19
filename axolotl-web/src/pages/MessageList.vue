@@ -65,6 +65,7 @@
             <textarea id="messageInput" type="textarea" v-model="messageInput"
             @keyup="calcHeightsForInput"
             @click="calcHeightsForInput"
+            @focus="calcHeightsForInput"
             @focusout="resetHeights"
             contenteditable="true"/>
           </div>
@@ -168,8 +169,7 @@ export default {
         this.messageInput=""
         if(this.$store.state.messageList.Messages==null)
         this.$store.dispatch("getMessageList", this.getId());
-        document.getElementById("messageInput").style.height="auto";
-        document.getElementById('messageList').style.marginBottom =0+'px';
+        this.resetHeights()
       }
 
       this.scrollDown();
