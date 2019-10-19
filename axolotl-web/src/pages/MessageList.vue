@@ -65,7 +65,8 @@
             <textarea id="messageInput" type="textarea" v-model="messageInput"
             @keyup="calcHeightsForInput"
             @click="calcHeightsForInput"
-            @focusout="resetHeights"/>
+            @focusout="resetHeights"
+            contenteditable="true"/>
           </div>
           <div v-if="messageInput!=''" class="col-2 text-right">
             <button class="btn send" @click="sendMessage"><font-awesome-icon icon="paper-plane" /></button>
