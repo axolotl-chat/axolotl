@@ -19,7 +19,8 @@
             <div class="col-9">
   					       <div class="name">
                      <font-awesome-icon class="mute" v-if="!chat.Notification" icon="volume-mute" />
-                     <div>{{chat.Name}}</div>
+                     <div v-if="chat.IsGroup&&chat.Name==chat.Tel">Unknown group</div>
+                     <div v-else>{{chat.Name}}</div>
                      <div v-if="Number(chat.Unread)>0" class="counter badge badge-primary">{{chat.Unread}}</div>
                    </div>
 

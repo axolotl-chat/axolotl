@@ -11,7 +11,8 @@
               <div v-if="currentChat!=null&&currentChat.IsGroup" class="group-badge"><font-awesome-icon icon="user-friends" /></div>
               <div v-else class="group-badge">{{currentChat.Name[0]}}</div>
               <div v-if="currentChat!=null&&!currentChat.Notification" class="mute-badge"> <font-awesome-icon class="mute" icon="volume-mute" /></div>
-              <div v-if="messageList.Session" class="header-text">{{currentChat.Name}}</div>
+              <div v-if="messageList.Session&&currentChat.IsGroup&&currentChat.Name==chat.Tel">Unknown group</div>
+              <div v-else="messageList.Session" class="header-text">{{currentChat.Name}}</div>
             </div>
             <div class="col-2 text-right">
               <div class="dropdown">

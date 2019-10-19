@@ -56,9 +56,10 @@
         <div v-else class="no-entries">
           No Messages aviable
         </div>
-      </div>
+    </div>
     <div class="messageInputBox">
-      <div class="container">
+      <div v-if="chat&&chat.IsGroup&&chat.Name==chat.Tel" class="alert alert-warning">Group has to be updated by a member.</div>
+      <div v-else class="container">
         <div class="row">
           <div class="messageInput-container col-10">
             <textarea id="messageInput" type="textarea" v-model="messageInput"
@@ -190,7 +191,7 @@ export default {
       if(minutes<60)return Math.floor(minutes)+" minutes ago";
       var hours = minutes/60
       if(hours<24)return Math.floor(hours)+" hours ago";
-      return date.getDate() +"."+(date.getMonth() + 1) +  " " + date.getHours() + ":" + date.getMinutes()
+      return date.getDate() +"."+(date.getMonth() + 1) +  "."+ date.getFullYear() +" "  + date.getHours() + ":" + date.getMinutes()
       // return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes()
     },
     back(){
@@ -245,6 +246,9 @@ export default {
     }
   },
   computed: {
+    chat() {
+      return this.$store.state.currentChat
+    },
     messages () {
       return this.$store.state.messageList.Messages
     },
