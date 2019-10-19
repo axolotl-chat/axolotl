@@ -273,7 +273,8 @@ export default {
   scrollbar-width: none;
 }
 .messageList-container{
-  overflow: hidden auto;
+  overflow-x: hidden;
+  overflow-y: scroll;
   height: calc(100vh - 140px);
 }
 
@@ -352,9 +353,6 @@ video,
     height: 55px;
     z-index:2;
     background-color:#FFF;
-
-
-
 }
 .messageInput-container{
   position: relative;
