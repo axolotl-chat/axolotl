@@ -1,0 +1,59 @@
+<template>
+  <div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add <div v-if="name!=''">{{name}}</div><div v-else>Contact</div></h5>
+          <button type="button" class="close" @click="$emit('close')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <input v-model="name" type="text" class="form-control" id="nameInput" placeholder="Enter name">
+          </div>
+          <div class="form-group">
+            <label for="inputPhone">Phone</label>
+            <input v-model="phone" type="text" class="form-control" id="phoneInput" placeholder="+44...">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" @click="$emit('add',{'name':name, 'phone':phone})" >Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'AddContact',
+  data() {
+    return {
+      phone: "",
+      name: ""
+    }
+  },
+}
+</script>
+<style scoped>
+.modal {
+    display: block;
+    border:none;
+}
+.modal-content {
+  border-radius:0px;
+}
+.modal-header {
+  border-bottom:none;
+}
+.modal-title{
+  display:flex;
+}
+.modal-title > div{
+  margin-left:10px;
+}
+.modal-footer{
+  border-top:0px;
+}
+</style>

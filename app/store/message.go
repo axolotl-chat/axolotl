@@ -3,13 +3,13 @@ package store
 import (
 	"log"
 
-	qml "github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
 )
 
 type Message struct {
 	ID         int64
 	SID        int64
+	ChatID     string
 	Source     string
 	Message    string
 	Outgoing   bool
@@ -23,19 +23,19 @@ type Message struct {
 	Flags      int
 }
 
-func SaveMessage(m *Message) error {
+func SaveMessage(m *Message) (error, *Message) {
 	res, err := DS.Dbx.NamedExec(messagesInsert, m)
 	if err != nil {
-		return err
+		return err, nil
 	}
 
 	id, err := res.LastInsertId()
 	if err != nil {
-		return err
+		return err, nil
 	}
 
 	m.ID = id
-	return nil
+	return nil, m
 }
 
 func UpdateMessageSent(m *Message) error {
@@ -81,10 +81,21 @@ func LoadMessagesFromDB() error {
 			m.HTime = helpers.HumanizeTimestamp(m.SentAt)
 		}
 	}
-	qml.Changed(SessionsModel, &SessionsModel.Len)
+	//qml.Changed(SessionsModel, &SessionsModel.Len)
 	return nil
 }
 
+// func LoadMessagesList(id int64) (error, *MessageList) {
+// 	messageList := &MessageList{
+// 		ID: id,
+// 	}
+// 	log.Printf("Loading Messages for " + string(id))
+// 	err := DS.Dbx.Select(&messageList.Messages, messagesSelectWhere, id)
+// 	if err != nil {
+// 		return err, nil
+// 	}
+// 	return nil, messageList
+// }
 func DeleteMessage(id int64) error {
 	_, err := DS.Dbx.Exec("DELETE FROM messages WHERE id = ?", id)
 	return err

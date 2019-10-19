@@ -1,18 +1,20 @@
 package worker
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
 	"strings"
 	"time"
 
-	"github.com/gosexy/gettext"
-	qml "github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/contact"
+	"github.com/nanu-c/textsecure-qml/app/handler"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
+	"github.com/nanu-c/textsecure-qml/app/push"
+	"github.com/nanu-c/textsecure-qml/app/sender"
 	"github.com/nanu-c/textsecure-qml/app/settings"
 	"github.com/nanu-c/textsecure-qml/app/store"
 	"github.com/nanu-c/textsecure-qml/app/ui"
@@ -34,43 +36,7 @@ var isEncrypted = true
 
 //unregister  signal id
 func (Api *TextsecureAPI) Unregister() {
-	err := os.Remove("/home/phablet/.local/share/textsecure.nanuc/db/db.sql")
-	if err != nil {
-		log.Error(err)
-	}
-	err = os.Remove(config.ContactsFile)
-	if err != nil {
-		log.Error(err)
-	}
-	err = os.Remove(config.SettingsFile)
-	if err != nil {
-		log.Error(err)
-	}
-	err = os.Remove(config.ConfigFile)
-	if err != nil {
-		log.Error(err)
-	}
-	err = os.RemoveAll("/home/phablet/.cache/textsecure.nanuc/qmlcache")
-	if err != nil {
-		log.Error(err)
-	}
-	err = os.Remove("/home/phablet/.config/textsecure.nanuc/config.yml")
-	if err != nil {
-		log.Error(err)
-	}
-	err = os.RemoveAll(config.StorageDir)
-	if err != nil {
-		log.Error(err)
-	}
-	err = os.RemoveAll(config.DataDir + config.AppName)
-	if err != nil {
-		log.Error(err)
-	}
-	err = os.RemoveAll(config.CacheDir + config.AppName)
-	if err != nil {
-		log.Error(err)
-	}
-	os.Exit(1)
+	config.Unregister()
 }
 
 //get identitys
@@ -80,8 +46,8 @@ func (Api *TextsecureAPI) IdentityInfo(id string) string {
 	if err != nil {
 		log.Println(err)
 	}
-	return gettext.Gettext("Their identity (they read):") + "<br>" + fmt.Sprintf("% 0X", theirID) + "<br><br>" +
-		gettext.Gettext("Your identity (you read):") + "<br><br>" + fmt.Sprintf("% 0X", myID)
+	return "Their identity (they read):" + "<br>" + fmt.Sprintf("% 0X", theirID) + "<br><br>" +
+		"Your identity (you read):" + "<br><br>" + fmt.Sprintf("% 0X", myID)
 }
 
 func (Api *TextsecureAPI) ContactsImported(path string) {
@@ -120,9 +86,26 @@ func (Api *TextsecureAPI) SetLogLevel() {
 	textsecure.WriteConfig(config.ConfigFile, config.Config)
 }
 func RunBackend() {
-	log.Debugf("Run Backend")
-	go notificationInit()
+	log.Debugf("[axolotl] Run Backend")
+	store.DS.SetupDb("")
+	go push.NotificationInit()
+	ui.InitModels()
+	settings.SaveSettings(settings.SettingsModel)
+
 	isEncrypted = settings.SettingsModel.EncryptDatabase
+	if isEncrypted {
+		pw := ""
+		for {
+			pw = ui.GetEncryptionPw()
+			if store.DS.SetupDb(pw) {
+				log.Debugf("[axolotl] DB Encrypted, ready to start")
+				isEncrypted = false
+				break
+			} else {
+				ui.ShowError(errors.New("wrong password"))
+			}
+		}
+	}
 	sessionStarted = false
 	Api = &TextsecureAPI{}
 	Api.LogLevel = settings.SettingsModel.DebugLog
@@ -146,16 +129,16 @@ func RunBackend() {
 		},
 		GetStoragePassword: func() string {
 			password := ui.GetStoragePassword()
-			log.Debugf("Asking for password")
+			log.Debugf("[axolotl] Asking for password")
 
 			if settings.SettingsModel.EncryptDatabase {
-				log.Debugf("Attempting to open encrypted datastore")
+				log.Debugf("[axolotl] Attempting to open encrypted datastore")
 				var err error
 				store.DS, err = store.NewStorage(password)
 				if err != nil {
 					log.WithFields(log.Fields{
 						"error": err,
-					}).Error("Failed to open encrypted database")
+					}).Error("[axolotl] Failed to open encrypted database")
 				} else {
 					Api.StartAfterDecryption()
 
@@ -163,11 +146,11 @@ func RunBackend() {
 			}
 			return password
 		},
-		MessageHandler:        messageHandler,
-		ReceiptHandler:        receiptHandler,
-		ReceiptMessageHandler: receiptMessageHandler,
-		TypingMessageHandler:  typingMessageHandler,
-		SyncSentHandler:       syncSentHandler,
+		MessageHandler:        handler.MessageHandler,
+		ReceiptHandler:        handler.ReceiptHandler,
+		ReceiptMessageHandler: handler.ReceiptMessageHandler,
+		TypingMessageHandler:  handler.TypingMessageHandler,
+		SyncSentHandler:       handler.SyncSentHandler,
 		RegistrationDone:      ui.RegistrationDone,
 	}
 
@@ -188,12 +171,13 @@ func RunBackend() {
 	for {
 		if !isEncrypted {
 			if !sessionStarted {
-				log.Debugf("Start Session after Decryption")
+				log.Debugf("[axolotl] Start Session after Decryption")
 				startSession()
 
 			}
 			if err := textsecure.StartListening(); err != nil {
 				log.Debugln(err)
+				ui.ShowError(err)
 			}
 		}
 		time.Sleep(3 * time.Second)
@@ -202,15 +186,15 @@ func RunBackend() {
 }
 func (Api *TextsecureAPI) StartAfterDecryption() {
 
-	log.Debugf("DB Encrypted, ready to start")
+	log.Debugf("[axolotl] DB Encrypted, ready to start")
 	isEncrypted = false
 }
 
 func startSession() {
-	log.Debugf("starting Signal connection")
+	log.Debugf("[axolotl] starting Signal connection")
 	err := textsecure.Setup(client)
 	if _, ok := err.(*strconv.NumError); ok {
-		ui.ShowError(fmt.Errorf("Switching to unencrypted session store, removing %s\nThis will reset your sessions and reregister your phone.\n", config.StorageDir))
+		ui.ShowError(fmt.Errorf("[axolotl] Switching to unencrypted session store, removing %s\nThis will reset your sessions and reregister your phone.\n", config.StorageDir))
 		os.RemoveAll(config.StorageDir)
 		os.Exit(1)
 	}
@@ -222,14 +206,13 @@ func startSession() {
 	Api.PhoneNumber = config.Config.Tel
 	if helpers.Exists(config.ContactsFile) {
 		Api.HasContacts = true
-		go store.RefreshContacts()
+		store.RefreshContacts()
 	}
 	for _, s := range store.SessionsModel.Sess {
 		s.Name = store.TelToName(s.Tel)
 	}
-	go store.SessionsModel.UpdateSessionNames()
-	SendUnsentMessages()
-	qml.Changed(store.SessionsModel, &store.SessionsModel.Len)
+	sender.SendUnsentMessages()
+	// //qml.Changed(store.SessionsModel, &store.SessionsModel.Len)
 
 }
 func (Api *TextsecureAPI) FilterContacts(sub string) {
@@ -242,24 +225,23 @@ func (Api *TextsecureAPI) FilterContacts(sub string) {
 		}
 	}
 
-	cm := &store.Contacts{fc, len(fc)}
-	ui.Engine.Context().SetVar("contactsModel", cm)
+	// cm := &store.Contacts{fc, len(fc)}
+	// ui.Engine.Context().SetVar("contactsModel", cm)
 }
 func (Api *TextsecureAPI) SaveSettings() error {
 	return settings.SaveSettings(settings.SettingsModel)
 }
 func (Api *TextsecureAPI) GetActiveSessionID() string {
-	return Api.ActiveSessionID
+	return store.ActiveSessionID
 }
 func (Api *TextsecureAPI) SetActiveSessionID(sId string) {
-	// store.Sessions.ActiveChat = sId
-	Api.ActiveSessionID = sId
+	store.ActiveSessionID = sId
 }
 func (Api *TextsecureAPI) LeaveChat() {
 	// store.Sessions.ActiveChat = ""
-	Api.ActiveSessionID = ""
+	store.ActiveSessionID = ""
 }
 func (Api *TextsecureAPI) TgNotification(notification bool) {
-	sess := store.SessionsModel.Get(Api.ActiveSessionID)
-	sess.ToggleSessionNotifcation(notification)
+	sess := store.SessionsModel.Get(store.ActiveSessionID)
+	sess.ToggleSessionNotifcation()
 }

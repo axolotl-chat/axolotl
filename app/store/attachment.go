@@ -3,14 +3,15 @@ package store
 import (
 	"crypto/rand"
 	"encoding/hex"
+	"fmt"
 	"io"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 
 	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/config"
-	"github.com/snapcore/snapd/osutil"
 )
 
 func SaveAttachment(a *textsecure.Attachment) (string, error) {
@@ -45,8 +46,16 @@ func SaveAttachment(a *textsecure.Attachment) (string, error) {
 func CopyAttachment(src string) (string, error) {
 	_, b := filepath.Split(src)
 	dest := filepath.Join(config.AttachDir, b)
-	err := osutil.CopyFile(src, dest, osutil.CopyFlagOverwrite)
+	input, err := ioutil.ReadFile(src)
 	if err != nil {
+		fmt.Println(err)
+		return "", err
+	}
+
+	err = ioutil.WriteFile(dest, input, 0644)
+	if err != nil {
+		fmt.Println("Error creating", dest)
+		fmt.Println(err)
 		return "", err
 	}
 	return dest, nil

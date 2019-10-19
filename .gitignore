@@ -6,5 +6,11 @@ gopath/*
 .clickable/*
 *po~
 *~~
-*dist
-*node_modules
+*.snap
+*.vcf
+main
+
+output
+bind*.go
+*.syso
+dist

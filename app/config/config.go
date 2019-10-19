@@ -3,42 +3,44 @@ package config
 import (
 	"flag"
 	"fmt"
-	"log"
 	"os"
 	"os/user"
 	"path/filepath"
 	"strings"
 
+	log "github.com/sirupsen/logrus"
+
 	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/textsecure-qml/app/helpers"
-	"github.com/nanu-c/textsecure-qml/app/lang"
 )
 
 var AppName = "textsecure.nanuc"
 
-var AppVersion = "0.4.5"
+var AppVersion = "0.7.0"
 
 // Do not allow sending attachments larger than 100M for now
 var MaxAttachmentSize int64 = 100 * 1024 * 1024
 
 var (
-	IsPhone      bool
-	IsPushHelper bool
-	MainQml      string
-
-	HomeDir      string
-	ConfigDir    string
-	CacheDir     string
-	ConfigFile   string
-	ContactsFile string
-	SettingsFile string
-	LogFile      string
-	LogLevel     string
-	DataDir      string
-	StorageDir   string
-	AttachDir    string
-	TsDeviceURL  string
-	VcardPath    string
+	IsPhone                bool
+	IsPushHelper           bool
+	MainQml                string
+	Gui                    string
+	ElectronDebug          bool
+	HomeDir                string
+	ConfigDir              string
+	CacheDir               string
+	ConfigFile             string
+	ContactsFile           string
+	RegisteredContactsFile string
+	SettingsFile           string
+	LogFile                string
+	LogLevel               string
+	DataDir                string
+	StorageDir             string
+	AttachDir              string
+	TsDeviceURL            string
+	VcardPath              string
 )
 
 var Config *textsecure.Config
@@ -59,8 +61,10 @@ func GetConfig() (*textsecure.Config, error) {
 		Config = &textsecure.Config{}
 	}
 	Config.StorageDir = StorageDir
+	log.Debugln("[axolotl] config path: ", ConfigDir)
 	Config.UserAgent = fmt.Sprintf("TextSecure %s for Ubuntu Phone", AppVersion)
 	Config.UnencryptedStorage = true
+
 	// Config.LogLevel
 	Config.AlwaysTrustPeerID = true
 	rootCA := filepath.Join(ConfigDir, "rootCA.crt")
@@ -70,7 +74,6 @@ func GetConfig() (*textsecure.Config, error) {
 	return Config, err
 }
 func SetupConfig() {
-	lang.SetupTranslations(AppName)
 
 	IsPhone = helpers.Exists("/home/phablet")
 	IsPushHelper = filepath.Base(os.Args[0]) == "pushHelper"
@@ -81,7 +84,7 @@ func SetupConfig() {
 	}
 
 	if IsPushHelper {
-		log.Printf("isPushhelper")
+		log.Printf("[axolotl] use push helper")
 		HomeDir = "/home/phablet"
 	} else {
 		user, err := user.Current()
@@ -97,6 +100,7 @@ func SetupConfig() {
 	LogFile = filepath.Join(HomeDir, ".cache/", "upstart/", strings.Join(LogFileName, ""))
 	ConfigDir = filepath.Join(HomeDir, ".config/", AppName)
 	ContactsFile = filepath.Join(ConfigDir, "contacts.yml")
+	RegisteredContactsFile = filepath.Join(ConfigDir, "registeredContacts.yml")
 	SettingsFile = filepath.Join(ConfigDir, "settings.yml")
 	if _, err := os.Stat(SettingsFile); os.IsNotExist(err) {
 		os.OpenFile(SettingsFile, os.O_RDONLY|os.O_CREATE, 0700)
@@ -107,4 +111,43 @@ func SetupConfig() {
 	os.MkdirAll(AttachDir, 0700)
 	StorageDir = filepath.Join(DataDir, ".storage")
 
+}
+func Unregister() {
+	err := os.Remove(HomeDir + "/.local/share/textsecure.nanuc/db/db.sql")
+	if err != nil {
+		log.Error(err)
+	}
+	err = os.Remove(ContactsFile)
+	if err != nil {
+		log.Error(err)
+	}
+	err = os.Remove(SettingsFile)
+	if err != nil {
+		log.Error(err)
+	}
+	err = os.Remove(ConfigFile)
+	if err != nil {
+		log.Error(err)
+	}
+	err = os.RemoveAll(HomeDir + "/.cache/textsecure.nanuc/qmlcache")
+	if err != nil {
+		log.Error(err)
+	}
+	err = os.Remove(HomeDir + "/.config/textsecure.nanuc/config.yml")
+	if err != nil {
+		log.Error(err)
+	}
+	err = os.RemoveAll(StorageDir)
+	if err != nil {
+		log.Error(err)
+	}
+	err = os.RemoveAll(DataDir + AppName)
+	if err != nil {
+		log.Error(err)
+	}
+	err = os.RemoveAll(CacheDir + AppName)
+	if err != nil {
+		log.Error(err)
+	}
+	os.Exit(1)
 }

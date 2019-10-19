@@ -1,14 +1,14 @@
-name: textsecure
+name: axolotl
 version: git
 summary: An signal client.
 description: |
-  HTTPLab let you inspect HTTP requests and forge responses.
+  Axolotl is a crossplattform signal client
 
 confinement: devmode
 base: core18
 
 parts:
-  textsecure:
+  axolotl:
     plugin: go
     go-importpath: github.com/nanu-c/textsecure-qml
     source: .
@@ -17,11 +17,8 @@ parts:
       - gcc
       - mercurial
       - bzr
-      - libzbar-dev
-      - qtbase5-dev
-      - qtdeclarative5-dev
-      - qtbase5-private-dev
 
 apps:
-  httplab:
-    command: bin/httplab
+  axolotl:
+    command: bin/textsecure-qml
+    plugs: ["desktop", "desktop-legacy", "home", "x11", "unity7", "browser-support", "network", "gsettings", "pulseaudio", "opengl"]

@@ -1,7 +1,8 @@
 [Desktop Entry]
-Name=Signal
-Exec=textsecure %u
-Icon=textsecure.png
+Name=Axolotl
+#Exec=qmlscene --scaling qml/MainUt.qml
+Exec=textsecure -e ut  %u 
+Icon=axolotl.png
 Terminal=false
 Type=Application
 X-Ubuntu-Touch=true

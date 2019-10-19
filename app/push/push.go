@@ -7,8 +7,6 @@ import (
 	"time"
 
 	log "github.com/sirupsen/logrus"
-
-	"github.com/gosexy/gettext"
 )
 
 // run as the application push helper
@@ -28,9 +26,9 @@ func PushHelperProcess() {
 	os.Exit(0)
 }
 
-type PushMessage struct {
-	Notification string `json:"notification"`
-}
+// type PushMessage struct {
+// 	Notification string `json:"notification"`
+// }
 
 type AppMessageCard struct {
 	Summary   string   `json:"summary"`
@@ -69,7 +67,7 @@ func PushHelperProcessMessage(in io.Reader, out io.Writer) error {
 	appMsg := &AppMessage{
 		Notification: AppMessageNotification{
 			Card: AppMessageCard{
-				Summary:   gettext.Gettext("New message"),
+				Summary:   "New message",
 				Body:      "",
 				Actions:   []string{"appid://textsecure.nanuc/textsecure/current-user-version"},
 				Popup:     true,
@@ -92,7 +90,7 @@ func NewStandardPushMessage(summary string, body string) *AppMessage {
 	pm := &AppMessage{
 		Notification: AppMessageNotification{
 			Card: AppMessageCard{
-				Summary:   gettext.Gettext("New message"),
+				Summary:   "New message",
 				Body:      "",
 				Actions:   []string{"appid://textsecure.nanuc/textsecure/current-user-version"},
 				Popup:     true,

@@ -4,11 +4,9 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"syscall"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mutecomm/go-sqlcipher"
-	qml "github.com/nanu-c/qml-go"
 	"github.com/nanu-c/textsecure-qml/app/config"
 	"github.com/nanu-c/textsecure-qml/app/settings"
 	log "github.com/sirupsen/logrus"
@@ -29,9 +27,11 @@ var (
 	sessionsInsert = "INSERT OR REPLACE INTO sessions (name, tel, isgroup, last, ctype, timestamp, notification) VALUES (:name, :tel, :isgroup, :last, :ctype, :timestamp, :notification)"
 	sessionsSelect = "SELECT * FROM sessions ORDER BY timestamp DESC"
 
-	messagesSchema      = "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, sid integer, source text, message text, outgoing boolean, sentat integer, receivedat integer, ctype integer, attachment string, issent boolean, isread boolean, flags integer default 0)"
-	messagesInsert      = "INSERT INTO messages (sid, source, message, outgoing, sentat, receivedat, ctype, attachment, issent, isread, flags) VALUES (:sid, :source, :message, :outgoing, :sentat, :receivedat, :ctype, :attachment, :issent, :isread, :flags)"
-	messagesSelectWhere = "SELECT * FROM messages WHERE sid = ?"
+	messagesSchema                 = "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, sid integer, source text, message text, outgoing boolean, sentat integer, receivedat integer, ctype integer, attachment string, issent boolean, isread boolean, flags integer default 0)"
+	messagesInsert                 = "INSERT INTO messages (sid, source, message, outgoing, sentat, receivedat, ctype, attachment, issent, isread, flags) VALUES (:sid, :source, :message, :outgoing, :sentat, :receivedat, :ctype, :attachment, :issent, :isread, :flags)"
+	messagesSelectWhere            = "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT 20"
+	messagesSelectWhereMore        = "SELECT * FROM messages WHERE sid = ? AND id< ? ORDER BY sentat DESC LIMIT 20"
+	messagesSelectWhereLastMessage = "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT 1"
 
 	groupsSchema = "CREATE TABLE IF NOT EXISTS groups (id INTEGER PRIMARY KEY, groupid TEXT, name TEXT, members TEXT, avatar BLOB, avatarid INTEGER, avatar_key BLOB, avatar_content_type TEXT, relay TEXT, active INTEGER DEFAULT 1)"
 	groupsInsert = "INSERT OR REPLACE INTO groups (groupid, name, members, avatar) VALUES (:groupid, :name, :members, :avatar)"
@@ -44,7 +44,7 @@ var (
 
 // Decrypt database and closes connection
 func (ds *DataStore) Decrypt(dbPath string) error {
-	log.Debugf("Decrypt Db")
+	log.Debugf("[axoltol] Decrypt Db")
 	query := fmt.Sprintf("ATTACH DATABASE '%s' AS plaintext KEY '';", dbPath)
 	if DS.Dbx == nil {
 		log.Errorf("Dbx is nil")
@@ -78,14 +78,14 @@ func (ds *DataStore) SetupDb(password string) bool {
 	err = os.MkdirAll(dbDir, 0700)
 	DS, err = NewStorage(password)
 	if err != nil {
-		log.Debugf("Couldn't open db: " + err.Error())
+		log.Debugln("[axolotl] setupDb: Couldn't open db: " + err.Error())
 		return false
 	}
 	UpdateSessionTable()
 
-	LoadMessagesFromDB()
-	qml.Changed(SessionsModel, &SessionsModel.Len)
-	log.Printf("Db setup finished")
+	LoadChats()
+	//qml.Changed(SessionsModel, &SessionsModel.Len)
+	log.Printf("[axolotl] Db setup finished")
 
 	return true
 }
@@ -127,6 +127,8 @@ func (ds *DataStore) DecryptDb(password string) bool {
 		return true
 	}
 	settings.SettingsModel.EncryptDatabase = false
+	settings.SaveSettings(settings.SettingsModel)
+
 	DS.Dbx = nil
 	DS, err = NewStorage("")
 	if err != nil {
@@ -136,7 +138,7 @@ func (ds *DataStore) DecryptDb(password string) bool {
 	return false
 }
 func (ds *DataStore) EncryptDb(password string) bool {
-	log.Info("EncryptDb: Encrypting database..")
+	log.Info("[axolotl] EncryptDb: Encrypting database..")
 	dbDir = filepath.Join(config.DataDir, "db")
 	dbFile = filepath.Join(dbDir, "db.sql")
 	tmp := filepath.Join(dbDir, "tmp.db")
@@ -170,6 +172,7 @@ func (ds *DataStore) EncryptDb(password string) bool {
 		return true
 	}
 	settings.SettingsModel.EncryptDatabase = true
+	settings.SaveSettings(settings.SettingsModel)
 	DS.Dbx = nil
 	DS.SetupDb(password)
 	return false
@@ -178,12 +181,12 @@ func (ds *DataStore) EncryptDb(password string) bool {
 // NewStorage
 func NewStorage(password string) (*DataStore, error) {
 	// Set more restrictive umask to ensure database files are created 0600
-	syscall.Umask(0077)
+	// syscall.Umask(0077)
 
 	dbDir = filepath.Join(config.DataDir, "db")
 	err := os.MkdirAll(dbDir, 0700)
 	if err != nil {
-		log.Debugf(err.Error())
+		log.Debugln("[axolotl] error open db ", err.Error())
 
 		return nil, err
 	}
@@ -203,31 +206,31 @@ func NewStorage(password string) (*DataStore, error) {
 	return ds, nil
 }
 func NewDataStore(dbPath, saltPath, password string) (*DataStore, error) {
-	log.Debugf("NewDataStore")
+	log.Debugf("[axolotl] NewDataStore")
 
 	params := "_busy_timeout=5000&cache=shared"
 
 	if password != "" && saltPath != "" {
-		log.Info("Connecting to encrypted data store")
+		log.Info("[axolotl] Connecting to encrypted data store")
 		key, err := getKey(saltPath, password)
 		if err != nil {
-			log.Errorf("Failed to get key: " + err.Error())
+			log.Errorf("[axolotl] Failed to get key: " + err.Error())
 			return nil, err
 		}
-		log.Debugf("Connecting to encrypted data store finished")
+		log.Debugf("[axolotl] Connecting to encrypted data store finished")
 
 		params = fmt.Sprintf("%s&_pragma_key=x'%X'&_pragma_cipher_page_size=4096", params, key)
 	}
 
 	db, err := sqlx.Open("sqlite3", fmt.Sprintf("%s?%s", dbPath, params))
 	if err != nil {
-		log.Errorf("Failed to open DB")
+		log.Errorf("[axolotl] Failed to open DB")
 		return nil, err
 	}
 
 	err = db.Ping()
 	if err != nil {
-		log.Errorf("Failed to ping db")
+		log.Errorf("[axolotl] Failed to ping db")
 
 		return nil, err
 	}
@@ -235,7 +238,7 @@ func NewDataStore(dbPath, saltPath, password string) (*DataStore, error) {
 	_, err = db.Exec(messagesSchema)
 
 	if err != nil {
-		log.Debugf("Failed exec messageSchema (Happens also on encrypted db)")
+		log.Debugln("[axolotl] Failed exec messageSchema (Happens also on encrypted db):", err)
 
 		return nil, err
 	}
@@ -249,7 +252,7 @@ func NewDataStore(dbPath, saltPath, password string) (*DataStore, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Debugf("NewDataStore finished")
+	log.Debugf("[axolotl] NewDataStore finished")
 
 	return &DataStore{Dbx: db}, nil
 }

@@ -3,6 +3,7 @@
         "pictures",
         "videos",
         "links",
-        "text"
+        "text",
+        "documents"
     ]
 }

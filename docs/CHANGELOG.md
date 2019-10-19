@@ -1,8 +1,120 @@
+0.7.0 (Okt 19 2019) Axolotl-Beta: first beta version
+--------------------
+* refactor message input field alittle bit more
+* cleanup log
+
+0.6.15 (Okt 19 2019) Axolotl-Alpha
+--------------------
+* refactor message input field
+* fix Unknown groups
+* minor fixes in dates and menu
+
+0.6.14.1 (Okt 18 2019) Axolotl-Alpha
+* fix typo
+0.6.14 (Okt 18 2019) Axolotl-Alpha
+--------------------
+* jump to top on showing chat list
+* fix app not focus on canceling desktop sync
+* fix incomming group message added to wrong chat
+* scroll down on enter chat is now faster
+* support for latest clickable
+* handle external urls externally
+
+0.6.13 (Okt 15 2019) Axolotl-Alpha
+--------------------
+* Add Info page before registering
+* About and Settings page
+* creating a chat shows the correct title
+* mention tagger on ut for scanning the desktop qr-code
+* indicate that importing contacts takes times
+* add reset session and show identity
+* adding yourself to a group is not possible anymore
+
+0.6.12 (Okt 13 2019) Axolotl-Alpha
+--------------------
+* support notifications on non ut os
+* unread messages counter
+* enable/disable Notifications
+* show sender of message in group chats
+* support of contact imports with multiple numbers
+
+
+0.6.11 (Okt 11 2019) Axolotl-Alpha
+--------------------
+* indicate wrong password + unregister when password forgotten
+* fix empty contacts list, edit/delete contacts, hopefully also show always names in the chatList
+* show ratelimiting error in contact list
+* improve logging
+
+0.6.10 (Okt 06 2019) Axolotl-Alpha -rc1
+--------------------
+* support for encrypted db's
+
+
+0.6.9 (Okt 06 2019) Axolotl-Alpha
+--------------------
+* send attachments ut
+* fix import contacts on ut
+* Create groups: show contact list also the first time the modal is opened
+* Clean logs and 2 typos thanks @TotalSonic
+
+0.6.8 (Okt 2 2019) Axolotl-Alpha
+--------------------
+* creat Group Chats
+* sort chat list
+* cleanup log
+
+0.6.7 (Sept 30 2019) Axolotl-Alpha
+--------------------
+* fix entering new chat and show first sent message
+
+0.6.6 (Sept 30 2019) Axolotl-Alpha
+--------------------
+* rewrite vcf parsing
+
+0.6.5 (Sept 24 2019) Axolotl-Alpha
+--------------------
+* versions for raspberryPi and windows
+* fix contacts import in ut
+
+
+0.6.4 (Sept 23 2019) Axolotl-Alpha
+--------------------
+* delete/edit contacts
+* dynamicaly growing messagefield
+* chat/contacts action headers
+
+0.6.3 (Sept 21 2019) Axolotl-Alpha
+--------------------
+* remove chats,
+* crossplattform webview,
+* contacts import on non ut devices,
+* snaps are building (but not running)
+* remove zbar dependencies
+
+0.6.2 (Sept 17 2019) Axolotl-Alpha
+--------------------
+* More stable ux, dialogs/menu closing, show phone numbers in contact list
+
+0.6.1 (Sept 14 2019) Axolotl-Alpha
+--------------------
+* Import contacts from content hub
+
+0.6.0 (Sept 14 2019) Axolotl-Alpha
+--------------------
+* remove go-qml bindings
+* new ux
+* display attachments inline
+* know bugs because of the complete rewrite of the client:
+** no group creation, no notification config, no content hub integration(no contact import, no saving)
+** no support of encrypted db
+
 0.4.6 (Sep 04 2019) Hotfix
 --------------------
 * fix Contact import working properly
 * fix recieving messages
 * still not fixed: open new chat
+
 0.4.5 (Aug 31 2019)
 --------------------
 * import a singel contact thats not in the contact Book

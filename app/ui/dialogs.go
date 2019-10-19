@@ -2,6 +2,7 @@ package ui
 
 import (
 	"github.com/nanu-c/textsecure-qml/app/contact"
+	"github.com/nanu-c/textsecure-qml/app/webserver"
 	log "github.com/sirupsen/logrus"
 	"github.com/ttacon/libphonenumber"
 )
@@ -13,22 +14,35 @@ func GetTextFromDialog(fun, obj, signal string) string {
 		}
 	}()
 	log.Debugf("Opening Dialog: " + fun)
-	Win.Root().Call(fun)
-	p := Win.Root().ObjectByName(obj)
+	// Win.Root().Call(fun)
+	// p := Win.Root().ObjectByName(obj)
 	ch := make(chan string)
-	p.On(signal, func(text string) {
-		ch <- text
-	})
+	// p.On(signal, func(text string) {
+	// 	ch <- text
+	// })
 	text := <-ch
+	return text
+}
+func GetTextFromWs(fun string) string {
+	defer func() {
+		if r := recover(); r != nil {
+			log.Errorln("[axoltol] Error: GetTextFromDialog: ", r)
+		}
+	}()
+	log.Debugf("[axoltol] Opening Dialog: " + fun)
+	text := webserver.RequestInput(fun)
 	return text
 }
 
 func GetStoragePassword() string {
-	return GetTextFromDialog("getStoragePassword", "passwordPage", "passwordEntered")
+	return GetTextFromWs("getStoragePassword")
 }
 
 func GetPhoneNumber() string {
-	n := GetTextFromDialog("getPhoneNumber", "signinPage", "numberEntered")
+
+	// time.Sleep(2 * time.Second)
+	// n := GetTextFromDialog("getPhoneNumber", "signinPage", "numberEntered")
+	n := GetTextFromWs("getPhoneNumber")
 	num, _ := libphonenumber.Parse(n, "")
 	c := libphonenumber.GetRegionCodeForCountryCode(int(num.GetCountryCode()))
 	s := libphonenumber.GetNationalSignificantNumber(num)
@@ -37,9 +51,12 @@ func GetPhoneNumber() string {
 }
 
 func GetVerificationCode() string {
-	return GetTextFromDialog("getVerificationCode", "codeVerificationPage", "codeEntered")
+	return GetTextFromWs("getVerificationCode")
+}
+func GetEncryptionPw() string {
+	return GetTextFromWs("getEncryptionPw")
 }
 func ShowError(err error) {
-	Win.Root().Call("error", err.Error())
-	log.Errorf(err.Error())
+	webserver.ShowError(err.Error())
+	log.Errorln("[axolotl] error: ", err.Error())
 }

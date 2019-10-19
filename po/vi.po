@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-30 23:47+0200\n"
+"POT-Creation-Date: 2019-09-07 09:22+0200\n"
 "PO-Revision-Date: 2016-02-29 11:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -12,157 +12,206 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ../qml/phoneui/components/TelegramPage.qml:24
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/components/TelegramPage.qml:24
+#: ../../../qml/phoneui/components/TelegramPage.qml:24
 msgid "Signal"
 msgstr ""
 
-#: ../qml/phoneui/components/SignalMessageDelegate.qml:183
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/components/SignalMessageDelegate.qml:183
+#: ../../../qml/phoneui/components/SignalMessageDelegate.qml:183
 #, fuzzy
 msgid "Forwarded from "
 msgstr "Chuyển tiếp tin nhắn"
 
-#: ../qml/phoneui/components/AttachPanel.qml:87
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/components/AttachPanel.qml:87
+#: ../../../qml/phoneui/components/AttachPanel.qml:87
 msgid "Image"
 msgstr "Ảnh"
 
-#: ../qml/phoneui/components/AttachPanel.qml:98
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/components/AttachPanel.qml:98
+#: ../../../qml/phoneui/components/AttachPanel.qml:98
 msgid "Video"
 msgstr "Đoạn phim"
 
-#: ../qml/phoneui/components/AttachPanel.qml:109
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/components/AttachPanel.qml:109
+#: ../../../qml/phoneui/components/AttachPanel.qml:109
 msgid "Audio"
 msgstr "Nhạc"
 
-#: ../qml/phoneui/components/AttachPanel.qml:120
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/components/AttachPanel.qml:120
+#: ../../../qml/phoneui/components/AttachPanel.qml:120
 msgid "Contact"
 msgstr "Liên lạc"
 
-#: ../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:8
-#: ../qml/phoneui/ui/dialogs/ErrorMessageDialog.qml:12
-#: ../qml/phoneui/ui/dialogs/AddContactDialog.qml:10
-#: ../qml/phoneui/ui/dialogs/InfoDialog.qml:17
-#: ../qml/phoneui/ui/ContactsPage.qml:70
-#: ../qml/phoneui/ui/VerificationCodePage.qml:96
-#: ../qml/phoneui/ui/IntroPage.qml:40
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/dialogs/ConfirmationDialog.qml:8
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/dialogs/ErrorMessageDialog.qml:12
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/dialogs/AddContactDialog.qml:10
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/dialogs/InfoDialog.qml:17
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:70
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/VerificationCodePage.qml:96
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/IntroPage.qml:40
+#: ../../../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:8
+#: ../../../qml/phoneui/ui/dialogs/ErrorMessageDialog.qml:12
+#: ../../../qml/phoneui/ui/dialogs/AddContactDialog.qml:10
+#: ../../../qml/phoneui/ui/dialogs/InfoDialog.qml:17
+#: ../../../qml/phoneui/ui/ContactsPage.qml:70
+#: ../../../qml/phoneui/ui/VerificationCodePage.qml:96
+#: ../../../qml/phoneui/ui/IntroPage.qml:40
 msgid "OK"
 msgstr ""
 
-#: ../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:10
-#: ../qml/phoneui/ui/dialogs/AddContactDialog.qml:12
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/dialogs/ConfirmationDialog.qml:10
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/dialogs/AddContactDialog.qml:12
+#: ../../../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:10
+#: ../../../qml/phoneui/ui/dialogs/AddContactDialog.qml:12
 msgid "Cancel"
 msgstr "Hủy bỏ"
 
-#: ../qml/phoneui/ui/pages/ChatList.qml:75
-#: ../qml/phoneui/ui/ContactsPage.qml:35 ../qml/phoneui/ui/ContactsPage.qml:42
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/pages/ChatList.qml:78
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:35
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:42
+#: ../../../qml/phoneui/ui/pages/ChatList.qml:78
+#: ../../../qml/phoneui/ui/ContactsPage.qml:35
+#: ../../../qml/phoneui/ui/ContactsPage.qml:42
 msgid "Search"
 msgstr "Tìm kiếm"
 
-#: ../qml/phoneui/ui/pages/ChatList.qml:86
-#: ../qml/phoneui/ui/ContactsPage.qml:78
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/pages/ChatList.qml:89
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:78
+#: ../../../qml/phoneui/ui/pages/ChatList.qml:89
+#: ../../../qml/phoneui/ui/ContactsPage.qml:78
 msgid "New group"
 msgstr "Tạo nhóm mới"
 
-#: ../qml/phoneui/ui/pages/ChatList.qml:92
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/pages/ChatList.qml:95
+#: ../../../qml/phoneui/ui/pages/ChatList.qml:95
 msgid "Mark all read"
 msgstr "Đánh dấu tất cả đã đọc"
 
-#: ../qml/phoneui/ui/pages/ChatList.qml:98
-#: ../qml/phoneui/ui/SettingsPage.qml:27
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/pages/ChatList.qml:101
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:27
+#: ../../../qml/phoneui/ui/pages/ChatList.qml:101
+#: ../../../qml/phoneui/ui/SettingsPage.qml:27
 msgid "Settings"
 msgstr "Thiết Đặt"
 
-#: ../qml/phoneui/ui/pages/ChatList.qml:104
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/pages/ChatList.qml:107
+#: ../../../qml/phoneui/ui/pages/ChatList.qml:107
 msgid "Help"
 msgstr "Trợ giúp"
 
-#: ../qml/phoneui/ui/pages/ChatList.qml:110
-#: ../qml/phoneui/ui/ContactsPage.qml:28
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/pages/ChatList.qml:113
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:28
+#: ../../../qml/phoneui/ui/pages/ChatList.qml:113
+#: ../../../qml/phoneui/ui/ContactsPage.qml:28
 msgid "Close"
 msgstr ""
 
-#: ../qml/phoneui/ui/pages/ChatList.qml:169
-#, fuzzy, qt-format
-msgid "Forward message to %1?"
-msgstr "Chuyển tiếp tin nhắn"
-
-#: ../qml/phoneui/ui/PreviewPage.qml:33
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/PreviewPage.qml:33
+#: ../../../qml/phoneui/ui/PreviewPage.qml:33
 msgid "From: "
 msgstr ""
 
-#: ../qml/phoneui/ui/PreviewPage.qml:47
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/PreviewPage.qml:47
+#: ../../../qml/phoneui/ui/PreviewPage.qml:47
 msgid "Save"
 msgstr "Lưu"
 
-#: ../qml/phoneui/ui/SetPasswordPage.qml:17
-#: ../qml/phoneui/ui/SetPasswordPage.qml:105
-#: ../qml/phoneui/ui/SettingsPage.qml:55
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:17
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:105
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:55
+#: ../../../qml/phoneui/ui/SetPasswordPage.qml:17
+#: ../../../qml/phoneui/ui/SetPasswordPage.qml:105
+#: ../../../qml/phoneui/ui/SettingsPage.qml:55
 msgid "Change passphrase"
 msgstr ""
 
-#: ../qml/phoneui/ui/SetPasswordPage.qml:17
-#: ../qml/phoneui/ui/SettingsPage.qml:55
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:17
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:55
+#: ../../../qml/phoneui/ui/SetPasswordPage.qml:17
+#: ../../../qml/phoneui/ui/SettingsPage.qml:55
 msgid "Create passphrase"
 msgstr ""
 
-#: ../qml/phoneui/ui/SetPasswordPage.qml:53
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:53
+#: ../../../qml/phoneui/ui/SetPasswordPage.qml:53
 msgid "Old passphrase"
 msgstr ""
 
-#: ../qml/phoneui/ui/SetPasswordPage.qml:71
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:71
+#: ../../../qml/phoneui/ui/SetPasswordPage.qml:71
 #, fuzzy
 msgid "New passphrase"
 msgstr "Tin nhắn mới"
 
-#: ../qml/phoneui/ui/SetPasswordPage.qml:87
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:87
+#: ../../../qml/phoneui/ui/SetPasswordPage.qml:87
 msgid "Repeat new passphrase"
 msgstr ""
 
-#: ../qml/phoneui/ui/SetPasswordPage.qml:105
-#: ../qml/phoneui/ui/PasswordPage.qml:82
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:105
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/PasswordPage.qml:82
+#: ../../../qml/phoneui/ui/SetPasswordPage.qml:105
+#: ../../../qml/phoneui/ui/PasswordPage.qml:82
 msgid "Submit passphrase"
 msgstr ""
 
-#: ../qml/phoneui/ui/SetPasswordPage.qml:120
-#: ../qml/phoneui/ui/PasswordPage.qml:96 ../qml/phoneui/ui/PasswordPage.qml:100
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:120
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/PasswordPage.qml:96
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/PasswordPage.qml:100
+#: ../../../qml/phoneui/ui/SetPasswordPage.qml:120
+#: ../../../qml/phoneui/ui/PasswordPage.qml:96
+#: ../../../qml/phoneui/ui/PasswordPage.qml:100
 msgid "Disable passphrase?"
 msgstr ""
 
-#: ../qml/phoneui/ui/SetPasswordPage.qml:140
-#: ../qml/phoneui/ui/SetPasswordPage.qml:162
-#: ../qml/phoneui/ui/SetPasswordPage.qml:171
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:140
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:162
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:171
+#: ../../../qml/phoneui/ui/SetPasswordPage.qml:140
+#: ../../../qml/phoneui/ui/SetPasswordPage.qml:162
+#: ../../../qml/phoneui/ui/SetPasswordPage.qml:171
 msgid "Incorrect old passphrase!"
 msgstr ""
 
-#: ../qml/phoneui/ui/SetPasswordPage.qml:148
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:148
+#: ../../../qml/phoneui/ui/SetPasswordPage.qml:148
 msgid "Passphrases don't match!"
 msgstr ""
 
-#: ../qml/phoneui/ui/SetPasswordPage.qml:153
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:153
+#: ../../../qml/phoneui/ui/SetPasswordPage.qml:153
 #, fuzzy
 msgid "New passphrase too short(6)!"
 msgstr "Tin nhắn mới"
 
-#: ../qml/phoneui/ui/SettingsPage.qml:54
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:54
+#: ../../../qml/phoneui/ui/SettingsPage.qml:54
 msgid "Privacy"
 msgstr ""
 
-#: ../qml/phoneui/ui/SettingsPage.qml:61
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:61
+#: ../../../qml/phoneui/ui/SettingsPage.qml:61
 msgid "Linked Devices"
 msgstr ""
 
-#: ../qml/phoneui/ui/SettingsPage.qml:62
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:62
+#: ../../../qml/phoneui/ui/SettingsPage.qml:62
 msgid "Add/Remove linked devices"
 msgstr ""
 
-#: ../qml/phoneui/ui/SettingsPage.qml:69
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:69
+#: ../../../qml/phoneui/ui/SettingsPage.qml:69
 msgid "Unregistering"
 msgstr "Tháo gỡ đăng ký"
 
-#: ../qml/phoneui/ui/SettingsPage.qml:74
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:74
+#: ../../../qml/phoneui/ui/SettingsPage.qml:74
 msgid "Disable Signal messages and calls?"
 msgstr "Tắt tin nhắn và cuộc gọi Signal?"
 
-#: ../qml/phoneui/ui/SettingsPage.qml:75
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:75
+#: ../../../qml/phoneui/ui/SettingsPage.qml:75
 msgid ""
 "Disable Signal messages and calls by unregistering from the server. You will "
 "need to re-register your phone number to use them again in the future."
@@ -170,31 +219,38 @@ msgstr ""
 "Tắt tin nhắn và cuộc gọi Signal bằng cách huỷ đăng ký từ máy chủ. Bạn sẽ "
 "phải đăng ký lại số điện thoại để sử dụng Signal trong tương lai."
 
-#: ../qml/phoneui/ui/SettingsPage.qml:91
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:91
+#: ../../../qml/phoneui/ui/SettingsPage.qml:91
 msgid "Enter key sends"
 msgstr "Phím Enter gửi đi"
 
-#: ../qml/phoneui/ui/SettingsPage.qml:106
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:106
+#: ../../../qml/phoneui/ui/SettingsPage.qml:106
 msgid "Activate Debuglog"
 msgstr ""
 
-#: ../qml/phoneui/ui/SigninPage.qml:18
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SigninPage.qml:18
+#: ../../../qml/phoneui/ui/SigninPage.qml:18
 msgid "Connect with Signal"
 msgstr ""
 
-#: ../qml/phoneui/ui/SigninPage.qml:30
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SigninPage.qml:30
+#: ../../../qml/phoneui/ui/SigninPage.qml:30
 msgid "YOUR COUNTRY"
 msgstr "QUỐC GIA BẠN"
 
-#: ../qml/phoneui/ui/SigninPage.qml:64
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SigninPage.qml:64
+#: ../../../qml/phoneui/ui/SigninPage.qml:64
 msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
 msgstr "MÃ SỐ QUỐC GIA VÀ SỐ ĐIỆN THOẠI BẠN"
 
-#: ../qml/phoneui/ui/SigninPage.qml:146
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SigninPage.qml:146
+#: ../../../qml/phoneui/ui/SigninPage.qml:146
 msgid "Verify your phone number to connect with Signal."
 msgstr "Xác minh số điện thoại của bạn để kết nối với Signal."
 
-#: ../qml/phoneui/ui/SigninPage.qml:147
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SigninPage.qml:147
+#: ../../../qml/phoneui/ui/SigninPage.qml:147
 msgid ""
 "Registration transmits some contact information to the server. It is not "
 "stored."
@@ -202,105 +258,131 @@ msgstr ""
 "Thủ tục đăng ký sẽ gửi một số chi tiết liên lạc đến máy chủ. Chúng không "
 "được lưu trữ lại."
 
-#: ../qml/phoneui/ui/SigninPage.qml:161
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SigninPage.qml:161
+#: ../../../qml/phoneui/ui/SigninPage.qml:161
 msgid "Register"
 msgstr "Đăng ký"
 
-#: ../qml/phoneui/ui/SigninPage.qml:190
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SigninPage.qml:190
+#: ../../../qml/phoneui/ui/SigninPage.qml:190
 msgid ""
 "Double-check that this is your number! We're about to verify it with an SMS."
 msgstr ""
 "Xem lại lần nữa để bảo đảm đây là số của bạn! Chúng tôi sắp sửa phối kiểm nó "
 "với một SMS."
 
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:13
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:17
-#: ../qml/phoneui/ui/settings/AddLinkedDevicesPage.qml:10
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/settings/LinkedDevicesPage.qml:13
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/settings/LinkedDevicesPage.qml:17
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/settings/AddLinkedDevicesPage.qml:10
+#: ../../../qml/phoneui/ui/settings/LinkedDevicesPage.qml:13
+#: ../../../qml/phoneui/ui/settings/LinkedDevicesPage.qml:17
+#: ../../../qml/phoneui/ui/settings/AddLinkedDevicesPage.qml:10
 msgid "Link a Device"
 msgstr ""
 
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:23
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/settings/LinkedDevicesPage.qml:23
+#: ../../../qml/phoneui/ui/settings/LinkedDevicesPage.qml:23
 msgid "Add device"
 msgstr ""
 
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:28
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/settings/LinkedDevicesPage.qml:28
+#: ../../../qml/phoneui/ui/settings/LinkedDevicesPage.qml:28
 #, fuzzy
 msgid "Refresh devices"
 msgstr "Làm mới"
 
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:94
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/settings/LinkedDevicesPage.qml:94
+#: ../../../qml/phoneui/ui/settings/LinkedDevicesPage.qml:94
 #, fuzzy
 msgid "Delete selected Device?"
 msgstr "Xóa tin nhắn"
 
-#: ../qml/phoneui/ui/settings/LinkedDevicesPage.qml:95
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/settings/LinkedDevicesPage.qml:95
+#: ../../../qml/phoneui/ui/settings/LinkedDevicesPage.qml:95
 #, fuzzy
 msgid "This will permanently delete the selected Device."
 msgstr "Thao tác này sẽ xóa vĩnh viễn tất cả tin nhắn của cuộc hội thoại này."
 
-#: ../qml/phoneui/ui/PasswordPage.qml:15
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/PasswordPage.qml:15
+#: ../../../qml/phoneui/ui/PasswordPage.qml:15
 msgid "Enter passphrase"
 msgstr ""
 
-#: ../qml/phoneui/ui/PasswordPage.qml:58
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/PasswordPage.qml:58
+#: ../../../qml/phoneui/ui/PasswordPage.qml:58
 msgid "Passphrase"
 msgstr ""
 
-#: ../qml/phoneui/ui/PasswordPage.qml:101
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/PasswordPage.qml:101
+#: ../../../qml/phoneui/ui/PasswordPage.qml:101
 #, fuzzy
 msgid "This will permanently delete all messages!"
 msgstr "Thao tác này sẽ xóa vĩnh viễn tất cả tin nhắn của cuộc hội thoại này."
 
-#: ../qml/phoneui/ui/PasswordPage.qml:130
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/PasswordPage.qml:130
+#: ../../../qml/phoneui/ui/PasswordPage.qml:130
 msgid "Invalid passphrase!"
 msgstr ""
 
-#: ../qml/phoneui/ui/ContactsPage.qml:47
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:47
+#: ../../../qml/phoneui/ui/ContactsPage.qml:47
 msgid "Refresh"
 msgstr "Làm mới"
 
-#: ../qml/phoneui/ui/ContactsPage.qml:52
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:52
+#: ../../../qml/phoneui/ui/ContactsPage.qml:52
 #, fuzzy
 msgid "Add contact"
 msgstr "Liên lạc"
 
-#: ../qml/phoneui/ui/ContactsPage.qml:56
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:56
+#: ../../../qml/phoneui/ui/ContactsPage.qml:56
 #, fuzzy
 msgid "Add Contact"
 msgstr "Liên lạc"
 
-#: ../qml/phoneui/ui/ContactsPage.qml:80 ../qml/phoneui/ui/DialogPage.qml:112
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:80
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:112
+#: ../../../qml/phoneui/ui/ContactsPage.qml:80
+#: ../../../qml/phoneui/ui/DialogPage.qml:112
 msgid "Update group"
 msgstr "Cập nhật nhóm"
 
-#: ../qml/phoneui/ui/ContactsPage.qml:82
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:82
+#: ../../../qml/phoneui/ui/ContactsPage.qml:82
 #, fuzzy
 msgid "Contacts"
 msgstr "Liên lạc"
 
-#: ../qml/phoneui/ui/ContactsPage.qml:135
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:135
+#: ../../../qml/phoneui/ui/ContactsPage.qml:135
 #, fuzzy
 msgid "No contacts"
 msgstr "Liên lạc"
 
-#: ../qml/phoneui/ui/ContactsPage.qml:153
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:153
+#: ../../../qml/phoneui/ui/ContactsPage.qml:153
 msgid "Group name"
 msgstr "Tên nhóm"
 
-#: ../qml/phoneui/ui/ContactsPage.qml:263
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:263
+#: ../../../qml/phoneui/ui/ContactsPage.qml:263
 #, fuzzy, qt-format
 msgid "%1 members"
 msgstr "Thành viên trong nhóm"
 
-#: ../qml/phoneui/ui/PickerPage.qml:16
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/PickerPage.qml:16
+#: ../../../qml/phoneui/ui/PickerPage.qml:16
 msgid "Content Picker"
 msgstr ""
 
-#: ../qml/phoneui/ui/VerificationCodePage.qml:17
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/VerificationCodePage.qml:17
+#: ../../../qml/phoneui/ui/VerificationCodePage.qml:17
 msgid "Verifying number"
 msgstr "Kiểm Chứng Số Điện Thoại"
 
-#: ../qml/phoneui/ui/VerificationCodePage.qml:35
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/VerificationCodePage.qml:35
+#: ../../../qml/phoneui/ui/VerificationCodePage.qml:35
 msgid ""
 "Signal will now automatically verify your number with a confirmation SMS "
 "message."
@@ -308,40 +390,50 @@ msgstr ""
 "Bây giờ, Signal sẽ tự động xác minh số điện thoại của bạn với một tin nhắn "
 "SMS."
 
-#: ../qml/phoneui/ui/VerificationCodePage.qml:46
-#: ../qml/phoneui/ui/VerificationCodePage.qml:112
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/VerificationCodePage.qml:46
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/VerificationCodePage.qml:112
+#: ../../../qml/phoneui/ui/VerificationCodePage.qml:46
+#: ../../../qml/phoneui/ui/VerificationCodePage.qml:112
 msgid "Waiting for SMS verification..."
 msgstr "Chờ kiểm chứng SMS..."
 
-#: ../qml/phoneui/ui/VerificationCodePage.qml:73
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/VerificationCodePage.qml:73
+#: ../../../qml/phoneui/ui/VerificationCodePage.qml:73
 msgid "Code"
 msgstr ""
 
-#: ../qml/phoneui/ui/VerificationCodePage.qml:136
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/VerificationCodePage.qml:136
+#: ../../../qml/phoneui/ui/VerificationCodePage.qml:136
 msgid "Calling you (this may take a while)..."
 msgstr ""
 
-#: ../qml/phoneui/ui/VerificationCodePage.qml:141
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/VerificationCodePage.qml:141
+#: ../../../qml/phoneui/ui/VerificationCodePage.qml:141
 msgid "Please wait a moment and try again"
 msgstr ""
 
-#: ../qml/phoneui/ui/VerificationCodePage.qml:151
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/VerificationCodePage.qml:151
+#: ../../../qml/phoneui/ui/VerificationCodePage.qml:151
 msgid "Incorrect code. Please try again."
 msgstr ""
 
-#: ../qml/phoneui/ui/DialogPage.qml:35
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:35
+#: ../../../qml/phoneui/ui/DialogPage.qml:35
 msgid "Call"
 msgstr "Gọi"
 
-#: ../qml/phoneui/ui/DialogPage.qml:44
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:44
+#: ../../../qml/phoneui/ui/DialogPage.qml:44
 msgid "Reset secure session"
 msgstr "Tái thiết lập phiên bảo mật"
 
-#: ../qml/phoneui/ui/DialogPage.qml:49
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:49
+#: ../../../qml/phoneui/ui/DialogPage.qml:49
 msgid "Reset secure session?"
 msgstr "Tái thiết lập phiên bảo mật?"
 
-#: ../qml/phoneui/ui/DialogPage.qml:50
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:50
+#: ../../../qml/phoneui/ui/DialogPage.qml:50
 msgid ""
 "This may help if you're having encryption problems in this conversation. "
 "Your messages will be kept."
@@ -349,107 +441,143 @@ msgstr ""
 "Thao tác này có thể giúp bạn khi đang có vấn đề về mã khoá cuộc hội thoại. "
 "Các tin nhắn sẽ được giữ lại."
 
-#: ../qml/phoneui/ui/DialogPage.qml:59 ../qml/phoneui/ui/DialogPage.qml:65
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:59
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:65
+#: ../../../qml/phoneui/ui/DialogPage.qml:59
+#: ../../../qml/phoneui/ui/DialogPage.qml:65
 msgid "Verify identity"
 msgstr "Kiểm chứng danh tính"
 
-#: ../qml/phoneui/ui/DialogPage.qml:72
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:72
+#: ../../../qml/phoneui/ui/DialogPage.qml:72
 msgid "Mute"
 msgstr ""
 
-#: ../qml/phoneui/ui/DialogPage.qml:72
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:72
+#: ../../../qml/phoneui/ui/DialogPage.qml:72
 msgid "Unmute"
 msgstr ""
 
-#: ../qml/phoneui/ui/DialogPage.qml:77
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:77
+#: ../../../qml/phoneui/ui/DialogPage.qml:77
 msgid "Mute notifications?"
 msgstr ""
 
-#: ../qml/phoneui/ui/DialogPage.qml:77
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:77
+#: ../../../qml/phoneui/ui/DialogPage.qml:77
 msgid "Unmute notifications?"
 msgstr ""
 
-#: ../qml/phoneui/ui/DialogPage.qml:87
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:87
+#: ../../../qml/phoneui/ui/DialogPage.qml:87
 msgid "Recipients list"
 msgstr "Danh sách người nhận"
 
-#: ../qml/phoneui/ui/DialogPage.qml:96
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:96
+#: ../../../qml/phoneui/ui/DialogPage.qml:96
 msgid "Leave group"
 msgstr "Rời nhóm"
 
-#: ../qml/phoneui/ui/DialogPage.qml:102
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:102
+#: ../../../qml/phoneui/ui/DialogPage.qml:102
 msgid "Leave group?"
 msgstr "Rời nhóm?"
 
-#: ../qml/phoneui/ui/DialogPage.qml:103
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:103
+#: ../../../qml/phoneui/ui/DialogPage.qml:103
 msgid "Are you sure you want to leave this group?"
 msgstr "Bạn có chắc là muốn rời nhóm?"
 
-#: ../qml/phoneui/ui/DialogPage.qml:125
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:125
+#: ../../../qml/phoneui/ui/DialogPage.qml:125
 msgid "Delete conversation"
 msgstr "Xoá cuộc hội thoại"
 
-#: ../qml/phoneui/ui/DialogPage.qml:129
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:129
+#: ../../../qml/phoneui/ui/DialogPage.qml:129
 msgid "Delete conversation?"
 msgstr "Xoá cuộc hội thoại?"
 
-#: ../qml/phoneui/ui/DialogPage.qml:130
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:130
+#: ../../../qml/phoneui/ui/DialogPage.qml:130
 msgid "This will permanently delete all messages in this conversation."
 msgstr "Thao tác này sẽ xóa vĩnh viễn tất cả tin nhắn của cuộc hội thoại này."
 
-#: ../qml/phoneui/ui/DialogPage.qml:144
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:144
+#: ../../../qml/phoneui/ui/DialogPage.qml:144
 msgid "Select all"
 msgstr "Chọn tất cả"
 
-#: ../qml/phoneui/ui/DialogPage.qml:157 ../qml/phoneui/ui/DialogPage.qml:667
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:157
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:667
+#: ../../../qml/phoneui/ui/DialogPage.qml:157
+#: ../../../qml/phoneui/ui/DialogPage.qml:667
 msgid "Message details"
 msgstr "Chi tiết tin nhắn"
 
-#: ../qml/phoneui/ui/DialogPage.qml:164 ../qml/phoneui/ui/DialogPage.qml:487
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:164
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:487
+#: ../../../qml/phoneui/ui/DialogPage.qml:164
+#: ../../../qml/phoneui/ui/DialogPage.qml:487
 msgid "Copy text"
 msgstr "Sao chép văn bản"
 
-#: ../qml/phoneui/ui/DialogPage.qml:170 ../qml/phoneui/ui/DialogPage.qml:493
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:170
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:493
+#: ../../../qml/phoneui/ui/DialogPage.qml:170
+#: ../../../qml/phoneui/ui/DialogPage.qml:493
 msgid "Forward message"
 msgstr "Chuyển tiếp tin nhắn"
 
-#: ../qml/phoneui/ui/DialogPage.qml:177
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:177
+#: ../../../qml/phoneui/ui/DialogPage.qml:177
 msgid "Delete message"
 msgstr "Xóa tin nhắn"
 
-#: ../qml/phoneui/ui/DialogPage.qml:270
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:270
+#: ../../../qml/phoneui/ui/DialogPage.qml:270
 msgid "Send Signal message"
 msgstr "Gửi thông điệp Signal"
 
-#: ../qml/phoneui/ui/DialogPage.qml:470
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:470
+#: ../../../qml/phoneui/ui/DialogPage.qml:470
 msgid "Delete"
 msgstr "Xóa"
 
-#: ../qml/phoneui/ui/DialogPage.qml:475
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:475
+#: ../../../qml/phoneui/ui/DialogPage.qml:475
 #, fuzzy
 msgid "Delete selected message?"
 msgstr "Xóa tin nhắn"
 
-#: ../qml/phoneui/ui/DialogPage.qml:476
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:476
+#: ../../../qml/phoneui/ui/DialogPage.qml:476
 #, fuzzy
 msgid "This will permanently delete the selected message."
 msgstr "Thao tác này sẽ xóa vĩnh viễn tất cả tin nhắn của cuộc hội thoại này."
 
-#: ../qml/phoneui/ui/DialogPage.qml:621
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:621
+#: ../../../qml/phoneui/ui/DialogPage.qml:621
 msgid "No messages here yet..."
 msgstr ""
 
-#: ../qml/phoneui/ui/DialogPage.qml:659
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:659
+#: ../../../qml/phoneui/ui/DialogPage.qml:659
 msgid "Group members"
 msgstr "Thành viên trong nhóm"
 
-#: ../qml/phoneui/ui/IntroPage.qml:25
+#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/IntroPage.qml:25
+#: ../../../qml/phoneui/ui/IntroPage.qml:25
 msgid ""
 "<h3>Thanks for trying out Signal!</h3><br><br>             File bugs and "
 "feature requests on github:<br>            <a href='https://github.com/nanu-"
 "c/textsecure-qml/issues'>https://github.com/nanu-c/textsecure-qml/issues</"
 "a><br>"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Forward message to %1?"
+#~ msgstr "Chuyển tiếp tin nhắn"
 
 #~ msgid "Advanced"
 #~ msgstr "Cao cấp"
