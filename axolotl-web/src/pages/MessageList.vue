@@ -59,7 +59,7 @@
     </div>
     <div class="messageInputBox">
       <div v-if="chat&&chat.IsGroup&&chat.Name==chat.Tel" class="alert alert-warning">Group has to be updated by a member.</div>
-      <div v-else class="container">
+      <div v-else class="">
         <div class="row">
           <div class="messageInput-container col-10">
             <textarea id="messageInput" type="textarea" v-model="messageInput"
@@ -87,6 +87,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import moment from 'moment';
 import AttachmentBar from "@/components/AttachmentBar"
 export default {
   name: 'Chat',
@@ -183,17 +184,15 @@ export default {
       // Any code to be executed when the window is scrolled
     },
     humanifyDate(inputDate){
-      var now = new Date();
-      var date = new Date(inputDate);
-      var diff=(now-date)/1000;
-      var seconds = diff;
-      if(seconds<60)return "now";
-      var minutes = seconds/60;
-      if(minutes<60)return Math.floor(minutes)+" minutes ago";
-      var hours = minutes/60
-      if(hours<24)return Math.floor(hours)+" hours ago";
-      return date.getDate() +"."+(date.getMonth() + 1) +  "."+ date.getFullYear() +" "  + date.getHours() + ":" + date.getMinutes()
-      // return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes()
+      var date = new moment(inputDate);
+      var min = moment().diff(date, 'minutes')
+      if(min<60){
+        if(min == 0) return "now"
+        return moment().diff(date, 'minutes') +" min"
+      }
+      var hours = moment().diff(date, 'hours')
+      if(hours <24) return hours + " h"
+      return date.format("DD. MMM");
     },
     back(){
       this.$router.go(-1)
@@ -206,9 +205,18 @@ export default {
     },
     calcHeightsForInput(){
       var el = document.getElementById("messageInput");
+      var c = document.getElementById("messageList-container");
+      console.log("c", c.clientHeight, window.innerHeight,window.innerHeight-c.clientHeight);
+      if(window.innerHeight-c.clientHeight<200){
+        var scroll = el.scrollHeight;
+        if(scroll>150)scroll= 150;
+        c.style.height = window.innerHeight-scroll-100+'px';
+        el.style.height=el.scrollHeight+'px';
+      }
+
       if(el.scrollHeight > el.clientHeight && el.scrollHeight<150){
           el.style.height=el.scrollHeight+5+'px';
-          document.getElementById('messageList-container').style.height = window.innerHeight-el.scrollHeight-100+'px';
+          c.style.height = window.innerHeight-el.scrollHeight-100+'px';
           if(document.body.scrollTop+550<document.body.scrollHeight)
           window.scrollTo(0,document.body.scrollHeight);
         }
@@ -277,6 +285,7 @@ export default {
   overflow-x: hidden;
   overflow-y: scroll;
   height: calc(100vh - 140px);
+  transition: width 0.5s, height 0.5s;
 }
 
 .chat-list-container::-webkit-scrollbar {
@@ -354,9 +363,12 @@ video,
     height: 55px;
     z-index:2;
     background-color:#FFF;
+    transition: width 0.5s, height 0.5s;
 }
 .messageInput-container{
   position: relative;
+  transition: width 0.5s, height 0.5s;
+  padding:0px;
 }
 #messageInput{
   padding-right:10px;
@@ -367,13 +379,17 @@ video,
   width: 100%;
   max-height: 150px;
   border:1px solid #2090ea;
-  height: 33px;
+  height: 35px;
   padding:3px 10px;
+  transition: width 0.5s, height 0.5s;
   border-radius:4px;
   ::-webkit-scrollbar {
       display: block;
   }
 
+}
+textarea:focus, input:focus{
+    outline: none;
 }
 .send{
   background-color: #2090ea;
