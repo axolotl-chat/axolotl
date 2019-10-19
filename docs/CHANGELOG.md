@@ -1,3 +1,9 @@
+0.6.15 (Okt 19 2019) Axolotl-Alpha
+--------------------
+* refactor message input field
+* fix Unknown groups
+* minor fixes in dates and menu
+
 0.6.14.1 (Okt 18 2019) Axolotl-Alpha
 * fix typo
 0.6.14 (Okt 18 2019) Axolotl-Alpha
