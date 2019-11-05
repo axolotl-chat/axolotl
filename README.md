@@ -27,7 +27,7 @@ There are still bugs and UI/UX quirks.
 
 Installation
 ------------
-* Install [Golang] (https://golang.org/doc/install)
+* Install [Golang](https://golang.org/doc/install)
 * Install node js
 * Add gopath to ~/.bashrc https://github.com/golang/go/wiki/SettingGOPATH
 * install dependencies `sudo apt install mercurial bzr`
@@ -87,7 +87,7 @@ Installation on UT
 ------------
 
 The build-system is now integrated in the `clickable` Version 3.2.0.
-* Install [Golang] (https://golang.org/doc/install)
+* Install [Golang](https://golang.org/doc/install)
 * Install node js
 * Add gopath to ~/.bashrc https://github.com/golang/go/wiki/SettingGOPATH
 * install dependencies `sudo apt install mercurial bzr hg`
