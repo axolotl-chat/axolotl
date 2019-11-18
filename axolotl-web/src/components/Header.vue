@@ -251,6 +251,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    -webkit-box-shadow: 0px -11px 14px 7px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px -11px 14px 7px rgba(0,0,0,0.75);
+    box-shadow: 0px -11px 14px 7px rgba(0,0,0,0.75);
   }
   .header .text-right{
     justify-content: flex-end;
