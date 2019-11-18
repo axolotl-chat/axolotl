@@ -12,7 +12,7 @@
           >
         <div class="row chat-entry">
           <div class="avatar col-2">
-            <div v-if="chat.IsGroup" class="badge-name"><font-awesome-icon icon="user-friends" /></div>
+            <div v-if="chat.IsGroup" class="badge-name"><img class="avatar-img" :src="'http://localhost:9080/avatars?file='+chat.Tel" @error="onImageError($event)"/><font-awesome-icon icon="user-friends" /></div>
             <div v-else class="badge-name">{{chat.Name[0]}}</div>
           </div>
   				<div class="meta col-10 row" v-longclick="editChat">
@@ -101,6 +101,10 @@ export default {
       this.$store.dispatch("delChat", chat.Tel);
       this.editWasActive = true;
     },
+    onImageError(event){
+      console.log(event);
+      event.target.style.display = "none";
+    },
     enterChat(chat){
       if(!this.editActive){
         this.$store.dispatch("setCurrentChat", chat);
@@ -153,6 +157,12 @@ export default {
   display:flex;
   justify-content: center;
   align-items:center;
+  overflow: hidden;
+  flex-wrap: wrap;
+}
+.avatar-img{
+  max-width: 100%;
+  max-height: 100%;
 }
 .chat{
       padding: 0px 10px;

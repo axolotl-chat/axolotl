@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/nanu-c/textsecure-qml/app/store"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -52,13 +53,29 @@ func attachmentsHandler(w http.ResponseWriter, r *http.Request) {
 	return
 }
 func avatarsHandler(w http.ResponseWriter, r *http.Request) {
-	// Filename := r.URL.Query().Get("file")
-	// if Filename == "" {
-	// 	//Get not set, send a 400 bad request
-	// 	http.Error(w, "Get 'file' not specified in url.", 400)
-	// 	return
-	// }
-	// log.Debugln("[axolotl] open file: " + Filename)
+
+	Filename := r.URL.Query().Get("file")
+	log.Debugln("[axolotl] open file: " + Filename)
+	if Filename == "" {
+
+		//Get not set, send a 400 bad request
+		http.Error(w, "Get 'file' not specified in url.", 400)
+		return
+	}
+	//handle group abvatars
+	if Filename[0] != '+' {
+		group := store.GetGroupById(Filename)
+		if group == nil {
+			//File not found, send 404
+			http.Error(w, "File not found.", 404)
+			return
+		}
+		FileContentType := http.DetectContentType(group.Avatar)
+		log.Debugln(FileContentType)
+		w.Header().Set("Content-Disposition", "attachment; filename="+Filename+".png")
+		w.Header().Set("Content-Type", FileContentType)
+		w.Write(group.Avatar)
+	}
 	//
 	// //Check if file exists and open
 	// Openfile, err := os.Open(Filename)
