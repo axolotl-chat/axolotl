@@ -206,7 +206,6 @@ export default {
     calcHeightsForInput(){
       var el = document.getElementById("messageInput");
       var c = document.getElementById("messageList-container");
-      console.log("c", c.clientHeight, window.innerHeight,window.innerHeight-c.clientHeight);
       if(window.innerHeight-c.clientHeight<200){
         var scroll = el.scrollHeight;
         if(scroll>150)scroll= 150;
