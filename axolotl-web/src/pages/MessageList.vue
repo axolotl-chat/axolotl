@@ -1,8 +1,8 @@
 
 <template>
   <div class="chat">
-    <div class="messageList-container" id="messageList-container">
-      <div id="messageList" class="messageList row" v-if="messages && messages.length>0" v-chat-scroll="{always: false, smooth: true}" @scroll="handleScroll($event)">
+    <div class="messageList-container" id="messageList-container" @scroll="handleScroll($event)">
+      <div id="messageList" class="messageList row" v-if="messages && messages.length>0" >
 
           <div v-for="message in messages.slice().reverse()" :class="{'col-12':true, 'sent':message.Outgoing, 'reply':!message.Outgoing}" >
             <div class="row w-100">
@@ -177,8 +177,7 @@ export default {
     handleScroll (event) {
       if(event.target.scrollTop<50
         && this.$store.state.messageList.Messages!=null
-        &&this.$store.state.messageList.Messages.length>20){
-        // console.log("load more messages")
+        &&this.$store.state.messageList.Messages.length>19){
         this.$store.dispatch("getMoreMessages");
       }
       // Any code to be executed when the window is scrolled
@@ -196,7 +195,8 @@ export default {
     },
     back(){
       this.$router.go(-1)
-    },scrollDown(){
+    },
+    scrollDown(){
       document.getElementById("messageList-container").scrollTo(0,document.getElementById("messageList-container").scrollHeight);
     },
     resetHeights(){
@@ -206,7 +206,6 @@ export default {
     calcHeightsForInput(){
       var el = document.getElementById("messageInput");
       var c = document.getElementById("messageList-container");
-      console.log("c", c.clientHeight, window.innerHeight,window.innerHeight-c.clientHeight);
       if(window.innerHeight-c.clientHeight<200){
         var scroll = el.scrollHeight;
         if(scroll>150)scroll= 150;
@@ -223,9 +222,6 @@ export default {
         var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     }
 
-
-  },
-  created(){
 
   },
   mounted(){
@@ -293,7 +289,7 @@ export default {
 }
 .chat{
   position:relative;
-  padding-top:30px;
+  padding-top:3px;
 }
 /* .chat-list-container{
   padding-bottom:70px;

@@ -41,6 +41,9 @@ func SaveGroup(g *GroupRecord) error {
 func FetchAllGroups() error {
 	return nil
 }
+func GetGroupById(hexid string) *GroupRecord {
+	return Groups[hexid]
+}
 func GroupUpdateMsg(tels []string, title string) string {
 	s := ""
 	if len(tels) > 0 {

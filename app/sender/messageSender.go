@@ -39,12 +39,12 @@ func SendMessage(s *store.Session, m *store.Message) {
 		if err != nil {
 			return
 		} else {
-			log.Printf("SendMessage FileOpend")
+			log.Printf("[axolotl] SendMessage FileOpend")
 		}
 	}
 
 	ts := SendMessageLoop(s.Tel, m.Message, s.IsGroup, att, m.Flags)
-	// log.Debugln(ts, s)
+	log.Debugln("[axolotl] SendMessage", s.Tel)
 	m.SentAt = ts
 	s.Timestamp = m.SentAt
 	m.IsSent = true
@@ -69,6 +69,9 @@ func SendMessageLoop(to, message string, group bool, att io.Reader, flags int) u
 		} else if att == nil {
 			if group {
 				ts, err = textsecure.SendGroupMessage(to, message)
+				if err != nil {
+					log.Errorln("[axolotl] send to group ", err)
+				}
 				log.Debugln("[axolotl] send to group ")
 			} else {
 				ts, err = textsecure.SendMessage(to, message)

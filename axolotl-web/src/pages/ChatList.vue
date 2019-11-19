@@ -12,7 +12,7 @@
           >
         <div class="row chat-entry">
           <div class="avatar col-2">
-            <div v-if="chat.IsGroup" class="badge-name"><font-awesome-icon icon="user-friends" /></div>
+            <div v-if="chat.IsGroup" class="badge-name"><img class="avatar-img" :src="'http://localhost:9080/avatars?file='+chat.Tel" @error="onImageError($event)"/><font-awesome-icon icon="user-friends" /></div>
             <div v-else class="badge-name">{{chat.Name[0]}}</div>
           </div>
   				<div class="meta col-10 row" v-longclick="editChat">
@@ -101,6 +101,10 @@ export default {
       this.$store.dispatch("delChat", chat.Tel);
       this.editWasActive = true;
     },
+    onImageError(event){
+      console.log(event);
+      event.target.style.display = "none";
+    },
     enterChat(chat){
       if(!this.editActive){
         this.$store.dispatch("setCurrentChat", chat);
@@ -141,7 +145,8 @@ export default {
     align-items: center;
 }
 .badge-name{
-  background-color: #2090ea;
+  background: rgb(14,123,210);
+  background: linear-gradient(0deg,rgba(14,123,210,1) 8%, rgba(32,144,234,1) 42%, rgba(107,180,238,1) 100%);
   /* padding: 14px; */
   width:44px;
   height:44px;
@@ -153,6 +158,12 @@ export default {
   display:flex;
   justify-content: center;
   align-items:center;
+  overflow: hidden;
+  flex-wrap: wrap;
+}
+.avatar-img{
+  max-width: 100%;
+  max-height: 100%;
 }
 .chat{
       padding: 0px 10px;
