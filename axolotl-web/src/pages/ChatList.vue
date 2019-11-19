@@ -145,7 +145,8 @@ export default {
     align-items: center;
 }
 .badge-name{
-  background-color: #2090ea;
+  background: rgb(14,123,210);
+  background: linear-gradient(0deg,rgba(14,123,210,1) 8%, rgba(32,144,234,1) 42%, rgba(107,180,238,1) 100%);
   /* padding: 14px; */
   width:44px;
   height:44px;
