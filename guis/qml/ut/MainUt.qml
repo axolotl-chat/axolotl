@@ -20,6 +20,7 @@ UITK.Page {
   property var selectionType
   property var requestContentHub : false
   id: root
+  title: "Axolotl"
   WebEngineView {
     id: webView
     profile:webProfile
