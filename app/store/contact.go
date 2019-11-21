@@ -47,9 +47,6 @@ func RefreshContacts() error {
 	if err != nil {
 		return err
 	}
-	//qml.Changed(ContactsModel, &ContactsModel.Len)
-	//qml.Changed(SessionsModel, &SessionsModel.Len)
-
 	return nil
 }
 

@@ -302,6 +302,7 @@ func wsReader(conn *websocket.Conn) {
 			log.Debugln("[axolotl] identity information for: ", verifyIdentityMessage.Chat)
 			myID := textsecure.MyIdentityKey()
 			theirID, err := textsecure.ContactIdentityKey(verifyIdentityMessage.Chat)
+			log.Debugln(myID, theirID)
 			if err != nil {
 				log.Debugln("[axolotl] identity information ", err)
 			}

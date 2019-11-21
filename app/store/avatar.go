@@ -4,14 +4,13 @@ import (
 	"bytes"
 	"image"
 	"io"
-	"strings"
 )
 
 func AvatarImageProvider(id string, width, height int) image.Image {
 	var r io.Reader
 
 	if c := GetContactForTel(id); c != nil {
-		r = strings.NewReader(c.Photo)
+		r = bytes.NewReader(c.Avatar)
 	}
 
 	if g, ok := Groups[id]; ok {

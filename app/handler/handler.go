@@ -145,7 +145,7 @@ func ReceiptHandler(source string, devID uint32, timestamp uint64) {
 			return
 		}
 	}
-	log.Printf("Message with timestamp %d not found\n", timestamp)
+	log.Printf("[axolotl] receipt: Message with timestamp %d not found\n", timestamp)
 }
 
 func SyncSentHandler(msg *textsecure.Message, timestamp uint64) {
