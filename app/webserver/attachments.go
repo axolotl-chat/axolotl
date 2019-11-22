@@ -71,7 +71,6 @@ func avatarsHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		FileContentType := http.DetectContentType(group.Avatar)
-		log.Debugln(FileContentType)
 		w.Header().Set("Content-Disposition", "attachment; filename="+Filename+".png")
 		w.Header().Set("Content-Type", FileContentType)
 		w.Write(group.Avatar)

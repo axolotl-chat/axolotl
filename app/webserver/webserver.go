@@ -106,6 +106,12 @@ func wsReader(conn *websocket.Conn) {
 			store.ActiveSessionID = activeChat
 			s := store.SessionsModel.Get(createChatMessage.Tel)
 			sendCurrentChat(conn, s)
+		case "openChat":
+			openChatMessage := OpenChatMessage{}
+			json.Unmarshal([]byte(p), &openChatMessage)
+			log.Println("[axolotl] Open chat for ", openChatMessage.Id)
+			s := store.SessionsModel.Get(openChatMessage.Id)
+			sendCurrentChat(conn, s)
 		case "leaveChat":
 			activeChat = ""
 			store.ActiveSessionID = ""

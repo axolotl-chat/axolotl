@@ -2,6 +2,7 @@ package store
 
 type GroupRecord struct {
 	ID      int64
+	Uuid    string
 	GroupID string
 	Name    string
 	Members string

@@ -20,8 +20,13 @@ type ContactListEnvelope struct {
 type DeviceListEnvelope struct {
 	DeviceList []textsecure.DeviceInfo
 }
-type CurrentChatEnvelope struct {
+type OpenChat struct {
 	CurrentChat *store.Session
+	Contact     *textsecure.Contact
+	Group       *textsecure.Group
+}
+type CurrentChatEnvelope struct {
+	OpenChat *OpenChat
 }
 type IdentityEnvelope struct {
 	Identity string
@@ -107,6 +112,10 @@ type DelChatMessage struct {
 type CreateChatMessage struct {
 	Type string `json:"request"`
 	Tel  string `json:"tel"`
+}
+type OpenChatMessage struct {
+	Type string `json:"request"`
+	Id   string `json:"id"`
 }
 type CreateGroupMessage struct {
 	Type    string   `json:"request"`

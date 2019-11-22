@@ -8,11 +8,31 @@
               <router-link class="btn" :to="'/chatList'">
                 <font-awesome-icon icon="arrow-left" />
               </router-link>
-              <div v-if="currentChat!=null&&currentChat.IsGroup" class="group-badge"><font-awesome-icon icon="user-friends" /></div>
-              <div v-else class="group-badge">{{currentChat.Name[0]}}</div>
-              <div v-if="currentChat!=null&&!currentChat.Notification" class="mute-badge"> <font-awesome-icon class="mute" icon="volume-mute" /></div>
-              <div class="header-text" v-if="currentChat!=null&&currentChat.IsGroup&&currentChat.Name==currentChat.Tel"><div>Unknown group</div></div>
-              <div class="header-text" v-else><div v-if="currentChat!=null" class="header-text">{{currentChat.Name}}</div>
+              <div class="row w-100" v-if="currentChat!=null">
+                <div class="col-2 badge-container">
+                  <div v-if="currentChat!=null&&currentChat.IsGroup" class="group-badge"><font-awesome-icon icon="user-friends" /></div>
+                  <div v-else class="group-badge">{{currentChat.Name[0]}}</div>
+                </div>
+                <div class="col-10">
+                  <div class="row">
+                    <div class="col-12">
+                      <div v-if="currentChat!=null&&!currentChat.Notification" class="mute-badge"> <font-awesome-icon class="mute" icon="volume-mute" /></div>
+                      <div class="header-text" v-if="currentChat!=null&&currentChat.IsGroup&&currentChat.Name==currentChat.Tel"><div>Unknown group</div></div>
+                      <div class="header-text" v-else><div v-if="currentChat!=null" class="header-text">{{currentChat.Name}}</div>
+                    </div>
+                    <div class="col-12">
+                      <div class="number-text" v-if="currentChat!=null&&currentChat.IsGroup&&currentGroup!=null&&typeof currentGroup!='undefined'">
+                        <div v-for="e in currentGroup.Members">{{getNameForTel(e)}}</div>
+                      </div>
+                      <div class="number-text" v-if="currentChat!=null&&currentChat.IsGroup&&currentGroup!=null&&typeof currentGroup!='undefined'">
+                        <div class="name" v-for="n in names">{{n}}</div>
+                      </div>
+                      <div class="number-text" v-if="currentChat!=null&&!currentChat.IsGroup"> {{messageList.ID}}</div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
               </div>
             </div>
             <div class="col-2 text-right">
@@ -26,6 +46,7 @@
                 <div v-if="showSettingsMenu" class="dropdown-menu" id="settings-dropdown" aria-labelledby="dropdownMenuButton">
                   <button v-if="currentChat!=null&&currentChat.Notification" class="dropdown-item" @click="toggleNotifications">Mute</button>
                   <button v-else class="dropdown-item" @click="toggleNotifications">Unmute</button>
+                  <button v-if="currentChat!=null&&currentChat.IsGroup" class="dropdown-item" @click="editGroup">Edit group</button>
                   <button v-if="currentChat!=null&&!currentChat.IsGroup" class="dropdown-item" @click="verifyIdentity">Show identity</button>
                   <button v-if="currentChat!=null&&!currentChat.IsGroup" class="dropdown-item" @click="resetEncryptionModal">Reset encryption</button>
 
@@ -127,6 +148,7 @@
 <script>
   import IdentityModal from "@/components/IdentityModal.vue"
   import ConfirmationModal from "@/components/ConfirmationModal.vue"
+  import { mapState } from 'vuex';
   export default {
     name: 'Header',
     components:{
@@ -143,7 +165,8 @@
         showIdentityModal:false,
         cMTitle:"",
         cMText: "",
-        cMType:""
+        cMType:"",
+        names:[]
       }
     },
     methods: {
@@ -179,6 +202,18 @@
         this.showConfirmationModal = false;
         this.showIdentityModal = flase;
       },
+      getNameForTel(tel){
+
+        this.contacts.forEach(c=>{
+          if(c.Tel == tel){
+            console.log(c.Name);
+            if(this.names.length<=3&&this.names.indexOf(c.Name)==-1)
+            this.names.push(c.Name);
+            return c;
+          }
+          else return tel;
+        })
+      },
       refreshContacts(){
         this.$store.state.importingContacts = true;
         console.log("Import contacts for gui " + this.gui)
@@ -210,22 +245,17 @@
           }
       }
     },
-    computed: {
-      messageList() {
-        return this.$store.state.messageList
-      },
-      currentChat() {
-        return this.$store.state.currentChat
-      },
-      gui() {
-        return this.$store.state.gui
-      },
-      identity() {
-        return this.$store.state.identity
-      },
-    },
+    computed: mapState(['messageList',
+      'currentChat',
+      'currentGroup',
+      'contacts',
+      'currentContact',
+      'gui',
+      'identity',]),
+
     mounted() {
       window.router = this.$router;
+      this.names=[];
     },
     watch:{
     $route (to, from){
@@ -240,6 +270,19 @@
     position: fixed;
     width:100vh;
     height:100vh;
+  }
+  .badge-container{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding:0px;
+  }
+  .number-text{
+    display:flex;
+    color:#FFF;
+  }
+  .number-text .name{
+    margin-right:10px;
   }
   .header {
     position: fixed;
@@ -259,6 +302,12 @@
     justify-content: flex-end;
     display: flex;
     align-items: center;
+  }
+  .chat.header{
+    height:70px;
+  }
+  .chat.header .btn{
+    margin-right: 10px;
   }
   .btn {
     color: #FFF;
@@ -296,8 +345,8 @@
   .group-badge{
     background-color:#FFF;
     border-radius:50%;
-    width:28px;
-    height:28px;
+    width:40px;
+    height:40px;
     display:flex;
     justify-content:center;
     align-items:center;

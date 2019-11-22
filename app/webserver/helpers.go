@@ -33,9 +33,22 @@ func sendChatList(client *websocket.Conn) {
 	}
 }
 func sendCurrentChat(client *websocket.Conn, s *store.Session) {
-	var err error
+	var (
+		err error
+		gr  *textsecure.Group
+		c   *textsecure.Contact
+	)
+	if s.IsGroup {
+		gr, err = textsecure.GetGroupById(s.Tel)
+	} else {
+		c = store.GetContactForTel(s.Tel)
+	}
 	currentChatEnvelope := &CurrentChatEnvelope{
-		CurrentChat: s,
+		OpenChat: &OpenChat{
+			CurrentChat: s,
+			Contact:     c,
+			Group:       gr,
+		},
 	}
 	message := &[]byte{}
 	*message, err = json.Marshal(currentChatEnvelope)

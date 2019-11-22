@@ -225,6 +225,7 @@ export default {
 
   },
   mounted(){
+    this.$store.dispatch("openChat", this.getId());
     this.$store.dispatch("getMessageList", this.getId());
     window.addEventListener('resize', this.resetHeights);
     setTimeout(this.scrollDown

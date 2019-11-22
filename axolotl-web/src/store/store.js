@@ -21,6 +21,8 @@ export default new Vuex.Store({
     ratelimitError:null,
     newGroupName:null,
     currentChat:null,
+    currentGroup:null,
+    currentContact:null,
     newGroupMembers:[],
     importingContacts:false,
     socket: {
@@ -48,6 +50,12 @@ export default new Vuex.Store({
         },
         SET_CURRENT_CHAT(state, chat){
           state.currentChat = chat;
+        },
+        OPEN_CHAT(state, data){
+          state.currentChat = data.CurrentChat;
+          // console.log(data);
+          state.currentGroup = data.Group;
+          state.currentContact = data.Contact;
         },
         SET_CONFIG(state, config){
           state.config = config;
@@ -152,7 +160,7 @@ export default new Vuex.Store({
         // default handler called for all methods
         SOCKET_ONMESSAGE (state, message)  {
           if(message.data!="Hi Client!"){
-            var messageData =JSON.parse(message.data)
+            var messageData =JSON.parse(message.data);
             if(typeof messageData.Error !="undefined"){
               this.commit("SET_ERROR", messageData["Error"] );
             }
@@ -189,6 +197,12 @@ export default new Vuex.Store({
             }
             else if(Object.keys(messageData)[0]=="Error"){
               this.commit("SET_ERROR",messageData.Errorx );
+            }
+            else if(Object.keys(messageData)[0]=="OpenChat"){
+              this.commit("OPEN_CHAT",messageData["OpenChat"]);
+            }
+            else{
+              console.log("unkown message ", Object.keys(messageData)[0]);
             }
             state.socket.message = message.data
           }
@@ -253,6 +267,16 @@ export default new Vuex.Store({
       if(this.state.socket.isConnected){
         var message = {
           "request":"getMessageList",
+          "id":  chatId
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
+      }
+    },
+    openChat:function(state, chatId){
+      this.commit("CLEAR_MESSAGELIST");
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"openChat",
           "id":  chatId
         }
         Vue.prototype.$socket.send(JSON.stringify(message))
