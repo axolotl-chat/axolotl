@@ -10,7 +10,7 @@
               </router-link>
               <div class="row w-100" v-if="currentChat!=null">
                 <div class="col-2 badge-container">
-                  <div v-if="currentChat!=null&&currentChat.IsGroup" class="group-badge"><font-awesome-icon icon="user-friends" /></div>
+                  <div v-if="currentChat!=null&&currentChat.IsGroup" class="badge-name"><img class="avatar-img" :src="'http://localhost:9080/avatars?file='+currentChat.Tel" @error="onImageError($event)"/><font-awesome-icon icon="user-friends" /></div>
                   <div v-else class="group-badge">{{currentChat.Name[0]}}</div>
                 </div>
                 <div class="col-10">
@@ -46,7 +46,7 @@
                 <div v-if="showSettingsMenu" class="dropdown-menu" id="settings-dropdown" aria-labelledby="dropdownMenuButton">
                   <button v-if="currentChat!=null&&currentChat.Notification" class="dropdown-item" @click="toggleNotifications">Mute</button>
                   <button v-else class="dropdown-item" @click="toggleNotifications">Unmute</button>
-                  <button v-if="currentChat!=null&&currentChat.IsGroup" class="dropdown-item" @click="editGroup">Edit group</button>
+                  <!-- <button v-if="currentChat!=null&&currentChat.IsGroup" class="dropdown-item" @click="editGroup">Edit group</button> -->
                   <button v-if="currentChat!=null&&!currentChat.IsGroup" class="dropdown-item" @click="verifyIdentity">Show identity</button>
                   <button v-if="currentChat!=null&&!currentChat.IsGroup" class="dropdown-item" @click="resetEncryptionModal">Reset encryption</button>
 
@@ -229,6 +229,10 @@
         }
         else this.toggleSearch = true;
 
+      },
+      onImageError(event){
+        console.log(event);
+        event.target.style.display = "none";
       },
       filterContacts(){
         if(this.contactsFilter!="")
