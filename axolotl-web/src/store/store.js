@@ -9,6 +9,8 @@ export default new Vuex.Store({
     messageList: [],
     request: '',
     contacts:[],
+    contactsFilterd:[],
+    contactsFilterActive:false,
     devices: [],
     gui:null,
     error: null,
@@ -134,10 +136,18 @@ export default new Vuex.Store({
         },
         SET_CONTACTS(state, contacts){
           state.importingContacts = false;
-          console.log(contacts[160].Name);
           contacts = contacts.sort((a, b) => a.Name.localeCompare(b.Name));
-          console.log(contacts[160].Name);
           state.contacts = contacts;
+        },
+        SET_CONTACTS_FILTER(state, filter){
+          filter = filter.toLowerCase()
+          var f = state.contacts.filter(c=>c.Name.toLowerCase().includes(filter));
+          state.contactsFilterd = f;
+          state.contactsFilterActive = true;
+        },
+        SET_CLEAR_CONTACTS_FILTER(state){
+          state.contactsFilterd = [];
+          state.contactsFilterActive = false;
         },
         SET_IDENTITY(state, identity){
           state.identity.me = identity.Identity;
@@ -378,6 +388,12 @@ export default new Vuex.Store({
         }
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
+    },
+    filterContacts:function(state, filter){
+      this.commit("SET_CONTACTS_FILTER",filter);
+    },
+    clearFilterContacts:function(){
+      this.commit("SET_CLEAR_CONTACTS_FILTER");
     },
     uploadVcf:function(state, vcf) {
       state.ratelimitError = null;

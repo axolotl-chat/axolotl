@@ -18,10 +18,11 @@ import { faArrowLeft,
          faCheck,
          faVolumeMute,
          faHeart,
+         faSearch,
         faPlus} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 library.add(faArrowLeft, faEllipsisV, faPencilAlt, faPlus, faTrash, faPaperPlane,
-          faUserFriends, faTimes, faCheck, faVolumeMute, faHeart)
+          faUserFriends, faTimes, faCheck, faVolumeMute, faHeart, faSearch)
 
 import { longClickDirective } from 'vue-long-click'
 

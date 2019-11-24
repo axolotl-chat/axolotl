@@ -104,6 +104,24 @@
             </button>
           </div>
           <div class="col-10 text-right">
+            <input v-if="toggleSearch"  type="text" class="form-control"
+                  v-model="contactsFilter"
+                  @change="filterContacts()"
+                  @keyup="filterContacts()"></input>
+            <button class="btn"
+                    type="button"
+                    v-if="toggleSearch"
+                    @click="showSearch()"
+                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <font-awesome-icon icon="times" />
+            </button>
+            <button class="btn"
+                    type="button"
+                    v-if="!toggleSearch"
+                    @click="showSearch()"
+                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <font-awesome-icon icon="search" />
+            </button>
             <div class="dropdown">
               <button class="btn"
                       type="button"
@@ -166,7 +184,9 @@
         cMTitle:"",
         cMText: "",
         cMType:"",
-        names:[]
+        names:[],
+        toggleSearch: false,
+        contactsFilter:"",
       }
     },
     methods: {
@@ -201,6 +221,19 @@
         if(this.cMType=="resetEncryption")this.$store.dispatch("resetEncryption");
         this.showConfirmationModal = false;
         this.showIdentityModal = flase;
+      },
+      showSearch(){
+        if(this.toggleSearch){
+          this.toggleSearch=false;
+          this.$store.dispatch("clearFilterContacts");
+        }
+        else this.toggleSearch = true;
+
+      },
+      filterContacts(){
+        if(this.contactsFilter!="")
+        this.$store.dispatch("filterContacts", this.contactsFilter);
+        else  this.$store.dispatch("clearFilterContacts");
       },
       getNameForTel(tel){
 

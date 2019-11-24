@@ -7,7 +7,30 @@
         <font-awesome-icon icon="times"  @click="showActions=false"/>
       </button>
     </div>
-    <div v-for="(contact, i) in contacts"
+    <div v-if="contactsFilterActive">
+      <div v-for="(contact, i) in contactsFilterd"
+          class="btn col-12 chat">
+        <div class="row chat-entry">
+          <div class="avatar col-3" @click="contactClick(contact)">
+            <div class="badge-name">{{contact.Name[0]+contact.Name[1]}}</div>
+          </div>
+          <div class="meta col-7" @click="contactClick(contact)"  v-longclick="showContactAction">
+            <p class="name">{{contact.Name}}</p>
+            <p class="number">{{contact.Tel}}</p>
+          </div>
+          <div class="col-2 actions" v-if="showActions" >
+
+            <button class="btn" @click="delContact(i)">
+              <font-awesome-icon icon="trash"  />
+            </button>
+            <button class="btn" @click="editContactModalOpen(contact,i)">
+              <font-awesome-icon icon="pencil-alt"  />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-else v-for="(contact, i) in contacts"
         class="btn col-12 chat">
       <div class="row chat-entry">
         <div class="avatar col-3" @click="contactClick(contact)">
@@ -102,6 +125,12 @@ export default {
   computed: {
     contacts () {
       return this.$store.state.contacts
+    },
+    contactsFilterd () {
+      return this.$store.state.contactsFilterd
+    },
+    contactsFilterActive () {
+      return this.$store.state.contactsFilterActive
     },
     error () {
       return this.$store.state.ratelimitError;
