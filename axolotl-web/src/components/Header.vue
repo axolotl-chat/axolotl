@@ -231,7 +231,6 @@
 
       },
       onImageError(event){
-        console.log(event);
         event.target.style.display = "none";
       },
       filterContacts(){
@@ -243,7 +242,6 @@
 
         this.contacts.forEach(c=>{
           if(c.Tel == tel){
-            console.log(c.Name);
             if(this.names.length<=3&&this.names.indexOf(c.Name)==-1)
             this.names.push(c.Name);
             return c;

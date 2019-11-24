@@ -58,8 +58,6 @@ export default {
   created(){
     this.$store.dispatch("getChatList");
     this.$store.dispatch("clearMessageList");
-    // this.$store.dispatch('addResponses', "1");
-    // Vue.prototype.$store.dispatch("getChatList")
   },
   mounted(){
     this.$store.dispatch("getContacts")
@@ -102,7 +100,6 @@ export default {
       this.editWasActive = true;
     },
     onImageError(event){
-      console.log(event);
       event.target.style.display = "none";
     },
     enterChat(chat){
