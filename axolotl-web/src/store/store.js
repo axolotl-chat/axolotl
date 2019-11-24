@@ -134,7 +134,10 @@ export default new Vuex.Store({
         },
         SET_CONTACTS(state, contacts){
           state.importingContacts = false;
-              state.contacts = contacts;
+          console.log(contacts[160].Name);
+          contacts = contacts.sort((a, b) => a.Name.localeCompare(b.Name));
+          console.log(contacts[160].Name);
+          state.contacts = contacts;
         },
         SET_IDENTITY(state, identity){
           state.identity.me = identity.Identity;
