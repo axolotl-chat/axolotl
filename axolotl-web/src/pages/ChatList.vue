@@ -7,7 +7,7 @@
       </button>
     </div>
     <div v-if="chats.length>0" class="row">
-      <button id="chat.id"  v-for="(chat) in chats" class="btn col-12 chat"
+      <button id="chat.id"  v-for="(chat) in chats" class="btn col-12 chat-container"
       @click="enterChat(chat )"
           >
         <div class="row chat-entry">
@@ -162,7 +162,7 @@ export default {
   max-width: 100%;
   max-height: 100%;
 }
-.chat{
+.chat-container{
       padding: 0px 10px;
 }
 .date-c{
@@ -198,10 +198,10 @@ export default {
   border-bottom: 1px solid #c2c2c2;
   padding: 10px;
 }
-a.chat{
+a.chat-container{
   color:#000;
 }
-a:hover.chat{
+a:hover.chat-container{
   text-decoration:none;
 }
 .btn.start-chat {

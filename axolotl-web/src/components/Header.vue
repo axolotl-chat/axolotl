@@ -1,24 +1,33 @@
 <template>
   <div :class="route()+' header '">
-    <div class="container" >
+    <div class="container-fluid" >
       <div class="overlay" v-if="showSettingsMenu" @click="showSettingsMenu=false"/>
-      <div class="header-row row">
-        <div v-if="route()=='chat'" class="message-list-container row w-100">
+      <div class="header-row">
+        <div v-if="route()=='chat'" class="message-list-container row">
             <div class="col-10 chat-header">
               <router-link class="btn" :to="'/chatList'">
                 <font-awesome-icon icon="arrow-left" />
               </router-link>
               <div class="row w-100" v-if="currentChat!=null">
                 <div class="col-2 badge-container">
-                  <div v-if="currentChat!=null&&currentChat.IsGroup" class="badge-name"><img class="avatar-img" :src="'http://localhost:9080/avatars?file='+currentChat.Tel" @error="onImageError($event)"/><font-awesome-icon icon="user-friends" /></div>
+                  <div v-if="currentChat!=null&&currentChat.IsGroup" class="badge-name">
+                    <img class="avatar-img" :src="'http://localhost:9080/avatars?file='+currentChat.Tel" @error="onImageError($event)"/>
+                    <font-awesome-icon icon="user-friends" />
+                  </div>
                   <div v-else class="group-badge">{{currentChat.Name[0]}}</div>
                 </div>
-                <div class="col-10">
+                <div class="col-10 center">
                   <div class="row">
                     <div class="col-12">
-                      <div v-if="currentChat!=null&&!currentChat.Notification" class="mute-badge"> <font-awesome-icon class="mute" icon="volume-mute" /></div>
-                      <div class="header-text" v-if="currentChat!=null&&currentChat.IsGroup&&currentChat.Name==currentChat.Tel"><div>Unknown group</div></div>
-                      <div class="header-text" v-else><div v-if="currentChat!=null" class="header-text">{{currentChat.Name}}</div>
+                      <div v-if="currentChat!=null&&!currentChat.Notification" class="mute-badge">
+                         <font-awesome-icon class="mute" icon="volume-mute" />
+                       </div>
+                      <div class="header-text-chat" v-if="currentChat!=null&&currentChat.IsGroup&&currentChat.Name==currentChat.Tel">
+                        <div>Unknown group</div>
+                      </div>
+                      <div class="header-text-chat" v-else>
+                        <div v-if="currentChat!=null" class="">{{currentChat.Name}}</div>
+                      </div>
                     </div>
                     <div class="col-12">
                       <div class="number-text" v-if="currentChat!=null&&currentChat.IsGroup&&currentGroup!=null&&typeof currentGroup!='undefined'">
@@ -32,7 +41,6 @@
                     </div>
                   </div>
                 </div>
-              </div>
               </div>
             </div>
             <div class="col-2 text-right">
@@ -136,7 +144,7 @@
             </div>
           </div>
         </div>
-        <div v-else-if="route()=='chatList'" class="settings-container row col-12">
+        <div v-else-if="route()=='chatList'" class="settings-container row">
           <div class="dropdown">
             <button class="btn"
                     type="button"
@@ -315,6 +323,7 @@
   .number-text{
     display:flex;
     color:#FFF;
+    width: 300%;
   }
   .number-text .name{
     margin-right:10px;
@@ -337,12 +346,17 @@
     justify-content: flex-end;
     display: flex;
     align-items: center;
+    padding: 0px;
   }
   .chat.header{
     height:70px;
   }
+
   .chat.header .btn{
     margin-right: 10px;
+  }
+  .header #dropdownMenuButton{
+    margin-right:0px
   }
   .btn {
     color: #FFF;
@@ -352,6 +366,7 @@
     width: 100%;
     display: flex;
     justify-content: flex-end;
+    margin: auto;
   }
   .list-header-container{
     display:flex;
@@ -377,6 +392,11 @@
     padding-left:10px;
     color:#FFFFFF;
   }
+  .header-text-chat{
+    font-weight:bold;
+    font-size:18px;
+    color:#FFFFFF;
+  }
   .group-badge{
     background-color:#FFF;
     border-radius:50%;
@@ -394,5 +414,11 @@
   .chat-header{
     display:flex;
     align-items:center;
+    padding: 0px;
+  }
+  .center {
+    padding: 5px;
+    overflow: hidden;
+
   }
 </style>

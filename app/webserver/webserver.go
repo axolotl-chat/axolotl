@@ -93,8 +93,8 @@ func wsReader(conn *websocket.Conn) {
 			store.ActiveSessionID = activeChat
 			log.Debugln("[axolotl] Enter chat ", id)
 			sendMessageList(conn, id)
-			textsecure.GetProfile(id)
-			textsecure.RequestContactInfo()
+			// textsecure.GetProfile(id)
+			// textsecure.RequestContactInfo()
 		case "getMoreMessages":
 			getMoreMessages := GetMoreMessages{}
 			json.Unmarshal([]byte(p), &getMoreMessages)
