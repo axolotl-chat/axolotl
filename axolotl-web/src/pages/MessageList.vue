@@ -54,12 +54,13 @@
         </div>
 
         <div v-else class="no-entries">
-          No Messages aviable
+          No Messages available.
         </div>
     </div>
     <div class="messageInputBox">
-      <div v-if="chat&&chat.IsGroup&&chat.Name==chat.Tel" class="alert alert-warning">Group has to be updated by a member.</div>
-      <div v-else class="">
+      <!-- <div v-if="chat&&chat.IsGroup&&chat.Name==chat.Tel" class="alert alert-warning">Group has to be updated by a member.</div>
+      <div v-else class=""> -->
+      <div>
         <div class="row">
           <div class="messageInput-container col-10">
             <textarea id="messageInput" type="textarea" v-model="messageInput"
