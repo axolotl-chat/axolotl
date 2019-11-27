@@ -13,7 +13,7 @@
         <div class="row chat-entry">
           <div class="avatar col-2">
             <div v-if="chat.IsGroup" class="badge-name"><img class="avatar-img" :src="'http://localhost:9080/avatars?file='+chat.Tel" @error="onImageError($event)"/><font-awesome-icon icon="user-friends" /></div>
-            <div v-else class="badge-name">{{chat.Name[0]}}</div>
+            <div v-else class="badge-name"><img class="avatar-img" :src="'http://localhost:9080/avatars?file='+chat.Tel" @error="onImageError($event)"/><div>{{chat.Name[0]}}</div></div>
           </div>
   				<div class="meta col-10 row" v-longclick="editChat">
             <div class="col-9">
