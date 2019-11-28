@@ -161,6 +161,7 @@ export default {
 .avatar-img{
   max-width: 100%;
   max-height: 100%;
+  height: 100%;
 }
 .chat-container{
       padding: 0px 10px;

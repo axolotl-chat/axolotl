@@ -31,10 +31,10 @@
                     </div>
                     <div class="col-12">
                       <div class="number-text" v-if="currentChat!=null&&currentChat.IsGroup&&currentGroup!=null&&typeof currentGroup!='undefined'">
-                        <div v-for="e in currentGroup.Members">{{getNameForTel(e)}}</div>
+                        <div v-for="e in currentGroup.Members" v-bind:key="e">{{getNameForTel(e)}}</div>
                       </div>
                       <div class="number-text" v-if="currentChat!=null&&currentChat.IsGroup&&currentGroup!=null&&typeof currentGroup!='undefined'">
-                        <div class="name" v-for="n in names">{{n}}</div>
+                        <div class="name" v-for="(n,i) in names" v-bind:key="i">{{n}}<span v-if="i<names.length-1">,</span></div>
                       </div>
                       <div class="number-text" v-if="currentChat!=null&&!currentChat.IsGroup"> {{messageList.ID}}</div>
 
@@ -228,7 +228,7 @@
       confirm(){
         if(this.cMType=="resetEncryption")this.$store.dispatch("resetEncryption");
         this.showConfirmationModal = false;
-        this.showIdentityModal = flase;
+        this.showIdentityModal = false;
       },
       showSearch(){
         if(this.toggleSearch){
@@ -302,7 +302,8 @@
     },
     watch:{
     $route (to, from){
-        this.showSettingsMenu = false;
+      this.names=[];
+      this.showSettingsMenu = false;
     }
 }
   }

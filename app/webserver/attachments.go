@@ -55,7 +55,7 @@ func attachmentsHandler(w http.ResponseWriter, r *http.Request) {
 func avatarsHandler(w http.ResponseWriter, r *http.Request) {
 
 	Filename := r.URL.Query().Get("file")
-	log.Debugln("[axolotl] open avatar file: " + Filename)
+	// log.Debugln("[axolotl] open avatar file: " + Filename)
 	if Filename == "" {
 
 		//Get not set, send a 400 bad request
@@ -75,7 +75,7 @@ func avatarsHandler(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", FileContentType)
 		w.Write(group.Avatar)
 	} else {
-		log.Debugln("[axolotl] non group")
+		// log.Debugln("[axolotl] non group")
 		Filename = "+" + Filename[1:]
 		avatar := store.GetContactForTel(Filename)
 		if avatar == nil {
