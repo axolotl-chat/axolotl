@@ -10,6 +10,7 @@ import (
 	"github.com/nanu-c/textsecure-qml/app/sender"
 	"github.com/nanu-c/textsecure-qml/app/store"
 	"github.com/nanu-c/textsecure-qml/app/ui"
+	log "github.com/sirupsen/logrus"
 )
 
 type GroupRecord struct {
@@ -49,7 +50,9 @@ func (Api *TextsecureAPI) NewGroup(name string, members string) error {
 func (Api *TextsecureAPI) UpdateGroup(hexid, name string, members string) error {
 	g, ok := store.Groups[hexid]
 	if !ok {
-		return fmt.Errorf("Unknown group id %s\n", hexid)
+		log.Errorf("[textsecure] Update group: Unknown group id %s\n", hexid)
+		return fmt.Errorf("[textsecure] Update group: Unknown group id %s\n", hexid)
+		// store.LoadGroups()
 	}
 	dm, members := helpers.MembersDiffAndUnion(g.Members, members)
 	store.Groups[hexid] = &store.GroupRecord{

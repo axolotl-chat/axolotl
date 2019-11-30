@@ -41,18 +41,22 @@ func MessageHandler(msg *textsecure.Message) {
 	//Group Message
 	gr := msg.Group()
 
-	if gr != nil && gr.Flags != 0 {
+	if gr != nil && gr.Flags != 0 || gr.Name != store.Groups[gr.Hexid].Name {
 		_, ok := store.Groups[gr.Hexid]
 		members := ""
 		if ok {
 			members = store.Groups[gr.Hexid].Members
+			if store.Groups[gr.Hexid].Name == gr.Hexid {
+				textsecure.RemoveGroupKey(gr.Hexid)
+				textsecure.RequestGroupInfo(gr)
+			}
 		}
 		av := []byte{}
 
 		if gr.Avatar != nil {
 			av, err = ioutil.ReadAll(bytes.NewReader(gr.Avatar))
 			if err != nil {
-				log.Println(err)
+				log.Println("[axolotl]", err)
 				return
 			}
 		}

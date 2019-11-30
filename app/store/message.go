@@ -53,8 +53,8 @@ func UpdateMessageRead(m *Message) error {
 	}
 	return err
 }
-func LoadMessagesFromDB() error {
-	log.Printf("Loading Messages")
+func LoadGroups() error {
+	log.Printf("Loading Groups")
 	err := DS.Dbx.Select(&AllGroups, groupsSelect)
 	if err != nil {
 		return err
@@ -62,7 +62,14 @@ func LoadMessagesFromDB() error {
 	for _, g := range AllGroups {
 		Groups[g.GroupID] = g
 	}
-
+	return nil
+}
+func LoadMessagesFromDB() error {
+	err := LoadGroups()
+	if err != nil {
+		return err
+	}
+	log.Printf("Loading Messages")
 	err = DS.Dbx.Select(&AllSessions, sessionsSelect)
 	if err != nil {
 		return err
