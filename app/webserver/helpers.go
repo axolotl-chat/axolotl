@@ -9,10 +9,10 @@ import (
 
 	"github.com/gorilla/websocket"
 	"github.com/nanu-c/textsecure"
-	"github.com/nanu-c/textsecure-qml/app/config"
-	"github.com/nanu-c/textsecure-qml/app/contact"
-	"github.com/nanu-c/textsecure-qml/app/helpers"
-	"github.com/nanu-c/textsecure-qml/app/store"
+	"github.com/nanu-c/axolotl/app/config"
+	"github.com/nanu-c/axolotl/app/contact"
+	"github.com/nanu-c/axolotl/app/helpers"
+	"github.com/nanu-c/axolotl/app/store"
 )
 
 func sendChatList(client *websocket.Conn) {

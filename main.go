@@ -12,12 +12,12 @@ import (
 	astilectron "github.com/asticode/go-astilectron"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/nanu-c/textsecure-qml/app/config"
-	"github.com/nanu-c/textsecure-qml/app/helpers"
-	"github.com/nanu-c/textsecure-qml/app/push"
-	"github.com/nanu-c/textsecure-qml/app/ui"
-	"github.com/nanu-c/textsecure-qml/app/webserver"
-	"github.com/nanu-c/textsecure-qml/app/worker"
+	"github.com/nanu-c/axolotl/app/config"
+	"github.com/nanu-c/axolotl/app/helpers"
+	"github.com/nanu-c/axolotl/app/push"
+	"github.com/nanu-c/axolotl/app/ui"
+	"github.com/nanu-c/axolotl/app/webserver"
+	"github.com/nanu-c/axolotl/app/worker"
 )
 
 var e string

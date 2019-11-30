@@ -3,7 +3,7 @@ package store
 import (
 	"log"
 
-	"github.com/nanu-c/textsecure-qml/app/helpers"
+	"github.com/nanu-c/axolotl/app/helpers"
 )
 
 type Message struct {

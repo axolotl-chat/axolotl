@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/nanu-c/textsecure"
-	"github.com/nanu-c/textsecure-qml/app/store"
+	"github.com/nanu-c/axolotl/app/store"
 	log "github.com/sirupsen/logrus"
 )
 

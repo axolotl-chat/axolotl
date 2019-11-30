@@ -14,8 +14,8 @@ import (
 
 	"github.com/emersion/go-vcard"
 	"github.com/nanu-c/textsecure"
-	"github.com/nanu-c/textsecure-qml/app/config"
-	"github.com/nanu-c/textsecure-qml/app/helpers"
+	"github.com/nanu-c/axolotl/app/config"
+	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/ttacon/libphonenumber"
 )
 

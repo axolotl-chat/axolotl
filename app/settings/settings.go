@@ -4,7 +4,7 @@ import (
 	"io/ioutil"
 
 	yaml "github.com/go-yaml/yaml"
-	"github.com/nanu-c/textsecure-qml/app/config"
+	"github.com/nanu-c/axolotl/app/config"
 	log "github.com/sirupsen/logrus"
 )
 

@@ -5,11 +5,11 @@ import (
 	"strings"
 
 	"github.com/nanu-c/textsecure"
-	"github.com/nanu-c/textsecure-qml/app/config"
-	"github.com/nanu-c/textsecure-qml/app/helpers"
-	"github.com/nanu-c/textsecure-qml/app/sender"
-	"github.com/nanu-c/textsecure-qml/app/store"
-	"github.com/nanu-c/textsecure-qml/app/ui"
+	"github.com/nanu-c/axolotl/app/config"
+	"github.com/nanu-c/axolotl/app/helpers"
+	"github.com/nanu-c/axolotl/app/sender"
+	"github.com/nanu-c/axolotl/app/store"
+	"github.com/nanu-c/axolotl/app/ui"
 	log "github.com/sirupsen/logrus"
 )
 

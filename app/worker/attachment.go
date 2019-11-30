@@ -4,9 +4,9 @@ import (
 	"errors"
 	"os"
 
-	"github.com/nanu-c/textsecure-qml/app/contact"
-	"github.com/nanu-c/textsecure-qml/app/sender"
-	"github.com/nanu-c/textsecure-qml/app/ui"
+	"github.com/nanu-c/axolotl/app/contact"
+	"github.com/nanu-c/axolotl/app/sender"
+	"github.com/nanu-c/axolotl/app/ui"
 	log "github.com/sirupsen/logrus"
 )
 

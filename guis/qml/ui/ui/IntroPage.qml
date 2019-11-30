@@ -24,7 +24,7 @@ TelegramPage {
             wrapMode: Text.WordWrap
             text: i18n.tr("<h3>Thanks for trying out Signal!</h3><br><br> \
             File bugs and feature requests on github:<br>\
-            <a href='https://github.com/nanu-c/textsecure-qml/issues'>https://github.com/nanu-c/textsecure-qml/issues</a><br>")
+            <a href='https://github.com/nanu-c/axolotl/issues'>https://github.com/nanu-c/axolotl/issues</a><br>")
             onLinkActivated:Qt.openUrlExternally(link)
         }
 

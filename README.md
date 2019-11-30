@@ -31,8 +31,8 @@ Installation
 * Install node js
 * Add gopath to ~/.bashrc https://github.com/golang/go/wiki/SettingGOPATH
 * install dependencies `sudo apt install mercurial bzr`
-* Check out this git `go get -d github.com/nanu-c/textsecure-qml`
-* `cd $(go env GOPATH)/src/github.com/nanu-c/textsecure-qml`
+* Check out this git `go get -d github.com/nanu-c/axolotl`
+* `cd $(go env GOPATH)/src/github.com/nanu-c/axolotl`
 * install axolotl-web dependencies: `cd axolotl-web&&npm install`
 
 ```
@@ -91,8 +91,8 @@ The build-system is now integrated in the `clickable` Version 3.2.0.
 * Install node js
 * Add gopath to ~/.bashrc https://github.com/golang/go/wiki/SettingGOPATH
 * install dependencies `sudo apt install mercurial bzr hg`
-* Check out this git `go get -d github.com/nanu-c/textsecure-qml`
-* `cd $(go env GOPATH)/src/github.com/nanu-c/textsecure-qml`
+* Check out this git `go get -d github.com/nanu-c/axolotl`
+* `cd $(go env GOPATH)/src/github.com/nanu-c/axolotl`
 * Get [clickable](https://github.com/bhdouglass/clickable#install)
 * Back to main dir, then
 * Run `clickable`, this also transfers the click package to the Ubuntu Touch Phone
@@ -109,9 +109,9 @@ Run flags
 Contributing
 -----------
 
-Please fill issues here on github https://github.com/nanu-c/textsecure-qml/issues .
+Please fill issues here on github https://github.com/nanu-c/axolotl/issues .
 
-Migrating from `janimo/textsecure-qml`
+Migrating from `janimo/axolotl`
 --------------------------------------
 1. Download and install the app from the OpenStore; do not launch the app!
 2. Copy the directory `/home/phablet/.local/share/textsecure.jani/.storage` to

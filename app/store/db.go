@@ -7,8 +7,8 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mutecomm/go-sqlcipher"
-	"github.com/nanu-c/textsecure-qml/app/config"
-	"github.com/nanu-c/textsecure-qml/app/settings"
+	"github.com/nanu-c/axolotl/app/config"
+	"github.com/nanu-c/axolotl/app/settings"
 	log "github.com/sirupsen/logrus"
 )
 

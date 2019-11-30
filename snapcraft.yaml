@@ -10,7 +10,7 @@ base: core18
 parts:
   axolotl:
     plugin: go
-    go-importpath: github.com/nanu-c/textsecure-qml
+    go-importpath: github.com/nanu-c/axolotl
     source: .
     source-type: git
     build-packages:
@@ -20,5 +20,5 @@ parts:
 
 apps:
   axolotl:
-    command: bin/textsecure-qml
+    command: bin/axolotl
     plugs: ["desktop", "desktop-legacy", "home", "x11", "unity7", "browser-support", "network", "gsettings", "pulseaudio", "opengl"]

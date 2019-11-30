@@ -9,8 +9,8 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/nanu-c/textsecure"
-	"github.com/nanu-c/textsecure-qml/app/helpers"
-	"github.com/nanu-c/textsecure-qml/app/store"
+	"github.com/nanu-c/axolotl/app/helpers"
+	"github.com/nanu-c/axolotl/app/store"
 )
 
 func SendMessageHelper(to, message, file string) (error, *store.Message) {

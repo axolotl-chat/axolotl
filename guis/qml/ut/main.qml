@@ -124,7 +124,7 @@ MainView {
 	}
 
 	function openHelp() {
-    Qt.openUrlExternally("https://github.com/nanu-c/textsecure-qml/issues")
+    Qt.openUrlExternally("https://github.com/nanu-c/axolotl/issues")
 	}
 
 	function newChat() {

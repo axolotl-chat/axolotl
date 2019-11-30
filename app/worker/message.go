@@ -1,8 +1,8 @@
 package worker
 
 import (
-	"github.com/nanu-c/textsecure-qml/app/sender"
-	"github.com/nanu-c/textsecure-qml/app/store"
+	"github.com/nanu-c/axolotl/app/sender"
+	"github.com/nanu-c/axolotl/app/store"
 )
 
 func (Api *TextsecureAPI) SendMessage(to, message string) error {

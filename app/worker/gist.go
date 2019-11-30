@@ -8,7 +8,7 @@ import (
 	"regexp"
 
 	log "github.com/sirupsen/logrus"
-	"github.com/nanu-c/textsecure-qml/app/config"
+	"github.com/nanu-c/axolotl/app/config"
 )
 
 type entry struct {

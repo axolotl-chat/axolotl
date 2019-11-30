@@ -6,7 +6,7 @@
     <div class="description">
       This is a free and open source signal client written in golang and vuejs.
       You can support the development of axolotl either by filling <br/>
-      <a href="https://github.com/nanu-c/textsecure-qml/issues" @click="openExtern($event, 'https://github.com/nanu-c/textsecure-qml/issues')">issues at the bug tracker</a>. <br />
+      <a href="https://github.com/nanu-c/axolotl/issues" @click="openExtern($event, 'https://github.com/nanu-c/axolotl/issues')">issues at the bug tracker</a>. <br />
       or<br />
       by becoming a <a href="https://www.patreon.com/bePatron?u=11219559" @click="openExtern($event, 'https://www.patreon.com/bePatron?u=11219559')">sponsor on patreon</a>.<br />
       <br />

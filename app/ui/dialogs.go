@@ -1,8 +1,8 @@
 package ui
 
 import (
-	"github.com/nanu-c/textsecure-qml/app/contact"
-	"github.com/nanu-c/textsecure-qml/app/webserver"
+	"github.com/nanu-c/axolotl/app/contact"
+	"github.com/nanu-c/axolotl/app/webserver"
 	log "github.com/sirupsen/logrus"
 	"github.com/ttacon/libphonenumber"
 )

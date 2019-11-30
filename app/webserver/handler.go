@@ -9,8 +9,8 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/gorilla/websocket"
-	"github.com/nanu-c/textsecure-qml/app/sender"
-	"github.com/nanu-c/textsecure-qml/app/store"
+	"github.com/nanu-c/axolotl/app/sender"
+	"github.com/nanu-c/axolotl/app/store"
 )
 
 type MessageRecieved struct {

@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"github.com/nanu-c/textsecure"
-	"github.com/nanu-c/textsecure-qml/app/config"
+	"github.com/nanu-c/axolotl/app/config"
 )
 
 func SaveAttachment(a *textsecure.Attachment) (string, error) {

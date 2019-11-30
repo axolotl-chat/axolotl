@@ -1,7 +1,7 @@
 package worker
 
 import (
-	"github.com/nanu-c/textsecure-qml/app/store"
+	"github.com/nanu-c/axolotl/app/store"
 )
 
 func (Api *TextsecureAPI) GetAvatarImage(id string) string {

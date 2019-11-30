@@ -10,12 +10,12 @@ import (
 
 	"github.com/gen2brain/beeep"
 	"github.com/nanu-c/textsecure"
-	"github.com/nanu-c/textsecure-qml/app/config"
-	"github.com/nanu-c/textsecure-qml/app/helpers"
-	"github.com/nanu-c/textsecure-qml/app/push"
-	"github.com/nanu-c/textsecure-qml/app/settings"
-	"github.com/nanu-c/textsecure-qml/app/store"
-	"github.com/nanu-c/textsecure-qml/app/webserver"
+	"github.com/nanu-c/axolotl/app/config"
+	"github.com/nanu-c/axolotl/app/helpers"
+	"github.com/nanu-c/axolotl/app/push"
+	"github.com/nanu-c/axolotl/app/settings"
+	"github.com/nanu-c/axolotl/app/store"
+	"github.com/nanu-c/axolotl/app/webserver"
 )
 
 //messageHandler is used on incoming message

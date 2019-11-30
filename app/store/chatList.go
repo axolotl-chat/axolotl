@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/nanu-c/textsecure-qml/app/helpers"
+	"github.com/nanu-c/axolotl/app/helpers"
 	log "github.com/sirupsen/logrus"
 )
 

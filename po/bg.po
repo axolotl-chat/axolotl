@@ -571,7 +571,7 @@ msgstr "Членове на групата"
 msgid ""
 "<h3>Thanks for trying out Signal!</h3><br><br>             File bugs and "
 "feature requests on github:<br>            <a href='https://github.com/nanu-"
-"c/textsecure-qml/issues'>https://github.com/nanu-c/textsecure-qml/issues</"
+"c/axolotl/issues'>https://github.com/nanu-c/axolotl/issues</"
 "a><br>"
 msgstr ""
 
