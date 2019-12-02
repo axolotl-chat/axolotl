@@ -90,11 +90,12 @@ export default {
     delContact(){
       this.$store.dispatch("delContact", this.editContactId)
       this.showActions = false;
-
+      this.editContactId ="";
     },
     saveContact(data){
       this.editContactModal=false
       this.showActions = false;
+      this.editContactId ="";
       this.$store.dispatch("editContact", data)
     },
     showContactAction(contact){
@@ -115,6 +116,7 @@ export default {
       this.contact = this.contact;
       this.contactId = this.editContactId;
       this.showActions = false;
+      this.editContactId ="";
     }
   },
   computed: {

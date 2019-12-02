@@ -30,7 +30,7 @@ export default {
   name: 'AddContact',
   props:{
     contact:Object,
-    id: Number
+    id: String
   },
   data() {
     return {

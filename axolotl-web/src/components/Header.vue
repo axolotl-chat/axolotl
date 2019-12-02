@@ -112,10 +112,12 @@
             </button>
           </div>
           <div class="col-10 text-right">
-            <input v-if="toggleSearch"  type="text" class="form-control"
-                  v-model="contactsFilter"
-                  @change="filterContacts()"
-                  @keyup="filterContacts()"></input>
+            <div class="input-container">
+              <input v-if="toggleSearch"  type="text" class="form-control"
+                    v-model="contactsFilter"
+                    @change="filterContacts()"
+                    @keyup="filterContacts()"></input>
+            </div>
             <button class="btn"
                     type="button"
                     v-if="toggleSearch"
@@ -420,6 +422,10 @@
   .center {
     padding: 5px;
     overflow: hidden;
-
+  }
+  .input-container{
+    display: flex;
+    max-width: 100%;
+    overflow: hidden;
   }
 </style>

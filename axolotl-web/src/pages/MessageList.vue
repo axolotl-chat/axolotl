@@ -291,7 +291,7 @@ export default {
 }
 .chat{
   position:relative;
-  padding-top:3px;
+  padding-top: 26px;
 }
 /* .chat-list-container{
   padding-bottom:70px;
