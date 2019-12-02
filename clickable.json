@@ -5,6 +5,7 @@
     ".*",
     ".clickable",
     ".git",
+    ".github",
     ".gitignore",
     ".gitmodules",
     "click",
