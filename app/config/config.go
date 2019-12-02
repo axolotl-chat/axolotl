@@ -10,13 +10,13 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/axolotl/app/helpers"
+	"github.com/nanu-c/textsecure"
 )
 
 var AppName = "textsecure.nanuc"
 
-var AppVersion = "0.7.1"
+var AppVersion = "0.7.2"
 
 // Do not allow sending attachments larger than 100M for now
 var MaxAttachmentSize int64 = 100 * 1024 * 1024

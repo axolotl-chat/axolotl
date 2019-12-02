@@ -1,3 +1,15 @@
+0.7.2 (Dez 2 2019) Axolotl-Beta: second beta version
+--------------------
+* Show group avatars
+* Update group if group is corrupted
+* Improve deleting/editing Chats/Contacts on longpress
+* Update to next signal API revision
+* Complete renaming to axolotl
+* Show phone number/group memebers in the header
+* update axolotl-web packages
+* some ux improvements
+
+
 0.7.0 (Okt 19 2019) Axolotl-Beta: first beta version
 --------------------
 * refactor message input field alittle bit more
