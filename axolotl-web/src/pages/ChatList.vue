@@ -2,12 +2,16 @@
 <template>
   <div class="chatList">
     <div v-if="editActive" class="actions-header">
+      <button class="btn hide-actions" @click="delChat($event)">
+        <font-awesome-icon icon="trash"/>
+      </button>
       <button class="btn hide-actions" @click="editDeactivate">
         <font-awesome-icon icon="times"/>
       </button>
     </div>
     <div v-if="chats.length>0" class="row">
-      <button id="chat.id"  v-for="(chat) in chats" class="btn col-12 chat-container"
+      <button id="chat.id"  v-for="(chat) in chats"
+      :class="editActive&&selectedChat.indexOf(chat.Tel)>=0?'selected btn col-12 chat-container':'btn col-12 chat-container '"
       @click="enterChat(chat )"
           >
         <div class="row chat-entry">
@@ -15,7 +19,7 @@
             <div v-if="chat.IsGroup" class="badge-name"><img class="avatar-img" :src="'http://localhost:9080/avatars?file='+chat.Tel" @error="onImageError($event)"/><font-awesome-icon icon="user-friends" /></div>
             <div v-else class="badge-name"><img class="avatar-img" :src="'http://localhost:9080/avatars?file='+chat.Tel" @error="onImageError($event)"/><div>{{chat.Name[0]}}</div></div>
           </div>
-  				<div class="meta col-10 row" v-longclick="editChat">
+  				<div class="meta col-10 row" v-longclick="()=>{editChat(chat.Tel)}">
             <div class="col-9">
   					       <div class="name">
                      <font-awesome-icon class="mute" v-if="!chat.Notification" icon="volume-mute" />
@@ -27,9 +31,6 @@
             </div>
             <div v-if="!editActive" class="col-3 date-c">
                 <p v-if="chat.Messages&&chat.Messages!=null" class="time">{{humanifyDate(chat.Messages[chat.Messages.length-1].SentAt)}}</p>
-            </div>
-            <div v-else class="col-3 text-right">
-              <font-awesome-icon icon="trash"  @click="delChat($event, chat)"/>
             </div>
             <div class="col-12">
               <p class="preview" v-if="chat.Messages&&chat.Messages!=null">{{chat.Messages[chat.Messages.length-1].Message}}</p>
@@ -67,7 +68,8 @@ export default {
   data() {
     return {
       editActive: false,
-      editWasActive: false
+      editWasActive: false,
+      selectedChat:[],
     }
   },
   methods:{
@@ -83,6 +85,8 @@ export default {
       return date.format("DD. MMM");
     },
     editChat(e){
+      console.log(e);
+      this.selectedChat.push(e);
       this.editActive=true;
     },
     editDeactivate(e){
@@ -90,13 +94,18 @@ export default {
       e.preventDefault();
       e.stopPropagation();
       this.editWasActive = true;
+      this.selectedChat = [];
 
     },
-    delChat(e, chat){
+    delChat(e){
       this.editActive=false;
       e.preventDefault();
       e.stopPropagation();
-      this.$store.dispatch("delChat", chat.Tel);
+      if(this.selectedChat.length>0){
+        this.selectedChat.forEach(c=>{
+          this.$store.dispatch("delChat", c);
+        })
+      }
       this.editWasActive = true;
     },
     onImageError(event){
@@ -106,6 +115,9 @@ export default {
       if(!this.editActive){
         this.$store.dispatch("setCurrentChat", chat);
         router.push ('/chat/'+chat.Tel)
+      }
+      else{
+          this.selectedChat.push(chat.Tel);
       }
 
     }
@@ -124,7 +136,7 @@ export default {
 <style>
 .actions-header {
     position: fixed;
-    background-color: #cacaca;
+    background-color: #173d5c;
     width: 100%;
     left: 0;
     display: flex;
@@ -133,6 +145,10 @@ export default {
     top: 0;
     height: 51px;
 }
+.actions-header .btn{
+  color:#FFF;
+}
+
 .hide-actions{
   padding-right:40px;
 }
@@ -239,5 +255,8 @@ a:hover.chat-container{
   margin-left:10px;
   width: 28px;
   height: 28px;
+}
+.chatList .selected{
+  background-color:#c5e4f0;
 }
 </style>

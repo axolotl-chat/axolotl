@@ -3,51 +3,39 @@
     <div v-if="error!=null" class="alert alert-danger">Can't change contact list: {{error}}</div>
     <div v-if="importing" class="alert alert-warning">Importing contacts, head back later</div>
     <div v-if="showActions" class="actions-header">
+      <button class="btn" @click="delContact(i)">
+        <font-awesome-icon icon="trash"  />
+      </button>
+      <button class="btn" @click="editContactModalOpen(contact,i)">
+        <font-awesome-icon icon="pencil-alt"  />
+      </button>
       <button class="btn hide-actions">
         <font-awesome-icon icon="times"  @click="showActions=false"/>
       </button>
     </div>
     <div v-if="contactsFilterActive">
       <div v-for="(contact, i) in contactsFilterd"
-          class="btn col-12 chat">
+          :class="contact.Tel==editContactId?'selected btn col-12 chat':'btn col-12 chat'">
         <div class="row chat-entry">
           <div class="avatar col-3" @click="contactClick(contact)">
             <div class="badge-name">{{contact.Name[0]+contact.Name[1]}}</div>
           </div>
-          <div class="meta col-7" @click="contactClick(contact)"  v-longclick="showContactAction">
+          <div class="meta col-9" @click="contactClick(contact)"  v-longclick="()=>{showContactAction(contact)}">
             <p class="name">{{contact.Name}}</p>
             <p class="number">{{contact.Tel}}</p>
-          </div>
-          <div class="col-2 actions" v-if="showActions" >
-
-            <button class="btn" @click="delContact(i)">
-              <font-awesome-icon icon="trash"  />
-            </button>
-            <button class="btn" @click="editContactModalOpen(contact,i)">
-              <font-awesome-icon icon="pencil-alt"  />
-            </button>
           </div>
         </div>
       </div>
     </div>
     <div v-else v-for="(contact, i) in contacts"
-        class="btn col-12 chat">
+        :class="contact.Tel==editContactId?'selected btn col-12 chat':'btn col-12 chat'">
       <div class="row chat-entry">
         <div class="avatar col-3" @click="contactClick(contact)">
           <div class="badge-name">{{contact.Name[0]+contact.Name[1]}}</div>
         </div>
-        <div class="meta col-7" @click="contactClick(contact)"  v-longclick="showContactAction">
+        <div class="meta col-9" @click="contactClick(contact)"  v-longclick="()=>{showContactAction(contact)}">
           <p class="name">{{contact.Name}}</p>
           <p class="number">{{contact.Tel}}</p>
-        </div>
-        <div class="col-2 actions" v-if="showActions" >
-
-          <button class="btn" @click="delContact(i)">
-            <font-awesome-icon icon="trash"  />
-          </button>
-          <button class="btn" @click="editContactModalOpen(contact,i)">
-            <font-awesome-icon icon="pencil-alt"  />
-          </button>
         </div>
       </div>
     </div>
@@ -88,6 +76,7 @@ export default {
       editContactModal: false,
       contact:null,
       contactId:null,
+      editContactId:""
     }
   },
   mounted(){
@@ -98,8 +87,8 @@ export default {
       this.$store.dispatch("addContact", data)
       this.addContactModal=false
     },
-    delContact(id){
-      this.$store.dispatch("delContact", id)
+    delContact(){
+      this.$store.dispatch("delContact", this.editContactId)
       this.showActions = false;
 
     },
@@ -108,18 +97,24 @@ export default {
       this.showActions = false;
       this.$store.dispatch("editContact", data)
     },
-    showContactAction(){
+    showContactAction(contact){
+      this.editContactId=contact.Tel;
+      this.contact = contact;
       this.showActions = true;
     },
     contactClick(contact){
       if(!this.showActions){
         this.$store.dispatch("createChat", contact.Tel)
       }
+      else{
+        this.editContactId=contact.Tel;
+      }
     },
-    editContactModalOpen(contact,id){
+    editContactModalOpen(){
       this.editContactModal=true;
-      this.contact = contact;
-      this.contactId = id;
+      this.contact = this.contact;
+      this.contactId = this.editContactId;
+      this.showActions = false;
     }
   },
   computed: {
@@ -166,7 +161,7 @@ export default {
 }
 .actions-header {
     position: fixed;
-    background-color: #cacaca;
+    background-color: #173d5c;
     width: 100%;
     left: 0;
     display: flex;
@@ -188,5 +183,8 @@ export default {
 .col-2.actions .btn {
     font-size: 15px;
     padding: 5px;
+}
+.selected{
+  background-color:#c5e4f0;
 }
 </style>
