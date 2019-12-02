@@ -9,13 +9,13 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/gen2brain/beeep"
-	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/nanu-c/axolotl/app/push"
 	"github.com/nanu-c/axolotl/app/settings"
 	"github.com/nanu-c/axolotl/app/store"
 	"github.com/nanu-c/axolotl/app/webserver"
+	"github.com/nanu-c/textsecure"
 )
 
 //messageHandler is used on incoming message
@@ -41,7 +41,7 @@ func MessageHandler(msg *textsecure.Message) {
 	//Group Message
 	gr := msg.Group()
 
-	if gr != nil && gr.Flags != 0 || gr.Name != store.Groups[gr.Hexid].Name {
+	if gr != nil && gr.Flags != 0 || gr != nil && gr.Name != store.Groups[gr.Hexid].Name {
 		_, ok := store.Groups[gr.Hexid]
 		members := ""
 		if ok {
