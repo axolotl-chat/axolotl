@@ -145,6 +145,13 @@ export default new Vuex.Store({
           state.contactsFilterd = f;
           state.contactsFilterActive = true;
         },
+        SET_CONTACTS_FOR_GROUP_FILTER(state, filter){
+          filter = filter.toLowerCase()
+          var f = state.contacts.filter(c=>c.Name.toLowerCase().includes(filter));
+          f = f.filter(c=>state.currentGroup.Members.indexOf(c.Tel)==-1);
+          state.contactsFilterd = f;
+          state.contactsFilterActive = true;
+        },
         SET_CLEAR_CONTACTS_FILTER(state){
           state.contactsFilterd = [];
           state.contactsFilterActive = false;
@@ -392,6 +399,9 @@ export default new Vuex.Store({
     filterContacts:function(state, filter){
       this.commit("SET_CONTACTS_FILTER",filter);
     },
+    filterContactsForGroup:function(state, filter){
+      this.commit("SET_CONTACTS_FOR_GROUP_FILTER",filter);
+    },
     clearFilterContacts:function(){
       this.commit("SET_CLEAR_CONTACTS_FILTER");
     },
@@ -519,6 +529,19 @@ export default new Vuex.Store({
         var message = {
           "request":"createGroup",
           "name": data.name,
+          "members": data.members,
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
+
+      }
+    },
+    updateGroup:function(state, data){
+      console.log(data);
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"updateGroup",
+          "name": data.name,
+          "id": data.id,
           "members": data.members,
         }
         Vue.prototype.$socket.send(JSON.stringify(message))

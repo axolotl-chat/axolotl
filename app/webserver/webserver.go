@@ -13,13 +13,13 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/gorilla/websocket"
-	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/contact"
 	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/nanu-c/axolotl/app/sender"
 	"github.com/nanu-c/axolotl/app/settings"
 	"github.com/nanu-c/axolotl/app/store"
+	"github.com/nanu-c/textsecure"
 )
 
 var clients = make(map[*websocket.Conn]bool)
@@ -120,11 +120,18 @@ func wsReader(conn *websocket.Conn) {
 		case "createGroup":
 			createGroupMessage := CreateGroupMessage{}
 			json.Unmarshal([]byte(p), &createGroupMessage)
-			log.Println("Create group ", createGroupMessage.Name)
+			log.Println("[axolotl] Create group ", createGroupMessage.Name)
 			group := createGroup(createGroupMessage)
 			activeChat = group.Tel
 			store.ActiveSessionID = activeChat
 			requestEnterChat(activeChat)
+			sendContactList(conn)
+		case "updateGroup":
+			updateGroupMessage := UpdateGroupMessage{}
+			json.Unmarshal([]byte(p), &updateGroupMessage)
+			log.Println("[axolotl] Update group ", updateGroupMessage.ID)
+			updateGroup(updateGroupMessage)
+			requestEnterChat(store.ActiveSessionID)
 			sendContactList(conn)
 		case "sendMessage":
 			sendMessageMessage := SendMessageMessage{}

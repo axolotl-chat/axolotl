@@ -57,6 +57,10 @@
                   <!-- <button v-if="currentChat!=null&&currentChat.IsGroup" class="dropdown-item" @click="editGroup">Edit group</button> -->
                   <button v-if="currentChat!=null&&!currentChat.IsGroup" class="dropdown-item" @click="verifyIdentity">Show identity</button>
                   <button v-if="currentChat!=null&&!currentChat.IsGroup" class="dropdown-item" @click="resetEncryptionModal">Reset encryption</button>
+                  <router-link
+                    v-if="currentChat!=null&&currentChat.IsGroup"
+                    :to="'/editGroup/'+currentChat.Tel"
+                    class="dropdown-item">Edit Group</router-link>
 
                 </div>
                 <identity-modal
@@ -100,6 +104,12 @@
             <font-awesome-icon icon="arrow-left" />
           </router-link>
           <div class="header-text">New group</div>
+        </div>
+        <div v-else-if="route()=='editGroup' " class="list-header-container">
+          <router-link class="btn" :to="'/chatList'">
+            <font-awesome-icon icon="arrow-left" />
+          </router-link>
+          <div class="header-text">Edit group</div>
         </div>
         <div v-else-if="route()=='devices' " >
           <button class="back btn" @click="back()">

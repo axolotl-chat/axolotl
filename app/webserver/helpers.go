@@ -8,11 +8,11 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/gorilla/websocket"
-	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/contact"
 	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/nanu-c/axolotl/app/store"
+	"github.com/nanu-c/textsecure"
 )
 
 func sendChatList(client *websocket.Conn) {
@@ -128,6 +128,27 @@ func createGroup(newGroupData CreateGroupMessage) *store.Session {
 	store.SaveGroup(store.Groups[group.Hexid])
 	session := store.SessionsModel.Get(group.Hexid)
 	msg := session.Add(store.GroupUpdateMsg(append(newGroupData.Members, config.Config.Tel), newGroupData.Name), "", "", "", true, store.ActiveSessionID)
+	msg.Flags = helpers.MsgFlagGroupNew
+	//qml.Changed(msg, &msg.Flags)
+	store.SaveMessage(msg)
+
+	return session
+}
+func updateGroup(updateGroupData UpdateGroupMessage) *store.Session {
+	group, err := textsecure.UpdateGroup(updateGroupData.ID, updateGroupData.Name, updateGroupData.Members)
+	if err != nil {
+		ShowError(err.Error())
+		return nil
+	}
+	members := strings.Join(updateGroupData.Members, ",")
+	store.Groups[updateGroupData.ID] = &store.GroupRecord{
+		GroupID: updateGroupData.ID,
+		Name:    updateGroupData.Name,
+		Members: members,
+	}
+	store.SaveGroup(store.Groups[group.Hexid])
+	session := store.SessionsModel.Get(group.Hexid)
+	msg := session.Add(store.GroupUpdateMsg(updateGroupData.Members, updateGroupData.Name), "", "", "", true, store.ActiveSessionID)
 	msg.Flags = helpers.MsgFlagGroupNew
 	//qml.Changed(msg, &msg.Flags)
 	store.SaveMessage(msg)

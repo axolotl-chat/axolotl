@@ -67,6 +67,11 @@ export default new Router({
     name: "newGroup",
     component:  () => import("@/pages/NewGroup.vue")
   },
+  {
+    path: "/editGroup/:id",
+    name: "editGroup",
+    component:  () => import("@/pages/EditGroup.vue")
+  },
       { path: '/a', redirect: to => {
         const { hash, params, query } = to
          return "/ws"

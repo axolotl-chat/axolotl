@@ -1,8 +1,8 @@
 package webserver
 
 import (
-	"github.com/nanu-c/textsecure"
 	"github.com/nanu-c/axolotl/app/store"
+	"github.com/nanu-c/textsecure"
 )
 
 type MessageListEnvelope struct {
@@ -120,6 +120,12 @@ type OpenChatMessage struct {
 type CreateGroupMessage struct {
 	Type    string   `json:"request"`
 	Name    string   `json:"name"`
+	Members []string `json:"members"`
+}
+type UpdateGroupMessage struct {
+	Type    string   `json:"request"`
+	Name    string   `json:"name"`
+	ID      string   `json:"id"`
 	Members []string `json:"members"`
 }
 type SendAttachmentMessage struct {

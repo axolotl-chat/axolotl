@@ -5,6 +5,7 @@ description: |
   Axolotl is a crossplattform signal client
 
 confinement: devmode
+grade: devel
 base: core18
 
 parts:
@@ -17,7 +18,11 @@ parts:
       - gcc
       - mercurial
       - bzr
-
+      - npm
+    override-build: |
+      cd axolotl-web&&npm install&&npm run build
+      echo "This runs before build!"
+      snapcraftctl build
 apps:
   axolotl:
     command: bin/axolotl
