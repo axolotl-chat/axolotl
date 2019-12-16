@@ -71,7 +71,7 @@
             @click="calcHeightsForInput"
             @focus="calcHeightsForInput"
             @focusout="resetHeights"
-            contenteditable="true"/>
+            contenteditable="true" v-longclick="paste"/>
           </div>
           <div v-if="messageInput!=''" class="col-2 text-right">
             <button class="btn send" @click="sendMessage"><font-awesome-icon icon="paper-plane" /></button>
@@ -199,6 +199,13 @@ export default {
     },
     back(){
       this.$router.go(-1)
+    },
+    paste(){
+      if(typeof this.config.Gui!="undefined"&&this.config.Gui=="ut"){
+        // Don't follow the link
+        var result = window.prompt("paste");
+        this.messageInput=result;
+      }
     },
     scrollDown(){
       document.getElementById("messageList-container").scrollTo(0,document.getElementById("messageList-container").scrollHeight);

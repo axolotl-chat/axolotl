@@ -71,7 +71,9 @@ UITK.Page {
     } else if(request.message.toLowerCase().includes("http")){
         Qt.openUrlExternally(request.message);
         request.dialogAccept();
-    } else{
+    } else if(request.message =="paste"){
+      request.dialogAccept(UITK.Clipboard.data.text ? UITK.Clipboard.data.text : "");
+  } else{
       simpleDialog.request = request;
       simpleDialog.visible = true;
       root.request = request;
