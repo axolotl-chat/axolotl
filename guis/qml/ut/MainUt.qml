@@ -68,9 +68,14 @@ UITK.Page {
       root.contentType = ContentType.Documents
       root.handler = ContentHandler.Source
       root.selectionType = ContentTransfer.Single
-    } else if(request.message.includes("https")){
+    } else if(request.message.toLowerCase().includes("http")){
         Qt.openUrlExternally(request.message);
         request.dialogAccept();
+    } else{
+      simpleDialog.request = request;
+      simpleDialog.visible = true;
+      root.request = request;
+
     }
 
     }
@@ -152,6 +157,19 @@ UITK_Popups.Dialog {
     }
 
   }
+  UITK_Popups.Dialog {
+      id: simpleDialog
+      property QtObject request
+      title: "alert"
+      text: request.message
+      UITK.Button {
+        text: "Cancel"
+        onClicked: {
+          UITK_Popups.PopupUtils.close(simpleDialog)
+          request.dialogAccept()
+        }
+      }
+    }
   Connections {
     id: keyboard
     target: Qt.inputMethod

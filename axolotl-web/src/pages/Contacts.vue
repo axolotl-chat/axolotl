@@ -91,7 +91,6 @@ export default {
       this.addContactModal=false
     },
     delContact(){
-      console.log(this.editContactId);
       this.$store.dispatch("delContact", this.editContactId)
       this.showActions = false;
       this.editContactId ="";

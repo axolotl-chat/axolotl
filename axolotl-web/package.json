@@ -20,6 +20,7 @@
     "vue": "^2.6.11",
     "vue-chat-scroll": "^1.3.6",
     "vue-head": "^2.2.0",
+    "vue-linkify": "^1.0.1",
     "vue-long-click": "0.0.4",
     "vue-native-websocket": "^2.0.13",
     "vue-password-strength-meter": "^1.6.1",
@@ -43,6 +44,7 @@
   },
   "eslintConfig": {
     "root": true,
+    "lintOnSave": false,
     "env": {
       "node": true
     },

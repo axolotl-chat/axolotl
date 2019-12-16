@@ -241,27 +241,24 @@ type SendGui struct {
 }
 
 func SetGui() {
-
-	if activeChat == "" {
-		for client := range clients {
-			var err error
-			gui := config.Gui
-			if gui == "" {
-				gui = "standard"
-			}
-			request := &SendGui{
-				Gui: gui,
-			}
-			message := &[]byte{}
-			*message, err = json.Marshal(request)
-			if err != nil {
-				log.Errorln("[axolotl] set gui", err)
-				return
-			}
-			if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
-				log.Println("[textsecure] send error set gui", err)
-				return
-			}
+	for client := range clients {
+		var err error
+		gui := config.Gui
+		if gui == "" {
+			gui = "standard"
+		}
+		request := &SendGui{
+			Gui: gui,
+		}
+		message := &[]byte{}
+		*message, err = json.Marshal(request)
+		if err != nil {
+			log.Errorln("[axolotl] set gui", err)
+			return
+		}
+		if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
+			log.Println("[textsecure] send error set gui", err)
+			return
 		}
 	}
 }
@@ -273,6 +270,7 @@ func sendConfig(client *websocket.Conn) {
 		Type:             "config",
 		RegisteredNumber: config.Config.Tel,
 		Version:          config.AppVersion,
+		Gui:              config.Gui,
 	}
 	*message, err = json.Marshal(configEnvelope)
 	if err != nil {

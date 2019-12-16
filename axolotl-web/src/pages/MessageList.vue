@@ -43,7 +43,7 @@
                     </div>
                   </div>
                   <div class="message-text">
-                    {{message.Message}}
+                    <span v-html="message.Message" v-linkified ></span>
                   </div>
                 </div>
               </div>
@@ -240,6 +240,20 @@ export default {
           this.$store.dispatch("getMoreMessages");
         }
       });
+      var that = this;
+      document.addEventListener('click', function (event) {
+
+        // If the clicked element doesn't have the right selector, bail
+        if (!event.target.matches('.linkified')) return;
+        if(typeof that.config.Gui!="undefined"&&that.config.Gui=="ut"){
+          // Don't follow the link
+          event.preventDefault();
+          alert(event.target.href)
+        }
+        // else
+        // console.log(that.config.Gui)
+      }, false);
+
   },
   watch:{
     contacts(){
@@ -265,10 +279,7 @@ export default {
     isGroup () {
       return this.$store.state.messageList.Session.IsGroup
     },
-    ... mapState(['contacts']),
-    gui() {
-      return this.$store.state.gui
-    },
+    ... mapState(['contacts','config']),
   }
 }
 </script>

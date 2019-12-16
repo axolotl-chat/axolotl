@@ -5,6 +5,8 @@ import store from './store/store'
 import router from "./router/router";
 import BootstrapVue from 'bootstrap-vue'
 import VueChatScroll from 'vue-chat-scroll'
+import linkify from 'vue-linkify'
+
 import { library } from '@fortawesome/fontawesome-svg-core'
 
 
@@ -31,6 +33,7 @@ Vue.directive('longclick', longClickInstance)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(VueChatScroll)
 Vue.use(BootstrapVue)
+Vue.directive('linkified', linkify)
 Vue.config.productionTip = false
 var websocketAdress = "ws://[::1]:9080/ws";
 if(process.env.NODE_ENV=="development")

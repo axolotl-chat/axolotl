@@ -65,6 +65,7 @@ export default {
     this.$store.dispatch("getContacts")
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+    this.$store.dispatch("getConfig")
   },
   data() {
     return {
