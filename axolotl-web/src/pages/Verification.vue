@@ -32,19 +32,23 @@ export default {
   },
 }
 </script>
-<style scoped>
+<style>
   .verify{
     display:flex;
     flex-direction: column;
   }
-  .codeInput{
+  .verify .codeInput{
     margin-top:30px;
   }
-  .btn{
+  .verify .btn{
     max-width: 300px;
     margin: auto;
     margin-top: auto;
     margin-top: 50px;
+  }
+
+  .verify .ofcold__security-code-wrapper .ofcold__security-code-field .form-control {
+    border: 2px solid #2090ea !important;
   }
 </style>
 
