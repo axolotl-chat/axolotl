@@ -222,7 +222,7 @@ export default new Vuex.Store({
               this.commit("OPEN_CHAT",messageData["OpenChat"]);
             }
             else{
-              console.log("unkown message ", Object.keys(messageData)[0]);
+              // console.log("unkown message ", Object.keys(messageData)[0]);
             }
             state.socket.message = message.data
           }
@@ -536,7 +536,6 @@ export default new Vuex.Store({
       }
     },
     updateGroup:function(state, data){
-      console.log(data);
       if(this.state.socket.isConnected){
         var message = {
           "request":"updateGroup",

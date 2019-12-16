@@ -10,7 +10,7 @@
         <br />
         It's beta, expect lot's of things not working.
         <br />
-        <a href="https://axolotl.chat"@click="openExtern($event, 'https://axolotl.chat')">https://axolotl.chat</a>
+        <a href="https://axolotl.chat" @click="openExtern($event, 'https://axolotl.chat')">https://axolotl.chat</a>
         <br />
         <font-awesome-icon id="heart" icon="heart" />
       </div>

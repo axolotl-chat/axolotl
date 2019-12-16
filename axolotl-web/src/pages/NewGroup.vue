@@ -16,7 +16,8 @@
       :allreadyAdded="newGroupMembers"
       @add="addGroupMemeber"
       @close="addMembersModal=false"/>
-      <div class="member row" v-for="(m, i) in newGroupMembers">
+      <div class="member row" v-for="(m, i) in newGroupMembers"
+      v-bind:key="m">
         <div class="row col-10">
           <div class="name col-12">
             {{m.Name}}

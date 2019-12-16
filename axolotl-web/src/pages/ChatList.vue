@@ -11,6 +11,7 @@
     </div>
     <div v-if="chats.length>0" class="row">
       <button id="chat.id"  v-for="(chat) in chats"
+      v-bind:key="chat.id"
       :class="editActive&&selectedChat.indexOf(chat.Tel)>=0?'selected btn col-12 chat-container':'btn col-12 chat-container '"
       @click="enterChat(chat )"
           >
@@ -19,9 +20,9 @@
             <div v-if="chat.IsGroup" class="badge-name"><img class="avatar-img" :src="'http://localhost:9080/avatars?file='+chat.Tel" @error="onImageError($event)"/><font-awesome-icon icon="user-friends" /></div>
             <div v-else class="badge-name"><img class="avatar-img" :src="'http://localhost:9080/avatars?file='+chat.Tel" @error="onImageError($event)"/><div>{{chat.Name[0]}}</div></div>
           </div>
-  				<div class="meta col-10 row" v-longclick="()=>{editChat(chat.Tel)}">
+          <div class="meta col-10 row" v-longclick="()=>{editChat(chat.Tel)}">
             <div class="col-9">
-  					       <div class="name">
+              <div class="name">
                      <font-awesome-icon class="mute" v-if="!chat.Notification" icon="volume-mute" />
                      <div v-if="chat.IsGroup&&chat.Name==chat.Tel">Unknown group</div>
                      <div v-else>{{chat.Name}}</div>
@@ -85,7 +86,6 @@ export default {
       return date.format("DD. MMM");
     },
     editChat(e){
-      console.log(e);
       this.selectedChat.push(e);
       this.editActive=true;
     },
@@ -114,7 +114,7 @@ export default {
     enterChat(chat){
       if(!this.editActive){
         this.$store.dispatch("setCurrentChat", chat);
-        router.push ('/chat/'+chat.Tel)
+        // router.push ('/chat/'+chat.Tel)
       }
       else{
           this.selectedChat.push(chat.Tel);

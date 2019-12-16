@@ -18,12 +18,10 @@
 </template>
 
 <script>
-import ConfirmationModal from "@/components/ConfirmationModal.vue"
 import { mapState } from 'vuex';
 export default {
   name: 'settings',
   components: {
-    ConfirmationModal
   },
   props: {
     msg: String

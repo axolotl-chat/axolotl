@@ -72,8 +72,9 @@ export default new Router({
     name: "editGroup",
     component:  () => import("@/pages/EditGroup.vue")
   },
-      { path: '/a', redirect: to => {
-        const { hash, params, query } = to
+  { path: '/a', redirect: () => {
+      // { path: '/a', redirect: to => {
+        // const { hash, params, query } = to
          return "/ws"
       // the function receives the target route as the argument
       // return redirect path/location here.

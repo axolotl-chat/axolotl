@@ -9,12 +9,10 @@
 
 </template>
 <script>
-import store from './store/store'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import HeaderComp from "@/components/Header.vue"
 import ErrorModal from "@/components/ErrorModal.vue"
-import qwebchannel from 'qwebchannel'
 export default {
   name: 'axolotl-web',
   components: {

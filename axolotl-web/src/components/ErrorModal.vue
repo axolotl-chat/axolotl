@@ -17,7 +17,6 @@
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -47,7 +46,7 @@
   .modal-content {
     border-radius: 0px;
     border: 4px solid red;
-    
+
   }
 
   .modal-header {

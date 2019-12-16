@@ -17,7 +17,7 @@
               <input type="text" class="form-control"
                     v-model="contactsFilter"
                     @change="filterContacts()"
-                    @keyup="filterContacts()"></input>
+                    @keyup="filterContacts()" />
             </div>
             <button type="button" class="btn" @click="searchActive=false;">
               <font-awesome-icon icon="times"/>
@@ -26,29 +26,33 @@
         </div>
         <div class="modal-body">
           <div class="contact-list">
-            <div v-for="(contact, i) in contacts"
-                v-if="contacts.length>0&&contactsFilter==''"
-                class="btn col-12 chat">
-              <div class="row chat-entry">
-                <div class="avatar col-3" @click="contactClick(contact)">
-                  <div class="badge-name">{{contact.Name[0]+contact.Name[1]}}</div>
-                </div>
-                <div class="meta col-7" @click="$emit('add', contact)" >
-                  <p class="name">{{contact.Name}}</p>
-                  <p class="number">{{contact.Tel}}</p>
+            <div v-if="contacts.length>0&&contactsFilter==''">
+              <div v-for="contact in contacts"
+                  v-bind:key="contact.Tel"
+                  class="btn col-12 chat">
+                <div class="row chat-entry">
+                  <div class="avatar col-3" @click="contactClick(contact)">
+                    <div class="badge-name">{{contact.Name[0]+contact.Name[1]}}</div>
+                  </div>
+                  <div class="meta col-7" @click="$emit('add', contact)" >
+                    <p class="name">{{contact.Name}}</p>
+                    <p class="number">{{contact.Tel}}</p>
+                  </div>
                 </div>
               </div>
             </div>
-            <div v-for="(contact, i) in contactsFilterd"
-                v-if="contactsFilter!=''"
-                class="btn col-12 chat">
-              <div class="row chat-entry">
-                <div class="avatar col-3" @click="contactClick(contact)">
-                  <div class="badge-name">{{contact.Name[0]+contact.Name[1]}}</div>
-                </div>
-                <div class="meta col-7" @click="$emit('add', contact)" >
-                  <p class="name">{{contact.Name}}</p>
-                  <p class="number">{{contact.Tel}}</p>
+            <div v-if="contactsFilter!=''">
+              <div v-for="contact in contactsFilterd"
+                  v-bind:key="contact.Tel"
+                  class="btn col-12 chat">
+                <div class="row chat-entry">
+                  <div class="avatar col-3" @click="contactClick(contact)">
+                    <div class="badge-name">{{contact.Name[0]+contact.Name[1]}}</div>
+                  </div>
+                  <div class="meta col-7" @click="$emit('add', contact)" >
+                    <p class="name">{{contact.Name}}</p>
+                    <p class="number">{{contact.Tel}}</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -96,7 +100,7 @@ export default {
     },
   },
   watch:{
-    allreadyAdded(newVal, oldVal){
+    allreadyAdded(){
       var that = this
       this.contacts=that.$store.state.contacts.filter(function (el) {
         var found = that.allreadyAdded.find(function(element) {

@@ -126,7 +126,7 @@
               <input v-if="toggleSearch"  type="text" class="form-control"
                     v-model="contactsFilter"
                     @change="filterContacts()"
-                    @keyup="filterContacts()"></input>
+                    @keyup="filterContacts()" />
             </div>
             <button class="btn"
                     type="button"
@@ -274,7 +274,7 @@
       },
       refreshContacts(){
         this.$store.state.importingContacts = true;
-        console.log("Import contacts for gui " + this.gui)
+        // console.log("Import contacts for gui " + this.gui)
         this.showSettingsMenu = false;
         if(this.gui=="ut"){
           var result = window.prompt("refreshContacts");
@@ -316,7 +316,7 @@
       this.names=[];
     },
     watch:{
-    $route (to, from){
+    $route (){
       this.names=[];
       this.showSettingsMenu = false;
     }

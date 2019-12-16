@@ -1,6 +1,7 @@
 
 <template>
   <div class="deviceList">
+    <!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->
     <div v-if="devices.length>1" class="row">
       <div v-for="device in devices" v-if="device.id!=1" v-bind:key="device.id"
         class="col-12 device row">
@@ -18,6 +19,7 @@
     <div v-else class="no-entries" >
       No devices available
     </div>
+    <!-- eslint-enable -->
     <button @click="linkDevice" class="btn start-chat"><font-awesome-icon icon="plus" /></button>
 
   </div>

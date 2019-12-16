@@ -51,7 +51,6 @@ export default {
   data() {
     return {
       password:"",
-      passwordRepeat:"",
       passwordCurrent:"",
       currentRepeat:"",
       passwordRepeat:null,

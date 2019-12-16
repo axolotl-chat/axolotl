@@ -4,7 +4,10 @@
     <div class="messageList-container" id="messageList-container" @scroll="handleScroll($event)">
       <div id="messageList" class="messageList row" v-if="messages && messages.length>0" >
 
-          <div v-for="message in messages.slice().reverse()" :class="{'col-12':true, 'sent':message.Outgoing, 'reply':!message.Outgoing}" >
+          <div v-for="(message,i) in messages.slice().reverse()"
+              :class="{'col-12':true, 'sent':message.Outgoing, 'reply':!message.Outgoing}"
+              v-bind:key="i"
+               >
             <div class="row w-100">
               <div class="col-12 data">
                 <div class="avatar">
@@ -220,7 +223,7 @@ export default {
           if(document.body.scrollTop+550<document.body.scrollHeight)
           window.scrollTo(0,document.body.scrollHeight);
         }
-        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        // var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     }
 
 
@@ -231,7 +234,7 @@ export default {
     window.addEventListener('resize', this.resetHeights);
     setTimeout(this.scrollDown
     , 300)
-      document.addEventListener("scroll", (e) => {
+      document.addEventListener("scroll", () => {
         var scrolled = document.scrollingElement.scrollTop;
         if(scrolled==0){
           this.$store.dispatch("getMoreMessages");
@@ -239,7 +242,7 @@ export default {
       });
   },
   watch:{
-    contacts(o,n){
+    contacts(){
       if(this.contacts!=null){
         Object.keys(this.names).forEach((i)=>{
           var contact = this.contacts.find(function(element) {

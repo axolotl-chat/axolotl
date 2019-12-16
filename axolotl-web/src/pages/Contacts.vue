@@ -14,7 +14,8 @@
       </button>
     </div>
     <div v-if="contactsFilterActive">
-      <div v-for="(contact, i) in contactsFilterd"
+      <div v-for="(contact) in contactsFilterd"
+        v-bind:key="contact.Tel"
           :class="contact.Tel==editContactId?'selected btn col-12 chat':'btn col-12 chat'">
         <div class="row chat-entry">
           <div class="avatar col-3" @click="contactClick(contact)">
@@ -27,7 +28,8 @@
         </div>
       </div>
     </div>
-    <div v-else v-for="(contact, i) in contacts"
+    <div v-else v-for="(contact) in contacts"
+        v-bind:key="contact.Tel"
         :class="contact.Tel==editContactId?'selected btn col-12 chat':'btn col-12 chat'">
       <div class="row chat-entry">
         <div class="avatar col-3" @click="contactClick(contact)">
