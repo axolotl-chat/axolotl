@@ -251,10 +251,11 @@ func wsReader(conn *websocket.Conn) {
 			}
 			go sendContactList(conn)
 		case "delContact":
-			log.Println("[axolotl] delete contact")
 			delContactMessage := DelContactMessage{}
 			json.Unmarshal([]byte(p), &delContactMessage)
-			contact.DelContact(store.ContactsModel.GetContact(delContactMessage.ID))
+			log.Println("[axolotl] delete contact", delContactMessage.ID)
+			tmpContact := store.GetContactForTel(delContactMessage.ID)
+			contact.DelContact(*tmpContact)
 			err = store.RefreshContacts()
 			if err != nil {
 				ShowError(err.Error())

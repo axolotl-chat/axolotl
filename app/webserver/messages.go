@@ -95,7 +95,7 @@ type EditContactMessage struct {
 }
 type DelContactMessage struct {
 	Type string `json:"request"`
-	ID   int    `json:"id"`
+	ID   string `json:"id"`
 }
 type RefreshContactsMessage struct {
 	Type string `json:"request"`

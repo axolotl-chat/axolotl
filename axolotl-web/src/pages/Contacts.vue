@@ -18,7 +18,7 @@
         v-bind:key="contact.Tel"
           :class="contact.Tel==editContactId?'selected btn col-12 chat':'btn col-12 chat'">
         <div class="row chat-entry">
-          <div class="avatar col-3" @click="contactClick(contact)">
+          <div class="avatar col-3" @click="contactClick(contact,i)">
             <div class="badge-name">{{contact.Name[0]+contact.Name[1]}}</div>
           </div>
           <div class="meta col-9" @click="contactClick(contact)"  v-longclick="()=>{showContactAction(contact)}">
@@ -78,7 +78,8 @@ export default {
       editContactModal: false,
       contact:null,
       contactId:null,
-      editContactId:""
+      editContactId:"",
+      i:null
     }
   },
   mounted(){
@@ -90,6 +91,7 @@ export default {
       this.addContactModal=false
     },
     delContact(){
+      console.log(this.editContactId);
       this.$store.dispatch("delContact", this.editContactId)
       this.showActions = false;
       this.editContactId ="";
