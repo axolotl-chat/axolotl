@@ -1,0 +1,67 @@
+name: axolotl
+version: git
+summary: An signal client.
+description: |
+  Axolotl is a crossplattform signal client
+grade: stable
+confinement: strict
+base: core18
+
+parts:
+  axolotl:
+    plugin: go
+    go-importpath: github.com/nanu-c/axolotl
+    source: .
+    source-type: git
+    build-packages:
+      - gcc
+      - mercurial
+      - bzr
+    override-build: |
+      echo "This runs before build!"
+      snapcraftctl build
+  axolotl-web:
+    plugin: nodejs
+    source: ./axolotl-web
+    stage: [bin/axolotl-web]
+    nodejs-version: 12.13.1
+    nodejs-package-manager: npm
+    build-environment:
+      - SUDO_UID: '0'
+      - SUDO_GID: '0'
+      - SUDO_USER: 'root'
+    override-build: |
+      export PATH=/root/parts/axoltl-web/npm/bin:$PATH
+      npm run build || true
+      mkdir -p ../install/bin/ || true
+      cp -r dist ../install/bin/axolotl-web
+    organize:
+      axolotl-web/dist: bin/axolotl-web
+plugs:
+  config-axolotl:
+    interface: personal-files
+    read:
+      - $HOME/.local/share/textsecure.nanuc
+      - $HOME/.config/textsecure.nanuc
+    write:
+      - $HOME/.local/share/textsecure.nanuc
+      - $HOME/.config/textsecure.nanuc
+apps:
+  axolotl:
+    command: bin/axolotl
+    plugs:
+      - desktop
+      - desktop-legacy
+      - wayland
+      - unity7
+      - opengl
+      - network
+      - network-bind
+      - network-manager
+      - pulseaudio
+      - home
+      - x11
+      - config-axolotl
+      - hardware-observe
+
+    # plugs: ["desktop", "desktop-legacy", "home", "x11", "unity7", "network-observe", "browser-support", "network", "gsettings", "pulseaudio", "opengl"]
