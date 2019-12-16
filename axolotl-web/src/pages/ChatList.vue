@@ -114,7 +114,7 @@ export default {
     enterChat(chat){
       if(!this.editActive){
         this.$store.dispatch("setCurrentChat", chat);
-        // router.push ('/chat/'+chat.Tel)
+        window.router.push ('/chat/'+chat.Tel)
       }
       else{
           this.selectedChat.push(chat.Tel);

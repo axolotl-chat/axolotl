@@ -32,7 +32,7 @@
                   class="btn col-12 chat">
                 <div class="row chat-entry">
                   <div class="avatar col-3" @click="contactClick(contact)">
-                    <div class="badge-name">{{contact.Name[0]+contact.Name[1]}}</div>
+                    <div class="badge-name" v-if="contact.Name">{{contact.Name[0]+contact.Name[1]}}</div>
                   </div>
                   <div class="meta col-7" @click="$emit('add', contact)" >
                     <p class="name">{{contact.Name}}</p>
@@ -41,7 +41,7 @@
                 </div>
               </div>
             </div>
-            <div v-if="contactsFilter!=''">
+            <div v-else-if="contactsFilter!=''">
               <div v-for="contact in contactsFilterd"
                   v-bind:key="contact.Tel"
                   class="btn col-12 chat">

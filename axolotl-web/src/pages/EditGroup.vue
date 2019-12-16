@@ -83,6 +83,8 @@ export default {
       else this.newGroupMembers = [];
     },
     getNameForNumber(tel){
+      var c = this.contacts.find(x => x.Tel === tel);
+      if(c!=undefined)
       return this.contacts.find(x => x.Tel === tel).Name;
     },
     updateGroup(){
