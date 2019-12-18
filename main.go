@@ -10,6 +10,8 @@ import (
 	"sync"
 
 	astilectron "github.com/asticode/go-astilectron"
+	astilog "github.com/asticode/go-astilog"
+	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/nanu-c/axolotl/app/config"
@@ -64,6 +66,9 @@ func runUI() error {
 }
 func runElectron() {
 	log.Infoln("[axolotl] Start electron")
+	// astilog.SetHandyFlags()
+	flag.Parse()
+	astilog.FlagInit()
 	var a, _ = astilectron.New(astilectron.Options{
 		AppName:            "axolotl",
 		AppIconDefaultPath: "axolotl-web/public/axolotl.png", // If path is relative, it must be relative to the data directory
@@ -71,15 +76,31 @@ func runElectron() {
 		BaseDirectoryPath:  "dist",
 	})
 	defer a.Close()
-
 	// Start astilectron
-	a.Start()
-	var w, _ = a.NewWindow("http://localhost:9080", &astilectron.WindowOptions{
+	if err := a.Start(); err != nil {
+		astilog.Fatal(errors.Wrap(err, "main: starting astilectron failed"))
+	}
+
+	a.On(astilectron.EventNameAppCrash, func(e astilectron.Event) (deleteListener bool) {
+		log.Errorln("Electron App has crashed", e)
+		return
+	})
+	a.HandleSignals()
+	// New window
+	var w *astilectron.Window
+	var err error
+	if w, err = a.NewWindow("http://localhost:9080", &astilectron.WindowOptions{
 		Center: astilectron.PtrBool(true),
 		Height: astilectron.PtrInt(600),
 		Width:  astilectron.PtrInt(600),
-	})
-	w.Create()
+	}); err != nil {
+		astilog.Fatal(errors.Wrap(err, "main: new window failed"))
+	}
+	// Create windows
+	if err = w.Create(); err != nil {
+		astilog.Fatal(errors.Wrap(err, "main: creating window failed"))
+	}
+	w.Session.ClearCache()
 	if config.ElectronDebug {
 		w.OpenDevTools()
 	}
