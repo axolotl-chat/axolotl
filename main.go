@@ -69,6 +69,10 @@ func runElectron() {
 	// astilog.SetHandyFlags()
 	flag.Parse()
 	astilog.FlagInit()
+	astilog.SetLogger(astilog.New(astilog.Configuration{
+		Out:     "stdout",
+		Verbose: true,
+	}))
 	var a, _ = astilectron.New(astilectron.Options{
 		AppName:            "axolotl",
 		AppIconDefaultPath: "axolotl-web/public/axolotl.png", // If path is relative, it must be relative to the data directory
