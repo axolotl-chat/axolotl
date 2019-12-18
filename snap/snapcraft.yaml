@@ -17,6 +17,13 @@ parts:
       - gcc
       - mercurial
       - bzr
+    stage-packages:
+      - libasound2
+      - libgconf-2-4
+      - libnss3
+      - libx11-xcb1
+      - libxss1
+      - libxtst6
     override-build: |
       echo "This runs before build!"
       snapcraftctl build
