@@ -31,7 +31,9 @@ parts:
       - SUDO_GID: '0'
       - SUDO_USER: 'root'
     override-build: |
-      export PATH=/root/parts/axoltl-web/npm/bin:$PATH
+      export PATH=/root/parts/axolotl-web/npm/bin:$PATH
+      npm config set unsafe-perm true
+      npm install -g @vue/cli
       npm run build || true
       mkdir -p ../install/bin/ || true
       cp -r dist ../install/bin/axolotl-web
