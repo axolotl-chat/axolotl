@@ -1,8 +1,12 @@
-# TextSecure client for the Ubuntu Phone
+# Axolotl is a crossplattform signal client
+
+## for the Ubuntu Phone and more
 
 This is a Signal compatible client for the Ubuntu Phone, written in Go and QML.
-It builds upon the [Go textsecure package](https://github.com/nanu-c/textsecure/) and modified versions of the
-Telegram for Ubuntu Phone QML interface.
+It builds upon the [Go textsecure package](https://github.com/nanu-c/textsecure/) and a vuejs app that runs in a electron/qml WebEngineView container.
+
+[![OpenStore](https://open-store.io/badges/en_US.png)](https://open-store.io/app/textsecure.nanuc)
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/axolotl)
 
 What works
 -----------

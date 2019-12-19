@@ -58,6 +58,7 @@ plugs:
 apps:
   axolotl:
     command: bin/axolotl
+    extensions: [gnome-3-28]
     plugs:
       - desktop
       - desktop-legacy
