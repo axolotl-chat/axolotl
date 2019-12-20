@@ -78,6 +78,7 @@ func runElectron() {
 		AppIconDefaultPath: "axolotl-web/public/axolotl.png", // If path is relative, it must be relative to the data directory
 		AppIconDarwinPath:  "axolotl-web/public/axolotl.png", // Same here
 		BaseDirectoryPath:  "dist",
+		VersionElectron:    "7.1.7",
 	})
 	defer a.Close()
 	// Start astilectron
