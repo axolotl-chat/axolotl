@@ -84,7 +84,7 @@ func runElectron() {
 		BaseDirectoryPath:  electronPath,
 		VersionElectron:    "7.1.7",
 		SingleInstance:     true,
-		ElectronSwitches:   []string{"--disable-dev-shm-usage"}})
+		ElectronSwitches:   []string{"--disable-dev-shm-usage", "--no-sandbox"}})
 	//
 	// --disable-dev-shm-usage
 

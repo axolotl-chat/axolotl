@@ -47,16 +47,8 @@ parts:
     organize:
       axolotl-web/dist: bin/axolotl-web
 plugs:
-  config-axolotl:
-    interface: personal-files
-    read:
-      - $HOME/.local/share/textsecure.nanuc
-      - $HOME/.config/textsecure.nanuc
-    write:
-      - $HOME/.local/share/textsecure.nanuc
-      - $HOME/.config/textsecure.nanuc
   browser-sandbox:
-    allow-sandbox: true
+    allow-sandbox:  false
     interface: browser-support
 
 apps:
@@ -77,10 +69,7 @@ apps:
       - pulseaudio
       - home
       - x11
-      - config-axolotl
-      - hardware-observe
       - gsettings
-      - mount-observe
       - browser-sandbox
 
     # plugs: ["desktop", "desktop-legacy", "home", "x11", "unity7", "network-observe", "browser-support", "network", "gsettings", "pulseaudio", "opengl"]
