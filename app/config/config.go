@@ -92,7 +92,14 @@ func SetupConfig() {
 			// log.Fatal(err)
 			HomeDir = "/home/phablet"
 		} else {
-			HomeDir = user.HomeDir
+			//if in a snap environment
+			snapPath := os.Getenv("SNAP_USER_DATA")
+			if len(snapPath) > 0 {
+				HomeDir = snapPath
+			} else {
+
+				HomeDir = user.HomeDir
+			}
 		}
 	}
 	CacheDir = filepath.Join(HomeDir, ".cache/", AppName)

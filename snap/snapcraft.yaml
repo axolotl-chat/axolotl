@@ -61,7 +61,7 @@ plugs:
 
 apps:
   axolotl:
-    command: bin/desktop-launch $SNAP/bin/axolotl
+    command: bin/axolotl
     environment:
       TMPDIR: $XDG_RUNTIME_DIR
     extensions: [gnome-3-28]

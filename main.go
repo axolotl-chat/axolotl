@@ -83,7 +83,11 @@ func runElectron() {
 		AppIconDarwinPath:  "axolotl-web/public/axolotl.png", // Same here
 		BaseDirectoryPath:  electronPath,
 		VersionElectron:    "7.1.7",
-	})
+		SingleInstance:     true,
+		ElectronSwitches:   []string{"--disable-dev-shm-usage"}})
+	//
+	// --disable-dev-shm-usage
+
 	defer a.Close()
 	// Start astilectron
 
