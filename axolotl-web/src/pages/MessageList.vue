@@ -145,7 +145,7 @@ export default {
 
     },
     loadAttachmentDialog(){
-      if(this.gui=="ut"){
+      if(typeof this.config.Gui!="undefined"&&this.config.Gui=="ut"){
       this.showAttachmentsBar=true
       }
       else{
