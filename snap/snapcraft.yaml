@@ -55,9 +55,15 @@ plugs:
     write:
       - $HOME/.local/share/textsecure.nanuc
       - $HOME/.config/textsecure.nanuc
+  browser-sandbox:
+    allow-sandbox: true
+    interface: browser-support
+
 apps:
   axolotl:
-    command: bin/axolotl
+    command: bin/desktop-launch $SNAP/bin/axolotl
+    environment:
+      TMPDIR: $XDG_RUNTIME_DIR
     extensions: [gnome-3-28]
     plugs:
       - desktop
@@ -73,5 +79,8 @@ apps:
       - x11
       - config-axolotl
       - hardware-observe
+      - gsettings
+      - mount-observe
+      - browser-sandbox
 
     # plugs: ["desktop", "desktop-legacy", "home", "x11", "unity7", "network-observe", "browser-support", "network", "gsettings", "pulseaudio", "opengl"]

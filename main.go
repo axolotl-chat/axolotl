@@ -73,15 +73,20 @@ func runElectron() {
 		Out:     "stdout",
 		Verbose: true,
 	}))
+	electronPath := os.Getenv("SNAP_USER_DATA")
+	if len(electronPath) == 0 {
+		electronPath = config.ConfigDir + "/electron"
+	}
 	var a, _ = astilectron.New(astilectron.Options{
 		AppName:            "axolotl",
 		AppIconDefaultPath: "axolotl-web/public/axolotl.png", // If path is relative, it must be relative to the data directory
 		AppIconDarwinPath:  "axolotl-web/public/axolotl.png", // Same here
-		BaseDirectoryPath:  "dist",
+		BaseDirectoryPath:  electronPath,
 		VersionElectron:    "7.1.7",
 	})
 	defer a.Close()
 	// Start astilectron
+
 	if err := a.Start(); err != nil {
 		astilog.Fatal(errors.Wrap(err, "main: starting astilectron failed"))
 	}
