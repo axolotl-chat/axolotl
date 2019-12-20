@@ -6,6 +6,10 @@ This is a Signal compatible client for the Ubuntu Phone, written in Go and QML.
 It builds upon the [Go textsecure package](https://github.com/nanu-c/textsecure/) and a vuejs app that runs in a electron/qml WebEngineView container.
 
 [![OpenStore](https://open-store.io/badges/en_US.png)](https://open-store.io/app/textsecure.nanuc)
+
+[![Snap Status](https://build.snapcraft.io/badge/nanu-c/axolotl.svg)](https://build.snapcraft.io/user/nanu-c/axolotl)
+
+
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/axolotl)
 
 What works
