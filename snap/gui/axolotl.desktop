@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Axolotl
+Exec=axolotl
+Type=Application
+Comment=A signal client, snap version
+Terminal=false
+Categories=Network;InstantMessaging;Chat;
+Icon=${SNAP}/meta/gui/axolotl.png

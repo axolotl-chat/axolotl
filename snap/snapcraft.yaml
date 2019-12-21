@@ -6,6 +6,8 @@ description: |
 grade: stable
 confinement: strict
 base: core18
+icon:  snap/gui/axolotl.png
+version: "0.7.5"
 
 parts:
   axolotl:
