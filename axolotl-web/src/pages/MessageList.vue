@@ -116,7 +116,7 @@ export default {
     },
     callContentHub(type) {
       this.showAttachmentsBar = false;
-      if(this.gui=="ut"){
+      if(typeof this.config.Gui!="undefined"&&this.config.Gui=="ut"){
         var result = window.prompt(type);
         this.showSettingsMenu = false;
         if(result!="canceld")
