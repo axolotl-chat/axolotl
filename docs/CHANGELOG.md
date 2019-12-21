@@ -1,3 +1,22 @@
+0.7.5 (Dez 21 2019) Axolotl-Beta: second beta version
+--------------------
+* [ut] Fix attachment sending
+* [snap] add snap support
+
+0.7.4 (Dez 16 2019) Axolotl-Beta: second beta version
+---------------------
+* fix editing groups
+* Handle urls in messages
+* fix deleting contacts
+* update libraries + fix linter errors
+* first step into snap's
+* Verification code input is visible again
+* longpress pastes the clipboard
+
+0.7.2.1 (Dez 3 2019)
+--------------------
+* qUICK FIX FOr handling recieved messages
+
 0.7.2 (Dez 2 2019) Axolotl-Beta: second beta version
 --------------------
 * Show group avatars
