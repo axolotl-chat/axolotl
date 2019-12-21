@@ -330,7 +330,7 @@ func wsReader(conn *websocket.Conn) {
 func webserver() {
 	path := "."
 	if len(os.Getenv("SNAP")) > 0 {
-		path = os.Getenv("SNAP")
+		path = os.Getenv("SNAP") + "/bin"
 	}
 	log.Debugln("[axoltol] axoltol-web path", path+"/axolotl-web/dist")
 	http.Handle("/", http.FileServer(http.Dir(path+"/axolotl-web/dist")))
