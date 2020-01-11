@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nanu-c/textsecure"
+	"github.com/signal-golang/textsecure"
 	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/contact"
 	"github.com/nanu-c/axolotl/app/handler"

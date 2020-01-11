@@ -19,7 +19,7 @@ import (
 	"github.com/nanu-c/axolotl/app/sender"
 	"github.com/nanu-c/axolotl/app/settings"
 	"github.com/nanu-c/axolotl/app/store"
-	"github.com/nanu-c/textsecure"
+	"github.com/signal-golang/textsecure"
 )
 
 var clients = make(map[*websocket.Conn]bool)

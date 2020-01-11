@@ -5,7 +5,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/nanu-c/textsecure"
+	"github.com/signal-golang/textsecure"
 	"github.com/nanu-c/axolotl/app/config"
 	yaml "gopkg.in/yaml.v2"
 )

@@ -13,7 +13,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/emersion/go-vcard"
-	"github.com/nanu-c/textsecure"
+	"github.com/signal-golang/textsecure"
 	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/ttacon/libphonenumber"

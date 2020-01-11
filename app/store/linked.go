@@ -3,7 +3,7 @@ package store
 import (
 	"log"
 	"strings"
-	"github.com/nanu-c/textsecure"
+	"github.com/signal-golang/textsecure"
 	"errors"
 )
 

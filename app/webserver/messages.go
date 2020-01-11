@@ -2,7 +2,7 @@ package webserver
 
 import (
 	"github.com/nanu-c/axolotl/app/store"
-	"github.com/nanu-c/textsecure"
+	"github.com/signal-golang/textsecure"
 )
 
 type MessageListEnvelope struct {
