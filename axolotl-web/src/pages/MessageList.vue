@@ -5,7 +5,7 @@
       <div id="messageList" class="messageList row" v-if="messages && messages.length>0" >
 
           <div v-for="(message,i) in messages.slice().reverse()"
-              :class="{'col-12':true, 'sent':message.Outgoing, 'reply':!message.Outgoing}"
+              :class="{'col-12':true, 'sent':message.Outgoing, 'reply':!message.Outgoing}, 'error':message.SentAt==0"
               v-bind:key="i"
                >
             <div class="row w-100">
@@ -47,9 +47,11 @@
                   </div>
                 </div>
               </div>
-              <div class="col-12 meta">
+              <div class="col-12 meta" v-if="message.SentAt!=0">
                 {{humanifyDate(message.SentAt)}}
-
+              </div>
+              <div v-else class="col-12 meta">
+                Error
               </div>
 
             </div>
@@ -372,6 +374,9 @@ video,
 }
 .sent .message{
   background-color:#d3f2d7;
+}
+.error .message{
+  background-color:#f7663a;
 }
 .messageInputBox {
     bottom: 0px;

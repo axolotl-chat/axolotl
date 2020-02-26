@@ -1,5 +1,6 @@
 <template>
   <div class="contact-list">
+
     <div v-if="error!=null" class="alert alert-danger">Can't change contact list: {{error}}</div>
     <div v-if="importing" class="alert alert-warning">Importing contacts, head back later</div>
     <div v-if="showActions" class="actions-header">
@@ -12,6 +13,9 @@
       <button class="btn hide-actions">
         <font-awesome-icon icon="times"  @click="showActions=false"/>
       </button>
+    </div>
+    <div v-if="contacts.length ==0" class="empty">
+      Contact list is empty...
     </div>
     <div v-if="contactsFilterActive">
       <div v-for="(contact) in contactsFilterd"
@@ -41,6 +45,7 @@
         </div>
       </div>
     </div>
+
     <div v-if="addContactModal" class="addContactModal">
       <add-contact-modal
       @close="addContactModal=false"
@@ -191,5 +196,12 @@ export default {
 }
 .selected{
   background-color:#c5e4f0;
+}
+.empty{
+  width:100%;
+  height:70vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 </style>
