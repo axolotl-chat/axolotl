@@ -1,6 +1,6 @@
 <template>
   <div class="verify">
-    <Sms v-model="cc" class="codeInput"></Sms>
+    <Sms v-model="code" class="codeInput"></Sms>
     <button class="btn btn-primary" @click="sendCode()"> send Code </button>
   </div>
 </template>
@@ -15,19 +15,19 @@ export default {
   props: {
     msg: String
   },
+  mounted(){
+    document.getElementsByClassName("form-control")[0].focus()
+  },
   methods:{
     sendCode(){
       // console.log(this.cc)
       // if(typeof this.cc!="undefined")
-      this.$store.dispatch("sendCode",this.cc);
-    },
-    updatePhone(e){
-      this.cc=e.formattedNumber;
+      this.$store.dispatch("sendCode",this.code);
     }
   },
   data() {
     return {
-      cc:""
+      code:""
     };
   },
 }

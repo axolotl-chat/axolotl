@@ -52,6 +52,9 @@ export default {
       }
     }
   },
+  mounted(){
+    document.getElementById("VuePhoneNumberInput_phone_number").focus();
+  },
   data() {
     return {
       phone: '',
@@ -59,7 +62,12 @@ export default {
       infoPage:true,
     };
   },
-  computed: mapState(['gui'])
+  computed: mapState(['gui']),
+  watch:{
+    cc(){
+      document.getElementById("VuePhoneNumberInput_phone_number").focus()
+    }
+  }
 
 }
 </script>

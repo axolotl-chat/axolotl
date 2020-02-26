@@ -135,9 +135,11 @@ export default new Vuex.Store({
           state.messageList = {};
         },
         SET_CONTACTS(state, contacts){
-          state.importingContacts = false;
-          contacts = contacts.sort((a, b) => a.Name.localeCompare(b.Name));
-          state.contacts = contacts;
+          if(contacts!=null){
+            contacts = contacts.sort((a, b) => a.Name.localeCompare(b.Name));
+            state.importingContacts = false;
+            state.contacts = contacts;
+          }
         },
         SET_CONTACTS_FILTER(state, filter){
           filter = filter.toLowerCase()
