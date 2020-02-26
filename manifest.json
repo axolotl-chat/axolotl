@@ -3,7 +3,7 @@
     "version": "0.7.5",
     "description": "A Signal compatible messaging client for Ubuntu phones",
     "title": "Axolotl",
-    "architecture": "armhf",
+    "architecture": "@CLICK_ARCH@",
     "framework" : "ubuntu-sdk-16.04",
     "hooks": {
         "textsecure": {

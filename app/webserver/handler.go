@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"sync"
 
 	log "github.com/sirupsen/logrus"
 
@@ -17,10 +18,14 @@ type MessageRecieved struct {
 	MessageRecieved *store.Message
 }
 
+var mu sync.Mutex
+
 func MessageHandler(msg *store.Message) {
 	messageRecieved := &MessageRecieved{
 		MessageRecieved: msg,
 	}
+	mu.Lock()
+	defer mu.Unlock()
 	for client := range clients {
 		var err error
 		message := &[]byte{}
@@ -42,7 +47,8 @@ type SendRequest struct {
 
 func sendRequest(client *websocket.Conn, requestType string) {
 	var err error
-
+	mu.Lock()
+	defer mu.Unlock()
 	request := &SendRequest{
 		Type: requestType,
 	}
@@ -74,6 +80,8 @@ type SendEnterChatRequest struct {
 
 func requestEnterChat(chat string) {
 	var err error
+	mu.Lock()
+	defer mu.Unlock()
 	for client := range clients {
 		request := &SendEnterChatRequest{
 			Type: "requestEnterChat",
@@ -119,6 +127,8 @@ func sendError(client *websocket.Conn, errorMessage string) {
 		fmt.Println(err)
 		return
 	}
+	mu.Lock()
+	defer mu.Unlock()
 	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
 		log.Println(err)
 		return

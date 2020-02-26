@@ -27,7 +27,7 @@ var activeChat = ""
 
 func Run() error {
 	log.Printf("[axolotl] Starting axolotl ws")
-	go sync()
+	go syncClients()
 	go attachmentServer()
 	webserver()
 	return nil
@@ -59,16 +59,20 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	// listen indefinitely for new messages coming
 	// through on our WebSocket connection
 	SetGui()
-	UpdateChatList()
-	UpdateContactList()
+	if registered {
+		UpdateChatList()
+		UpdateContactList()
+	}
 	wsReader(ws)
 }
 
-func sync() {
+func syncClients() {
 	for {
 		<-time.After(10 * time.Second)
-		UpdateChatList()
-		UpdateContactList()
+		if registered {
+			UpdateChatList()
+			UpdateContactList()
+		}
 	}
 }
 func wsReader(conn *websocket.Conn) {
