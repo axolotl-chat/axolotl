@@ -22,6 +22,7 @@ package push
 
 import (
 	"encoding/json"
+	"sync"
 	"time"
 
 	"launchpad.net/go-dbus/v1"
@@ -32,6 +33,7 @@ var (
 	err              error
 	Nh               *NotificationHandler
 	useNotifications bool
+	mu               sync.Mutex
 )
 
 func NotificationInit() {
@@ -48,10 +50,11 @@ func NotificationInit() {
 // Notifications lives on a well-knwon bus.Address
 
 const (
-	dbusName       = "com.ubuntu.Postal"
-	dbusInterface  = "com.ubuntu.Postal"
-	dbusPathPart   = "/com/ubuntu/Postal/"
-	dbusPostMethod = "Post"
+	dbusName        = "com.ubuntu.Postal"
+	dbusInterface   = "com.ubuntu.Postal"
+	dbusPathPart    = "/com/ubuntu/Postal/"
+	dbusPostMethod  = "Post"
+	dbusClearMethod = "ClearPersistent"
 )
 
 type VariantMap map[string]dbus.Variant
@@ -67,6 +70,12 @@ func NewLegacyHandler(conn *dbus.Connection, application string) *NotificationHa
 		application: application,
 	}
 }
+func (n *NotificationHandler) Clear(tag string) error {
+	mu.Lock()
+	defer mu.Unlock()
+	_, err := n.dbusObject.Call(dbusInterface, dbusClearMethod, "textsecure.nanuc_textsecure", tag)
+	return err
+}
 
 func (n *NotificationHandler) Send(m *PushMessage) error {
 	if useNotifications {
@@ -76,7 +85,12 @@ func (n *NotificationHandler) Send(m *PushMessage) error {
 		} else {
 			return err
 		}
-		_, err := n.dbusObject.Call(dbusInterface, dbusPostMethod, "textsecure.nanuc_textsecure", pushMessage)
+		mu.Lock()
+		defer mu.Unlock()
+		// clearTag := "[" + m.Notification.Card.Summary + "]"
+		_, err := n.dbusObject.Call(dbusInterface, dbusClearMethod, "textsecure.nanuc_textsecure", m.Notification.Tag)
+		_, err = n.dbusObject.Call(dbusInterface, dbusPostMethod, "textsecure.nanuc_textsecure", pushMessage)
+
 		return err
 	}
 	return nil
@@ -84,9 +98,9 @@ func (n *NotificationHandler) Send(m *PushMessage) error {
 
 // NewStandardPushMessage creates a base Notification with common
 // components (members) setup.
-func (n *NotificationHandler) NewStandardPushMessage(summary, body, icon string) *PushMessage {
+func (n *NotificationHandler) NewStandardPushMessage(summary, body, icon string, tag string) *PushMessage {
 	pm := &PushMessage{
-		Message: "foobar",
+		Message: summary,
 		Notification: Notification{
 			Card: &Card{
 				Summary: summary,
@@ -95,9 +109,9 @@ func (n *NotificationHandler) NewStandardPushMessage(summary, body, icon string)
 				// Icon:    icon,
 				Popup:     true,
 				Persist:   true,
-				Tag:       "chat",
 				Timestamp: time.Now().Unix(),
 			},
+			Tag:          tag,
 			RawSound:     json.RawMessage(`"sounds/ubuntu/notifications/Slick.ogg"`),
 			RawVibration: json.RawMessage(`{"pattern": [100, 100], "repeat": 2}`),
 		},
@@ -120,6 +134,7 @@ type Notification struct {
 	Card         *Card           `json:"card,omitempty"`
 	RawSound     json.RawMessage `json:"sound"`
 	RawVibration json.RawMessage `json:"vibrate"`
+	Tag          string          `json:"tag,omitempty"`
 }
 
 // Card is part of a notification and represents the user visible hints for
@@ -137,7 +152,6 @@ type Card struct {
 	// Icon is a path to an icon to display with the notification bubble.
 	// Icon string `json:"icon,omitempty"`
 	// Whether to show in notification centre.
-	Persist   bool   `json:"persist,omitempty"`
-	Tag       string `json:"tag,omitempty"`
-	Timestamp int64  `json:"timestamp"`
+	Persist   bool  `json:"persist,omitempty"`
+	Timestamp int64 `json:"timestamp"`
 }

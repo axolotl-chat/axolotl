@@ -113,7 +113,7 @@ func MessageHandler(msg *textsecure.Message) {
 			if config.Gui == "ut" {
 				n := push.Nh.NewStandardPushMessage(
 					session.Name,
-					text, "")
+					text, "", s)
 				push.Nh.Send(n)
 			} else {
 				err := beeep.Notify("Axolotl: "+session.Name, text, "axolotl-web/dist/public/axolotl.png")

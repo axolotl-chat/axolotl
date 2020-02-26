@@ -14,11 +14,11 @@ import (
 	"github.com/nanu-c/axolotl/app/store"
 )
 
+var mu sync.Mutex
+
 type MessageRecieved struct {
 	MessageRecieved *store.Message
 }
-
-var mu sync.Mutex
 
 func MessageHandler(msg *store.Message) {
 	messageRecieved := &MessageRecieved{

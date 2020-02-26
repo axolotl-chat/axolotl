@@ -83,23 +83,3 @@ func PushHelperProcessMessage(in io.Reader, out io.Writer) error {
 	err = enc.Encode(appMsg)
 	return err
 }
-
-//creates a new PushMessage
-func NewStandardPushMessage(summary string, body string) *AppMessage {
-	// func NewStandardPushMessage(summary, body) *PushMessage {
-	pm := &AppMessage{
-		Notification: AppMessageNotification{
-			Card: AppMessageCard{
-				Summary:   "New message",
-				Body:      "",
-				Actions:   []string{"appid://textsecure.nanuc/textsecure/current-user-version"},
-				Popup:     true,
-				Persist:   true,
-				Timestamp: time.Now().Unix(),
-			},
-			Sound:   true,
-			Vibrate: true,
-		},
-	}
-	return pm
-}

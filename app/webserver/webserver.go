@@ -16,6 +16,7 @@ import (
 	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/contact"
 	"github.com/nanu-c/axolotl/app/helpers"
+	"github.com/nanu-c/axolotl/app/push"
 	"github.com/nanu-c/axolotl/app/sender"
 	"github.com/nanu-c/axolotl/app/settings"
 	"github.com/nanu-c/axolotl/app/store"
@@ -95,6 +96,7 @@ func wsReader(conn *websocket.Conn) {
 			id := getMessageListMessage.ID
 			activeChat = getMessageListMessage.ID
 			store.ActiveSessionID = activeChat
+			push.Nh.Clear(id)
 			log.Debugln("[axolotl] Enter chat ", id)
 			sendMessageList(conn, id)
 			// textsecure.GetProfile(id)
