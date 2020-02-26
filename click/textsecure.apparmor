@@ -8,7 +8,8 @@
         "networking",
         "video",
         "push-notification-client",
-        "webview"
+        "webview",
+        "microphone"
     ],
     "policy_version": 16.04
 }
