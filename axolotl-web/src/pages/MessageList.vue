@@ -235,6 +235,10 @@ export default {
       document.getElementById("messageInput").style.height="33px";
       document.getElementById('messageList-container').style.height=window.innerHeight-140+'px';
     },
+    keyupHandler(){
+      this.calcHeightsForInput();
+
+    },
     calcHeightsForInput(){
       var el = document.getElementById("messageInput");
       var c = document.getElementById("messageList-container");
