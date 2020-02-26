@@ -1,3 +1,11 @@
+0.7.6 (Feb 27 2020) Stability
+------------------------------------
+* Autofocus in lots of places
+* avoid concurrent ws calls
+* mark unsend Messages
+* Fix notifications
+
+
 0.7.5 (Dez 21 2019) Axolotl-Beta: second beta version
 --------------------
 * [ut] Fix attachment sending
