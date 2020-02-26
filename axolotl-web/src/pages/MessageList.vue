@@ -3,9 +3,19 @@
   <div class="chat">
     <div class="messageList-container" id="messageList-container" @scroll="handleScroll($event)">
       <div id="messageList" class="messageList row" v-if="messages && messages.length>0" >
-
+        <div v-if="showFullscreenImgSrc!=''" class="fullscreenImage">
+          <img :src="'http://localhost:9080/attachments?file='+showFullscreenImgSrc" >
+          <button class="btn btn-secondary close" @click="showFullscreenImgSrc=''">X</button>
+        </div>
+        <div v-if="showFullscreenVideoSrc!=''" class="fullscreenImage">
+          <video controls>
+            <source :src="'http://localhost:9080/attachments?file='+showFullscreenVideoSrc">
+              Your browser does not support the audio element.
+          </video>
+          <button class="btn btn-secondary close" @click="showFullscreenVideoSrc=''">X</button>
+        </div>
           <div v-for="(message,i) in messages.slice().reverse()"
-              :class="{'col-12':true, 'sent':message.Outgoing, 'reply':!message.Outgoing}, 'error':message.SentAt==0"
+              :class="{'col-12':true, 'sent':message.Outgoing, 'reply':!message.Outgoing, 'error':message.SentAt==0}"
               v-bind:key="i"
                >
             <div class="row w-100">
@@ -21,7 +31,7 @@
                   </div>
                   <div v-if="message.Attachment!=''" class="attachment">
                     <div v-if="message.CType==2" class="attachment-img">
-                      <img :src="'http://localhost:9080/attachments?file='+message.Attachment" />
+                      <img :src="'http://localhost:9080/attachments?file='+message.Attachment" @click="showFullscreenImg(message.Attachment)"/>
                     </div>
                     <div v-else-if="message.CType==3" class="attachment-audio">
                       <audio controls>
@@ -32,8 +42,8 @@
                     <div v-else-if="message.CType==0" class="attachment-file">
                       <a :href="'http://localhost:9080/attachments?file='+message.Attachment">File</a>
                     </div>
-                    <div v-else-if="message.CType==5" class="attachment-video">
-                      <video controls>
+                    <div v-else-if="message.CType==5" class="attachment-video" @click="showFullscreenVideo(message.Attachment)">
+                      <video @click="showFullscreenVideo(message.Attachment)">
                         <source :src="'http://localhost:9080/attachments?file='+message.Attachment">
                           Your browser does not support the audio element.
                       </video>
@@ -69,7 +79,7 @@
         <div class="row">
           <div class="messageInput-container col-10">
             <textarea id="messageInput" type="textarea" v-model="messageInput"
-            @keyup="calcHeightsForInput"
+            @keyup="keyupHandler"
             @click="calcHeightsForInput"
             @focus="calcHeightsForInput"
             @focusout="resetHeights"
@@ -109,7 +119,10 @@ export default {
       messageInput: "",
       scrolled:false,
       showAttachmentsBar:false,
-      names:{}
+      showFullscreenImgSrc:"",
+      showFullscreenVideoSrc:"",
+      names:{},
+
     }
   },
   methods: {
@@ -168,6 +181,12 @@ export default {
       } else {
         alert("Failed to load file");
       }
+    },
+    showFullscreenImg(img){
+      this.showFullscreenImgSrc = img;
+    },
+    showFullscreenVideo(video){
+      this.showFullscreenVideoSrc = video;
     },
     sendMessage(){
       if(this.messageInput!=""){
@@ -241,6 +260,7 @@ export default {
     this.$store.dispatch("openChat", this.getId());
     this.$store.dispatch("getMessageList", this.getId());
     window.addEventListener('resize', this.resetHeights);
+    document.getElementById('messageInput').focus()
     setTimeout(this.scrollDown
     , 300)
       document.addEventListener("scroll", () => {
@@ -426,4 +446,30 @@ textarea:focus, input:focus{
   justify-content: center;
   align-items: center;
 }
+.fullscreenImage {
+    position: fixed;
+    z-index: 100;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.fullscreenImage img,
+.fullscreenImage video {
+  max-height: 100%;
+  max-width: 100%;
+  height:unset;
+}
+.fullscreenImage .close {
+  position:absolute;
+  right:10px;
+  top:10px;
+  padding:10px;
+  background-color:#FFFFFF;
+}
+
 </style>
