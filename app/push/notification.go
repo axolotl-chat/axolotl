@@ -71,8 +71,8 @@ func NewLegacyHandler(conn *dbus.Connection, application string) *NotificationHa
 	}
 }
 func (n *NotificationHandler) Clear(tag string) error {
-	mu.Lock()
-	defer mu.Unlock()
+	// mu.Lock()
+	// defer mu.Unlock()
 	_, err := n.dbusObject.Call(dbusInterface, dbusClearMethod, "textsecure.nanuc_textsecure", tag)
 	return err
 }
@@ -85,8 +85,8 @@ func (n *NotificationHandler) Send(m *PushMessage) error {
 		} else {
 			return err
 		}
-		mu.Lock()
-		defer mu.Unlock()
+		// mu.Lock()
+		// defer mu.Unlock()
 		// clearTag := "[" + m.Notification.Card.Summary + "]"
 		_, err := n.dbusObject.Call(dbusInterface, dbusClearMethod, "textsecure.nanuc_textsecure", m.Notification.Tag)
 		_, err = n.dbusObject.Call(dbusInterface, dbusPostMethod, "textsecure.nanuc_textsecure", pushMessage)

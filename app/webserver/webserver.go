@@ -53,27 +53,24 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 	log.Println("[axolotl] Client Connected")
-	// err = ws.WriteMessage(1, []byte("Hi Client!"))
-	if err != nil {
-		// log.Println(err)
-	}
+
 	// listen indefinitely for new messages coming
 	// through on our WebSocket connection
 	SetGui()
-	if registered {
-		UpdateChatList()
-		UpdateContactList()
-	}
+	// if registered {
+	UpdateChatList()
+	UpdateContactList()
+	// }
 	wsReader(ws)
 }
 
 func syncClients() {
 	for {
 		<-time.After(10 * time.Second)
-		if registered {
-			UpdateChatList()
-			UpdateContactList()
-		}
+		// if registered {
+		UpdateChatList()
+		UpdateContactList()
+		// }
 	}
 }
 func wsReader(conn *websocket.Conn) {

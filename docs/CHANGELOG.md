@@ -4,7 +4,7 @@
 * avoid concurrent ws calls
 * mark unsend Messages
 * Fix notifications
-
+* Images/videos have now a fullscreen mode
 
 0.7.5 (Dez 21 2019) Axolotl-Beta: second beta version
 --------------------

@@ -26,8 +26,8 @@ func sendChatList(client *websocket.Conn) {
 		fmt.Println(err)
 		return
 	}
-	mu.Lock()
-	defer mu.Unlock()
+	// mu.Lock()
+	// defer mu.Unlock()
 	err = client.WriteMessage(websocket.TextMessage, *message)
 	if err != nil {
 		log.Println("[textsecure] send error chat list ", err)
@@ -58,8 +58,8 @@ func sendCurrentChat(client *websocket.Conn, s *store.Session) {
 		fmt.Println(err)
 		return
 	}
-	mu.Lock()
-	defer mu.Unlock()
+	// mu.Lock()
+	// defer mu.Unlock()
 	err = client.WriteMessage(websocket.TextMessage, *message)
 	if err != nil {
 		log.Println("[textsecure] send error current chat ", err)
@@ -88,8 +88,8 @@ func sendContactList(client *websocket.Conn) {
 		fmt.Println(err)
 		return
 	}
-	mu.Lock()
-	defer mu.Unlock()
+	// mu.Lock()
+	// defer mu.Unlock()
 	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
 		log.Println("[textsecure] send error contact list ", err)
 		return
@@ -107,8 +107,8 @@ func sendDeviceList(client *websocket.Conn) {
 		fmt.Println(err)
 		return
 	}
-	mu.Lock()
-	defer mu.Unlock()
+	// mu.Lock()
+	// defer mu.Unlock()
 	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
 		log.Println("[textsecure] send error device list", err)
 		return
@@ -180,8 +180,8 @@ func sendMessageList(client *websocket.Conn, id string) {
 		fmt.Println(err)
 		return
 	}
-	mu.Lock()
-	defer mu.Unlock()
+	// mu.Lock()
+	// defer mu.Unlock()
 	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
 		log.Println("[textsecure] send error message list", err)
 		return
@@ -202,8 +202,8 @@ func sendMoreMessageList(client *websocket.Conn, id string, lastId string) {
 		fmt.Println(err)
 		return
 	}
-	mu.Lock()
-	defer mu.Unlock()
+	// mu.Lock()
+	// defer mu.Unlock()
 	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
 		log.Println("[textsecure] send error more message list", err)
 		return
@@ -222,8 +222,8 @@ func sendIdentityInfo(client *websocket.Conn, myId []byte, theirId []byte) {
 		fmt.Println(err)
 		return
 	}
-	mu.Lock()
-	defer mu.Unlock()
+	// mu.Lock()
+	// defer mu.Unlock()
 	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
 		log.Println("[textsecure] send error identity info", err)
 		return
@@ -270,8 +270,8 @@ func SetGui() {
 			log.Errorln("[axolotl] set gui", err)
 			return
 		}
-		mu.Lock()
-		defer mu.Unlock()
+		// mu.Lock()
+		// defer mu.Unlock()
 		if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
 			log.Println("[textsecure] send error set gui", err)
 			return
@@ -293,8 +293,8 @@ func sendConfig(client *websocket.Conn) {
 		fmt.Println(err)
 		return
 	}
-	mu.Lock()
-	defer mu.Unlock()
+	// mu.Lock()
+	// defer mu.Unlock()
 	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
 		log.Println("[textsecure] send config", err)
 		return
