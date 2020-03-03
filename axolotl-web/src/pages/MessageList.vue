@@ -308,7 +308,7 @@ export default {
     window.addEventListener('resize', this.resetHeights);
     document.getElementById('messageInput').focus()
     setTimeout(this.scrollDown
-    , 300)
+    , 600)
       document.addEventListener("scroll", () => {
         var scrolled = document.scrollingElement.scrollTop;
         if(scrolled==0){
@@ -421,13 +421,13 @@ export default {
 }
 .meta {
     font-size: 13px;
-    padding: 5px 20px;
+    padding: 0px 20px;
 }
 
 .message{
-  padding:10px;
+  padding:5px;
   border-radius:10px;
-  max-width:70%;
+  max-width:85%;
   background-color:#dfdfdf;
   text-align:left;
   min-width:100px;
