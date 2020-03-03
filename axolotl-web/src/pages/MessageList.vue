@@ -266,6 +266,7 @@ export default {
       }
     },
     scrollDown(){
+      if(document.getElementById("messageList-container")!=null)
       document.getElementById("messageList-container").scrollTo(0,document.getElementById("messageList-container").scrollHeight);
     },
     resetHeights(){
