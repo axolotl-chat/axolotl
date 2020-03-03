@@ -30,8 +30,35 @@
                     <div v-else>{{getName(message.Source)}}</div>
                   </div>
                   <div v-if="message.Attachment!=''" class="attachment">
-                    <div v-if="message.CType==2" class="attachment-img">
-                      <img :src="'http://localhost:9080/attachments?file='+message.Attachment" @click="showFullscreenImg(message.Attachment)"/>
+                    <div class="gallery" v-if="isAttachmentArray(message.Attachment)">
+                      <div  v-for="m in isAttachmentArray(message.Attachment)"
+                        v-bind:key="m.File">
+                        <div v-if="m.CType==2" class="attachment-img">
+                          <img  :src="'http://localhost:9080/attachments?file='+m.File" @click="showFullscreenImg(m.File)"/>
+                        </div>
+                        <div v-else-if="m.CType==3" class="attachment-audio">
+                          <audio controls>
+                            <source :src="'http://localhost:9080/attachments?file='+m.File" type="audio/mpeg">
+                              Your browser does not support the audio element.
+                          </audio>
+                        </div>
+                        <div v-else-if="m.CType==0" class="attachment-file">
+                          <a :href="'http://localhost:9080/attachments?file='+m.File">File</a>
+                        </div>
+                        <div v-else-if="m.CType==5" class="attachment-video" @click="showFullscreenVideo(m.File)">
+                          <video @click="showFullscreenVideo(m.File)">
+                            <source :src="'http://localhost:9080/attachments?file='+m.File">
+                              Your browser does not support the audio element.
+                          </video>
+                        </div>
+                        <div v-else class="attachment">
+                          Not supported mime type: {{m.CType}}
+                        </div>
+                      </div>
+                    </div>
+                    <!-- this is legacy code -->
+                    <div v-else-if="message.CType==2" class="attachment-img">
+                      <img  :src="'http://localhost:9080/attachments?file='+message.Attachment" @click="showFullscreenImg(message.Attachment)"/>
                     </div>
                     <div v-else-if="message.CType==3" class="attachment-audio">
                       <audio controls>
@@ -183,6 +210,17 @@ export default {
       } else {
         alert("Failed to load file");
       }
+    },
+    isAttachmentArray(input){
+      try{
+        console.log()
+        var attachments = JSON.parse(input)
+        return attachments;
+
+      } catch(e){
+        return false;
+      }
+      // JSON.parse(input)
     },
     showFullscreenImg(img){
       this.showFullscreenImgSrc = img;
@@ -488,6 +526,14 @@ textarea:focus, input:focus{
   top:10px;
   padding:10px;
   background-color:#FFFFFF;
+}
+.gallery{
+  display:flex;
+
+}
+.gallery img{
+  padding-right:3px;
+  padding-bottom:3px;
 }
 
 </style>

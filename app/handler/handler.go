@@ -21,13 +21,16 @@ import (
 //messageHandler is used on incoming message
 func MessageHandler(msg *textsecure.Message) {
 	var err error
-	f := ""
-	mt := ""
+	var f []string //should be array
+	mt := ""       //
 	if len(msg.Attachments()) > 0 {
-		mt = msg.Attachments()[0].MimeType
-		f, err = store.SaveAttachment(msg.Attachments()[0])
-		if err != nil {
-			log.Printf("Error saving %s\n", err.Error())
+		for i, a := range msg.Attachments() {
+			mt = msg.Attachments()[i].MimeType
+			file, err := store.SaveAttachment(a)
+			if err != nil {
+				log.Printf("Error saving %s\n", err.Error())
+			}
+			f = append(f, file)
 		}
 	}
 
@@ -155,13 +158,17 @@ func ReceiptHandler(source string, devID uint32, timestamp uint64) {
 func SyncSentHandler(msg *textsecure.Message, timestamp uint64) {
 	var err error
 
-	f := ""
+	var f []string
 	mt := ""
 	if len(msg.Attachments()) > 0 {
-		mt = msg.Attachments()[0].MimeType
-		f, err = store.SaveAttachment(msg.Attachments()[0])
-		if err != nil {
-			log.Printf("Error saving %s\n", err.Error())
+		for i, a := range msg.Attachments() {
+			mt = msg.Attachments()[i].MimeType
+			file, err := store.SaveAttachment(a)
+			if err != nil {
+				log.Printf("Error saving %s\n", err.Error())
+			}
+			f = append(f, file)
+
 		}
 	}
 

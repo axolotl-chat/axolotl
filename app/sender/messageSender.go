@@ -1,6 +1,7 @@
 package sender
 
 import (
+	"encoding/json"
 	"io"
 	"os"
 	"strings"
@@ -8,9 +9,9 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/signal-golang/textsecure"
 	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/nanu-c/axolotl/app/store"
+	"github.com/signal-golang/textsecure"
 )
 
 func SendMessageHelper(to, message, file string) (error, *store.Message) {
@@ -24,7 +25,8 @@ func SendMessageHelper(to, message, file string) (error, *store.Message) {
 		}
 	}
 	session := store.SessionsModel.Get(to)
-	m := session.Add(message, "", file, "", true, store.ActiveSessionID)
+	attachments := []string{file}
+	m := session.Add(message, "", attachments, "", true, store.ActiveSessionID)
 	m.Source = to
 	_, savedM := store.SaveMessage(m)
 	go SendMessage(session, m)
@@ -34,15 +36,16 @@ func SendMessage(s *store.Session, m *store.Message) {
 	var att io.Reader
 	var err error
 
-	if m.Attachment != "" {
-		att, err = os.Open(m.Attachment)
+	if len(m.Attachment) > 0 {
+		files := []string{}
+		json.Unmarshal([]byte(m.Attachment), &files)
+		att, err = os.Open(files[0])
 		if err != nil {
 			return
 		} else {
 			log.Printf("[axolotl] SendMessage FileOpend")
 		}
 	}
-
 	ts := SendMessageLoop(s.Tel, m.Message, s.IsGroup, att, m.Flags)
 	log.Debugln("[axolotl] SendMessage", s.Tel)
 	m.SentAt = ts

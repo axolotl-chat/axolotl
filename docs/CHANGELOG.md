@@ -1,9 +1,8 @@
 0.7.6 (Feb 27 2020) Stability
 ------------------------------------
 * Autofocus in lots of places
-* avoid concurrent ws calls
-* mark unsend Messages
-* Fix notifications
+* mark unsend Messages as error (still at the beginning of the chat after reentering)
+* Notifications are delted after entering the coresponding chat
 * Images/videos have now a fullscreen mode
 
 0.7.5 (Dez 21 2019) Axolotl-Beta: second beta version

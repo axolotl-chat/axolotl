@@ -7,23 +7,25 @@ import (
 )
 
 type Message struct {
-	ID         int64
-	SID        int64
-	ChatID     string
-	Source     string
-	Message    string
-	Outgoing   bool
-	SentAt     uint64
-	ReceivedAt uint64
-	HTime      string
-	CType      int
-	Attachment string
-	IsSent     bool
-	IsRead     bool
-	Flags      int
+	ID           int64
+	SID          int64
+	ChatID       string
+	Source       string
+	Message      string
+	Outgoing     bool
+	SentAt       uint64
+	ReceivedAt   uint64
+	HTime        string
+	CType        int
+	Attachment   string
+	IsSent       bool
+	IsRead       bool
+	Flags        int
+	SendingError bool
 }
 
 func SaveMessage(m *Message) (error, *Message) {
+
 	res, err := DS.Dbx.NamedExec(messagesInsert, m)
 	if err != nil {
 		return err, nil
