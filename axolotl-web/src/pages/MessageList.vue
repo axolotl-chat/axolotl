@@ -42,7 +42,7 @@
                               Your browser does not support the audio element.
                           </audio>
                         </div>
-                        <div v-else-if="m.CType==0" class="attachment-file">
+                        <div v-else-if="m.File!='' &&m.CType==0" class="attachment-file">
                           <a :href="'http://localhost:9080/attachments?file='+m.File">File</a>
                         </div>
                         <div v-else-if="m.CType==5" class="attachment-video" @click="showFullscreenVideo(m.File)">
@@ -51,7 +51,7 @@
                               Your browser does not support the audio element.
                           </video>
                         </div>
-                        <div v-else class="attachment">
+                        <div v-else-if="m.File!=''" class="attachment">
                           Not supported mime type: {{m.CType}}
                         </div>
                       </div>

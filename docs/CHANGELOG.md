@@ -1,3 +1,9 @@
+0.7.7 (Mar 03 2020) Stability
+------------------------------------
+* Support for multi attachments
+* Message Input box resizes as it should
+* catch websocket panics leads to more stability
+
 0.7.6 (Feb 27 2020) Stability
 ------------------------------------
 * Autofocus in lots of places
