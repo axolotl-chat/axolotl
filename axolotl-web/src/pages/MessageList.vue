@@ -213,7 +213,6 @@ export default {
     },
     isAttachmentArray(input){
       try{
-        console.log()
         var attachments = JSON.parse(input)
         return attachments;
 
