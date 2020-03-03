@@ -77,7 +77,16 @@ func refreshContacts(client *websocket.Conn, path string) {
 	}
 	// go sendContactList(client)
 }
+func recoverFromWsPanic(client *websocket.Conn) {
+	client.Close()
+
+}
 func sendContactList(client *websocket.Conn) {
+	defer func() {
+		if err := recover(); err != nil {
+			log.Println("panic occurred:", err)
+		}
+	}()
 	var err error
 	contactListEnvelope := &ContactListEnvelope{
 		ContactList: store.ContactsModel.Contacts,

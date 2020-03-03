@@ -74,7 +74,14 @@ func syncClients() {
 	}
 }
 func wsReader(conn *websocket.Conn) {
+
 	for {
+		defer func() {
+			if err := recover(); err != nil {
+				log.Println("panic occurred:", err)
+				conn.Close()
+			}
+		}()
 		// read in a message
 		_, p, err := conn.ReadMessage()
 		if err != nil {
@@ -331,16 +338,21 @@ func wsReader(conn *websocket.Conn) {
 }
 
 func webserver() {
-	path := "./axolotl-web/dist"
-	if len(os.Getenv("SNAP")) > 0 {
-		path = os.Getenv("SNAP") + "/bin/axolotl-web/"
+	for {
+		defer log.Errorln("[axolotl] webserver error")
+
+		path := "./axolotl-web/dist"
+		if len(os.Getenv("SNAP")) > 0 {
+			path = os.Getenv("SNAP") + "/bin/axolotl-web/"
+		}
+		log.Debugln("[axoltol] axoltol-web path", path)
+		http.Handle("/", http.FileServer(http.Dir(path)))
+		http.HandleFunc("/attachments", attachmentsHandler)
+		http.HandleFunc("/avatars", avatarsHandler)
+		http.HandleFunc("/ws", wsEndpoint)
+		http.ListenAndServe(":9080", nil)
 	}
-	log.Debugln("[axoltol] axoltol-web path", path)
-	http.Handle("/", http.FileServer(http.Dir(path)))
-	http.HandleFunc("/attachments", attachmentsHandler)
-	http.HandleFunc("/avatars", avatarsHandler)
-	http.HandleFunc("/ws", wsEndpoint)
-	http.ListenAndServe(":9080", nil)
+
 }
 func print(stdout io.ReadCloser) {
 	scanner := bufio.NewScanner(stdout)
