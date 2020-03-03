@@ -79,9 +79,9 @@
         <div class="row">
           <div class="messageInput-container col-10">
             <textarea id="messageInput" type="textarea" v-model="messageInput"
-            @keyup="keyupHandler"
-            @click="calcHeightsForInput"
-            @focus="calcHeightsForInput"
+            @keyup="keyupHandler($event)"
+            @click="calcHeightsForInput($event)"
+            @focus="calcHeightsForInput($event)"
             @focusout="resetHeights"
             contenteditable="true" v-longclick="paste"/>
           </div>
@@ -122,6 +122,8 @@ export default {
       showFullscreenImgSrc:"",
       showFullscreenVideoSrc:"",
       names:{},
+      lastCHeight:0,
+      lastMHeight:0,
 
     }
   },
@@ -233,10 +235,10 @@ export default {
     },
     resetHeights(){
       document.getElementById("messageInput").style.height="33px";
-      document.getElementById('messageList-container').style.height=window.innerHeight-140+'px';
+      document.getElementById('messageList-container').style.height=window.innerHeight-135+'px';
     },
-    keyupHandler(){
-      this.calcHeightsForInput();
+    keyupHandler(e){
+      this.calcHeightsForInput(e);
 
     },
     calcHeightsForInput(){
@@ -245,10 +247,15 @@ export default {
       if(window.innerHeight-c.clientHeight<200){
         var scroll = el.scrollHeight;
         if(scroll>150)scroll= 150;
-        c.style.height = window.innerHeight-scroll-100+'px';
-        el.style.height=el.scrollHeight+'px';
+        if(Math.abs(this.lastCHeight-c.style.height)>10){
+          c.style.height = window.innerHeight-scroll-100+'px';
+          this.lastCHeight = c.style.height;
+        }
+        if(Math.abs(this.lastMHeight-el.style.height)>10){
+          el.style.height=el.scrollHeight+'px';
+          this.lastMHeight = c.style.height;
+        }
       }
-
       if(el.scrollHeight > el.clientHeight && el.scrollHeight<150){
           el.style.height=el.scrollHeight+5+'px';
           c.style.height = window.innerHeight-el.scrollHeight-100+'px';
@@ -289,6 +296,9 @@ export default {
 
   },
   watch:{
+    messageInput(){
+      this.calcHeightsForInput();
+    },
     contacts(){
       if(this.contacts!=null){
         Object.keys(this.names).forEach((i)=>{
@@ -403,15 +413,19 @@ video,
   background-color:#f7663a;
 }
 .messageInputBox {
-    bottom: 0px;
-    width: 100%;
-    left: 0px;
-    padding: 10px;
-    max-width:100vw;
-    height: 55px;
-    z-index:2;
-    background-color:#FFF;
-    transition: width 0.5s, height 0.5s;
+  bottom: 0px;
+  width: 100vw;
+  left: 0px;
+  padding: 4px;
+  height: -3px;
+  z-index: 2;
+  background-color:
+  #FFF;
+  -webkit-transition: width 0.5s, height 0.5s;
+  transition: width 0.5s, height 0.5s;
+  position: fixed;
+  display: flex;
+  justify-content: center;
 }
 .messageInput-container{
   position: relative;
