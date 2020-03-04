@@ -66,7 +66,8 @@
                           Your browser does not support the audio element.
                       </audio>
                     </div>
-                    <div v-else-if="message.CType==0" class="attachment-file">
+                    <div v-else-if="message.Attachment!='null'&&message.CType==0" class="attachment-file">
+                      {{message.Attachment}}
                       <a :href="'http://localhost:9080/attachments?file='+message.Attachment">File</a>
                     </div>
                     <div v-else-if="message.CType==5" class="attachment-video" @click="showFullscreenVideo(message.Attachment)">
@@ -75,7 +76,8 @@
                           Your browser does not support the audio element.
                       </video>
                     </div>
-                    <div v-else class="attachment">
+
+                    <div v-else-if="message.Attachment!='null'" class="attachment">
                       Not supported mime type: {{message.CType}}
                     </div>
                   </div>
