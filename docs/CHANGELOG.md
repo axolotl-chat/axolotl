@@ -1,3 +1,10 @@
+0.7.7.2 (Mar 05 2020) Hotfix
+------------------------------------
+* Don't display always "file" on pure text messages
+* Fix sending messages
+* fix sending attachments
+* fix sendind attachments from snap
+
 0.7.7.1 (Mar 03 2020) Hotfix
 ------------------------------------
 * Don't display always "file" on pure text messages
