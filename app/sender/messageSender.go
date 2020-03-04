@@ -2,6 +2,7 @@ package sender
 
 import (
 	"encoding/json"
+	"errors"
 	"io"
 	"os"
 	"strings"
@@ -15,33 +16,42 @@ import (
 )
 
 func SendMessageHelper(to, message, file string) (error, *store.Message) {
-	var err error
-	attachments := []string{}
-	if file != "" {
-		file, err = store.CopyAttachment(file)
-		log.Debugln("[axolotl] attachment: " + file)
-		if err != nil {
-			log.Errorln("Error Attachment:" + err.Error())
-			return err, nil
-		}
-		attachments = []string{file}
+	if to != "" {
+		var err error
+		attachments := []string{}
+		if file != "" {
+			file, err = store.CopyAttachment(file)
+			log.Debugln("[axolotl] attachment: " + file)
+			if err != nil {
+				log.Errorln("Error Attachment:" + err.Error())
+				return err, nil
+			}
+			attachments = []string{file}
 
+		}
+		session := store.SessionsModel.Get(to)
+
+		m := session.Add(message, "", attachments, "", true, store.ActiveSessionID)
+		m.Source = to
+		_, savedM := store.SaveMessage(m)
+
+		go SendMessage(session, m)
+		return nil, savedM
+	} else {
+		log.Errorln("[axolotl] send to is empty")
+		return errors.New("send to is empty"), nil
 	}
-	session := store.SessionsModel.Get(to)
-	m := session.Add(message, "", attachments, "", true, store.ActiveSessionID)
-	m.Source = to
-	_, savedM := store.SaveMessage(m)
-	go SendMessage(session, m)
-	return nil, savedM
 }
 func SendMessage(s *store.Session, m *store.Message) {
 	var att io.Reader
 	var err error
 	if len(m.Attachment) > 0 && m.Attachment != "null" {
-		files := []string{}
+
+		files := []store.Attachment{}
 		json.Unmarshal([]byte(m.Attachment), &files)
-		att, err = os.Open(files[0])
+		att, err = os.Open(files[0].File)
 		if err != nil {
+			log.Errorln("[axolotl] SendMessage FileOpend")
 			return
 		} else {
 			log.Printf("[axolotl] SendMessage FileOpend")
