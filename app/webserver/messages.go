@@ -136,6 +136,12 @@ type SendAttachmentMessage struct {
 	To      string `json:"to"`
 	Message string `json:"message"`
 }
+type UploadAttachmentMessage struct {
+	Type       string `json:"request"`
+	To         string `json:"to"`
+	Attachment string `json:"attachment"`
+	Message    string `json:"message"`
+}
 type ToggleNotificationsMessage struct {
 	Type string `json:"request"`
 	Chat string `json:"chat"`

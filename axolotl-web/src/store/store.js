@@ -422,7 +422,8 @@ export default new Vuex.Store({
       if(this.state.socket.isConnected){
         var message = {
           "request":"uploadAttachment",
-          "attachment": attachment
+          "attachment": attachment.attachment,
+          "to": attachment.to,
         }
         Vue.prototype.$socket.send(JSON.stringify(message))
       }

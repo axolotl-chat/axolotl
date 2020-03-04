@@ -304,6 +304,16 @@ func wsReader(conn *websocket.Conn) {
 			if err != nil {
 				ShowError(err.Error())
 			}
+		case "uploadAttachment":
+			uploadAttachmentMessage := UploadAttachmentMessage{}
+			json.Unmarshal([]byte(p), &uploadAttachmentMessage)
+			uploadSendAttachment(uploadAttachmentMessage)
+
+			// store.DeleteSession(sendAttachmentMessage.ID)
+			// err = store.RefreshContacts()
+			if err != nil {
+				ShowError(err.Error())
+			}
 		case "toggleNotifcations":
 			toggleNotificationsMessage := ToggleNotificationsMessage{}
 			json.Unmarshal([]byte(p), &toggleNotificationsMessage)

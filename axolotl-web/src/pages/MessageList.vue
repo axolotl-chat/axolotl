@@ -204,9 +204,9 @@ export default {
         var that = this;
         r.onload = function(e) {
             var attachment = e.target.result;
-            that.$store.dispatch("uploadAttachment", attachment);
+            that.$store.dispatch("uploadAttachment", {attachment:attachment, to: that.chatId, message:this.messageInput});
         }
-        r.readAsText(f)
+        r.readAsDataURL(f)
       } else {
         alert("Failed to load file");
       }
