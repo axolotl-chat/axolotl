@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-07 09:22+0200\n"
-"PO-Revision-Date: 2016-02-29 11:36+0200\n"
+"POT-Creation-Date: 2019-09-12 21:00+0200\n"
+"PO-Revision-Date: 2020-03-07 21:04+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: fr\n"
@@ -19,9 +19,8 @@ msgstr "Signal"
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/components/SignalMessageDelegate.qml:183
 #: ../../../qml/phoneui/components/SignalMessageDelegate.qml:183
-#, fuzzy
 msgid "Forwarded from "
-msgstr "Transféré à partir de"
+msgstr "Transféré à partir de "
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/components/AttachPanel.qml:87
 #: ../../../qml/phoneui/components/AttachPanel.qml:87
@@ -110,7 +109,7 @@ msgstr "Fermer"
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/PreviewPage.qml:33
 #: ../../../qml/phoneui/ui/PreviewPage.qml:33
 msgid "From: "
-msgstr "De :"
+msgstr "De : "
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/PreviewPage.qml:47
 #: ../../../qml/phoneui/ui/PreviewPage.qml:47
@@ -140,7 +139,6 @@ msgstr "Ancien mot de passe"
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:71
 #: ../../../qml/phoneui/ui/SetPasswordPage.qml:71
-#, fuzzy
 msgid "New passphrase"
 msgstr "Nouveau mot de passe"
 
@@ -177,11 +175,10 @@ msgstr "Ancien mot de passe incorrect !"
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:148
 #: ../../../qml/phoneui/ui/SetPasswordPage.qml:148
 msgid "Passphrases don't match!"
-msgstr "Les nouveaux mots de passe ne sont pas identiques"
+msgstr "Les nouveaux mots de passe ne sont pas identiques !"
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:153
 #: ../../../qml/phoneui/ui/SetPasswordPage.qml:153
-#, fuzzy
 msgid "New passphrase too short(6)!"
 msgstr "Le nouveau mot de passe est trop court !"
 
@@ -223,11 +220,10 @@ msgstr ""
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:91
 #: ../../../qml/phoneui/ui/SettingsPage.qml:91
 msgid "Enter key sends"
-msgstr "Envoi par la touche Entrée"
+msgstr "Envois par la touche Entrée"
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:106
 #: ../../../qml/phoneui/ui/SettingsPage.qml:106
-#, fuzzy
 msgid "Activate Debuglog"
 msgstr "Activer le journal des anomalies"
 
@@ -249,7 +245,7 @@ msgstr "VOTRE CODE PAYS ET VOTRE NUMÉRO DE TÉLÉPHONE"
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SigninPage.qml:146
 #: ../../../qml/phoneui/ui/SigninPage.qml:146
 msgid "Verify your phone number to connect with Signal."
-msgstr "Vérifier votre numéro de téléphone pour vous connecter avec Signal"
+msgstr "Vérifier votre numéro de téléphone pour vous connecter avec Signal."
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SigninPage.qml:147
 #: ../../../qml/phoneui/ui/SigninPage.qml:147
@@ -289,19 +285,16 @@ msgstr "Ajouter un appareil"
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/settings/LinkedDevicesPage.qml:28
 #: ../../../qml/phoneui/ui/settings/LinkedDevicesPage.qml:28
-#, fuzzy
 msgid "Refresh devices"
 msgstr "Actualiser les appareils"
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/settings/LinkedDevicesPage.qml:94
 #: ../../../qml/phoneui/ui/settings/LinkedDevicesPage.qml:94
-#, fuzzy
 msgid "Delete selected Device?"
 msgstr "Supprimer l'appareil sélectionné ?"
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/settings/LinkedDevicesPage.qml:95
 #: ../../../qml/phoneui/ui/settings/LinkedDevicesPage.qml:95
-#, fuzzy
 msgid "This will permanently delete the selected Device."
 msgstr "Cela supprimera définitivement l'appareil sélectionné."
 
@@ -317,7 +310,6 @@ msgstr "Mot de passe"
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/PasswordPage.qml:101
 #: ../../../qml/phoneui/ui/PasswordPage.qml:101
-#, fuzzy
 msgid "This will permanently delete all messages!"
 msgstr "Cela supprimera définitivement tous les messages !"
 
@@ -333,15 +325,13 @@ msgstr "Actualiser"
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:52
 #: ../../../qml/phoneui/ui/ContactsPage.qml:52
-#, fuzzy
 msgid "Add contact"
-msgstr "Aucun contact"
+msgstr "Ajouter un contact"
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:56
 #: ../../../qml/phoneui/ui/ContactsPage.qml:56
-#, fuzzy
 msgid "Add Contact"
-msgstr "Aucun contact"
+msgstr "Ajouter un contact"
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:80
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:112
@@ -352,13 +342,11 @@ msgstr "Mettre à jour le groupe"
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:82
 #: ../../../qml/phoneui/ui/ContactsPage.qml:82
-#, fuzzy
 msgid "Contacts"
 msgstr "Contacts"
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:135
 #: ../../../qml/phoneui/ui/ContactsPage.qml:135
-#, fuzzy
 msgid "No contacts"
 msgstr "Aucun contact"
 
@@ -369,7 +357,7 @@ msgstr "Nom du groupe"
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:263
 #: ../../../qml/phoneui/ui/ContactsPage.qml:263
-#, fuzzy, qt-format
+#, qt-format
 msgid "%1 members"
 msgstr "%1 membres"
 
@@ -453,24 +441,22 @@ msgstr "Vérifier l’identité"
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:72
 #: ../../../qml/phoneui/ui/DialogPage.qml:72
 msgid "Mute"
-msgstr ""
+msgstr "Mettre en silencieux"
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:72
 #: ../../../qml/phoneui/ui/DialogPage.qml:72
 msgid "Unmute"
-msgstr ""
+msgstr "Enlever le silencieux"
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:77
 #: ../../../qml/phoneui/ui/DialogPage.qml:77
-#, fuzzy
 msgid "Mute notifications?"
-msgstr "Notifications activées"
+msgstr "Désactiver les notifications ?"
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:77
 #: ../../../qml/phoneui/ui/DialogPage.qml:77
-#, fuzzy
 msgid "Unmute notifications?"
-msgstr "Notifications activées"
+msgstr "Activer les notification ?"
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:87
 #: ../../../qml/phoneui/ui/DialogPage.qml:87
@@ -551,16 +537,13 @@ msgstr "Supprimer"
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:475
 #: ../../../qml/phoneui/ui/DialogPage.qml:475
-#, fuzzy
 msgid "Delete selected message?"
-msgstr "Supprimer le message selectionné ?"
+msgstr "Supprimer le message sélectionné ?"
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:476
 #: ../../../qml/phoneui/ui/DialogPage.qml:476
-#, fuzzy
 msgid "This will permanently delete the selected message."
-msgstr ""
-"Cela supprimera définitivement tous les messages dans cette conversation."
+msgstr "Cela supprimera définitivement le message sélectionné."
 
 #: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:621
 #: ../../../qml/phoneui/ui/DialogPage.qml:621
@@ -577,13 +560,12 @@ msgstr "Membres du groupe"
 msgid ""
 "<h3>Thanks for trying out Signal!</h3><br><br>             File bugs and "
 "feature requests on github:<br>            <a href='https://github.com/nanu-"
-"c/axolotl/issues'>https://github.com/nanu-c/axolotl/issues</"
-"a><br>"
+"c/axolotl/issues'>https://github.com/nanu-c/axolotl/issues</a><br>"
 msgstr ""
 "<h3>Merci d'essayer Signal !</h3><br><br>             Signalez les problèmes "
 "et les demandes de fonctionnalités sur GitHub :<br>            <a "
-"href='https://github.com/nanu-c/axolotl/issues'>https://github.com/"
-"nanu-c/axolotl/issues</a><br>"
+"href='https://github.com/nanu-c/axolotl/issues'>https://github.com/nanu-c/"
+"axolotl/issues</a><br>"
 
 #, fuzzy
 #~ msgid "Forward message to %1?"
