@@ -327,7 +327,7 @@ func wsReader(conn *websocket.Conn) {
 			json.Unmarshal([]byte(p), &resetEncryptionMessage)
 			log.Debugln("[axolotl] reset encryption for: ", resetEncryptionMessage.Chat)
 			s := store.SessionsModel.Get(resetEncryptionMessage.Chat)
-			m := s.Add("Secure session reset.", "", []string{}, "", true, store.ActiveSessionID)
+			m := s.Add("Secure session reset.", "", []store.Attachment{}, "", true, store.ActiveSessionID)
 			m.Flags = helpers.MsgFlagResetSession
 			store.SaveMessage(m)
 			go sender.SendMessage(s, m)

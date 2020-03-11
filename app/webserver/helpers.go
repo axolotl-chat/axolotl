@@ -144,7 +144,7 @@ func createGroup(newGroupData CreateGroupMessage) *store.Session {
 	}
 	store.SaveGroup(store.Groups[group.Hexid])
 	session := store.SessionsModel.Get(group.Hexid)
-	msg := session.Add(store.GroupUpdateMsg(append(newGroupData.Members, config.Config.Tel), newGroupData.Name), "", []string{}, "", true, store.ActiveSessionID)
+	msg := session.Add(store.GroupUpdateMsg(append(newGroupData.Members, config.Config.Tel), newGroupData.Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
 	msg.Flags = helpers.MsgFlagGroupNew
 	//qml.Changed(msg, &msg.Flags)
 	store.SaveMessage(msg)
@@ -165,7 +165,7 @@ func updateGroup(updateGroupData UpdateGroupMessage) *store.Session {
 	}
 	store.SaveGroup(store.Groups[group.Hexid])
 	session := store.SessionsModel.Get(group.Hexid)
-	msg := session.Add(store.GroupUpdateMsg(updateGroupData.Members, updateGroupData.Name), "", []string{}, "", true, store.ActiveSessionID)
+	msg := session.Add(store.GroupUpdateMsg(updateGroupData.Members, updateGroupData.Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
 	msg.Flags = helpers.MsgFlagGroupNew
 	//qml.Changed(msg, &msg.Flags)
 	store.SaveMessage(msg)

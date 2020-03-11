@@ -18,7 +18,7 @@ import (
 func SendMessageHelper(to, message, file string) (error, *store.Message) {
 	if to != "" {
 		var err error
-		attachments := []string{}
+		attachments := []store.Attachment{}
 		if file != "" {
 			file, err = store.CopyAttachment(file)
 			log.Debugln("[axolotl] attachment: " + file)
@@ -26,7 +26,8 @@ func SendMessageHelper(to, message, file string) (error, *store.Message) {
 				log.Errorln("Error Attachment:" + err.Error())
 				return err, nil
 			}
-			attachments = []string{file}
+			strParts := strings.Split(file, "/")
+			attachments = []store.Attachment{store.Attachment{File: file, FileName: strParts[len(strParts)-1]}}
 
 		}
 		session := store.SessionsModel.Get(to)

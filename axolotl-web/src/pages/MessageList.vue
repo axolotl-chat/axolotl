@@ -43,7 +43,7 @@
                           </audio>
                         </div>
                         <div v-else-if="m.File!='' &&m.CType==0" class="attachment-file">
-                          <a :href="'http://localhost:9080/attachments?file='+m.File">File</a>
+                          <a @click="shareAttachment(m.File,$event)" :href="'http://localhost:9080/attachments?file='+m.File">{{m.FileName?m.FileName:m.File}}</a>
                         </div>
                         <div v-else-if="m.CType==5" class="attachment-video" @click="showFullscreenVideo(m.File)">
                           <video @click="showFullscreenVideo(m.File)">
@@ -194,7 +194,17 @@ export default {
       }
       else{
         document.getElementById("attachment").click()
-
+      }
+    },
+    shareAttachment(file, e){
+      if(typeof this.config.Gui!="undefined"&&this.config.Gui=="ut"){
+        e.preventDefault();
+        alert("[oD]"+file)
+      // this.showAttachmentsBar=true
+      }
+      else{
+        // alert(file)
+          // console.log(file)
       }
     },
     sendDesktopAttachment(evt){

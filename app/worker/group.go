@@ -39,7 +39,7 @@ func (Api *TextsecureAPI) NewGroup(name string, members string) error {
 	}
 	store.SaveGroup(store.Groups[group.Hexid])
 	session := store.SessionsModel.Get(group.Hexid)
-	msg := session.Add(GroupUpdateMsg(append(m, config.Config.Tel), name), "", []string{}, "", true, store.ActiveSessionID)
+	msg := session.Add(GroupUpdateMsg(append(m, config.Config.Tel), name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
 	msg.Flags = helpers.MsgFlagGroupNew
 	//qml.Changed(msg, &msg.Flags)
 	store.SaveMessage(msg)
@@ -64,7 +64,7 @@ func (Api *TextsecureAPI) UpdateGroup(hexid, name string, members string) error 
 	}
 	store.UpdateGroup(store.Groups[hexid])
 	session := store.SessionsModel.Get(hexid)
-	msg := session.Add(ui.GroupUpdateMsg(dm, name), "", []string{}, "", true, store.ActiveSessionID)
+	msg := session.Add(ui.GroupUpdateMsg(dm, name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
 	msg.Flags = helpers.MsgFlagGroupUpdate
 	//qml.Changed(msg, &msg.Flags)
 	store.SaveMessage(msg)
@@ -77,7 +77,7 @@ func (Api *TextsecureAPI) UpdateGroup(hexid, name string, members string) error 
 
 func (Api *TextsecureAPI) LeaveGroup(hexid string) error {
 	session := store.SessionsModel.Get(hexid)
-	msg := session.Add("You have left the group.", "", []string{}, "", true, store.ActiveSessionID)
+	msg := session.Add("You have left the group.", "", []store.Attachment{}, "", true, store.ActiveSessionID)
 	msg.Flags = helpers.MsgFlagGroupLeave
 	//qml.Changed(msg, &msg.Flags)
 	store.SaveMessage(msg)

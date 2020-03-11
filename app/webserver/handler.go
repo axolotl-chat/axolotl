@@ -3,13 +3,13 @@ package webserver
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"math/rand"
 	"os"
 	"strings"
 	"sync"
 	"time"
 	"unsafe"
-	"io/ioutil"
 
 	log "github.com/sirupsen/logrus"
 	"github.com/vincent-petithory/dataurl"
@@ -156,7 +156,6 @@ func sendAttachment(attachment SendAttachmentMessage) error {
 	// log.Infoln("[axolotl] send attachment ", attachment.Path)
 	// Do not allow sending attachments larger than 100M for now
 	var maxAttachmentSize int64 = 100 * 1024 * 1024
-	// log.Printf("SendAttachmentApi")
 	file := strings.TrimPrefix(attachment.Path, "file://")
 	fi, err := os.Stat(file)
 	if err != nil {

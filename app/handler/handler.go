@@ -21,8 +21,8 @@ import (
 //messageHandler is used on incoming message
 func MessageHandler(msg *textsecure.Message) {
 	var err error
-	var f []string //should be array
-	mt := ""       //
+	var f []store.Attachment //should be array
+	mt := ""                 //
 	if len(msg.Attachments()) > 0 {
 		for i, a := range msg.Attachments() {
 			mt = msg.Attachments()[i].MimeType
@@ -158,7 +158,7 @@ func ReceiptHandler(source string, devID uint32, timestamp uint64) {
 func SyncSentHandler(msg *textsecure.Message, timestamp uint64) {
 	var err error
 
-	var f []string
+	var f []store.Attachment
 	mt := ""
 	if len(msg.Attachments()) > 0 {
 		for i, a := range msg.Attachments() {

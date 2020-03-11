@@ -11,7 +11,7 @@ import (
 
 func (Api *TextsecureAPI) EndSession(tel string) error {
 	session := store.SessionsModel.Get(tel)
-	m := session.Add("Secure session reset.", "", []string{}, "", true, store.ActiveSessionID)
+	m := session.Add("Secure session reset.", "", []store.Attachment{}, "", true, store.ActiveSessionID)
 	m.Flags = helpers.MsgFlagResetSession
 	store.SaveMessage(m)
 	go sender.SendMessage(session, m)

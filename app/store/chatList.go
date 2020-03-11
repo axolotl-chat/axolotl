@@ -149,23 +149,18 @@ func (s *Sessions) GetMoreMessageList(id string, lastId string) (error, *Message
 
 }
 
-type Attachment struct {
-	File  string
-	CType int
-}
-
 // func (s *Sessions) GetActiveChat() *string {
 // 	return s.ActiveChat
 // }
-func (s *Session) Add(text string, source string, file []string, mimetype string, outgoing bool, sessionID string) *Message {
+func (s *Session) Add(text string, source string, file []Attachment, mimetype string, outgoing bool, sessionID string) *Message {
 	var files []Attachment
 
 	ctype := helpers.ContentTypeMessage
 	if len(file) > 0 {
 		for _, fi := range file {
-			f, _ := os.Open(fi)
+			f, _ := os.Open(fi.File)
 			ctype = helpers.ContentType(f, mimetype)
-			files = append(files, Attachment{File: fi, CType: ctype})
+			files = append(files, Attachment{File: fi.File, CType: ctype, FileName: fi.FileName})
 		}
 	}
 	fJson, err := json.Marshal(files)
