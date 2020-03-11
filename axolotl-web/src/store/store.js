@@ -14,6 +14,7 @@ export default new Vuex.Store({
     devices: [],
     gui:null,
     error: null,
+    errorConnection: null,
     identity: {
       me:null,
       their:null
@@ -41,10 +42,21 @@ export default new Vuex.Store({
   mutations: {
 
     SET_ERROR(state, error){
-      if(error=="wrong password"){
+      if(error==""){
+        state.loginError = null;
+        state.ratelimitError = null;
+        state.errorConnection = null;
+
+
+      }
+      else if(error=="wrong password"){
         state.loginError = error;
       }else if(error=="Rate limit exceeded: 413"){
         state.ratelimitError = error+". Try again later!";
+      }else if(error.includes("no such host")|| error.includes("timeout")){
+        state.errorConnection = error;
+      }else if(error=="Your registration is faulty. Please consider to register again."){
+        state.error = error;
       }
     },
         SET_CHATLIST(state, chatList){

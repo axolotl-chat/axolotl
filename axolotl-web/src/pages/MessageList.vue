@@ -466,7 +466,6 @@ video,
   left: 0px;
   padding: 4px;
   height: -3px;
-  z-index: 2;
   background-color:
   #FFF;
   -webkit-transition: width 0.5s, height 0.5s;

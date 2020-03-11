@@ -8,7 +8,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/signal-golang/textsecure"
 	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/contact"
 	"github.com/nanu-c/axolotl/app/handler"
@@ -18,6 +17,7 @@ import (
 	"github.com/nanu-c/axolotl/app/settings"
 	"github.com/nanu-c/axolotl/app/store"
 	"github.com/nanu-c/axolotl/app/ui"
+	"github.com/signal-golang/textsecure"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -167,20 +167,30 @@ func RunBackend() {
 	//Load Messages
 
 	// Make sure to use names not numbers in session titles
-
+	badHandshake := false
 	for {
-		if !isEncrypted {
-			if !sessionStarted {
-				log.Debugf("[axolotl] Start Session after Decryption")
-				startSession()
+		ui.ClearError()
+		if !badHandshake {
+			if !isEncrypted {
+				if !sessionStarted {
+					log.Debugf("[axolotl] Start Session after Decryption")
+					startSession()
 
+				}
+				if err := textsecure.StartListening(); err != nil {
+					log.Debugln(err)
+					if err.Error() == "websocket: bad handshake" {
+						badHandshake = true
+					}
+					ui.ShowError(err)
+				}
 			}
-			if err := textsecure.StartListening(); err != nil {
-				log.Debugln(err)
-				ui.ShowError(err)
-			}
+			time.Sleep(3 * time.Second)
+		} else {
+			ui.ShowError(errors.New("Your registration is faulty"))
+			time.Sleep(10 * time.Minute)
+
 		}
-		time.Sleep(3 * time.Second)
 
 	}
 }

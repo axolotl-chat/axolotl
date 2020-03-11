@@ -60,3 +60,6 @@ func ShowError(err error) {
 	webserver.ShowError(err.Error())
 	log.Errorln("[axolotl] error: ", err.Error())
 }
+func ClearError() {
+	webserver.ClearError()
+}

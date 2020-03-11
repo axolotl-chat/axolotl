@@ -151,6 +151,11 @@ func ShowError(errorMessage string) {
 		sendError(client, errorMessage)
 	}
 }
+func ClearError() {
+	for client := range clients {
+		sendError(client, "")
+	}
+}
 
 func sendAttachment(attachment SendAttachmentMessage) error {
 	// log.Infoln("[axolotl] send attachment ", attachment.Path)
