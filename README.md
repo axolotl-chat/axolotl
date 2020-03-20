@@ -43,6 +43,15 @@ Installation
 * `cd $(go env GOPATH)/src/github.com/nanu-c/axolotl`
 * install axolotl-web dependencies: `cd axolotl-web&&npm install`
 
+Run development
+------------
+* `cd $(go env GOPATH)/src/github.com/nanu-c/axolotl`
+* `go run .`
+* in a new terminal `cd axolotl-web&&npm run serve`
+* point a browser to the link printed in the terminal  like `http://localhost:8080`
+
+Build Axolotl
+------------
 ```
 go clean
 
@@ -95,17 +104,10 @@ Installation on UT
 ------------
 
 The build-system is now integrated in the `clickable` Version 3.2.0.
-* Install [Golang](https://golang.org/doc/install)
-* Install node js
-* Add gopath to ~/.bashrc https://github.com/golang/go/wiki/SettingGOPATH
-* install dependencies `sudo apt install mercurial bzr hg`
-* Check out this git `go get -d github.com/nanu-c/axolotl`
-* `cd $(go env GOPATH)/src/github.com/nanu-c/axolotl`
+* primary steps from installation
 * Get [clickable](https://github.com/bhdouglass/clickable#install)
-* Back to main dir, then
 * Run `clickable`, this also transfers the click package to the Ubuntu Touch Phone
 * Run `clickable launch logs` to start signal and watch the log
-* install axolotl-web dependencies: `cd axolotl-web&&npm install`
 
 
 Run flags
