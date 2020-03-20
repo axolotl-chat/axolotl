@@ -41,6 +41,7 @@ Installation
 * install dependencies `sudo apt install mercurial bzr`
 * Check out this git `go get -d github.com/nanu-c/axolotl`
 * `cd $(go env GOPATH)/src/github.com/nanu-c/axolotl`
+* get go dependencies `go get -d ...`
 * install axolotl-web dependencies: `cd axolotl-web&&npm install`
 
 Run development
@@ -50,8 +51,9 @@ Run development
 * in a new terminal `cd axolotl-web&&npm run serve`
 * point a browser to the link printed in the terminal  like `http://localhost:8080`
 
-Build Axolotl
+Build Axolotl for all arches with clickable and snap
 ------------
+requires clickable and snapcraft to be installed
 ```
 go clean
 
