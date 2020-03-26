@@ -1,28 +1,32 @@
-# Axolotl is a crossplattform signal client
+# Axolotl is a crossplattform [Signal](https://www.signal.org) client
 
-## for the Ubuntu Phone and more
+## For the Ubuntu Phone and more
 
-This is a Signal compatible client for the Ubuntu Phone, written in Go and QML.
-It builds upon the [Go textsecure package](https://github.com/nanu-c/textsecure/) and a vuejs app that runs in a electron/qml WebEngineView container.
+Axolotl is a complete Signal client, it allows you to create a Signal account and have discussions with your contacts.
+Unlike the desktop Signal client, **Axolotl is completely autonomous** and doesn't require you to have created an account with the official Signal application.
 
+It is built upon the [Go textsecure package](https://github.com/nanu-c/textsecure/) and a vuejs app that runs in a electron/qml WebEngineView container.
+
+To use it from your Ubuntu Touch device, simply install it from the open store:  
 [![OpenStore](https://open-store.io/badges/en_US.png)](https://open-store.io/app/textsecure.nanuc)
 
-[![Snap Status](https://build.snapcraft.io/badge/nanu-c/axolotl.svg)](https://build.snapcraft.io/user/nanu-c/axolotl)
-
-
+Axolotl is also available as a snap package, to install it on Ubuntu desktop:  
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/axolotl)
+
+[![Snap Status](https://build.snapcraft.io/badge/nanu-c/axolotl.svg)](https://build.snapcraft.io/user/nanu-c/axolotl)
 
 What works
 -----------
 
  * Phone registration
  * Contact discovery
- * Direct and group messages
+ * Direct messages
+ * Group messages *mostly*
  * Photo, video, audio and contact attachments in both direct and group mode
  * Preview for photo and audio attachments
  * Storing conversations
  * Encrypted message store
- * Desktop client provisioning/syncing
+ * Desktop client provisioning/syncing *partially*
 
 What is missing
 ---------------
@@ -105,6 +109,8 @@ cp axolotl-web/dist build/darwin-amd64/axolotl-web -r
 Installation on UT
 ------------
 
+***If you want to use the current stable version, simply install it from the OpenStore***
+
 The build-system is now integrated in the `clickable` Version 3.2.0.
 * primary steps from installation
 * Get [clickable](https://github.com/bhdouglass/clickable#install)
@@ -121,7 +127,7 @@ Run flags
 Contributing
 -----------
 
-Please fill issues here on github https://github.com/nanu-c/axolotl/issues .
+Please fill issues here on github https://github.com/nanu-c/axolotl/issues
 
 Migrating from `janimo/axolotl`
 --------------------------------------
