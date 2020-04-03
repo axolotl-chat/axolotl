@@ -21,11 +21,15 @@ sudo ln -s /usr/include/x86_64-linux-gnu/qt5/QtCore/5.9.1/QtCore /usr/include/
 
 ```
 # This will give you the latest version of go
-snap install --classic go -->
+snap install --classic go 
 
 ```
-##set $GOPATH
+-->
+
+## set $GOPATH
+
 ## get go dependencies
+
 ```
 go get -v -d github.com/sirupsen/logrus
 go get -v -d github.com/godbus/dbus
