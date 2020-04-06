@@ -69,6 +69,12 @@ UITK.Page {
         root.contentType = ContentType.Documents
         root.handler = ContentHandler.Source
         root.selectionType = ContentTransfer.Single
+      } else if(request.message =="audio"){
+        root.request = request
+        root.requestContentHub = true
+        root.contentType = ContentType.Audio
+        root.handler = ContentHandler.Source
+        root.selectionType = ContentTransfer.Single
       } else if(request.message.includes("[oC]")){
         root.request = request
         root.requestContentHub = true
