@@ -25,6 +25,7 @@ import (
 
 var clients = make(map[*websocket.Conn]bool)
 var activeChat = ""
+var codeVerification = false
 
 func Run() error {
 	log.Printf("[axolotl] Starting axolotl ws")
@@ -172,6 +173,7 @@ func wsReader(conn *websocket.Conn) {
 			}
 		case "sendCode":
 			if requestChannel != nil {
+				codeVerification = true
 				sendCodeMessage := SendCodeMessage{}
 				json.Unmarshal([]byte(p), &sendCodeMessage)
 				requestChannel <- sendCodeMessage.Code

@@ -16,7 +16,12 @@
       </div>
       <button class="btn btn-primary" @click="infoPage=false">Next</button>
     </div>
-    <div class="registration">
+    <div class="rateLimit-error" v-if = "ratelimitError==null">
+      <div class="error">
+        {{ratelimitError}}2123djiaskd
+      </div>
+    </div>
+    <div v-else class="registration">
       <VuePhoneNumberInput v-model="phone" @update="updatePhone" :callingCode="cc" class="phoneInput" />
       <button class="btn btn-primary" @click="requestCode()"> request code </button>
     </div>
@@ -62,7 +67,7 @@ export default {
       infoPage:true,
     };
   },
-  computed: mapState(['gui']),
+  computed: mapState(['gui', 'ratelimitError']),
   watch:{
     cc(){
       document.getElementById("VuePhoneNumberInput_phone_number").focus()
@@ -110,6 +115,14 @@ export default {
   #heart{
     font-size: 2rem;
     color:#2090ea;
+  }
+  .rateLimit-error{
+    width:90%;
+    height: 90vh;
+    color:red;
+    display:flex;
+    justify-content:center;
+    align-items:center;
   }
 </style>
 

@@ -28,6 +28,8 @@ export default new Vuex.Store({
     currentContact:null,
     newGroupMembers:[],
     importingContacts:false,
+    verificationInProgress:false,
+    verificationError:null,
     socket: {
       isConnected: false,
       message: '',
@@ -51,12 +53,21 @@ export default new Vuex.Store({
       }
       else if(error=="wrong password"){
         state.loginError = error;
-      }else if(error=="Rate limit exceeded: 413"){
+      }else if(error.includes("Rate")){
         state.ratelimitError = error+". Try again later!";
       }else if(error.includes("no such host")|| error.includes("timeout")){
         state.errorConnection = error;
       }else if(error=="Your registration is faulty. Please consider to register again."){
         state.error = error;
+      }else if(error.includes(400)){
+        //when pin is missing
+        if(state.verificationInProgress)
+        state.verificationError =  400
+      }
+      else if(error.includes(404)){
+        //when code was wrong
+        if(state.verificationInProgress)
+        state.verificationError = 404
       }
     },
         SET_CHATLIST(state, chatList){
@@ -91,6 +102,7 @@ export default new Vuex.Store({
             window.router.push("/")
           }
           else if (type == "getVerificationCode") {
+            state.verificationInProgress = true
             window.router.push("/verify")
           }
           else if (type == "getEncryptionPw") {
@@ -489,7 +501,7 @@ export default new Vuex.Store({
           "code":  code,
         }
         Vue.prototype.$socket.send(JSON.stringify(message))
-        window.router.push("/chatList")
+        // window.router.push("/chatList")
 
       }
     },
