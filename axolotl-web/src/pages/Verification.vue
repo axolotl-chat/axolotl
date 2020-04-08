@@ -1,6 +1,9 @@
 <template>
   <div class="verify">
-    <div v-if="verificationError=='RegistrationLockFailure'||requestPin">
+    <div v-if="verificationError=='RegistrationLockFailure'||requestPin"
+        class="verify">
+      <h2>Enter your registration pin</h2>
+      <p>or disable it on Android</p>
       <input v-model="pin" type="text"/>
       <button  class="btn btn-primary" @click="sendPin()">Send pin</button>
 
