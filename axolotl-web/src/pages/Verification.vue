@@ -1,6 +1,11 @@
 <template>
   <div class="verify">
-    <div v-if="verificationError==null" class="verify">
+    <div v-if="verificationError=='RegistrationLockFailure'||requestPin">
+      <input v-model="pin" type="text"/>
+      <button  class="btn btn-primary" @click="sendPin()">Send pin</button>
+
+    </div>
+    <div  class="verify">
       <Sms v-model="code" class="codeInput"></Sms>
       <button :disabled="inProgress" class="btn btn-primary" @click="sendCode()"> send Code </button>
     </div>
@@ -9,9 +14,11 @@
           <span class="sr-only">Loading...</span>
       </div>
     </div>
-    <div v-else>
+    <div v-if="verificationError==404">
+      Wrong code entered. Restart for another try.
       {{verificationError}}
     </div>
+
   </div>
 </template>
 
@@ -31,17 +38,23 @@ export default {
   },
   methods:{
     sendCode(){
-      // console.log(this.cc)
       if(this.code.length==6){
         this.$store.dispatch("sendCode",this.code);
         this.inProgress = true;
       }
+    },
+    sendPin(){
+      if(this.code.length==6){
+        this.$store.dispatch("sendPin",this.pin);
+        this.inProgress = true;
+      }
     }
   },
-  computed: mapState(['verificationError']),
+  computed: mapState(['verificationError', 'requestPin']),
   data() {
     return {
       code:"",
+      pin:"",
       inProgress:false,
     };
   },

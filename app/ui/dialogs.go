@@ -53,6 +53,9 @@ func GetPhoneNumber() string {
 func GetVerificationCode() string {
 	return GetTextFromWs("getVerificationCode")
 }
+func GetPin() string {
+	return GetTextFromWs("getPin")
+}
 func GetEncryptionPw() string {
 	return GetTextFromWs("getEncryptionPw")
 }

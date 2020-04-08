@@ -16,9 +16,9 @@
       </div>
       <button class="btn btn-primary" @click="infoPage=false">Next</button>
     </div>
-    <div class="rateLimit-error" v-if = "ratelimitError==null">
+    <div class="rateLimit-error" v-if = "ratelimitError!=null">
       <div class="error">
-        {{ratelimitError}}2123djiaskd
+        {{ratelimitError}}
       </div>
     </div>
     <div v-else class="registration">

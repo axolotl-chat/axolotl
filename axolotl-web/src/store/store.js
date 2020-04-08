@@ -30,6 +30,7 @@ export default new Vuex.Store({
     importingContacts:false,
     verificationInProgress:false,
     verificationError:null,
+    requestPin:false,
     socket: {
       isConnected: false,
       message: '',
@@ -46,10 +47,8 @@ export default new Vuex.Store({
     SET_ERROR(state, error){
       if(error==""){
         state.loginError = null;
-        state.ratelimitError = null;
+        // state.ratelimitError = null;
         state.errorConnection = null;
-
-
       }
       else if(error=="wrong password"){
         state.loginError = error;
@@ -68,6 +67,9 @@ export default new Vuex.Store({
         //when code was wrong
         if(state.verificationInProgress)
         state.verificationError = 404
+      }
+      else if(error.includes("RegistrationLockFailure")){
+        state.verificationError =  "RegistrationLockFailure"
       }
     },
         SET_CHATLIST(state, chatList){
@@ -103,6 +105,10 @@ export default new Vuex.Store({
           }
           else if (type == "getVerificationCode") {
             state.verificationInProgress = true
+            window.router.push("/verify")
+          }
+          else if (type == "getPin") {
+            state.requestPin = true
             window.router.push("/verify")
           }
           else if (type == "getEncryptionPw") {
@@ -486,6 +492,7 @@ export default new Vuex.Store({
     },
     // registration functions
       requestCode:function(state, tel){
+        this.state.verificationError = null
         if(this.state.socket.isConnected){
           var message = {
             "request":"requestCode",
@@ -501,8 +508,15 @@ export default new Vuex.Store({
           "code":  code,
         }
         Vue.prototype.$socket.send(JSON.stringify(message))
-        // window.router.push("/chatList")
-
+      }
+    },
+    sendPin:function(state, pin){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"sendPin",
+          "pin":  pin,
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
     sendPassword:function(state, password){

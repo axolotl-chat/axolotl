@@ -75,6 +75,10 @@ type SendCodeMessage struct {
 	Type string `json:"request"`
 	Code string `json:"code"`
 }
+type SendPinMessage struct {
+	Type string `json:"request"`
+	Pin  string `json:"pin"`
+}
 type AddDeviceMessage struct {
 	Type string `json:"request"`
 	Url  string `json:"url"`

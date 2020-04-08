@@ -178,6 +178,13 @@ func wsReader(conn *websocket.Conn) {
 				json.Unmarshal([]byte(p), &sendCodeMessage)
 				requestChannel <- sendCodeMessage.Code
 			}
+		case "sendPin":
+			if requestChannel != nil {
+				codeVerification = true
+				sendPinMessage := SendPinMessage{}
+				json.Unmarshal([]byte(p), &sendPinMessage)
+				requestChannel <- sendPinMessage.Pin
+			}
 		case "sendPassword":
 			if requestChannel != nil {
 				sendPasswordMessage := SendPasswordMessage{}

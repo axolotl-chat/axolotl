@@ -127,6 +127,10 @@ func RunBackend() {
 			}
 			return ""
 		},
+		GetPin: func() string {
+			pin := ui.GetPin()
+			return pin
+		},
 		GetStoragePassword: func() string {
 			password := ui.GetStoragePassword()
 			log.Debugf("[axolotl] Asking for password")
