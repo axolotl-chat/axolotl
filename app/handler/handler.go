@@ -28,7 +28,7 @@ func MessageHandler(msg *textsecure.Message) {
 			mt = msg.Attachments()[i].MimeType
 			file, err := store.SaveAttachment(a)
 			if err != nil {
-				log.Printf("Error saving %s\n", err.Error())
+				log.Printf("[axolotl] MessageHandler Error saving attachments %s\n", err.Error())
 			}
 			f = append(f, file)
 		}
@@ -95,6 +95,9 @@ func MessageHandler(msg *textsecure.Message) {
 	m := session.Add(text, msg.Source(), f, mt, false, store.ActiveSessionID)
 	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
 	m.SentAt = msg.Timestamp()
+	session.ExpireTimer = msg.ExpireTimer()
+	store.UpdateSession(session)
+	m.ExpireTimer = msg.ExpireTimer()
 	m.HTime = helpers.HumanizeTimestamp(m.SentAt)
 	session.Timestamp = m.SentAt
 	session.When = m.HTime
@@ -128,13 +131,18 @@ func MessageHandler(msg *textsecure.Message) {
 	}
 	err, msgSend := store.SaveMessage(m)
 	if err != nil {
-		log.Printf("Error saving %s\n", err.Error())
+		log.Printf("[axolotl] MessageHandler: Error saving message: %s\n", err.Error())
 	}
 	store.UpdateSession(session)
 	// webserver.UpdateChatList()
 	webserver.MessageHandler(msgSend)
 }
-func ReceiptMessageHandler(msg *textsecure.Message) {
+func CallMessageHandler(msg *textsecure.Message) {
+	log.Debugln("[axolotl] CallMessageHandler", msg)
+	session := store.SessionsModel.Get(msg.Source())
+	var f []store.Attachment
+	m := session.Add(msg.Message(), "", f, "", true, store.ActiveSessionID)
+	store.SaveMessage(m)
 	webserver.UpdateChatList()
 	webserver.UpdateChatList()
 }
@@ -146,13 +154,17 @@ func ReceiptHandler(source string, devID uint32, timestamp uint64) {
 	for i := len(s.Messages) - 1; i >= 0; i-- {
 		m := s.Messages[i]
 		if m.SentAt == timestamp {
-			m.IsRead = true
+			m.Receipt = true
 			//qml.Changed(m, &m.IsRead)
 			store.UpdateMessageRead(m)
 			return
 		}
 	}
 	log.Printf("[axolotl] receipt: Message with timestamp %d not found\n", timestamp)
+}
+
+func ReceiptMessageHandler(msg *textsecure.Message) {
+	log.Println("[axolotl] receiptMessageHandler: Message ", msg)
 }
 
 func SyncSentHandler(msg *textsecure.Message, timestamp uint64) {
@@ -226,24 +238,21 @@ func SyncSentHandler(msg *textsecure.Message, timestamp uint64) {
 		s = gr.Hexid
 	}
 	session := store.SessionsModel.Get(s)
-	// m := session.Add(text, msg.Source(), f, mt, false, store.ActiveSessionID)
 	m := session.Add(text, "", f, mt, true, store.ActiveSessionID)
-
+	if gr != nil && gr.Flags != 0 {
+		m.StatusMessage = true
+	}
 	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
 	m.SentAt = msg.Timestamp()
 	m.HTime = helpers.HumanizeTimestamp(m.SentAt)
-	//qml.Changed(m, &m.HTime)
 	session.Timestamp = m.SentAt
 	session.When = m.HTime
-	//qml.Changed(session, &session.When)
 	if gr != nil && gr.Flags == textsecure.GroupUpdateFlag {
 		session.Name = gr.Name
-		//qml.Changed(session, &session.Name)
 	}
 
 	if msgFlags != 0 {
 		m.Flags = msgFlags
-		//qml.Changed(m, &m.Flags)
 	}
 	m.IsSent = true
 	//TODO: have only one message per chat

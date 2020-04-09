@@ -7,21 +7,24 @@ import (
 )
 
 type Message struct {
-	ID           int64
-	SID          int64
-	ChatID       string
-	Source       string
-	Message      string
-	Outgoing     bool
-	SentAt       uint64
-	ReceivedAt   uint64
-	HTime        string
-	CType        int
-	Attachment   string
-	IsSent       bool
-	IsRead       bool
-	Flags        int
-	SendingError bool
+	ID            int64
+	SID           int64
+	ChatID        string
+	Source        string
+	Message       string
+	Outgoing      bool
+	SentAt        uint64
+	ReceivedAt    uint64
+	HTime         string
+	CType         int
+	Attachment    string
+	IsSent        bool
+	IsRead        bool
+	Flags         int
+	ExpireTimer   uint32 `db:"expireTimer"`
+	SendingError  bool   `db:"sendingError"`
+	Receipt       bool   `db:"receipt"`
+	StatusMessage bool   `db:"statusMessage"`
 }
 
 func SaveMessage(m *Message) (error, *Message) {

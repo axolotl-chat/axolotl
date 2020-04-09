@@ -97,8 +97,8 @@
           </div>
         </div>
 
-        <div v-else class="no-entries" v-translate>
-          No Messages available.
+        <div v-else class="no-entries">
+          <span v-translate>No Messages available.</span>
         </div>
     </div>
     <div class="messageInputBox">

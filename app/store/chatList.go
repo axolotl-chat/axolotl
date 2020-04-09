@@ -25,6 +25,7 @@ type Session struct {
 	Active       bool
 	Len          int
 	Notification bool
+	ExpireTimer  uint32 `db:"expireTimer"`
 }
 type MessageList struct {
 	ID       string
@@ -60,7 +61,7 @@ func SaveSession(s *Session) error {
 	return err
 }
 func UpdateSession(s *Session) error {
-	_, err := DS.Dbx.NamedExec("UPDATE sessions SET name = :name, timestamp = :timestamp, ctype = :ctype, last = :last, unread = :unread, notification = :notification WHERE id = :id", s)
+	_, err := DS.Dbx.NamedExec("UPDATE sessions SET name = :name, timestamp = :timestamp, ctype = :ctype, last = :last, unread = :unread, notification = :notification, expireTimer = :expireTimer WHERE id = :id", s)
 	if err != nil {
 		return err
 	}

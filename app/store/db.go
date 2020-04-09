@@ -23,12 +23,12 @@ var (
 	dbFile   string
 	saltFile string
 
-	sessionsSchema = "CREATE TABLE IF NOT EXISTS sessions (id INTEGER PRIMARY KEY, name text, tel text, isgroup boolean, last string, timestamp integer, ctype integer, unread integer default 0, notification boolean default 1)"
-	sessionsInsert = "INSERT OR REPLACE INTO sessions (name, tel, isgroup, last, ctype, timestamp, notification) VALUES (:name, :tel, :isgroup, :last, :ctype, :timestamp, :notification)"
+	sessionsSchema = "CREATE TABLE IF NOT EXISTS sessions (id INTEGER PRIMARY KEY, name text, tel text, isgroup boolean, last string, timestamp integer, ctype integer, unread integer default 0, notification boolean default 1, expireTimer integer default 0)"
+	sessionsInsert = "INSERT OR REPLACE INTO sessions (name, tel, isgroup, last, ctype, timestamp, notification, expireTimer) VALUES (:name, :tel, :isgroup, :last, :ctype, :timestamp, :notification, :expireTimer)"
 	sessionsSelect = "SELECT * FROM sessions ORDER BY timestamp DESC"
 
-	messagesSchema                 = "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, sid integer, source text, message text, outgoing boolean, sentat integer, receivedat integer, ctype integer, attachment string, issent boolean, isread boolean, flags integer default 0, sendingError boolean, expireTimer integer, receipt boolean)"
-	messagesInsert                 = "INSERT INTO messages (sid, source, message, outgoing, sentat, receivedat, ctype, attachment, issent, isread, flags, sendingError, expireTimer) VALUES (:sid, :source, :message, :outgoing, :sentat, :receivedat, :ctype, :attachment, :issent, :isread, :flags, :sendingError, :expireTimer)"
+	messagesSchema                 = "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, sid integer, source text, message text, outgoing boolean, sentat integer, receivedat integer, ctype integer, attachment string, issent boolean, isread boolean, flags integer default 0, sendingError boolean, expireTimer integer default 0, receipt boolean default 0, statusMessage boolean default 0)"
+	messagesInsert                 = "INSERT INTO messages (sid, source, message, outgoing, sentat, receivedat, ctype, attachment, issent, isread, flags, sendingError, expireTimer, statusMessage) VALUES (:sid, :source, :message, :outgoing, :sentat, :receivedat, :ctype, :attachment, :issent, :isread, :flags, :sendingError, :expireTimer, :statusMessage)"
 	messagesSelectWhere            = "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT 20"
 	messagesSelectWhereMore        = "SELECT * FROM messages WHERE sid = ? AND id< ? ORDER BY sentat DESC LIMIT 20"
 	messagesSelectWhereLastMessage = "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT 1"
@@ -77,6 +77,8 @@ func (ds *DataStore) DBX() *sqlx.DB {
 func (ds *DataStore) SetupDb(password string) bool {
 	var err error
 	dbDir = filepath.Join(config.DataDir, "db")
+	log.Debugln("[axolotl] openDb: " + dbDir)
+
 	err = os.MkdirAll(dbDir, 0700)
 	DS, err = NewStorage(password)
 	if err != nil {
@@ -84,6 +86,8 @@ func (ds *DataStore) SetupDb(password string) bool {
 		return false
 	}
 	UpdateSessionTable()
+	UpdateMessagesTable_v_0_7_8()
+	UpdateSessionTable_v_0_7_8()
 
 	LoadChats()
 	//qml.Changed(SessionsModel, &SessionsModel.Len)

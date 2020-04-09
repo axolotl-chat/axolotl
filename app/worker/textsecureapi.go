@@ -153,6 +153,7 @@ func RunBackend() {
 		MessageHandler:        handler.MessageHandler,
 		ReceiptHandler:        handler.ReceiptHandler,
 		ReceiptMessageHandler: handler.ReceiptMessageHandler,
+		CallMessageHandler:    handler.CallMessageHandler,
 		TypingMessageHandler:  handler.TypingMessageHandler,
 		SyncSentHandler:       handler.SyncSentHandler,
 		RegistrationDone:      ui.RegistrationDone,
