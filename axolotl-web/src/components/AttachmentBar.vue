@@ -3,16 +3,16 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Send Attachments</h5>
+          <h5 class="modal-title" v-translate>Send Attachments</h5>
           <button type="button" class="close" @click="close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <button class="btn btn-primary" @click="$emit('send','photo')">Photo</button>
-          <button class="btn btn-primary" @click="$emit('send','video')">Video</button>
-          <button class="btn btn-primary" @click="$emit('send','audio')">Audio</button>
-          <button class="btn btn-primary" @click="$emit('send','document')">Document</button>
+          <button class="btn btn-primary" @click="$emit('send','photo')" v-translate>Photo</button>
+          <button class="btn btn-primary" @click="$emit('send','video')" v-translate>Video</button>
+          <button class="btn btn-primary" @click="$emit('send','audio')" v-translate>Audio</button>
+          <button class="btn btn-primary" @click="$emit('send','document')" v-translate>Document</button>
         </div>
       </div>
     </div>

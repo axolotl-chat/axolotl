@@ -17,21 +17,26 @@
           >
         <div class="row chat-entry">
           <div class="avatar col-2">
-            <div v-if="chat.IsGroup" class="badge-name"><img class="avatar-img" :src="'http://localhost:9080/avatars?file='+chat.Tel" @error="onImageError($event)"/><font-awesome-icon icon="user-friends" /></div>
+            <div v-if="chat.IsGroup" class="badge-name">
+              <img class="avatar-img" :src="'http://localhost:9080/avatars?file='+chat.Tel" @error="onImageError($event)"/>
+              <font-awesome-icon icon="user-friends" />
+            </div>
             <div v-else class="badge-name"><img class="avatar-img" :src="'http://localhost:9080/avatars?file='+chat.Tel" @error="onImageError($event)"/><div>{{chat.Name[0]}}</div></div>
           </div>
           <div class="meta col-10 row" v-longclick="()=>{editChat(chat.Tel)}">
             <div class="col-9">
               <div class="name">
                      <font-awesome-icon class="mute" v-if="!chat.Notification" icon="volume-mute" />
-                     <div v-if="chat.IsGroup&&chat.Name==chat.Tel">Unknown group</div>
+                     <div v-if="chat.IsGroup&&chat.Name==chat.Tel" v-translate>Unknown group</div>
                      <div v-else>{{chat.Name}}</div>
                      <div v-if="Number(chat.Unread)>0" class="counter badge badge-primary">{{chat.Unread}}</div>
                    </div>
 
             </div>
             <div v-if="!editActive" class="col-3 date-c">
-                <p v-if="chat.Messages&&chat.Messages!=null&&chat.Messages[chat.Messages.length-1].SentAt!=0" class="time">{{humanifyDate(chat.Messages[chat.Messages.length-1].SentAt)}}</p>
+                <p v-if="chat.Messages&&chat.Messages!=null&&chat.Messages[chat.Messages.length-1].SentAt!=0" class="time">
+                  {{humanifyDate(chat.Messages[chat.Messages.length-1].SentAt)}}
+                </p>
             </div>
             <div class="col-12">
               <p class="preview" v-if="chat.Messages&&chat.Messages!=null">{{chat.Messages[chat.Messages.length-1].Message}}</p>
@@ -40,7 +45,7 @@
 				</div>
       </button>
     </div>
-    <div v-else class="no-entries">
+    <div v-else class="no-entries" v-translate>
       No chats available
     </div>
     <!-- {{chats}} -->
@@ -65,7 +70,9 @@ export default {
     this.$store.dispatch("getContacts")
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
-    this.$store.dispatch("getConfig")
+    this.$store.dispatch("getConfig");
+    var userLang = navigator.language || navigator.userLanguage;
+    this.$language.current = userLang;
   },
   data() {
     return {

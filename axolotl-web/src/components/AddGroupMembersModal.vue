@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Add members</h5>
+          <h5 class="modal-title" v-translate>Add members</h5>
           <div class="actions" v-if="!searchActive">
             <button type="button" class="btn search" @click="searchActive=true;">
               <font-awesome-icon icon="search"/>
@@ -56,7 +56,7 @@
                 </div>
               </div>
             </div>
-            <div v-else>Enter Contacts in list first<div>
+            <div v-else><span v-translate>Add Contacts first</span><div>
           </div>
         </div>
       </div>

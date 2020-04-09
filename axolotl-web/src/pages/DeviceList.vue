@@ -8,7 +8,7 @@
         <div class="col-10">
           <div class="device-name">{{device.name}}</div> <br/>
           <div class="meta">
-            <span class="lastSeen">Last seen: {{humanifyDate(device.lastSeen)}}</span>
+            <span class="lastSeen"><span v-translate>Last seen:</span> {{humanifyDate(device.lastSeen)}}</span>
           </div>
         </div>
         <div class="col-2 actions">
@@ -16,7 +16,7 @@
         </div>
       </div>
     </div>
-    <div v-else class="no-entries" >
+    <div v-else class="no-entries" v-translate>
       No devices available
     </div>
     <!-- eslint-enable -->

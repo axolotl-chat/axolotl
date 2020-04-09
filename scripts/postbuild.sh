@@ -2,8 +2,7 @@
 
 # Translations
 # generate pot file
-# echo "update translations $@"
-# find ../../../qml/* -iname "*.qml" | xargs xgettext --from-code utf-8 -C --qt --keyword=tr -o ../../../po/textsecure.nanuc.pot
+echo "update translations $@"
 # find ../../../po/* -exec msgmerge --update {} ../../../po/textsecure.nanuc.pot \;
 # # rm ../../../po/*~~
 # # cp -a ../lib ../build/tmp
@@ -11,7 +10,7 @@
 # # 	#copy config.yml or rootCA.pem
 # # 	cp -a dev/* build/
 # # fi
-#
+#gettext-compile --output ../../../axolotl-web/translations/translations.json ../../../po/*
 # # Build and include translations
 # cp ../../../po/textsecure.nanuc.pot $@
 # for po in ../../../po/*.po; do
@@ -23,4 +22,4 @@
 # copy click files
 cp -a ../../../click/* $@
 # Build axolotl-web
-cd ../../../axolotl-web&&npm run build && mkdir $@/axolotl-web&&cp dist $@/axolotl-web/ -r
+cd ../../../axolotl-web&&npm run translate &&npm run build && mkdir $@/axolotl-web&&cp dist $@/axolotl-web/ -r

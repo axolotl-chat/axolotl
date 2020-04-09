@@ -5,7 +5,11 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "translate": "npm run translate-extract && npm run translate-update && npm run translate-compile",
+    "translate-extract": "node ./node_modules/easygettext/src/extract-cli.js --attribute v-translate --output ../po/textsecure.nanuc.pot $(find src -type f -name '*.vue')",
+    "translate-update": "find ../po/* -exec msgmerge --update {} ../po/textsecure.nanuc.pot \\;",
+    "translate-compile": "rm ../po/*~&&node ./node_modules/easygettext/src/compile-cli.js --output ./translations/translations.json $(find ../po/ -type f -name '*.po')"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
@@ -19,6 +23,7 @@
     "qwebchannel": "^5.9.0",
     "vue": "^2.6.11",
     "vue-chat-scroll": "^1.4.0",
+    "vue-gettext": "^2.1.8",
     "vue-head": "^2.2.0",
     "vue-linkify": "^1.0.1",
     "vue-long-click": "0.0.4",
@@ -36,6 +41,7 @@
     "@vue/cli-plugin-eslint": "^3.12.1",
     "@vue/cli-service": "^4.3.1",
     "babel-eslint": "^10.1.0",
+    "easygettext": "^2.10.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "node-sass": "^4.13.1",

@@ -24,7 +24,7 @@
                       <font-awesome-icon class="mute" icon="volume-mute" />
                     </div>
                     <div class="header-text-chat" v-if="currentChat!=null&&currentChat.IsGroup&&currentChat.Name==currentChat.Tel">
-                      <div>Unknown group</div>
+                      <div v-translate>Unknown group</div>
                     </div>
                     <div class="header-text-chat" v-else>
                       <div v-if="currentChat!=null" class="">{{currentChat.Name}}</div>
@@ -50,12 +50,12 @@
                 <font-awesome-icon icon="ellipsis-v" />
               </button>
               <div v-if="showSettingsMenu" class="dropdown-menu" id="settings-dropdown" aria-labelledby="dropdownMenuButton">
-                <button v-if="currentChat!=null&&currentChat.Notification" class="dropdown-item" @click="toggleNotifications">Mute</button>
-                <button v-else class="dropdown-item" @click="toggleNotifications">Unmute</button>
+                <button v-if="currentChat!=null&&currentChat.Notification" class="dropdown-item" @click="toggleNotifications" v-translate>Mute</button>
+                <button v-else class="dropdown-item" @click="toggleNotifications" v-translate>Unmute</button>
                 <!-- <button v-if="currentChat!=null&&currentChat.IsGroup" class="dropdown-item" @click="editGroup">Edit group</button> -->
-                <button v-if="currentChat!=null&&!currentChat.IsGroup" class="dropdown-item" @click="verifyIdentity">Show identity</button>
-                <button v-if="currentChat!=null&&!currentChat.IsGroup" class="dropdown-item" @click="resetEncryptionModal">Reset encryption</button>
-                <router-link v-if="currentChat!=null&&currentChat.IsGroup" :to="'/editGroup/'+currentChat.Tel" class="dropdown-item">Edit Group</router-link>
+                <button v-if="currentChat!=null&&!currentChat.IsGroup" class="dropdown-item" @click="verifyIdentity" v-translate>Show identity</button>
+                <button v-if="currentChat!=null&&!currentChat.IsGroup" class="dropdown-item" @click="resetEncryptionModal" v-translate>Reset encryption</button>
+                <router-link v-if="currentChat!=null&&currentChat.IsGroup" :to="'/editGroup/'+currentChat.Tel" class="dropdown-item" v-translate>Edit Group</router-link>
 
               </div>
               <identity-modal v-if="showIdentityModal" @close="showIdentityModal=false" @confirm="showIdentityModal=false" />
@@ -64,16 +64,16 @@
           </div>
         </div>
         <div v-else-if="route()=='register' ">
-          <div class="header-text">Connect with Signal</div>
+          <div class="header-text"><span v-translate>Connect with Signal</span></div>
         </div>
         <div v-else-if="route()=='password' ">
-          <div class="header-text">Enter password</div>
+          <div class="header-text"><span v-translate>Enter password</span></div>
         </div>
         <div v-else-if="route()=='setPassword' " class="list-header-container">
           <router-link class="btn" :to="'/settings'">
             <font-awesome-icon icon="arrow-left" />
           </router-link>
-          <div class="header-text">Set encryption password</div>
+          <div class="header-text"><span v-translate>Set encryption password</span></div>
         </div>
         <div v-else-if="route()=='about' " class="list-header-container">
           <router-link class="btn" :to="'/settings'">
@@ -84,19 +84,19 @@
           <router-link class="btn" :to="'/chatList'">
             <font-awesome-icon icon="arrow-left" />
           </router-link>
-          <div class="header-text">Settings</div>
+          <div class="header-text"><span v-translate>Settings</span></div>
         </div>
         <div v-else-if="route()=='newGroup' " class="list-header-container">
           <router-link class="btn" :to="'/chatList'">
             <font-awesome-icon icon="arrow-left" />
           </router-link>
-          <div class="header-text">New group</div>
+          <div class="header-text"><span v-translate>New group</span></div>
         </div>
         <div v-else-if="route()=='editGroup' " class="list-header-container">
           <router-link class="btn" :to="'/chatList'">
             <font-awesome-icon icon="arrow-left" />
           </router-link>
-          <div class="header-text">Edit group</div>
+          <div class="header-text"><span v-translate>Edit group</span></div>
         </div>
         <div v-else-if="route()=='devices' ">
           <button class="back btn" @click="back()">
@@ -123,7 +123,7 @@
                 <font-awesome-icon icon="ellipsis-v" />
               </button>
               <div v-if="showSettingsMenu" class="dropdown-menu" id="settings-dropdown" aria-labelledby="dropdownMenuButton">
-                <button class="dropdown-item" @click="refreshContacts">Add Contacts</button>
+                <button class="dropdown-item" @click="refreshContacts" v-translate>Add Contacts</button>
                 <input id="addVcf" type="file" @change="readVcf" style="position: fixed; top: -100em">
               </div>
             </div>
@@ -136,10 +136,10 @@
               <font-awesome-icon icon="ellipsis-v" />
             </button>
             <div v-if="showSettingsMenu" class="dropdown-menu" id="settings-dropdown" aria-labelledby="dropdownMenuButton">
-              <router-link class="dropdown-item" :to="'/newGroup'" @click="showSettingsMenu=false">
+              <router-link class="dropdown-item" :to="'/newGroup'" @click="showSettingsMenu=false" v-translate>
                 New group
               </router-link>
-              <router-link class="dropdown-item" :to="'/settings/'" @click="showSettingsMenu=false">
+              <router-link class="dropdown-item" :to="'/settings/'" @click="showSettingsMenu=false" v-translate>
                 Settings
               </router-link>
             </div>

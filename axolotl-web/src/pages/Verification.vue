@@ -2,24 +2,23 @@
   <div class="verify">
     <div v-if="verificationError=='RegistrationLockFailure'||requestPin"
         class="verify">
-      <h2>Enter your registration pin</h2>
-      <p>or disable it on Android</p>
+      <h3 v-translate>Enter your registration pin</h3>
+      <p v-translate>or disable it on Android/IOs</p>
       <input v-model="pin" type="text"/>
-      <button  class="btn btn-primary" @click="sendPin()">Send pin</button>
+      <button  class="btn btn-primary" @click="sendPin()" v-translate>Send pin</button>
 
     </div>
-    <div  class="verify">
+    <div  class="verify" v-if="!requestPin">
       <Sms v-model="code" class="codeInput"></Sms>
-      <button :disabled="inProgress" class="btn btn-primary" @click="sendCode()"> send Code </button>
+      <button :disabled="inProgress" class="btn btn-primary" @click="sendCode()" v-translate> Send code </button>
     </div>
-    <div v-if="inProgress&&verificationError==null" class="spinner">
+    <div v-if="inProgress&&verificationError==null&&!requestPin" class="spinner">
       <div class="spinner-border" role="status">
-          <span class="sr-only">Loading...</span>
+          <span class="sr-only" v-translate>Loading...</span>
       </div>
     </div>
     <div v-if="verificationError==404">
-      Wrong code entered. Restart for another try.
-      {{verificationError}}
+      <div v-translate>Wrong code entered. Restart for another try.</div>
     </div>
 
   </div>
@@ -67,6 +66,7 @@ export default {
   .verify{
     display:flex;
     flex-direction: column;
+    padding-top:30px;
   }
   .verify .codeInput{
     margin-top:30px;

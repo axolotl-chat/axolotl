@@ -1,30 +1,30 @@
 <template>
   <div class="set-password">
-    <h5>Info</h5>
-    <p>Setting a password is not adviced on devices short in memory. Restart is required!</p>
-    <div v-if="passwordError" class="alert alert-danger" role="alert">
-      passwords not the same
+    <h5 v-translate>Info</h5>
+    <p v-translate>Setting a password is not adviced on devices short in memory. Restart is required!</p>
+    <div v-if="passwordError" class="alert alert-danger" role="alert" v-translate>
+      Passwords don't match
     </div>
-    <div v-if="passwordUnsafe" class="alert alert-danger" role="alert">
-      unsafe password
+    <div v-if="passwordUnsafe" class="alert alert-danger" role="alert" v-translate>
+      Unsafe password
     </div>
-    <div v-if="currentPasswordWrong" class="alert alert-danger" role="alert">
-      current password is wrong
+    <div v-if="currentPasswordWrong" class="alert alert-danger" role="alert" v-translate>
+      Current password is wrong
     </div>
-    <label for="passwordRepeat" class="text-primary">Password</label>
+    <label for="passwordRepeat" class="text-primary" v-translate>Password</label>
 
     <password v-model="password" type="password" name="password" id="setPassword"
     placeholder="Password"
     :secureLength="7"/>
     <div class="form-group">
-        <label for="passwordRepeat" class="text-primary">Repeat password</label>
+        <label for="passwordRepeat" class="text-primary" v-translate>Repeat password</label>
         <input required v-model="passwordRepeat" type="password" name="passwordRepeat" id="passwordRepeat" class="form-control">
     </div>
     <div class="form-group">
-        <label for="passwordCurrent" class="text-primary">Current Password</label>
+        <label for="passwordCurrent" class="text-primary" v-translate>Current Password</label>
         <input required v-model="passwordCurrent" type="password" name="passwordCurrent" id="passwordCurrent" class="form-control">
     </div>
-    <button class="btn btn-primary" @click="setPassword()"> Set password </button>
+    <button class="btn btn-primary" @click="setPassword()" v-translate> Set password </button>
   </div>
 </template>
 

@@ -2,15 +2,15 @@
   <div class="new-group">
     <div v-if="!creatingGroup" class="new-group-form">
       <div class="form-group">
-        <label for="group-name"><b>Group name</b></label>
+        <label for="group-name"><b v-translate>Group name</b></label>
         <input type="text" v-model="newGroupName" @change="setGroupName" class="form-control" id="group-name" placeholder="Enter group name">
 
       </div>
-      <p>Note, you can't add yourself to a group.</p>
+      <p v-translate>Note, you can't add yourself to a group.</p>
       <button class="btn add-group-members" @click="addMembersModal=true">
-        <font-awesome-icon icon="plus" /> Members</button>
+        <font-awesome-icon icon="plus" /> <span v-translate>Members</span></button>
       <button class="btn create-group" @click="createGroup">
-        <font-awesome-icon icon="check" /> Create group
+        <font-awesome-icon icon="check" /> <span v-translate>Create group</span>
       </button>
       <add-group-members-modal  v-if="addMembersModal"
       :allreadyAdded="newGroupMembers"
@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    <div v-else class="">
+    <div v-else class="" v-translate>
       Creating Group
     </div>
   </div>

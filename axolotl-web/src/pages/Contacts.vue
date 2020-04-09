@@ -1,8 +1,8 @@
 <template>
   <div class="contact-list">
 
-    <div v-if="error!=null" class="alert alert-danger">Can't change contact list: {{error}}</div>
-    <div v-if="importing" class="alert alert-warning">Importing contacts, head back later</div>
+    <div v-if="error!=null" class="alert alert-danger" v-translate>Can't change contact list: {{error}}</div>
+    <div v-if="importing" class="alert alert-warning" v-translate>Importing contacts, head back later</div>
     <div v-if="showActions" class="actions-header">
       <button class="btn" @click="delContact(i)">
         <font-awesome-icon icon="trash"  />
@@ -14,7 +14,7 @@
         <font-awesome-icon icon="times"  @click="showActions=false"/>
       </button>
     </div>
-    <div v-if="contacts.length ==0" class="empty">
+    <div v-if="contacts.length ==0" class="empty" v-translate>
       Contact list is empty...
     </div>
     <div v-if="contactsFilterActive">

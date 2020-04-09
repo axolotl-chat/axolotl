@@ -2,11 +2,11 @@
   <div class="new-group">
     <div v-if="!creatingGroup&&currentGroup" class="new-group-form">
       <div class="form-group">
-        <label for="group-name"><b>Group name</b></label>
+        <label for="group-name"><b v-translate>Group name</b></label>
         <input type="text" v-model="currentGroup.Name" @change="setGroupName" class="form-control" id="group-name" placeholder="Enter group name">
 
       </div>
-      <p>Note, you can't add yourself to a group.</p>
+      <p v-translate>Note, you can't add yourself to a group.</p>
       <button class="btn add-group-members" @click="addMembersModal=true">
         <font-awesome-icon icon="plus" /> Members</button>
       <button class="btn create-group" @click="updateGroup">
@@ -45,7 +45,7 @@
         </div>
       </div>
     </div>
-    <div v-else class="">
+    <div v-else class="" v-translate>
       Updating Group
     </div>
   </div>

@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Error</h5>
+          <h5 class="modal-title" v-translate>Error</h5>
           <button type="button" class="close" @click="close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -11,7 +11,7 @@
         <div class="modal-body">
           {{error}}
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger" @click="unregister">Unregister</button>
+            <button type="button" class="btn btn-danger" @click="unregister" v-translate>Unregister</button>
           </div>
         </div>
       </div>

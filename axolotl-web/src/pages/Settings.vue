@@ -3,20 +3,22 @@
     <div class="profile">
       <div class="avatar">
       </div>
-      <div class="name"> Registered number
+      <div class="name" v-translate> Registered number
       </div>
       <div class="number">
         {{config.RegisteredNumber}}
       </div>
     </div>
-    <router-link class="btn btn-primary" :to="'/devices/'">
+    <router-link class="btn btn-primary" :to="'/devices/'" v-translate>
       Linked devices
     </router-link>
-    <router-link  class="btn btn-primary" :to="'/setPassword/'">
+    <router-link  class="btn btn-primary" :to="'/setPassword/'" v-translate>
       Set password
     </router-link>
 
-    <button class="btn btn-danger" @click="showConfirmationModal=true">Unregister</button>
+    <button class="btn btn-danger" @click="showConfirmationModal=true" v-translate>
+      Unregister
+    </button>
     <confirmation-modal
     v-if="showConfirmationModal"
     @close="showConfirmationModal=false"
@@ -24,7 +26,7 @@
     title="Unregister"
     text="Do you really want to unregister? Everything will be deleted!" />
     <div class="about w-100">
-      <router-link  class="btn btn-primary" :to="'/about'">
+      <router-link  class="btn btn-primary" :to="'/about'" v-translate>
         About Axolotl
       </router-link>
     </div>

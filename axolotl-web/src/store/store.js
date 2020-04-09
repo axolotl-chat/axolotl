@@ -56,8 +56,8 @@ export default new Vuex.Store({
         state.ratelimitError = error+". Try again later!";
       }else if(error.includes("no such host")|| error.includes("timeout")){
         state.errorConnection = error;
-      }else if(error=="Your registration is faulty. Please consider to register again."){
-        state.error = error;
+      }else if(error.includes("Your registration is faulty")){
+        state.error = error +" .Please consider to register again";
       }else if(error.includes(400)){
         //when pin is missing
         if(state.verificationInProgress)

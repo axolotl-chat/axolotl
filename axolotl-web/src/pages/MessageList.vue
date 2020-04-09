@@ -10,7 +10,7 @@
         <div v-if="showFullscreenVideoSrc!=''" class="fullscreenImage">
           <video controls>
             <source :src="'http://localhost:9080/attachments?file='+showFullscreenVideoSrc">
-              Your browser does not support the audio element.
+              <span v-translate>Your browser does not support the audio element.</span>
           </video>
           <button class="btn btn-secondary close" @click="showFullscreenVideoSrc=''">X</button>
         </div>
@@ -39,7 +39,7 @@
                         <div v-else-if="m.CType==3" class="attachment-audio">
                           <audio controls>
                             <source :src="'http://localhost:9080/attachments?file='+m.File" type="audio/mpeg">
-                              Your browser does not support the audio element.
+                              <span v-translate>Your browser does not support the audio element.</span>
                           </audio>
                         </div>
                         <div v-else-if="m.File!='' &&m.CType==0" class="attachment-file">
@@ -48,11 +48,11 @@
                         <div v-else-if="m.CType==5" class="attachment-video" @click="showFullscreenVideo(m.File)">
                           <video @click="showFullscreenVideo(m.File)">
                             <source :src="'http://localhost:9080/attachments?file='+m.File">
-                              Your browser does not support the audio element.
+                              <span v-translate>Your browser does not support the audio element.</span>
                           </video>
                         </div>
                         <div v-else-if="m.File!=''" class="attachment">
-                          Not supported mime type: {{m.CType}}
+                          <span v-translate>Not supported mime type:</span> {{m.CType}}
                         </div>
                       </div>
                     </div>
@@ -63,7 +63,7 @@
                     <div v-else-if="message.CType==3" class="attachment-audio">
                       <audio controls>
                         <source :src="'http://localhost:9080/attachments?file='+message.Attachment" type="audio/mpeg">
-                          Your browser does not support the audio element.
+                          <span v-translate>Your browser does not support the audio element.</span>
                       </audio>
                     </div>
                     <div v-else-if="message.Attachment!='null'&&message.CType==0" class="attachment-file">
@@ -73,12 +73,12 @@
                     <div v-else-if="message.CType==5" class="attachment-video" @click="showFullscreenVideo(message.Attachment)">
                       <video @click="showFullscreenVideo(message.Attachment)">
                         <source :src="'http://localhost:9080/attachments?file='+message.Attachment">
-                          Your browser does not support the audio element.
+                          <span v-translate>Your browser does not support the video element.</span>
                       </video>
                     </div>
 
                     <div v-else-if="message.Attachment!='null'" class="attachment">
-                      Not supported mime type: {{message.CType}}
+                      <span v-translate>Not supported mime type:</span> {{message.CType}}
                     </div>
                   </div>
                   <div class="message-text">
@@ -97,7 +97,7 @@
           </div>
         </div>
 
-        <div v-else class="no-entries">
+        <div v-else class="no-entries" v-translate>
           No Messages available.
         </div>
     </div>

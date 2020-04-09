@@ -20,6 +20,8 @@ export default {
     ErrorModal
   },
   mounted(){
+    var userLang = navigator.language || navigator.userLanguage;
+    this.$language.current = userLang;
   },
   computed: {
     error () {

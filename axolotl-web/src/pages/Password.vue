@@ -1,10 +1,9 @@
 <template>
   <div class="password">
-
-    <div v-if="error" class="alert alert-danger">Password is wrong</div>
+    <div v-if="error" class="alert alert-danger" v-translate>Password is wrong</div>
     <input v-model="pw"  type="password" class="codeInput form-control" id="passwordInput" @keydown="checkEnter($event)"/>
-    <button class="btn btn-primary" @click="sendPassword"> Decrypt</button>
-    <button v-if="error" class="btn btn-danger" @click="unregister"> Unregister</button>
+    <button class="btn btn-primary" @click="sendPassword" v-translate> Decrypt</button>
+    <button v-if="error" class="btn btn-danger" @click="unregister" v-translate> Unregister</button>
   </div>
 </template>
 

@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Add <div v-if="name!=''">{{name}}</div><div v-else>Contact</div></h5>
+          <h5 class="modal-title" ><span v-translate>Add</span> <div v-if="name!=''">{{name}}</div><div v-else v-translate>Contact</div></h5>
           <button type="button" class="close" @click="$emit('close')">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -13,12 +13,12 @@
             <input v-model="name" type="text" class="form-control" id="nameInput" placeholder="Enter name">
           </div>
           <div class="form-group">
-            <label for="inputPhone">Phone</label>
+            <label for="inputPhone" v-translate>Phone</label>
             <input v-model="phone" type="text" class="form-control" id="phoneInput" placeholder="+44...">
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" @click="$emit('add',{'name':name, 'phone':phone})" >Add</button>
+          <button type="button" class="btn btn-primary" @click="$emit('add',{'name':name, 'phone':phone})" v-translate>Add</button>
         </div>
       </div>
     </div>

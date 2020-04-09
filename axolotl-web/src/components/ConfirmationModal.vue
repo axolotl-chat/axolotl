@@ -11,7 +11,7 @@
         <div class="modal-body">
           {{text}}
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" @click="$emit('confirm')">Confirm</button>
+            <button type="button" class="btn btn-primary" @click="$emit('confirm')" v-translate>Confirm</button>
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@
     <div v-if="infoPage" class="page1 info">
       <img class="logo" src="/axolotl.png" />
       <h1 class="title">Axolotl Beta</h1>
-      <h2 class="subtitle">A cross-plattform signal client</h2>
+      <h2 class="subtitle" v-translate>A cross-plattform signal client</h2>
       <div class="description">Hey! Mr. Tambourine Man, play a song for me,
         <br />
         In the jingle jangle morning I'll come following you.
@@ -14,7 +14,7 @@
         <br />
         <font-awesome-icon id="heart" icon="heart" />
       </div>
-      <button class="btn btn-primary" @click="infoPage=false">Next</button>
+      <button class="btn btn-primary" @click="infoPage=false" v-translate>Next</button>
     </div>
     <div class="rateLimit-error" v-if = "ratelimitError!=null">
       <div class="error">
@@ -23,7 +23,7 @@
     </div>
     <div v-else class="registration">
       <VuePhoneNumberInput v-model="phone" @update="updatePhone" :callingCode="cc" class="phoneInput" />
-      <button class="btn btn-primary" @click="requestCode()"> request code </button>
+      <button class="btn btn-primary" @click="requestCode()" v-translate> Request code </button>
     </div>
   </div>
 </template>
@@ -58,6 +58,8 @@ export default {
     }
   },
   mounted(){
+    var userLang = navigator.language || navigator.userLanguage;
+    this.$language.current = userLang;
     document.getElementById("VuePhoneNumberInput_phone_number").focus();
   },
   data() {

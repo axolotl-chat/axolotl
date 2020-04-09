@@ -3,22 +3,22 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Verify identity</h5>
+          <h5 class="modal-title" v-translate>Verify identity</h5>
           <button type="button" class="close" @click="$emit('close')">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <b>Your key </b>
+          <b v-translate>Your key </b>
           <br />
           <div >{{identity.me}}</div>
           <br />
           <br />
-          <b>{{currentChat.Name}}'s key </b>
+          <b>{{currentChat.Name}}<span v-translate>'s key </span></b>
           <br />
           <div >{{identity.their}}</div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" @click="$emit('confirm')">Close</button>
+            <button type="button" class="btn btn-primary" @click="$emit('confirm')" v-translate>Close</button>
           </div>
         </div>
       </div>

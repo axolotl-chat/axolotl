@@ -13,568 +13,504 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/components/TelegramPage.qml:24
-#: ../../../qml/phoneui/components/TelegramPage.qml:24
-msgid "Signal"
+#: src/components/IdentityModal.vue:16
+msgid "'s key"
 msgstr ""
 
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/components/SignalMessageDelegate.qml:183
-#: ../../../qml/phoneui/components/SignalMessageDelegate.qml:183
+#: src/pages/About.vue:4 src/pages/Register.vue:5
+msgid "A cross-plattform signal client"
+msgstr ""
+
+#: src/pages/Settings.vue:28
+msgid "About Axolotl"
+msgstr ""
+
+#: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:20
+msgid "Add"
+msgstr ""
+
+#: src/components/Header.vue:125
 #, fuzzy
-msgid "Forwarded from "
-msgstr "Proslijedi poruku"
+msgid "Add Contacts"
+msgstr "Kontakt"
 
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/components/AttachPanel.qml:87
-#: ../../../qml/phoneui/components/AttachPanel.qml:87
-msgid "Image"
-msgstr "Slika"
+#: src/components/AddGroupMembersModal.vue:58
+#, fuzzy
+msgid "Add Contacts first"
+msgstr "Kontakt"
 
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/components/AttachPanel.qml:98
-#: ../../../qml/phoneui/components/AttachPanel.qml:98
-msgid "Video"
-msgstr "Video"
+#: src/components/AddGroupMembersModal.vue:5
+#, fuzzy
+msgid "Add members"
+msgstr "Članovi grupe"
 
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/components/AttachPanel.qml:109
-#: ../../../qml/phoneui/components/AttachPanel.qml:109
+#: src/components/AttachmentBar.vue:13
 msgid "Audio"
 msgstr "Audio"
 
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/components/AttachPanel.qml:120
-#: ../../../qml/phoneui/components/AttachPanel.qml:120
-msgid "Contact"
-msgstr "Kontakt"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/dialogs/ConfirmationDialog.qml:8
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/dialogs/ErrorMessageDialog.qml:12
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/dialogs/AddContactDialog.qml:10
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/dialogs/InfoDialog.qml:17
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:70
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/VerificationCodePage.qml:96
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/IntroPage.qml:40
-#: ../../../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:8
-#: ../../../qml/phoneui/ui/dialogs/ErrorMessageDialog.qml:12
-#: ../../../qml/phoneui/ui/dialogs/AddContactDialog.qml:10
-#: ../../../qml/phoneui/ui/dialogs/InfoDialog.qml:17
-#: ../../../qml/phoneui/ui/ContactsPage.qml:70
-#: ../../../qml/phoneui/ui/VerificationCodePage.qml:96
-#: ../../../qml/phoneui/ui/IntroPage.qml:40
-msgid "OK"
+#: src/pages/About.vue:10
+msgid "by becoming a"
 msgstr ""
 
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/dialogs/ConfirmationDialog.qml:10
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/dialogs/AddContactDialog.qml:12
-#: ../../../qml/phoneui/ui/dialogs/ConfirmationDialog.qml:10
-#: ../../../qml/phoneui/ui/dialogs/AddContactDialog.qml:12
-msgid "Cancel"
-msgstr "Odustani"
+#: src/pages/Contacts.vue:3
+msgid "Can't change contact list: {{error}}"
+msgstr ""
 
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/pages/ChatList.qml:78
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:35
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:42
-#: ../../../qml/phoneui/ui/pages/ChatList.qml:78
-#: ../../../qml/phoneui/ui/ContactsPage.qml:35
-#: ../../../qml/phoneui/ui/ContactsPage.qml:42
-msgid "Search"
-msgstr "Traži"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/pages/ChatList.qml:89
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:78
-#: ../../../qml/phoneui/ui/pages/ChatList.qml:89
-#: ../../../qml/phoneui/ui/ContactsPage.qml:78
-msgid "New group"
-msgstr "Nova grupa"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/pages/ChatList.qml:95
-#: ../../../qml/phoneui/ui/pages/ChatList.qml:95
-msgid "Mark all read"
-msgstr "Označi sve pročitano"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/pages/ChatList.qml:101
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:27
-#: ../../../qml/phoneui/ui/pages/ChatList.qml:101
-#: ../../../qml/phoneui/ui/SettingsPage.qml:27
-msgid "Settings"
-msgstr "Postavke"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/pages/ChatList.qml:107
-#: ../../../qml/phoneui/ui/pages/ChatList.qml:107
-msgid "Help"
-msgstr "Pomoć"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/pages/ChatList.qml:113
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:28
-#: ../../../qml/phoneui/ui/pages/ChatList.qml:113
-#: ../../../qml/phoneui/ui/ContactsPage.qml:28
+#: src/components/IdentityModal.vue:20
 msgid "Close"
 msgstr ""
 
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/PreviewPage.qml:33
-#: ../../../qml/phoneui/ui/PreviewPage.qml:33
-msgid "From: "
+#: src/components/ConfirmationModal.vue:13
+msgid "Confirm"
 msgstr ""
 
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/PreviewPage.qml:47
-#: ../../../qml/phoneui/ui/PreviewPage.qml:47
-msgid "Save"
-msgstr "Spremi"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:17
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:105
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:55
-#: ../../../qml/phoneui/ui/SetPasswordPage.qml:17
-#: ../../../qml/phoneui/ui/SetPasswordPage.qml:105
-#: ../../../qml/phoneui/ui/SettingsPage.qml:55
-msgid "Change passphrase"
-msgstr ""
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:17
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:55
-#: ../../../qml/phoneui/ui/SetPasswordPage.qml:17
-#: ../../../qml/phoneui/ui/SettingsPage.qml:55
-msgid "Create passphrase"
-msgstr ""
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:53
-#: ../../../qml/phoneui/ui/SetPasswordPage.qml:53
-msgid "Old passphrase"
-msgstr ""
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:71
-#: ../../../qml/phoneui/ui/SetPasswordPage.qml:71
-#, fuzzy
-msgid "New passphrase"
-msgstr "Nova poruka"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:87
-#: ../../../qml/phoneui/ui/SetPasswordPage.qml:87
-msgid "Repeat new passphrase"
-msgstr ""
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:105
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/PasswordPage.qml:82
-#: ../../../qml/phoneui/ui/SetPasswordPage.qml:105
-#: ../../../qml/phoneui/ui/PasswordPage.qml:82
-msgid "Submit passphrase"
-msgstr ""
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:120
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/PasswordPage.qml:96
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/PasswordPage.qml:100
-#: ../../../qml/phoneui/ui/SetPasswordPage.qml:120
-#: ../../../qml/phoneui/ui/PasswordPage.qml:96
-#: ../../../qml/phoneui/ui/PasswordPage.qml:100
-msgid "Disable passphrase?"
-msgstr ""
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:140
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:162
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:171
-#: ../../../qml/phoneui/ui/SetPasswordPage.qml:140
-#: ../../../qml/phoneui/ui/SetPasswordPage.qml:162
-#: ../../../qml/phoneui/ui/SetPasswordPage.qml:171
-msgid "Incorrect old passphrase!"
-msgstr ""
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:148
-#: ../../../qml/phoneui/ui/SetPasswordPage.qml:148
-msgid "Passphrases don't match!"
-msgstr ""
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SetPasswordPage.qml:153
-#: ../../../qml/phoneui/ui/SetPasswordPage.qml:153
-#, fuzzy
-msgid "New passphrase too short(6)!"
-msgstr "Nova poruka"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:54
-#: ../../../qml/phoneui/ui/SettingsPage.qml:54
-msgid "Privacy"
-msgstr ""
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:61
-#: ../../../qml/phoneui/ui/SettingsPage.qml:61
-msgid "Linked Devices"
-msgstr ""
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:62
-#: ../../../qml/phoneui/ui/SettingsPage.qml:62
-msgid "Add/Remove linked devices"
-msgstr ""
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:69
-#: ../../../qml/phoneui/ui/SettingsPage.qml:69
-msgid "Unregistering"
-msgstr "Uklanjanje registracije"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:74
-#: ../../../qml/phoneui/ui/SettingsPage.qml:74
-msgid "Disable Signal messages and calls?"
-msgstr "Onemogući Signal poruke i pozive?"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:75
-#: ../../../qml/phoneui/ui/SettingsPage.qml:75
-msgid ""
-"Disable Signal messages and calls by unregistering from the server. You will "
-"need to re-register your phone number to use them again in the future."
-msgstr ""
-"Onemogućite Signal poruke i pozive tako što će ukloniti registraciju s "
-"poslužitelja. Trebat ćete ponovno registrirati vaš broj telefona kako biste "
-"ih koristili u budućnosti."
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:91
-#: ../../../qml/phoneui/ui/SettingsPage.qml:91
-msgid "Enter key sends"
-msgstr "Enter šalje poruku"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SettingsPage.qml:106
-#: ../../../qml/phoneui/ui/SettingsPage.qml:106
-#, fuzzy
-msgid "Activate Debuglog"
-msgstr "Pošalji debug zapis"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SigninPage.qml:18
-#: ../../../qml/phoneui/ui/SigninPage.qml:18
+#: src/components/Header.vue:66
 msgid "Connect with Signal"
 msgstr "Poveži sa Signal"
 
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SigninPage.qml:30
-#: ../../../qml/phoneui/ui/SigninPage.qml:30
-msgid "YOUR COUNTRY"
-msgstr "VAŠA ZEMLJA"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SigninPage.qml:64
-#: ../../../qml/phoneui/ui/SigninPage.qml:64
-msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
-msgstr "POZIVNI BROJ ZEMLJE I TELEFONSKI BROJ"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SigninPage.qml:146
-#: ../../../qml/phoneui/ui/SigninPage.qml:146
-msgid "Verify your phone number to connect with Signal."
-msgstr "Potvrdite svoj broj telefona kako biste se povezali sa Signal."
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SigninPage.qml:147
-#: ../../../qml/phoneui/ui/SigninPage.qml:147
-msgid ""
-"Registration transmits some contact information to the server. It is not "
-"stored."
-msgstr ""
-"Registracija šalje neke informacije o kontaktima na poslužitelj. Podaci se "
-"ne pohranjuju trajno."
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SigninPage.qml:161
-#: ../../../qml/phoneui/ui/SigninPage.qml:161
-msgid "Register"
-msgstr "Registriraj"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/SigninPage.qml:190
-#: ../../../qml/phoneui/ui/SigninPage.qml:190
-msgid ""
-"Double-check that this is your number! We're about to verify it with an SMS."
-msgstr ""
-"Provjerite da li je ovo vaš broj telefona! Uskoro ćemo poslati SMS poruku na "
-"njega kako bi ga provjerili."
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/settings/LinkedDevicesPage.qml:13
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/settings/LinkedDevicesPage.qml:17
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/settings/AddLinkedDevicesPage.qml:10
-#: ../../../qml/phoneui/ui/settings/LinkedDevicesPage.qml:13
-#: ../../../qml/phoneui/ui/settings/LinkedDevicesPage.qml:17
-#: ../../../qml/phoneui/ui/settings/AddLinkedDevicesPage.qml:10
-msgid "Link a Device"
-msgstr ""
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/settings/LinkedDevicesPage.qml:23
-#: ../../../qml/phoneui/ui/settings/LinkedDevicesPage.qml:23
-msgid "Add device"
-msgstr ""
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/settings/LinkedDevicesPage.qml:28
-#: ../../../qml/phoneui/ui/settings/LinkedDevicesPage.qml:28
-#, fuzzy
-msgid "Refresh devices"
-msgstr "Osvježi"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/settings/LinkedDevicesPage.qml:94
-#: ../../../qml/phoneui/ui/settings/LinkedDevicesPage.qml:94
-#, fuzzy
-msgid "Delete selected Device?"
-msgstr "Obriši poruku"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/settings/LinkedDevicesPage.qml:95
-#: ../../../qml/phoneui/ui/settings/LinkedDevicesPage.qml:95
-#, fuzzy
-msgid "This will permanently delete the selected Device."
-msgstr "Trajno ćete obrisati sve poruke u ovom razgovoru."
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/PasswordPage.qml:15
-#: ../../../qml/phoneui/ui/PasswordPage.qml:15
-msgid "Enter passphrase"
-msgstr ""
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/PasswordPage.qml:58
-#: ../../../qml/phoneui/ui/PasswordPage.qml:58
-msgid "Passphrase"
-msgstr ""
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/PasswordPage.qml:101
-#: ../../../qml/phoneui/ui/PasswordPage.qml:101
-#, fuzzy
-msgid "This will permanently delete all messages!"
-msgstr "Trajno ćete obrisati sve poruke u ovom razgovoru."
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/PasswordPage.qml:130
-#: ../../../qml/phoneui/ui/PasswordPage.qml:130
-msgid "Invalid passphrase!"
-msgstr ""
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:47
-#: ../../../qml/phoneui/ui/ContactsPage.qml:47
-msgid "Refresh"
-msgstr "Osvježi"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:52
-#: ../../../qml/phoneui/ui/ContactsPage.qml:52
-#, fuzzy
-msgid "Add contact"
+#: src/components/AddContactModal.vue:5 src/components/EditContactModal.vue:5
+msgid "Contact"
 msgstr "Kontakt"
 
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:56
-#: ../../../qml/phoneui/ui/ContactsPage.qml:56
-#, fuzzy
-msgid "Add Contact"
-msgstr "Kontakt"
+#: src/pages/Contacts.vue:16
+msgid "Contact list is empty..."
+msgstr ""
 
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:80
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:112
-#: ../../../qml/phoneui/ui/ContactsPage.qml:80
-#: ../../../qml/phoneui/ui/DialogPage.qml:112
-msgid "Update group"
+#: src/pages/NewGroup.vue:12
+#, fuzzy
+msgid "Create group"
+msgstr "Napusti grupu"
+
+#: src/pages/NewGroup.vue:35
+msgid "Creating Group"
+msgstr ""
+
+#: src/pages/SetPassword.vue:23
+msgid "Current Password"
+msgstr ""
+
+#: src/pages/SetPassword.vue:10
+msgid "Current password is wrong"
+msgstr ""
+
+#: src/pages/Password.vue:4
+msgid "Decrypt"
+msgstr ""
+
+#: src/components/AttachmentBar.vue:14
+msgid "Document"
+msgstr ""
+
+#: src/components/EditContactModal.vue:5
+msgid "Edit"
+msgstr ""
+
+#: src/components/Header.vue:98
+#, fuzzy
+msgid "Edit group"
 msgstr "Ažuriraj grupu"
 
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:82
-#: ../../../qml/phoneui/ui/ContactsPage.qml:82
+#: src/components/Header.vue:57
 #, fuzzy
-msgid "Contacts"
-msgstr "Kontakt"
+msgid "Edit Group"
+msgstr "Ažuriraj grupu"
 
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:135
-#: ../../../qml/phoneui/ui/ContactsPage.qml:135
-#, fuzzy
-msgid "No contacts"
-msgstr "Kontakt"
+#: src/components/Header.vue:69
+msgid "Enter password"
+msgstr ""
 
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:153
-#: ../../../qml/phoneui/ui/ContactsPage.qml:153
+#: src/pages/Verification.vue:4
+msgid "Enter your registration pin"
+msgstr ""
+
+#: src/components/ErrorModal.vue:5
+msgid "Error"
+msgstr ""
+
+#: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
 msgstr "Naziv grupe"
 
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/ContactsPage.qml:263
-#: ../../../qml/phoneui/ui/ContactsPage.qml:263
-#, fuzzy, qt-format
-msgid "%1 members"
+#: src/pages/Contacts.vue:4
+msgid "Importing contacts, head back later"
+msgstr ""
+
+#: src/pages/SetPassword.vue:2
+msgid "Info"
+msgstr ""
+
+#: src/pages/About.vue:8
+msgid "issues at the bug tracker"
+msgstr ""
+
+#: src/pages/DeviceList.vue:9
+msgid "Last seen:"
+msgstr ""
+
+#: src/pages/Settings.vue:11
+#, fuzzy
+msgid "Linked devices"
+msgstr "Osvježi"
+
+#: src/pages/Verification.vue:16
+msgid "Loading..."
+msgstr ""
+
+#: src/pages/NewGroup.vue:10
+#, fuzzy
+msgid "Members"
 msgstr "Članovi grupe"
 
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/PickerPage.qml:16
-#: ../../../qml/phoneui/ui/PickerPage.qml:16
-msgid "Content Picker"
-msgstr ""
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/VerificationCodePage.qml:17
-#: ../../../qml/phoneui/ui/VerificationCodePage.qml:17
-msgid "Verifying number"
-msgstr "Potvrdi broj"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/VerificationCodePage.qml:35
-#: ../../../qml/phoneui/ui/VerificationCodePage.qml:35
-msgid ""
-"Signal will now automatically verify your number with a confirmation SMS "
-"message."
-msgstr "Signal će sada automatski provjeriti vaš broj sa SMS porukom."
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/VerificationCodePage.qml:46
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/VerificationCodePage.qml:112
-#: ../../../qml/phoneui/ui/VerificationCodePage.qml:46
-#: ../../../qml/phoneui/ui/VerificationCodePage.qml:112
-msgid "Waiting for SMS verification..."
-msgstr "Čekanje na SMS potvrdu..."
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/VerificationCodePage.qml:73
-#: ../../../qml/phoneui/ui/VerificationCodePage.qml:73
-msgid "Code"
-msgstr ""
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/VerificationCodePage.qml:136
-#: ../../../qml/phoneui/ui/VerificationCodePage.qml:136
-msgid "Calling you (this may take a while)..."
-msgstr ""
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/VerificationCodePage.qml:141
-#: ../../../qml/phoneui/ui/VerificationCodePage.qml:141
-msgid "Please wait a moment and try again"
-msgstr ""
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/VerificationCodePage.qml:151
-#: ../../../qml/phoneui/ui/VerificationCodePage.qml:151
-msgid "Incorrect code. Please try again."
-msgstr ""
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:35
-#: ../../../qml/phoneui/ui/DialogPage.qml:35
-msgid "Call"
-msgstr "Nazovi"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:44
-#: ../../../qml/phoneui/ui/DialogPage.qml:44
-msgid "Reset secure session"
-msgstr "Resetiraj sigurnu sesiju"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:49
-#: ../../../qml/phoneui/ui/DialogPage.qml:49
-msgid "Reset secure session?"
-msgstr "Resetiraj sigurnu sesiju?"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:50
-#: ../../../qml/phoneui/ui/DialogPage.qml:50
-msgid ""
-"This may help if you're having encryption problems in this conversation. "
-"Your messages will be kept."
-msgstr ""
-"Može pomoći ukoliko imate problema s kriptiranjem u ovom razgovoru. Vaše "
-"poruke će biti zadržane."
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:59
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:65
-#: ../../../qml/phoneui/ui/DialogPage.qml:59
-#: ../../../qml/phoneui/ui/DialogPage.qml:65
-msgid "Verify identity"
-msgstr "Provjeri identitet"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:72
-#: ../../../qml/phoneui/ui/DialogPage.qml:72
+#: src/components/Header.vue:52
 msgid "Mute"
 msgstr ""
 
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:72
-#: ../../../qml/phoneui/ui/DialogPage.qml:72
+#: src/components/Header.vue:92 src/components/Header.vue:138
+msgid "New group"
+msgstr "Nova grupa"
+
+#: src/pages/Register.vue:16
+msgid "Next"
+msgstr ""
+
+#: src/pages/ChatList.vue:46
+msgid "No chats available"
+msgstr ""
+
+#: src/pages/DeviceList.vue:17
+msgid "No devices available"
+msgstr ""
+
+#: src/pages/MessageList.vue:98
+msgid "No Messages available."
+msgstr ""
+
+#: src/pages/MessageList.vue:53 src/pages/MessageList.vue:79
+msgid "Not supported mime type:"
+msgstr ""
+
+#: src/pages/EditGroup.vue:8 src/pages/NewGroup.vue:8
+msgid "Note, you can't add yourself to a group."
+msgstr ""
+
+#: src/pages/About.vue:9
+msgid "or"
+msgstr ""
+
+#: src/pages/Verification.vue:5
+msgid "or disable it on Android/IOs"
+msgstr ""
+
+#: src/pages/SetPassword.vue:13
+msgid "Password"
+msgstr ""
+
+#: src/pages/Password.vue:2
+msgid "Password is wrong"
+msgstr ""
+
+#: src/pages/SetPassword.vue:4
+msgid "Passwords don't match"
+msgstr ""
+
+#: src/components/AddContactModal.vue:15 src/components/EditContactModal.vue:15
+msgid "Phone"
+msgstr ""
+
+#: src/components/AttachmentBar.vue:11
+msgid "Photo"
+msgstr ""
+
+#: src/pages/Settings.vue:5
+#, fuzzy
+msgid "Registered number"
+msgstr "Registriraj"
+
+#: src/pages/SetPassword.vue:19
+msgid "Repeat password"
+msgstr ""
+
+#: src/pages/Register.vue:25
+msgid "Request code"
+msgstr ""
+
+#: src/components/Header.vue:56
+#, fuzzy
+msgid "Reset encryption"
+msgstr "Resetiraj sigurnu sesiju"
+
+#: src/components/EditContactModal.vue:20
+msgid "Save"
+msgstr "Spremi"
+
+#: src/components/AttachmentBar.vue:5
+msgid "Send Attachments"
+msgstr ""
+
+#: src/pages/Verification.vue:12
+msgid "Send code"
+msgstr ""
+
+#: src/pages/Verification.vue:7
+msgid "Send pin"
+msgstr ""
+
+#: src/components/Header.vue:75
+#, fuzzy
+msgid "Set encryption password"
+msgstr "Resetiraj sigurnu sesiju"
+
+#: src/pages/SetPassword.vue:26 src/pages/Settings.vue:14
+msgid "Set password"
+msgstr ""
+
+#: src/pages/SetPassword.vue:3
+msgid ""
+"Setting a password is not adviced on devices short in memory. Restart is "
+"required!"
+msgstr ""
+
+#: src/components/Header.vue:86 src/components/Header.vue:141
+msgid "Settings"
+msgstr "Postavke"
+
+#: src/components/Header.vue:55
+#, fuzzy
+msgid "Show identity"
+msgstr "Provjeri identitet"
+
+#: src/pages/About.vue:11
+msgid "sponsor on patreon."
+msgstr ""
+
+#: src/pages/About.vue:6
+msgid ""
+"This is a free and open source signal client written in golang and vuejs.\n"
+"    You can support the development of axolotl either by filling"
+msgstr ""
+
+#: src/components/Header.vue:26 src/pages/ChatList.vue:28
+#, fuzzy
+msgid "Unknown group"
+msgstr "Nova grupa"
+
+#: src/components/Header.vue:53
 msgid "Unmute"
 msgstr ""
 
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:77
-#: ../../../qml/phoneui/ui/DialogPage.qml:77
-msgid "Mute notifications?"
-msgstr ""
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:77
-#: ../../../qml/phoneui/ui/DialogPage.qml:77
-msgid "Unmute notifications?"
-msgstr ""
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:87
-#: ../../../qml/phoneui/ui/DialogPage.qml:87
-msgid "Recipients list"
-msgstr "Popis primatelja"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:96
-#: ../../../qml/phoneui/ui/DialogPage.qml:96
-msgid "Leave group"
-msgstr "Napusti grupu"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:102
-#: ../../../qml/phoneui/ui/DialogPage.qml:102
-msgid "Leave group?"
-msgstr "Napusti grupu?"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:103
-#: ../../../qml/phoneui/ui/DialogPage.qml:103
-msgid "Are you sure you want to leave this group?"
-msgstr "Jeste li sigurni da želite napustiti ovu grupu?"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:125
-#: ../../../qml/phoneui/ui/DialogPage.qml:125
-msgid "Delete conversation"
-msgstr "Obriši razgovor"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:129
-#: ../../../qml/phoneui/ui/DialogPage.qml:129
-msgid "Delete conversation?"
-msgstr "Obriši razgovor?"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:130
-#: ../../../qml/phoneui/ui/DialogPage.qml:130
-msgid "This will permanently delete all messages in this conversation."
-msgstr "Trajno ćete obrisati sve poruke u ovom razgovoru."
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:144
-#: ../../../qml/phoneui/ui/DialogPage.qml:144
-msgid "Select all"
-msgstr "Odaberi sve"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:157
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:667
-#: ../../../qml/phoneui/ui/DialogPage.qml:157
-#: ../../../qml/phoneui/ui/DialogPage.qml:667
-msgid "Message details"
-msgstr "Detalji poruke"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:164
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:487
-#: ../../../qml/phoneui/ui/DialogPage.qml:164
-#: ../../../qml/phoneui/ui/DialogPage.qml:487
-msgid "Copy text"
-msgstr "Kopiraj tekst"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:170
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:493
-#: ../../../qml/phoneui/ui/DialogPage.qml:170
-#: ../../../qml/phoneui/ui/DialogPage.qml:493
-msgid "Forward message"
-msgstr "Proslijedi poruku"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:177
-#: ../../../qml/phoneui/ui/DialogPage.qml:177
-msgid "Delete message"
-msgstr "Obriši poruku"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:270
-#: ../../../qml/phoneui/ui/DialogPage.qml:270
-msgid "Send Signal message"
-msgstr "Pošalji Signal poruku"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:470
-#: ../../../qml/phoneui/ui/DialogPage.qml:470
-msgid "Delete"
-msgstr "Obriši"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:475
-#: ../../../qml/phoneui/ui/DialogPage.qml:475
+#: src/components/ErrorModal.vue:13 src/pages/Password.vue:5
+#: src/pages/Settings.vue:18
 #, fuzzy
-msgid "Delete selected message?"
-msgstr "Obriši poruku"
+msgid "Unregister"
+msgstr "Uklanjanje registracije"
 
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:476
-#: ../../../qml/phoneui/ui/DialogPage.qml:476
+#: src/pages/SetPassword.vue:7
+msgid "Unsafe password"
+msgstr ""
+
+#: src/pages/EditGroup.vue:47
 #, fuzzy
-msgid "This will permanently delete the selected message."
-msgstr "Trajno ćete obrisati sve poruke u ovom razgovoru."
+msgid "Updating Group"
+msgstr "Ažuriraj grupu"
 
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:621
-#: ../../../qml/phoneui/ui/DialogPage.qml:621
-msgid "No messages here yet..."
+#: src/components/IdentityModal.vue:5
+msgid "Verify identity"
+msgstr "Provjeri identitet"
+
+#: src/components/AttachmentBar.vue:12
+msgid "Video"
+msgstr "Video"
+
+#: src/pages/Verification.vue:20
+msgid "Wrong code entered. Restart for another try."
 msgstr ""
 
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/DialogPage.qml:659
-#: ../../../qml/phoneui/ui/DialogPage.qml:659
-msgid "Group members"
-msgstr "Članovi grupe"
-
-#: ../../../qml/build/arm-linux-gnueabihf/app/install/phoneui/ui/IntroPage.qml:25
-#: ../../../qml/phoneui/ui/IntroPage.qml:25
-msgid ""
-"<h3>Thanks for trying out Signal!</h3><br><br>             File bugs and "
-"feature requests on github:<br>            <a href='https://github.com/nanu-"
-"c/axolotl/issues'>https://github.com/nanu-c/axolotl/issues</"
-"a><br>"
+#: src/pages/MessageList.vue:11 src/pages/MessageList.vue:40
+#: src/pages/MessageList.vue:49 src/pages/MessageList.vue:64
+msgid "Your browser does not support the audio element."
 msgstr ""
+
+#: src/pages/MessageList.vue:74
+msgid "Your browser does not support the video element."
+msgstr ""
+
+#: src/components/IdentityModal.vue:11
+msgid "Your key"
+msgstr ""
+
+#, fuzzy
+#~ msgid "<b>Group name</b>"
+#~ msgstr "Naziv grupe"
+
+#, fuzzy
+#~ msgid "Forwarded from "
+#~ msgstr "Proslijedi poruku"
+
+#~ msgid "Image"
+#~ msgstr "Slika"
+
+#~ msgid "Cancel"
+#~ msgstr "Odustani"
+
+#~ msgid "Search"
+#~ msgstr "Traži"
+
+#~ msgid "Mark all read"
+#~ msgstr "Označi sve pročitano"
+
+#~ msgid "Help"
+#~ msgstr "Pomoć"
+
+#, fuzzy
+#~ msgid "New passphrase"
+#~ msgstr "Nova poruka"
+
+#, fuzzy
+#~ msgid "New passphrase too short(6)!"
+#~ msgstr "Nova poruka"
+
+#~ msgid "Disable Signal messages and calls?"
+#~ msgstr "Onemogući Signal poruke i pozive?"
+
+#~ msgid ""
+#~ "Disable Signal messages and calls by unregistering from the server. You "
+#~ "will need to re-register your phone number to use them again in the "
+#~ "future."
+#~ msgstr ""
+#~ "Onemogućite Signal poruke i pozive tako što će ukloniti registraciju s "
+#~ "poslužitelja. Trebat ćete ponovno registrirati vaš broj telefona kako "
+#~ "biste ih koristili u budućnosti."
+
+#~ msgid "Enter key sends"
+#~ msgstr "Enter šalje poruku"
+
+#, fuzzy
+#~ msgid "Activate Debuglog"
+#~ msgstr "Pošalji debug zapis"
+
+#~ msgid "YOUR COUNTRY"
+#~ msgstr "VAŠA ZEMLJA"
+
+#~ msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+#~ msgstr "POZIVNI BROJ ZEMLJE I TELEFONSKI BROJ"
+
+#~ msgid "Verify your phone number to connect with Signal."
+#~ msgstr "Potvrdite svoj broj telefona kako biste se povezali sa Signal."
+
+#~ msgid ""
+#~ "Registration transmits some contact information to the server. It is not "
+#~ "stored."
+#~ msgstr ""
+#~ "Registracija šalje neke informacije o kontaktima na poslužitelj. Podaci "
+#~ "se ne pohranjuju trajno."
+
+#~ msgid ""
+#~ "Double-check that this is your number! We're about to verify it with an "
+#~ "SMS."
+#~ msgstr ""
+#~ "Provjerite da li je ovo vaš broj telefona! Uskoro ćemo poslati SMS poruku "
+#~ "na njega kako bi ga provjerili."
+
+#, fuzzy
+#~ msgid "Delete selected Device?"
+#~ msgstr "Obriši poruku"
+
+#, fuzzy
+#~ msgid "This will permanently delete the selected Device."
+#~ msgstr "Trajno ćete obrisati sve poruke u ovom razgovoru."
+
+#, fuzzy
+#~ msgid "This will permanently delete all messages!"
+#~ msgstr "Trajno ćete obrisati sve poruke u ovom razgovoru."
+
+#~ msgid "Refresh"
+#~ msgstr "Osvježi"
+
+#, fuzzy
+#~ msgid "Add contact"
+#~ msgstr "Kontakt"
+
+#, fuzzy
+#~ msgid "Contacts"
+#~ msgstr "Kontakt"
+
+#, fuzzy
+#~ msgid "No contacts"
+#~ msgstr "Kontakt"
+
+#~ msgid "Verifying number"
+#~ msgstr "Potvrdi broj"
+
+#~ msgid ""
+#~ "Signal will now automatically verify your number with a confirmation SMS "
+#~ "message."
+#~ msgstr "Signal će sada automatski provjeriti vaš broj sa SMS porukom."
+
+#~ msgid "Waiting for SMS verification..."
+#~ msgstr "Čekanje na SMS potvrdu..."
+
+#~ msgid "Call"
+#~ msgstr "Nazovi"
+
+#~ msgid "Reset secure session?"
+#~ msgstr "Resetiraj sigurnu sesiju?"
+
+#~ msgid ""
+#~ "This may help if you're having encryption problems in this conversation. "
+#~ "Your messages will be kept."
+#~ msgstr ""
+#~ "Može pomoći ukoliko imate problema s kriptiranjem u ovom razgovoru. Vaše "
+#~ "poruke će biti zadržane."
+
+#~ msgid "Recipients list"
+#~ msgstr "Popis primatelja"
+
+#~ msgid "Leave group?"
+#~ msgstr "Napusti grupu?"
+
+#~ msgid "Are you sure you want to leave this group?"
+#~ msgstr "Jeste li sigurni da želite napustiti ovu grupu?"
+
+#~ msgid "Delete conversation"
+#~ msgstr "Obriši razgovor"
+
+#~ msgid "Delete conversation?"
+#~ msgstr "Obriši razgovor?"
+
+#~ msgid "This will permanently delete all messages in this conversation."
+#~ msgstr "Trajno ćete obrisati sve poruke u ovom razgovoru."
+
+#~ msgid "Select all"
+#~ msgstr "Odaberi sve"
+
+#~ msgid "Message details"
+#~ msgstr "Detalji poruke"
+
+#~ msgid "Copy text"
+#~ msgstr "Kopiraj tekst"
+
+#~ msgid "Forward message"
+#~ msgstr "Proslijedi poruku"
+
+#~ msgid "Delete message"
+#~ msgstr "Obriši poruku"
+
+#~ msgid "Send Signal message"
+#~ msgstr "Pošalji Signal poruku"
+
+#~ msgid "Delete"
+#~ msgstr "Obriši"
+
+#, fuzzy
+#~ msgid "Delete selected message?"
+#~ msgstr "Obriši poruku"
+
+#, fuzzy
+#~ msgid "This will permanently delete the selected message."
+#~ msgstr "Trajno ćete obrisati sve poruke u ovom razgovoru."
+
+#~ msgid "Group members"
+#~ msgstr "Članovi grupe"
 
 #, fuzzy
 #~ msgid "Forward message to %1?"

@@ -6,10 +6,9 @@ import router from "./router/router";
 import BootstrapVue from 'bootstrap-vue'
 import VueChatScroll from 'vue-chat-scroll'
 import linkify from 'vue-linkify'
-
+import GetTextPlugin from 'vue-gettext'
+import translations from '../translations/translations.json'
 import { library } from '@fortawesome/fontawesome-svg-core'
-
-
 import { faArrowLeft,
          faEllipsisV,
          faPencilAlt,
@@ -33,6 +32,7 @@ Vue.directive('longclick', longClickInstance)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(VueChatScroll)
 Vue.use(BootstrapVue)
+Vue.use(GetTextPlugin, {translations: translations, defaultLanguage: 'en',})
 Vue.directive('linkified', linkify)
 Vue.config.productionTip = false
 var websocketAdress = "ws://[::1]:9080/ws";
@@ -46,6 +46,7 @@ Vue.use(VueNativeSock, websocketAdress,
     reconnectionDelay: 3000, // (Number) how long to initially wait before attempting a new (1000) }
   }
 )
+
 export default new Vue({
   store,
   router,
