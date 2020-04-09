@@ -63,7 +63,10 @@ func SendMessage(s *store.Session, m *store.Message) {
 	m.SentAt = ts
 	s.Timestamp = m.SentAt
 	m.IsSent = true
-	//FIXME avoid rerendering the whole qml
+	if ts == 0 {
+		m.SendingError = true
+		m.SentAt = uint64(time.Now().UnixNano() / 1000000)
+	}
 	m.HTime = helpers.HumanizeTimestamp(m.SentAt)
 	s.When = m.HTime
 	store.UpdateMessageSent(m)

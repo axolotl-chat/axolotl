@@ -66,29 +66,6 @@ func UpdateSession(s *Session) error {
 	}
 	return err
 }
-
-// This is needed for version .26
-func UpdateSessionTable() error {
-	statement, err := DS.Dbx.Prepare("SELECT * FROM sessions limit 1")
-	if err != nil {
-		return err
-	}
-	res, err := statement.Query()
-	if err != nil {
-		return err
-	}
-
-	col, err := res.Columns()
-	if len(col) == 8 {
-		log.Infof("[axolotl] Update session schema")
-		_, err := DS.Dbx.Exec("ALTER TABLE sessions ADD COLUMN notification bool NOT NULL DEFAULT 1")
-		if err != nil {
-			return err
-		}
-	}
-
-	return err
-}
 func DeleteSession(tel string) error {
 	s := SessionsModel.Get(tel)
 	_, err := DS.Dbx.Exec("DELETE FROM messages WHERE sid = ?", s.ID)
