@@ -1,0 +1,30 @@
+$primary: #2090ea;
+$hover-bg: #444;
+
+// Bootstrap variables
+$body-bg: #000;
+$body-color: #ccc;
+$input-bg: #999;
+
+$input-bg: #999;
+$input-border-color: #999;
+$input-color: #000;
+$input-plaintext-color: #000;
+$input-placeholder-color: #555;
+$input-focus-bg: #bbb;
+$input-focus-border-color: $primary;
+$input-border-width: 2px;
+$input-box-shadow: unset;
+$input-focus-box-shadow: unset;
+
+$chat-entry-border-color: #333;
+
+$message-color: #fff;
+$received-message-bg: #2880b0;
+$sent-message-bg: #29b786;
+$sent-message-link: #004090;
+$sent-message-link-visited: #003060;
+
+$message-input-border: $body-bg;
+
+@import './style.scss';
