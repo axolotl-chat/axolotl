@@ -11,6 +11,7 @@ import (
 	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/contact"
 	"github.com/nanu-c/axolotl/app/helpers"
+	"github.com/nanu-c/axolotl/app/settings"
 	"github.com/nanu-c/axolotl/app/store"
 	"github.com/signal-golang/textsecure"
 )
@@ -283,6 +284,33 @@ func SetGui() {
 		// defer mu.Unlock()
 		if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
 			log.Println("[axolotl] send error set gui", err)
+			return
+		}
+	}
+}
+
+type SendDarkmode struct {
+	Darkmode bool
+}
+
+func SetUiDarkMode() {
+	for client := range clients {
+		var err error
+		mode := settings.SettingsModel.DarkMode
+
+		request := &SendDarkmode{
+			Darkmode: mode,
+		}
+		message := &[]byte{}
+		*message, err = json.Marshal(request)
+		if err != nil {
+			log.Errorln("[axolotl] set darkmode", err)
+			return
+		}
+		// mu.Lock()
+		// defer mu.Unlock()
+		if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
+			log.Println("[axolotl] send error set darkmode", err)
 			return
 		}
 	}

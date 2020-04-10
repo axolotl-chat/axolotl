@@ -13,6 +13,7 @@ export default new Vuex.Store({
     contactsFilterActive:false,
     devices: [],
     gui:null,
+    darkMode:false,
     error: null,
     errorConnection: null,
     identity: {
@@ -238,6 +239,9 @@ export default new Vuex.Store({
             else if(Object.keys(messageData)[0]=="Gui"){
               this.commit("SET_CONFIG_GUI", messageData["Gui"]);
             }
+            else if(Object.keys(messageData)[0]=="DarkMode"){
+              this.commit("SET_CONFIG_DARK_MODE", messageData["DarkMode"]);
+            }
             else if(Object.keys(messageData)[0]=="CurrentChat"){
               this.commit("SET_CURRENT_CHAT", messageData["CurrentChat"]);
             }
@@ -267,6 +271,9 @@ export default new Vuex.Store({
         },
         SET_CONFIG_GUI(state, gui) {
           state.gui =  gui;
+        },
+        SET_CONFIG_DARK_MODE(state, darkMode){
+          state.darkMode = darkMode;
         },
   },
 
@@ -596,6 +603,16 @@ export default new Vuex.Store({
           "path": data.path,
           "to": data.to,
           "message": data.message,
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
+
+      }
+    },
+    setDarkMode:function(state, darkMode){
+      if(this.state.socket.isConnected){
+        var message = {
+          "request":"setDarkMode",
+          "darkMode": darkMode,
         }
         Vue.prototype.$socket.send(JSON.stringify(message))
 

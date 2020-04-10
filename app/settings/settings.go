@@ -16,6 +16,7 @@ type Settings struct {
 	CountryCode     string `yaml:"countrysDatabase"`
 	Registered      bool   `yaml:"registered"`
 	DebugLog        bool   `yaml:"debugLog"`
+	DarkMode        bool   `yaml:"darkMode"`
 }
 
 var SettingsModel *Settings

@@ -158,3 +158,7 @@ type VerifyIdentityMessage struct {
 	Type string `json:"request"`
 	Chat string `json:"chat"`
 }
+type SetDarkMode struct {
+	Type     string `json:"request"`
+	DarkMode bool   `json:"darkMode"`
+}
