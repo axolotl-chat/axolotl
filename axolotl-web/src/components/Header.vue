@@ -192,6 +192,7 @@
         this.$store.dispatch("clearMessageList");
         this.contactsFilter != "";
         this.toggleSearch = false;
+        this.names = []
         this.$store.dispatch("clearFilterContacts");
       },
       toggleSettings() {
