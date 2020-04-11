@@ -19,7 +19,7 @@ msgstr ""
 msgid "A cross-plattform signal client"
 msgstr ""
 
-#: src/pages/Settings.vue:28
+#: src/pages/Settings.vue:32
 msgid "About Axolotl"
 msgstr ""
 
@@ -87,6 +87,10 @@ msgstr ""
 
 #: src/pages/SetPassword.vue:10
 msgid "Current password is wrong"
+msgstr ""
+
+#: src/pages/Settings.vue:23
+msgid "Dark mode"
 msgstr ""
 
 #: src/pages/Password.vue:4
@@ -176,11 +180,11 @@ msgstr ""
 msgid "No devices available"
 msgstr ""
 
-#: src/pages/MessageList.vue:98
+#: src/pages/MessageList.vue:107
 msgid "No Messages available."
 msgstr ""
 
-#: src/pages/MessageList.vue:53 src/pages/MessageList.vue:79
+#: src/pages/MessageList.vue:57 src/pages/MessageList.vue:83
 msgid "Not supported mime type:"
 msgstr ""
 
@@ -257,6 +261,10 @@ msgstr ""
 msgid "Set password"
 msgstr ""
 
+#: src/pages/MessageList.vue:89
+msgid "Set timer for self-destructing messages"
+msgstr ""
+
 #: src/pages/SetPassword.vue:3
 msgid ""
 "Setting a password is not adviced on devices short in memory. Restart is "
@@ -318,12 +326,12 @@ msgstr ""
 msgid "Wrong code entered. Restart for another try."
 msgstr ""
 
-#: src/pages/MessageList.vue:11 src/pages/MessageList.vue:40
-#: src/pages/MessageList.vue:49 src/pages/MessageList.vue:64
+#: src/pages/MessageList.vue:11 src/pages/MessageList.vue:44
+#: src/pages/MessageList.vue:53 src/pages/MessageList.vue:68
 msgid "Your browser does not support the audio element."
 msgstr ""
 
-#: src/pages/MessageList.vue:74
+#: src/pages/MessageList.vue:78
 msgid "Your browser does not support the video element."
 msgstr ""
 

@@ -15,12 +15,16 @@
           <button class="btn btn-secondary close" @click="showFullscreenVideoSrc=''">X</button>
         </div>
           <div v-for="(message,i) in messages.slice().reverse()"
-              :class="{'col-12':true, 'sent':message.Outgoing, 'reply':!message.Outgoing, 'error':message.SentAt==0}"
+              :class="{'col-12':true,
+                      'sent':message.Outgoing,
+                      'reply':!message.Outgoing,
+                      'status':message.Flags>0||message.StatusMessage||message.Attachment.includes('null')&&message.Message=='',
+                      'error':message.SentAt==0||message.SendingError}"
               v-bind:key="i"
                >
             <div class="row w-100">
               <div class="col-12 data">
-                <div class="avatar">
+                <div class="avatar" v-if="message.Flags==0">
                 </div>
                 <div class="message">
                   <div class="sender" v-if="!message.Outgoing&&isGroup">
@@ -83,6 +87,10 @@
                   </div>
                   <div class="message-text">
                     <span v-html="message.Message" v-linkified ></span>
+                    <div class="status-message" v-if="message.Attachment.includes('null')&&message.Message==''&&message.Flags==0">
+                      <span v-translate>Set timer for self-destructing messages </span>
+                      <div> {{message.ExpireTimer+" s"}}</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -456,6 +464,35 @@ video,
 }
 .sent .message{
   background-color:#d3f2d7;
+}
+.status .message{
+  background-color:transparent;
+  width:100%;
+  display:flex;
+  justify-content:center;
+  font-weight:600;
+  text-align: center;
+}
+.status .data{
+  justify-content:center;
+}
+.status{
+  justify-content:center;
+
+}
+.status .status-message{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  font-weight:600;
+  text-align: center;
+}
+.status .status-message span{
+  padding-right:4px;
+}
+.status .meta{
+  text-align: center;
+  justify-content:center;
 }
 .error .message{
   background-color:#f7663a;

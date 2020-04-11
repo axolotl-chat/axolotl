@@ -150,6 +150,8 @@ func TypingMessageHandler(msg *textsecure.Message) {
 	webserver.UpdateChatList()
 }
 func ReceiptHandler(source string, devID uint32, timestamp uint64) {
+	webserver.UpdateChatList()
+
 	s := store.SessionsModel.Get(source)
 	for i := len(s.Messages) - 1; i >= 0; i-- {
 		m := s.Messages[i]
@@ -164,6 +166,8 @@ func ReceiptHandler(source string, devID uint32, timestamp uint64) {
 }
 
 func ReceiptMessageHandler(msg *textsecure.Message) {
+	webserver.UpdateChatList()
+
 	log.Println("[axolotl] receiptMessageHandler: Message ", msg)
 }
 
@@ -239,9 +243,6 @@ func SyncSentHandler(msg *textsecure.Message, timestamp uint64) {
 	}
 	session := store.SessionsModel.Get(s)
 	m := session.Add(text, "", f, mt, true, store.ActiveSessionID)
-	if gr != nil && gr.Flags != 0 {
-		m.StatusMessage = true
-	}
 	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
 	m.SentAt = msg.Timestamp()
 	m.HTime = helpers.HumanizeTimestamp(m.SentAt)
@@ -253,6 +254,10 @@ func SyncSentHandler(msg *textsecure.Message, timestamp uint64) {
 
 	if msgFlags != 0 {
 		m.Flags = msgFlags
+		m.StatusMessage = true
+	}
+	if len(text) == 0 {
+		m.StatusMessage = true
 	}
 	m.IsSent = true
 	//TODO: have only one message per chat
