@@ -615,7 +615,7 @@ export default new Vuex.Store({
           "darkMode": darkMode,
         }
         Vue.prototype.$socket.send(JSON.stringify(message))
-
+        this.state.DarkMode = darkMode;
       }
     }
   }

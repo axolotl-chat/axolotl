@@ -19,6 +19,10 @@
     <button class="btn btn-danger" @click="showConfirmationModal=true" v-translate>
       Unregister
     </button>
+    <div class="custom-control darkmode-switch">
+      <input type="checkbox" class="custom-control-input" id="darkmode-switch" @change="toggleDarkMode()">
+      <label class="custom-control-label" for="darkmode-switch" v-translate>Dark mode</label>
+    </div>
     <confirmation-modal
     v-if="showConfirmationModal"
     @close="showConfirmationModal=false"
@@ -48,6 +52,9 @@ export default {
     unregister(){
       this.$store.dispatch("unregister");
     },
+    toggleDarkMode(){
+      this.$store.dispatch("setDarkMode", !this.darkMode);
+    }
   },
   mounted(){
     this.$store.dispatch("getConfig")
@@ -57,7 +64,7 @@ export default {
       showConfirmationModal:false
     };
   },
-  computed: mapState(['config'])
+  computed: mapState(['config', 'darkMode'])
 }
 </script>
 <style scoped>
