@@ -22,7 +22,7 @@
                       'error':message.SentAt==0||message.SendingError}"
               v-bind:key="i"
                >
-            <div class="row w-100">
+            <div class="row w-100" v-if="verifySelfDestruction(message)">
               <div class="col-12 data">
                 <div class="avatar" v-if="message.Flags==0">
                 </div>
@@ -255,6 +255,21 @@ export default {
       }
 
       this.scrollDown();
+    },
+    verifySelfDestruction(m){
+      var a = m;
+      m=a;
+      if(m.ExpireTimer!=0){
+        // console.log(m.ExpireTimer,m.SentAt, m.ReceivedAt, Date.now())
+        if(m.ReceivedAt!=0){
+          // hide destructed messages but not timer settings
+          if(Date.now()-m.ReceivedAt>m.ExpireTimer&&m.Message!=""){
+            return false;
+          }
+        }
+
+      }
+      return true
     },
     handleScroll (event) {
       if(event.target.scrollTop<50
