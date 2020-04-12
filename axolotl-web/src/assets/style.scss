@@ -1,0 +1,55 @@
+// Start bootstrap override
+$dropdown-bg: $body-bg;
+$dropdown-link-hover-bg: $hover-bg;
+$dropdown-color: $body-color;
+$dropdown-link-color: $body-color;
+$dropdown-link-hover-color: $body-color;
+$dropdown-border-color: $body-color;
+
+$modal-content-color: $body-color;
+$modal-content-bg: $body-bg;
+$modal-content-border-color: $body-color;
+$close-color: $body-color;
+
+$link-color: $primary;
+// End of bootstrap override
+
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/bootstrap-vue/src/index.scss';
+
+// All variables are now loaded, we can use them
+
+$sent-message-link-visited: darken($sent-message-link, 10%);
+
+.row.chat-entry{
+  border-bottom: 1px solid $chat-entry-border-color;
+}
+
+.message {
+  color: $message-color;
+  background-color: $received-message-bg;
+  a {
+    color: $sent-message-link;
+    &:visited {
+      color: $sent-message-link-visited;
+    }
+  }
+}
+
+.sent .message{
+  background-color: $sent-message-bg;
+}
+
+#messageInput{
+  border:1px solid $message-input-border;
+  background-color: $input-bg;
+}
+
+.vue-phone-number-input {
+  background-color: $input-bg;
+  color: $input-color;
+}
+
+.info {
+  background-color: $body-bg;
+}

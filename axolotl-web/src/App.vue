@@ -6,11 +6,30 @@
       <router-view />
     </div>
   </div>
-
 </template>
+
 <script>
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+window.getCookie = function(cname) {
+      var name = cname + "=";
+      var ca = document.cookie.split(';');
+      for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return false;
+}
+if (window.getCookie("darkMode") == "1") {
+  console.log("Set dark")
+  import ('./assets/dark.scss');
+} else {
+  console.log("Set light")
+  import ('./assets/light.scss');
+}
 import HeaderComp from "@/components/Header.vue"
 import ErrorModal from "@/components/ErrorModal.vue"
 export default {
@@ -28,7 +47,6 @@ export default {
       return this.$store.state.error
     }
   }
-
 }
 </script>
 <style>

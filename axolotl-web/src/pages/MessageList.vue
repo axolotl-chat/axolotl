@@ -445,11 +445,10 @@ export default {
     padding: 0px 20px;
 }
 
-.message{
-  padding:5px;
+.message {
+  padding: 5px 8px;
   border-radius:10px;
   max-width:85%;
-  background-color:#dfdfdf;
   text-align:left;
   min-width:100px;
 }
@@ -461,9 +460,6 @@ video,
 .attachment-img img {
     max-width: 100%;
     max-height: 80vh;
-}
-.sent .message{
-  background-color:#d3f2d7;
 }
 .status .message{
   background-color:transparent;
@@ -503,8 +499,6 @@ video,
   left: 0px;
   padding: 4px;
   height: -3px;
-  background-color:
-  #FFF;
   -webkit-transition: width 0.5s, height 0.5s;
   transition: width 0.5s, height 0.5s;
   position: fixed;
@@ -525,7 +519,6 @@ video,
   bottom: 0px;
   width: 100%;
   max-height: 150px;
-  border:1px solid #2090ea;
   height: 35px;
   padding:3px 10px;
   transition: width 0.5s, height 0.5s;
@@ -533,7 +526,6 @@ video,
   ::-webkit-scrollbar {
       display: block;
   }
-
 }
 textarea:focus, input:focus{
     outline: none;
@@ -582,5 +574,4 @@ textarea:focus, input:focus{
   padding-right:3px;
   padding-bottom:3px;
 }
-
 </style>

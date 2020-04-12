@@ -53,7 +53,38 @@ export default {
       this.$store.dispatch("unregister");
     },
     toggleDarkMode(){
+      console.log("darkmode == " + this.darkMode);
       this.$store.dispatch("setDarkMode", !this.darkMode);
+      var c = this.getCookie("darkMode")
+      if(c==0)c=1
+      else c=0
+      this.setCookie("darkMode", c, 2000);
+      // localStorage.setItem("darkMode", this.darkMode);
+      setTimeout(function(){
+        // window.location.replace("/chatList")
+        window.location.reload(true);
+      }, 200);
+    },
+    getCookie(cname) {
+      var name = cname + "=";
+      var ca = document.cookie.split(';');
+      for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return false;
+    },
+    setCookie(cname, cvalue, exdays) {
+      var d = new Date();
+      d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+      var expires = "expires="+d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+
     }
   },
   mounted(){
