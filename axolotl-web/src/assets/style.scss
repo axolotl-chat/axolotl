@@ -1,3 +1,5 @@
+$sent-message-link-visited: darken($sent-message-link, 10%);
+
 // Start bootstrap override
 $dropdown-bg: $body-bg;
 $dropdown-link-hover-bg: $hover-bg;
@@ -18,10 +20,7 @@ $link-color: $primary;
 @import 'node_modules/bootstrap-vue/src/index.scss';
 
 // All variables are now loaded, we can use them
-
-$sent-message-link-visited: darken($sent-message-link, 10%);
-
-.row.chat-entry{
+.row.chat-entry {
   border-bottom: 1px solid $chat-entry-border-color;
 }
 
@@ -36,12 +35,12 @@ $sent-message-link-visited: darken($sent-message-link, 10%);
   }
 }
 
-.sent .message{
+.sent .message {
   background-color: $sent-message-bg;
 }
 
-#messageInput{
-  border:1px solid $message-input-border;
+#messageInput {
+  border: 1px solid $message-input-border;
   background-color: $input-bg;
 }
 
