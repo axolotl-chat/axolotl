@@ -365,7 +365,8 @@ func webserver() {
 		defer log.Errorln("[axolotl] webserver error")
 
 		path := "./axolotl-web/dist"
-		if len(os.Getenv("SNAP")) > 0 {
+		snapEnv := os.Getenv("SNAP")
+		if len(snapEnv) > 0 && !strings.Contains(snapEnv, "/snap/go/") {
 			path = os.Getenv("SNAP") + "/bin/axolotl-web/"
 		}
 		log.Debugln("[axoltol] axoltol-web path", path)

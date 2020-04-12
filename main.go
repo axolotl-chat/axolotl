@@ -92,11 +92,11 @@ func runElectron() {
 	// Start astilectron
 
 	if err := a.Start(); err != nil {
-		astilog.Fatal(errors.Wrap(err, "main: starting astilectron failed"))
+		log.Debugln(errors.Wrap(err, "main: starting astilectron failed"))
 	}
 
 	a.On(astilectron.EventNameAppCrash, func(e astilectron.Event) (deleteListener bool) {
-		log.Errorln("Electron App has crashed", e)
+		log.Errorln("[axolotl-electron] Electron App has crashed", e)
 		return
 	})
 	a.HandleSignals()
@@ -108,16 +108,20 @@ func runElectron() {
 		Height: astilectron.PtrInt(600),
 		Width:  astilectron.PtrInt(600),
 	}); err != nil {
-		astilog.Fatal(errors.Wrap(err, "main: new window failed"))
+		log.Debugln(errors.Wrap(err, "main: new window failed"))
 	}
+
 	// Create windows
 	if err = w.Create(); err != nil {
-		astilog.Fatal(errors.Wrap(err, "main: creating window failed"))
+		log.Debugln(errors.Wrap(err, "main: creating window failed"))
 	}
-	w.Session.ClearCache()
+	log.Debugln("[axolotl-electron] open dev tools", config.ElectronDebug)
+
 	if config.ElectronDebug {
 		w.OpenDevTools()
 	}
+	w.Session.ClearCache()
+
 	// Blocking pattern
 	a.Wait()
 }

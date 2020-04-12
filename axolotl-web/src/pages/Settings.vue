@@ -60,8 +60,8 @@ export default {
       this.setCookie("darkMode", c, 2000);
       // localStorage.setItem("darkMode", this.darkMode);
       setTimeout(function(){
-        // window.location.replace("/chatList")
-        window.location.reload(true);
+        window.location.replace("/")
+        // window.location.reload(true);
       }, 200);
     },
     getCookie(cname) {
