@@ -526,7 +526,6 @@ video,
 #messageInput{
   padding-right:10px;
   border-radius:0px;
-  border:none;
   resize: none;
   bottom: 0px;
   width: 100%;
