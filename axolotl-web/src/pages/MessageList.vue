@@ -27,7 +27,7 @@
                 <div class="avatar" v-if="message.Flags==0">
                 </div>
                 <div class="message">
-                  <div class="sender" v-if="!message.Outgoing&&isGroup">
+                  <div class="sender" v-if="!message.Outgoing&&isGroup&&message.Flags==0">
                     <div v-if="names[message.Source]">
                       {{names[message.Source]}}
                     </div>
