@@ -58,7 +58,7 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	// listen indefinitely for new messages coming
 	// through on our WebSocket connection
 	SetGui()
-	SetUiDarkMode()
+	SetUiDarkMode(ws)
 	// if registered {
 	UpdateChatList()
 	UpdateContactList()
@@ -108,8 +108,11 @@ func wsReader(conn *websocket.Conn) {
 		case "setDarkMode":
 			setDarkMode := SetDarkMode{}
 			json.Unmarshal([]byte(p), &setDarkMode)
+			log.Debugln("[axolotl] SetDarkMode ", setDarkMode.DarkMode)
 			settings.SettingsModel.DarkMode = setDarkMode.DarkMode
 			settings.SaveSettings(settings.SettingsModel)
+			SetUiDarkMode(conn)
+
 		case "getMoreMessages":
 			getMoreMessages := GetMoreMessages{}
 			json.Unmarshal([]byte(p), &getMoreMessages)

@@ -273,7 +273,14 @@ export default new Vuex.Store({
           state.gui =  gui;
         },
         SET_CONFIG_DARK_MODE(state, darkMode){
-          state.darkMode = darkMode;
+          if(window.getCookie("darkMode")!=String(darkMode)){
+            var d = new Date();
+            d.setTime(d.getTime() + (300 * 24 * 60 * 60 * 1000));
+            var expires = "expires="+d.toUTCString();
+            document.cookie = "darkMode" + "=" + darkMode + ";" + expires + ";path=/";
+            state.darkMode = darkMode;
+            window.location.replace("/")
+          }
         },
   },
 

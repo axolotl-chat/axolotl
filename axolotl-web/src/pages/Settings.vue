@@ -53,16 +53,10 @@ export default {
       this.$store.dispatch("unregister");
     },
     toggleDarkMode(){
-      this.$store.dispatch("setDarkMode", !this.darkMode);
       var c = this.getCookie("darkMode")
       if((this.getCookie("darkMode") === 'false'))c = true
       else c = false
-      this.setCookie("darkMode", c, 2000);
-      // localStorage.setItem("darkMode", this.darkMode);
-      setTimeout(function(){
-        window.location.replace("/")
-        // window.location.reload(true);
-      }, 200);
+      this.$store.dispatch("setDarkMode", c);
     },
     getCookie(cname) {
       var name = cname + "=";
@@ -78,13 +72,6 @@ export default {
       }
       return false;
     },
-    setCookie(cname, cvalue, exdays) {
-      var d = new Date();
-      d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-      var expires = "expires="+d.toUTCString();
-      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-
-    }
   },
   mounted(){
     this.$store.dispatch("getConfig")

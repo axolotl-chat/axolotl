@@ -290,29 +290,29 @@ func SetGui() {
 }
 
 type SendDarkmode struct {
-	Darkmode bool
+	DarkMode bool
 }
 
-func SetUiDarkMode() {
-	for client := range clients {
-		var err error
-		mode := settings.SettingsModel.DarkMode
+func SetUiDarkMode(client *websocket.Conn) {
+	log.Debugln("[axolotl] send darkmode to client", settings.SettingsModel.DarkMode)
 
-		request := &SendDarkmode{
-			Darkmode: mode,
-		}
-		message := &[]byte{}
-		*message, err = json.Marshal(request)
-		if err != nil {
-			log.Errorln("[axolotl] set darkmode", err)
-			return
-		}
-		// mu.Lock()
-		// defer mu.Unlock()
-		if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
-			log.Println("[axolotl] send error set darkmode", err)
-			return
-		}
+	var err error
+	mode := settings.SettingsModel.DarkMode
+
+	request := &SendDarkmode{
+		DarkMode: mode,
+	}
+	message := &[]byte{}
+	*message, err = json.Marshal(request)
+	if err != nil {
+		log.Errorln("[axolotl] set darkmode", err)
+		return
+	}
+	// mu.Lock()
+	// defer mu.Unlock()
+	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
+		log.Println("[axolotl] send error set darkmode", err)
+		return
 	}
 }
 func sendConfig(client *websocket.Conn) {
