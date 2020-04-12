@@ -37,7 +37,7 @@ What is missing
 
 There are still bugs and UI/UX quirks.
 
-Installation
+Installation of development environment
 ------------
 * Install [Golang](https://golang.org/doc/install)
 * Install node js
@@ -47,6 +47,16 @@ Installation
 * `cd $(go env GOPATH)/src/github.com/nanu-c/axolotl`
 * get go dependencies `go get -d ...`
 * install axolotl-web dependencies: `cd axolotl-web&&npm install`
+
+Translations
+------------
+Axolotl uses gettext for translations. Use the po files in `/po/` for translations.
+For testing set up  development enviroment and run
+* `npm run translate-extract` extracting the language strings. This updates only the pot file
+* `npm run translate-update` for updating all the translation files
+* `npm run translate-compile` for updating the json file used by axolotl-web. Without that you don't see any results
+* or `npm run translate` for all of the 3 commands at the same time. This should be run befor commiting any changes on axolotl-web
+
 
 Run development
 ------------
