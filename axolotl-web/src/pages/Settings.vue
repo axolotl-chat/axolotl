@@ -53,7 +53,6 @@ export default {
       this.$store.dispatch("unregister");
     },
     toggleDarkMode(){
-      console.log("darkmode == " + this.darkMode);
       this.$store.dispatch("setDarkMode", !this.darkMode);
       var c = this.getCookie("darkMode")
       if(c==0)c=1

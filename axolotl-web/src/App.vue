@@ -24,10 +24,8 @@ window.getCookie = function(cname) {
       return false;
 }
 if (window.getCookie("darkMode") == "1") {
-  console.log("Set dark")
   import ('./assets/dark.scss');
 } else {
-  console.log("Set light")
   import ('./assets/light.scss');
 }
 import HeaderComp from "@/components/Header.vue"
