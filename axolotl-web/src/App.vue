@@ -23,7 +23,7 @@ window.getCookie = function(cname) {
       }
       return false;
 }
-if (window.getCookie("darkMode") == "1") {
+if (window.getCookie("darkMode") === 'true') {
   import ('./assets/dark.scss');
 } else {
   import ('./assets/light.scss');
