@@ -89,7 +89,7 @@
                     <span v-html="message.Message" v-linkified ></span>
                     <div class="status-message" v-if="message.Attachment.includes('null')&&message.Message==''&&message.Flags==0">
                       <span v-translate>Set timer for self-destructing messages </span>
-                      <div> {{message.ExpireTimer+" s"}}</div>
+                      <div> {{humanifyTimePeriod(message.ExpireTimer)}}</div>
                     </div>
                   </div>
                 </div>
@@ -295,7 +295,18 @@ export default {
     },
     keyupHandler(e){
       this.calcHeightsForInput(e);
+    },
+    humanifyTimePeriod(time){
+      if(time<60)
+      return time +" s";
+      else if(time<60*60)
+      return time/60+" m"
+      else if(time<60*60*24)
+      return time/60/60+" h"
+      else if(time<60*60*24)
+      return time/60/60/24+" d"
 
+      return time
     },
     calcHeightsForInput(){
       var el = document.getElementById("messageInput");
@@ -482,6 +493,7 @@ video,
   justify-content:center;
   font-weight:600;
   text-align: center;
+  flex-direction:column;
 }
 .status .status-message span{
   padding-right:4px;
