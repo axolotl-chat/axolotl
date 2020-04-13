@@ -84,7 +84,7 @@ msgstr "Gruppe erstellen"
 
 #: src/pages/SetPassword.vue:23
 msgid "Current Password"
-msgstr "Passwort erstellen"
+msgstr "Derzeitiges Passwort"
 
 #: src/pages/SetPassword.vue:10
 msgid "Current password is wrong"
