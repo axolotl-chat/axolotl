@@ -29,17 +29,14 @@ msgid "Add"
 msgstr "Legg til"
 
 #: src/components/Header.vue:125
-#, fuzzy
 msgid "Add Contacts"
 msgstr "Legg til kontakter"
 
 #: src/components/AddGroupMembersModal.vue:58
-#, fuzzy
 msgid "Add Contacts first"
 msgstr "Legg til kontakter først"
 
 #: src/components/AddGroupMembersModal.vue:5
-#, fuzzy
 msgid "Add members"
 msgstr "Legg til gruppemedlemmer"
 
@@ -76,7 +73,6 @@ msgid "Contact list is empty..."
 msgstr "Kontaktlisten er tom..."
 
 #: src/pages/NewGroup.vue:12
-#, fuzzy
 msgid "Create group"
 msgstr "Opprett gruppe"
 
@@ -114,7 +110,6 @@ msgid "Edit group"
 msgstr "Oppdatér gruppe"
 
 #: src/components/Header.vue:57
-#, fuzzy
 msgid "Edit Group"
 msgstr "Oppdatér gruppe"
 
@@ -151,7 +146,6 @@ msgid "Last seen:"
 msgstr "Sist sett:"
 
 #: src/pages/Settings.vue:11
-#, fuzzy
 msgid "Linked devices"
 msgstr "Refresh"
 
@@ -160,7 +154,6 @@ msgid "Loading..."
 msgstr "Laster..."
 
 #: src/pages/NewGroup.vue:10
-#, fuzzy
 msgid "Members"
 msgstr "Medlemmer"
 
@@ -225,7 +218,6 @@ msgid "Photo"
 msgstr "Bilde"
 
 #: src/pages/Settings.vue:5
-#, fuzzy
 msgid "Registered number"
 msgstr "Registrér nummer"
 
@@ -238,7 +230,6 @@ msgid "Request code"
 msgstr "Få kode"
 
 #: src/components/Header.vue:56
-#, fuzzy
 msgid "Reset encryption"
 msgstr "Nullstill sikker sesjon"
 
@@ -259,7 +250,6 @@ msgid "Send pin"
 msgstr "Send PIN"
 
 #: src/components/Header.vue:75
-#, fuzzy
 msgid "Set encryption password"
 msgstr "Angi passord for sikker sesjon"
 
@@ -282,7 +272,6 @@ msgid "Settings"
 msgstr "Innstillinger"
 
 #: src/components/Header.vue:55
-#, fuzzy
 msgid "Show identity"
 msgstr "Vis identitet"
 
@@ -291,14 +280,12 @@ msgid "sponsor on patreon."
 msgstr "sponsor på patreon."
 
 #: src/pages/About.vue:6
-msgid ""
 "This is a free and open source signal client written in golang and vuejs.\n"
 "    You can support the development of axolotl either by filling"
 msgstr "Dette er en gratis og åpen kildekode signal klient skrevet i golang og vuejs.\n"
 "    Du kan støtte utviklingen av axolotl enten ved å fylle ut"
 
 #: src/components/Header.vue:26 src/pages/ChatList.vue:28
-#, fuzzy
 msgid "Unknown group"
 msgstr "Ukjent gruppe"
 
@@ -308,7 +295,6 @@ msgstr "Opphev lydløs"
 
 #: src/components/ErrorModal.vue:13 src/pages/Password.vue:5
 #: src/pages/Settings.vue:18
-#, fuzzy
 msgid "Unregister"
 msgstr "Avregistrér"
 
@@ -317,7 +303,6 @@ msgid "Unsafe password"
 msgstr "Usikkert passord"
 
 #: src/pages/EditGroup.vue:47
-#, fuzzy
 msgid "Updating Group"
 msgstr "Oppdatér gruppe"
 
