@@ -194,6 +194,8 @@ export default new Vuex.Store({
           state.identity.their = identity.TheirId;
         },
         LEAVE_CHAT(state){
+          state.currentGroup = null;
+          state.currentContact = null;
           state.currentChat = null;
           this.commit("CLEAR_MESSAGELIST");
         },
@@ -366,13 +368,13 @@ export default new Vuex.Store({
       this.commit("SET_CURRENT_CHAT", chat);
     },
     leaveChat:function(){
+      this.commit("LEAVE_CHAT");
       if(this.state.socket.isConnected){
         var message = {
           "request":"leaveChat",
         }
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
-      this.commit("LEAVE_CHAT");
     },
     createChat:function(state, tel){
       if(this.state.socket.isConnected){

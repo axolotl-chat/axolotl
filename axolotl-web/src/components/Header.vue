@@ -6,9 +6,9 @@
         <div v-if="route()=='chat'" class="message-list-container row">
           <div v-if="errorConnection!=null" class="connection-error"></div>
           <div class="col-10 chat-header">
-            <router-link class="btn" :to="'/chatList'">
+            <button class="btn" @click="back()">
               <font-awesome-icon icon="arrow-left" />
-            </router-link>
+            </button>
             <div class="row w-100" v-if="currentChat!=null">
               <div class="col-2 badge-container">
                 <div v-if="currentChat!=null&&currentChat.IsGroup" class="badge-name">
@@ -189,6 +189,7 @@
       back() {
         this.$router.go(-1)
         this.showSettingsMenu = false;
+        this.$store.dispatch("leaveChat");
         this.$store.dispatch("clearMessageList");
         this.contactsFilter != "";
         this.toggleSearch = false;
