@@ -289,7 +289,6 @@ export default {
       var r = moment(m.ReceivedAt)
       var duration = moment.duration(r.diff(moment.now()));
       var percentage = 1-((m.ExpireTimer+duration.asSeconds())/m.ExpireTimer)
-      console.log(percentage, 359*percentage)
       if(percentage<1)
       return 179*percentage
       else return 0
