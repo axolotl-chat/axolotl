@@ -34,6 +34,7 @@ func SendMessageHelper(to, message, file string) (error, *store.Message) {
 
 		m := session.Add(message, "", attachments, "", true, store.ActiveSessionID)
 		m.Source = to
+		m.ExpireTimer = session.ExpireTimer
 		_, savedM := store.SaveMessage(m)
 
 		go SendMessage(session, m)
