@@ -83,7 +83,7 @@ export default {
     max-width: 100%!important;
     margin: 0 auto;
 }
-#setPassword{
+.Password__group #setPassword {
   display: block;
   width: 100%;
   height: calc(1.5em + .75rem + 2px);
