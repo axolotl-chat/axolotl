@@ -42,6 +42,11 @@ var upgrader = websocket.Upgrader{
 	WriteBufferSize: 1024,
 }
 
+func RemoveClientFromList(client *websocket.Conn) {
+	log.Debugln("[axolotl-ws] remove client")
+	delete(clients, client)
+}
+
 func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
 

@@ -32,6 +32,7 @@ func sendChatList(client *websocket.Conn) {
 	err = client.WriteMessage(websocket.TextMessage, *message)
 	if err != nil {
 		log.Println("[axolotl] send error chat list ", err)
+		RemoveClientFromList(client)
 		return
 	}
 }
@@ -64,6 +65,7 @@ func sendCurrentChat(client *websocket.Conn, s *store.Session) {
 	err = client.WriteMessage(websocket.TextMessage, *message)
 	if err != nil {
 		log.Println("[axolotl] send error current chat ", err)
+		RemoveClientFromList(client)
 		return
 	}
 
@@ -80,6 +82,7 @@ func refreshContacts(client *websocket.Conn, path string) {
 }
 func recoverFromWsPanic(client *websocket.Conn) {
 	client.Close()
+	RemoveClientFromList(client)
 
 }
 func sendContactList(client *websocket.Conn) {
@@ -284,6 +287,7 @@ func SetGui() {
 		// defer mu.Unlock()
 		if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
 			log.Println("[axolotl] send error set gui", err)
+			RemoveClientFromList(client)
 			return
 		}
 	}

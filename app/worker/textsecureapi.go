@@ -183,7 +183,7 @@ func RunBackend() {
 
 				}
 				if err := textsecure.StartListening(); err != nil {
-					log.Debugln(err)
+					log.Debugln("[axolotl-ws] error:", err)
 					if err.Error() == "websocket: bad handshake" {
 						badHandshake = true
 					}
