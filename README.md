@@ -50,7 +50,7 @@ Installation of development environment
 
 Translations
 ------------
-Axolotl uses gettext for translations. Use the po files in `/po/` for translations.
+Axolotl uses gettext for translations. Use the `.po` files in `/po/` for translations.
 Instructions on how to translate using `.po` files are available here: http://docs.ubports.com/en/latest/contribute/translations.html#po-ts-file-editor
 
 Once you finished translating, test the strings. For testing set up  development enviroment as above and run
