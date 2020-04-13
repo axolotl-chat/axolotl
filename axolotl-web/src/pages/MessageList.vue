@@ -271,8 +271,6 @@ export default {
       this.scrollDown();
     },
     verifySelfDestruction(m){
-      console.log("blub3", m.Message,m.ExpireTimer)
-
       if(m.ExpireTimer!=0){
         // console.log(m.ExpireTimer,m.SentAt, m.ReceivedAt, Date.now())
         if(m.ReceivedAt!=0){
@@ -282,18 +280,14 @@ export default {
           if((duration.asSeconds()+m.ExpireTimer)<0&&m.Message!=""){
             return false;
           }
-          console.log("blub", m.Message)
-
         }
         else if (m.SentAt!=0){
-          console.log("blub2", m.Message)
           var rS = moment(m.SentAt)
           var durationS = moment.duration(rS.diff(moment.now()));
           if((durationS.asSeconds()+m.ExpireTimer)<0&&m.Message!=""){
             return false;
           }
         }
-
       }
       return true
     },
