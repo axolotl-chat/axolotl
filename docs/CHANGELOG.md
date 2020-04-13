@@ -1,3 +1,18 @@
+0.8.0 (Apr 13 2020)
+------------------------------------
+* Support for DarkMode by Flaburgan (and a little bit nanu-c)
+* UI/UX improvements by Flaburgan
+* Translations (help needed, see github for how to translate)
+* French translation by Flaburgan
+* Norwegian translation by Ari
+* German translation
+* Basic support for self destroying messages
+* more Error handling on registration failures
+
+Bugfixes:
+* Members of groups are now correctly shown
+* fix set password page
+
 0.7.7.2 (Mar 05 2020) Hotfix
 ------------------------------------
 * Don't display always "file" on pure text messages
