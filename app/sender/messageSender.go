@@ -58,9 +58,10 @@ func SendMessage(s *store.Session, m *store.Message) {
 			log.Printf("[axolotl] SendMessage FileOpend")
 		}
 	}
-	ts := SendMessageLoop(s.Tel, m.Message, s.IsGroup, att, m.Flags)
+	ts := SendMessageLoop(s.Tel, m.Message, s.IsGroup, att, m.Flags, s.ExpireTimer)
 	log.Debugln("[axolotl] SendMessage", s.Tel)
 	m.SentAt = ts
+	m.ExpireTimer = s.ExpireTimer
 	s.Timestamp = m.SentAt
 	m.IsSent = true
 	if ts == 0 {
@@ -72,7 +73,7 @@ func SendMessage(s *store.Session, m *store.Message) {
 	store.UpdateMessageSent(m)
 	store.UpdateSession(s)
 }
-func SendMessageLoop(to, message string, group bool, att io.Reader, flags int) uint64 {
+func SendMessageLoop(to, message string, group bool, att io.Reader, flags int, timer uint32) uint64 {
 	var err error
 	var ts uint64
 	var count int
@@ -86,17 +87,17 @@ func SendMessageLoop(to, message string, group bool, att io.Reader, flags int) u
 			_, err = textsecure.UpdateGroup(to, store.Groups[to].Name, strings.Split(store.Groups[to].Members, ","))
 		} else if att == nil {
 			if group {
-				ts, err = textsecure.SendGroupMessage(to, message)
+				ts, err = textsecure.SendGroupMessage(to, message, timer)
 				if err != nil {
 					log.Errorln("[axolotl] send to group ", err)
 				}
 				log.Debugln("[axolotl] send to group ")
 			} else {
-				ts, err = textsecure.SendMessage(to, message)
+				ts, err = textsecure.SendMessage(to, message, timer)
 			}
 		} else {
 			if group {
-				ts, err = textsecure.SendGroupAttachment(to, message, att)
+				ts, err = textsecure.SendGroupAttachment(to, message, att, timer)
 			} else {
 				log.Printf("SendMessageLoop sendAttachment")
 				// buf := new(bytes.Buffer)
@@ -104,7 +105,7 @@ func SendMessageLoop(to, message string, group bool, att io.Reader, flags int) u
 				// s := buf.String()
 				// log.Printf(s)
 
-				ts, err = textsecure.SendAttachment(to, message, att)
+				ts, err = textsecure.SendAttachment(to, message, att, timer)
 			}
 		}
 		if err == nil {

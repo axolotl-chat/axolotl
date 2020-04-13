@@ -95,7 +95,21 @@
                 </div>
               </div>
               <div class="col-12 meta" v-if="message.SentAt!=0">
-                {{humanifyDate(message.SentAt)}}
+                <div class="time">{{humanifyDate(message.SentAt)}}</div>
+                  <div v-if="message.ExpireTimer>0&&message.Message!=''">
+                    <div class="circle-wrap">
+                      <div class="circle">
+                        <div class="mask full" :style="'transform: rotate('+timerPercentage(message)+'deg)'">
+                          <div class="fill" :style="'transform: rotate('+timerPercentage(message)+'deg)'"></div>
+                        </div>
+                        <div class="mask half">
+                          <div class="fill" :style="'transform: rotate('+timerPercentage(message)+'deg)'"></div>
+                        </div>
+                        <div class="inside-circle">
+                        </div>
+                      </div>
+                  </div>
+                </div>
               </div>
               <div v-else class="col-12 meta">
                 Error
@@ -257,19 +271,28 @@ export default {
       this.scrollDown();
     },
     verifySelfDestruction(m){
-      var a = m;
-      m=a;
+      var r = moment(m.ReceivedAt)
+      var duration = moment.duration(r.diff(moment.now()));
       if(m.ExpireTimer!=0){
         // console.log(m.ExpireTimer,m.SentAt, m.ReceivedAt, Date.now())
         if(m.ReceivedAt!=0){
           // hide destructed messages but not timer settings
-          if(Date.now()-m.ReceivedAt>m.ExpireTimer&&m.Message!=""){
+          if((duration.asSeconds()+m.ExpireTimer)<0&&m.Message!=""){
             return false;
           }
         }
 
       }
       return true
+    },
+    timerPercentage(m){
+      var r = moment(m.ReceivedAt)
+      var duration = moment.duration(r.diff(moment.now()));
+      var percentage = 1-((m.ExpireTimer+duration.asSeconds())/m.ExpireTimer)
+      console.log(percentage, 359*percentage)
+      if(percentage<1)
+      return 179*percentage
+      else return 0
     },
     handleScroll (event) {
       if(event.target.scrollTop<50
@@ -469,6 +492,7 @@ export default {
 .meta {
     font-size: 13px;
     padding: 0px 20px;
+    display: flex;
 }
 
 .message {
@@ -599,5 +623,42 @@ textarea:focus, input:focus{
 .gallery img{
   padding-right:3px;
   padding-bottom:3px;
+}
+.circle-wrap {
+  margin: 2px auto;
+  width: 15px;
+  height: 15px;
+  background: #e6e2e7;
+  border-radius: 50%;
+}
+.circle-wrap .circle .mask,
+.circle-wrap .circle .fill {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  border-radius: 50%;
+}
+.circle-wrap .circle .mask {
+  clip: rect(0px, 16px, 16px, 8px);
+}
+.circle-wrap .circle .mask .fill {
+  clip: rect(0px, 8px, 16px, 0px);
+  background-color: #9e00b1;
+}
+
+.circle-wrap .circle.p0 .mask.full,
+.circle-wrap .circle.p0 .fill {
+  /* animation: fill ease-in-out 3s; */
+  transform: rotate(00deg);
+}
+.circle-wrap .circle.p50 .mask.full,
+.circle-wrap .circle.p50 .fill {
+  /* animation: fill ease-in-out 3s; */
+  transform: rotate(180deg);
+}
+.circle-wrap .circle.p100 .mask.full,
+.circle-wrap .circle.p100 .fill {
+  /* animation: fill ease-in-out 3s; */
+  transform: rotate(360deg);
 }
 </style>
