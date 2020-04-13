@@ -15,7 +15,7 @@ msgstr ""
 
 #: src/components/IdentityModal.vue:16
 msgid "'s key"
-msgstr ""
+msgstr "'s Schlüssel"
 
 #: src/pages/About.vue:4 src/pages/Register.vue:5
 msgid "A cross-plattform signal client"
@@ -30,19 +30,16 @@ msgid "Add"
 msgstr "Hinzufügen"
 
 #: src/components/Header.vue:125
-#, fuzzy
 msgid "Add Contacts"
-msgstr "Keine Kontakte"
+msgstr "Kontakte hinzufügen"
 
 #: src/components/AddGroupMembersModal.vue:58
-#, fuzzy
 msgid "Add Contacts first"
-msgstr "Keine Kontakte"
+msgstr "Zuerst Kontakte hinzufügen"
 
 #: src/components/AddGroupMembersModal.vue:5
-#, fuzzy
 msgid "Add members"
-msgstr "%1 Gruppenmitglieder"
+msgstr "Mitglieder hinzufügen"
 
 #: src/components/AttachmentBar.vue:13
 msgid "Audio"
@@ -50,11 +47,11 @@ msgstr "Audio"
 
 #: src/pages/About.vue:10
 msgid "by becoming a"
-msgstr ""
+msgstr "durch das werden eines"
 
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
-msgstr ""
+msgstr "Fehler beim ändern der Kontaktliste {{error}}"
 
 #: src/components/IdentityModal.vue:20
 msgid "Close"
@@ -74,7 +71,7 @@ msgstr "Kontakt"
 
 #: src/pages/Contacts.vue:16
 msgid "Contact list is empty..."
-msgstr ""
+msgstr "Die Kontaktliste ist leer..."
 
 #: src/pages/NewGroup.vue:12
 #, fuzzy
@@ -91,11 +88,11 @@ msgstr "Passwort erstellen"
 
 #: src/pages/SetPassword.vue:10
 msgid "Current password is wrong"
-msgstr ""
+msgstr "Das derzeitige Passwort ist falsch"
 
 #: src/pages/Settings.vue:23
 msgid "Dark mode"
-msgstr ""
+msgstr "Dunkler Modus"
 
 #: src/pages/Password.vue:4
 msgid "Decrypt"
@@ -103,24 +100,21 @@ msgstr "Entschlüsseln"
 
 #: src/components/AttachmentBar.vue:14
 msgid "Document"
-msgstr ""
+msgstr "Dokument"
 
 #: src/components/EditContactModal.vue:5
 msgid "Edit"
 msgstr "Bearbeiten"
 
 #: src/components/Header.vue:98
-#, fuzzy
 msgid "Edit group"
 msgstr "Gruppe bearbeiten"
 
 #: src/components/Header.vue:57
-#, fuzzy
 msgid "Edit Group"
 msgstr "Gruppe bearbeiten"
 
 #: src/components/Header.vue:69
-#, fuzzy
 msgid "Enter password"
 msgstr "Passwort eingeben"
 
@@ -138,7 +132,7 @@ msgstr "Gruppenname"
 
 #: src/pages/Contacts.vue:4
 msgid "Importing contacts, head back later"
-msgstr ""
+msgstr "Kontake werden importiert, komm später zurück"
 
 #: src/pages/SetPassword.vue:2
 msgid "Info"
@@ -146,11 +140,11 @@ msgstr "Info"
 
 #: src/pages/About.vue:8
 msgid "issues at the bug tracker"
-msgstr ""
+msgstr "Fahler an den Fehler-Tracker"
 
 #: src/pages/DeviceList.vue:9
 msgid "Last seen:"
-msgstr ""
+msgstr "Zuletzt gesehen:"
 
 #: src/pages/Settings.vue:11
 msgid "Linked devices"
@@ -161,9 +155,8 @@ msgid "Loading..."
 msgstr "Laden..."
 
 #: src/pages/NewGroup.vue:10
-#, fuzzy
 msgid "Members"
-msgstr "%1 Gruppenmitglieder"
+msgstr "Gruppenmitglieder"
 
 #: src/components/Header.vue:52
 msgid "Mute"
@@ -185,25 +178,25 @@ msgstr "Keine Chats vorhanden"
 msgid "No devices available"
 msgstr "Keine Geräte vorhanden"
 
-#: src/pages/MessageList.vue:107
+#: src/pages/MessageList.vue:121
 msgid "No Messages available."
-msgstr ""
+msgstr "Keine Nachrichten vorhanden"
 
 #: src/pages/MessageList.vue:57 src/pages/MessageList.vue:83
 msgid "Not supported mime type:"
-msgstr ""
+msgstr "Nicht unterstützer Mime-Typ"
 
 #: src/pages/EditGroup.vue:8 src/pages/NewGroup.vue:8
 msgid "Note, you can't add yourself to a group."
-msgstr ""
+msgstr "Hinweis: du kannst dich nicht selbst zur Gruppe hinzufügen"
 
 #: src/pages/About.vue:9
 msgid "or"
-msgstr ""
+msgstr "oder"
 
 #: src/pages/Verification.vue:5
 msgid "or disable it on Android/IOs"
-msgstr ""
+msgstr "oder deaktivere den Pin in Android/IOs"
 
 #: src/pages/SetPassword.vue:13
 msgid "Password"
@@ -238,7 +231,6 @@ msgid "Request code"
 msgstr "Code empfangen"
 
 #: src/components/Header.vue:56
-#, fuzzy
 msgid "Reset encryption"
 msgstr "Verschlüsselung neu starten"
 
@@ -248,20 +240,19 @@ msgstr "Speichern"
 
 #: src/components/AttachmentBar.vue:5
 msgid "Send Attachments"
-msgstr ""
+msgstr "Anhang senden"
 
 #: src/pages/Verification.vue:12
 msgid "Send code"
-msgstr ""
+msgstr "Code senden"
 
 #: src/pages/Verification.vue:7
 msgid "Send pin"
-msgstr ""
+msgstr "Pin senden"
 
 #: src/components/Header.vue:75
-#, fuzzy
 msgid "Set encryption password"
-msgstr "Verschlüsselung neu starten"
+msgstr "Verschlüsselung Passwort setzen"
 
 #: src/pages/SetPassword.vue:26 src/pages/Settings.vue:14
 msgid "Set password"
@@ -269,37 +260,37 @@ msgstr "Passwort setzen"
 
 #: src/pages/MessageList.vue:89
 msgid "Set timer for self-destructing messages"
-msgstr ""
+msgstr "Zeitbegrenzung für verschwindende Nachrichten festgelegt"
 
 #: src/pages/SetPassword.vue:3
 msgid ""
 "Setting a password is not adviced on devices short in memory. Restart is "
 "required!"
-msgstr ""
+msgstr "Ein Passwort wird auf Geräten mit wenig Arbeitsspeicher nicht empfohlen. Ein Neustart wird benötigt"
 
 #: src/components/Header.vue:86 src/components/Header.vue:141
 msgid "Settings"
 msgstr "Einstellungen"
 
 #: src/components/Header.vue:55
-#, fuzzy
 msgid "Show identity"
 msgstr "Kontakt überprüfen"
 
 #: src/pages/About.vue:11
 msgid "sponsor on patreon."
-msgstr ""
+msgstr "Sponsor auf patreon"
 
 #: src/pages/About.vue:6
 msgid ""
 "This is a free and open source signal client written in golang and vuejs.\n"
 "    You can support the development of axolotl either by filling"
 msgstr ""
+"Das ist ein freier Open Source Signal-Client geschrieben mit Golang und Vuejs.\n"
+"    Du kannst die Entwicklung von Axolotl unterstützen durch das Senden von "
 
 #: src/components/Header.vue:26 src/pages/ChatList.vue:28
-#, fuzzy
 msgid "Unknown group"
-msgstr "Neue Gruppe"
+msgstr "Unbekannte Gruppe"
 
 #: src/components/Header.vue:53
 msgid "Unmute"
@@ -315,9 +306,8 @@ msgid "Unsafe password"
 msgstr "Unsicheres Passwort"
 
 #: src/pages/EditGroup.vue:47
-#, fuzzy
 msgid "Updating Group"
-msgstr "Gruppe bearbeiten"
+msgstr "Gruppe Aktualisieren"
 
 #: src/components/IdentityModal.vue:5
 msgid "Verify identity"
@@ -329,7 +319,7 @@ msgstr "Video"
 
 #: src/pages/Verification.vue:20
 msgid "Wrong code entered. Restart for another try."
-msgstr ""
+msgstr "Falscher Code eingegeben. neustarten für einen weiteren Versuch"
 
 #: src/pages/MessageList.vue:11 src/pages/MessageList.vue:44
 #: src/pages/MessageList.vue:53 src/pages/MessageList.vue:68
@@ -342,7 +332,7 @@ msgstr ""
 
 #: src/components/IdentityModal.vue:11
 msgid "Your key"
-msgstr ""
+msgstr "Dein Schlüssel"
 
 #, fuzzy
 #~ msgid "<b>Group name</b>"

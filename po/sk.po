@@ -181,7 +181,7 @@ msgstr ""
 msgid "No devices available"
 msgstr ""
 
-#: src/pages/MessageList.vue:107
+#: src/pages/MessageList.vue:121
 msgid "No Messages available."
 msgstr ""
 

@@ -185,7 +185,7 @@ msgstr "Aucune conversation"
 msgid "No devices available"
 msgstr "Pas d'appareil lié"
 
-#: src/pages/MessageList.vue:107
+#: src/pages/MessageList.vue:121
 msgid "No Messages available."
 msgstr "Aucun message pour le moment"
 
