@@ -65,6 +65,12 @@ Run development
 * in a new terminal `cd axolotl-web&&npm run serve`
 * point a browser to the link printed in the terminal  like `http://localhost:8080`
 
+Run frontend and connect to phone ip
+--------------
+That way running the backend is avoided, instead your current registration on ubuntu touch is used
+* `cd axolotl-web`
+* `VUE_APP_WS_ADDRESS=10.0.0.2 npm run serve` replace 10.0.0.2 with the ip of your phone
+
 Build Axolotl for all arches with clickable and snap
 ------------
 requires clickable and snapcraft to be installed

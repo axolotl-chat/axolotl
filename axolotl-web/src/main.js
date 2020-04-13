@@ -36,8 +36,13 @@ Vue.use(GetTextPlugin, {translations: translations, defaultLanguage: 'en',})
 Vue.directive('linkified', linkify)
 Vue.config.productionTip = false
 var websocketAdress = "ws://[::1]:9080/ws";
-if(process.env.NODE_ENV=="development")
-  websocketAdress =  'ws://localhost:9080/ws';
+if(process.env.NODE_ENV=="development"){
+  if(process.env.VUE_APP_WS_ADDRESS){
+    websocketAdress =  'ws://'+process.env.VUE_APP_WS_ADDRESS+':9080/ws';
+  } else{
+    websocketAdress =  'ws://localhost:9080/ws';
+  }
+}
 Vue.use(VueNativeSock, websocketAdress,
   { store: store,
     // format: 'json',
