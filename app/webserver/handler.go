@@ -45,6 +45,8 @@ func MessageHandler(msg *store.Message) {
 			return
 		}
 	}
+	UpdateChatList()
+
 }
 
 type SendRequest struct {
