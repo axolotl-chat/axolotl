@@ -62,7 +62,7 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 
 	// listen indefinitely for new messages coming
 	// through on our WebSocket connection
-	SetGui()
+	SetGui(ws)
 	SetUiDarkMode(ws)
 	// if registered {
 	UpdateChatList()
@@ -75,6 +75,7 @@ func syncClients() {
 	for {
 		<-time.After(10 * time.Second)
 		// if registered {
+		// SetGui()
 		UpdateChatList()
 		UpdateContactList()
 		UpdateActiveChat()

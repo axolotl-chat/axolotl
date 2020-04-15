@@ -308,29 +308,27 @@ type SendGui struct {
 	Gui string
 }
 
-func SetGui() {
-	for client := range clients {
-		var err error
-		gui := config.Gui
-		if gui == "" {
-			gui = "standard"
-		}
-		request := &SendGui{
-			Gui: gui,
-		}
-		message := &[]byte{}
-		*message, err = json.Marshal(request)
-		if err != nil {
-			log.Errorln("[axolotl] set gui", err)
-			return
-		}
-		// mu.Lock()
-		// defer mu.Unlock()
-		if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
-			log.Println("[axolotl] send error set gui", err)
-			RemoveClientFromList(client)
-			return
-		}
+func SetGui(client *websocket.Conn) {
+	var err error
+	gui := config.Gui
+	if gui == "" {
+		gui = "standard"
+	}
+	request := &SendGui{
+		Gui: gui,
+	}
+	message := &[]byte{}
+	*message, err = json.Marshal(request)
+	if err != nil {
+		log.Errorln("[axolotl] set gui", err)
+		return
+	}
+	// mu.Lock()
+	// defer mu.Unlock()
+	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
+		log.Println("[axolotl] send error set gui", err)
+		RemoveClientFromList(client)
+		return
 	}
 }
 
