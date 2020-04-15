@@ -9,7 +9,6 @@ import (
 	"os"
 	"sync"
 
-	astikit "github.com/asticode/go-astikit"
 	astilectron "github.com/asticode/go-astilectron"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
@@ -97,10 +96,13 @@ func runElectron() {
 	// New window
 	var w *astilectron.Window
 	var err error
+	center := true
+	height := 800
+	width := 600
 	if w, err = a.NewWindow("http://localhost:9080", &astilectron.WindowOptions{
-		Center: astikit.BoolPtr(true),
-		Height: astikit.IntPtr(600),
-		Width:  astikit.IntPtr(600),
+		Center: &center,
+		Height: &height,
+		Width:  &width,
 	}); err != nil {
 		log.Debugln("[axolotl-electron]", errors.Wrap(err, "main: new window failed"))
 	}
