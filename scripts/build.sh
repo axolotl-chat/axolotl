@@ -3,16 +3,19 @@ go clean
 echo "Build ut linux armhf"
 clickable clean build
 
+echo "Build ut linux arm64"
+clickable --arch arm64 clean build
+
 echo "Build linux amd64 snap"
 mkdir -p build/linux-amd64-snap
-snapcraft clean axolotl
-snapcraft
+sudo snapcraft clean axolotl
+sudo snapcraft
 mv *.snap build/linux-amd64-snap/
 
 echo "Build linux amd64"
 mkdir -p build/linux-amd64/axolotl-web
 env GOOS=linux GOARCH=amd64 go build -o build/linux-amd64/axolotl .
-cp axolotl-web/dist build/windows-amd64/axolotl-web -r
+cp axolotl-web/dist build/linux-amd64/axolotl-web -r
 
 echo "Build linux arm5"
 mkdir -p build/linux-arm5/axolotl-web
