@@ -43,6 +43,7 @@ parts:
       export PATH=$PWD/../npm/bin:$PATH
       npm config set unsafe-perm true
       npm install -g @vue/cli
+      npm install -g @vue/cli-service
       npm run build || true
       mkdir -p ../install/bin/ || true
       cp -r dist ../install/bin/axolotl-web
