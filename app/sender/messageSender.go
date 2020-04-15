@@ -66,8 +66,11 @@ func SendMessage(s *store.Session, m *store.Message) {
 	s.Timestamp = m.SentAt
 	m.IsSent = true
 	if ts == 0 {
+		log.Debugln("SendMessageLoop", ts)
 		m.SendingError = true
+		m.IsSent = false
 		m.SentAt = uint64(time.Now().UnixNano() / 1000000)
+		m.ExpireTimer = 0
 	}
 	m.HTime = helpers.HumanizeTimestamp(m.SentAt)
 	s.When = m.HTime
@@ -95,12 +98,16 @@ func SendMessageLoop(to, message string, group bool, att io.Reader, flags int, t
 				log.Debugln("[axolotl] send to group ")
 			} else {
 				ts, err = textsecure.SendMessage(to, message, timer)
+				if err != nil {
+					log.Debugln("blub", err.Error(), ts)
+				}
+
 			}
 		} else {
 			if group {
 				ts, err = textsecure.SendGroupAttachment(to, message, att, timer)
 			} else {
-				log.Printf("SendMessageLoop sendAttachment")
+				log.Printf("[axolotl] SendMessageLoop sendAttachment")
 				// buf := new(bytes.Buffer)
 				// buf.ReadFrom(att)
 				// s := buf.String()
@@ -112,7 +119,7 @@ func SendMessageLoop(to, message string, group bool, att io.Reader, flags int, t
 		if err == nil {
 			break
 		}
-		log.Println(err)
+		log.Println("[axolotl]", err)
 		//If sending failed, try again after a while
 		time.Sleep(3 * time.Second)
 		count++

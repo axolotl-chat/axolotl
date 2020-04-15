@@ -38,6 +38,12 @@ $link-color: $primary;
 .sent .message {
   background-color: $sent-message-bg;
 }
+.sending .message {
+  background-color: $sending-message-bg;
+}
+.receipt .message {
+  background-color: $recieved-message-bg;
+}
 
 #messageInput {
   border: 1px solid $message-input-border;

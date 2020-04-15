@@ -185,11 +185,11 @@ msgstr "Aucune conversation"
 msgid "No devices available"
 msgstr "Pas d'appareil lié"
 
-#: src/pages/MessageList.vue:121
+#: src/pages/MessageList.vue:123
 msgid "No Messages available."
 msgstr "Aucun message pour le moment"
 
-#: src/pages/MessageList.vue:57 src/pages/MessageList.vue:83
+#: src/pages/MessageList.vue:59 src/pages/MessageList.vue:85
 msgid "Not supported mime type:"
 msgstr "Type mime non supporté"
 
@@ -270,7 +270,7 @@ msgstr "Réinitialiser la session sécurisée"
 msgid "Set password"
 msgstr ""
 
-#: src/pages/MessageList.vue:89
+#: src/pages/MessageList.vue:91
 msgid "Set timer for self-destructing messages"
 msgstr ""
 
@@ -335,12 +335,12 @@ msgstr "Vidéo"
 msgid "Wrong code entered. Restart for another try."
 msgstr ""
 
-#: src/pages/MessageList.vue:11 src/pages/MessageList.vue:44
-#: src/pages/MessageList.vue:53 src/pages/MessageList.vue:68
+#: src/pages/MessageList.vue:11 src/pages/MessageList.vue:46
+#: src/pages/MessageList.vue:55 src/pages/MessageList.vue:70
 msgid "Your browser does not support the audio element."
 msgstr ""
 
-#: src/pages/MessageList.vue:78
+#: src/pages/MessageList.vue:80
 msgid "Your browser does not support the video element."
 msgstr ""
 

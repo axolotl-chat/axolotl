@@ -14,13 +14,15 @@
           </video>
           <button class="btn btn-secondary close" @click="showFullscreenVideoSrc=''">X</button>
         </div>
-          <div v-for="(message,i) in messages.slice().reverse()"
+          <div v-for="(message) in messageList.Messages.slice().reverse()"
               :class="{'col-12':true,
                       'sent':message.Outgoing,
                       'reply':!message.Outgoing,
                       'status':message.Flags>0||message.StatusMessage||message.Attachment.includes('null')&&message.Message=='',
-                      'error':message.SentAt==0||message.SendingError}"
-              v-bind:key="i"
+                      'error':message.SentAt==0||message.SendingError,
+                      'sending':!message.IsSent&&message.Outgoing,
+                      'receipt':message.Receipt}"
+              v-bind:key="message.ID"
                >
             <div class="row w-100" v-if="verifySelfDestruction(message)">
               <div class="col-12 data">
@@ -432,7 +434,7 @@ export default {
     isGroup () {
       return this.$store.state.messageList.Session.IsGroup
     },
-    ... mapState(['contacts','config']),
+    ... mapState(['contacts','config','messageList']),
   }
 }
 </script>
@@ -548,6 +550,9 @@ video,
 }
 .error .message{
   background-color:#f7663a;
+}
+.error .meta{
+  color:#f7663a;
 }
 .messageInputBox {
   bottom: 0px;

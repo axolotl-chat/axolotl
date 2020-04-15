@@ -178,11 +178,11 @@ msgstr "Keine Chats vorhanden"
 msgid "No devices available"
 msgstr "Keine Geräte vorhanden"
 
-#: src/pages/MessageList.vue:121
+#: src/pages/MessageList.vue:123
 msgid "No Messages available."
 msgstr "Keine Nachrichten vorhanden"
 
-#: src/pages/MessageList.vue:57 src/pages/MessageList.vue:83
+#: src/pages/MessageList.vue:59 src/pages/MessageList.vue:85
 msgid "Not supported mime type:"
 msgstr "Nicht unterstützer Mime-Typ"
 
@@ -258,7 +258,7 @@ msgstr "Verschlüsselung Passwort setzen"
 msgid "Set password"
 msgstr "Passwort setzen"
 
-#: src/pages/MessageList.vue:89
+#: src/pages/MessageList.vue:91
 msgid "Set timer for self-destructing messages"
 msgstr "Zeitbegrenzung für verschwindende Nachrichten festgelegt"
 
@@ -266,7 +266,9 @@ msgstr "Zeitbegrenzung für verschwindende Nachrichten festgelegt"
 msgid ""
 "Setting a password is not adviced on devices short in memory. Restart is "
 "required!"
-msgstr "Ein Passwort wird auf Geräten mit wenig Arbeitsspeicher nicht empfohlen. Ein Neustart wird benötigt"
+msgstr ""
+"Ein Passwort wird auf Geräten mit wenig Arbeitsspeicher nicht empfohlen. Ein "
+"Neustart wird benötigt"
 
 #: src/components/Header.vue:86 src/components/Header.vue:141
 msgid "Settings"
@@ -285,7 +287,8 @@ msgid ""
 "This is a free and open source signal client written in golang and vuejs.\n"
 "    You can support the development of axolotl either by filling"
 msgstr ""
-"Das ist ein freier Open Source Signal-Client geschrieben mit Golang und Vuejs.\n"
+"Das ist ein freier Open Source Signal-Client geschrieben mit Golang und "
+"Vuejs.\n"
 "    Du kannst die Entwicklung von Axolotl unterstützen durch das Senden von "
 
 #: src/components/Header.vue:26 src/pages/ChatList.vue:28
@@ -321,12 +324,12 @@ msgstr "Video"
 msgid "Wrong code entered. Restart for another try."
 msgstr "Falscher Code eingegeben. neustarten für einen weiteren Versuch"
 
-#: src/pages/MessageList.vue:11 src/pages/MessageList.vue:44
-#: src/pages/MessageList.vue:53 src/pages/MessageList.vue:68
+#: src/pages/MessageList.vue:11 src/pages/MessageList.vue:46
+#: src/pages/MessageList.vue:55 src/pages/MessageList.vue:70
 msgid "Your browser does not support the audio element."
 msgstr ""
 
-#: src/pages/MessageList.vue:78
+#: src/pages/MessageList.vue:80
 msgid "Your browser does not support the video element."
 msgstr ""
 

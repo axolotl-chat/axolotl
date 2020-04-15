@@ -68,7 +68,39 @@ func sendCurrentChat(client *websocket.Conn, s *store.Session) {
 		RemoveClientFromList(client)
 		return
 	}
-
+}
+func updateCurrentChat(client *websocket.Conn, s *store.Session) {
+	var (
+		err error
+		gr  *textsecure.Group
+		c   *textsecure.Contact
+	)
+	if s.IsGroup {
+		gr, err = textsecure.GetGroupById(s.Tel)
+	} else {
+		c = store.GetContactForTel(s.Tel)
+	}
+	updateCurrentChatEnvelope := &UpdateCurrentChatEnvelope{
+		UpdateCurrentChat: &UpdateCurrentChat{
+			CurrentChat: s,
+			Contact:     c,
+			Group:       gr,
+		},
+	}
+	message := &[]byte{}
+	*message, err = json.Marshal(updateCurrentChatEnvelope)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	// mu.Lock()
+	// defer mu.Unlock()
+	err = client.WriteMessage(websocket.TextMessage, *message)
+	if err != nil {
+		log.Println("[axolotl] send error update current chat ", err)
+		RemoveClientFromList(client)
+		return
+	}
 }
 func refreshContacts(client *websocket.Conn, path string) {
 	var err error
@@ -259,6 +291,15 @@ func UpdateContactList() {
 	if activeChat == "" {
 		for client := range clients {
 			sendContactList(client)
+		}
+	}
+}
+func UpdateActiveChat() {
+	log.Debugln("[axolotl] update active chat")
+	if activeChat != "" {
+		s := store.SessionsModel.Get(activeChat)
+		for client := range clients {
+			updateCurrentChat(client, s)
 		}
 	}
 }

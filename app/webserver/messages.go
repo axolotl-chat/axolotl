@@ -28,6 +28,14 @@ type OpenChat struct {
 type CurrentChatEnvelope struct {
 	OpenChat *OpenChat
 }
+type UpdateCurrentChat struct {
+	CurrentChat *store.Session
+	Contact     *textsecure.Contact
+	Group       *textsecure.Group
+}
+type UpdateCurrentChatEnvelope struct {
+	UpdateCurrentChat *UpdateCurrentChat
+}
 type IdentityEnvelope struct {
 	Identity string
 	TheirId  string

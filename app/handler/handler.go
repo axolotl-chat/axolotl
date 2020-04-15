@@ -150,6 +150,7 @@ func TypingMessageHandler(msg *textsecure.Message) {
 	webserver.UpdateChatList()
 }
 func ReceiptHandler(source string, devID uint32, timestamp uint64) {
+	log.Println("[axolotl] receiptMessageHandler2 ")
 	webserver.UpdateChatList()
 
 	s := store.SessionsModel.Get(source)
@@ -159,15 +160,32 @@ func ReceiptHandler(source string, devID uint32, timestamp uint64) {
 			m.Receipt = true
 			//qml.Changed(m, &m.IsRead)
 			store.UpdateMessageRead(m)
+			webserver.UpdateActiveChat()
 			return
 		}
 	}
+	webserver.UpdateChatList()
 	log.Printf("[axolotl] receipt: Message with timestamp %d not found\n", timestamp)
 }
 
 func ReceiptMessageHandler(msg *textsecure.Message) {
-	webserver.UpdateChatList()
+	log.Println("[axolotl] receiptMessageHandler: Message ", msg)
 
+	webserver.UpdateChatList()
+	s := store.SessionsModel.Get(msg.Source())
+	for i := len(s.Messages) - 1; i >= 0; i-- {
+		m := s.Messages[i]
+		if m.SentAt == msg.Timestamp() {
+			m.Receipt = true
+			//qml.Changed(m, &m.IsRead)
+			store.UpdateMessageRead(m)
+			webserver.UpdateChatList()
+
+			return
+		}
+	}
+	webserver.UpdateChatList()
+	log.Printf("[axolotl] receipt: Message with timestamp %d not found\n", msg.Timestamp())
 	log.Println("[axolotl] receiptMessageHandler: Message ", msg)
 }
 

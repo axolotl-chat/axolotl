@@ -77,6 +77,7 @@ func syncClients() {
 		// if registered {
 		UpdateChatList()
 		UpdateContactList()
+		UpdateActiveChat()
 		// }
 	}
 }
@@ -136,6 +137,7 @@ func wsReader(conn *websocket.Conn) {
 			json.Unmarshal([]byte(p), &openChatMessage)
 			log.Println("[axolotl] Open chat for ", openChatMessage.Id)
 			s := store.SessionsModel.Get(openChatMessage.Id)
+			activeChat = openChatMessage.Id
 			sendCurrentChat(conn, s)
 		case "leaveChat":
 			activeChat = ""

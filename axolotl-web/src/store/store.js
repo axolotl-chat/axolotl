@@ -85,6 +85,14 @@ export default new Vuex.Store({
           state.currentGroup = data.Group;
           state.currentContact = data.Contact;
         },
+        UPDATE_CURRENT_CHAT(state, data){
+          state.currentChat = data.CurrentChat;
+          var prepare = state.messageList.Messages.map(function(e) { return e.ID; })
+          data.CurrentChat.Messages.forEach(m => {
+            state.messageList.Messages[prepare.indexOf(m.ID)] = m;
+          });
+          // state.MessageList.Messages
+        },
         SET_CONFIG(state, config){
           state.config = config;
         },
@@ -258,6 +266,9 @@ export default new Vuex.Store({
             }
             else if(Object.keys(messageData)[0]=="OpenChat"){
               this.commit("OPEN_CHAT",messageData["OpenChat"]);
+            }
+            else if(Object.keys(messageData)[0]=="UpdateCurrentChat"){
+              this.commit("UPDATE_CURRENT_CHAT",messageData["UpdateCurrentChat"]);
             }
             else{
               // console.log("unkown message ", Object.keys(messageData)[0]);

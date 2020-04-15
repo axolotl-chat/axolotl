@@ -1,13 +1,12 @@
 package store
 
 import (
-	"log"
-
 	"github.com/nanu-c/axolotl/app/helpers"
+	log "github.com/sirupsen/logrus"
 )
 
 type Message struct {
-	ID            int64
+	ID            int64 `db:"id"`
 	SID           int64
 	ChatID        string
 	Source        string
@@ -44,7 +43,8 @@ func SaveMessage(m *Message) (error, *Message) {
 }
 
 func UpdateMessageSent(m *Message) error {
-	_, err := DS.Dbx.NamedExec("UPDATE messages SET issent = :issent, sentat = :sentat WHERE id = :id", m)
+	log.Debugln("SendingError", m.SendingError)
+	_, err := DS.Dbx.NamedExec("UPDATE messages SET issent = :issent, sentat = :sentat, sendingError = :sendingError, expireTimer = :expireTimer  WHERE id = :id", m)
 	if err != nil {
 		return err
 	}
@@ -52,7 +52,7 @@ func UpdateMessageSent(m *Message) error {
 }
 
 func UpdateMessageRead(m *Message) error {
-	_, err := DS.Dbx.NamedExec("UPDATE messages SET isread = :isread WHERE id = :id", m)
+	_, err := DS.Dbx.NamedExec("UPDATE messages SET isread = :isread, receipt = :receipt WHERE id = :id", m)
 	if err != nil {
 		return err
 	}
