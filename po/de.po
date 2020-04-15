@@ -47,7 +47,7 @@ msgstr "Audio"
 
 #: src/pages/About.vue:10
 msgid "by becoming a"
-msgstr "durch das werden eines"
+msgstr "durch werden eines"
 
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
@@ -280,15 +280,14 @@ msgstr "Kontakt überprüfen"
 
 #: src/pages/About.vue:11
 msgid "sponsor on patreon."
-msgstr "Sponsor auf patreon"
+msgstr " Sponsors auf Patreon"
 
 #: src/pages/About.vue:6
 msgid ""
 "This is a free and open source signal client written in golang and vuejs.\n"
 "    You can support the development of axolotl either by filling"
 msgstr ""
-"Das ist ein freier Open Source Signal-Client geschrieben mit Golang und "
-"Vuejs.\n"
+"Das ist ein freier Open Source Signal-Client geschrieben mit Golang und Vuejs.\n"
 "    Du kannst die Entwicklung von Axolotl unterstützen durch das Senden von "
 
 #: src/components/Header.vue:26 src/pages/ChatList.vue:28

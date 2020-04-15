@@ -29,17 +29,14 @@ msgid "Add"
 msgstr "Adicionar"
 
 #: src/components/Header.vue:125
-#, fuzzy
 msgid "Add Contacts"
 msgstr "Contacto"
 
 #: src/components/AddGroupMembersModal.vue:58
-#, fuzzy
 msgid "Add Contacts first"
 msgstr "Contacto"
 
 #: src/components/AddGroupMembersModal.vue:5
-#, fuzzy
 msgid "Add members"
 msgstr "Membros do grupo"
 
@@ -76,7 +73,6 @@ msgid "Contact list is empty..."
 msgstr "Lista de contactos está vazia"
 
 #: src/pages/NewGroup.vue:12
-#, fuzzy
 msgid "Create group"
 msgstr "Deixar o grupo"
 
@@ -109,12 +105,10 @@ msgid "Edit"
 msgstr "Editar"
 
 #: src/components/Header.vue:98
-#, fuzzy
 msgid "Edit group"
 msgstr "Atualizar grupo"
 
 #: src/components/Header.vue:57
-#, fuzzy
 msgid "Edit Group"
 msgstr "Atualizar grupo"
 
@@ -151,7 +145,6 @@ msgid "Last seen:"
 msgstr "Visto pela última vez"
 
 #: src/pages/Settings.vue:11
-#, fuzzy
 msgid "Linked devices"
 msgstr "Dispositivos conetados"
 
@@ -160,7 +153,6 @@ msgid "Loading..."
 msgstr "Carregar"
 
 #: src/pages/NewGroup.vue:10
-#, fuzzy
 msgid "Members"
 msgstr "Membros do grupo"
 
@@ -225,7 +217,6 @@ msgid "Photo"
 msgstr "Fotografia"
 
 #: src/pages/Settings.vue:5
-#, fuzzy
 msgid "Registered number"
 msgstr "Registar"
 
@@ -238,7 +229,6 @@ msgid "Request code"
 msgstr "Código de solicitação"
 
 #: src/components/Header.vue:56
-#, fuzzy
 msgid "Reset encryption"
 msgstr "Reiniciar a sessão segura"
 
@@ -259,7 +249,6 @@ msgid "Send pin"
 msgstr "Enviar pin"
 
 #: src/components/Header.vue:75
-#, fuzzy
 msgid "Set encryption password"
 msgstr "Reiniciar a sessão segura"
 
@@ -284,7 +273,6 @@ msgid "Settings"
 msgstr "Definições"
 
 #: src/components/Header.vue:55
-#, fuzzy
 msgid "Show identity"
 msgstr "Verificar a identidade"
 
@@ -301,7 +289,6 @@ msgstr ""
 "    Você pode apoiar o desenvolvimento do axolotl preenchendo"
 
 #: src/components/Header.vue:26 src/pages/ChatList.vue:28
-#, fuzzy
 msgid "Unknown group"
 msgstr "Grupo desconhecido"
 
@@ -311,7 +298,6 @@ msgstr ""
 
 #: src/components/ErrorModal.vue:13 src/pages/Password.vue:5
 #: src/pages/Settings.vue:18
-#, fuzzy
 msgid "Unregister"
 msgstr "A eliminar o registo..."
 
@@ -320,7 +306,6 @@ msgid "Unsafe password"
 msgstr "Palavra chave insegura"
 
 #: src/pages/EditGroup.vue:47
-#, fuzzy
 msgid "Updating Group"
 msgstr "Atualizar grupo"
 
