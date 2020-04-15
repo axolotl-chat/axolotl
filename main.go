@@ -9,8 +9,8 @@ import (
 	"os"
 	"sync"
 
+	astikit "github.com/asticode/go-astikit"
 	astilectron "github.com/asticode/go-astilectron"
-	astilog "github.com/asticode/go-astilog"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 
@@ -66,18 +66,12 @@ func runUI() error {
 }
 func runElectron() {
 	log.Infoln("[axolotl] Start electron")
-	// astilog.SetHandyFlags()
-	flag.Parse()
-	astilog.FlagInit()
-	astilog.SetLogger(astilog.New(astilog.Configuration{
-		Out:     "stdout",
-		Verbose: true,
-	}))
+	l := log.New()
 	electronPath := os.Getenv("SNAP_USER_DATA")
 	if len(electronPath) == 0 {
 		electronPath = config.ConfigDir + "/electron"
 	}
-	var a, _ = astilectron.New(astilectron.Options{
+	var a, _ = astilectron.New(l, astilectron.Options{
 		AppName:            "axolotl",
 		AppIconDefaultPath: "axolotl-web/public/axolotl.png", // If path is relative, it must be relative to the data directory
 		AppIconDarwinPath:  "axolotl-web/public/axolotl.png", // Same here
@@ -104,11 +98,11 @@ func runElectron() {
 	var w *astilectron.Window
 	var err error
 	if w, err = a.NewWindow("http://localhost:9080", &astilectron.WindowOptions{
-		Center: astilectron.PtrBool(true),
-		Height: astilectron.PtrInt(600),
-		Width:  astilectron.PtrInt(600),
+		Center: astikit.BoolPtr(true),
+		Height: astikit.IntPtr(600),
+		Width:  astikit.IntPtr(600),
 	}); err != nil {
-		log.Debugln(errors.Wrap(err, "main: new window failed"))
+		log.Debugln("[axolotl-electron]", errors.Wrap(err, "main: new window failed"))
 	}
 
 	// Create windows
