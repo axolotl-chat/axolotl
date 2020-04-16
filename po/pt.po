@@ -176,11 +176,11 @@ msgstr "Sem conversas disponiveis"
 msgid "No devices available"
 msgstr "Sem dispositivos disponiveis"
 
-#: src/pages/MessageList.vue:123
+#: src/pages/MessageList.vue:125
 msgid "No Messages available."
 msgstr "Sem mensagens disponiveis"
 
-#: src/pages/MessageList.vue:59 src/pages/MessageList.vue:85
+#: src/pages/MessageList.vue:61 src/pages/MessageList.vue:87
 msgid "Not supported mime type:"
 msgstr "Mime type não suportado"
 
@@ -256,7 +256,7 @@ msgstr "Definir password de criptografia"
 msgid "Set password"
 msgstr "Definir password"
 
-#: src/pages/MessageList.vue:91
+#: src/pages/MessageList.vue:93
 msgid "Set timer for self-destructing messages"
 msgstr "Definir temporizador para mensagens autodestrutivas"
 
@@ -265,8 +265,8 @@ msgid ""
 "Setting a password is not adviced on devices short in memory. Restart is "
 "required!"
 msgstr ""
-"Definir uma password não é recomendado em dispositivos com pouca memória. Reiniciar é "
-"requerido!"
+"Definir uma password não é recomendado em dispositivos com pouca memória. "
+"Reiniciar é requerido!"
 
 #: src/components/Header.vue:86 src/components/Header.vue:141
 msgid "Settings"
@@ -322,12 +322,12 @@ msgstr "Vídeo"
 msgid "Wrong code entered. Restart for another try."
 msgstr "Código incorreto digitado. Reinicie para outra tentativa."
 
-#: src/pages/MessageList.vue:11 src/pages/MessageList.vue:46
-#: src/pages/MessageList.vue:55 src/pages/MessageList.vue:70
+#: src/pages/MessageList.vue:11 src/pages/MessageList.vue:48
+#: src/pages/MessageList.vue:57 src/pages/MessageList.vue:72
 msgid "Your browser does not support the audio element."
 msgstr "Seu navegador não suporta o elemento de áudio."
 
-#: src/pages/MessageList.vue:80
+#: src/pages/MessageList.vue:82
 msgid "Your browser does not support the video element."
 msgstr "Seu navegador não suporta o elemento de vídeo."
 

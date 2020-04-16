@@ -20,8 +20,10 @@
                       'reply':!message.Outgoing,
                       'status':message.Flags>0||message.StatusMessage||message.Attachment.includes('null')&&message.Message=='',
                       'error':message.SentAt==0||message.SendingError,
-                      'sending':!message.IsSent&&message.Outgoing,
-                      'receipt':message.Receipt||message.Outgoing&&message.SentAt<1586984922935}"
+                      /* 'sending':!message.IsSent&&message.Outgoing, */
+                      /* 'receipt':message.Receipt||message.Outgoing&&message.SentAt<1586984922935 */
+                      'receipt':true
+                      }"
               v-bind:key="message.ID"
                >
             <div class="row w-100" v-if="verifySelfDestruction(message)">
