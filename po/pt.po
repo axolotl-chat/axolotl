@@ -18,7 +18,7 @@ msgstr ""
 
 #: src/pages/About.vue:4 src/pages/Register.vue:5
 msgid "A cross-plattform signal client"
-msgstr ""
+msgstr "Um cliente signal multiplataforma"
 
 #: src/pages/Settings.vue:32
 msgid "About Axolotl"
@@ -50,7 +50,7 @@ msgstr "Ao Tornar-se um"
 
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
-msgstr ""
+msgstr "Não é possível alterar a lista de contatos: {{erro}}"
 
 #: src/components/IdentityModal.vue:20
 msgid "Close"
@@ -158,7 +158,7 @@ msgstr "Membros do grupo"
 
 #: src/components/Header.vue:52
 msgid "Mute"
-msgstr ""
+msgstr "Silenciar"
 
 #: src/components/Header.vue:92 src/components/Header.vue:138
 msgid "New group"
@@ -294,7 +294,7 @@ msgstr "Grupo desconhecido"
 
 #: src/components/Header.vue:53
 msgid "Unmute"
-msgstr ""
+msgstr "Ativar som"
 
 #: src/components/ErrorModal.vue:13 src/pages/Password.vue:5
 #: src/pages/Settings.vue:18
@@ -319,16 +319,16 @@ msgstr "Vídeo"
 
 #: src/pages/Verification.vue:20
 msgid "Wrong code entered. Restart for another try."
-msgstr ""
+msgstr "Código incorreto digitado. Reinicie para outra tentativa."
 
 #: src/pages/MessageList.vue:11 src/pages/MessageList.vue:46
 #: src/pages/MessageList.vue:55 src/pages/MessageList.vue:70
 msgid "Your browser does not support the audio element."
-msgstr "Código incorreto digitado. Reinicie para outra tentativa."
+msgstr "Seu navegador não suporta o elemento de áudio."
 
 #: src/pages/MessageList.vue:80
 msgid "Your browser does not support the video element."
-msgstr ""
+msgstr "Seu navegador não suporta o elemento de vídeo."
 
 #: src/components/IdentityModal.vue:11
 msgid "Your key"
