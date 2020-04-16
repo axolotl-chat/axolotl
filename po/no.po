@@ -175,13 +175,13 @@ msgstr "Ingen samtaler tilgjengelige."
 
 #: src/pages/DeviceList.vue:17
 msgid "No devices available"
-msgstr "Ingen enheter tilgjengelige".
+msgstr "Ingen enheter tilgjengelige."
 
-#: src/pages/MessageList.vue:121
+#: src/pages/MessageList.vue:123
 msgid "No Messages available."
 msgstr "Ingen meldinger tilgjengelige."
 
-#: src/pages/MessageList.vue:57 src/pages/MessageList.vue:83
+#: src/pages/MessageList.vue:59 src/pages/MessageList.vue:85
 msgid "Not supported mime type:"
 msgstr "MIME-type ikke støttet:"
 
@@ -257,7 +257,7 @@ msgstr "Angi passord for sikker sesjon"
 msgid "Set password"
 msgstr "Angi passord"
 
-#: src/pages/MessageList.vue:89
+#: src/pages/MessageList.vue:91
 msgid "Set timer for self-destructing messages"
 msgstr "Angi tidsinnstilling for selvdestruerende meldinger"
 
@@ -280,9 +280,12 @@ msgid "sponsor on patreon."
 msgstr "sponsor på patreon."
 
 #: src/pages/About.vue:6
+msgid ""
 "This is a free and open source signal client written in golang and vuejs.\n"
 "    You can support the development of axolotl either by filling"
-msgstr "Dette er en gratis og åpen kildekode signal klient skrevet i golang og vuejs.\n"
+msgstr ""
+"Dette er en gratis og åpen kildekode signal klient skrevet i golang og "
+"vuejs.\n"
 "    Du kan støtte utviklingen av axolotl enten ved å fylle ut"
 
 #: src/components/Header.vue:26 src/pages/ChatList.vue:28
@@ -318,14 +321,18 @@ msgstr "Video"
 msgid "Wrong code entered. Restart for another try."
 msgstr "Feil kode angitt. Gjør omstart for nytt forsøk."
 
-#: src/pages/MessageList.vue:11 src/pages/MessageList.vue:44
-#: src/pages/MessageList.vue:53 src/pages/MessageList.vue:68
+#: src/pages/MessageList.vue:11 src/pages/MessageList.vue:46
+#: src/pages/MessageList.vue:55 src/pages/MessageList.vue:70
 msgid "Your browser does not support the audio element."
 msgstr "Nettleseren støtter ikke lydelementet."
 
-#: src/pages/MessageList.vue:78
+#: src/pages/MessageList.vue:80
 msgid "Your browser does not support the video element."
-msgstr "Nettleseren støtter ikke videoelementet.
+msgstr "Nettleseren støtter ikke videoelementet."
+
+#: src/components/IdentityModal.vue:11
+msgid "Your key"
+msgstr ""
 
 #, fuzzy
 #~ msgid "<b>Group name</b>"
@@ -397,8 +404,8 @@ msgstr "Nettleseren støtter ikke videoelementet.
 #~ "Double-check that this is your number! We're about to verify it with an "
 #~ "SMS."
 #~ msgstr ""
-#~ "Dobbelsjekk at dette er nummeret ditt! Vi sender en SMS for å "
-#~ "verifisere det."
+#~ "Dobbelsjekk at dette er nummeret ditt! Vi sender en SMS for å verifisere "
+#~ "det."
 
 #, fuzzy
 #~ msgid "Delete selected Device?"

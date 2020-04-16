@@ -265,8 +265,8 @@ msgid ""
 "Setting a password is not adviced on devices short in memory. Restart is "
 "required!"
 msgstr ""
-"Definir uma senha não é recomendado em dispositivos com pouca memória. Reiniciar é "
-"requerido!"
+"Definir uma senha não é recomendado em dispositivos com pouca memória. "
+"Reiniciar é requerido!"
 
 #: src/components/Header.vue:86 src/components/Header.vue:141
 msgid "Settings"
@@ -285,7 +285,8 @@ msgid ""
 "This is a free and open source signal client written in golang and vuejs.\n"
 "    You can support the development of axolotl either by filling"
 msgstr ""
-"Este é um cliente de sinal gratuito e de código aberto escrito em golang e vuejs.\n"
+"Este é um cliente de sinal gratuito e de código aberto escrito em golang e "
+"vuejs.\n"
 "    Você pode apoiar o desenvolvimento do axolotl preenchendo"
 
 #: src/components/Header.vue:26 src/pages/ChatList.vue:28

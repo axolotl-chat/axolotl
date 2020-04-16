@@ -287,7 +287,8 @@ msgid ""
 "This is a free and open source signal client written in golang and vuejs.\n"
 "    You can support the development of axolotl either by filling"
 msgstr ""
-"Das ist ein freier Open Source Signal-Client geschrieben mit Golang und Vuejs.\n"
+"Das ist ein freier Open Source Signal-Client geschrieben mit Golang und "
+"Vuejs.\n"
 "    Du kannst die Entwicklung von Axolotl unterstützen durch das Senden von "
 
 #: src/components/Header.vue:26 src/pages/ChatList.vue:28
