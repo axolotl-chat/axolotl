@@ -18,7 +18,7 @@ msgstr ""
 
 #: src/pages/About.vue:4 src/pages/Register.vue:5
 msgid "A cross-plattform signal client"
-msgstr ""
+msgstr "Um cliente signal multiplataforma"
 
 #: src/pages/Settings.vue:32
 msgid "About Axolotl"
@@ -30,15 +30,15 @@ msgstr "Adicionar"
 
 #: src/components/Header.vue:125
 msgid "Add Contacts"
-msgstr "Contacto"
+msgstr "Adicionar contatos"
 
 #: src/components/AddGroupMembersModal.vue:58
 msgid "Add Contacts first"
-msgstr "Contacto"
+msgstr "Adicionar contatos primeiro"
 
 #: src/components/AddGroupMembersModal.vue:5
 msgid "Add members"
-msgstr "Membros do grupo"
+msgstr "Adicionar membros"
 
 #: src/components/AttachmentBar.vue:13
 msgid "Audio"
@@ -50,7 +50,7 @@ msgstr "Ao Tornar-se um"
 
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
-msgstr ""
+msgstr "Não é possível alterar a lista de contatos: {{erro}}"
 
 #: src/components/IdentityModal.vue:20
 msgid "Close"
@@ -66,7 +66,7 @@ msgstr "Ligar com o Signal"
 
 #: src/components/AddContactModal.vue:5 src/components/EditContactModal.vue:5
 msgid "Contact"
-msgstr "Contacto"
+msgstr "Contato"
 
 #: src/pages/Contacts.vue:16
 msgid "Contact list is empty..."
@@ -114,7 +114,7 @@ msgstr "Atualizar grupo"
 
 #: src/components/Header.vue:69
 msgid "Enter password"
-msgstr "Insira palavra chave"
+msgstr "Insira password"
 
 #: src/pages/Verification.vue:4
 msgid "Enter your registration pin"
@@ -158,7 +158,7 @@ msgstr "Membros do grupo"
 
 #: src/components/Header.vue:52
 msgid "Mute"
-msgstr ""
+msgstr "Silenciar"
 
 #: src/components/Header.vue:92 src/components/Header.vue:138
 msgid "New group"
@@ -198,15 +198,15 @@ msgstr "ou desabilite no Android/IOs"
 
 #: src/pages/SetPassword.vue:13
 msgid "Password"
-msgstr "Palavra Chave"
+msgstr "Password"
 
 #: src/pages/Password.vue:2
 msgid "Password is wrong"
-msgstr "Palavra Chave está errada"
+msgstr "Password está errada"
 
 #: src/pages/SetPassword.vue:4
 msgid "Passwords don't match"
-msgstr "As palavras chaves não são idênticas"
+msgstr "As passwords não são idênticas"
 
 #: src/components/AddContactModal.vue:15 src/components/EditContactModal.vue:15
 msgid "Phone"
@@ -222,7 +222,7 @@ msgstr "Registar"
 
 #: src/pages/SetPassword.vue:19
 msgid "Repeat password"
-msgstr "Repetir palavra chave"
+msgstr "Repetir password"
 
 #: src/pages/Register.vue:25
 msgid "Request code"
@@ -234,7 +234,7 @@ msgstr "Reiniciar a sessão segura"
 
 #: src/components/EditContactModal.vue:20
 msgid "Save"
-msgstr "Gravar"
+msgstr "Guardar"
 
 #: src/components/AttachmentBar.vue:5
 msgid "Send Attachments"
@@ -250,11 +250,11 @@ msgstr "Enviar pin"
 
 #: src/components/Header.vue:75
 msgid "Set encryption password"
-msgstr "Reiniciar a sessão segura"
+msgstr "Definir password de criptografia"
 
 #: src/pages/SetPassword.vue:26 src/pages/Settings.vue:14
 msgid "Set password"
-msgstr "Definir palavra chave"
+msgstr "Definir password"
 
 #: src/pages/MessageList.vue:91
 msgid "Set timer for self-destructing messages"
@@ -265,8 +265,8 @@ msgid ""
 "Setting a password is not adviced on devices short in memory. Restart is "
 "required!"
 msgstr ""
-"Definir uma senha não é recomendado em dispositivos com pouca memória. "
-"Reiniciar é requerido!"
+"Definir uma password não é recomendado em dispositivos com pouca memória. Reiniciar é "
+"requerido!"
 
 #: src/components/Header.vue:86 src/components/Header.vue:141
 msgid "Settings"
@@ -295,7 +295,7 @@ msgstr "Grupo desconhecido"
 
 #: src/components/Header.vue:53
 msgid "Unmute"
-msgstr ""
+msgstr "Ativar som"
 
 #: src/components/ErrorModal.vue:13 src/pages/Password.vue:5
 #: src/pages/Settings.vue:18
@@ -304,7 +304,7 @@ msgstr "A eliminar o registo..."
 
 #: src/pages/SetPassword.vue:7
 msgid "Unsafe password"
-msgstr "Palavra chave insegura"
+msgstr "Password insegura"
 
 #: src/pages/EditGroup.vue:47
 msgid "Updating Group"
@@ -320,16 +320,16 @@ msgstr "Vídeo"
 
 #: src/pages/Verification.vue:20
 msgid "Wrong code entered. Restart for another try."
-msgstr ""
+msgstr "Código incorreto digitado. Reinicie para outra tentativa."
 
 #: src/pages/MessageList.vue:11 src/pages/MessageList.vue:46
 #: src/pages/MessageList.vue:55 src/pages/MessageList.vue:70
 msgid "Your browser does not support the audio element."
-msgstr "Código incorreto digitado. Reinicie para outra tentativa."
+msgstr "Seu navegador não suporta o elemento de áudio."
 
 #: src/pages/MessageList.vue:80
 msgid "Your browser does not support the video element."
-msgstr ""
+msgstr "Seu navegador não suporta o elemento de vídeo."
 
 #: src/components/IdentityModal.vue:11
 msgid "Your key"
@@ -337,11 +337,11 @@ msgstr "A sua chave"
 
 #, fuzzy
 #~ msgid "<b>Group name</b>"
-#~ msgstr "Nome do grupo"
+#~ msgstr "<b>Nome do grupo</b>"
 
 #, fuzzy
 #~ msgid "Forwarded from "
-#~ msgstr "Reencaminhar a mensagem"
+#~ msgstr "Encaminhado de"
 
 #~ msgid "Image"
 #~ msgstr "Imagem"
@@ -360,11 +360,11 @@ msgstr "A sua chave"
 
 #, fuzzy
 #~ msgid "New passphrase"
-#~ msgstr "Mensagem nova"
+#~ msgstr "Nova senha"
 
 #, fuzzy
 #~ msgid "New passphrase too short(6)!"
-#~ msgstr "Mensagem nova"
+#~ msgstr "Nova senha muito curta(6)!"
 
 #~ msgid "Disable Signal messages and calls?"
 #~ msgstr "Desativar as mensagens e chamadas Signal?"
@@ -425,15 +425,15 @@ msgstr "A sua chave"
 
 #, fuzzy
 #~ msgid "Add contact"
-#~ msgstr "Contacto"
+#~ msgstr "Adicionar contato"
 
 #, fuzzy
 #~ msgid "Contacts"
-#~ msgstr "Contacto"
+#~ msgstr "Contatos"
 
 #, fuzzy
 #~ msgid "No contacts"
-#~ msgstr "Contacto"
+#~ msgstr "Sem contatos"
 
 #~ msgid "Verifying number"
 #~ msgstr "A verificar o número"
