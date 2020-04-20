@@ -27,7 +27,7 @@
                       <div v-translate>Unknown group</div>
                     </div>
                     <div class="header-text-chat" v-else>
-                      <div v-if="currentChat!=null" class="">{{currentChat.Name}}</div>
+                      <div v-if="currentChat!=null&&currentChat.Name!=currentChat.Tel" class="">{{currentChat.Name}}</div>
                     </div>
                   </div>
                   <div class="col-12">
@@ -37,7 +37,7 @@
                     <div class="number-text" v-if="currentChat!=null&&currentChat.IsGroup&&currentGroup!=null&&typeof currentGroup!='undefined'">
                       <div class="name" v-for="(n,i) in names" v-bind:key="i">{{n}}<span v-if="i<names.length-1">,</span></div>
                     </div>
-                    <div class="number-text" v-if="currentChat!=null&&!currentChat.IsGroup"> {{messageList.ID}}</div>
+                    <div class="number-text" v-if="currentChat!=null&&!currentChat.IsGroup&&currentChat.Name==currentChat.Tel"> {{messageList.ID}}</div>
 
                   </div>
                 </div>
@@ -50,6 +50,9 @@
                 <font-awesome-icon icon="ellipsis-v" />
               </button>
               <div v-if="showSettingsMenu" class="dropdown-menu" id="settings-dropdown" aria-labelledby="dropdownMenuButton">
+                <button v-if="currentChat!=null&&!currentChat.IsGroup&&currentChat.Name!=currentChat.Tel" class="dropdown-item" >
+                {{currentChat.Tel}}
+                </button>
                 <button v-if="currentChat!=null&&currentChat.Notification" class="dropdown-item" @click="toggleNotifications" v-translate>Mute</button>
                 <button v-else class="dropdown-item" @click="toggleNotifications" v-translate>Unmute</button>
                 <!-- <button v-if="currentChat!=null&&currentChat.IsGroup" class="dropdown-item" @click="editGroup">Edit group</button> -->
