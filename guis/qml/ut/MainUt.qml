@@ -103,6 +103,12 @@ UITK.Page {
         root.contentType = ContentType.Documents
         root.handler = ContentHandler.Destination
         root.selectionType = ContentTransfer.Single
+      } else if(request.message.toLowerCase().includes("call")){
+        root.request = request
+        var callUrl = request.message.substring(4)
+        Qt.openUrlExternally("tel:///"+callUrl);
+        request.dialogAccept();
+
       } else if(request.message.toLowerCase().includes("http")){
           Qt.openUrlExternally(request.message);
           request.dialogAccept();

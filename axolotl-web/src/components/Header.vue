@@ -50,7 +50,7 @@
                 <font-awesome-icon icon="ellipsis-v" />
               </button>
               <div v-if="showSettingsMenu" class="dropdown-menu" id="settings-dropdown" aria-labelledby="dropdownMenuButton">
-                <button v-if="currentChat!=null&&!currentChat.IsGroup&&currentChat.Name!=currentChat.Tel" class="dropdown-item" >
+                <button v-if="currentChat!=null&&!currentChat.IsGroup&&currentChat.Name!=currentChat.Tel" class="dropdown-item" @click="callNumber(currentChat.Tel)">
                 {{currentChat.Tel}}
                 </button>
                 <button v-if="currentChat!=null&&currentChat.Notification" class="dropdown-item" @click="toggleNotifications" v-translate>Mute</button>
@@ -259,6 +259,15 @@
         } else {
           this.showSettingsMenu = false;
           document.getElementById("addVcf").click()
+        }
+      },
+      callNumber(n){
+        if (this.gui == "ut") {
+          window.prompt("call"+n);
+          this.showSettingsMenu = false;
+
+        } else {
+          this.showSettingsMenu = false;
         }
       },
       createGroup() {
