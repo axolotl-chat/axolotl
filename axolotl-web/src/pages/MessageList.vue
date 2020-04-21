@@ -118,7 +118,6 @@
               <div v-else class="col-12 meta">
                 Error
               </div>
-
             </div>
           </div>
         </div>
@@ -126,32 +125,33 @@
         <div v-else class="no-entries">
           <span v-translate>No Messages available.</span>
         </div>
+        <div id="chat-bottom"></div>
     </div>
     <div class="messageInputBox">
       <!-- <div v-if="chat&&chat.IsGroup&&chat.Name==chat.Tel" class="alert alert-warning">Group has to be updated by a member.</div>
       <div v-else class=""> -->
-        <div class="row">
-          <div class="messageInput-container col-10">
-            <textarea id="messageInput" type="textarea" v-model="messageInput"
-            @keyup="keyupHandler($event)"
-            @click="calcHeightsForInput($event)"
-            @focus="calcHeightsForInput($event)"
-            @focusout="resetHeights"
-            contenteditable="true" v-longclick="paste"/>
-          </div>
-          <div v-if="messageInput!=''" class="col-2 text-right">
-            <button class="btn send" @click="sendMessage"><font-awesome-icon icon="paper-plane" /></button>
-          </div>
-          <div v-else class="col-2 text-right">
-            <button class="btn send" @click="loadAttachmentDialog"><font-awesome-icon icon="plus" /></button>
-          </div>
-        </div>
+      <div class="messageInput-container">
+        <textarea id="messageInput" type="textarea" v-model="messageInput"
+        @input="resizeMessageInput"
+        @focus="resizeMessageInput"
+        @focusout="resetHeights"
+        contenteditable="true" v-longclick="paste"/>
+      </div>
+      <div class="messageInput-btn-container" v-if="messageInput!=''">
+        <button class="btn send" @click="sendMessage">
+          <font-awesome-icon icon="paper-plane" />
+        </button>
+      </div>
+      <div class="messageInput-btn-container" v-else>
+        <button class="btn send" @click="loadAttachmentDialog">
+          <font-awesome-icon icon="plus" />
+        </button>
+      </div>
     </div>
     <attachment-bar v-if="showAttachmentsBar"
     @close="showAttachmentsBar=false"
     @send="callContentHub($event)" />
     <input id="attachment" type="file" @change="sendDesktopAttachment" style="position: fixed; top: -100em">
-
   </div>
 </template>
 
@@ -304,12 +304,11 @@ export default {
       else return 0
     },
     handleScroll (event) {
-      if(event.target.scrollTop<50
-        && this.$store.state.messageList.Messages!=null
-        &&this.$store.state.messageList.Messages.length>19){
+      if(event.target.scrollTop < 80
+        && this.$store.state.messageList.Messages != null
+        && this.$store.state.messageList.Messages.length > 19) {
         this.$store.dispatch("getMoreMessages");
       }
-      // Any code to be executed when the window is scrolled
     },
     humanifyDate(inputDate){
       var date = new moment(inputDate);
@@ -333,85 +332,51 @@ export default {
       }
     },
     scrollDown(){
-      if(document.getElementById("messageList-container")!=null)
-      document.getElementById("messageList-container").scrollTo(0,document.getElementById("messageList-container").scrollHeight);
+      document.getElementById("chat-bottom").scrollIntoView();
     },
     resetHeights(){
-      document.getElementById("messageInput").style.height="33px";
-      document.getElementById('messageList-container').style.height=window.innerHeight-135+'px';
-    },
-    keyupHandler(e){
-      this.calcHeightsForInput(e);
+      document.getElementById("messageInput").style.height = "35px";
     },
     humanifyTimePeriod(time){
       if(time<60)
-      return time +" s";
+        return time +" s";
       else if(time<60*60)
-      return time/60+" m"
+        return time/60+" m"
       else if(time<60*60*24)
-      return time/60/60+" h"
+        return time/60/60+" h"
       else if(time<60*60*24)
-      return time/60/60/24+" d"
-
+        return time/60/60/24+" d"
       return time
     },
-    calcHeightsForInput(){
+    resizeMessageInput(){
       var el = document.getElementById("messageInput");
-      var c = document.getElementById("messageList-container");
-      if(window.innerHeight-c.clientHeight<200){
-        var scroll = el.scrollHeight;
-        if(scroll>150)scroll= 150;
-        if(Math.abs(this.lastCHeight-c.style.height)>10){
-          c.style.height = window.innerHeight-scroll-100+'px';
-          this.lastCHeight = c.style.height;
-        }
-        if(Math.abs(this.lastMHeight-el.style.height)>10){
-          el.style.height=el.scrollHeight+'px';
-          this.lastMHeight = c.style.height;
-        }
-      }
-      if(el.scrollHeight > el.clientHeight && el.scrollHeight<150){
-          el.style.height=el.scrollHeight+5+'px';
-          c.style.height = window.innerHeight-el.scrollHeight-100+'px';
-          if(document.body.scrollTop+550<document.body.scrollHeight)
-          window.scrollTo(0,document.body.scrollHeight);
-        }
-        // var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      el.style.height = "5px";
+      el.style.height = el.scrollHeight + 5 + "px";
     }
-
-
   },
   mounted(){
     this.$store.dispatch("openChat", this.getId());
     this.$store.dispatch("getMessageList", this.getId());
     window.addEventListener('resize', this.resetHeights);
-    document.getElementById('messageInput').focus()
-    setTimeout(this.scrollDown
-    , 600)
-      document.addEventListener("scroll", () => {
-        var scrolled = document.scrollingElement.scrollTop;
-        if(scrolled==0){
-          this.$store.dispatch("getMoreMessages");
-        }
-      });
-      var that = this;
-      document.addEventListener('click', function (event) {
+    document.getElementById('messageInput').focus();
+    setTimeout(this.scrollDown, 600);
+    var that = this;
+    document.addEventListener('click', function (event) {
 
-        // If the clicked element doesn't have the right selector, bail
-        if (!event.target.matches('.linkified')) return;
-        if(typeof that.config.Gui!="undefined"&&that.config.Gui=="ut"){
-          // Don't follow the link
-          event.preventDefault();
-          alert(event.target.href)
-        }
-        // else
-        // console.log(that.config.Gui)
-      }, false);
-
+      // If the clicked element doesn't have the right selector, bail
+      if (!event.target.matches('.linkified')) return;
+      if(typeof that.config.Gui!="undefined"&&that.config.Gui=="ut"){
+        // Don't follow the link
+        event.preventDefault();
+        alert(event.target.href)
+      }
+      // else
+      // console.log(that.config.Gui)
+    }, false);
   },
   watch:{
     messageInput(){
-      this.calcHeightsForInput();
+      this.resizeMessageInput();
     },
     contacts(){
       if(this.contacts!=null){
@@ -441,8 +406,13 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.chat {
+  display: flex;
+  flex-direction: column;
+  height: 100%
+}
+
 .header {
   text-align: left;
 }
@@ -453,16 +423,11 @@ export default {
 .messageList-container{
   overflow-x: hidden;
   overflow-y: scroll;
-  height: calc(100vh - 140px);
   transition: width 0.5s, height 0.5s;
 }
 
 .chat-list-container::-webkit-scrollbar {
     display: none;
-}
-.chat{
-  position:relative;
-  padding-top: 26px;
 }
 /* .chat-list-container{
   padding-bottom:70px;
@@ -557,34 +522,23 @@ video,
   color:#f7663a;
 }
 .messageInputBox {
-  bottom: 0px;
-  width: 100vw;
-  left: 0px;
-  padding: 4px;
-  height: -3px;
-  -webkit-transition: width 0.5s, height 0.5s;
-  transition: width 0.5s, height 0.5s;
-  position: fixed;
   display: flex;
-  justify-content: center;
+  margin-top: 5px;
 }
-.messageInput-container{
-  position: relative;
-  transition: width 0.5s, height 0.5s;
-  padding:0px;
-  width: 75vw;
+.messageInput-container {
+  flex-grow: 1;
+}
+.messageInput-btn-container {
+  flex-grow: 0;
+  flex-shrink: 1;
+  margin-left: 15px;
 }
 #messageInput{
-  padding-right:10px;
-  border-radius:0px;
   resize: none;
-  bottom: 0px;
   width: 100%;
   max-height: 150px;
-  height: 35px;
-  padding:3px 10px;
-  transition: width 0.5s, height 0.5s;
-  border-radius:4px;
+  padding: 3px 10px;
+  border-radius: 4px;
   ::-webkit-scrollbar {
       display: block;
   }

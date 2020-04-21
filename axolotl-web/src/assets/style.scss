@@ -47,6 +47,10 @@ $link-color: $primary;
   background-color: $received-message-bg;
 }
 
+.messageInputBox {
+  background-color: $body-bg;
+}
+
 #messageInput {
   border: 1px solid $message-input-border;
   background-color: $input-bg;

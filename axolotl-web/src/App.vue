@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <header-comp></header-comp>
-    <div class="container">
+    <main class="container">
       <error-modal  v-if="error"/>
       <router-view />
-    </div>
+    </main>
   </div>
 </template>
 
@@ -47,17 +47,26 @@ export default {
   }
 }
 </script>
+
 <style>
 ::-webkit-scrollbar {
     display: none;
 }
-#app{
-  font-family:"ubuntu"
+html,
+body,
+#app {
+  height: 100%;
 }
-#app >.container{
-  padding-top: 50px;
-  position:relative;
+#app {
+  font-family:"ubuntu";
+  display: flex;
+  flex-direction: column;
 }
+main {
+  height: calc(100% - 50px); /* This is needed for Ubuntu Touch because the Blink engine is too old (chrome 61). */
+  overflow: auto;
+}
+
 .btn:focus{
   box-shadow:none;
 }

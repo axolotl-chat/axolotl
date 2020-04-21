@@ -43,8 +43,6 @@
 
   .modal-content {
     border-radius: 0px;
-    /* border: 4px solid red; */
-
   }
 
   .modal-header {
@@ -55,11 +53,13 @@
     display: flex;
   }
 
-  .modal-title>div {
+  .modal-title > div {
     margin-left: 10px;
   }
   .modal-body{
     color: red;
+    display: flex;
+    justify-content: space-between;
   }
 
   .modal-footer {
