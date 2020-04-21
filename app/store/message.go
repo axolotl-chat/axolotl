@@ -17,8 +17,8 @@ type Message struct {
 	HTime         string
 	CType         int
 	Attachment    string
-	IsSent        bool
-	IsRead        bool
+	IsSent        bool `db:"issent"`
+	IsRead        bool `db:"isread"`
 	Flags         int
 	ExpireTimer   uint32 `db:"expireTimer"`
 	SendingError  bool   `db:"sendingError"`
@@ -44,7 +44,7 @@ func SaveMessage(m *Message) (error, *Message) {
 
 func UpdateMessageSent(m *Message) error {
 	log.Debugln("SendingError", m.SendingError)
-	_, err := DS.Dbx.NamedExec("UPDATE messages SET issent = :issent, sentat = :sentat, sendingError = :sendingError, expireTimer = :expireTimer  WHERE id = :id", m)
+	_, err := DS.Dbx.NamedExec("UPDATE messages SET sentat = :sentat, sendingError = :sendingError, expireTimer = :expireTimer  WHERE id = :id", m)
 	if err != nil {
 		return err
 	}
@@ -52,7 +52,14 @@ func UpdateMessageSent(m *Message) error {
 }
 
 func UpdateMessageRead(m *Message) error {
-	_, err := DS.Dbx.NamedExec("UPDATE messages SET isread = :isread, receipt = :receipt WHERE id = :id", m)
+	_, err := DS.Dbx.NamedExec("UPDATE messages SET isread = :isread WHERE id = :id", m)
+	if err != nil {
+		return err
+	}
+	return err
+}
+func UpdateMessageReceiptSent(m *Message) error {
+	_, err := DS.Dbx.NamedExec("UPDATE messages SET issent = :issent WHERE id = :id", m)
 	if err != nil {
 		return err
 	}

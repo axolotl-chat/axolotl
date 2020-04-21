@@ -33,7 +33,8 @@ var (
 	messagesSelectWhereMore        = "SELECT * FROM messages WHERE sid = ? AND id< ? ORDER BY sentat DESC LIMIT 20"
 	messagesSelectWhereLastMessage = "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT 1"
 	messagesDelete                 = "DELETE FROM messages WHERE id = ?"
-	messagesReceipt                = "UPDATE messages SET receipt=1 WHERE sentat = ?"
+	messagesReceiptRead            = "UPDATE messages SET isRead=1 WHERE sentat = ?"
+	messagesReceiptSent            = "UPDATE messages SET isSent=1 WHERE sentat = ?"
 
 	groupsSchema = "CREATE TABLE IF NOT EXISTS groups (id INTEGER PRIMARY KEY, groupid TEXT, name TEXT, members TEXT, avatar BLOB, avatarid INTEGER, avatar_key BLOB, avatar_content_type TEXT, relay TEXT, active INTEGER DEFAULT 1)"
 	groupsInsert = "INSERT OR REPLACE INTO groups (groupid, name, members, avatar) VALUES (:groupid, :name, :members, :avatar)"

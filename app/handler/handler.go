@@ -157,7 +157,7 @@ func ReceiptHandler(source string, devID uint32, timestamp uint64) {
 	for i := len(s.Messages) - 1; i >= 0; i-- {
 		m := s.Messages[i]
 		if m.SentAt == timestamp {
-			m.Receipt = true
+			m.IsRead = true
 			//qml.Changed(m, &m.IsRead)
 			store.UpdateMessageRead(m)
 			webserver.UpdateActiveChat()
@@ -176,9 +176,14 @@ func ReceiptMessageHandler(msg *textsecure.Message) {
 	for i := len(s.Messages) - 1; i >= 0; i-- {
 		m := s.Messages[i]
 		if m.SentAt == msg.Timestamp() {
-			m.Receipt = true
+			if m.Message == "readReceiptMessage" {
+				m.IsRead = true
+				store.UpdateMessageRead(m)
+			} else {
+				m.IsSent = true
+				store.UpdateMessageReceiptSent(m)
+			}
 			//qml.Changed(m, &m.IsRead)
-			store.UpdateMessageRead(m)
 			webserver.UpdateChatList()
 
 			return
