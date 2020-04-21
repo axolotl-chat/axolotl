@@ -295,8 +295,8 @@ func UpdateContactList() {
 	}
 }
 func UpdateActiveChat() {
-	log.Debugln("[axolotl] update active chat")
 	if activeChat != "" {
+		// log.Debugln("[axolotl] update activ	e chat")
 		s := store.SessionsModel.Get(activeChat)
 		for client := range clients {
 			updateCurrentChat(client, s)
