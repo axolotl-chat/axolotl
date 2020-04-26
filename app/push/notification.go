@@ -25,7 +25,7 @@ import (
 	"sync"
 	"time"
 
-	"launchpad.net/go-dbus/v1"
+	dbus "github.com/z3ntu/go-dbus"
 )
 
 var (
