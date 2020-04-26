@@ -27,10 +27,14 @@ var clients = make(map[*websocket.Conn]bool)
 var activeChat = ""
 var codeVerification = false
 
+var broadcast = make(chan []byte, 100)
+
+// Run runs the webserver and the websocket
 func Run() error {
 	log.Printf("[axolotl] Starting axolotl ws")
 	go syncClients()
 	go attachmentServer()
+	go websocketSender()
 	webserver()
 	return nil
 }
@@ -58,16 +62,18 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-	log.Println("[axolotl] Client Connected")
+	log.Println("[axolotl] Client Connected", registered)
 
 	// listen indefinitely for new messages coming
 	// through on our WebSocket connection
-	SetGui(ws)
-	SetUiDarkMode(ws)
-	// if registered {
-	UpdateChatList()
-	UpdateContactList()
-	// }
+	SetGui()
+	sendRegistrationStatus()
+
+	SetUiDarkMode()
+	if registered {
+		UpdateChatList()
+		UpdateContactList()
+	}
 	wsReader(ws)
 }
 
@@ -102,7 +108,7 @@ func wsReader(conn *websocket.Conn) {
 		// fmt.Println(string(p), incomingMessage.Type)
 		switch incomingMessage.Type {
 		case "getChatList":
-			sendChatList(conn)
+			sendChatList()
 		case "getMessageList":
 			getMessageListMessage := GetMessageListMessage{}
 			json.Unmarshal([]byte(p), &getMessageListMessage)
@@ -111,19 +117,19 @@ func wsReader(conn *websocket.Conn) {
 			store.ActiveSessionID = activeChat
 			push.Nh.Clear(id)
 			log.Debugln("[axolotl] Enter chat ", id)
-			sendMessageList(conn, id)
+			sendMessageList(id)
 		case "setDarkMode":
 			setDarkMode := SetDarkMode{}
 			json.Unmarshal([]byte(p), &setDarkMode)
 			log.Debugln("[axolotl] SetDarkMode ", setDarkMode.DarkMode)
 			settings.SettingsModel.DarkMode = setDarkMode.DarkMode
 			settings.SaveSettings(settings.SettingsModel)
-			SetUiDarkMode(conn)
+			SetUiDarkMode()
 
 		case "getMoreMessages":
 			getMoreMessages := GetMoreMessages{}
 			json.Unmarshal([]byte(p), &getMoreMessages)
-			sendMoreMessageList(conn, activeChat, getMoreMessages.LastID)
+			sendMoreMessageList(activeChat, getMoreMessages.LastID)
 		case "createChat":
 			createChatMessage := CreateChatMessage{}
 			json.Unmarshal([]byte(p), &createChatMessage)
@@ -132,7 +138,7 @@ func wsReader(conn *websocket.Conn) {
 			activeChat = createChatMessage.Tel
 			store.ActiveSessionID = activeChat
 			s := store.SessionsModel.Get(createChatMessage.Tel)
-			sendCurrentChat(conn, s)
+			sendCurrentChat(s)
 		case "openChat":
 			openChatMessage := OpenChatMessage{}
 			json.Unmarshal([]byte(p), &openChatMessage)
@@ -140,7 +146,7 @@ func wsReader(conn *websocket.Conn) {
 			s := store.SessionsModel.Get(openChatMessage.Id)
 			activeChat = openChatMessage.Id
 			store.ActiveSessionID = activeChat
-			sendCurrentChat(conn, s)
+			sendCurrentChat(s)
 		case "leaveChat":
 			activeChat = ""
 			store.ActiveSessionID = ""
@@ -152,14 +158,14 @@ func wsReader(conn *websocket.Conn) {
 			activeChat = group.Tel
 			store.ActiveSessionID = activeChat
 			requestEnterChat(activeChat)
-			sendContactList(conn)
+			sendContactList()
 		case "updateGroup":
 			updateGroupMessage := UpdateGroupMessage{}
 			json.Unmarshal([]byte(p), &updateGroupMessage)
 			log.Println("[axolotl] Update group ", updateGroupMessage.ID)
 			updateGroup(updateGroupMessage)
 			requestEnterChat(store.ActiveSessionID)
-			sendContactList(conn)
+			sendContactList()
 		case "sendMessage":
 			sendMessageMessage := SendMessageMessage{}
 			json.Unmarshal([]byte(p), &sendMessageMessage)
@@ -169,7 +175,7 @@ func wsReader(conn *websocket.Conn) {
 				go MessageHandler(m)
 			}
 		case "getContacts":
-			go sendContactList(conn)
+			go sendContactList()
 		case "addContact":
 			log.Infoln("Add contact")
 			addContactMessage := AddContactMessage{}
@@ -180,7 +186,7 @@ func wsReader(conn *websocket.Conn) {
 			if err != nil {
 				ShowError(err.Error())
 			}
-			go sendContactList(conn)
+			go sendContactList()
 		case "requestCode":
 			if requestChannel != nil {
 				requestCodeMessage := RequestCodeMessage{}
@@ -225,13 +231,7 @@ func wsReader(conn *websocket.Conn) {
 			settings.SaveSettings(settings.SettingsModel)
 			os.Exit(0)
 		case "getRegistrationStatus":
-			if requestPassword {
-				sendRequest(conn, "getEncryptionPw")
-			} else if registered {
-				sendRequest(conn, "registrationDone")
-			} else {
-				sendRequest(conn, "getPhoneNumber")
-			}
+			sendRegistrationStatus()
 		case "addDevice":
 			addDeviceMessage := AddDeviceMessage{}
 			json.Unmarshal([]byte(p), &addDeviceMessage)
@@ -247,17 +247,17 @@ func wsReader(conn *websocket.Conn) {
 			json.Unmarshal([]byte(p), &delDeviceMessage)
 			log.Println(delDeviceMessage.Id)
 			textsecure.UnlinkDevice(delDeviceMessage.Id)
-			go sendDeviceList(conn)
+			go sendDeviceList()
 		case "getDevices":
-			go sendDeviceList(conn)
+			go sendDeviceList()
 		case "unregister":
 			config.Unregister()
 		case "getConfig":
-			sendConfig(conn)
+			sendConfig()
 		case "refreshContacts":
 			refreshContactsMessage := RefreshContactsMessage{}
 			json.Unmarshal([]byte(p), &refreshContactsMessage)
-			go refreshContacts(conn, refreshContactsMessage.Url)
+			go refreshContacts(refreshContactsMessage.Url)
 		case "uploadVcf":
 			uploadVcf := UploadVcf{}
 			json.Unmarshal([]byte(p), &uploadVcf)
@@ -284,7 +284,7 @@ func wsReader(conn *websocket.Conn) {
 			if err != nil {
 				ShowError(err.Error())
 			}
-			go sendContactList(conn)
+			go sendContactList()
 		case "delContact":
 			delContactMessage := DelContactMessage{}
 			json.Unmarshal([]byte(p), &delContactMessage)
@@ -295,7 +295,7 @@ func wsReader(conn *websocket.Conn) {
 			if err != nil {
 				ShowError(err.Error())
 			}
-			go sendContactList(conn)
+			go sendContactList()
 		case "editContact":
 			editContactMessage := EditContactMessage{}
 			json.Unmarshal([]byte(p), &editContactMessage)
@@ -309,7 +309,7 @@ func wsReader(conn *websocket.Conn) {
 			if err != nil {
 				ShowError(err.Error())
 			}
-			go sendContactList(conn)
+			go sendContactList()
 		case "delChat":
 			delChatMessage := DelChatMessage{}
 			json.Unmarshal([]byte(p), &delChatMessage)
@@ -318,7 +318,7 @@ func wsReader(conn *websocket.Conn) {
 			if err != nil {
 				ShowError(err.Error())
 			}
-			sendChatList(conn)
+			sendChatList()
 		case "sendAttachment":
 			sendAttachmentMessage := SendAttachmentMessage{}
 			json.Unmarshal([]byte(p), &sendAttachmentMessage)
@@ -345,8 +345,8 @@ func wsReader(conn *websocket.Conn) {
 			log.Debugln("[axolotl] toggle notification for: ", toggleNotificationsMessage.Chat)
 			s := store.SessionsModel.Get(toggleNotificationsMessage.Chat)
 			s.ToggleSessionNotifcation()
-			sendCurrentChat(conn, s)
-			sendChatList(conn)
+			sendCurrentChat(s)
+			sendChatList()
 		case "resetEncryption":
 			resetEncryptionMessage := ResetEncryptionMessage{}
 			json.Unmarshal([]byte(p), &resetEncryptionMessage)
@@ -356,7 +356,7 @@ func wsReader(conn *websocket.Conn) {
 			m.Flags = helpers.MsgFlagResetSession
 			store.SaveMessage(m)
 			go sender.SendMessage(s, m)
-			sendChatList(conn)
+			sendChatList()
 		case "verifyIdentity":
 			verifyIdentityMessage := ToggleNotificationsMessage{}
 			json.Unmarshal([]byte(p), &verifyIdentityMessage)
@@ -367,7 +367,7 @@ func wsReader(conn *websocket.Conn) {
 			if err != nil {
 				log.Debugln("[axolotl] identity information ", err)
 			}
-			sendIdentityInfo(conn, myID, theirID)
+			sendIdentityInfo(myID, theirID)
 		}
 	}
 }

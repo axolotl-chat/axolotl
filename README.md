@@ -42,7 +42,7 @@ Installation of development environment
 * Install [Golang](https://golang.org/doc/install)
 * Install node js
 * Add gopath to ~/.bashrc https://github.com/golang/go/wiki/SettingGOPATH
-* install dependencies `sudo apt install mercurial bzr`
+* install dependencies `sudo apt install mercurial`
 * Check out this git `go get -d github.com/nanu-c/axolotl`
 * `cd $(go env GOPATH)/src/github.com/nanu-c/axolotl`
 * get go dependencies `go get -d ...`

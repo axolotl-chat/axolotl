@@ -16,7 +16,32 @@ import (
 	"github.com/signal-golang/textsecure"
 )
 
-func sendChatList(client *websocket.Conn) {
+func websocketSender() {
+	log.Println("websocketSender", len(clients))
+
+	for {
+		message := <-broadcast
+		log.Println("websocketSender", len(clients), message)
+		for client := range clients {
+			log.Println("websocketSender send message")
+			if err := client.WriteMessage(websocket.TextMessage, message); err != nil {
+				log.Errorln("[axolotl-ws] send message", err)
+				RemoveClientFromList(client)
+			}
+		}
+	}
+}
+func sendRegistrationStatus() {
+	log.Debugln("[axolotl-ws] getRegistrationStatus")
+	if requestPassword {
+		sendRequest("getEncryptionPw")
+	} else if registered {
+		sendRequest("registrationDone")
+	} else {
+		sendRequest("getPhoneNumber")
+	}
+}
+func sendChatList() {
 	var err error
 	chatListEnvelope := &ChatListEnvelope{
 		ChatList: store.SessionsModel.Sess,
@@ -27,16 +52,9 @@ func sendChatList(client *websocket.Conn) {
 		fmt.Println(err)
 		return
 	}
-	// mu.Lock()
-	// defer mu.Unlock()
-	err = client.WriteMessage(websocket.TextMessage, *message)
-	if err != nil {
-		log.Println("[axolotl] send error chat list ", err)
-		RemoveClientFromList(client)
-		return
-	}
+	broadcast <- *message
 }
-func sendCurrentChat(client *websocket.Conn, s *store.Session) {
+func sendCurrentChat(s *store.Session) {
 	var (
 		err error
 		gr  *textsecure.Group
@@ -60,16 +78,9 @@ func sendCurrentChat(client *websocket.Conn, s *store.Session) {
 		fmt.Println(err)
 		return
 	}
-	// mu.Lock()
-	// defer mu.Unlock()
-	err = client.WriteMessage(websocket.TextMessage, *message)
-	if err != nil {
-		log.Println("[axolotl] send error current chat ", err)
-		RemoveClientFromList(client)
-		return
-	}
+	broadcast <- *message
 }
-func updateCurrentChat(client *websocket.Conn, s *store.Session) {
+func updateCurrentChat(s *store.Session) {
 	var (
 		err error
 		gr  *textsecure.Group
@@ -93,16 +104,9 @@ func updateCurrentChat(client *websocket.Conn, s *store.Session) {
 		fmt.Println(err)
 		return
 	}
-	// mu.Lock()
-	// defer mu.Unlock()
-	err = client.WriteMessage(websocket.TextMessage, *message)
-	if err != nil {
-		log.Println("[axolotl] send error update current chat ", err)
-		RemoveClientFromList(client)
-		return
-	}
+	broadcast <- *message
 }
-func refreshContacts(client *websocket.Conn, path string) {
+func refreshContacts(path string) {
 	var err error
 	config.VcardPath = path
 	contact.GetAddressBookContactsFromContentHub()
@@ -110,14 +114,14 @@ func refreshContacts(client *websocket.Conn, path string) {
 	if err != nil {
 		ShowError(err.Error())
 	}
-	// go sendContactList(client)
+	go sendContactList()
 }
 func recoverFromWsPanic(client *websocket.Conn) {
 	client.Close()
 	RemoveClientFromList(client)
 
 }
-func sendContactList(client *websocket.Conn) {
+func sendContactList() {
 	defer func() {
 		if err := recover(); err != nil {
 			log.Println("panic occurred:", err)
@@ -133,14 +137,9 @@ func sendContactList(client *websocket.Conn) {
 		fmt.Println(err)
 		return
 	}
-	// mu.Lock()
-	// defer mu.Unlock()
-	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
-		log.Println("[axolotl] send error contact list ", err)
-		return
-	}
+	broadcast <- *message
 }
-func sendDeviceList(client *websocket.Conn) {
+func sendDeviceList() {
 	var err error
 	devices, err := textsecure.LinkedDevices()
 	deviceListEnvelope := &DeviceListEnvelope{
@@ -152,12 +151,7 @@ func sendDeviceList(client *websocket.Conn) {
 		fmt.Println(err)
 		return
 	}
-	// mu.Lock()
-	// defer mu.Unlock()
-	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
-		log.Println("[axolotl] send error device list", err)
-		return
-	}
+	broadcast <- *message
 }
 func createChat(tel string) *store.Session {
 	return store.SessionsModel.Get(tel)
@@ -208,7 +202,7 @@ func updateGroup(updateGroupData UpdateGroupMessage) *store.Session {
 
 	return session
 }
-func sendMessageList(client *websocket.Conn, id string) {
+func sendMessageList(id string) {
 	message := &[]byte{}
 
 	err, messageList := store.SessionsModel.GetMessageList(id)
@@ -225,14 +219,9 @@ func sendMessageList(client *websocket.Conn, id string) {
 		fmt.Println(err)
 		return
 	}
-	// mu.Lock()
-	// defer mu.Unlock()
-	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
-		log.Println("[textsecure] send error message list", err)
-		return
-	}
+	broadcast <- *message
 }
-func sendMoreMessageList(client *websocket.Conn, id string, lastId string) {
+func sendMoreMessageList(id string, lastId string) {
 	message := &[]byte{}
 	err, messageList := store.SessionsModel.GetMoreMessageList(id, lastId)
 	if err != nil {
@@ -249,12 +238,9 @@ func sendMoreMessageList(client *websocket.Conn, id string, lastId string) {
 	}
 	// mu.Lock()
 	// defer mu.Unlock()
-	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
-		log.Println("[axolotl] send error more message list", err)
-		return
-	}
+	broadcast <- *message
 }
-func sendIdentityInfo(client *websocket.Conn, myId []byte, theirId []byte) {
+func sendIdentityInfo(myId []byte, theirId []byte) {
 	var err error
 
 	message := &[]byte{}
@@ -267,13 +253,7 @@ func sendIdentityInfo(client *websocket.Conn, myId []byte, theirId []byte) {
 		fmt.Println(err)
 		return
 	}
-	// mu.Lock()
-	// defer mu.Unlock()
-	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
-		log.Println("[axolotl] send error identity info", err)
-		return
-	}
-
+	broadcast <- *message
 }
 
 var test = false
@@ -281,26 +261,20 @@ var test = false
 func UpdateChatList() {
 
 	if activeChat == "" {
-		for client := range clients {
-			sendChatList(client)
-		}
+		sendChatList()
 	}
 }
 func UpdateContactList() {
 
 	if activeChat == "" {
-		for client := range clients {
-			sendContactList(client)
-		}
+		sendContactList()
 	}
 }
 func UpdateActiveChat() {
 	if activeChat != "" {
 		// log.Debugln("[axolotl] update activ	e chat")
 		s := store.SessionsModel.Get(activeChat)
-		for client := range clients {
-			updateCurrentChat(client, s)
-		}
+		updateCurrentChat(s)
 	}
 }
 
@@ -308,7 +282,7 @@ type SendGui struct {
 	Gui string
 }
 
-func SetGui(client *websocket.Conn) {
+func SetGui() {
 	var err error
 	gui := config.Gui
 	if gui == "" {
@@ -323,20 +297,15 @@ func SetGui(client *websocket.Conn) {
 		log.Errorln("[axolotl] set gui", err)
 		return
 	}
-	// mu.Lock()
-	// defer mu.Unlock()
-	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
-		log.Println("[axolotl] send error set gui", err)
-		RemoveClientFromList(client)
-		return
-	}
+	broadcast <- *message
+	// RemoveClientFromList(client)
 }
 
 type SendDarkmode struct {
 	DarkMode bool
 }
 
-func SetUiDarkMode(client *websocket.Conn) {
+func SetUiDarkMode() {
 	log.Debugln("[axolotl] send darkmode to client", settings.SettingsModel.DarkMode)
 
 	var err error
@@ -351,14 +320,9 @@ func SetUiDarkMode(client *websocket.Conn) {
 		log.Errorln("[axolotl] set darkmode", err)
 		return
 	}
-	// mu.Lock()
-	// defer mu.Unlock()
-	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
-		log.Println("[axolotl] send error set darkmode", err)
-		return
-	}
+	broadcast <- *message
 }
-func sendConfig(client *websocket.Conn) {
+func sendConfig() {
 	var err error
 
 	message := &[]byte{}
@@ -373,10 +337,5 @@ func sendConfig(client *websocket.Conn) {
 		fmt.Println(err)
 		return
 	}
-	// mu.Lock()
-	// defer mu.Unlock()
-	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
-		log.Println("[axolotl] send config", err)
-		return
-	}
+	broadcast <- *message
 }

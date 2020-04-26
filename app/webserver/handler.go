@@ -30,21 +30,14 @@ func MessageHandler(msg *store.Message) {
 	messageRecieved := &MessageRecieved{
 		MessageRecieved: msg,
 	}
-	// mu.Lock()
-	// defer mu.Unlock()
-	for client := range clients {
-		var err error
-		message := &[]byte{}
-		*message, err = json.Marshal(messageRecieved)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
-			log.Println(err)
-			return
-		}
+	var err error
+	message := &[]byte{}
+	*message, err = json.Marshal(messageRecieved)
+	if err != nil {
+		log.Errorln("[axolotl-ws] ", err)
+		return
 	}
+	broadcast <- *message
 	UpdateChatList()
 
 }
@@ -53,32 +46,28 @@ type SendRequest struct {
 	Type string
 }
 
-func sendRequest(client *websocket.Conn, requestType string) {
+func sendRequest(requestType string) {
 	var err error
 	// mu.Lock()
 	// defer mu.Unlock()
 	request := &SendRequest{
 		Type: requestType,
 	}
+	log.Debugln("[axolotl-ws] send request", requestType)
 	message := &[]byte{}
 	*message, err = json.Marshal(request)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
-		log.Println(err)
-		return
-	}
+	broadcast <- *message
 }
 
 var registered = false
 
 func RegistrationDone() {
 	registered = true
-	for client := range clients {
-		sendRequest(client, "registrationDone")
-	}
+	sendRequest("registrationDone")
 }
 
 type SendEnterChatRequest struct {
@@ -88,24 +77,17 @@ type SendEnterChatRequest struct {
 
 func requestEnterChat(chat string) {
 	var err error
-	// mu.Lock()
-	// defer mu.Unlock()
-	for client := range clients {
-		request := &SendEnterChatRequest{
-			Type: "requestEnterChat",
-			Chat: chat,
-		}
-		message := &[]byte{}
-		*message, err = json.Marshal(request)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
-			log.Println(err)
-			return
-		}
+	request := &SendEnterChatRequest{
+		Type: "requestEnterChat",
+		Chat: chat,
 	}
+	message := &[]byte{}
+	*message, err = json.Marshal(request)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	broadcast <- *message
 }
 
 var requestPassword = false
@@ -114,9 +96,7 @@ func RequestInput(request string) string {
 	if request == "getEncryptionPw" {
 		requestPassword = true
 	}
-	for client := range clients {
-		sendRequest(client, request)
-	}
+	sendRequest(request)
 	requestChannel = make(chan string)
 	text := <-requestChannel
 	requestChannel = nil
@@ -135,12 +115,7 @@ func sendError(client *websocket.Conn, errorMessage string) {
 		fmt.Println(err)
 		return
 	}
-	// mu.Lock()
-	// defer mu.Unlock()
-	if err := client.WriteMessage(websocket.TextMessage, *message); err != nil {
-		log.Println(err)
-		return
-	}
+	broadcast <- *message
 }
 
 type SendError struct {
