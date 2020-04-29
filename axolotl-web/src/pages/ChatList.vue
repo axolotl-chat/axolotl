@@ -1,6 +1,6 @@
 
 <template>
-  <div class="chatList">
+  <div class="chatList" v-if="chatList">
     <div v-if="editActive" class="actions-header">
       <button class="btn hide-actions" @click="delChat($event)">
         <font-awesome-icon icon="trash"/>
@@ -9,7 +9,7 @@
         <font-awesome-icon icon="times"/>
       </button>
     </div>
-    <div v-if="chats.length>0" class="row">
+    <div class="row">
       <button id="chat.id"  v-for="(chat) in chats"
       v-bind:key="chat.id"
       :class="editActive&&selectedChat.indexOf(chat.Tel)>=0?'selected btn col-12 chat-container':'btn col-12 chat-container '"
@@ -21,7 +21,7 @@
               <img class="avatar-img" :src="'http://localhost:9080/avatars?file='+chat.Tel" @error="onImageError($event)"/>
               <font-awesome-icon icon="user-friends" />
             </div>
-            <div v-else class="badge-name"><img class="avatar-img" :src="'http://localhost:9080/avatars?file='+chat.Tel" @error="onImageError($event)"/><div>{{chat.Name[0]}}</div></div>
+            <div v-else class="badge-name">{{chat.Name[0]}}</div>
           </div>
           <div class="meta col-10 row" v-longclick="()=>{editChat(chat.Tel)}">
             <div class="col-9">
@@ -45,7 +45,7 @@
 				</div>
       </button>
     </div>
-    <div v-else class="no-entries" v-translate>
+    <div v-if="chats.length==0" class="no-entries" v-translate>
       No chats available
     </div>
     <!-- {{chats}} -->
@@ -56,6 +56,7 @@
 
 <script>
 import moment from 'moment';
+import { mapState } from 'vuex';
 
 export default {
   name: 'ChatList',
@@ -63,22 +64,26 @@ export default {
     msg: String
   },
   created(){
-    this.$store.dispatch("getChatList");
-    this.$store.dispatch("clearMessageList");
   },
   mounted(){
-    this.$store.dispatch("getContacts")
+    this.$store.dispatch("getChatList");
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
-    this.$store.dispatch("getConfig");
+    this.sortChats();
     var userLang = navigator.language || navigator.userLanguage;
     this.$language.current = userLang;
+    this.$store.dispatch("leaveChat");
+    this.$store.dispatch("clearMessageList");
+    this.$store.dispatch("clearFilterContacts");
+    this.$store.dispatch("getConfig");
+    this.$store.dispatch("getContacts")
   },
   data() {
     return {
       editActive: false,
       editWasActive: false,
       selectedChat:[],
+      chats:[]
     }
   },
   methods:{
@@ -128,15 +133,20 @@ export default {
           this.selectedChat.push(chat.Tel);
       }
 
+    },
+    sortChats(){
+      this.chats = this.$store.state.chatList.filter(e=>e.Messages!=null).sort(function(a, b) {
+              return b.Messages[b.Messages.length-1].SentAt - a.Messages[a.Messages.length-1].SentAt;
+        });
     }
   },
-  computed: {
-    chats () {
-      return this.$store.state.chatList.filter(e=>e.Messages!=null).sort(function(a, b) {
-        return b.Messages[b.Messages.length-1].SentAt - a.Messages[a.Messages.length-1].SentAt;
-      });
+  computed: mapState(['chatList']),
+  watch:{
+    chatList(){
+      this.sortChats();
     }
   }
+
 }
 </script>
 

@@ -133,10 +133,6 @@ export default new Vuex.Store({
         window.router.push("/chat/" + request["Chat"])
         this.dispatch("getChatList")
       }
-      else if (type == "registrationDone") {
-        window.router.push("/chatList")
-        this.dispatch("getChatList")
-      }
       else if (type == "config") {
         this.commit("SET_CONFIG", request)
       }
