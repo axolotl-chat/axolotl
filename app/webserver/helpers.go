@@ -17,11 +17,8 @@ import (
 )
 
 func websocketSender() {
-	log.Println("websocketSender", len(clients))
-
 	for {
 		message := <-broadcast
-		log.Println("websocketSender", len(clients), message)
 		for client := range clients {
 			log.Println("websocketSender send message")
 			if err := client.WriteMessage(websocket.TextMessage, message); err != nil {
