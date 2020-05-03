@@ -100,18 +100,18 @@
               </div>
               <div class="col-12 meta" v-if="message.SentAt!=0">
                 <div class="time">{{humanifyDate(message.SentAt)}}</div>
-                  <div v-if="message.ExpireTimer>0&&message.Message!=''">
-                    <div class="circle-wrap">
-                      <div class="circle">
-                        <div class="mask full" :style="'transform: rotate('+timerPercentage(message)+'deg)'">
-                          <div class="fill" :style="'transform: rotate('+timerPercentage(message)+'deg)'"></div>
-                        </div>
-                        <div class="mask half">
-                          <div class="fill" :style="'transform: rotate('+timerPercentage(message)+'deg)'"></div>
-                        </div>
-                        <div class="inside-circle">
-                        </div>
+                <div v-if="message.ExpireTimer>0&&message.Message!=''">
+                  <div class="circle-wrap">
+                    <div class="circle">
+                      <div class="mask full" :style="'transform: rotate('+timerPercentage(message)+'deg)'">
+                        <div class="fill" :style="'transform: rotate('+timerPercentage(message)+'deg)'"></div>
                       </div>
+                      <div class="mask half">
+                        <div class="fill" :style="'transform: rotate('+timerPercentage(message)+'deg)'"></div>
+                      </div>
+                      <div class="inside-circle">
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -591,7 +591,8 @@ textarea:focus, input:focus{
   padding-bottom:3px;
 }
 .circle-wrap {
-  margin: 2px auto;
+  margin-top: 3px;
+  margin-left: 5px;
   width: 15px;
   height: 15px;
   background: #e6e2e7;
