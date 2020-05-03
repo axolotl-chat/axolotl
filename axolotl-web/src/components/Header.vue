@@ -105,7 +105,7 @@
           <button class="back btn" @click="back()">
             <font-awesome-icon icon="arrow-left" /></button>
         </div>
-        <div v-else-if="route()=='contacts' " class="row w-100">
+        <div v-else-if="route()=='contacts' " class="row">
           <div class="col-2">
             <button class="back btn" @click="back()">
               <font-awesome-icon icon="arrow-left" />
@@ -365,10 +365,8 @@
 
   .settings-container {
     align-self: flex-end;
-    width: 100%;
     display: flex;
     justify-content: flex-end;
-    margin: auto;
   }
 
   .list-header-container {
