@@ -342,6 +342,7 @@
     -webkit-box-shadow: 0px -11px 14px 7px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 0px -11px 14px 7px rgba(0, 0, 0, 0.75);
     box-shadow: 0px -11px 14px 7px rgba(0, 0, 0, 0.75);
+    min-height: 49px;
   }
 
   .header .text-right {
