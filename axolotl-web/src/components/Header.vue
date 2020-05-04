@@ -20,13 +20,16 @@
               <div class="col-10 center">
                 <div class="row">
                   <div class="col-12">
-                    <div v-if="currentChat!=null&&!currentChat.Notification" class="mute-badge">
-                      <font-awesome-icon class="mute" icon="volume-mute" />
-                    </div>
                     <div class="header-text-chat" v-if="currentChat!=null&&currentChat.IsGroup&&currentChat.Name==currentChat.Tel">
+                      <div v-if="currentChat!=null&&!currentChat.Notification" class="mute-badge">
+                        <font-awesome-icon class="mute" icon="volume-mute" />
+                      </div>
                       <div v-translate>Unknown group</div>
                     </div>
                     <div class="header-text-chat" v-else>
+                      <div v-if="currentChat!=null&&!currentChat.Notification" class="mute-badge">
+                        <font-awesome-icon class="mute" icon="volume-mute" />
+                      </div>
                       <div v-if="currentChat!=null&&currentChat.Name!=currentChat.Tel" class="">{{currentChat.Name}}</div>
                     </div>
                   </div>
@@ -401,6 +404,7 @@
     font-weight: bold;
     font-size: 18px;
     color: #FFFFFF;
+    display: flex;
   }
 
   .group-badge {
@@ -416,7 +420,7 @@
 
   .mute-badge {
     color: #FFF;
-    margin-left: 10px;
+    margin-right: 10px;
   }
 
   .chat-header {
