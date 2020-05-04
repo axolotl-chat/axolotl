@@ -20,7 +20,6 @@ func websocketSender() {
 	for {
 		message := <-broadcast
 		for client := range clients {
-			log.Println("websocketSender send message")
 			if err := client.WriteMessage(websocket.TextMessage, message); err != nil {
 				log.Errorln("[axolotl-ws] send message", err)
 				RemoveClientFromList(client)
