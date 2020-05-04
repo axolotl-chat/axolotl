@@ -362,7 +362,9 @@
   .btn {
     color: #FFF;
   }
-
+  #dropdownMenuButton{
+    color: #FFF;
+  }
   .settings-container {
     align-self: flex-end;
     display: flex;
