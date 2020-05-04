@@ -105,7 +105,7 @@
           <button class="back btn" @click="back()">
             <font-awesome-icon icon="arrow-left" /></button>
         </div>
-        <div v-else-if="route()=='contacts' " class="row w-100">
+        <div v-else-if="route()=='contacts' " class="row">
           <div class="col-2">
             <button class="back btn" @click="back()">
               <font-awesome-icon icon="arrow-left" />
@@ -336,15 +336,9 @@
   }
 
   .header {
-    position: fixed;
-    width: 100%;
+    padding: 5px 0;
     background-color: #2090ea;
-    top: 0px;
-    height: 50px;
     z-index: 2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     -webkit-box-shadow: 0px -11px 14px 7px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 0px -11px 14px 7px rgba(0, 0, 0, 0.75);
     box-shadow: 0px -11px 14px 7px rgba(0, 0, 0, 0.75);
@@ -355,10 +349,6 @@
     display: flex;
     align-items: center;
     padding: 0px;
-  }
-
-  .chat.header {
-    height: 70px;
   }
 
   .chat.header .btn {
@@ -375,10 +365,8 @@
 
   .settings-container {
     align-self: flex-end;
-    width: 100%;
     display: flex;
     justify-content: flex-end;
-    margin: auto;
   }
 
   .list-header-container {

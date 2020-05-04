@@ -9,12 +9,10 @@
         <font-awesome-icon icon="times"/>
       </button>
     </div>
-    <div class="row">
-      <button id="chat.id"  v-for="(chat) in chats"
-      v-bind:key="chat.id"
-      :class="editActive&&selectedChat.indexOf(chat.Tel)>=0?'selected btn col-12 chat-container':'btn col-12 chat-container '"
-      @click="enterChat(chat )"
-          >
+    <div class="row" v-for="(chat) in chats" v-bind:key="chat.id">
+      <div id="chat.id"
+      :class="editActive&&selectedChat.indexOf(chat.Tel)>=0?'selected col-12 chat-container':'col-12 chat-container '"
+      @click="enterChat(chat)">
         <div class="row chat-entry">
           <div class="avatar col-2">
             <div v-if="chat.IsGroup" class="badge-name">
@@ -23,27 +21,30 @@
             </div>
             <div v-else class="badge-name">{{chat.Name[0]}}</div>
           </div>
-          <div class="meta col-10 row" v-longclick="()=>{editChat(chat.Tel)}">
-            <div class="col-9">
-              <div class="name">
-                     <font-awesome-icon class="mute" v-if="!chat.Notification" icon="volume-mute" />
-                     <div v-if="chat.IsGroup&&chat.Name==chat.Tel" v-translate>Unknown group</div>
-                     <div v-else>{{chat.Name}}</div>
-                     <div v-if="Number(chat.Unread)>0" class="counter badge badge-primary">{{chat.Unread}}</div>
-                   </div>
-
+          <div class="meta col-10" v-longclick="()=>{editChat(chat.Tel)}">
+            <div class="row">
+              <div class="col-9">
+                <div class="name">
+                   <font-awesome-icon class="mute" v-if="!chat.Notification" icon="volume-mute" />
+                   <div v-if="chat.IsGroup&&chat.Name==chat.Tel" v-translate>Unknown group</div>
+                   <div v-else>{{chat.Name}}</div>
+                   <div v-if="Number(chat.Unread)>0" class="counter badge badge-primary">{{chat.Unread}}</div>
+                 </div>
+              </div>
+              <div v-if="!editActive" class="col-3 date-c">
+                  <p v-if="chat.Messages&&chat.Messages!=null&&chat.Messages[chat.Messages.length-1].SentAt!=0" class="time">
+                    {{humanifyDate(chat.Messages[chat.Messages.length-1].SentAt)}}
+                  </p>
+              </div>
             </div>
-            <div v-if="!editActive" class="col-3 date-c">
-                <p v-if="chat.Messages&&chat.Messages!=null&&chat.Messages[chat.Messages.length-1].SentAt!=0" class="time">
-                  {{humanifyDate(chat.Messages[chat.Messages.length-1].SentAt)}}
-                </p>
-            </div>
-            <div class="col-12">
-              <p class="preview" v-if="chat.Messages&&chat.Messages!=null">{{chat.Messages[chat.Messages.length-1].Message}}</p>
+            <div class="row">
+              <div class="col-12">
+                <p class="preview" v-if="chat.Messages&&chat.Messages!=null">{{chat.Messages[chat.Messages.length-1].Message}}</p>
+              </div>
             </div>
           </div>
 				</div>
-      </button>
+      </div>
     </div>
     <div v-if="chats.length==0" class="no-entries" v-translate>
       No chats available
@@ -170,10 +171,10 @@ export default {
 .hide-actions{
   padding-right:40px;
 }
-.avatar {
-    justify-content: center;
-    display: flex;
-    align-items: center;
+
+.chat-entry {
+  padding: 10px 0;
+  cursor: pointer;
 }
 .badge-name{
   background: rgb(14,123,210);
@@ -197,9 +198,6 @@ export default {
   max-height: 100%;
   height: 100%;
 }
-.chat-container{
-      padding: 0px 10px;
-}
 .date-c{
   display: flex;
   justify-content: flex-end;
@@ -212,13 +210,6 @@ export default {
 .meta p{
   margin:0px;
 }
-.chat-entry{
-  padding: 0px 0px 10px 0px;
-}
-.meta>div,
-.chat-entry>div{
-  padding:0px 8px;
-}
 .meta .name{
   font-weight:bold;
   font-size: 18px;
@@ -227,9 +218,6 @@ export default {
 }
 .meta .preview{
   font-size:15px;
-}
-.row.chat-entry{
-  padding: 10px;
 }
 a.chat-container{
   color:#000;
