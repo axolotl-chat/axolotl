@@ -192,12 +192,9 @@
       back() {
         this.$router.go(-1)
         this.showSettingsMenu = false;
-        this.$store.dispatch("leaveChat");
-        this.$store.dispatch("clearMessageList");
         this.contactsFilter != "";
         this.toggleSearch = false;
         this.names = []
-        this.$store.dispatch("clearFilterContacts");
       },
       toggleSettings() {
         this.showSettingsMenu = !this.showSettingsMenu;
