@@ -25,7 +25,7 @@ var e string
 
 func init() {
 	flag.StringVar(&config.MainQml, "qml", "qml/phoneui/main.qml", "The qml file to load.")
-	flag.StringVar(&config.Gui, "e", "", "use either electron, ut, lorca or me")
+	flag.StringVar(&config.Gui, "e", "", "use either electron, ut, lorca, server or me")
 	flag.BoolVar(&config.ElectronDebug, "eDebug", false, "use to show development console in electron")
 }
 func print(stdout io.ReadCloser) {
@@ -136,7 +136,11 @@ func main() {
 	log.Println("[axolotl] Setup completed")
 	wg.Add(1)
 	go runWebserver()
-	wg.Add(1)
-	go runUI()
+	if config.Gui != "server" {
+		wg.Add(1)
+		go runUI()
+	} else {
+		log.Printf("[axolotl] Axolotl frontend is at http://localhost:9080/")
+	}
 	wg.Wait()
 }
