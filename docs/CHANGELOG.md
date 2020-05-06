@@ -1,3 +1,17 @@
+0.8.2 (May 5 2020)
+------------------------------------
+* Show number of contact person in the chat menu and make it callable by arthur
+* Refactor Layout with a new design by Flaburgan
+* Update French translation by Anne017
+* Improve backend message worker, fixes some crashes
+
+0.8.1 (Apr 16 2020) hotfix and translations
+------------------------------------
+* Portugese translations by rubencarneiro
+* fix message sending states
+* fix contact imports
+* fix building snap package
+
 0.8.0 (Apr 13 2020)
 ------------------------------------
 * Support for DarkMode by Flaburgan (and a little bit nanu-c)
