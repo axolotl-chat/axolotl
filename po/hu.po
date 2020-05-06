@@ -28,7 +28,7 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: src/components/Header.vue:125
+#: src/components/Header.vue:131
 #, fuzzy
 msgid "Add Contacts"
 msgstr "Névjegy"
@@ -63,7 +63,7 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
-#: src/components/Header.vue:66
+#: src/components/Header.vue:72
 msgid "Connect with Signal"
 msgstr "Kapcsolódás Signal-lal"
 
@@ -108,17 +108,17 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: src/components/Header.vue:98
+#: src/components/Header.vue:104
 #, fuzzy
 msgid "Edit group"
 msgstr "Csoport frissítése"
 
-#: src/components/Header.vue:57
+#: src/components/Header.vue:63
 #, fuzzy
 msgid "Edit Group"
 msgstr "Csoport frissítése"
 
-#: src/components/Header.vue:69
+#: src/components/Header.vue:75
 msgid "Enter password"
 msgstr ""
 
@@ -164,11 +164,11 @@ msgstr ""
 msgid "Members"
 msgstr "Csoporttagok"
 
-#: src/components/Header.vue:52
+#: src/components/Header.vue:58
 msgid "Mute"
 msgstr ""
 
-#: src/components/Header.vue:92 src/components/Header.vue:138
+#: src/components/Header.vue:98 src/components/Header.vue:144
 msgid "New group"
 msgstr "Új csoport"
 
@@ -176,7 +176,7 @@ msgstr "Új csoport"
 msgid "Next"
 msgstr ""
 
-#: src/pages/ChatList.vue:46
+#: src/pages/ChatList.vue:47
 msgid "No chats available"
 msgstr ""
 
@@ -184,7 +184,7 @@ msgstr ""
 msgid "No devices available"
 msgstr ""
 
-#: src/pages/MessageList.vue:125
+#: src/pages/MessageList.vue:124
 msgid "No Messages available."
 msgstr ""
 
@@ -237,7 +237,7 @@ msgstr ""
 msgid "Request code"
 msgstr ""
 
-#: src/components/Header.vue:56
+#: src/components/Header.vue:62
 #, fuzzy
 msgid "Reset encryption"
 msgstr "Biztonságos munkamenet alaphelyzetbe állítása"
@@ -258,7 +258,7 @@ msgstr ""
 msgid "Send pin"
 msgstr ""
 
-#: src/components/Header.vue:75
+#: src/components/Header.vue:81
 #, fuzzy
 msgid "Set encryption password"
 msgstr "Biztonságos munkamenet alaphelyzetbe állítása"
@@ -277,11 +277,11 @@ msgid ""
 "required!"
 msgstr ""
 
-#: src/components/Header.vue:86 src/components/Header.vue:141
+#: src/components/Header.vue:92 src/components/Header.vue:147
 msgid "Settings"
 msgstr "Beállítások"
 
-#: src/components/Header.vue:55
+#: src/components/Header.vue:61
 #, fuzzy
 msgid "Show identity"
 msgstr "Azonosító ellenőrzése"
@@ -296,12 +296,12 @@ msgid ""
 "    You can support the development of axolotl either by filling"
 msgstr ""
 
-#: src/components/Header.vue:26 src/pages/ChatList.vue:28
+#: src/components/Header.vue:26 src/pages/ChatList.vue:27
 #, fuzzy
 msgid "Unknown group"
 msgstr "Új csoport"
 
-#: src/components/Header.vue:53
+#: src/components/Header.vue:59
 msgid "Unmute"
 msgstr ""
 

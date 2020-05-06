@@ -27,7 +27,7 @@ msgstr "À propos d'Axolotl"
 msgid "Add"
 msgstr "Ajouter"
 
-#: src/components/Header.vue:125
+#: src/components/Header.vue:131
 msgid "Add Contacts"
 msgstr "Ajouter des contacts"
 
@@ -59,7 +59,7 @@ msgstr "Fermer"
 msgid "Confirm"
 msgstr "Valider"
 
-#: src/components/Header.vue:66
+#: src/components/Header.vue:72
 msgid "Connect with Signal"
 msgstr "Se connecter avec Signal"
 
@@ -103,15 +103,15 @@ msgstr "Document"
 msgid "Edit"
 msgstr "Modifier"
 
-#: src/components/Header.vue:98
+#: src/components/Header.vue:104
 msgid "Edit group"
 msgstr "Modifier le groupe"
 
-#: src/components/Header.vue:57
+#: src/components/Header.vue:63
 msgid "Edit Group"
 msgstr "Modifier le groupe"
 
-#: src/components/Header.vue:69
+#: src/components/Header.vue:75
 msgid "Enter password"
 msgstr "Saisissez votre mot de passe"
 
@@ -155,11 +155,11 @@ msgstr "Chargement..."
 msgid "Members"
 msgstr "Membres"
 
-#: src/components/Header.vue:52
+#: src/components/Header.vue:58
 msgid "Mute"
 msgstr "Mettre en silencieux"
 
-#: src/components/Header.vue:92 src/components/Header.vue:138
+#: src/components/Header.vue:98 src/components/Header.vue:144
 msgid "New group"
 msgstr "Nouveau groupe"
 
@@ -167,7 +167,7 @@ msgstr "Nouveau groupe"
 msgid "Next"
 msgstr "Suivant"
 
-#: src/pages/ChatList.vue:46
+#: src/pages/ChatList.vue:47
 msgid "No chats available"
 msgstr "Aucune discussion disponible"
 
@@ -175,7 +175,7 @@ msgstr "Aucune discussion disponible"
 msgid "No devices available"
 msgstr "Aucun appareil disponible"
 
-#: src/pages/MessageList.vue:125
+#: src/pages/MessageList.vue:124
 msgid "No Messages available."
 msgstr "Aucun message disponible."
 
@@ -227,7 +227,7 @@ msgstr "Répétez le nouveau mot de passe"
 msgid "Request code"
 msgstr "Demander un code"
 
-#: src/components/Header.vue:56
+#: src/components/Header.vue:62
 msgid "Reset encryption"
 msgstr "Réinitialiser le chiffrement"
 
@@ -247,7 +247,7 @@ msgstr "Envoyer un code"
 msgid "Send pin"
 msgstr "Envoyer un code PIN"
 
-#: src/components/Header.vue:75
+#: src/components/Header.vue:81
 msgid "Set encryption password"
 msgstr "Définir un mot de passe de chiffrement"
 
@@ -267,11 +267,11 @@ msgstr ""
 "Il n'est pas conseillé de définir un mot de passe sur les appareils ayant "
 "une mémoire limitée Un redémarrage est nécessaire !"
 
-#: src/components/Header.vue:86 src/components/Header.vue:141
+#: src/components/Header.vue:92 src/components/Header.vue:147
 msgid "Settings"
 msgstr "Paramètres"
 
-#: src/components/Header.vue:55
+#: src/components/Header.vue:61
 msgid "Show identity"
 msgstr "Afficher l’identité"
 
@@ -287,11 +287,11 @@ msgstr ""
 "Ceci est un client Signal libre écrit en golang et vuejs.\n"
 "    Vous pouvez aider le développement d'Axolotl soit en remplissant"
 
-#: src/components/Header.vue:26 src/pages/ChatList.vue:28
+#: src/components/Header.vue:26 src/pages/ChatList.vue:27
 msgid "Unknown group"
 msgstr "Groupe inconnu"
 
-#: src/components/Header.vue:53
+#: src/components/Header.vue:59
 msgid "Unmute"
 msgstr "Désactiver le silencieux"
 

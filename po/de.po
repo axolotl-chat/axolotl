@@ -29,7 +29,7 @@ msgstr "Über Axolotl"
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: src/components/Header.vue:125
+#: src/components/Header.vue:131
 msgid "Add Contacts"
 msgstr "Kontakte hinzufügen"
 
@@ -61,7 +61,7 @@ msgstr "Schließen"
 msgid "Confirm"
 msgstr "Bestätigen"
 
-#: src/components/Header.vue:66
+#: src/components/Header.vue:72
 msgid "Connect with Signal"
 msgstr "Mit Signal verbinden"
 
@@ -106,15 +106,15 @@ msgstr "Dokument"
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: src/components/Header.vue:98
+#: src/components/Header.vue:104
 msgid "Edit group"
 msgstr "Gruppe bearbeiten"
 
-#: src/components/Header.vue:57
+#: src/components/Header.vue:63
 msgid "Edit Group"
 msgstr "Gruppe bearbeiten"
 
-#: src/components/Header.vue:69
+#: src/components/Header.vue:75
 msgid "Enter password"
 msgstr "Passwort eingeben"
 
@@ -158,11 +158,11 @@ msgstr "Laden..."
 msgid "Members"
 msgstr "Gruppenmitglieder"
 
-#: src/components/Header.vue:52
+#: src/components/Header.vue:58
 msgid "Mute"
 msgstr "Stumm"
 
-#: src/components/Header.vue:92 src/components/Header.vue:138
+#: src/components/Header.vue:98 src/components/Header.vue:144
 msgid "New group"
 msgstr "Neue Gruppe"
 
@@ -170,7 +170,7 @@ msgstr "Neue Gruppe"
 msgid "Next"
 msgstr "Weiter"
 
-#: src/pages/ChatList.vue:46
+#: src/pages/ChatList.vue:47
 msgid "No chats available"
 msgstr "Keine Chats vorhanden"
 
@@ -178,7 +178,7 @@ msgstr "Keine Chats vorhanden"
 msgid "No devices available"
 msgstr "Keine Geräte vorhanden"
 
-#: src/pages/MessageList.vue:125
+#: src/pages/MessageList.vue:124
 msgid "No Messages available."
 msgstr "Keine Nachrichten vorhanden"
 
@@ -230,7 +230,7 @@ msgstr "Passwort hier wiederholen"
 msgid "Request code"
 msgstr "Code empfangen"
 
-#: src/components/Header.vue:56
+#: src/components/Header.vue:62
 msgid "Reset encryption"
 msgstr "Verschlüsselung neu starten"
 
@@ -250,7 +250,7 @@ msgstr "Code senden"
 msgid "Send pin"
 msgstr "Pin senden"
 
-#: src/components/Header.vue:75
+#: src/components/Header.vue:81
 msgid "Set encryption password"
 msgstr "Verschlüsselung Passwort setzen"
 
@@ -270,11 +270,11 @@ msgstr ""
 "Ein Passwort wird auf Geräten mit wenig Arbeitsspeicher nicht empfohlen. Ein "
 "Neustart wird benötigt"
 
-#: src/components/Header.vue:86 src/components/Header.vue:141
+#: src/components/Header.vue:92 src/components/Header.vue:147
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: src/components/Header.vue:55
+#: src/components/Header.vue:61
 msgid "Show identity"
 msgstr "Kontakt überprüfen"
 
@@ -291,11 +291,11 @@ msgstr ""
 "Vuejs.\n"
 "    Du kannst die Entwicklung von Axolotl unterstützen durch das Senden von "
 
-#: src/components/Header.vue:26 src/pages/ChatList.vue:28
+#: src/components/Header.vue:26 src/pages/ChatList.vue:27
 msgid "Unknown group"
 msgstr "Unbekannte Gruppe"
 
-#: src/components/Header.vue:53
+#: src/components/Header.vue:59
 msgid "Unmute"
 msgstr "Laut"
 

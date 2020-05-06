@@ -28,7 +28,7 @@ msgstr "Sobre Axolotl"
 msgid "Add"
 msgstr "Adicionar"
 
-#: src/components/Header.vue:125
+#: src/components/Header.vue:131
 msgid "Add Contacts"
 msgstr "Adicionar contatos"
 
@@ -60,7 +60,7 @@ msgstr "Fechar"
 msgid "Confirm"
 msgstr "Confirmar"
 
-#: src/components/Header.vue:66
+#: src/components/Header.vue:72
 msgid "Connect with Signal"
 msgstr "Ligar com o Signal"
 
@@ -104,15 +104,15 @@ msgstr "Documento"
 msgid "Edit"
 msgstr "Editar"
 
-#: src/components/Header.vue:98
+#: src/components/Header.vue:104
 msgid "Edit group"
 msgstr "Atualizar grupo"
 
-#: src/components/Header.vue:57
+#: src/components/Header.vue:63
 msgid "Edit Group"
 msgstr "Atualizar grupo"
 
-#: src/components/Header.vue:69
+#: src/components/Header.vue:75
 msgid "Enter password"
 msgstr "Insira password"
 
@@ -156,11 +156,11 @@ msgstr "Carregar"
 msgid "Members"
 msgstr "Membros do grupo"
 
-#: src/components/Header.vue:52
+#: src/components/Header.vue:58
 msgid "Mute"
 msgstr "Silenciar"
 
-#: src/components/Header.vue:92 src/components/Header.vue:138
+#: src/components/Header.vue:98 src/components/Header.vue:144
 msgid "New group"
 msgstr "Novo grupo"
 
@@ -168,7 +168,7 @@ msgstr "Novo grupo"
 msgid "Next"
 msgstr "Seguinte"
 
-#: src/pages/ChatList.vue:46
+#: src/pages/ChatList.vue:47
 msgid "No chats available"
 msgstr "Sem conversas disponiveis"
 
@@ -176,7 +176,7 @@ msgstr "Sem conversas disponiveis"
 msgid "No devices available"
 msgstr "Sem dispositivos disponiveis"
 
-#: src/pages/MessageList.vue:125
+#: src/pages/MessageList.vue:124
 msgid "No Messages available."
 msgstr "Sem mensagens disponiveis"
 
@@ -228,7 +228,7 @@ msgstr "Repetir password"
 msgid "Request code"
 msgstr "Código de solicitação"
 
-#: src/components/Header.vue:56
+#: src/components/Header.vue:62
 msgid "Reset encryption"
 msgstr "Reiniciar a sessão segura"
 
@@ -248,7 +248,7 @@ msgstr "Enviar código"
 msgid "Send pin"
 msgstr "Enviar pin"
 
-#: src/components/Header.vue:75
+#: src/components/Header.vue:81
 msgid "Set encryption password"
 msgstr "Definir password de criptografia"
 
@@ -268,11 +268,11 @@ msgstr ""
 "Definir uma password não é recomendado em dispositivos com pouca memória. "
 "Reiniciar é requerido!"
 
-#: src/components/Header.vue:86 src/components/Header.vue:141
+#: src/components/Header.vue:92 src/components/Header.vue:147
 msgid "Settings"
 msgstr "Definições"
 
-#: src/components/Header.vue:55
+#: src/components/Header.vue:61
 msgid "Show identity"
 msgstr "Verificar a identidade"
 
@@ -289,11 +289,11 @@ msgstr ""
 "vuejs.\n"
 "    Você pode apoiar o desenvolvimento do axolotl preenchendo"
 
-#: src/components/Header.vue:26 src/pages/ChatList.vue:28
+#: src/components/Header.vue:26 src/pages/ChatList.vue:27
 msgid "Unknown group"
 msgstr "Grupo desconhecido"
 
-#: src/components/Header.vue:53
+#: src/components/Header.vue:59
 msgid "Unmute"
 msgstr "Ativar som"
 

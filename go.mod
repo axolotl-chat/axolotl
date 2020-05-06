@@ -18,7 +18,7 @@ require (
 	github.com/pieterbork/ed25519 v0.0.0-20200301051623-f19b832d0d2e // indirect
 	github.com/pkg/errors v0.9.1
 	github.com/signal-golang/ed25519 v0.0.0-20200301051623-f19b832d0d2e // indirect
-	github.com/signal-golang/textsecure v0.0.0-20200421200805-97e66d0dbfbf
+	github.com/signal-golang/textsecure v1.2.0
 	github.com/sirupsen/logrus v1.5.0
 	github.com/ttacon/builder v0.0.0-20170518171403-c099f663e1c2 // indirect
 	github.com/ttacon/libphonenumber v1.1.0
@@ -28,3 +28,5 @@ require (
 	golang.org/x/crypto v0.0.0-20200423211502-4bdfaf469ed5
 	gopkg.in/yaml.v2 v2.2.8
 )
+
+replace github.com/signal-golang/textsecure v1.2.0 => github.com/signal-golang/textsecure v1.2.0

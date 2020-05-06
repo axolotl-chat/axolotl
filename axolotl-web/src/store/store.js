@@ -87,6 +87,7 @@ export default new Vuex.Store({
     },
     UPDATE_CURRENT_CHAT(state, data) {
       state.currentChat = data.CurrentChat;
+      if (typeof state.messageList.Messages == "undefined") state.messageList.Messages = []
       var prepare = state.messageList.Messages.map(function(e) { return e.ID; })
       data.CurrentChat.Messages.forEach(m => {
         state.messageList.Messages[prepare.indexOf(m.ID)] = m;
