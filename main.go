@@ -27,6 +27,8 @@ func init() {
 	flag.StringVar(&config.MainQml, "qml", "qml/phoneui/main.qml", "The qml file to load.")
 	flag.StringVar(&config.Gui, "e", "", "use either electron, ut, lorca, server or me")
 	flag.BoolVar(&config.ElectronDebug, "eDebug", false, "use to show development console in electron")
+	flag.StringVar(&config.ServerHost, "host", "localhost", "Host to serve UI from.")
+	flag.StringVar(&config.ServerPort, "port", "9080", "Port to serve UI from.")
 }
 func print(stdout io.ReadCloser) {
 	scanner := bufio.NewScanner(stdout)
@@ -99,7 +101,7 @@ func runElectron() {
 	center := true
 	height := 800
 	width := 600
-	if w, err = a.NewWindow("http://localhost:9080", &astilectron.WindowOptions{
+	if w, err = a.NewWindow("http://" + config.ServerHost + ":" + config.ServerPort, &astilectron.WindowOptions{
 		Center: &center,
 		Height: &height,
 		Width:  &width,
@@ -140,7 +142,7 @@ func main() {
 		wg.Add(1)
 		go runUI()
 	} else {
-		log.Printf("[axolotl] Axolotl frontend is at http://localhost:9080/")
+		log.Printf("[axolotl] Axolotl frontend is at http://" + config.ServerHost + ":" + config.ServerPort + "/")
 	}
 	wg.Wait()
 }

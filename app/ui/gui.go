@@ -85,7 +85,7 @@ func RunUi(e string) {
 		ui.Bind("start", func() {
 			log.Println("[axolotl] UI is ready")
 		})
-		ui.Load(fmt.Sprintf("http://localhost:9080"))
+		ui.Load(fmt.Sprintf("http://%s:%s", config.ServerHost, config.ServerPort))
 
 		// Wait until the interrupt signal arrives or browser window is closed
 		sigc := make(chan os.Signal)

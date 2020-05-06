@@ -65,7 +65,7 @@ Run development
 * `cd $(go env GOPATH)/src/github.com/nanu-c/axolotl`
 * `go run .`
 * in a new terminal `cd axolotl-web&&npm run serve`
-* point a browser to the link printed in the terminal  like `http://localhost:8080`
+* point a browser to the link printed in the terminal  like `http://localhost:9080`
 
 Run frontend and connect to phone ip
 --------------
@@ -139,8 +139,10 @@ The build-system is now integrated in the `clickable` Version 3.2.0.
 Run flags
 -----------
 
-* `-sys` for either `lorca`-> native chromium (has to be installed), `ut` -> runs in the ut enviroment, `me` -> qmlscene, or without that flag it runs electron
+* `-sys` for either `lorca`-> native chromium (has to be installed), `ut` -> runs in the ut enviroment, `me` -> qmlscene, `server` -> just run the webserver, or without that flag it runs electron
 * `-eDebug` show developer console in electron mode
+* `-host` Set the host to run the webserver from. Defaults to localhost.
+* `-port` Set the port to run the webserver from. Defaults to 9080.
 
 Contributing
 -----------
