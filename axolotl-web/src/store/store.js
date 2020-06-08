@@ -16,10 +16,7 @@ export default new Vuex.Store({
     darkMode: false,
     error: null,
     errorConnection: null,
-    identity: {
-      me: null,
-      their: null
-    },
+    fingerprint: null,
     config: {},
     loginError: null,
     ratelimitError: null,
@@ -195,9 +192,8 @@ export default new Vuex.Store({
       state.contactsFilterd = [];
       state.contactsFilterActive = false;
     },
-    SET_IDENTITY(state, identity) {
-      state.identity.me = identity.Identity;
-      state.identity.their = identity.TheirId;
+    SET_FINGERPRINT(state, message) {
+      state.fingerprint = message.Fingerprint;
     },
     LEAVE_CHAT(state) {
       state.currentGroup = null;
@@ -253,8 +249,8 @@ export default new Vuex.Store({
         else if (Object.keys(messageData)[0] == "CurrentChat") {
           this.commit("SET_CURRENT_CHAT", messageData["CurrentChat"]);
         }
-        else if (Object.keys(messageData)[0] == "Identity") {
-          this.commit("SET_IDENTITY", messageData);
+        else if (Object.keys(messageData)[0] == "Fingerprint") {
+          this.commit("SET_FINGERPRINT", messageData);
         }
         else if (Object.keys(messageData)[0] == "Type") {
           this.commit("SET_REQUEST", messageData);

@@ -9,14 +9,12 @@
           </button>
         </div>
         <div class="modal-body">
-          <b v-translate>Your key </b>
-          <br />
-          <div >{{identity.me}}</div>
-          <br />
-          <br />
-          <b>{{currentChat.Name}}<span v-translate>'s key </span></b>
-          <br />
-          <div >{{identity.their}}</div>
+          <b><span v-translate>Safety numbers of you and</span> {{currentChat.Name}}:</b>
+          <div class="row fingerprint">
+            <div class="col-3" v-for="(part,i) in fingerprint" v-bind:key="'fingerprint_'+i">
+                {{ part }}
+            </div>
+          </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" @click="$emit('confirm')" v-translate>Close</button>
           </div>
@@ -32,8 +30,8 @@
     methods: {
     },
     computed: {
-      identity() {
-        return this.$store.state.identity
+      fingerprint() {
+        return this.$store.state.fingerprint
       },
       currentChat() {
         return this.$store.state.currentChat
