@@ -9,6 +9,7 @@
           </button>
         </div>
         <div class="modal-body">
+          {{fingerprint}}
           <b v-translate>Your key </b>
           <br />
           <div >{{identity.me}}</div>
@@ -27,14 +28,19 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex';
   export default {
     name: 'IdentityModal',
     methods: {
+    },
+    mounted(){
+      this.$store.dispatch("getFingerprint")
     },
     computed: {
       identity() {
         return this.$store.state.identity
       },
+      ...mapState(['fingerprint']),
       currentChat() {
         return this.$store.state.currentChat
       },

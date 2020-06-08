@@ -16,6 +16,7 @@ export default new Vuex.Store({
     darkMode: false,
     error: null,
     errorConnection: null,
+    fingerprint: null,
     identity: {
       me: null,
       their: null
@@ -106,6 +107,9 @@ export default new Vuex.Store({
     },
     SET_DEVICELIST(state, devices) {
       state.devices = devices
+    },
+    SET_FINGERPRINT(state, fingerprint) {
+      state.fingerprint = fingerprint
     },
     SET_REQUEST(state, request) {
       var type = request["Type"]
@@ -258,6 +262,9 @@ export default new Vuex.Store({
         }
         else if (Object.keys(messageData)[0] == "Type") {
           this.commit("SET_REQUEST", messageData);
+        }
+        else if (Object.keys(messageData)[0] == "Fingerprint") {
+          this.commit("SET_FINGERPRINT", messageData["Fingerprint"]);
         }
         else if (Object.keys(messageData)[0] == "Error") {
           this.commit("SET_ERROR", messageData.Errorx);
@@ -586,6 +593,14 @@ export default new Vuex.Store({
       if (this.state.socket.isConnected) {
         var message = {
           "request": "getConfig",
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
+      }
+    },
+    getFingerprint: function() {
+      if (this.state.socket.isConnected) {
+        var message = {
+          "request": "getFingerprint",
         }
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
