@@ -104,6 +104,9 @@ export default new Vuex.Store({
     SET_DEVICELIST(state, devices) {
       state.devices = devices
     },
+    SET_FINGERPRINT(state, fingerprint) {
+      state.fingerprint = fingerprint
+    },
     SET_REQUEST(state, request) {
       var type = request["Type"]
       state.request = request;
@@ -192,9 +195,6 @@ export default new Vuex.Store({
       state.contactsFilterd = [];
       state.contactsFilterActive = false;
     },
-    SET_FINGERPRINT(state, message) {
-      state.fingerprint = message.Fingerprint;
-    },
     LEAVE_CHAT(state) {
       state.currentGroup = null;
       state.currentContact = null;
@@ -249,11 +249,11 @@ export default new Vuex.Store({
         else if (Object.keys(messageData)[0] == "CurrentChat") {
           this.commit("SET_CURRENT_CHAT", messageData["CurrentChat"]);
         }
-        else if (Object.keys(messageData)[0] == "Fingerprint") {
-          this.commit("SET_FINGERPRINT", messageData);
-        }
         else if (Object.keys(messageData)[0] == "Type") {
           this.commit("SET_REQUEST", messageData);
+        }
+        else if (Object.keys(messageData)[0] == "Fingerprint") {
+          this.commit("SET_FINGERPRINT", messageData["Fingerprint"]);
         }
         else if (Object.keys(messageData)[0] == "Error") {
           this.commit("SET_ERROR", messageData.Errorx);

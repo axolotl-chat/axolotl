@@ -25,6 +25,7 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex';
   export default {
     name: 'IdentityModal',
     methods: {
@@ -33,6 +34,7 @@
       fingerprint() {
         return this.$store.state.fingerprint
       },
+      ...mapState(['fingerprint']),
       currentChat() {
         return this.$store.state.currentChat
       },

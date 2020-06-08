@@ -115,7 +115,9 @@ func wsReader(conn *websocket.Conn) {
 			id := getMessageListMessage.ID
 			activeChat = getMessageListMessage.ID
 			store.ActiveSessionID = activeChat
-			push.Nh.Clear(id)
+			if push.Nh != nil {
+				push.Nh.Clear(id)
+			}
 			log.Debugln("[axolotl] Enter chat ", id)
 			sendMessageList(id)
 		case "setDarkMode":
@@ -235,7 +237,7 @@ func wsReader(conn *websocket.Conn) {
 		case "addDevice":
 			addDeviceMessage := AddDeviceMessage{}
 			json.Unmarshal([]byte(p), &addDeviceMessage)
-			fmt.Println(addDeviceMessage.Url)
+			log.Println("[axolotl] add device " + addDeviceMessage.Url)
 			if addDeviceMessage.Url != "" {
 				if strings.Contains(addDeviceMessage.Url, "tsdevice") {
 					fmt.Printf("found tsdevice")
@@ -384,7 +386,7 @@ func webserver() {
 		http.HandleFunc("/attachments", attachmentsHandler)
 		http.HandleFunc("/avatars", avatarsHandler)
 		http.HandleFunc("/ws", wsEndpoint)
-		log.Error("[axoltol] webserver error", http.ListenAndServe(":9080", nil))
+		log.Error("[axoltol] webserver error", http.ListenAndServe(config.ServerHost+":"+config.ServerPort, nil))
 	}
 
 }
