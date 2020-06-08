@@ -115,7 +115,9 @@ func wsReader(conn *websocket.Conn) {
 			id := getMessageListMessage.ID
 			activeChat = getMessageListMessage.ID
 			store.ActiveSessionID = activeChat
-			push.Nh.Clear(id)
+			if push.Nh != nil {
+				push.Nh.Clear(id)
+			}
 			log.Debugln("[axolotl] Enter chat ", id)
 			sendMessageList(id)
 		case "setDarkMode":
