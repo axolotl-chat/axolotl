@@ -41,6 +41,8 @@ var (
 	AttachDir              string
 	TsDeviceURL            string
 	VcardPath              string
+	ServerHost             string
+	ServerPort             string
 )
 
 var Config *textsecure.Config

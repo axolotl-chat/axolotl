@@ -388,7 +388,7 @@ func webserver() {
 		http.HandleFunc("/attachments", attachmentsHandler)
 		http.HandleFunc("/avatars", avatarsHandler)
 		http.HandleFunc("/ws", wsEndpoint)
-		log.Error("[axoltol] webserver error", http.ListenAndServe(":9080", nil))
+		log.Error("[axoltol] webserver error", http.ListenAndServe(config.ServerHost + ":" + config.ServerPort, nil))
 	}
 
 }
