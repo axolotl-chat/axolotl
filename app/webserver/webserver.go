@@ -234,15 +234,6 @@ func wsReader(conn *websocket.Conn) {
 			os.Exit(0)
 		case "getRegistrationStatus":
 			sendRegistrationStatus()
-		case "getFingerprint":
-			theirID, err := textsecure.ContactIdentityKey(activeChat)
-			if err != nil {
-				log.Debugln("[axolotl] identity information ", err)
-			}
-			myID := textsecure.MyIdentityKey()
-			result := textsecure.CreateFingerprintSimple(1, activeChat, theirID[1:len(theirID)], config.Config.Tel, myID[1:len(myID)])
-			log.Println("[axolotl] get fingerprint " + activeChat + " " + result)
-
 		case "addDevice":
 			addDeviceMessage := AddDeviceMessage{}
 			json.Unmarshal([]byte(p), &addDeviceMessage)
@@ -372,13 +363,11 @@ func wsReader(conn *websocket.Conn) {
 			verifyIdentityMessage := ToggleNotificationsMessage{}
 			json.Unmarshal([]byte(p), &verifyIdentityMessage)
 			log.Debugln("[axolotl] identity information for: ", verifyIdentityMessage.Chat)
-			myID := textsecure.MyIdentityKey()
-			theirID, err := textsecure.ContactIdentityKey(verifyIdentityMessage.Chat)
-			log.Debugln(myID, theirID)
+			fingerprint, err := textsecure.GetFingerprint(verifyIdentityMessage.Chat)
 			if err != nil {
 				log.Debugln("[axolotl] identity information ", err)
 			}
-			sendIdentityInfo(myID, theirID)
+			sendIdentityInfo(fingerprint)
 		}
 	}
 }

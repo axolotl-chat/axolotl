@@ -236,13 +236,12 @@ func sendMoreMessageList(id string, lastId string) {
 	// defer mu.Unlock()
 	broadcast <- *message
 }
-func sendIdentityInfo(myId []byte, theirId []byte) {
+func sendIdentityInfo(fingerprint []string) {
 	var err error
 
 	message := &[]byte{}
 	identityEnvelope := &IdentityEnvelope{
-		Identity: fmt.Sprintf("% 0X", myId),
-		TheirId:  fmt.Sprintf("% 0X", theirId),
+		Fingerprint: fingerprint,
 	}
 	*message, err = json.Marshal(identityEnvelope)
 	if err != nil {
