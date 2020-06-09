@@ -27,7 +27,7 @@ func init() {
 	flag.StringVar(&config.MainQml, "qml", "qml/phoneui/main.qml", "The qml file to load.")
 	flag.StringVar(&config.Gui, "e", "", "use either electron, ut, lorca, server or me")
 	flag.BoolVar(&config.ElectronDebug, "eDebug", false, "use to show development console in electron")
-	flag.StringVar(&config.ServerHost, "host", "localhost", "Host to serve UI from.")
+	flag.StringVar(&config.ServerHost, "host", "127.0.0.1", "Host to serve UI from.")
 	flag.StringVar(&config.ServerPort, "port", "9080", "Port to serve UI from.")
 }
 func print(stdout io.ReadCloser) {
