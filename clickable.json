@@ -1,5 +1,5 @@
 {
-  "template": "go",
+  "builder": "go",
   "kill": "textsecure",
   "ignore":[
     ".*",
