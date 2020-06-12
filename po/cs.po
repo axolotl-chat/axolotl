@@ -16,7 +16,7 @@ msgstr ""
 msgid "A cross-plattform signal client"
 msgstr ""
 
-#: src/pages/Settings.vue:27
+#: src/pages/Settings.vue:32
 msgid "About Axolotl"
 msgstr ""
 
@@ -29,7 +29,7 @@ msgstr ""
 msgid "Add Contacts"
 msgstr "Kontakt"
 
-#: src/components/AddGroupMembersModal.vue:51
+#: src/components/AddGroupMembersModal.vue:58
 #, fuzzy
 msgid "Add Contacts first"
 msgstr "Kontakt"
@@ -51,7 +51,7 @@ msgstr ""
 msgid "Can't change contact list: {{error}}"
 msgstr ""
 
-#: src/components/IdentityModal.vue:18
+#: src/components/IdentityModal.vue:21
 msgid "Close"
 msgstr ""
 
@@ -76,11 +76,11 @@ msgstr ""
 msgid "Create group"
 msgstr "Opustit skupinu"
 
-#: src/pages/NewGroup.vue:31
+#: src/pages/NewGroup.vue:35
 msgid "Creating Group"
 msgstr ""
 
-#: src/pages/SetPassword.vue:21
+#: src/pages/SetPassword.vue:23
 msgid "Current Password"
 msgstr ""
 
@@ -118,7 +118,7 @@ msgstr "Upravit skupinu"
 msgid "Enter password"
 msgstr ""
 
-#: src/pages/Verification.vue:3
+#: src/pages/Verification.vue:4
 msgid "Enter your registration pin"
 msgstr ""
 
@@ -142,7 +142,7 @@ msgstr ""
 msgid "issues at the bug tracker"
 msgstr ""
 
-#: src/pages/DeviceList.vue:8
+#: src/pages/DeviceList.vue:9
 msgid "Last seen:"
 msgstr ""
 
@@ -151,7 +151,7 @@ msgstr ""
 msgid "Linked devices"
 msgstr "Obnovit"
 
-#: src/pages/Verification.vue:15
+#: src/pages/Verification.vue:16
 msgid "Loading..."
 msgstr ""
 
@@ -172,19 +172,19 @@ msgstr "Nová skupina"
 msgid "Next"
 msgstr ""
 
-#: src/pages/ChatList.vue:45
+#: src/pages/ChatList.vue:47
 msgid "No chats available"
 msgstr ""
 
-#: src/pages/DeviceList.vue:16
+#: src/pages/DeviceList.vue:17
 msgid "No devices available"
 msgstr ""
 
-#: src/pages/MessageList.vue:120
+#: src/pages/MessageList.vue:124
 msgid "No Messages available."
 msgstr ""
 
-#: src/pages/MessageList.vue:57 src/pages/MessageList.vue:83
+#: src/pages/MessageList.vue:61 src/pages/MessageList.vue:87
 msgid "Not supported mime type:"
 msgstr ""
 
@@ -196,7 +196,7 @@ msgstr ""
 msgid "or"
 msgstr ""
 
-#: src/pages/Verification.vue:4
+#: src/pages/Verification.vue:5
 msgid "or disable it on Android/IOs"
 msgstr ""
 
@@ -225,7 +225,7 @@ msgstr ""
 msgid "Registered number"
 msgstr "Zaregistrovat"
 
-#: src/pages/SetPassword.vue:17
+#: src/pages/SetPassword.vue:19
 msgid "Repeat password"
 msgstr ""
 
@@ -238,7 +238,7 @@ msgstr ""
 msgid "Reset encryption"
 msgstr "Resetovat zabezpečenou konverzaci"
 
-#: src/components/IdentityModal.vue:11
+#: src/components/IdentityModal.vue:14
 msgid "Safety numbers of you and"
 msgstr ""
 
@@ -250,11 +250,11 @@ msgstr "Uložit"
 msgid "Send Attachments"
 msgstr ""
 
-#: src/pages/Verification.vue:11
+#: src/pages/Verification.vue:12
 msgid "Send code"
 msgstr ""
 
-#: src/pages/Verification.vue:6
+#: src/pages/Verification.vue:7
 msgid "Send pin"
 msgstr ""
 
@@ -263,11 +263,11 @@ msgstr ""
 msgid "Set encryption password"
 msgstr "Resetovat zabezpečenou konverzaci"
 
-#: src/pages/SetPassword.vue:24 src/pages/Settings.vue:14
+#: src/pages/SetPassword.vue:26 src/pages/Settings.vue:14
 msgid "Set password"
 msgstr ""
 
-#: src/pages/MessageList.vue:89
+#: src/pages/MessageList.vue:93
 msgid "Set timer for self-destructing messages"
 msgstr ""
 
@@ -293,10 +293,10 @@ msgstr ""
 #: src/pages/About.vue:6
 msgid ""
 "This is a free and open source signal client written in golang and vuejs.\n"
-"      You can support the development of axolotl either by filling"
+"    You can support the development of axolotl either by filling"
 msgstr ""
 
-#: src/components/Header.vue:26 src/pages/ChatList.vue:25
+#: src/components/Header.vue:26 src/pages/ChatList.vue:27
 #, fuzzy
 msgid "Unknown group"
 msgstr "Nová skupina"
@@ -315,7 +315,7 @@ msgstr "Rušení registrace"
 msgid "Unsafe password"
 msgstr ""
 
-#: src/pages/EditGroup.vue:41
+#: src/pages/EditGroup.vue:47
 #, fuzzy
 msgid "Updating Group"
 msgstr "Upravit skupinu"
@@ -328,16 +328,16 @@ msgstr "Ověření identity"
 msgid "Video"
 msgstr "Video"
 
-#: src/pages/Verification.vue:19
+#: src/pages/Verification.vue:20
 msgid "Wrong code entered. Restart for another try."
 msgstr ""
 
-#: src/pages/MessageList.vue:11 src/pages/MessageList.vue:44
-#: src/pages/MessageList.vue:53 src/pages/MessageList.vue:68
+#: src/pages/MessageList.vue:11 src/pages/MessageList.vue:48
+#: src/pages/MessageList.vue:57 src/pages/MessageList.vue:72
 msgid "Your browser does not support the audio element."
 msgstr ""
 
-#: src/pages/MessageList.vue:78
+#: src/pages/MessageList.vue:82
 msgid "Your browser does not support the video element."
 msgstr ""
 
