@@ -20,6 +20,7 @@
     "core-js": "^2.6.11",
     "moment": "^2.24.0",
     "ofcold-security-code": "^1.1.0",
+    "qrcode": "^1.4.4",
     "qwebchannel": "^5.9.0",
     "vue": "^2.6.11",
     "vue-chat-scroll": "^1.4.0",
@@ -44,7 +45,7 @@
     "easygettext": "^2.10.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11"
   },

@@ -12,15 +12,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/components/IdentityModal.vue:16
-msgid "'s key"
-msgstr "s nøkkel"
-
 #: src/pages/About.vue:4 src/pages/Register.vue:5
 msgid "A cross-plattform signal client"
 msgstr "En kryssplattform signal klient"
 
-#: src/pages/Settings.vue:32
+#: src/pages/Settings.vue:27
 msgid "About Axolotl"
 msgstr "Om Axolotl"
 
@@ -32,7 +28,7 @@ msgstr "Legg til"
 msgid "Add Contacts"
 msgstr "Legg til kontakter"
 
-#: src/components/AddGroupMembersModal.vue:58
+#: src/components/AddGroupMembersModal.vue:51
 msgid "Add Contacts first"
 msgstr "Legg til kontakter først"
 
@@ -52,7 +48,7 @@ msgstr "ved å bli en"
 msgid "Can't change contact list: {{error}}"
 msgstr "Kan ikke endre kontaktlisten: {{error}}"
 
-#: src/components/IdentityModal.vue:20
+#: src/components/IdentityModal.vue:18
 msgid "Close"
 msgstr "Lukk"
 
@@ -76,11 +72,11 @@ msgstr "Kontaktlisten er tom..."
 msgid "Create group"
 msgstr "Opprett gruppe"
 
-#: src/pages/NewGroup.vue:35
+#: src/pages/NewGroup.vue:31
 msgid "Creating Group"
 msgstr "Oppretter gruppe"
 
-#: src/pages/SetPassword.vue:23
+#: src/pages/SetPassword.vue:21
 msgid "Current Password"
 msgstr "Nåværende passord"
 
@@ -117,7 +113,7 @@ msgstr "Oppdatér gruppe"
 msgid "Enter password"
 msgstr "Oppgi passord"
 
-#: src/pages/Verification.vue:4
+#: src/pages/Verification.vue:3
 msgid "Enter your registration pin"
 msgstr "Oppgi pinkode for registrering"
 
@@ -141,7 +137,7 @@ msgstr "Info"
 msgid "issues at the bug tracker"
 msgstr "forhold i feiloversikten"
 
-#: src/pages/DeviceList.vue:9
+#: src/pages/DeviceList.vue:8
 msgid "Last seen:"
 msgstr "Sist sett:"
 
@@ -149,7 +145,7 @@ msgstr "Sist sett:"
 msgid "Linked devices"
 msgstr "Refresh"
 
-#: src/pages/Verification.vue:16
+#: src/pages/Verification.vue:15
 msgid "Loading..."
 msgstr "Laster..."
 
@@ -169,19 +165,19 @@ msgstr "Ny gruppe"
 msgid "Next"
 msgstr "Neste"
 
-#: src/pages/ChatList.vue:47
+#: src/pages/ChatList.vue:45
 msgid "No chats available"
 msgstr "Ingen samtaler tilgjengelige."
 
-#: src/pages/DeviceList.vue:17
+#: src/pages/DeviceList.vue:16
 msgid "No devices available"
 msgstr "Ingen enheter tilgjengelige."
 
-#: src/pages/MessageList.vue:124
+#: src/pages/MessageList.vue:120
 msgid "No Messages available."
 msgstr "Ingen meldinger tilgjengelige."
 
-#: src/pages/MessageList.vue:61 src/pages/MessageList.vue:87
+#: src/pages/MessageList.vue:57 src/pages/MessageList.vue:83
 msgid "Not supported mime type:"
 msgstr "MIME-type ikke støttet:"
 
@@ -193,7 +189,7 @@ msgstr "Merk: Du kan ikke legge deg selv til i en gruppe."
 msgid "or"
 msgstr "eller"
 
-#: src/pages/Verification.vue:5
+#: src/pages/Verification.vue:4
 msgid "or disable it on Android/IOs"
 msgstr "eller deaktivér i Android/IOs"
 
@@ -221,7 +217,7 @@ msgstr "Bilde"
 msgid "Registered number"
 msgstr "Registrér nummer"
 
-#: src/pages/SetPassword.vue:19
+#: src/pages/SetPassword.vue:17
 msgid "Repeat password"
 msgstr "Gjenta passord"
 
@@ -233,6 +229,10 @@ msgstr "Få kode"
 msgid "Reset encryption"
 msgstr "Nullstill sikker sesjon"
 
+#: src/components/IdentityModal.vue:11
+msgid "Safety numbers of you and"
+msgstr ""
+
 #: src/components/EditContactModal.vue:20
 msgid "Save"
 msgstr "Lagre"
@@ -241,11 +241,11 @@ msgstr "Lagre"
 msgid "Send Attachments"
 msgstr "Send vedlegg"
 
-#: src/pages/Verification.vue:12
+#: src/pages/Verification.vue:11
 msgid "Send code"
 msgstr "Send kode"
 
-#: src/pages/Verification.vue:7
+#: src/pages/Verification.vue:6
 msgid "Send pin"
 msgstr "Send PIN"
 
@@ -253,11 +253,11 @@ msgstr "Send PIN"
 msgid "Set encryption password"
 msgstr "Angi passord for sikker sesjon"
 
-#: src/pages/SetPassword.vue:26 src/pages/Settings.vue:14
+#: src/pages/SetPassword.vue:24 src/pages/Settings.vue:14
 msgid "Set password"
 msgstr "Angi passord"
 
-#: src/pages/MessageList.vue:93
+#: src/pages/MessageList.vue:89
 msgid "Set timer for self-destructing messages"
 msgstr "Angi tidsinnstilling for selvdestruerende meldinger"
 
@@ -280,15 +280,16 @@ msgid "sponsor on patreon."
 msgstr "sponsor på patreon."
 
 #: src/pages/About.vue:6
+#, fuzzy
 msgid ""
 "This is a free and open source signal client written in golang and vuejs.\n"
-"    You can support the development of axolotl either by filling"
+"      You can support the development of axolotl either by filling"
 msgstr ""
 "Dette er en gratis og åpen kildekode signal klient skrevet i golang og "
 "vuejs.\n"
 "    Du kan støtte utviklingen av axolotl enten ved å fylle ut"
 
-#: src/components/Header.vue:26 src/pages/ChatList.vue:27
+#: src/components/Header.vue:26 src/pages/ChatList.vue:25
 msgid "Unknown group"
 msgstr "Ukjent gruppe"
 
@@ -305,7 +306,7 @@ msgstr "Avregistrér"
 msgid "Unsafe password"
 msgstr "Usikkert passord"
 
-#: src/pages/EditGroup.vue:47
+#: src/pages/EditGroup.vue:41
 msgid "Updating Group"
 msgstr "Oppdatér gruppe"
 
@@ -317,22 +318,21 @@ msgstr "Bekreft identitet"
 msgid "Video"
 msgstr "Video"
 
-#: src/pages/Verification.vue:20
+#: src/pages/Verification.vue:19
 msgid "Wrong code entered. Restart for another try."
 msgstr "Feil kode angitt. Gjør omstart for nytt forsøk."
 
-#: src/pages/MessageList.vue:11 src/pages/MessageList.vue:48
-#: src/pages/MessageList.vue:57 src/pages/MessageList.vue:72
+#: src/pages/MessageList.vue:11 src/pages/MessageList.vue:44
+#: src/pages/MessageList.vue:53 src/pages/MessageList.vue:68
 msgid "Your browser does not support the audio element."
 msgstr "Nettleseren støtter ikke lydelementet."
 
-#: src/pages/MessageList.vue:82
+#: src/pages/MessageList.vue:78
 msgid "Your browser does not support the video element."
 msgstr "Nettleseren støtter ikke videoelementet."
 
-#: src/components/IdentityModal.vue:11
-msgid "Your key"
-msgstr ""
+#~ msgid "'s key"
+#~ msgstr "s nøkkel"
 
 #, fuzzy
 #~ msgid "<b>Group name</b>"

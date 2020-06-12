@@ -9,6 +9,9 @@
           </button>
         </div>
         <div class="modal-body">
+          <div class="qr-code-container">
+            <canvas id="qrcode"></canvas>
+          </div>
           <b><span v-translate>Safety numbers of you and</span> {{currentChat.Name}}:</b>
           <div class="row fingerprint">
             <div class="col-3" v-for="(part,i) in fingerprint" v-bind:key="'fingerprint_'+i">
@@ -25,15 +28,26 @@
 </template>
 
 <script>
+  import QRCode from 'qrcode'
   import { mapState } from 'vuex';
   export default {
     name: 'IdentityModal',
     methods: {
     },
+    data() {
+      return {
+        errorMessage:null
+      }
+    },
+    watch:{
+      fingerprint(){
+        QRCode.toCanvas(document.getElementById('qrcode'), this.fingerprint, function (error) {
+            if (error) this.errorMesssage = error;//console.error(error)
+            // console.log('success!');
+          })
+      }
+    },
     computed: {
-      fingerprint() {
-        return this.$store.state.fingerprint
-      },
       ...mapState(['fingerprint']),
       currentChat() {
         return this.$store.state.currentChat
@@ -67,5 +81,10 @@
 
   .modal-footer {
     border-top: 0px;
+  }
+  .qr-code-container{
+    width:100%;
+    justify-content: center;
+    display: flex;
   }
 </style>

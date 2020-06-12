@@ -13,15 +13,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.2\n"
 
-#: src/components/IdentityModal.vue:16
-msgid "'s key"
-msgstr "'s Schlüssel"
-
 #: src/pages/About.vue:4 src/pages/Register.vue:5
 msgid "A cross-plattform signal client"
 msgstr "Ein multi-plattform Signal Client"
 
-#: src/pages/Settings.vue:32
+#: src/pages/Settings.vue:27
 msgid "About Axolotl"
 msgstr "Über Axolotl"
 
@@ -33,7 +29,7 @@ msgstr "Hinzufügen"
 msgid "Add Contacts"
 msgstr "Kontakte hinzufügen"
 
-#: src/components/AddGroupMembersModal.vue:58
+#: src/components/AddGroupMembersModal.vue:51
 msgid "Add Contacts first"
 msgstr "Zuerst Kontakte hinzufügen"
 
@@ -53,7 +49,7 @@ msgstr "durch werden eines"
 msgid "Can't change contact list: {{error}}"
 msgstr "Fehler beim ändern der Kontaktliste {{error}}"
 
-#: src/components/IdentityModal.vue:20
+#: src/components/IdentityModal.vue:18
 msgid "Close"
 msgstr "Schließen"
 
@@ -78,11 +74,11 @@ msgstr "Die Kontaktliste ist leer..."
 msgid "Create group"
 msgstr "Gruppe verlassen"
 
-#: src/pages/NewGroup.vue:35
+#: src/pages/NewGroup.vue:31
 msgid "Creating Group"
 msgstr "Gruppe erstellen"
 
-#: src/pages/SetPassword.vue:23
+#: src/pages/SetPassword.vue:21
 msgid "Current Password"
 msgstr "Derzeitiges Passwort"
 
@@ -118,7 +114,7 @@ msgstr "Gruppe bearbeiten"
 msgid "Enter password"
 msgstr "Passwort eingeben"
 
-#: src/pages/Verification.vue:4
+#: src/pages/Verification.vue:3
 msgid "Enter your registration pin"
 msgstr ""
 
@@ -142,7 +138,7 @@ msgstr "Info"
 msgid "issues at the bug tracker"
 msgstr "Fahler an den Fehler-Tracker"
 
-#: src/pages/DeviceList.vue:9
+#: src/pages/DeviceList.vue:8
 msgid "Last seen:"
 msgstr "Zuletzt gesehen:"
 
@@ -150,7 +146,7 @@ msgstr "Zuletzt gesehen:"
 msgid "Linked devices"
 msgstr "Verknüpfte Geräte"
 
-#: src/pages/Verification.vue:16
+#: src/pages/Verification.vue:15
 msgid "Loading..."
 msgstr "Laden..."
 
@@ -170,19 +166,19 @@ msgstr "Neue Gruppe"
 msgid "Next"
 msgstr "Weiter"
 
-#: src/pages/ChatList.vue:47
+#: src/pages/ChatList.vue:45
 msgid "No chats available"
 msgstr "Keine Chats vorhanden"
 
-#: src/pages/DeviceList.vue:17
+#: src/pages/DeviceList.vue:16
 msgid "No devices available"
 msgstr "Keine Geräte vorhanden"
 
-#: src/pages/MessageList.vue:124
+#: src/pages/MessageList.vue:120
 msgid "No Messages available."
 msgstr "Keine Nachrichten vorhanden"
 
-#: src/pages/MessageList.vue:61 src/pages/MessageList.vue:87
+#: src/pages/MessageList.vue:57 src/pages/MessageList.vue:83
 msgid "Not supported mime type:"
 msgstr "Nicht unterstützer Mime-Typ"
 
@@ -194,7 +190,7 @@ msgstr "Hinweis: du kannst dich nicht selbst zur Gruppe hinzufügen"
 msgid "or"
 msgstr "oder"
 
-#: src/pages/Verification.vue:5
+#: src/pages/Verification.vue:4
 msgid "or disable it on Android/IOs"
 msgstr "oder deaktivere den Pin in Android/IOs"
 
@@ -222,7 +218,7 @@ msgstr "Foto"
 msgid "Registered number"
 msgstr "Registrierte Nummer"
 
-#: src/pages/SetPassword.vue:19
+#: src/pages/SetPassword.vue:17
 msgid "Repeat password"
 msgstr "Passwort hier wiederholen"
 
@@ -234,6 +230,10 @@ msgstr "Code empfangen"
 msgid "Reset encryption"
 msgstr "Verschlüsselung neu starten"
 
+#: src/components/IdentityModal.vue:11
+msgid "Safety numbers of you and"
+msgstr ""
+
 #: src/components/EditContactModal.vue:20
 msgid "Save"
 msgstr "Speichern"
@@ -242,11 +242,11 @@ msgstr "Speichern"
 msgid "Send Attachments"
 msgstr "Anhang senden"
 
-#: src/pages/Verification.vue:12
+#: src/pages/Verification.vue:11
 msgid "Send code"
 msgstr "Code senden"
 
-#: src/pages/Verification.vue:7
+#: src/pages/Verification.vue:6
 msgid "Send pin"
 msgstr "Pin senden"
 
@@ -254,11 +254,11 @@ msgstr "Pin senden"
 msgid "Set encryption password"
 msgstr "Verschlüsselung Passwort setzen"
 
-#: src/pages/SetPassword.vue:26 src/pages/Settings.vue:14
+#: src/pages/SetPassword.vue:24 src/pages/Settings.vue:14
 msgid "Set password"
 msgstr "Passwort setzen"
 
-#: src/pages/MessageList.vue:93
+#: src/pages/MessageList.vue:89
 msgid "Set timer for self-destructing messages"
 msgstr "Zeitbegrenzung für verschwindende Nachrichten festgelegt"
 
@@ -283,15 +283,16 @@ msgid "sponsor on patreon."
 msgstr " Sponsors auf Patreon"
 
 #: src/pages/About.vue:6
+#, fuzzy
 msgid ""
 "This is a free and open source signal client written in golang and vuejs.\n"
-"    You can support the development of axolotl either by filling"
+"      You can support the development of axolotl either by filling"
 msgstr ""
 "Das ist ein freier Open Source Signal-Client geschrieben mit Golang und "
 "Vuejs.\n"
 "    Du kannst die Entwicklung von Axolotl unterstützen durch das Senden von "
 
-#: src/components/Header.vue:26 src/pages/ChatList.vue:27
+#: src/components/Header.vue:26 src/pages/ChatList.vue:25
 msgid "Unknown group"
 msgstr "Unbekannte Gruppe"
 
@@ -308,7 +309,7 @@ msgstr "Registrierung löschen"
 msgid "Unsafe password"
 msgstr "Unsicheres Passwort"
 
-#: src/pages/EditGroup.vue:47
+#: src/pages/EditGroup.vue:41
 msgid "Updating Group"
 msgstr "Gruppe Aktualisieren"
 
@@ -320,22 +321,24 @@ msgstr "Kontakt überprüfen"
 msgid "Video"
 msgstr "Video"
 
-#: src/pages/Verification.vue:20
+#: src/pages/Verification.vue:19
 msgid "Wrong code entered. Restart for another try."
 msgstr "Falscher Code eingegeben. neustarten für einen weiteren Versuch"
 
-#: src/pages/MessageList.vue:11 src/pages/MessageList.vue:48
-#: src/pages/MessageList.vue:57 src/pages/MessageList.vue:72
+#: src/pages/MessageList.vue:11 src/pages/MessageList.vue:44
+#: src/pages/MessageList.vue:53 src/pages/MessageList.vue:68
 msgid "Your browser does not support the audio element."
 msgstr ""
 
-#: src/pages/MessageList.vue:82
+#: src/pages/MessageList.vue:78
 msgid "Your browser does not support the video element."
 msgstr ""
 
-#: src/components/IdentityModal.vue:11
-msgid "Your key"
-msgstr "Dein Schlüssel"
+#~ msgid "'s key"
+#~ msgstr "'s Schlüssel"
+
+#~ msgid "Your key"
+#~ msgstr "Dein Schlüssel"
 
 #, fuzzy
 #~ msgid "<b>Group name</b>"
