@@ -41,9 +41,7 @@
     },
     watch:{
       fingerprint(){
-        QRCode.toCanvas(document.getElementById('qrcode'), this.fingerprint.qrCode, function (error) {
-            if (error) this.errorMesssage = error;
-          })
+        QRCode.toCanvas(document.getElementById('qrcode'), this.fingerprint.qrCode)
       }
     },
     computed: {

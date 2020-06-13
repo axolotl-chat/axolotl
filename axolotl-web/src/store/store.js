@@ -108,8 +108,10 @@ export default new Vuex.Store({
       state.devices = devices
     },
     SET_FINGERPRINT(state, data) {
-      state.fingerprint.numbers = data.FingerprintNumbers;
-      state.fingerprint.qrCode = data.FingerprintQRCode;
+      state.fingerprint = {
+          numbers: data.FingerprintNumbers,
+          qrCode:  data.FingerprintQRCode,
+      }
     },
     SET_REQUEST(state, request) {
       var type = request["Type"]
