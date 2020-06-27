@@ -22,6 +22,7 @@
     "ofcold-security-code": "^1.1.0",
     "qrcode": "^1.4.4",
     "qwebchannel": "^5.9.0",
+    "single-byte": "^1.0.7",
     "vue": "^2.6.11",
     "vue-chat-scroll": "^1.4.0",
     "vue-gettext": "^2.1.8",

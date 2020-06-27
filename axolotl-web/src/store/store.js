@@ -17,8 +17,8 @@ export default new Vuex.Store({
     error: null,
     errorConnection: null,
     fingerprint: {
-        numbers: null,
-        qrCode: null,
+      numbers: null,
+      qrCode: null,
     },
     config: {},
     loginError: null,
@@ -109,8 +109,8 @@ export default new Vuex.Store({
     },
     SET_FINGERPRINT(state, data) {
       state.fingerprint = {
-          numbers: data.FingerprintNumbers,
-          qrCode:  data.FingerprintQRCode,
+        numbers: data.FingerprintNumbers,
+        qrCode: data.FingerprintQRCode,
       }
     },
     SET_REQUEST(state, request) {
