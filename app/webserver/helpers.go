@@ -3,7 +3,6 @@ package webserver
 import (
 	"encoding/json"
 	"fmt"
-	"strconv"
 	"strings"
 
 	log "github.com/sirupsen/logrus"
@@ -239,12 +238,8 @@ func sendMoreMessageList(id string, lastId string) {
 }
 func sendIdentityInfo(fingerprintNumbers []string, fingerprintQRCode []byte) {
 	var err error
-	log.Println(fingerprintQRCode)
 	r := make([]int, 0)
 	for _, i := range fingerprintQRCode {
-		byteNumber := i
-		intNumber, _ := strconv.Atoi(string(byteNumber))
-		fmt.Println(intNumber, i)
 		r = append(r, int(i))
 	}
 	message := &[]byte{}

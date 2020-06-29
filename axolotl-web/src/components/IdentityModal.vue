@@ -30,7 +30,6 @@
 <script>
   import QRCode from 'qrcode'
   import { mapState } from 'vuex';
-  import { decode } from 'single-byte';
   export default {
     name: 'IdentityModal',
     methods: {
@@ -42,10 +41,7 @@
     },
     watch:{
       fingerprint(){
-        console.log(decode('iso-8859-2',this.fingerprint.qrCode), this.fingerprint.qrCode,this.fingerprint.qrCode.length);
-        // window.d = decode;
         QRCode.toCanvas(document.getElementById('qrcode'),[{
-          errorCorrectionLevel: 'L',
           data:this.fingerprint.qrCode,
           mode: 'byte' }],{errorCorrectionLevel: 'L'} )
       }
