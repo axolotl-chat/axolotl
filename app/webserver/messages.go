@@ -37,7 +37,8 @@ type UpdateCurrentChatEnvelope struct {
 	UpdateCurrentChat *UpdateCurrentChat
 }
 type IdentityEnvelope struct {
-	Fingerprint []string
+	FingerprintNumbers []string
+	FingerprintQRCode  []int
 }
 type ConfigEnvelope struct {
 	Type             string

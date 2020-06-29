@@ -14,7 +14,7 @@
           </div>
           <b><span v-translate>Safety numbers of you and</span> {{currentChat.Name}}:</b>
           <div class="row fingerprint">
-            <div class="col-3" v-for="(part,i) in fingerprint" v-bind:key="'fingerprint_'+i">
+            <div class="col-3" v-for="(part,i) in fingerprint.numbers" v-bind:key="'fingerprint_'+i">
                 {{ part }}
             </div>
           </div>
@@ -41,10 +41,9 @@
     },
     watch:{
       fingerprint(){
-        QRCode.toCanvas(document.getElementById('qrcode'), this.fingerprint, function (error) {
-            if (error) this.errorMesssage = error;//console.error(error)
-            // console.log('success!');
-          })
+        QRCode.toCanvas(document.getElementById('qrcode'),[{
+          data:this.fingerprint.qrCode,
+          mode: 'byte' }],{errorCorrectionLevel: 'L'} )
       }
     },
     computed: {

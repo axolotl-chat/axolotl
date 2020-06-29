@@ -16,7 +16,10 @@ export default new Vuex.Store({
     darkMode: false,
     error: null,
     errorConnection: null,
-    fingerprint: null,
+    fingerprint: {
+      numbers: null,
+      qrCode: null,
+    },
     config: {},
     loginError: null,
     ratelimitError: null,
@@ -104,8 +107,11 @@ export default new Vuex.Store({
     SET_DEVICELIST(state, devices) {
       state.devices = devices
     },
-    SET_FINGERPRINT(state, fingerprint) {
-      state.fingerprint = fingerprint
+    SET_FINGERPRINT(state, data) {
+      state.fingerprint = {
+        numbers: data.FingerprintNumbers,
+        qrCode: data.FingerprintQRCode,
+      }
     },
     SET_REQUEST(state, request) {
       var type = request["Type"]
@@ -252,8 +258,8 @@ export default new Vuex.Store({
         else if (Object.keys(messageData)[0] == "Type") {
           this.commit("SET_REQUEST", messageData);
         }
-        else if (Object.keys(messageData)[0] == "Fingerprint") {
-          this.commit("SET_FINGERPRINT", messageData["Fingerprint"]);
+        else if (Object.keys(messageData)[0] == "FingerprintNumbers") {
+          this.commit("SET_FINGERPRINT", messageData);
         }
         else if (Object.keys(messageData)[0] == "Error") {
           this.commit("SET_ERROR", messageData.Errorx);

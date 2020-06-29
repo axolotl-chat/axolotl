@@ -363,11 +363,11 @@ func wsReader(conn *websocket.Conn) {
 			verifyIdentityMessage := ToggleNotificationsMessage{}
 			json.Unmarshal([]byte(p), &verifyIdentityMessage)
 			log.Debugln("[axolotl] identity information for: ", verifyIdentityMessage.Chat)
-			fingerprint, err := textsecure.GetFingerprint(verifyIdentityMessage.Chat)
+			fingerprintNumbers, fingerprintQRCode, err := textsecure.GetFingerprint(verifyIdentityMessage.Chat)
 			if err != nil {
 				log.Debugln("[axolotl] identity information ", err)
 			}
-			sendIdentityInfo(fingerprint)
+			sendIdentityInfo(fingerprintNumbers, fingerprintQRCode)
 		}
 	}
 }
