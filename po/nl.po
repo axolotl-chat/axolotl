@@ -1,43 +1,41 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-07 09:22+0200\n"
-"PO-Revision-Date: 2016-02-29 11:36+0200\n"
-"Last-Translator: Automatically generated\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2020-07-10 17:33+0200\n"
+"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: none\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.3.1\n"
 
 #: src/pages/About.vue:4 src/pages/Register.vue:5
 msgid "A cross-plattform signal client"
-msgstr ""
+msgstr "Een Signal-client voor meerdere platformen"
 
 #: src/pages/Settings.vue:32
 msgid "About Axolotl"
-msgstr ""
+msgstr "Over Axolotl"
 
 #: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:20
 msgid "Add"
-msgstr ""
+msgstr "Toevoegen"
 
 #: src/components/Header.vue:131
-#, fuzzy
 msgid "Add Contacts"
-msgstr "Contactpersoon"
+msgstr "Contactpersonen toevoegen"
 
 #: src/components/AddGroupMembersModal.vue:58
-#, fuzzy
 msgid "Add Contacts first"
-msgstr "Contactpersoon"
+msgstr "Voeg eerst contactpersonen toe"
 
 #: src/components/AddGroupMembersModal.vue:5
-#, fuzzy
 msgid "Add members"
-msgstr "Groepsleden"
+msgstr "Leden toevoegen"
 
 #: src/components/AttachmentBar.vue:13
 msgid "Audio"
@@ -45,19 +43,19 @@ msgstr "Audio"
 
 #: src/pages/About.vue:10
 msgid "by becoming a"
-msgstr ""
+msgstr "door een"
 
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
-msgstr ""
+msgstr "Kan de contactpersoonslijst niet aanpassen: {{error}}"
 
 #: src/components/IdentityModal.vue:21
 msgid "Close"
-msgstr ""
+msgstr "Sluiten"
 
 #: src/components/ConfirmationModal.vue:13
 msgid "Confirm"
-msgstr ""
+msgstr "Bevestigen"
 
 #: src/components/Header.vue:72
 msgid "Connect with Signal"
@@ -69,62 +67,59 @@ msgstr "Contactpersoon"
 
 #: src/pages/Contacts.vue:16
 msgid "Contact list is empty..."
-msgstr ""
+msgstr "Je contactpersoonslijst is leeg..."
 
 #: src/pages/NewGroup.vue:12
-#, fuzzy
 msgid "Create group"
-msgstr "Groep verlaten"
+msgstr "Groep aanmaken"
 
 #: src/pages/NewGroup.vue:35
 msgid "Creating Group"
-msgstr ""
+msgstr "Groep aanmaken"
 
 #: src/pages/SetPassword.vue:23
 msgid "Current Password"
-msgstr ""
+msgstr "Huidig wachtwoord"
 
 #: src/pages/SetPassword.vue:10
 msgid "Current password is wrong"
-msgstr ""
+msgstr "Je huidige wachtwoord is onjuist"
 
 #: src/pages/Settings.vue:23
 msgid "Dark mode"
-msgstr ""
+msgstr "Donker thema"
 
 #: src/pages/Password.vue:4
 msgid "Decrypt"
-msgstr ""
+msgstr "Ontsleutelen"
 
 #: src/components/AttachmentBar.vue:14
 msgid "Document"
-msgstr ""
+msgstr "Document"
 
 #: src/components/EditContactModal.vue:5
 msgid "Edit"
-msgstr ""
+msgstr "Aanpassen"
 
 #: src/components/Header.vue:104
-#, fuzzy
 msgid "Edit group"
-msgstr "Groep bijwerken"
+msgstr "Groep aanpassen"
 
 #: src/components/Header.vue:63
-#, fuzzy
 msgid "Edit Group"
-msgstr "Groep bijwerken"
+msgstr "Groep aanpassen"
 
 #: src/components/Header.vue:75
 msgid "Enter password"
-msgstr ""
+msgstr "Voer je wachtwoord in"
 
 #: src/pages/Verification.vue:4
 msgid "Enter your registration pin"
-msgstr ""
+msgstr "Voer je registratiecode in"
 
 #: src/components/ErrorModal.vue:5
 msgid "Error"
-msgstr ""
+msgstr "Fout"
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
@@ -132,37 +127,35 @@ msgstr "Groepsnaam"
 
 #: src/pages/Contacts.vue:4
 msgid "Importing contacts, head back later"
-msgstr ""
+msgstr "Bezig met importeren van contactpersonen..."
 
 #: src/pages/SetPassword.vue:2
 msgid "Info"
-msgstr ""
+msgstr "Informatie"
 
 #: src/pages/About.vue:8
 msgid "issues at the bug tracker"
-msgstr ""
+msgstr "problemen op de bugtracker"
 
 #: src/pages/DeviceList.vue:9
 msgid "Last seen:"
-msgstr ""
+msgstr "Laatst gezien:"
 
 #: src/pages/Settings.vue:11
-#, fuzzy
 msgid "Linked devices"
-msgstr "Verversen"
+msgstr "Gekoppelde apparaten"
 
 #: src/pages/Verification.vue:16
 msgid "Loading..."
-msgstr ""
+msgstr "Bezig met laden..."
 
 #: src/pages/NewGroup.vue:10
-#, fuzzy
 msgid "Members"
-msgstr "Groepsleden"
+msgstr "Leden"
 
 #: src/components/Header.vue:58
 msgid "Mute"
-msgstr ""
+msgstr "Dempen"
 
 #: src/components/Header.vue:98 src/components/Header.vue:144
 msgid "New group"
@@ -170,77 +163,75 @@ msgstr "Nieuwe groep"
 
 #: src/pages/Register.vue:16
 msgid "Next"
-msgstr ""
+msgstr "Volgende"
 
 #: src/pages/ChatList.vue:47
 msgid "No chats available"
-msgstr ""
+msgstr "Geen beschikbare chats"
 
 #: src/pages/DeviceList.vue:17
 msgid "No devices available"
-msgstr ""
+msgstr "Geen beschikbare apparaten"
 
 #: src/pages/MessageList.vue:124
 msgid "No Messages available."
-msgstr ""
+msgstr "Geen beschikbare berichten."
 
 #: src/pages/MessageList.vue:61 src/pages/MessageList.vue:87
 msgid "Not supported mime type:"
-msgstr ""
+msgstr "Niet-ondersteund mimetype:"
 
 #: src/pages/EditGroup.vue:8 src/pages/NewGroup.vue:8
 msgid "Note, you can't add yourself to a group."
-msgstr ""
+msgstr "Je kunt jezelf niet toevoegen aan een groep."
 
 #: src/pages/About.vue:9
 msgid "or"
-msgstr ""
+msgstr "of"
 
 #: src/pages/Verification.vue:5
 msgid "or disable it on Android/IOs"
-msgstr ""
+msgstr "of schakel het dit op Android/iOS"
 
 #: src/pages/SetPassword.vue:13
 msgid "Password"
-msgstr ""
+msgstr "Wachtwoord"
 
 #: src/pages/Password.vue:2
 msgid "Password is wrong"
-msgstr ""
+msgstr "Onjuist wachtwoord"
 
 #: src/pages/SetPassword.vue:4
 msgid "Passwords don't match"
-msgstr ""
+msgstr "Wachtwoorden komen niet overeen"
 
 #: src/components/AddContactModal.vue:15 src/components/EditContactModal.vue:15
 msgid "Phone"
-msgstr ""
+msgstr "Telefoon"
 
 #: src/components/AttachmentBar.vue:11
 msgid "Photo"
-msgstr ""
+msgstr "Foto"
 
 #: src/pages/Settings.vue:5
-#, fuzzy
 msgid "Registered number"
-msgstr "Registreren"
+msgstr "Geregistreerd nummer"
 
 #: src/pages/SetPassword.vue:19
 msgid "Repeat password"
-msgstr ""
+msgstr "Wachtwoord herhalen"
 
 #: src/pages/Register.vue:25
 msgid "Request code"
-msgstr ""
+msgstr "Code aanvragen"
 
 #: src/components/Header.vue:62
-#, fuzzy
 msgid "Reset encryption"
-msgstr "Beveiligde sessie resetten"
+msgstr "Versleuteling herstellen"
 
 #: src/components/IdentityModal.vue:14
 msgid "Safety numbers of you and"
-msgstr ""
+msgstr "Veiligheidscodes van jou en"
 
 #: src/components/EditContactModal.vue:20
 msgid "Save"
@@ -248,75 +239,74 @@ msgstr "Opslaan"
 
 #: src/components/AttachmentBar.vue:5
 msgid "Send Attachments"
-msgstr ""
+msgstr "Bijlagen versturen"
 
 #: src/pages/Verification.vue:12
 msgid "Send code"
-msgstr ""
+msgstr "Code versturen"
 
 #: src/pages/Verification.vue:7
 msgid "Send pin"
-msgstr ""
+msgstr "Pincode versturen"
 
 #: src/components/Header.vue:81
-#, fuzzy
 msgid "Set encryption password"
-msgstr "Beveiligde sessie resetten"
+msgstr "Versleutelwachtwoord instellen"
 
 #: src/pages/SetPassword.vue:26 src/pages/Settings.vue:14
 msgid "Set password"
-msgstr ""
+msgstr "Wachtwoord instellen"
 
 #: src/pages/MessageList.vue:93
 msgid "Set timer for self-destructing messages"
-msgstr ""
+msgstr "Tijdklok instellen voor zelfvernietigende berichten"
 
 #: src/pages/SetPassword.vue:3
 msgid ""
 "Setting a password is not adviced on devices short in memory. Restart is "
 "required!"
 msgstr ""
+"Het instellen van een wachtwoord wordt afgeraden op apparaten met weinig "
+"geheugen. Herstart vereist!"
 
 #: src/components/Header.vue:92 src/components/Header.vue:147
 msgid "Settings"
 msgstr "Instellingen"
 
 #: src/components/Header.vue:61
-#, fuzzy
 msgid "Show identity"
-msgstr "Identiteit verifiëren"
+msgstr "Identiteit tonen"
 
 #: src/pages/About.vue:11
 msgid "sponsor on patreon."
-msgstr ""
+msgstr "sponsor te worden op Patreon."
 
 #: src/pages/About.vue:6
 msgid ""
 "This is a free and open source signal client written in golang and vuejs.\n"
 "    You can support the development of axolotl either by filling"
 msgstr ""
+"Dit is een gratis, opensource Signal-client, geschreven in golang en vuejs.\n"
+"    Je kunt de ontwikkeling van Axolotl ondersteunen door"
 
 #: src/components/Header.vue:26 src/pages/ChatList.vue:27
-#, fuzzy
 msgid "Unknown group"
-msgstr "Nieuwe groep"
+msgstr "Onbekende groep"
 
 #: src/components/Header.vue:59
 msgid "Unmute"
-msgstr ""
+msgstr "Dempen opheffen"
 
 #: src/components/ErrorModal.vue:13 src/pages/Password.vue:5
 #: src/pages/Settings.vue:18
-#, fuzzy
 msgid "Unregister"
-msgstr "Aan het afmelden"
+msgstr "Loskoppelen"
 
 #: src/pages/SetPassword.vue:7
 msgid "Unsafe password"
-msgstr ""
+msgstr "Onveilig wachtwoord"
 
 #: src/pages/EditGroup.vue:47
-#, fuzzy
 msgid "Updating Group"
 msgstr "Groep bijwerken"
 
@@ -330,16 +320,16 @@ msgstr "Video"
 
 #: src/pages/Verification.vue:20
 msgid "Wrong code entered. Restart for another try."
-msgstr ""
+msgstr "De ingevoerde code is onjuist. Herstart en probeer het opnieuw."
 
 #: src/pages/MessageList.vue:11 src/pages/MessageList.vue:48
 #: src/pages/MessageList.vue:57 src/pages/MessageList.vue:72
 msgid "Your browser does not support the audio element."
-msgstr ""
+msgstr "Je browser heeft geen ondersteuning voor het audio-element."
 
 #: src/pages/MessageList.vue:82
 msgid "Your browser does not support the video element."
-msgstr ""
+msgstr "Je browser heeft geen ondersteuning voor het video-element."
 
 #, fuzzy
 #~ msgid "<b>Group name</b>"
