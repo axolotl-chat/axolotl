@@ -1,3 +1,10 @@
+0.8.3 (Jul 26 2020)
+------------------------------------
+* Support for QR-Code fingerprints by blackoverflow
+* Dutch translation by Heimen Stoffels
+* Only push to dbus if available by Björn Tantau
+* Server only mode by Björn Tantau 
+
 0.8.2 (May 5 2020)
 ------------------------------------
 * Show number of contact person in the chat menu and make it callable by arthur

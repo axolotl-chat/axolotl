@@ -14,3 +14,4 @@ output
 bind*.go
 *.syso
 dist
+.flatpak-builder
