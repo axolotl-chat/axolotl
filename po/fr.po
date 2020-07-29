@@ -3,8 +3,9 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-04-29 16:33+0200\n"
+"PO-Revision-Date: 2020-07-29 13:24+0200\n"
 "Last-Translator: Anne017\n"
+"Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -229,7 +230,7 @@ msgstr "Réinitialiser le chiffrement"
 
 #: src/components/IdentityModal.vue:14
 msgid "Safety numbers of you and"
-msgstr ""
+msgstr "Vos numéros de sécurité et ceux de"
 
 #: src/components/EditContactModal.vue:20
 msgid "Save"
@@ -280,7 +281,6 @@ msgid "sponsor on patreon."
 msgstr "mécène sur Patreon."
 
 #: src/pages/About.vue:6
-#, fuzzy
 msgid ""
 "This is a free and open source signal client written in golang and vuejs.\n"
 "      You can support the development of axolotl either by filling"
