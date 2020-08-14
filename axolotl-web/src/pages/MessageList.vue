@@ -328,7 +328,7 @@ export default {
       if(typeof this.config.Gui!="undefined"&&this.config.Gui=="ut"){
         // Don't follow the link
         var result = window.prompt("paste");
-        this.messageInput=result;
+        this.messageInput=this.messageInput+result;
       }
     },
     scrollDown(){
