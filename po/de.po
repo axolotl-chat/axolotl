@@ -174,11 +174,11 @@ msgstr "Keine Chats vorhanden"
 msgid "No devices available"
 msgstr "Keine Geräte vorhanden"
 
-#: src/pages/MessageList.vue:120
+#: src/pages/MessageList.vue:126
 msgid "No Messages available."
 msgstr "Keine Nachrichten vorhanden"
 
-#: src/pages/MessageList.vue:57 src/pages/MessageList.vue:83
+#: src/pages/MessageList.vue:63 src/pages/MessageList.vue:89
 msgid "Not supported mime type:"
 msgstr "Nicht unterstützer Mime-Typ"
 
@@ -258,7 +258,7 @@ msgstr "Verschlüsselung Passwort setzen"
 msgid "Set password"
 msgstr "Passwort setzen"
 
-#: src/pages/MessageList.vue:89
+#: src/pages/MessageList.vue:95
 msgid "Set timer for self-destructing messages"
 msgstr "Zeitbegrenzung für verschwindende Nachrichten festgelegt"
 
@@ -325,12 +325,12 @@ msgstr "Video"
 msgid "Wrong code entered. Restart for another try."
 msgstr "Falscher Code eingegeben. neustarten für einen weiteren Versuch"
 
-#: src/pages/MessageList.vue:11 src/pages/MessageList.vue:44
-#: src/pages/MessageList.vue:53 src/pages/MessageList.vue:68
+#: src/pages/MessageList.vue:14 src/pages/MessageList.vue:50
+#: src/pages/MessageList.vue:59 src/pages/MessageList.vue:74
 msgid "Your browser does not support the audio element."
 msgstr ""
 
-#: src/pages/MessageList.vue:78
+#: src/pages/MessageList.vue:84
 msgid "Your browser does not support the video element."
 msgstr ""
 

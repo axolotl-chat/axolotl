@@ -172,11 +172,11 @@ msgstr "Sem conversas disponiveis"
 msgid "No devices available"
 msgstr "Sem dispositivos disponiveis"
 
-#: src/pages/MessageList.vue:120
+#: src/pages/MessageList.vue:126
 msgid "No Messages available."
 msgstr "Sem mensagens disponiveis"
 
-#: src/pages/MessageList.vue:57 src/pages/MessageList.vue:83
+#: src/pages/MessageList.vue:63 src/pages/MessageList.vue:89
 msgid "Not supported mime type:"
 msgstr "Mime type não suportado"
 
@@ -256,7 +256,7 @@ msgstr "Definir password de criptografia"
 msgid "Set password"
 msgstr "Definir password"
 
-#: src/pages/MessageList.vue:89
+#: src/pages/MessageList.vue:95
 msgid "Set timer for self-destructing messages"
 msgstr "Definir temporizador para mensagens autodestrutivas"
 
@@ -323,12 +323,12 @@ msgstr "Vídeo"
 msgid "Wrong code entered. Restart for another try."
 msgstr "Código incorreto digitado. Reinicie para outra tentativa."
 
-#: src/pages/MessageList.vue:11 src/pages/MessageList.vue:44
-#: src/pages/MessageList.vue:53 src/pages/MessageList.vue:68
+#: src/pages/MessageList.vue:14 src/pages/MessageList.vue:50
+#: src/pages/MessageList.vue:59 src/pages/MessageList.vue:74
 msgid "Your browser does not support the audio element."
 msgstr "Seu navegador não suporta o elemento de áudio."
 
-#: src/pages/MessageList.vue:78
+#: src/pages/MessageList.vue:84
 msgid "Your browser does not support the video element."
 msgstr "Seu navegador não suporta o elemento de vídeo."
 
