@@ -410,7 +410,8 @@ export default {
 .chat {
   display: flex;
   flex-direction: column;
-  height: 100%
+  height: 100%;
+  justify-content: space-between;
 }
 
 .header {
@@ -424,6 +425,7 @@ export default {
   overflow-x: hidden;
   overflow-y: scroll;
   transition: width 0.5s, height 0.5s;
+  padding-top: 5px;
 }
 
 .chat-list-container::-webkit-scrollbar {
@@ -523,7 +525,7 @@ video,
 }
 .messageInputBox {
   display: flex;
-  margin-top: 5px;
+  margin: 5px 0px;
 }
 .messageInput-container {
   flex-grow: 1;
