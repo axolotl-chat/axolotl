@@ -5,7 +5,9 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 
+	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/store"
 	log "github.com/sirupsen/logrus"
 )
@@ -17,10 +19,12 @@ func attachmentsHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Get 'file' not specified in url.", 400)
 		return
 	}
-	log.Debugln("[axolotl] open file: " + Filename)
 
 	//Check if file exists and open
-	Openfile, err := os.Open(Filename)
+	filename := strings.Split(Filename, "/")
+	path := config.AttachDir + filename[len(filename)-1]
+	log.Debugln("[axolotl] open file: "+Filename, path)
+	Openfile, err := os.Open(config.AttachDir + "/" + filename[len(filename)-1])
 	defer Openfile.Close() //Close after function return
 	if err != nil {
 		//File not found, send 404
