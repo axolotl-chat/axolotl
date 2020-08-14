@@ -5,6 +5,9 @@
       <div id="messageList" class="messageList row" v-if="messages && messages.length>0" >
         <div v-if="showFullscreenImgSrc!=''" class="fullscreenImage">
           <img :src="'http://localhost:9080/attachments?file='+showFullscreenImgSrc" >
+          <button class="btn btn-secondary save" @click="saveImg($event)">
+            <font-awesome-icon icon="arrow-down" />
+          </button>
           <button class="btn btn-secondary close" @click="showFullscreenImgSrc=''">X</button>
         </div>
         <div v-if="showFullscreenVideoSrc!=''" class="fullscreenImage">
@@ -13,6 +16,9 @@
               <span v-translate>Your browser does not support the audio element.</span>
           </video>
           <button class="btn btn-secondary close" @click="showFullscreenVideoSrc=''">X</button>
+          <button class="btn btn-secondary save" @click="saveVideo($event)">
+            <font-awesome-icon icon="arrow-down" />
+          </button>
         </div>
           <div v-for="(message) in messageList.Messages.slice().reverse()"
               :class="{'col-12':true,
@@ -159,6 +165,7 @@
 import { mapState } from 'vuex';
 import moment from 'moment';
 import AttachmentBar from "@/components/AttachmentBar"
+import { saveAs } from 'file-saver';
 export default {
   name: 'Chat',
   props: {
@@ -262,6 +269,20 @@ export default {
     },
     showFullscreenVideo(video){
       this.showFullscreenVideoSrc = video;
+    },
+    saveImg(e){
+      if(typeof this.config.Gui!="undefined"&&this.config.Gui=="ut"){
+        e.preventDefault();
+        alert("[oP]"+this.showFullscreenImgSrc)
+      } else
+      saveAs('http://localhost:9080/attachments?file='+this.showFullscreenImgSrc)
+    },
+    saveVid(e){
+      if(typeof this.config.Gui!="undefined"&&this.config.Gui=="ut"){
+        e.preventDefault();
+        alert("[oV]"+this.showFullscreenVideoSrc)
+      } else
+      saveAs('http://localhost:9080/attachments?file='+this.showFullscreenImgSrc)
     },
     sendMessage(){
       if(this.messageInput!=""){
@@ -583,6 +604,14 @@ textarea:focus, input:focus{
   top:10px;
   padding:10px;
   background-color:#FFFFFF;
+}
+.fullscreenImage .save {
+  position:absolute;
+  right:50px;
+  top:10px;
+  padding:10px;
+  background-color:#FFFFFF;
+  color:black;
 }
 .gallery{
   display:flex;
