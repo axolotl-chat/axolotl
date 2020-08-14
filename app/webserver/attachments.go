@@ -23,8 +23,8 @@ func attachmentsHandler(w http.ResponseWriter, r *http.Request) {
 	//Check if file exists and open
 	filename := strings.Split(Filename, "/")
 	path := config.AttachDir + filename[len(filename)-1]
-	log.Debugln("[axolotl] open file: "+Filename, path)
-	Openfile, err := os.Open(config.AttachDir + "/" + filename[len(filename)-1])
+	log.Debugln("[axolotl] open file: " + path)
+	Openfile, err := os.Open(config.AttachDir + "/" + path)
 	defer Openfile.Close() //Close after function return
 	if err != nil {
 		//File not found, send 404
