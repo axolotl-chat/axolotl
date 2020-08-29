@@ -1,3 +1,7 @@
+0.8.5 (Aug 29 2020)
+------------------------------------
+* fix attachments due to changed signal api
+
 0.8.4 (Aug 14 2020)
 ------------------------------------
 * Update french translations by Anne017
