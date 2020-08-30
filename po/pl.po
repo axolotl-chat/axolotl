@@ -181,11 +181,11 @@ msgstr ""
 msgid "No devices available"
 msgstr ""
 
-#: src/pages/MessageList.vue:126
+#: src/pages/MessageList.vue:128
 msgid "No Messages available."
 msgstr ""
 
-#: src/pages/MessageList.vue:63 src/pages/MessageList.vue:89
+#: src/pages/MessageList.vue:64 src/pages/MessageList.vue:90
 msgid "Not supported mime type:"
 msgstr ""
 
@@ -268,7 +268,7 @@ msgstr "Reset bezpiecznej sesji"
 msgid "Set password"
 msgstr ""
 
-#: src/pages/MessageList.vue:95
+#: src/pages/MessageList.vue:96
 msgid "Set timer for self-destructing messages"
 msgstr ""
 
@@ -316,6 +316,10 @@ msgstr "Wyrejestrowanie"
 msgid "Unsafe password"
 msgstr ""
 
+#: src/pages/MessageList.vue:99
+msgid "Unsupported message type: sticker"
+msgstr ""
+
 #: src/pages/EditGroup.vue:41
 #, fuzzy
 msgid "Updating Group"
@@ -333,12 +337,12 @@ msgstr "Wideo"
 msgid "Wrong code entered. Restart for another try."
 msgstr ""
 
-#: src/pages/MessageList.vue:14 src/pages/MessageList.vue:50
-#: src/pages/MessageList.vue:59 src/pages/MessageList.vue:74
+#: src/pages/MessageList.vue:14 src/pages/MessageList.vue:51
+#: src/pages/MessageList.vue:60 src/pages/MessageList.vue:75
 msgid "Your browser does not support the audio element."
 msgstr ""
 
-#: src/pages/MessageList.vue:84
+#: src/pages/MessageList.vue:85
 msgid "Your browser does not support the video element."
 msgstr ""
 

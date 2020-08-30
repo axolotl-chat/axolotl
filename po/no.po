@@ -173,11 +173,11 @@ msgstr "Ingen samtaler tilgjengelige."
 msgid "No devices available"
 msgstr "Ingen enheter tilgjengelige."
 
-#: src/pages/MessageList.vue:126
+#: src/pages/MessageList.vue:128
 msgid "No Messages available."
 msgstr "Ingen meldinger tilgjengelige."
 
-#: src/pages/MessageList.vue:63 src/pages/MessageList.vue:89
+#: src/pages/MessageList.vue:64 src/pages/MessageList.vue:90
 msgid "Not supported mime type:"
 msgstr "MIME-type ikke støttet:"
 
@@ -257,7 +257,7 @@ msgstr "Angi passord for sikker sesjon"
 msgid "Set password"
 msgstr "Angi passord"
 
-#: src/pages/MessageList.vue:95
+#: src/pages/MessageList.vue:96
 msgid "Set timer for self-destructing messages"
 msgstr "Angi tidsinnstilling for selvdestruerende meldinger"
 
@@ -306,6 +306,11 @@ msgstr "Avregistrér"
 msgid "Unsafe password"
 msgstr "Usikkert passord"
 
+#: src/pages/MessageList.vue:99
+#, fuzzy
+msgid "Unsupported message type: sticker"
+msgstr "MIME-type ikke støttet:"
+
 #: src/pages/EditGroup.vue:41
 msgid "Updating Group"
 msgstr "Oppdatér gruppe"
@@ -322,12 +327,12 @@ msgstr "Video"
 msgid "Wrong code entered. Restart for another try."
 msgstr "Feil kode angitt. Gjør omstart for nytt forsøk."
 
-#: src/pages/MessageList.vue:14 src/pages/MessageList.vue:50
-#: src/pages/MessageList.vue:59 src/pages/MessageList.vue:74
+#: src/pages/MessageList.vue:14 src/pages/MessageList.vue:51
+#: src/pages/MessageList.vue:60 src/pages/MessageList.vue:75
 msgid "Your browser does not support the audio element."
 msgstr "Nettleseren støtter ikke lydelementet."
 
-#: src/pages/MessageList.vue:84
+#: src/pages/MessageList.vue:85
 msgid "Your browser does not support the video element."
 msgstr "Nettleseren støtter ikke videoelementet."
 
