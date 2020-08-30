@@ -299,6 +299,8 @@ github.com/signal-golang/textsecure v1.2.1-0.20200829160326-98b94a84e0f6 h1:08M6
 github.com/signal-golang/textsecure v1.2.1-0.20200829160326-98b94a84e0f6/go.mod h1:lUlrTGJqsku5NfdTjLAWWicAGTfG2ejOXEFdsIq3TWk=
 github.com/signal-golang/textsecure v1.2.1-0.20200830130121-55272611aada h1:aMpfdFH1c+9au9/xkHubfmuMIuCkGiY/VF791Lg+Bzg=
 github.com/signal-golang/textsecure v1.2.1-0.20200830130121-55272611aada/go.mod h1:lUlrTGJqsku5NfdTjLAWWicAGTfG2ejOXEFdsIq3TWk=
+github.com/signal-golang/textsecure v1.2.1-0.20200830225158-5892ade2ed50 h1:OxstMx3R2Fxo4QX+83oX7mnVJlJXH7YnXcJ8AkGquIA=
+github.com/signal-golang/textsecure v1.2.1-0.20200830225158-5892ade2ed50/go.mod h1:8jCbu1sgw2o6Z/vZQtnty1FuTKk3A3xs3sBAV7prxig=
 github.com/sirupsen/logrus v1.2.0/go.mod h1:LxeOpSwHxABJmUn/MG1IvRgCAasNZTLOkJPxbbu5VWo=
 github.com/sirupsen/logrus v1.4.2/go.mod h1:tLMulIdttU9McNUspp0xgXVQah82FyeX6MwdIuYE2rE=
 github.com/sirupsen/logrus v1.5.0 h1:1N5EYkVAPEywqZRJd7cwnRtCb6xJx7NH3T3WUTF980Q=

@@ -24,7 +24,7 @@ require (
 	github.com/pieterbork/ed25519 v0.0.0-20200301051623-f19b832d0d2e // indirect
 	github.com/pkg/errors v0.9.1
 	github.com/signal-golang/ed25519 v0.0.0-20200301051623-f19b832d0d2e // indirect
-	github.com/signal-golang/textsecure v1.2.1-0.20200830130121-55272611aada
+	github.com/signal-golang/textsecure v1.2.1-0.20200830225158-5892ade2ed50
 	github.com/sirupsen/logrus v1.6.0
 	github.com/stretchr/testify v1.6.1 // indirect
 	github.com/ttacon/builder v0.0.0-20170518171403-c099f663e1c2 // indirect
