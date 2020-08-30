@@ -1,3 +1,9 @@
+0.8.7 (Aug 31 2020)
+------------------------------------
+* support reciving quotes, reactions(somehow), contacts (fixes the flood with the timelimit notice)
+* fix attachments sometimes not downloaded (gifs)
+* respect new lines in messages
+
 0.8.6 (Aug 30 2020)
 ------------------------------------
 * fix contact import to signal desktop
