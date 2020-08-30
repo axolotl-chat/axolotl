@@ -1,3 +1,9 @@
+0.8.6 (Aug 30 2020)
+------------------------------------
+* fix contact import to signal desktop
+* fix group import to signal desktop
+* fix duplicate messages in signal desktop
+
 0.8.5 (Aug 29 2020)
 ------------------------------------
 * fix attachments due to changed signal api

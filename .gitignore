@@ -15,3 +15,5 @@ bind*.go
 *.syso
 dist
 .flatpak-builder
+.idea/*
+.idea
