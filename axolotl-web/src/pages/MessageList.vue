@@ -24,7 +24,8 @@
               :class="{'col-12':true,
                       'sent':message.Outgoing,
                       'reply':!message.Outgoing,
-                      'status':message.Flags>0||message.StatusMessage||message.Attachment.includes('null')&&message.Message=='',
+                      'status':message.Flags>0&&message.Flags!=11&&message.Flags!=13&&message.Flags!=14
+                      ||message.StatusMessage||message.Attachment.includes('null')&&message.Message=='',
                       'error':message.SentAt==0||message.SendingError,
                       /* 'sending':!message.IsSent&&message.Outgoing, */
                       /* 'receipt':message.Receipt||message.Outgoing&&message.SentAt<1586984922935 */
@@ -96,11 +97,12 @@
                     </div>
                   </div>
                   <div class="message-text">
-                    <span v-html="message.Message" v-linkified ></span>
+                    <div class="message-text-content" v-html="message.Message" v-linkified ></div>
                     <div class="status-message" v-if="message.Attachment.includes('null')&&message.Message==''&&message.Flags==0">
                       <span v-translate>Set timer for self-destructing messages </span>
                       <div> {{humanifyTimePeriod(message.ExpireTimer)}}</div>
                     </div>
+                    <div v-if="message.Flags==10" v-translate>Unsupported message type: sticker</div>
                   </div>
                 </div>
               </div>
@@ -658,5 +660,8 @@ textarea:focus, input:focus{
 .circle-wrap .circle.p100 .fill {
   /* animation: fill ease-in-out 3s; */
   transform: rotate(360deg);
+}
+.message-text .message-text-content{
+  white-space: pre-line;
 }
 </style>

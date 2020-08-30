@@ -2,6 +2,7 @@ package handler
 
 import (
 	"bytes"
+	"encoding/json"
 	"io/ioutil"
 	"strings"
 	"time"
@@ -17,6 +18,11 @@ import (
 	"github.com/nanu-c/axolotl/app/webserver"
 	"github.com/signal-golang/textsecure"
 )
+
+func prettyPrint(i interface{}) string {
+	s, _ := json.MarshalIndent(i, "", "\t")
+	return string(s)
+}
 
 //messageHandler is used on incoming message
 func MessageHandler(msg *textsecure.Message) {
@@ -40,6 +46,10 @@ func MessageHandler(msg *textsecure.Message) {
 	if msg.Flags() == textsecure.EndSessionFlag {
 		text = "Secure session reset."
 		msgFlags = helpers.MsgFlagResetSession
+	}
+	if msg.Flags() == 2 {
+		text = "Secure session reset."
+		msgFlags = helpers.MsgFlagExpirationTimerUpdate
 	}
 	//Group Message
 	gr := msg.Group()
@@ -91,6 +101,25 @@ func MessageHandler(msg *textsecure.Message) {
 	if gr != nil {
 		s = gr.Hexid
 	}
+	if msg.Sticker() != nil {
+		msgFlags = helpers.MsgFlagSticker
+		text = "Unsupported Message: sticker"
+	}
+	if msg.Contact() != nil {
+		msgFlags = helpers.MsgFlagContact
+		c := msg.Contact()[0]
+		text = c.GetName().GetDisplayName() + " " + c.GetNumber()[0].GetValue()
+	}
+	if msg.Reaction() != nil {
+		msgFlags = helpers.MsgFlagReaction
+		text = msg.Reaction().GetEmoji()
+	}
+	if msg.Quote() != nil {
+		msgFlags = helpers.MsgFlagQuote
+		text = ">" + msg.Quote().GetText() + `
+
+		` + msg.Message()
+	}
 	session := store.SessionsModel.Get(s)
 	m := session.Add(text, msg.Source(), f, mt, false, store.ActiveSessionID)
 	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
@@ -104,7 +133,6 @@ func MessageHandler(msg *textsecure.Message) {
 	if gr != nil && gr.Flags == textsecure.GroupUpdateFlag {
 		session.Name = gr.Name
 	}
-
 	if msgFlags != 0 {
 		m.Flags = msgFlags
 	}
@@ -202,7 +230,7 @@ func SyncSentHandler(msg *textsecure.Message, timestamp uint64) {
 			mt = msg.Attachments()[i].MimeType
 			file, err := store.SaveAttachment(a)
 			if err != nil {
-				log.Printf("Error saving %s\n", err.Error())
+				log.Printf("[Axolotl] Error saving %s\n", err.Error())
 			}
 			f = append(f, file)
 
@@ -257,7 +285,15 @@ func SyncSentHandler(msg *textsecure.Message, timestamp uint64) {
 			msgFlags = helpers.MsgFlagGroupLeave
 		}
 	}
-
+	if msg.Sticker() != nil {
+		msgFlags = helpers.MsgFlagSticker
+		text = "Unsupported Message: sticker"
+	}
+	if msg.Contact() != nil {
+		msgFlags = helpers.MsgFlagContact
+		c := msg.Contact()
+		text = c[0].String()
+	}
 	s := msg.Source()
 	if gr != nil {
 		s = gr.Hexid
@@ -272,13 +308,12 @@ func SyncSentHandler(msg *textsecure.Message, timestamp uint64) {
 	if gr != nil && gr.Flags == textsecure.GroupUpdateFlag {
 		session.Name = gr.Name
 	}
-
 	if msgFlags != 0 {
 		m.Flags = msgFlags
-		m.StatusMessage = true
+		// m.StatusMessage = true
 	}
 	if len(text) == 0 {
-		m.StatusMessage = true
+		// m.StatusMessage = true
 	}
 	m.IsSent = true
 	//TODO: have only one message per chat

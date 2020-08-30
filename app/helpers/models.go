@@ -12,11 +12,16 @@ import (
 
 // Model for existing chat sessions
 var (
-	MsgFlagGroupNew     = 1
-	MsgFlagGroupUpdate  = 2
-	MsgFlagGroupLeave   = 4
-	MsgFlagResetSession = 8
-	MsgFlagSetTimer     = 9
+	MsgFlagGroupNew              = 1
+	MsgFlagGroupUpdate           = 2
+	MsgFlagGroupLeave            = 4
+	MsgFlagResetSession          = 8
+	MsgFlagSetTimer              = 9
+	MsgFlagSticker               = 10
+	MsgFlagContact               = 11
+	MsgFlagExpirationTimerUpdate = 12
+	MsgFlagReaction              = 13
+	MsgFlagQuote                 = 14
 )
 
 func HumanizeTimestamp(ts uint64) string {
