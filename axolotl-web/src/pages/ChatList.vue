@@ -159,7 +159,7 @@ export default {
     width: 100%;
     left: 0;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     z-index: 2;
     top: 0;
     height: 51px;
