@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-07-29 13:24+0200\n"
+"PO-Revision-Date: 2020-09-06 15:31+0200\n"
 "Last-Translator: Anne017\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -306,9 +306,8 @@ msgid "Unsafe password"
 msgstr "Mot de passe peu sûr"
 
 #: src/pages/MessageList.vue:99
-#, fuzzy
 msgid "Unsupported message type: sticker"
-msgstr "Type de fichier non supporté :"
+msgstr "Type de fichier non supporté : autocollant"
 
 #: src/pages/EditGroup.vue:41
 msgid "Updating Group"
