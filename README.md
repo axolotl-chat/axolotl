@@ -45,7 +45,7 @@ Installation of development environment
 * install dependencies `sudo apt install mercurial`
 * Check out this git `go get -d github.com/nanu-c/axolotl`
 * `cd $(go env GOPATH)/src/github.com/nanu-c/axolotl`
-* get go dependencies `go get -d ...`
+* get go dependencies `go mod download`
 * install axolotl-web dependencies: `cd axolotl-web&&npm install`
 
 Translations

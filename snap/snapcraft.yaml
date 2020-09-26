@@ -19,6 +19,7 @@ parts:
       - gcc
       - mercurial
       - bzr
+      -  g++
     stage-packages:
       - libasound2
       - libgconf-2-4
@@ -33,7 +34,7 @@ parts:
     plugin: nodejs
     source: ./axolotl-web
     stage: [bin/axolotl-web]
-    nodejs-version: 12.13.1
+    nodejs-version: 12.18.4
     nodejs-package-manager: npm
     build-environment:
       - SUDO_UID: '0'
@@ -62,7 +63,7 @@ apps:
     command: bin/axolotl
     environment:
       TMPDIR: $XDG_RUNTIME_DIR
-    extensions: [gnome-3-28]
+    extensions: [gnome-3-34]
     plugs:
       - desktop
       - desktop-legacy

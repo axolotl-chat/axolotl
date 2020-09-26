@@ -77,17 +77,15 @@ func runElectron() {
 		AppIconDefaultPath: "axolotl-web/public/axolotl.png", // If path is relative, it must be relative to the data directory
 		AppIconDarwinPath:  "axolotl-web/public/axolotl.png", // Same here
 		BaseDirectoryPath:  electronPath,
-		VersionElectron:    "7.1.7",
+		VersionElectron:    "10.1.2",
 		SingleInstance:     true,
 		ElectronSwitches:   []string{"--disable-dev-shm-usage", "--no-sandbox"}})
-	//
-	// --disable-dev-shm-usage
 
 	defer a.Close()
-	// Start astilectron
 
+	// Start astilectron
 	if err := a.Start(); err != nil {
-		log.Debugln(errors.Wrap(err, "main: starting astilectron failed"))
+		log.Debugln(errors.Wrap(err, "[axolotl-electron] main: starting astilectron failed"))
 	}
 
 	a.On(astilectron.EventNameAppCrash, func(e astilectron.Event) (deleteListener bool) {
@@ -101,7 +99,7 @@ func runElectron() {
 	center := true
 	height := 800
 	width := 600
-	if w, err = a.NewWindow("http://" + config.ServerHost + ":" + config.ServerPort, &astilectron.WindowOptions{
+	if w, err = a.NewWindow("http://"+config.ServerHost+":"+config.ServerPort, &astilectron.WindowOptions{
 		Center: &center,
 		Height: &height,
 		Width:  &width,
