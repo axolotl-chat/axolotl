@@ -9,7 +9,7 @@
             <mask id="mask-2" fill="white">
                 <use xlink:href="#path-1"/>
             </mask>
-            <use id="double-check" fill="#333" fill-rule="nonzero" xlink:href="#path-1"/>
+            <use id="double-check" fill="#eee" fill-rule="nonzero" xlink:href="#path-1"/>
         </g>
     </g>
 </svg>
