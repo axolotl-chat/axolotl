@@ -34,17 +34,11 @@ $link-color: $primary;
   }
 }
 
-.sent .message {
-  background-color: $sent-message-bg;
+.outgoing .message {
+  background-color: $outgoing-message-bg;
 }
-.sending .message {
-  background-color: $sending-message-bg;
-}
-.receipt .message {
-  background-color: $recieved-message-bg;
-}
-.reply .message {
-  background-color: $received-message-bg;
+.incoming .message {
+  background-color: $incoming-message-bg;
 }
 
 .messageInputBox {

@@ -22,14 +22,13 @@
         </div>
           <div v-for="(message) in messageList.Messages.slice().reverse()"
               :class="{'col-12':true,
-                      'sent':message.Outgoing,
-                      'reply':!message.Outgoing,
+                      'outgoing': message.Outgoing,
+                      'sent':message.IsSent && message.Outgoing,
+                      'received':message.Receipt && message.Outgoing,
+                      'incoming':!message.Outgoing,
                       'status':message.Flags>0&&message.Flags!=11&&message.Flags!=13&&message.Flags!=14
                       ||message.StatusMessage||message.Attachment.includes('null')&&message.Message=='',
-                      'error':message.SentAt==0||message.SendingError,
-                      /* 'sending':!message.IsSent&&message.Outgoing, */
-                      /* 'receipt':message.Receipt||message.Outgoing&&message.SentAt<1586984922935 */
-                      'receipt':true
+                      'error':message.SentAt==0||message.SendingError
                       }"
               v-bind:key="message.ID"
                >
@@ -122,6 +121,7 @@
                     </div>
                   </div>
                 </div>
+                <div v-if="message.Outgoing" class="transfer-indicator"></div>
               </div>
               <div v-else class="col-12 meta">
                 Error
@@ -472,19 +472,19 @@ export default {
 .message-text{
   overflow-wrap: break-word;
 }
-.reply{
+.incoming {
   text-align:left;
   margin-bottom:10px;
 }
-.sent{
+.outgoing{
   display:flex;
   justify-content:flex-end;
 }
 .data{
     display:flex;
 }
-.sent .data,
-.sent .meta{
+.outgoing .data,
+.outgoing .meta{
   display:flex;
   justify-content:flex-end;
 }
@@ -492,6 +492,21 @@ export default {
     font-size: 13px;
     padding: 0px 20px;
     display: flex;
+}
+.transfer-indicator {
+  width: 18px;
+  height: 18px;
+  margin-left: 4px;
+  background: center center no-repeat;
+  background-image: url("../assets/images/sending.svg");
+}
+
+.sent .transfer-indicator {
+  background-image: url("../assets/images/check-circle-outline.svg");
+}
+
+.received .transfer-indicator {
+  background-image: url("../assets/images/double-check.svg");
 }
 
 .message {
