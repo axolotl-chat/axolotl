@@ -40,6 +40,21 @@ $link-color: $primary;
 .incoming .message {
   background-color: $incoming-message-bg;
 }
+.message .meta {
+  color: $message-metadata-color;
+}
+
+.transfer-indicator {
+  background-image: url("../assets/images/" + $sending-url);
+}
+
+.sent .transfer-indicator {
+background-image: url("../assets/images/" + $sent-url);
+}
+
+.received .transfer-indicator {
+background-image: url("../assets/images/" + $received-url);
+}
 
 .messageInputBox {
   background-color: $body-bg;
