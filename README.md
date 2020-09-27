@@ -40,7 +40,7 @@ There are still bugs and UI/UX quirks.
 Installation of development environment
 ------------
 * Install [Golang](https://golang.org/doc/install)
-* Install node js (see the [.nvmrc](axolotl-web/.nvmrc) file for the supported version
+* Install node js (see the [.nvmrc](axolotl-web/.nvmrc)) file for the supported version
 * Add gopath to ~/.bashrc https://github.com/golang/go/wiki/SettingGOPATH
 * install dependencies `sudo apt install mercurial`
 * Check out this git `go get -d github.com/nanu-c/axolotl`

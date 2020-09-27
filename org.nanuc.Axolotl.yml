@@ -1,0 +1,52 @@
+app-id: org.nanuc.Axolotl
+runtime: org.freedesktop.Platform
+runtime-version: '20.08'
+sdk: org.freedesktop.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.golang
+  - org.freedesktop.Sdk.Extension.node12
+command: axolotl
+finish-args:
+  # See https://docs.flatpak.org/en/latest/sandbox-permissions-reference.html
+  # Filesystem access
+  - --filesystem=home
+  # Network access
+  - --share=network
+  # GUI setup
+  - --socket=x11
+  - --socket=fallback-x11
+  - --share=ipc
+
+modules:
+  - name: axolotl
+    disabled: false
+    buildsystem: simple
+    build-options:
+      prefix: /usr/lib/sdk/golang
+      prepend-path: /usr/lib/sdk/golang/bin
+      build-args:
+        - "--share=network"
+    build-commands:
+      - "go env -w GOPATH=$PWD;
+         go get -v github.com/nanu-c/axolotl;
+         go build -v github.com/nanu-c/axolotl"
+      - "install -v -Dm755 axolotl $FLATPAK_DEST/bin/axolotl"
+
+  - name: axolotl-web
+    buildsystem: simple
+    build-options:
+      prefix: /usr/lib/sdk/node12
+      prepend-path: /usr/lib/sdk/node12/bin
+      build-args:
+        - "--share=network"
+    build-commands:
+      - "cd src/github.com/nanu-c/axolotl/axolotl-web;
+         npm ci;
+         npm run build"
+      - "mkdir -p $FLATPAK_DEST/bin/axolotl-web"
+      - "cp -r src/github.com/nanu-c/axolotl/axolotl-web/dist $FLATPAK_DEST/bin/axolotl-web"
+    sources:
+      - type: git
+        url: "https://github.com/olof-nord/axolotl"
+        tag: remove-git-module
+        dest: src/github.com/nanu-c/axolotl
