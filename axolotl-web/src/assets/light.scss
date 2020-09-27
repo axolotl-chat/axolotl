@@ -8,11 +8,16 @@ $input-bg: #fff;
 $chat-entry-border-color: #ddd;
 
 $message-color: #000;
+$message-metadata-color: #333;
 $incoming-message-bg: #92c4ec;
 $outgoing-message-bg: #9ae9a9;
 $sent-message-bg: #d3f2d7;
 $sent-message-link: $primary;
 
 $message-input-border: #2090ea;
+
+$sending-url: "sending.svg";
+$sent-url: "check-circle-outline.svg";
+$received-url: "double-check.svg";
 
 @import './style.scss';

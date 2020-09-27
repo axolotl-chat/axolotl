@@ -19,11 +19,16 @@ $input-focus-box-shadow: unset;
 $chat-entry-border-color: #333;
 
 $message-color: #fff;
+$message-metadata-color: #eee;
 $incoming-message-bg: #2880b0;
 $outgoing-message-bg: #29b786;
 $sent-message-link: #004090;
 $sent-message-link-visited: #003060;
 
 $message-input-border: $body-bg;
+
+$sending-url: "sending_dark.svg";
+$sent-url: "check-circle-outline_dark.svg";
+$received-url: "double-check_dark.svg";
 
 @import './style.scss';
