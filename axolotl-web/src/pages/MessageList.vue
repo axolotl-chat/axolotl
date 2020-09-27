@@ -34,8 +34,6 @@
                >
             <div class="row w-100" v-if="verifySelfDestruction(message)">
               <div class="col-12 data">
-                <div class="avatar" v-if="message.Flags==0">
-                </div>
                 <div class="message">
                   <div class="sender" v-if="!message.Outgoing&&isGroup&&message.Flags==0">
                     <div v-if="names[message.Source]">
@@ -463,11 +461,6 @@ export default {
 } */
 .messageList > div:last-child {
     padding-bottom: 20px;
-}
-.avatar {
-    justify-content: center;
-    display: flex;
-    align-items: center;
 }
 .message-text{
   overflow-wrap: break-word;
