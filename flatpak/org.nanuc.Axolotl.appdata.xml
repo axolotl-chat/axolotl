@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+    <id>org.nanuc.Axolotl</id>
+    <name>Axolotl</name>
+    <summary>Axolotl is a crossplattform Signal client</summary>
+    <project_license>GPL-3.0-only</project_license>
+    <metadata_license>GPL-3.0-only</metadata_license>
+    <url type="homepage">https://axolotl.chat/</url>
+</component>

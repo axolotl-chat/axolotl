@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Axolotl
+Exec=axolotl
+Terminal=false
+Type=Application
+Comment=A signal client, flatpak version
+Categories=Network;InstantMessaging;Chat;
+Icon=org.nanuc.Axolotl.png
