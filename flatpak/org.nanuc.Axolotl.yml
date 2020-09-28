@@ -44,7 +44,7 @@ modules:
          npm ci;
          npm run build"
       - "mkdir -p $FLATPAK_DEST/bin/axolotl-web"
-      - "cp -r src/github.com/nanu-c/axolotl/axolotl-web/dist/* $FLATPAK_DEST/bin/axolotl-web"
+      - "cp -r src/github.com/nanu-c/axolotl/axolotl-web/dist $FLATPAK_DEST/bin/axolotl-web"
 
       - "mkdir -p /app/share/icons/hicolor/128x128/apps"
       - "cp src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.png /app/share/icons/hicolor/128x128/apps/org.nanuc.Axolotl.png"
