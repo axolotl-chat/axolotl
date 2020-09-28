@@ -1,3 +1,5 @@
+# http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-1.0.html
+
 [Desktop Entry]
 Name=Axolotl
 Exec=axolotl

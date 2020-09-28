@@ -12,10 +12,14 @@ finish-args:
   - --filesystem=home
   # Network access
   - --share=network
-  # GUI setup
+  # X11 + XShm access
+  - --share=ipc
   - --socket=x11
   - --socket=fallback-x11
-  - --share=ipc
+  # Wayland access
+  - --socket=wayland
+  # Sound access
+  - --socket=pulseaudio
 
 modules:
   - name: axolotl
@@ -25,7 +29,7 @@ modules:
       prefix: /usr/lib/sdk/golang
       prepend-path: /usr/lib/sdk/golang/bin
       build-args:
-        - "--share=network"
+        - --share=network
     build-commands:
       - "go env -w GOPATH=$PWD;
          go get -v github.com/nanu-c/axolotl;
@@ -38,25 +42,20 @@ modules:
       prefix: /usr/lib/sdk/node12
       prepend-path: /usr/lib/sdk/node12/bin
       build-args:
-        - "--share=network"
+        - --share=network
     build-commands:
       - "cd src/github.com/nanu-c/axolotl/axolotl-web;
          npm ci;
          npm run build"
       - "mkdir -p $FLATPAK_DEST/bin/axolotl-web"
       - "cp -r src/github.com/nanu-c/axolotl/axolotl-web/dist $FLATPAK_DEST/bin/axolotl-web"
-
-      - "mkdir -p /app/share/icons/hicolor/128x128/apps"
-      - "cp src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.png /app/share/icons/hicolor/128x128/apps/org.nanuc.Axolotl.png"
-
-      - "mkdir -p /app/share/applications"
-      - "install -Dm644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.desktop /app/share/applications/org.nanuc.Axolotl.desktop"
+    post-install:
+      - "mkdir -p $FLATPAK_DEST/share/icons/hicolor/128x128/apps"
+      - "cp src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.png $FLATPAK_DEST/share/icons/hicolor/128x128/apps/org.nanuc.Axolotl.png"
+      - "mkdir -p $FLATPAK_DEST/share/applications"
+      - "install -Dm644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.desktop $FLATPAK_DEST/share/applications/org.nanuc.Axolotl.desktop"
     sources:
       - type: git
         url: "https://github.com/olof-nord/axolotl"
         tag: initial-flatpak-package
         dest: src/github.com/nanu-c/axolotl
-      - type: file
-        path: org.nanuc.Axolotl.appdata.xml
-      - type: file
-        path: org.nanuc.Axolotl.png
