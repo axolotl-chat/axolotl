@@ -28,8 +28,8 @@ modules:
         - "--share=network"
     build-commands:
       - "go env -w GOPATH=$PWD;
-         go get github.com/nanu-c/axolotl;
-         go build github.com/nanu-c/axolotl"
+         go get -v github.com/nanu-c/axolotl;
+         go build -v github.com/nanu-c/axolotl"
       - "install -Dm755 axolotl $FLATPAK_DEST/bin/axolotl"
 
   - name: axolotl-web

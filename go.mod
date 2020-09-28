@@ -3,7 +3,6 @@ module github.com/nanu-c/axolotl
 go 1.15
 
 require (
-	bitbucket.org/taruti/mimemagic v0.0.0-20120314151349-e5179c80a024 // indirect
 	github.com/asticode/go-astilectron v0.17.0
 	github.com/dustin/go-humanize v1.0.0
 	github.com/emersion/go-vcard v0.0.0-20200508080525-dd3110a24ec2
@@ -21,5 +20,7 @@ require (
 	github.com/z3ntu/go-dbus v0.0.0-20170220120108-c022b8b2e127
 	github.com/zserge/lorca v0.1.9
 	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a
+	google.golang.org/appengine v1.6.6 // indirect
 	gopkg.in/yaml.v2 v2.3.0
+	launchpad.net/gocheck v0.0.0-20140225173054-000000000087 // indirect
 )
