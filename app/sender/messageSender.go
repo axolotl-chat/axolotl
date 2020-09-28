@@ -77,6 +77,8 @@ func SendMessage(s *store.Session, m *store.Message) {
 	store.UpdateMessageSent(m)
 	store.UpdateSession(s)
 }
+
+// SendMessageLoop sends a single message and also loops over groups in order to send it to each participant of the group
 func SendMessageLoop(to, message string, group bool, att io.Reader, flags int, timer uint32) uint64 {
 	var err error
 	var ts uint64
@@ -99,7 +101,7 @@ func SendMessageLoop(to, message string, group bool, att io.Reader, flags int, t
 			} else {
 				ts, err = textsecure.SendMessage(to, message, timer)
 				if err != nil {
-					log.Debugln("blub", err.Error(), ts)
+					log.Errorln("[axolotl] send message error", err.Error(), ts)
 				}
 
 			}
@@ -108,11 +110,6 @@ func SendMessageLoop(to, message string, group bool, att io.Reader, flags int, t
 				ts, err = textsecure.SendGroupAttachment(to, message, att, timer)
 			} else {
 				log.Printf("[axolotl] SendMessageLoop sendAttachment")
-				// buf := new(bytes.Buffer)
-				// buf.ReadFrom(att)
-				// s := buf.String()
-				// log.Printf(s)
-
 				ts, err = textsecure.SendAttachment(to, message, att, timer)
 			}
 		}
