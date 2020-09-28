@@ -43,7 +43,9 @@ func SaveMessage(m *Message) (error, *Message) {
 }
 
 func UpdateMessageSent(m *Message) error {
-	log.Debugln("SendingError", m.SendingError)
+	if m.SendingError {
+		log.Errorln("[axolotl] sending message failed ", m.SentAt)
+	}
 	_, err := DS.Dbx.NamedExec("UPDATE messages SET sentat = :sentat, sendingError = :sendingError, expireTimer = :expireTimer  WHERE id = :id", m)
 	if err != nil {
 		return err

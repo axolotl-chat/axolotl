@@ -24,7 +24,7 @@
               :class="{'col-12':true,
                       'outgoing': message.Outgoing,
                       'sent':message.IsSent && message.Outgoing,
-                      'received':message.Receipt && message.Outgoing,
+                      'received':message.IsRead && message.Outgoing,
                       'incoming':!message.Outgoing,
                       'status':message.Flags>0&&message.Flags!=11&&message.Flags!=13&&message.Flags!=14
                       ||message.StatusMessage||message.Attachment.includes('null')&&message.Message=='',
@@ -155,7 +155,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import moment from 'moment';
 import AttachmentBar from "@/components/AttachmentBar"
 import { saveAs } from 'file-saver';
@@ -404,8 +404,12 @@ export default {
         });
       }
     },
-    messages(){
-      this.$data.scrollLocked = false;
+    messages: {
+      // This will let Vue know to look inside the array
+      deep:true,
+      handler(){
+        this.$data.scrollLocked = false;
+      }
     }
   },
   computed: {
@@ -419,6 +423,9 @@ export default {
       return this.$store.state.messageList.Session.IsGroup
     },
     ... mapState(['contacts','config','messageList']),
+    ... mapGetters({
+        messages:"getMessages"
+    })
   }
 }
 </script>
@@ -478,10 +485,13 @@ export default {
 }
 .transfer-indicator {
   width: 18px;
-  height: 12px;
+  height: 18px;
   margin-left: 4px;
   background-repeat: no-repeat;
   background-position: center;
+}
+.error .transfer-indicator {
+  background-image: url("../assets/images/warning.svg");
 }
 
 .message {
@@ -491,6 +501,9 @@ export default {
   max-width:85%;
   text-align:left;
   min-width:100px;
+}
+.error .message{
+  border: solid #f7663a 2px;
 }
 .sender{
   font-size:0.9rem;
@@ -521,12 +534,6 @@ video,
 .status .meta{
   text-align: center;
   justify-content:center;
-}
-.error .message{
-  background-color:#f7663a;
-}
-.error .meta{
-  color:#f7663a;
 }
 .messageInputBox {
   display: flex;
