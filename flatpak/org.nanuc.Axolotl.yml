@@ -34,7 +34,7 @@ modules:
       - "go env -w GOPATH=$PWD;
          go get -v github.com/nanu-c/axolotl;
          go build -v github.com/nanu-c/axolotl"
-      - "install -Dm755 axolotl $FLATPAK_DEST/bin/axolotl"
+      - "install -Dm 755 axolotl ${FLATPAK_DEST}/bin/axolotl"
 
   - name: axolotl-web
     buildsystem: simple
@@ -47,13 +47,11 @@ modules:
       - "cd src/github.com/nanu-c/axolotl/axolotl-web;
          npm ci;
          npm run build"
-      - "mkdir -p $FLATPAK_DEST/bin/axolotl-web"
-      - "cp -r src/github.com/nanu-c/axolotl/axolotl-web/dist $FLATPAK_DEST/bin/axolotl-web"
-    post-install:
-      - "mkdir -p $FLATPAK_DEST/share/icons/hicolor/128x128/apps"
-      - "cp src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.png $FLATPAK_DEST/share/icons/hicolor/128x128/apps/org.nanuc.Axolotl.png"
-      - "mkdir -p $FLATPAK_DEST/share/applications"
-      - "install -Dm644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.desktop $FLATPAK_DEST/share/applications/org.nanuc.Axolotl.desktop"
+      - "mkdir -p ${FLATPAK_DEST}/bin/axolotl-web"
+      - "cp -r src/github.com/nanu-c/axolotl/axolotl-web/dist ${FLATPAK_DEST}/bin/axolotl-web"
+      - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.png ${FLATPAK_DEST}/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png"
+      - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.appdata.xml ${FLATPAK_DEST}/share/appdata/${FLATPAK_ID}.appdata.xml"
+      - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop"
     sources:
       - type: git
         url: "https://github.com/olof-nord/axolotl"

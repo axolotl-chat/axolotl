@@ -6,4 +6,9 @@
     <project_license>GPL-3.0-only</project_license>
     <metadata_license>GPL-3.0-only</metadata_license>
     <url type="homepage">https://axolotl.chat/</url>
+    <description>
+        <p>
+            Axolotl is a crossplattform Signal client.
+        </p>
+    </description>
 </component>
