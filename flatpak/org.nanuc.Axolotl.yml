@@ -56,3 +56,7 @@ modules:
         url: "https://github.com/olof-nord/axolotl"
         tag: initial-flatpak-package
         dest: src/github.com/nanu-c/axolotl
+      - type: file
+        path: org.nanuc.Axolotl.appdata.xml
+      - type: file
+        path: org.nanuc.Axolotl.png
