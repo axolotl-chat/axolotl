@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-07-10 17:33+0200\n"
+"PO-Revision-Date: 2020-09-27 13:45+0200\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: none\n"
 "Language: nl\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #: src/pages/About.vue:4 src/pages/Register.vue:5
 msgid "A cross-plattform signal client"
@@ -282,7 +282,6 @@ msgid "sponsor on patreon."
 msgstr "sponsor te worden op Patreon."
 
 #: src/pages/About.vue:6
-#, fuzzy
 msgid ""
 "This is a free and open source signal client written in golang and vuejs.\n"
 "      You can support the development of axolotl either by filling"
@@ -308,9 +307,8 @@ msgid "Unsafe password"
 msgstr "Onveilig wachtwoord"
 
 #: src/pages/MessageList.vue:99
-#, fuzzy
 msgid "Unsupported message type: sticker"
-msgstr "Niet-ondersteund mimetype:"
+msgstr "Niet-ondersteunde berichtsoort: sticker"
 
 #: src/pages/EditGroup.vue:41
 msgid "Updating Group"
