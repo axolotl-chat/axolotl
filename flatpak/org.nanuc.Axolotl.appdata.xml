@@ -3,8 +3,8 @@
     <id>org.nanuc.Axolotl</id>
     <name>Axolotl</name>
     <summary>Axolotl is a crossplattform Signal client</summary>
-    <project_license>GPL-3.0-only</project_license>
-    <metadata_license>GPL-3.0-only</metadata_license>
+    <project_license>GPL-3.0</project_license>
+    <metadata_license>GPL-3.0</metadata_license>
     <url type="homepage">https://axolotl.chat/</url>
     <description>
         <p>

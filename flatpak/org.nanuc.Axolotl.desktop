@@ -2,9 +2,12 @@
 
 [Desktop Entry]
 Name=Axolotl
-Exec=axolotl
+Exec=/usr/bin/flatpak run --command=axolotl org.nanuc.Axolotl
+StartupWMClass=org.nanuc.Axolotl
+StartupNotify=true
 Terminal=false
 Type=Application
 Comment=A signal client, flatpak version
 Categories=Network;InstantMessaging;Chat;
-Icon=org.nanuc.Axolotl.png
+Icon=org.nanuc.Axolotl
+X-Flatpak=org.nanuc.Axolotl
