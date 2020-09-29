@@ -382,7 +382,7 @@ func webserver() {
 		if len(snapEnv) > 0 && !strings.Contains(snapEnv, "/snap/go/") {
 			path = os.Getenv("SNAP") + "/bin/axolotl-web/"
 		}
-		log.Debugln("[axolotl] axolotl-web path", path)
+		log.Debugln("[axolotl] Using axolotl-web path", path)
 
 		http.Handle("/", http.FileServer(http.Dir(path)))
 		http.HandleFunc("/attachments", attachmentsHandler)

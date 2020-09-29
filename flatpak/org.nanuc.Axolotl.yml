@@ -1,4 +1,5 @@
 app-id: org.nanuc.Axolotl
+branch: main
 runtime: org.freedesktop.Platform
 runtime-version: '20.08'
 sdk: org.freedesktop.Sdk
@@ -25,7 +26,6 @@ finish-args:
 
 modules:
   - name: axolotl
-    disabled: false
     buildsystem: simple
     build-options:
       prefix: /usr/lib/sdk/golang
@@ -33,10 +33,15 @@ modules:
       build-args:
         - --share=network
     build-commands:
-      - "go env -w GOPATH=$PWD;
-         go get -v github.com/nanu-c/axolotl;
-         go build -v github.com/nanu-c/axolotl"
-      - "install -Dm 755 axolotl ${FLATPAK_DEST}/bin/axolotl"
+      - "cd src/github.com/nanu-c/axolotl;
+         go mod download -x;
+         go build -v"
+      - "install -Dm 755 src/github.com/nanu-c/axolotl/axolotl ${FLATPAK_DEST}/bin/axolotl"
+    sources:
+      - type: git
+        url: "https://github.com/olof-nord/axolotl"
+        tag: initial-flatpak-package
+        dest: src/github.com/nanu-c/axolotl
 
   - name: axolotl-web
     buildsystem: simple
