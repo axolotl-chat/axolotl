@@ -140,9 +140,6 @@
       <div v-else class=""> -->
       <div class="messageInput-container">
         <textarea id="messageInput" type="textarea" v-model="messageInput"
-        @input="resizeMessageInput"
-        @focus="resizeMessageInput"
-        @focusout="resetHeights"
         contenteditable="true" v-longclick="paste"/>
       </div>
       <div class="messageInput-btn-container" v-if="messageInput!=''">
@@ -289,10 +286,10 @@ export default {
     sendMessage(){
       if(this.messageInput!=""){
         this.$store.dispatch("sendMessage", {to:this.chatId, message:this.messageInput});
-        this.messageInput=""
-        if(this.$store.state.messageList.Messages==null)
-        this.$store.dispatch("getMessageList", this.getId());
-        this.resetHeights()
+        if(this.$store.state.messageList.Messages == null) {
+          this.$store.dispatch("getMessageList", this.getId());
+        }
+        this.messageInput = "";
       }
 
       this.scrollDown();
@@ -357,9 +354,6 @@ export default {
     scrollDown(){
       document.getElementById("chat-bottom").scrollIntoView();
     },
-    resetHeights(){
-      document.getElementById("messageInput").style.height = "35px";
-    },
     humanifyTimePeriod(time){
       if(time<60)
         return time +" s";
@@ -371,16 +365,10 @@ export default {
         return time/60/60/24+" d"
       return time
     },
-    resizeMessageInput(){
-      var el = document.getElementById("messageInput");
-      el.style.height = "5px";
-      el.style.height = el.scrollHeight + 5 + "px";
-    }
   },
   mounted(){
     this.$store.dispatch("openChat", this.getId());
     this.$store.dispatch("getMessageList", this.getId());
-    window.addEventListener('resize', this.resetHeights);
     document.getElementById('messageInput').focus();
     setTimeout(this.scrollDown, 600);
     var that = this;
@@ -399,7 +387,14 @@ export default {
   },
   watch:{
     messageInput(){
-      this.resizeMessageInput();
+      // Adapt height of the textarea when its content changed
+      let textarea = document.getElementById("messageInput");
+      if (this.messageInput == "") {
+        textarea.style.height = "35px";
+      } else {
+        textarea.style.height = 0; // Set height to 0 to reset scrollHeight to its minimum
+        textarea.style.height = textarea.scrollHeight + 5 + "px";
+      }
     },
     contacts(){
       if(this.contacts!=null){
@@ -561,6 +556,7 @@ video,
 #messageInput{
   resize: none;
   width: 100%;
+  height: 35px;
   max-height: 150px;
   padding: 3px 10px;
   border-radius: 4px;
