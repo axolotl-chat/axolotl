@@ -9,13 +9,14 @@ sdk-extensions:
 command: axolotl
 finish-args:
   # See https://docs.flatpak.org/en/latest/sandbox-permissions-reference.html
-  # Filesystem access
-  - --filesystem=home
-  # Network access
+  # Write-access for the user download folder (to save media)
+  - --filesystem=xdg-download:rw
+  # Read-access the home folder (to upload media)
+  - --filesystem=home:ro
+  # Network access - to receive and send messages
   - --share=network
   # X11 + XShm access
   - --share=ipc
-  - --socket=x11
   - --socket=fallback-x11
   # Wayland access
   - --socket=wayland
@@ -23,6 +24,10 @@ finish-args:
   - --socket=pulseaudio
   # OpenGL access
   - --device=dri
+  # To send and receive notifications
+  - --talk-name=org.freedesktop.Notifications
+  # Specify axolotl-web location
+  - --env=AXOLOTL_WEB_DIR=/app/bin/axolotl-web/dist
 
 modules:
   - name: axolotl

@@ -2,9 +2,9 @@
 
 [Desktop Entry]
 Name=Axolotl
-Exec=axolotl -axolotlWeb=/app/bin/axolotl-web/dist
-Terminal=false
+Exec=axolotl -axolotlWebDir=/app/bin/axolotl-web/dist
 Type=Application
 Comment=A signal client, flatpak version
+Terminal=false
 Categories=Network;InstantMessaging;Chat;
 Icon=org.nanuc.Axolotl

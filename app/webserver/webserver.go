@@ -378,6 +378,11 @@ func webserver() {
 
 		path := config.AxolotlWebDir
 
+        axolotlWebDirEnv := os.Getenv("AXOLOTL_WEB_DIR")
+        if len(axolotlWebDirEnv) > 0 {
+            path = axolotlWebDirEnv
+        }
+
 		snapEnv := os.Getenv("SNAP")
 		if len(snapEnv) > 0 && !strings.Contains(snapEnv, "/snap/go/") {
 			path = os.Getenv("SNAP") + "/bin/axolotl-web/"
