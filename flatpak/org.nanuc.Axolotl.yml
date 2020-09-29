@@ -9,9 +9,11 @@ sdk-extensions:
 command: axolotl
 finish-args:
   # See https://docs.flatpak.org/en/latest/sandbox-permissions-reference.html
-  # Write-access for the user download folder (to save media)
+  # Write access for the user download folder (to save media)
   - --filesystem=xdg-download:rw
-  # Read-access the home folder (to upload media)
+  # Write access for config
+  - --filesystem=~/.local/share/textsecure.nanuc:rw
+  # Read access for home folder (to upload media)
   - --filesystem=home:ro
   # Network access - to receive and send messages
   - --share=network
