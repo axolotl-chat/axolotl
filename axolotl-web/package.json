@@ -44,6 +44,7 @@
     "@vue/cli-plugin-eslint": "^3.12.1",
     "@vue/cli-service": "^4.5.3",
     "babel-eslint": "^10.1.0",
+    "browserslist": "^4.14.5",
     "easygettext": "^2.14.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
