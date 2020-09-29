@@ -20,6 +20,8 @@ finish-args:
   - --socket=wayland
   # Sound access
   - --socket=pulseaudio
+  # OpenGL access
+  - --device=dri
 
 modules:
   - name: axolotl

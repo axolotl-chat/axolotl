@@ -1,13 +1,10 @@
-# http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-1.0.html
+# https://docs.flatpak.org/en/latest/freedesktop-quick-reference.html#desktop-files
 
 [Desktop Entry]
 Name=Axolotl
-Exec=/usr/bin/flatpak run --command=axolotl org.nanuc.Axolotl
-StartupWMClass=org.nanuc.Axolotl
-StartupNotify=true
+Exec=org.nanuc.Axolotl
 Terminal=false
 Type=Application
 Comment=A signal client, flatpak version
 Categories=Network;InstantMessaging;Chat;
 Icon=org.nanuc.Axolotl
-X-Flatpak=org.nanuc.Axolotl
