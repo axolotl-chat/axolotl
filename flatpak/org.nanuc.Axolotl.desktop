@@ -2,7 +2,7 @@
 
 [Desktop Entry]
 Name=Axolotl
-Exec=org.nanuc.Axolotl
+Exec=axolotl
 Terminal=false
 Type=Application
 Comment=A signal client, flatpak version
