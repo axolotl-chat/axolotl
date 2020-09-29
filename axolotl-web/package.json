@@ -17,6 +17,7 @@
     "@fortawesome/vue-fontawesome": "^0.1.10",
     "bootstrap": "^4.5.2",
     "bootstrap-vue": "^2.16.0",
+    "caniuse-lite": "^1.0.30001137",
     "core-js": "^2.6.11",
     "file-saver": "^2.0.2",
     "moment": "^2.27.0",
