@@ -1,5 +1,4 @@
 name: axolotl
-version: git
 summary: An signal client.
 description: |
   Axolotl is a crossplattform signal client
@@ -19,7 +18,7 @@ parts:
       - gcc
       - mercurial
       - bzr
-      -  g++
+      - g++
     stage-packages:
       - libasound2
       - libgconf-2-4
