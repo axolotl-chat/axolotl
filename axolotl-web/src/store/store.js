@@ -32,6 +32,7 @@ export default new Vuex.Store({
     verificationInProgress: false,
     verificationError: null,
     requestPin: false,
+    registrationStatus: null,
     socket: {
       isConnected: false,
       message: '',
@@ -87,12 +88,15 @@ export default new Vuex.Store({
     },
     UPDATE_CURRENT_CHAT(state, data) {
       state.currentChat = data.CurrentChat;
-      if (typeof state.messageList.Messages == "undefined") state.messageList.Messages = []
+      if (state.messageList.Messages == undefined) {
+        state.messageList.Messages = []
+      }
       var prepare = state.messageList.Messages.map(function(e) { return e.ID; })
-      data.CurrentChat.Messages.forEach(m => {
-        state.messageList.Messages[prepare.indexOf(m.ID)] = m;
-      });
-      // state.MessageList.Messages
+      if (data.CurrentChat.Messages != null) {
+        data.CurrentChat.Messages.forEach(m => {
+          state.messageList.Messages[prepare.indexOf(m.ID)] = m;
+        });
+      }
     },
     SET_CONFIG(state, config) {
       state.config = config;
@@ -132,9 +136,12 @@ export default new Vuex.Store({
           window.router.push("/password")
       }
       else if (type == "registrationDone") {
-        if (window.router.history.current.name != "chatList")
-          window.router.push("/chatList")
-        this.dispatch("getChatList")
+        this.commit("SET_REGISTATION_STATUS", "done")
+        if (state.registrationStatus != "done") {
+          if (window.router.history.current.path == "/")
+            window.router.push("chatList")
+          this.dispatch("getChatList")
+        }
       }
       else if (type == "requestEnterChat") {
         window.router.push("/chat/" + request["Chat"])
@@ -147,6 +154,9 @@ export default new Vuex.Store({
         this.commit("SET_ERROR", request.Error)
       }
       // this.dispatch("requestCode", "+123456")
+    },
+    SET_REGISTATION_STATUS(state, status) {
+      state.registrationStatus = status
     },
     SET_MESSAGELIST(state, messageList) {
       state.messageList = messageList;

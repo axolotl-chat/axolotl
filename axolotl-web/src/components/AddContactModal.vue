@@ -10,7 +10,8 @@
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <input v-model="name" type="text" class="form-control" id="nameInput" placeholder="Enter name">
+            <label for="inputPhone" v-translate>Name</label>
+            <input v-model="name" type="text" class="form-control" id="nameInput">
           </div>
           <div class="form-group">
             <label for="inputPhone" v-translate>Phone</label>
