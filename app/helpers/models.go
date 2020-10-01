@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"io"
+	"math/rand"
 	"os"
 	"strings"
 	"time"
@@ -96,4 +97,16 @@ func ContentType(att io.Reader, mt string) int {
 		mt, _ = textsecure.MIMETypeFromReader(att)
 	}
 	return MimeTypeToContentType(mt)
+}
+
+func RandomString(length int) string {
+	//Lowercase and Uppercase Both
+	charSet := "abcdedfghijklmnopqrstABCDEFGHIJKLMNOP"
+	var output strings.Builder
+	for i := 0; i < length; i++ {
+		random := rand.Intn(len(charSet))
+		randomChar := charSet[random]
+		output.WriteString(string(randomChar))
+	}
+	return output.String()
 }

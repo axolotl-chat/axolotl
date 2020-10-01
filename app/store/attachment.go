@@ -5,12 +5,15 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"mime"
 	"os"
 	"path/filepath"
 	"time"
 
 	"github.com/nanu-c/axolotl/app/config"
+	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/signal-golang/textsecure"
+	log "github.com/sirupsen/logrus"
 )
 
 type Attachment struct {
@@ -20,6 +23,7 @@ type Attachment struct {
 }
 
 func SaveAttachment(a *textsecure.Attachment) (Attachment, error) {
+
 	id := make([]byte, 16)
 	_, err := io.ReadFull(rand.Reader, id)
 	if err != nil {
@@ -31,8 +35,18 @@ func SaveAttachment(a *textsecure.Attachment) (Attachment, error) {
 	// if strings.HasPrefix(a.MimeType, "video/") {
 	// 	ext = strings.Replace(a.MimeType, "video/", ".", 1)
 	// }
-
-	fn := filepath.Join(config.AttachDir, dt.Format("01-02-2006-15-04-05")+a.FileName)
+	fileName := a.FileName
+	if fileName == "" {
+		fileName = helpers.RandomString(10)
+	}
+	extension, err := mime.ExtensionsByType(a.MimeType)
+	if err != nil {
+		log.Debugln("[axolotl] could not detect file extension", a.MimeType)
+		extension[0] = ""
+	}
+	log.Debugln("[axolotl] save attachment to",
+		dt.Format("01-02-2006-15-04-05")+fileName+"."+extension[0])
+	fn := filepath.Join(config.AttachDir, dt.Format("01-02-2006-15-04-05")+fileName+"."+extension[0])
 	f, err := os.OpenFile(fn, os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
 		return Attachment{}, err
