@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     chatList: [],
-    messageList: [],
+    messageList: {},
     request: '',
     contacts: [],
     contactsFilterd: [],
@@ -41,6 +41,9 @@ export default new Vuex.Store({
 
   getters: {
     // Here we will create a getter
+    getMessages: state => {
+      return state.messageList.Messages
+    }
   },
 
   mutations: {
@@ -174,6 +177,21 @@ export default new Vuex.Store({
       })
 
     },
+    SET_MESSAGE_UPDATE(state, message) {
+      if (state.messageList.ID == message.ChatID) {
+        var index = state.messageList.Messages.findIndex(m => {
+          return m.ID === message.ID;
+        });
+        if (index != -1) {
+          var tmpList = state.messageList.Messages;
+          tmpList[index] = message;
+          tmpList.sort(function(a, b) {
+            return b.ID - a.ID
+          })
+          state.messageList.Messages = tmpList;
+        }
+      }
+    },
     CLEAR_MESSAGELIST(state) {
       state.messageList = {};
     },
@@ -245,6 +263,9 @@ export default new Vuex.Store({
         }
         else if (Object.keys(messageData)[0] == "MessageRecieved") {
           this.commit("SET_MESSAGE_RECIEVED", messageData["MessageRecieved"]);
+        }
+        else if (Object.keys(messageData)[0] == "UpdateMessage") {
+          this.commit("SET_MESSAGE_UPDATE", messageData["UpdateMessage"]);
         }
         else if (Object.keys(messageData)[0] == "Gui") {
           this.commit("SET_CONFIG_GUI", messageData["Gui"]);
