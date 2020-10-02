@@ -63,7 +63,7 @@ apps:
     command: bin/axolotl
     environment:
       TMPDIR: $XDG_RUNTIME_DIR
-    extensions: [gnome-3-34]
+    extensions: [gnome-3-28]
     plugs:
       - desktop
       - desktop-legacy
