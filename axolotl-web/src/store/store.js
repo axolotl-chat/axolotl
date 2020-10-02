@@ -136,10 +136,9 @@ export default new Vuex.Store({
           window.router.push("/password")
       }
       else if (type == "registrationDone") {
-        this.commit("SET_REGISTATION_STATUS", "done")
         if (state.registrationStatus != "done") {
-          if (window.router.history.current.path == "/")
-            window.router.push("chatList")
+          window.router.push("chatList")
+          this.commit("SET_REGISTATION_STATUS", "done")
           this.dispatch("getChatList")
         }
       }
