@@ -63,7 +63,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .avatar {
     justify-content: center;
     display: flex;
