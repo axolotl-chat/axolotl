@@ -1,3 +1,11 @@
+0.8.8 (Oct 04 2020)
+------------------------------------
+* Display every pictures of received messages, not several time the first one, by nanu-c
+* Send message immediatly even when it has more than one line (no need to tap a second time), by flaburgan
+* Fix avatar icons looking strange after navigation to linked devices list, by flaburgan
+* Fix snap package builds, by nanu-c
+* And many small fixes and cleanups, by nanu-c, flaburgan & olof-nord
+
 0.8.7 (Aug 31 2020)
 ------------------------------------
 * support reciving quotes, reactions(somehow), contacts (fixes the flood with the timelimit notice)
