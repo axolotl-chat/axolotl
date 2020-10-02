@@ -138,7 +138,7 @@ export default new Vuex.Store({
       else if (type == "registrationDone") {
         if (state.registrationStatus != "done") {
           window.router.push("chatList")
-          this.commit("SET_REGISTATION_STATUS", "done")
+          this.commit("SET_REGISTRATION_STATUS", "done")
           this.dispatch("getChatList")
         }
       }
@@ -154,7 +154,7 @@ export default new Vuex.Store({
       }
       // this.dispatch("requestCode", "+123456")
     },
-    SET_REGISTATION_STATUS(state, status) {
+    SET_REGISTRATION_STATUS(state, status) {
       state.registrationStatus = status
     },
     SET_MESSAGELIST(state, messageList) {
