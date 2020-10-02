@@ -20,7 +20,7 @@ msgstr "Um cliente signal multiplataforma"
 msgid "About Axolotl"
 msgstr "Sobre Axolotl"
 
-#: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:20
+#: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:21
 msgid "Add"
 msgstr "Adicionar"
 
@@ -112,7 +112,7 @@ msgstr "Atualizar grupo"
 msgid "Enter password"
 msgstr "Insira password"
 
-#: src/pages/Verification.vue:3
+#: src/pages/Verification.vue:2
 msgid "Enter your registration pin"
 msgstr "Insira o seu pin de registo"
 
@@ -155,6 +155,10 @@ msgstr "Membros do grupo"
 #: src/components/Header.vue:58
 msgid "Mute"
 msgstr "Silenciar"
+
+#: src/components/AddContactModal.vue:12
+msgid "Name"
+msgstr ""
 
 #: src/components/Header.vue:98 src/components/Header.vue:144
 msgid "New group"
@@ -204,7 +208,7 @@ msgstr "Password está errada"
 msgid "Passwords don't match"
 msgstr "As passwords não são idênticas"
 
-#: src/components/AddContactModal.vue:15 src/components/EditContactModal.vue:15
+#: src/components/AddContactModal.vue:16 src/components/EditContactModal.vue:15
 msgid "Phone"
 msgstr "Télemovel"
 
