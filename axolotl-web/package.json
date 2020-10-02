@@ -20,7 +20,7 @@
     "core-js": "^2.6.11",
     "file-saver": "^2.0.2",
     "moment": "^2.27.0",
-    "ofcold-security-code": "^1.1.0",
+    "ofcold-security-code": "git+https://github.com/ofcold/security-code.git",
     "qrcode": "^1.4.4",
     "qwebchannel": "^5.9.0",
     "single-byte": "^1.0.7",
