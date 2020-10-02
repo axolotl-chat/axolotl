@@ -8,9 +8,6 @@ import QtMultimedia 5.8
 import QtQuick.Controls.Suru 2.2
 import Ubuntu.Content 1.3
 
-import 'components'
-
-
 UITK.Page {
   property QtObject request
   property QtObject wsClient
