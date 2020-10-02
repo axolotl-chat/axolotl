@@ -155,7 +155,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import moment from 'moment';
 import AttachmentBar from "@/components/AttachmentBar"
 import { saveAs } from 'file-saver';
@@ -401,19 +401,25 @@ export default {
           }
         });
       }
+    },
+    messages:{
+      // This will let Vue know to look inside the array
+      deep:true,
+      handler(){
+      }
     }
   },
   computed: {
     chat() {
       return this.$store.state.currentChat
     },
-    messages () {
-      return this.$store.state.messageList.Messages
-    },
     isGroup () {
       return this.$store.state.messageList.Session.IsGroup
     },
     ... mapState(['contacts','config','messageList']),
+    ... mapGetters({
+        messages:"getMessages"
+    })
   }
 }
 </script>

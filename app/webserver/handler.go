@@ -39,6 +39,29 @@ func MessageHandler(msg *store.Message) {
 	}
 	broadcast <- *message
 	UpdateChatList()
+}
+
+type UpdateMessage struct {
+	UpdateMessage *store.Message
+}
+
+// UpdateMessageHandler sents message receipts to all connected clients for the activeChat
+func UpdateMessageHandler(msg *store.Message) {
+	if msg.ChatID == activeChat {
+		log.Debugln("[axolotl] UpdateMessageHandler ", msg.SentAt)
+		updateMessage := &UpdateMessage{
+			UpdateMessage: msg,
+		}
+		var err error
+		message := &[]byte{}
+		*message, err = json.Marshal(updateMessage)
+		if err != nil {
+			log.Errorln("[axolotl-ws] ", err)
+			return
+		}
+		broadcast <- *message
+		UpdateChatList()
+	}
 
 }
 
@@ -148,7 +171,7 @@ func sendAttachment(attachment SendAttachmentMessage) error {
 		log.Errorln("[axolotl] attachment error: Attachment too large, not sending")
 		return nil
 	}
-	err, m := sender.SendMessageHelper(attachment.To, attachment.Message, file)
+	err, m := sender.SendMessageHelper(attachment.To, attachment.Message, file, nil)
 	if err == nil {
 		go MessageHandler(m)
 	}
@@ -201,7 +224,7 @@ func uploadSendAttachment(attachment UploadAttachmentMessage) error {
 		log.Errorln("[axolotl] attachment error: Attachment too large, not sending")
 		return nil
 	}
-	err, m := sender.SendMessageHelper(attachment.To, attachment.Message, file)
+	err, m := sender.SendMessageHelper(attachment.To, attachment.Message, file, nil)
 	if err == nil {
 		go MessageHandler(m)
 	}

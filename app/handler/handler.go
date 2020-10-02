@@ -187,7 +187,7 @@ func ReceiptHandler(source string, devID uint32, timestamp uint64) {
 		if m.SentAt == timestamp {
 			m.IsSent = true
 			store.UpdateMessageReceiptSent(m)
-			webserver.UpdateActiveChat()
+			webserver.UpdateMessageHandler(m)
 			return
 		}
 	}
@@ -208,8 +208,10 @@ func ReceiptMessageHandler(msg *textsecure.Message) {
 				store.UpdateMessageRead(m)
 			} else {
 				log.Debugln("[axolotl] unhandeld receipt message type for message ", msg.Timestamp(), msg.Message())
+				m.IsSent = true
+				store.UpdateMessageReceiptSent(m)
 			}
-			webserver.UpdateActiveChat()
+			webserver.UpdateMessageHandler(m)
 			return
 		}
 	}
