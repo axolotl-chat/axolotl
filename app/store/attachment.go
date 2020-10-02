@@ -36,17 +36,17 @@ func SaveAttachment(a *textsecure.Attachment) (Attachment, error) {
 	// 	ext = strings.Replace(a.MimeType, "video/", ".", 1)
 	// }
 	fileName := a.FileName
-	if fileName == "" {
-		fileName = helpers.RandomString(10)
-	}
 	extension, err := mime.ExtensionsByType(a.MimeType)
 	if err != nil {
 		log.Debugln("[axolotl] could not detect file extension", a.MimeType)
 		extension[0] = ""
 	}
+	if fileName == "" {
+		fileName = helpers.RandomString(10) + extension[0]
+	}
 	log.Debugln("[axolotl] save attachment to",
-		dt.Format("01-02-2006-15-04-05")+fileName+"."+extension[0])
-	fn := filepath.Join(config.AttachDir, dt.Format("01-02-2006-15-04-05")+fileName+"."+extension[0])
+		dt.Format("01-02-2006-15-04-05")+fileName)
+	fn := filepath.Join(config.AttachDir, dt.Format("01-02-2006-15-04-05")+fileName)
 	f, err := os.OpenFile(fn, os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
 		return Attachment{}, err
