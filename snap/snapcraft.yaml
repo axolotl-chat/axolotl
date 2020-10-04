@@ -1,7 +1,7 @@
 name: axolotl
 summary: A signal client.
 description: |
-  Axolotl is a crossplattform signal client
+  Axolotl is a cross-platform signal client
 grade: stable
 confinement: strict
 base: core18
