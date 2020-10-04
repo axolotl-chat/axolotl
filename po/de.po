@@ -21,7 +21,7 @@ msgstr "Ein multi-plattform Signal Client"
 msgid "About Axolotl"
 msgstr "Über Axolotl"
 
-#: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:20
+#: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:21
 msgid "Add"
 msgstr "Hinzufügen"
 
@@ -114,7 +114,7 @@ msgstr "Gruppe bearbeiten"
 msgid "Enter password"
 msgstr "Passwort eingeben"
 
-#: src/pages/Verification.vue:3
+#: src/pages/Verification.vue:2
 msgid "Enter your registration pin"
 msgstr ""
 
@@ -157,6 +157,10 @@ msgstr "Gruppenmitglieder"
 #: src/components/Header.vue:58
 msgid "Mute"
 msgstr "Stumm"
+
+#: src/components/AddContactModal.vue:12
+msgid "Name"
+msgstr ""
 
 #: src/components/Header.vue:98 src/components/Header.vue:144
 msgid "New group"
@@ -206,7 +210,7 @@ msgstr "Das Passwort ist falsch"
 msgid "Passwords don't match"
 msgstr "Eingaben stimmen nicht überein!"
 
-#: src/components/AddContactModal.vue:15 src/components/EditContactModal.vue:15
+#: src/components/AddContactModal.vue:16 src/components/EditContactModal.vue:15
 msgid "Phone"
 msgstr "Telefon"
 
