@@ -20,7 +20,7 @@ msgstr ""
 msgid "About Axolotl"
 msgstr ""
 
-#: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:20
+#: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:21
 msgid "Add"
 msgstr ""
 
@@ -118,7 +118,7 @@ msgstr "Opdatér gruppe"
 msgid "Enter password"
 msgstr ""
 
-#: src/pages/Verification.vue:3
+#: src/pages/Verification.vue:2
 msgid "Enter your registration pin"
 msgstr ""
 
@@ -162,6 +162,10 @@ msgstr "Gruppemedlemmer"
 
 #: src/components/Header.vue:58
 msgid "Mute"
+msgstr ""
+
+#: src/components/AddContactModal.vue:12
+msgid "Name"
 msgstr ""
 
 #: src/components/Header.vue:98 src/components/Header.vue:144
@@ -212,7 +216,7 @@ msgstr ""
 msgid "Passwords don't match"
 msgstr ""
 
-#: src/components/AddContactModal.vue:15 src/components/EditContactModal.vue:15
+#: src/components/AddContactModal.vue:16 src/components/EditContactModal.vue:15
 msgid "Phone"
 msgstr ""
 

@@ -1,8 +1,8 @@
 <template>
   <div class="verify">
+    <h3 v-translate>Enter your registration pin</h3>
     <div v-if="verificationError=='RegistrationLockFailure'||requestPin"
         class="verify">
-      <h3 v-translate>Enter your registration pin</h3>
       <p v-translate>or disable it on Android/IOs</p>
       <input v-model="pin" type="text"/>
       <button  class="btn btn-primary" @click="sendPin()" v-translate>Send pin</button>
@@ -67,6 +67,9 @@ export default {
     display:flex;
     flex-direction: column;
     padding-top:30px;
+  }
+  .verify h3{
+    text-align:center;
   }
   .verify .codeInput{
     margin-top:30px;

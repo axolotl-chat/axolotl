@@ -1,5 +1,4 @@
 name: axolotl
-version: git
 summary: An signal client.
 description: |
   Axolotl is a crossplattform signal client
@@ -7,7 +6,7 @@ grade: stable
 confinement: strict
 base: core18
 icon:  snap/gui/axolotl.png
-version: "0.8.7"
+version: "0.8.8"
 
 parts:
   axolotl:
@@ -19,7 +18,7 @@ parts:
       - gcc
       - mercurial
       - bzr
-      -  g++
+      - g++
     stage-packages:
       - libasound2
       - libgconf-2-4
@@ -63,7 +62,7 @@ apps:
     command: bin/axolotl
     environment:
       TMPDIR: $XDG_RUNTIME_DIR
-    extensions: [gnome-3-34]
+    extensions: [gnome-3-28]
     plugs:
       - desktop
       - desktop-legacy
