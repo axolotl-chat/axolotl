@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-09-06 15:31+0200\n"
+"PO-Revision-Date: 2020-10-05 19:05+0200\n"
 "Last-Translator: Anne017\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -158,7 +158,7 @@ msgstr "Mettre en silencieux"
 
 #: src/components/AddContactModal.vue:12
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #: src/components/Header.vue:98 src/components/Header.vue:144
 msgid "New group"
