@@ -1,0 +1,53 @@
+name: Axolotl pipeline
+
+on: [ push, pull_request ]
+
+jobs:
+  build-axolotl:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Set up Go 1.15
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.15
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Download dependencies
+        run: go mod download
+
+      - name: Run tests
+        run: go test -race ./...
+
+      - name: Build
+        run: go build -v
+
+  build-axolotl-web:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup Node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Download dependencies
+        run: npm --prefix ./axolotl-web ci
+
+      - name: Run tests
+        run: npm --prefix ./axolotl-web test
+
+      - name: Lint application
+        run: npm --prefix ./axolotl-web run lint
+
+      - name: Build
+        run: npm --prefix ./axolotl-web run build
