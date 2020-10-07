@@ -64,8 +64,6 @@ export default {
   props: {
     msg: String
   },
-  created(){
-  },
   mounted(){
     this.$store.dispatch("getChatList");
     document.body.scrollTop = 0;
@@ -77,7 +75,11 @@ export default {
     this.$store.dispatch("clearMessageList");
     this.$store.dispatch("clearFilterContacts");
     this.$store.dispatch("getConfig");
-    this.$store.dispatch("getContacts")
+    this.$store.dispatch("getContacts");
+    let loader = document.getElementById('initial-loader');
+    if (loader != undefined) {
+      loader.remove();
+    }
   },
   data() {
     return {
