@@ -2,26 +2,22 @@
 <template>
   <div class="deviceList">
     <!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->
-    <div v-if="devices.length>1" class="row">
-      <div v-for="device in devices" v-if="device.id!=1" v-bind:key="device.id"
-        class="col-12 device row">
-        <div class="col-10">
-          <div class="device-name">{{device.name}}</div> <br/>
-          <div class="meta">
-            <span class="lastSeen"><span v-translate>Last seen:</span> {{humanifyDate(device.lastSeen)}}</span>
-          </div>
-        </div>
-        <div class="col-2 actions">
-          <button class="btn" @click="delDevice(device.id)"><font-awesome-icon icon="trash" /></button>
+    <div class="row device" v-for="device in devices" v-if="device.id!=1" v-bind:key="device.id">
+      <div class="col-10">
+        <div class="device-name">{{device.name}}</div>
+        <div class="meta">
+          <span class="lastSeen"><span v-translate>Last seen:</span> {{humanifyDate(device.lastSeen)}}</span>
         </div>
       </div>
+      <div class="col-2 actions">
+        <button class="btn" @click="delDevice(device.id)"><font-awesome-icon icon="trash" /></button>
+      </div>
     </div>
-    <div v-else class="no-entries" v-translate>
-      No devices available
+    <div v-if="devices.length == 0" class="no-entries" v-translate>
+      No linked devices
     </div>
     <!-- eslint-enable -->
     <button @click="linkDevice" class="btn start-chat"><font-awesome-icon icon="plus" /></button>
-
   </div>
 </template>
 
@@ -31,7 +27,7 @@ export default {
   props: {
     msg: String
   },
-  created(){
+  mounted(){
     this.$store.dispatch("getDevices");
   },
   methods:{
@@ -64,72 +60,20 @@ export default {
 }
 </script>
 <style scoped>
-.avatar {
-    justify-content: center;
-    display: flex;
-    align-items: center;
-}
-.badge-name{
-  background-color: #2090ea;
-  /* padding: 14px; */
-  width:50px;
-  height:50px;
-  border-radius: 50%;
-  color: #FFF;
-  font-weight: bold;
-  text-transform: uppercase;
-  font-size: 16px;
-  display:flex;
-  justify-content: center;
-  align-items:center;
-}
-.meta{
-  text-align:left;
-}
-.meta p{
-  margin:0px;
-}
-.meta .name{
-  font-weight:bold;
-  font-size:20px;
-}
-.meta .preview{
-  font-size:15px;
-}
-.row.device{
-  border-bottom:1px solid grey;
+.device {
   border-bottom: 1px solid #c2c2c2;
   padding: 10px;
 }
-a.chat{
-  color:#000;
-}
-a:hover.chat{
-  text-decoration:none;
-}
-.btn.start-chat {
-  position: fixed;
-  bottom: 16px;
-  right: 10px;
-  background-color: #2090ea;
-  color: #FFF;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  font-size: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.actions{
+.actions {
   display: flex;
   justify-content: flex-end;
 }
-.lastSeen{
-  font-size:10px;
+.lastSeen {
+  font-size: 10px;
 }
-.deviceList .device-name{
-  max-width:80%;
-  overflow:hidden;
+.device-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>
