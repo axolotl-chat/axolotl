@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-07 09:22+0200\n"
-"PO-Revision-Date: 2019-01-04 23:10+0100\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2020-10-08 22:13+0200\n"
 "Last-Translator: Daniel Frost <one@frostinfo.de>\n"
 "Language-Team: none\n"
 "Language: de\n"
@@ -11,11 +11,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #: src/pages/About.vue:4 src/pages/Register.vue:5
 msgid "A cross-plattform signal client"
-msgstr "Ein multi-plattform Signal Client"
+msgstr "Ein Multi-Plattform Signal Client"
 
 #: src/pages/Settings.vue:27
 msgid "About Axolotl"
@@ -43,7 +43,7 @@ msgstr "Audio"
 
 #: src/pages/About.vue:10
 msgid "by becoming a"
-msgstr "durch werden eines"
+msgstr "als"
 
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
@@ -70,21 +70,20 @@ msgid "Contact list is empty..."
 msgstr "Die Kontaktliste ist leer..."
 
 #: src/pages/NewGroup.vue:12
-#, fuzzy
 msgid "Create group"
-msgstr "Gruppe verlassen"
+msgstr "Gruppe erstellen"
 
 #: src/pages/NewGroup.vue:31
 msgid "Creating Group"
-msgstr "Gruppe erstellen"
+msgstr "Erstelle Gruppe"
 
 #: src/pages/SetPassword.vue:21
 msgid "Current Password"
-msgstr "Derzeitiges Passwort"
+msgstr "Aktuelles Passwort"
 
 #: src/pages/SetPassword.vue:10
 msgid "Current password is wrong"
-msgstr "Das derzeitige Passwort ist falsch"
+msgstr "Das aktuelle Passwort ist falsch"
 
 #: src/pages/Settings.vue:23
 msgid "Dark mode"
@@ -116,7 +115,7 @@ msgstr "Passwort eingeben"
 
 #: src/pages/Verification.vue:2
 msgid "Enter your registration pin"
-msgstr ""
+msgstr "Registrierungspin eingeben"
 
 #: src/components/ErrorModal.vue:5
 msgid "Error"
@@ -136,7 +135,7 @@ msgstr "Info"
 
 #: src/pages/About.vue:8
 msgid "issues at the bug tracker"
-msgstr "Fahler an den Fehler-Tracker"
+msgstr "Fehlerberichten"
 
 #: src/pages/DeviceList.vue:8
 msgid "Last seen:"
@@ -180,15 +179,15 @@ msgstr "Keine Geräte vorhanden"
 
 #: src/pages/MessageList.vue:128
 msgid "No Messages available."
-msgstr "Keine Nachrichten vorhanden"
+msgstr "Keine Nachrichten vorhanden."
 
 #: src/pages/MessageList.vue:64 src/pages/MessageList.vue:90
 msgid "Not supported mime type:"
-msgstr "Nicht unterstützer Mime-Typ"
+msgstr "Nicht unterstützer Mime-Typ:"
 
 #: src/pages/EditGroup.vue:8 src/pages/NewGroup.vue:8
 msgid "Note, you can't add yourself to a group."
-msgstr "Hinweis: du kannst dich nicht selbst zur Gruppe hinzufügen"
+msgstr "Hinweis: du kannst dich nicht selbst zur Gruppe hinzufügen."
 
 #: src/pages/About.vue:9
 msgid "or"
@@ -208,7 +207,7 @@ msgstr "Das Passwort ist falsch"
 
 #: src/pages/SetPassword.vue:4
 msgid "Passwords don't match"
-msgstr "Eingaben stimmen nicht überein!"
+msgstr "Die Passwörter stimmen nicht überein"
 
 #: src/components/AddContactModal.vue:16 src/components/EditContactModal.vue:15
 msgid "Phone"
@@ -236,7 +235,7 @@ msgstr "Verschlüsselung neu starten"
 
 #: src/components/IdentityModal.vue:14
 msgid "Safety numbers of you and"
-msgstr ""
+msgstr "Sicherheitscode von dir und"
 
 #: src/components/EditContactModal.vue:20
 msgid "Save"
@@ -272,7 +271,7 @@ msgid ""
 "required!"
 msgstr ""
 "Ein Passwort wird auf Geräten mit wenig Arbeitsspeicher nicht empfohlen. Ein "
-"Neustart wird benötigt"
+"Neustart ist notwendig!"
 
 #: src/components/Header.vue:92 src/components/Header.vue:147
 msgid "Settings"
@@ -284,17 +283,17 @@ msgstr "Kontakt überprüfen"
 
 #: src/pages/About.vue:11
 msgid "sponsor on patreon."
-msgstr " Sponsors auf Patreon"
+msgstr "Sponsor auf Patreon."
 
 #: src/pages/About.vue:6
-#, fuzzy
 msgid ""
 "This is a free and open source signal client written in golang and vuejs.\n"
 "      You can support the development of axolotl either by filling"
 msgstr ""
-"Das ist ein freier Open Source Signal-Client geschrieben mit Golang und "
+"Dies ist ein freier Open Source Signal-Client geschrieben mit Golang und "
 "Vuejs.\n"
-"    Du kannst die Entwicklung von Axolotl unterstützen durch das Senden von "
+"    Du kannst die Entwicklung von Axolotl unterstützen durch das Erstellen "
+"von"
 
 #: src/components/Header.vue:26 src/pages/ChatList.vue:25
 msgid "Unknown group"
@@ -302,7 +301,7 @@ msgstr "Unbekannte Gruppe"
 
 #: src/components/Header.vue:59
 msgid "Unmute"
-msgstr "Laut"
+msgstr "Benachrichtigungen ein"
 
 #: src/components/ErrorModal.vue:13 src/pages/Password.vue:5
 #: src/pages/Settings.vue:18
@@ -314,9 +313,8 @@ msgid "Unsafe password"
 msgstr "Unsicheres Passwort"
 
 #: src/pages/MessageList.vue:99
-#, fuzzy
 msgid "Unsupported message type: sticker"
-msgstr "Nicht unterstützer Mime-Typ"
+msgstr "Nicht unterstützter Nachrichtentyp: Sticker"
 
 #: src/pages/EditGroup.vue:41
 msgid "Updating Group"
@@ -332,16 +330,16 @@ msgstr "Video"
 
 #: src/pages/Verification.vue:19
 msgid "Wrong code entered. Restart for another try."
-msgstr "Falscher Code eingegeben. neustarten für einen weiteren Versuch"
+msgstr "Falscher Code eingegeben. Neustarten für einen weiteren Versuch."
 
 #: src/pages/MessageList.vue:14 src/pages/MessageList.vue:51
 #: src/pages/MessageList.vue:60 src/pages/MessageList.vue:75
 msgid "Your browser does not support the audio element."
-msgstr ""
+msgstr "Dein Browser unterstützt dieses Audio-Element nicht."
 
 #: src/pages/MessageList.vue:85
 msgid "Your browser does not support the video element."
-msgstr ""
+msgstr "Dein Browser unterstützt dieses Video-Element nicht."
 
 #~ msgid "'s key"
 #~ msgstr "'s Schlüssel"
