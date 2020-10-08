@@ -61,6 +61,7 @@ body,
   flex-direction: column;
 }
 main {
+  height: calc(100% - 50px); /* This is needed for Ubuntu Touch because the Blink engine is too old (chrome 61). */
   overflow: auto;
 }
 

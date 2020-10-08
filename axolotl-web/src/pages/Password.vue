@@ -20,7 +20,6 @@ export default {
     },
     unregister(){
       this.$store.dispatch("unregister");
-
     }
   },
   data() {
@@ -30,6 +29,10 @@ export default {
   },
   mounted(){
     document.getElementById("passwordInput").focus();
+    let loader = document.getElementById('initial-loader');
+    if (loader != undefined) {
+      loader.remove();
+    }
   },
   computed: {
     error () {
