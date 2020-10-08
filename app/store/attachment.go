@@ -40,7 +40,7 @@ func SaveAttachment(a *textsecure.Attachment) (Attachment, error) {
 		extension, err := mime.ExtensionsByType(a.MimeType)
 		if err != nil {
 			log.Debugln("[axolotl] could not detect file extension", a.MimeType)
-			if extension == nil {
+			if extension == nil || len(extension) == 0 {
 				extension = []string{""}
 			}
 			extension[0] = ""
