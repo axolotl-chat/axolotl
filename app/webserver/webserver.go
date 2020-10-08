@@ -172,10 +172,20 @@ func wsReader(conn *websocket.Conn) {
 			sendMessageMessage := SendMessageMessage{}
 			json.Unmarshal([]byte(p), &sendMessageMessage)
 			log.Debugln("[axolotl] send message to ", sendMessageMessage.To)
-			err, m := sender.SendMessageHelper(sendMessageMessage.To, sendMessageMessage.Message, "")
+			updateMessageChannel := make(chan *store.Message)
+			err, m := sender.SendMessageHelper(sendMessageMessage.To,
+				sendMessageMessage.Message, "", updateMessageChannel)
+			// show message in the message list
 			if err == nil {
 				go MessageHandler(m)
 			}
+			// catch status
+			go func() {
+				m := <-updateMessageChannel
+				go UpdateMessageHandler(m)
+
+			}()
+
 		case "getContacts":
 			go sendContactList()
 		case "addContact":

@@ -15,7 +15,7 @@ import (
 	"github.com/signal-golang/textsecure"
 )
 
-func SendMessageHelper(to, message, file string) (error, *store.Message) {
+func SendMessageHelper(to, message, file string, updateMessageChannel chan *store.Message) (error, *store.Message) {
 	if to != "" {
 		var err error
 		attachments := []store.Attachment{}
@@ -23,7 +23,7 @@ func SendMessageHelper(to, message, file string) (error, *store.Message) {
 			file, err = store.CopyAttachment(file)
 			log.Debugln("[axolotl] attachment: " + file)
 			if err != nil {
-				log.Errorln("Error Attachment:" + err.Error())
+				log.Errorln("[axolotl] Error Attachment:" + err.Error())
 				return err, nil
 			}
 			strParts := strings.Split(file, "/")
@@ -37,14 +37,20 @@ func SendMessageHelper(to, message, file string) (error, *store.Message) {
 		m.ExpireTimer = session.ExpireTimer
 		_, savedM := store.SaveMessage(m)
 
-		go SendMessage(session, m)
+		go func() {
+			mNew, _ := SendMessage(session, m)
+			if updateMessageChannel != nil {
+				updateMessageChannel <- mNew
+			}
+		}()
 		return nil, savedM
 	} else {
 		log.Errorln("[axolotl] send to is empty")
 		return errors.New("send to is empty"), nil
 	}
 }
-func SendMessage(s *store.Session, m *store.Message) {
+
+func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
 	var att io.Reader
 	var err error
 	if len(m.Attachment) > 0 && m.Attachment != "null" {
@@ -54,7 +60,7 @@ func SendMessage(s *store.Session, m *store.Message) {
 		att, err = os.Open(files[0].File)
 		if err != nil {
 			log.Errorln("[axolotl] SendMessage FileOpend")
-			return
+			return nil, err
 		} else {
 			log.Printf("[axolotl] SendMessage FileOpend")
 		}
@@ -66,7 +72,6 @@ func SendMessage(s *store.Session, m *store.Message) {
 	s.Timestamp = m.SentAt
 	m.IsSent = true
 	if ts == 0 {
-		log.Debugln("SendMessageLoop", ts)
 		m.SendingError = true
 		m.IsSent = false
 		m.SentAt = uint64(time.Now().UnixNano() / 1000000)
@@ -76,7 +81,13 @@ func SendMessage(s *store.Session, m *store.Message) {
 	s.When = m.HTime
 	store.UpdateMessageSent(m)
 	store.UpdateSession(s)
+	if m.SendingError {
+		return m, errors.New("message sending failed")
+	}
+	return m, nil
 }
+
+// SendMessageLoop sends a single message and also loops over groups in order to send it to each participant of the group
 func SendMessageLoop(to, message string, group bool, att io.Reader, flags int, timer uint32) uint64 {
 	var err error
 	var ts uint64
@@ -99,7 +110,7 @@ func SendMessageLoop(to, message string, group bool, att io.Reader, flags int, t
 			} else {
 				ts, err = textsecure.SendMessage(to, message, timer)
 				if err != nil {
-					log.Debugln("blub", err.Error(), ts)
+					log.Errorln("[axolotl] send message error", err.Error(), ts)
 				}
 
 			}
@@ -108,11 +119,6 @@ func SendMessageLoop(to, message string, group bool, att io.Reader, flags int, t
 				ts, err = textsecure.SendGroupAttachment(to, message, att, timer)
 			} else {
 				log.Printf("[axolotl] SendMessageLoop sendAttachment")
-				// buf := new(bytes.Buffer)
-				// buf.ReadFrom(att)
-				// s := buf.String()
-				// log.Printf(s)
-
 				ts, err = textsecure.SendAttachment(to, message, att, timer)
 			}
 		}
