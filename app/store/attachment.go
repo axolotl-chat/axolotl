@@ -45,7 +45,10 @@ func SaveAttachment(a *textsecure.Attachment) (Attachment, error) {
 			}
 			extension[0] = ""
 		}
-		fileName = helpers.RandomString(10) + extension[0]
+		fileName = helpers.RandomString(10)
+		if len(extension) > 0 {
+			fileName = fileName + extension[0]
+		}
 	}
 	log.Debugln("[axolotl] save attachment to",
 		dt.Format("01-02-2006-15-04-05")+fileName)
