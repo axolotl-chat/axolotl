@@ -32,6 +32,8 @@ parts:
     source: ./axolotl-web
     nodejs-version: 12.18.4
     nodejs-package-manager: npm
+    build-packages:
+      - git
     override-build: |
       # Add npm to path
       export PATH=$PWD/../npm/bin:$PATH
