@@ -142,7 +142,7 @@ msgstr ""
 msgid "issues at the bug tracker"
 msgstr ""
 
-#: src/pages/DeviceList.vue:8
+#: src/pages/DeviceList.vue:7
 msgid "Last seen:"
 msgstr ""
 
@@ -180,9 +180,10 @@ msgstr ""
 msgid "No chats available"
 msgstr ""
 
-#: src/pages/DeviceList.vue:16
-msgid "No devices available"
-msgstr ""
+#: src/pages/DeviceList.vue:14
+#, fuzzy
+msgid "No linked devices"
+msgstr "Päivitä"
 
 #: src/pages/MessageList.vue:128
 msgid "No Messages available."

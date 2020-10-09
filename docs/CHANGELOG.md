@@ -1,3 +1,11 @@
+0.8.9 (Oct 09 2020)
+------------------------------------
+* Fix scrolling to old messages display duplicates, by flaburgan
+* Fix regression, reception of vocal messages made Axolotl crashes, by nanu-c
+* Fix linked desktop clients not displayed, by flaburgan
+* Improve snap packaging, by olof-nord
+* Translations update by DanFro and Anne017
+
 0.8.8 (Oct 04 2020)
 ------------------------------------
 * Display every pictures of received messages, not several time the first one, by nanu-c
