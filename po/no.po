@@ -137,7 +137,7 @@ msgstr "Info"
 msgid "issues at the bug tracker"
 msgstr "forhold i feiloversikten"
 
-#: src/pages/DeviceList.vue:8
+#: src/pages/DeviceList.vue:7
 msgid "Last seen:"
 msgstr "Sist sett:"
 
@@ -173,9 +173,10 @@ msgstr "Neste"
 msgid "No chats available"
 msgstr "Ingen samtaler tilgjengelige."
 
-#: src/pages/DeviceList.vue:16
-msgid "No devices available"
-msgstr "Ingen enheter tilgjengelige."
+#: src/pages/DeviceList.vue:14
+#, fuzzy
+msgid "No linked devices"
+msgstr "Refresh"
 
 #: src/pages/MessageList.vue:128
 msgid "No Messages available."
@@ -339,6 +340,9 @@ msgstr "Nettleseren støtter ikke lydelementet."
 #: src/pages/MessageList.vue:85
 msgid "Your browser does not support the video element."
 msgstr "Nettleseren støtter ikke videoelementet."
+
+#~ msgid "No devices available"
+#~ msgstr "Ingen enheter tilgjengelige."
 
 #~ msgid "'s key"
 #~ msgstr "s nøkkel"
