@@ -28,6 +28,12 @@ jobs:
       - name: Build
         run: go build -v
 
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: axolotl-${{ matrix.os }}-${{ github.run_number }}
+          path: axolotl
+
   build-axolotl-web:
     runs-on: ubuntu-latest
 
@@ -51,3 +57,9 @@ jobs:
 
       - name: Build
         run: npm --prefix ./axolotl-web run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: axolotl-web-${{ github.run_number }}
+          path: axolotl-web/dist/
