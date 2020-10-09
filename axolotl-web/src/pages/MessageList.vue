@@ -183,7 +183,7 @@ export default {
       names:{},
       lastCHeight:0,
       lastMHeight:0,
-
+      scrollLocked: false
     }
   },
   methods: {
@@ -324,9 +324,11 @@ export default {
       else return 0
     },
     handleScroll (event) {
-      if(event.target.scrollTop < 80
+      if(!this.$data.scrollLocked
+        && event.target.scrollTop < 80
         && this.$store.state.messageList.Messages != null
         && this.$store.state.messageList.Messages.length > 19) {
+        this.$data.scrollLocked = true;
         this.$store.dispatch("getMoreMessages");
       }
     },
@@ -407,16 +409,19 @@ export default {
           }
         });
       }
+    },
+    messages(){
+      this.$data.scrollLocked = false;
     }
   },
   computed: {
     chat() {
       return this.$store.state.currentChat
     },
-    messages () {
+    messages() {
       return this.$store.state.messageList.Messages
     },
-    isGroup () {
+    isGroup() {
       return this.$store.state.messageList.Session.IsGroup
     },
     ... mapState(['contacts','config','messageList']),
