@@ -21,7 +21,7 @@ popd
 
 echo "build axolotl-web"
 pushd ../axolotl-web
-  npm install
+  npm ci
   npm run build
 popd
 
