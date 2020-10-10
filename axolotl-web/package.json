@@ -6,11 +6,16 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "electron:build": "vue-cli-service electron:build",
+    "electron:serve": "vue-cli-service electron:serve",
+    "postinstall": "electron-builder install-app-deps",
+    "postuninstall": "electron-builder install-app-deps",
     "translate": "npm run translate-extract && npm run translate-update && npm run translate-compile",
+    "translate-compile": "rm ../po/*~||true&&node ./node_modules/easygettext/src/compile-cli.js --output ./translations/translations.json $(find ../po/ -type f -name '*.po')",
     "translate-extract": "node ./node_modules/easygettext/src/extract-cli.js --attribute v-translate --output ../po/textsecure.nanuc.pot $(find src -type f -name '*.vue')",
-    "translate-update": "find ../po/* -exec msgmerge --update {} ../po/textsecure.nanuc.pot \\;",
-    "translate-compile": "rm ../po/*~||true&&node ./node_modules/easygettext/src/compile-cli.js --output ./translations/translations.json $(find ../po/ -type f -name '*.po')"
+    "translate-update": "find ../po/* -exec msgmerge --update {} ../po/textsecure.nanuc.pot \\;"
   },
+  "main": "background.js",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
@@ -46,10 +51,13 @@
     "babel-eslint": "^10.1.0",
     "browserslist": "^4.14.5",
     "easygettext": "^2.14.0",
+    "electron": "^9.0.0",
+    "electron-devtools-installer": "^3.1.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "node-sass": "^4.14.1",
     "sass-loader": "^8.0.2",
+    "vue-cli-plugin-electron-builder": "~2.0.0-rc.4",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
