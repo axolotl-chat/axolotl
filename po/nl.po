@@ -137,7 +137,7 @@ msgstr "Informatie"
 msgid "issues at the bug tracker"
 msgstr "problemen op de bugtracker"
 
-#: src/pages/DeviceList.vue:8
+#: src/pages/DeviceList.vue:7
 msgid "Last seen:"
 msgstr "Laatst gezien:"
 
@@ -173,9 +173,10 @@ msgstr "Volgende"
 msgid "No chats available"
 msgstr "Geen beschikbare chats"
 
-#: src/pages/DeviceList.vue:16
-msgid "No devices available"
-msgstr "Geen beschikbare apparaten"
+#: src/pages/DeviceList.vue:14
+#, fuzzy
+msgid "No linked devices"
+msgstr "Gekoppelde apparaten"
 
 #: src/pages/MessageList.vue:128
 msgid "No Messages available."
@@ -340,6 +341,9 @@ msgstr "Je browser heeft geen ondersteuning voor het audio-element."
 #: src/pages/MessageList.vue:85
 msgid "Your browser does not support the video element."
 msgstr "Je browser heeft geen ondersteuning voor het video-element."
+
+#~ msgid "No devices available"
+#~ msgstr "Geen beschikbare apparaten"
 
 #, fuzzy
 #~ msgid "<b>Group name</b>"

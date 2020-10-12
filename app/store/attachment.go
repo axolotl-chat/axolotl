@@ -37,15 +37,13 @@ func SaveAttachment(a *textsecure.Attachment) (Attachment, error) {
 	// }
 	fileName := a.FileName
 	if fileName == "" {
-		extension, err := mime.ExtensionsByType(a.MimeType)
-		if err != nil {
-			log.Debugln("[axolotl] could not detect file extension", a.MimeType)
-			if extension == nil {
-				extension = []string{""}
-			}
-			extension[0] = ""
-		}
-		fileName = helpers.RandomString(10) + extension[0]
+	  fileName = helpers.RandomString(10)
+	  extension, err := mime.ExtensionsByType(a.MimeType)
+	  if err != nil {
+	    log.Debugln("[axolotl] could not detect file extension", a.MimeType)
+	  } else if len(extension) > 0 {
+	    fileName +=  extension[0]
+	  }
 	}
 	log.Debugln("[axolotl] save attachment to",
 		dt.Format("01-02-2006-15-04-05")+fileName)

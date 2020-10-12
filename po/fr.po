@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-09-06 15:31+0200\n"
+"PO-Revision-Date: 2020-10-05 19:05+0200\n"
 "Last-Translator: Anne017\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -136,7 +136,7 @@ msgstr "Informations"
 msgid "issues at the bug tracker"
 msgstr "problèmes dans le système de suivi"
 
-#: src/pages/DeviceList.vue:8
+#: src/pages/DeviceList.vue:7
 msgid "Last seen:"
 msgstr "Vu(e) pour la dernière fois :"
 
@@ -158,7 +158,7 @@ msgstr "Mettre en silencieux"
 
 #: src/components/AddContactModal.vue:12
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #: src/components/Header.vue:98 src/components/Header.vue:144
 msgid "New group"
@@ -172,9 +172,10 @@ msgstr "Suivant"
 msgid "No chats available"
 msgstr "Aucune discussion disponible"
 
-#: src/pages/DeviceList.vue:16
-msgid "No devices available"
-msgstr "Aucun appareil disponible"
+#: src/pages/DeviceList.vue:14
+#, fuzzy
+msgid "No linked devices"
+msgstr "Appareils liés"
 
 #: src/pages/MessageList.vue:128
 msgid "No Messages available."
@@ -337,6 +338,9 @@ msgstr "Votre navigateur ne prend pas en charge l'élément audio."
 #: src/pages/MessageList.vue:85
 msgid "Your browser does not support the video element."
 msgstr "Votre navigateur ne prend pas en charge l'élément vidéo."
+
+#~ msgid "No devices available"
+#~ msgstr "Aucun appareil disponible"
 
 #~ msgid "'s key"
 #~ msgstr " - Clé"

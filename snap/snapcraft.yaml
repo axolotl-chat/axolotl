@@ -1,60 +1,54 @@
 name: axolotl
-summary: An signal client.
+summary: A signal client.
 description: |
-  Axolotl is a crossplattform signal client
+  Axolotl is a cross-platform signal client
 grade: stable
 confinement: strict
 base: core18
-icon:  snap/gui/axolotl.png
-version: "0.8.8"
+icon: snap/gui/axolotl.png
+version: "0.8.9"
 
 parts:
   axolotl:
+    # https://github.com/snapcore/snapcraft/blob/master/snapcraft/plugins/v1/go.py
     plugin: go
     go-importpath: github.com/nanu-c/axolotl
     source: .
-    source-type: git
     build-packages:
       - gcc
-      - mercurial
-      - bzr
       - g++
     stage-packages:
+      # These are required for Electron
       - libasound2
       - libgconf-2-4
       - libnss3
       - libx11-xcb1
       - libxss1
       - libxtst6
-    override-build: |
-      echo "This runs before build!"
-      snapcraftctl build
+
   axolotl-web:
+    # https://github.com/snapcore/snapcraft/blob/master/snapcraft/plugins/v1/nodejs.py
     plugin: nodejs
     source: ./axolotl-web
-    stage: [bin/axolotl-web]
     nodejs-version: 12.18.4
     nodejs-package-manager: npm
-    build-environment:
-      - SUDO_UID: '0'
-      - SUDO_GID: '0'
-      - SUDO_USER: 'root'
+    build-packages:
+      - git
     override-build: |
+      # Add npm to path
       export PATH=$PWD/../npm/bin:$PATH
+      # Due to the confinement this runs as root, and then we need this config
       npm config set unsafe-perm true
-      npm install
-      npm install -g @vue/cli
-      npm install -g @vue/cli-service
-      npm install -g @vue/cli-plugin-babel
-      npm install -g @vue/cli-plugin-eslint
-      npm run build || true
-      mkdir -p ../install/bin/ || true
+      npm ci
+      npm run build
+      mkdir -p ../install/bin
       cp -r dist ../install/bin/axolotl-web
-    organize:
-      axolotl-web/dist: bin/axolotl-web
+    stage:
+      - bin/axolotl-web
+
 plugs:
   browser-sandbox:
-    allow-sandbox:  false
+    allow-sandbox: false
     interface: browser-support
 
 apps:
@@ -62,6 +56,7 @@ apps:
     command: bin/axolotl
     environment:
       TMPDIR: $XDG_RUNTIME_DIR
+    # This is required for Electron
     extensions: [gnome-3-28]
     plugs:
       - desktop
@@ -77,5 +72,3 @@ apps:
       - x11
       - gsettings
       - browser-sandbox
-
-    # plugs: ["desktop", "desktop-legacy", "home", "x11", "unity7", "network-observe", "browser-support", "network", "gsettings", "pulseaudio", "opengl"]

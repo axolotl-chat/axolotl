@@ -1,3 +1,5 @@
+# https://snapcraft.io/docs/desktop-menu-icon-support
+
 [Desktop Entry]
 Name=Axolotl
 Exec=axolotl
