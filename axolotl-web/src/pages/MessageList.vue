@@ -314,16 +314,6 @@ export default {
 .messageList > div:last-child {
     padding-bottom: 20px;
 }
-.transfer-indicator {
-  width: 18px;
-  height: 18px;
-  margin-left: 4px;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-.error .transfer-indicator {
-  background-image: url("../assets/images/warning.svg");
-}
 .messageInputBox {
   display: flex;
   margin: 5px 0px;
@@ -393,12 +383,5 @@ textarea:focus, input:focus{
   padding:10px;
   background-color:#FFFFFF;
   color:black;
-}
-.gallery{
-  display:flex;
-}
-.gallery img{
-  padding-right:3px;
-  padding-bottom:3px;
 }
 </style>
