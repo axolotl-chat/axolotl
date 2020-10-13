@@ -89,6 +89,7 @@ export default {
   },
   methods:{
     humanifyDate(inputDate){
+      moment.locale(this.$language.current)
       var date = new moment(inputDate);
       var min = moment().diff(date, 'minutes')
       if(min<60){

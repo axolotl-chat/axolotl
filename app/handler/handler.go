@@ -178,17 +178,16 @@ func TypingMessageHandler(msg *textsecure.Message) {
 	webserver.UpdateChatList()
 }
 func ReceiptHandler(source string, devID uint32, timestamp uint64) {
-	log.Println("[axolotl] receiptMessageHandler2 ")
+	log.Println("[axolotl] receiptHandler for message ", timestamp)
 	webserver.UpdateChatList()
 
 	s := store.SessionsModel.Get(source)
 	for i := len(s.Messages) - 1; i >= 0; i-- {
 		m := s.Messages[i]
 		if m.SentAt == timestamp {
-			m.IsRead = true
-			//qml.Changed(m, &m.IsRead)
-			store.UpdateMessageRead(m)
-			webserver.UpdateActiveChat()
+			m.IsSent = true
+			store.UpdateMessageReceiptSent(m)
+			webserver.UpdateMessageHandler(m)
 			return
 		}
 	}
@@ -197,21 +196,22 @@ func ReceiptHandler(source string, devID uint32, timestamp uint64) {
 }
 
 func ReceiptMessageHandler(msg *textsecure.Message) {
-	log.Println("[axolotl] receiptMessageHandler: Message ", msg)
+	log.Println("[axolotl] receiptMessageHandler for message ", msg.Timestamp())
 
 	webserver.UpdateChatList()
 	s := store.SessionsModel.Get(msg.Source())
 	for i := len(s.Messages) - 1; i >= 0; i-- {
 		m := s.Messages[i]
 		if m.SentAt == msg.Timestamp() {
-			if m.Message == "readReceiptMessage" {
+			if msg.Message() == "readReceiptMessage" {
 				m.IsRead = true
 				store.UpdateMessageRead(m)
 			} else {
+				log.Debugln("[axolotl] unhandeld receipt message type for message ", msg.Timestamp(), msg.Message())
 				m.IsSent = true
 				store.UpdateMessageReceiptSent(m)
 			}
-			webserver.UpdateChatList()
+			webserver.UpdateMessageHandler(m)
 			return
 		}
 	}

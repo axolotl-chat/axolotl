@@ -34,17 +34,26 @@ $link-color: $primary;
   }
 }
 
-.sent .message {
-  background-color: $sent-message-bg;
+.outgoing .message {
+  background-color: $outgoing-message-bg;
 }
-.sending .message {
-  background-color: $sending-message-bg;
+.incoming .message {
+  background-color: $incoming-message-bg;
 }
-.receipt .message {
-  background-color: $recieved-message-bg;
+.message .meta {
+  color: $message-metadata-color;
 }
-.reply .message {
-  background-color: $received-message-bg;
+
+.transfer-indicator {
+  background-image: url("../assets/images/" + $sending-url);
+}
+
+.sent .transfer-indicator {
+background-image: url("../assets/images/" + $sent-url);
+}
+
+.received .transfer-indicator {
+background-image: url("../assets/images/" + $received-url);
 }
 
 .messageInputBox {
