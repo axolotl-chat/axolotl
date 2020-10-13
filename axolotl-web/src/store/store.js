@@ -182,7 +182,6 @@ export default new Vuex.Store({
           state.chatList[i].Messages = [message]
         }
       })
-
     },
     SET_MESSAGE_UPDATE(state, message) {
       if (state.messageList.ID == message.ChatID) {
@@ -190,11 +189,20 @@ export default new Vuex.Store({
           return m.ID === message.ID;
         });
         if (index != -1) {
-          var tmpList = state.messageList.Messages;
+          var tmpList = JSON.parse(JSON.stringify(state.messageList.Messages));
           tmpList[index] = message;
           tmpList.sort(function(a, b) {
             return b.ID - a.ID
           })
+          // mark all as read if it's a is read update
+          if (message.IsRead) {
+            tmpList.forEach((m, i) => {
+              if (m.Outgoing && !m.IsRead) {
+                m.IsRead = true;
+                tmpList[i] = m;
+              }
+            })
+          }
           state.messageList.Messages = tmpList;
         }
       }

@@ -51,9 +51,12 @@ $link-color: $primary;
 .sent .transfer-indicator {
 background-image: url("../assets/images/" + $sent-url);
 }
+.delivered .transfer-indicator {
+background-image: url("../assets/images/" + $delivered-url);
+}
 
-.received .transfer-indicator {
-background-image: url("../assets/images/" + $received-url);
+.read .transfer-indicator {
+background-image: url("../assets/images/" + $read-url);
 }
 
 .messageInputBox {

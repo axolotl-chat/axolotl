@@ -2,7 +2,8 @@
    <div :class="{'col-12':true,
                'outgoing': message.Outgoing,
                'sent':message.IsSent && message.Outgoing,
-               'received':message.IsRead && message.Outgoing,
+               'read':message.IsRead && message.Outgoing,
+               'delivered':message.Receipt && message.Outgoing,
                'incoming':!message.Outgoing,
                'status':message.Flags>0&&message.Flags!=11&&message.Flags!=13&&message.Flags!=14
                ||message.StatusMessage||message.Attachment.includes('null')&&message.Message=='',
