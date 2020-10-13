@@ -88,13 +88,13 @@ in the /flatpak subdirectory.
 
 User-level: 
 
-```flatpak-builder --user --install build org.nanuc.Axolotl.yml```
+```flatpak-builder --user --install build ./flatpak/org.nanuc.Axolotl.yml```
 
 System-wide:
 
 Note that this requires root.
 
-```sudo flatpak-builder --install build org.nanuc.Axolotl.yml```
+```sudo flatpak-builder --install build ./flatpak/org.nanuc.Axolotl.yml```
 
 **Run**
 
