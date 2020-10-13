@@ -133,6 +133,10 @@ func (s *Sessions) GetMoreMessageList(id string, lastId string) (error, *Message
 			Session: s.GetSession(index),
 		}
 		err := DS.Dbx.Select(&messageList.Messages, messagesSelectWhereMore, messageList.Session.ID, lastId)
+		if err != nil {
+			fmt.Println(err)
+			return err, nil
+		}
 		// attach the quoted messages
 		for i, m := range messageList.Messages {
 			if m.Flags == helpers.MsgFlagQuote {
@@ -146,10 +150,6 @@ func (s *Sessions) GetMoreMessageList(id string, lastId string) (error, *Message
 					}
 				}
 			}
-		}
-		if err != nil {
-			fmt.Println(err)
-			return err, nil
 		}
 		return nil, messageList
 	} else {
