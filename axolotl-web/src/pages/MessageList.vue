@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import moment from 'moment';
 import Message from "@/components/Message"
 import AttachmentBar from "@/components/AttachmentBar"
@@ -256,9 +256,6 @@ export default {
       return this.$store.state.messageList.Session.IsGroup
     },
     ... mapState(['contacts','config','messageList']),
-    ... mapGetters({
-        messages:"getMessages"
-    })
   }
 }
 </script>

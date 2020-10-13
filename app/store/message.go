@@ -9,7 +9,7 @@ type Message struct {
 	ID            int64 `db:"id"`
 	SID           int64
 	ChatID        string
-	Source        string
+	Source        string `db:"source"`
 	Message       string
 	Outgoing      bool
 	SentAt        uint64
@@ -54,7 +54,7 @@ func UpdateMessageSent(m *Message) error {
 }
 
 func UpdateMessageRead(m *Message) error {
-	_, err := DS.Dbx.NamedExec("UPDATE messages SET isread = :isread WHERE id = :id", m)
+	_, err := DS.Dbx.NamedExec("UPDATE messages SET isread = :isread, issent = :issent, receipt = :receipt WHERE SendingError = 0 AND Outgoing = 1 AND Source = :source", m)
 	if err != nil {
 		return err
 	}
@@ -62,6 +62,13 @@ func UpdateMessageRead(m *Message) error {
 }
 func UpdateMessageReceiptSent(m *Message) error {
 	_, err := DS.Dbx.NamedExec("UPDATE messages SET issent = :issent WHERE id = :id", m)
+	if err != nil {
+		return err
+	}
+	return err
+}
+func UpdateMessageReceipt(m *Message) error {
+	_, err := DS.Dbx.NamedExec("UPDATE messages SET issent = :issent, receipt = :receipt WHERE id = :id", m)
 	if err != nil {
 		return err
 	}
