@@ -1,6 +1,7 @@
-
 <template>
-  <div class="deviceList">
+<div>
+  <main-header title="Linked devices" :backAllowed="true"></main-header>
+  <main class="deviceList">
     <!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->
     <div class="row device" v-for="device in devices" v-if="device.id!=1" v-bind:key="device.id">
       <div class="col-10">
@@ -18,12 +19,17 @@
     </div>
     <!-- eslint-enable -->
     <button @click="linkDevice" class="btn start-chat"><font-awesome-icon icon="plus" /></button>
-  </div>
+  </main>
+</div>
 </template>
 
 <script>
+import MainHeader from "@/components/Header.vue"
 export default {
   name: 'DeviceList',
+  components: {
+    MainHeader
+  },
   props: {
     msg: String
   },

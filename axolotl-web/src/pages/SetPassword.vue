@@ -1,5 +1,7 @@
 <template>
-  <div class="set-password">
+<div>
+  <main-header title="Password" :backAllowed="true"></main-header>
+  <main class="container set-password">
     <h5 v-translate>Info</h5>
     <p v-translate>Setting a password is not adviced on devices short in memory. Restart is required!</p>
     <div v-if="passwordError" class="alert alert-danger" role="alert" v-translate>
@@ -25,14 +27,17 @@
         <input required v-model="passwordCurrent" type="password" name="passwordCurrent" id="passwordCurrent" class="form-control">
     </div>
     <button class="btn btn-primary" @click="setPassword()" v-translate> Set password </button>
-  </div>
+  </main>
+</div>
 </template>
 
 <script>
+import MainHeader from "@/components/Header.vue"
 import Password from 'vue-password-strength-meter'
 export default {
   name: 'setPasword',
   components: {
+    MainHeader,
     Password
   },
   methods:{

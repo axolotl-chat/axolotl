@@ -1,5 +1,7 @@
 <template>
-  <div class="settings">
+<div>
+  <main-header title="Settings" :backAllowed="true"></main-header>
+  <main class="settings">
     <div class="profile">
       <div class="avatar">
       </div>
@@ -34,15 +36,18 @@
         About Axolotl
       </router-link>
     </div>
-  </div>
+  </main>
+</div>
 </template>
 
 <script>
+import MainHeader from "@/components/Header.vue"
 import ConfirmationModal from "@/components/ConfirmationModal.vue"
 import { mapState } from 'vuex';
 export default {
   name: 'settings',
   components: {
+    MainHeader,
     ConfirmationModal
   },
   props: {

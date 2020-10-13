@@ -1,5 +1,7 @@
 <template>
-  <div class="about">
+<div>
+  <main-header title="About" :backAllowed="true"></main-header>
+  <main class="about">
     <img class="logo" src="/axolotl.png" />
     <h1 class="title">Axolotl Beta {{config.Version}}</h1>
     <h2 class="subtitle" v-translate>A cross-plattform signal client</h2>
@@ -15,14 +17,17 @@
       <br />
       <a href="https://axolotl.chat" @click="openExtern($event, 'https://axolotl.chat')">https://axolotl.chat</a>
     </div>
-  </div>
+  </main>
+</div>
 </template>
 
 <script>
+import MainHeader from "@/components/Header.vue"
 import { mapState } from 'vuex';
 export default {
   name: 'settings',
   components: {
+    MainHeader
   },
   props: {
     msg: String

@@ -1,6 +1,7 @@
 <template>
-  <div class="contact-list">
-
+<div>
+  <main-header title="Contacts" :backAllowed="true"></main-header>
+  <main class="contact-list">
     <div v-if="error!=null" class="alert alert-danger" v-translate>Can't change contact list: {{error}}</div>
     <div v-if="importing" class="alert alert-warning" v-translate>Importing contacts, head back later</div>
     <div v-if="showActions" class="actions-header">
@@ -61,10 +62,12 @@
       />
     </div>
     <button class="btn add-contact" @click="addContactModal=true"><font-awesome-icon icon="plus" /></button>
-  </div>
+  </main>
+</div>
 </template>
 
 <script>
+import MainHeader from "@/components/Header.vue"
 import AddContactModal from "@/components/AddContactModal.vue"
 import EditContactModal from "@/components/EditContactModal.vue"
 export default {
@@ -73,6 +76,7 @@ export default {
     msg: String
   },
   components: {
+    MainHeader,
     AddContactModal,
     EditContactModal
   },

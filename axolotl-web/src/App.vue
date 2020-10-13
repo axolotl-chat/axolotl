@@ -1,10 +1,7 @@
 <template>
   <div id="app">
-    <header-comp></header-comp>
-    <main class="container">
-      <error-modal  v-if="error"/>
-      <router-view />
-    </main>
+    <error-modal  v-if="error"/>
+    <router-view />
   </div>
 </template>
 
@@ -28,17 +25,16 @@ if (window.getCookie("darkMode") === 'true') {
 } else {
   import ('./assets/light.scss');
 }
-import HeaderComp from "@/components/Header.vue"
 import ErrorModal from "@/components/ErrorModal.vue"
 export default {
   name: 'axolotl-web',
   components: {
-    HeaderComp,
     ErrorModal
   },
   mounted(){
     var userLang = navigator.language || navigator.userLanguage;
     this.$language.current = userLang;
+    window.router = this.$router;
   },
   computed: {
     error () {

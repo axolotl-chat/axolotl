@@ -1,10 +1,11 @@
 <template>
-  <div class="new-group">
+<div>
+  <main-header title="New group" :backAllowed="true"></main-header>
+  <main class="new-group container">
     <div v-if="!creatingGroup" class="new-group-form">
       <div class="form-group">
         <label for="group-name"><b v-translate>Group name</b></label>
         <input type="text" v-model="newGroupName" @change="setGroupName" class="form-control" id="group-name" placeholder="Enter group name">
-
       </div>
       <p v-translate>Note, you can't add yourself to a group.</p>
       <button class="btn add-group-members" @click="addMembersModal=true">
@@ -36,16 +37,19 @@
     <div v-else class="" v-translate>
       Creating Group
     </div>
-  </div>
+  </main>
+</div>
 </template>
 
 <script>
+import MainHeader from "@/components/Header.vue"
 import AddGroupMembersModal from "@/components/AddGroupMembersModal.vue"
 import { mapState } from 'vuex';
 
 export default {
   name: 'newGroup',
   components: {
+    MainHeader,
     AddGroupMembersModal
   },
   props: {

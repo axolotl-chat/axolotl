@@ -1,5 +1,7 @@
 <template>
-  <div class="new-group">
+<div>
+  <main-header title="Edit group" :backAllowed="true"></main-header>
+  <main class="new-group">
     <div v-if="!creatingGroup&&currentGroup" class="new-group-form">
       <div class="form-group">
         <label for="group-name"><b v-translate>Group name</b></label>
@@ -48,16 +50,19 @@
     <div v-else class="" v-translate>
       Updating Group
     </div>
-  </div>
+  </main>
+</div>
 </template>
 
 <script>
+import MainHeader from "@/components/Header.vue"
 import AddGroupMembersModal from "@/components/AddGroupMembersModal.vue"
 import { mapState } from 'vuex';
 
 export default {
   name: 'editGroup',
   components: {
+    MainHeader,
     AddGroupMembersModal
   },
   props: {

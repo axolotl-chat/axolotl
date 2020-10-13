@@ -1,6 +1,8 @@
 
 <template>
-  <div class="chat">
+<div>
+  <main-header :title="chat.Name" :backAllowed="true" :globalMenuItems="menuItems"></main-header>
+  <main class="chat">
     <div class="messageList-container" id="messageList-container" @scroll="handleScroll($event)">
       <div id="messageList" class="messageList row" v-if="messages && messages.length>0" >
         <div v-if="showFullscreenImgSrc!=''" class="fullscreenImage">
@@ -51,12 +53,14 @@
     @close="showAttachmentsBar=false"
     @send="callContentHub($event)" />
     <input id="attachment" type="file" @change="sendDesktopAttachment" style="position: fixed; top: -100em">
-  </div>
+  </main>
+</div>
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex';
 import moment from 'moment';
+import MainHeader from "@/components/Header"
 import Message from "@/components/Message"
 import AttachmentBar from "@/components/AttachmentBar"
 import { saveAs } from 'file-saver';
@@ -66,6 +70,7 @@ export default {
     chatId: String
   },
   components:{
+    MainHeader,
     AttachmentBar,
     Message
   },
@@ -270,6 +275,19 @@ export default {
     },
     isGroup() {
       return this.$store.state.messageList.Session.IsGroup
+    },
+    menuItems() {
+      if (this.isGroup) {
+        return [
+          {label: 'New group', url: '/newGroup'},
+          {label: 'Settings', url: '/settings'}
+        ];
+      } else {
+        return [
+          {label: 'Show identity', url: '/newGroup'},
+          {label: 'Reset encryption', url: '/settings'}
+        ];
+      }
     },
     ... mapState(['contacts','config','messageList']),
     ... mapGetters({

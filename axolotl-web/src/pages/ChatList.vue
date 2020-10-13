@@ -1,6 +1,8 @@
 
 <template>
-  <div class="chatList" v-if="chatList">
+<div>
+  <main-header title="Axolotl" :globalMenuItems="menuItems"></main-header>
+  <main class="container chatList" v-if="chatList">
     <div v-if="editActive" class="actions-header">
       <button class="btn hide-actions" @click="delChat($event)">
         <font-awesome-icon icon="trash"/>
@@ -51,16 +53,20 @@
     </div>
     <!-- {{chats}} -->
     <router-link :to="'/contacts/'" class="btn start-chat"><font-awesome-icon icon="pencil-alt" /></router-link>
-
-  </div>
+  </main>
+</div>
 </template>
 
 <script>
+import MainHeader from "@/components/Header.vue"
 import moment from 'moment';
 import { mapState } from 'vuex';
 
 export default {
   name: 'ChatList',
+  components: {
+    MainHeader
+  },
   props: {
     msg: String
   },
@@ -84,7 +90,11 @@ export default {
       editActive: false,
       editWasActive: false,
       selectedChat:[],
-      chats:[]
+      chats:[],
+      menuItems: [
+        {label: 'New group', url: '/newGroup'},
+        {label: 'Settings', url: '/settings'}
+      ]
     }
   },
   methods:{

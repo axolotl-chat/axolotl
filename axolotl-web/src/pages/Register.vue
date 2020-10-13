@@ -1,5 +1,7 @@
 <template>
-  <div class="register">
+<div>
+  <main-header title="Registration"></main-header>
+  <main class="register">
     <div v-if="infoPage" class="page1 info">
       <img class="logo" src="/axolotl.png" />
       <h1 class="title">Axolotl Beta</h1>
@@ -25,10 +27,12 @@
       <VuePhoneNumberInput v-model="phone" @update="updatePhone" :callingCode="cc" class="phoneInput" />
       <button class="btn btn-primary" @click="requestCode()" v-translate> Request code </button>
     </div>
-  </div>
+  </main>
+</div>
 </template>
 
 <script>
+import MainHeader from "@/components/Header.vue"
 import VuePhoneNumberInput from 'vue-phone-number-input';
 import 'vue-phone-number-input/dist/vue-phone-number-input.css';
 import { mapState } from 'vuex';
@@ -36,6 +40,7 @@ import { mapState } from 'vuex';
 export default {
   name: 'register',
   components: {
+    MainHeader,
     VuePhoneNumberInput
   },
   props: {

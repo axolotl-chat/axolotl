@@ -1,12 +1,13 @@
 <template>
-  <div class="verify">
+<div>
+  <main-header title="Authentication"></main-header>
+  <main class="verify">
     <h3 v-translate>Enter your registration pin</h3>
     <div v-if="verificationError=='RegistrationLockFailure'||requestPin"
         class="verify">
       <p v-translate>or disable it on Android/IOs</p>
       <input v-model="pin" type="text"/>
       <button  class="btn btn-primary" @click="sendPin()" v-translate>Send pin</button>
-
     </div>
     <div  class="verify" v-if="!requestPin">
       <Sms v-model="code" class="codeInput"></Sms>
@@ -20,16 +21,18 @@
     <div v-if="verificationError==404">
       <div v-translate>Wrong code entered. Restart for another try.</div>
     </div>
-
-  </div>
+  </main>
+</div>
 </template>
 
 <script>
+import MainHeader from "@/components/Header.vue"
 import Sms from 'ofcold-security-code';
 import { mapState } from 'vuex';
 export default {
   name: 'verification',
   components: {
+    MainHeader,
     Sms
   },
   props: {
