@@ -69,6 +69,10 @@
          </div>
        </div>
        <div class="message-text">
+         <blockquote v-if="message.quote != undefined">
+           <cite>{{message.quote.author}}</cite>
+           <p>{{message.quote.content}}</p>
+         </blockquote>
          <div class="message-text-content" v-html="message.Message" v-linkified ></div>
          <div class="status-message" v-if="message.Attachment.includes('null')&&message.Message==''&&message.Flags==0">
            <span v-translate>Set timer for self-destructing messages </span>
@@ -165,7 +169,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .message-text{
   overflow-wrap: break-word;
 }
@@ -282,5 +286,21 @@ video,
 .gallery img{
   padding-right:3px;
   padding-bottom:3px;
+}
+blockquote {
+  padding: 0.5rem;
+  margin-bottom: 5px;
+  background-color: #00000044;
+  border-left: solid 4px #00000044;
+  border-radius: 4px;
+
+  cite {
+    font-style: normal;
+    font-weight: bold;
+  }
+
+  p {
+    margin: 0;
+  }
 }
 </style>
