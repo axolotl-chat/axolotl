@@ -225,6 +225,16 @@ video,
   text-align: center;
   justify-content:center;
 }
+.transfer-indicator {
+  width: 18px;
+  height: 18px;
+  margin-left: 4px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.error .transfer-indicator {
+  background-image: url("../assets/images/warning.svg");
+}
 .circle-wrap {
   margin-top: 3px;
   margin-left: 5px;
@@ -265,5 +275,12 @@ video,
 }
 .message-text .message-text-content{
   white-space: pre-line;
+}
+.gallery{
+  display:flex;
+}
+.gallery img{
+  padding-right:3px;
+  padding-bottom:3px;
 }
 </style>
