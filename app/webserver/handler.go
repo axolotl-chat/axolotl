@@ -16,6 +16,7 @@ import (
 
 	"github.com/gorilla/websocket"
 	"github.com/nanu-c/axolotl/app/config"
+	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/nanu-c/axolotl/app/sender"
 	"github.com/nanu-c/axolotl/app/store"
 )
@@ -29,6 +30,16 @@ type MessageRecieved struct {
 func MessageHandler(msg *store.Message) {
 	messageRecieved := &MessageRecieved{
 		MessageRecieved: msg,
+	}
+	// fetch attached message
+	if msg.Flags == helpers.MsgFlagQuote {
+		if msg.QuoteID != -1 {
+			err, qm := store.GetMessageById(msg.QuoteID)
+			if err != nil {
+			} else {
+				msg.QuotedMessage = qm
+			}
+		}
 	}
 	var err error
 	message := &[]byte{}

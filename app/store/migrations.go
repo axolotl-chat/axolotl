@@ -84,3 +84,26 @@ func UpdateSessionTable_v_0_7_8() error {
 
 	return err
 }
+
+// add support for quoted messages
+func UpdateSessionTable_v_0_9_0() error {
+	statement, err := DS.Dbx.Prepare("SELECT * FROM messages limit 1")
+	if err != nil {
+		return err
+	}
+	res, err := statement.Query()
+	if err != nil {
+		return err
+	}
+
+	col, err := res.Columns()
+	if len(col) == 16 {
+		log.Infof("[axolotl] Update session schema v_0_9_0")
+		_, err := DS.Dbx.Exec("ALTER TABLE messages ADD COLUMN quoteId integer NOT NULL DEFAULT -1")
+		if err != nil {
+			return err
+		}
+	}
+
+	return err
+}

@@ -114,12 +114,6 @@ func MessageHandler(msg *textsecure.Message) {
 		msgFlags = helpers.MsgFlagReaction
 		text = msg.Reaction().GetEmoji()
 	}
-	if msg.Quote() != nil {
-		msgFlags = helpers.MsgFlagQuote
-		text = ">" + msg.Quote().GetText() + `
-
-		` + msg.Message()
-	}
 	session := store.SessionsModel.Get(s)
 	m := session.Add(text, msg.Source(), f, mt, false, store.ActiveSessionID)
 	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
@@ -128,6 +122,23 @@ func MessageHandler(msg *textsecure.Message) {
 	store.UpdateSession(session)
 	m.ExpireTimer = msg.ExpireTimer()
 	m.HTime = helpers.HumanizeTimestamp(m.SentAt)
+	if msg.Quote() != nil {
+		msgFlags = helpers.MsgFlagQuote
+		text = msg.Message()
+		err, id := store.FindQuotedMessage(msg.Quote())
+		if err != nil || id == -1 {
+			// create quoted message
+			quoteMessage := session.Add(text, msg.Quote().GetAuthorE164(), nil, msg.Quote().GetText(), false, store.ActiveSessionID)
+			quoteMessage.Flags = helpers.MsgFlagHiddenQuote
+			err, savedQuoteMessage := store.SaveMessage(quoteMessage)
+			log.Debugln("id ", id)
+			id = savedQuoteMessage.ID
+			if err != nil {
+				log.Debugln("[axolotl] Error saving quote message")
+			}
+		}
+		m.QuoteID = id
+	}
 	session.Timestamp = m.SentAt
 	session.When = m.HTime
 	if gr != nil && gr.Flags == textsecure.GroupUpdateFlag {

@@ -27,8 +27,8 @@ var (
 	sessionsInsert = "INSERT OR REPLACE INTO sessions (name, tel, isgroup, last, ctype, timestamp, notification, expireTimer) VALUES (:name, :tel, :isgroup, :last, :ctype, :timestamp, :notification, :expireTimer)"
 	sessionsSelect = "SELECT * FROM sessions ORDER BY timestamp DESC"
 
-	messagesSchema                 = "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, sid integer, source text, message text, outgoing boolean, sentat integer, receivedat integer, ctype integer, attachment string, issent boolean, isread boolean, flags integer default 0, sendingError boolean, expireTimer integer default 0, receipt boolean default 0, statusMessage boolean default 0)"
-	messagesInsert                 = "INSERT INTO messages (sid, source, message, outgoing, sentat, receivedat, ctype, attachment, issent, isread, flags, sendingError, expireTimer, statusMessage) VALUES (:sid, :source, :message, :outgoing, :sentat, :receivedat, :ctype, :attachment, :issent, :isread, :flags, :sendingError, :expireTimer, :statusMessage)"
+	messagesSchema                 = "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, sid integer, source text, message text, outgoing boolean, sentat integer, receivedat integer, ctype integer, attachment string, issent boolean, isread boolean, flags integer default 0, sendingError boolean, expireTimer integer default 0, receipt boolean default 0, statusMessage boolean default 0, quotedId integer default -1)"
+	messagesInsert                 = "INSERT INTO messages (sid, source, message, outgoing, sentat, receivedat, ctype, attachment, issent, isread, flags, sendingError, expireTimer, statusMessage, quoteID) VALUES (:sid, :source, :message, :outgoing, :sentat, :receivedat, :ctype, :attachment, :issent, :isread, :flags, :sendingError, :expireTimer, :statusMessage, :quoteId)"
 	messagesSelectWhere            = "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT 20"
 	messagesSelectWhereMore        = "SELECT * FROM messages WHERE sid = ? AND id< ? ORDER BY sentat DESC LIMIT 20"
 	messagesSelectWhereLastMessage = "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT 1"
@@ -89,6 +89,7 @@ func (ds *DataStore) SetupDb(password string) bool {
 	UpdateSessionTable()
 	UpdateMessagesTable_v_0_7_8()
 	UpdateSessionTable_v_0_7_8()
+	UpdateSessionTable_v_0_9_0()
 
 	LoadChats()
 	//qml.Changed(SessionsModel, &SessionsModel.Len)
