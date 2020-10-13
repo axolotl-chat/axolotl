@@ -18,4 +18,4 @@
    attachment LIKE '/home/phablet/.local/share/textsecure.jani/attachments/%';"`.
    Upload the now updated `db.sql` back to your phone.
 6. **Remove the old app!**
-   If you do not remove the old app and you send or receive new messages with the other app you, conflicts may occur.
+   If you do not remove the old app and you send or receive new messages with the other app, conflicts may occur.
