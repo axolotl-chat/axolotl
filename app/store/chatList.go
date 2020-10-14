@@ -137,8 +137,6 @@ func (s *Session) Add(text string, source string, file []Attachment, mimetype st
 	if len(file) > 0 {
 		for _, fi := range file {
 			f, _ := os.Open(fi.File)
-			log.Debugln(fi.CType)
-			// ctype = fi.CType
 			if fi.CType == 0 {
 				ctype = helpers.ContentType(f, mimetype)
 			} else {
