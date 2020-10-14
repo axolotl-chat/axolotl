@@ -83,6 +83,7 @@
     @close="showAttachmentsBar=false"
     @send="callContentHub($event)" />
     <input id="attachment" type="file" @change="sendDesktopAttachment" style="position: fixed; top: -100em">
+    <audio :src="blobUrl" id="voiceNote" style="position: fixed; top: -100em" />
   </div>
 </template>
 
@@ -208,7 +209,7 @@ export default {
       this.recorded = false;
       let reader = new FileReader();
       let voiceNoteElem = document.getElementById("voiceNote");
-      voiceNoteElem.stop()
+      voiceNoteElem.pause()
       this.playing = false;
       /* eslint-disable no-unused-vars */
       this.recorder.getMp3().then(([buffer, _blob]) => {
