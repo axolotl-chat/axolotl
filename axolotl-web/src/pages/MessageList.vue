@@ -21,7 +21,9 @@
           </button>
         </div>
         <message v-for="(message) in messageList.Messages.slice().reverse()"
-          v-bind:key="message.ID" v-bind:message="message" v-bind:isGroup="isGroup">
+          v-bind:key="message.ID" v-bind:message="message" v-bind:isGroup="isGroup"
+          @showFullscreenImg="showFullscreenImg($event)"
+          @showFullscreenVideo="showFullscreenVideo($event)">
         </message>
       </div>
       <div v-else class="no-entries">
