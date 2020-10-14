@@ -23,6 +23,7 @@ var (
 	MsgFlagExpirationTimerUpdate = 12
 	MsgFlagReaction              = 13
 	MsgFlagQuote                 = 14
+	MsgFlagVoiceNote             = 15
 )
 
 func HumanizeTimestamp(ts uint64) string {

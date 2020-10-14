@@ -71,7 +71,7 @@ func (Api *TextsecureAPI) UpdateGroup(hexid, name string, members string) error 
 	session.Name = name
 	//qml.Changed(session, &session.Name)
 	store.UpdateSession(session)
-	go sender.SendMessage(session, msg)
+	go sender.SendMessage(session, msg, false)
 	return nil
 }
 
@@ -85,7 +85,7 @@ func (Api *TextsecureAPI) LeaveGroup(hexid string) error {
 	//qml.Changed(session, &session.Active)
 	store.Groups[hexid].Active = false
 	err := store.UpdateGroup(store.Groups[hexid])
-	go sender.SendMessage(session, msg)
+	go sender.SendMessage(session, msg, false)
 	return err
 }
 func GroupUpdateMsg(tels []string, title string) string {

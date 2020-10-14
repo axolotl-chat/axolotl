@@ -174,7 +174,7 @@ func wsReader(conn *websocket.Conn) {
 			log.Debugln("[axolotl] send message to ", sendMessageMessage.To)
 			updateMessageChannel := make(chan *store.Message)
 			err, m := sender.SendMessageHelper(sendMessageMessage.To,
-				sendMessageMessage.Message, "", updateMessageChannel)
+				sendMessageMessage.Message, "", updateMessageChannel, false)
 			// show message in the message list
 			if err == nil {
 				go MessageHandler(m)
@@ -345,12 +345,10 @@ func wsReader(conn *websocket.Conn) {
 			uploadAttachmentMessage := UploadAttachmentMessage{}
 			json.Unmarshal([]byte(p), &uploadAttachmentMessage)
 			uploadSendAttachment(uploadAttachmentMessage)
-
-			// store.DeleteSession(sendAttachmentMessage.ID)
-			// err = store.RefreshContacts()
-			if err != nil {
-				ShowError(err.Error())
-			}
+		case "sendVoiceNote":
+			sendVoiceNoteMessage := SendVoiceNoteMessage{}
+			json.Unmarshal([]byte(p), &sendVoiceNoteMessage)
+			uploadSendVoiceNote(sendVoiceNoteMessage)
 		case "toggleNotifcations":
 			toggleNotificationsMessage := ToggleNotificationsMessage{}
 			json.Unmarshal([]byte(p), &toggleNotificationsMessage)
@@ -367,7 +365,7 @@ func wsReader(conn *websocket.Conn) {
 			m := s.Add("Secure session reset.", "", []store.Attachment{}, "", true, store.ActiveSessionID)
 			m.Flags = helpers.MsgFlagResetSession
 			store.SaveMessage(m)
-			go sender.SendMessage(s, m)
+			go sender.SendMessage(s, m, false)
 			sendChatList()
 		case "verifyIdentity":
 			verifyIdentityMessage := ToggleNotificationsMessage{}
@@ -378,6 +376,9 @@ func wsReader(conn *websocket.Conn) {
 				log.Debugln("[axolotl] identity information ", err)
 			}
 			sendIdentityInfo(fingerprintNumbers, fingerprintQRCode)
+		default:
+			log.Debugln("[axolotl] recived unknown websocket message: ", incomingMessage.Type)
+
 		}
 	}
 }

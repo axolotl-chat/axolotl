@@ -137,8 +137,16 @@ func (s *Session) Add(text string, source string, file []Attachment, mimetype st
 	if len(file) > 0 {
 		for _, fi := range file {
 			f, _ := os.Open(fi.File)
-			ctype = helpers.ContentType(f, mimetype)
+			log.Debugln(fi.CType)
+			// ctype = fi.CType
+			if fi.CType == 0 {
+				ctype = helpers.ContentType(f, mimetype)
+			} else {
+				ctype = fi.CType
+			}
 			files = append(files, Attachment{File: fi.File, CType: ctype, FileName: fi.FileName})
+			log.Debugln(files, fi.CType)
+
 		}
 	}
 	fJson, err := json.Marshal(files)

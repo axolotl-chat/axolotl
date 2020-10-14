@@ -513,6 +513,16 @@ export default new Vuex.Store({
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
+    sendVoiceNote: function(state, voiceNote) {
+      if (this.state.socket.isConnected) {
+        var message = {
+          "request": "sendVoiceNote",
+          "voiceNote": voiceNote,
+          "to": this.state.currentChat.Tel,
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
+      }
+    },
     refreshContacts: function(state, chUrl) {
       state.importingContacts = true;
       if (this.state.socket.isConnected) {

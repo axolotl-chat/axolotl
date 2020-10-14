@@ -6,7 +6,7 @@ import (
 )
 
 func (Api *TextsecureAPI) SendMessage(to, message string) error {
-	err, _ := sender.SendMessageHelper(to, message, "", nil)
+	err, _ := sender.SendMessageHelper(to, message, "", nil, false)
 	return err
 }
 func (Api *TextsecureAPI) DeleteMessage(msg *store.Message, tel string) {

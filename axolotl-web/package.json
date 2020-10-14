@@ -19,6 +19,7 @@
     "bootstrap-vue": "^2.16.0",
     "core-js": "^2.6.11",
     "file-saver": "^2.0.2",
+    "mic-recorder-to-mp3": "^2.2.2",
     "moment": "^2.27.0",
     "ofcold-security-code": "git+https://github.com/ofcold/security-code.git",
     "qrcode": "^1.4.4",
