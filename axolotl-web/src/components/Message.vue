@@ -21,7 +21,7 @@
            <div  v-for="m in isAttachmentArray(message.Attachment)"
              v-bind:key="m.File">
              <div v-if="m.CType==2" class="attachment-img">
-               <img  :src="'http://localhost:9080/attachments?file='+m.File" @click="showFullscreenImg(m.File)"/>
+               <img  :src="'http://localhost:9080/attachments?file='+m.File" @click="$emit('showFullscreenImg',m.File)"/>
              </div>
              <div v-else-if="m.CType==3" class="attachment-audio">
                <audio controls>
@@ -32,7 +32,7 @@
              <div v-else-if="m.File!='' &&m.CType==0" class="attachment-file">
                <a @click="shareAttachment(m.File,$event)" :href="'http://localhost:9080/attachments?file='+m.File">{{m.FileName?m.FileName:m.File}}</a>
              </div>
-             <div v-else-if="m.CType==5" class="attachment-video" @click="showFullscreenVideo(m.File)">
+             <div v-else-if="m.CType==5" class="attachment-video" @click="$emit('showFullscreenVideo', m.File)">
                <video @click="showFullscreenVideo(m.File)">
                  <source :src="'http://localhost:9080/attachments?file='+m.File">
                    <span v-translate>Your browser does not support the audio element.</span>
@@ -45,7 +45,7 @@
          </div>
          <!-- this is legacy code -->
          <div v-else-if="message.CType==2" class="attachment-img">
-           <img  :src="'http://localhost:9080/attachments?file='+message.Attachment" @click="showFullscreenImg(message.Attachment)"/>
+           <img  :src="'http://localhost:9080/attachments?file='+message.Attachment" @click="$emit('showFullscreenImg', message.Attachment)"/>
          </div>
          <div v-else-if="message.CType==3" class="attachment-audio">
            <audio controls>
@@ -57,7 +57,7 @@
            {{message.Attachment}}
            <a :href="'http://localhost:9080/attachments?file='+message.Attachment">File</a>
          </div>
-         <div v-else-if="message.CType==5" class="attachment-video" @click="showFullscreenVideo(message.Attachment)">
+         <div v-else-if="message.CType==5" class="attachment-video" @click="$emit('showFullscreenVideo', message.Attachment)">
            <video @click="showFullscreenVideo(message.Attachment)">
              <source :src="'http://localhost:9080/attachments?file='+message.Attachment">
                <span v-translate>Your browser does not support the video element.</span>
