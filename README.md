@@ -40,7 +40,7 @@ There are still bugs and UI/UX quirks.
 Installation of development environment
 ------------
 * Install [Golang](https://golang.org/doc/install)
-* Install node js (see the [.nvmrc](axolotl-web/.nvmrc) file for the supported version
+* Install node js (see the [.nvmrc](axolotl-web/.nvmrc)) file for the supported version
 * Add gopath to ~/.bashrc https://github.com/golang/go/wiki/SettingGOPATH
 * install dependencies `sudo apt install mercurial`
 * Check out this git `go get -d github.com/nanu-c/axolotl`
@@ -85,11 +85,19 @@ The build-system is now integrated in the `clickable` Version 3.2.0.
 
 Run flags
 -----------
-
-* `-sys` for either `lorca`-> native chromium (has to be installed), `ut` -> runs in the ut enviroment, `me` -> qmlscene, `server` -> just run the webserver, or without that flag it runs electron
+* `-axolotlWebDir` Specify the directory to use for axolotl-web. Defaults to "./axolotl-web/dist".
+* `-e` for either 
+    `lorca`-> native chromium (has to be installed),
+    `ut` -> runs in the ut enviroment,
+    `me` -> qmlscene,
+    `server` -> just run the webserver. Defaults to run with `electron`.
 * `-eDebug` show developer console in electron mode
 * `-host` Set the host to run the webserver from. Defaults to localhost.
 * `-port` Set the port to run the webserver from. Defaults to 9080.
+
+Environment variables
+-----------
+* `AXOLOTL_WEB_DIR` Specify the directory to use for axolotl-web. This is used by `axolotl` during startup.
 
 Contributing
 -----------

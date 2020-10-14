@@ -14,11 +14,11 @@
 * Fix snap package builds, by nanu-c
 * And many small fixes and cleanups, by nanu-c, flaburgan & olof-nord
 
-0.8.7 (Aug 31 2020)
+0.8.7 (Sept 27 2020)
 ------------------------------------
 * support reciving quotes, reactions(somehow), contacts (fixes the flood with the timelimit notice)
 * fix attachments sometimes not downloaded (gifs)
-* respect new lines in messages
+* respect newlines in messages
 
 0.8.6 (Aug 30 2020)
 ------------------------------------
