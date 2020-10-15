@@ -103,10 +103,30 @@
 
 <script>
 import moment from 'moment';
+import { mapState } from 'vuex';
+
 export default {
   name: 'Message',
-  props: ['message', 'isGroup'],
+  props: ['message', 'isGroup', 'names'],
+  computed: mapState(['contacts']),
   methods: {
+    getName(tel){
+      if(this.contacts!=null){
+        if(typeof this.names[tel]=="undefined"){
+          var contact = this.contacts.find(function(element) {
+            return element.Tel == tel;
+          });
+          if(typeof contact!="undefined"){
+            this.names[tel]=contact.Name;
+            return contact.Name
+          }else{
+            this.names[tel] = tel;
+            return tel
+          }
+        }else return this.names[tel]
+      }
+      return tel;
+    },
     isAttachmentArray(input){
       try{
         var attachments = JSON.parse(input)
