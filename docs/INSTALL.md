@@ -101,3 +101,26 @@ Note that this requires root.
 To start the application, either search for "Axolotl" in your app drawer or start it with the below command.
 
 `flatpak run org.nanuc.Axolotl`
+
+## AppImage
+
+**Tooling**
+
+This requires `appimagetool`, `go` and `npm` to be installed locally.
+Installation instructions for `appimagetool` can be found [here](https://github.com/AppImage/AppImageKit#appimagetool-usage)
+
+**Build and Install**
+
+AppImage does not really have a concept of install, just execute the build script to compile and put all files in place.
+The build files are stored in /build/AppDir.
+
+```
+cd appimage
+./build.sh
+```
+
+**Run**
+
+To start the application, execute the AppImage binary directly:
+
+`./Axolotl-x86_64.AppImage`
