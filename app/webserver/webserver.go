@@ -172,10 +172,20 @@ func wsReader(conn *websocket.Conn) {
 			sendMessageMessage := SendMessageMessage{}
 			json.Unmarshal([]byte(p), &sendMessageMessage)
 			log.Debugln("[axolotl] send message to ", sendMessageMessage.To)
-			err, m := sender.SendMessageHelper(sendMessageMessage.To, sendMessageMessage.Message, "")
+			updateMessageChannel := make(chan *store.Message)
+			err, m := sender.SendMessageHelper(sendMessageMessage.To,
+				sendMessageMessage.Message, "", updateMessageChannel)
+			// show message in the message list
 			if err == nil {
 				go MessageHandler(m)
 			}
+			// catch status
+			go func() {
+				m := <-updateMessageChannel
+				go UpdateMessageHandler(m)
+
+			}()
+
 		case "getContacts":
 			go sendContactList()
 		case "addContact":
@@ -376,17 +386,25 @@ func webserver() {
 	for {
 		defer log.Errorln("[axolotl] webserver error")
 
-		path := "./axolotl-web/dist"
+		path := config.AxolotlWebDir
+
+        axolotlWebDirEnv := os.Getenv("AXOLOTL_WEB_DIR")
+        if len(axolotlWebDirEnv) > 0 {
+            path = axolotlWebDirEnv
+        }
+
 		snapEnv := os.Getenv("SNAP")
 		if len(snapEnv) > 0 && !strings.Contains(snapEnv, "/snap/go/") {
 			path = os.Getenv("SNAP") + "/bin/axolotl-web/"
 		}
-		log.Debugln("[axoltol] axoltol-web path", path)
+		log.Debugln("[axolotl] Using axolotl-web path", path)
+
 		http.Handle("/", http.FileServer(http.Dir(path)))
 		http.HandleFunc("/attachments", attachmentsHandler)
 		http.HandleFunc("/avatars", avatarsHandler)
 		http.HandleFunc("/ws", wsEndpoint)
-		log.Error("[axoltol] webserver error", http.ListenAndServe(config.ServerHost+":"+config.ServerPort, nil))
+
+		log.Error("[axolotl] webserver error", http.ListenAndServe(config.ServerHost + ":" + config.ServerPort, nil))
 	}
 
 }

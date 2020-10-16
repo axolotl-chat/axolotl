@@ -136,7 +136,7 @@ msgstr "Informação"
 msgid "issues at the bug tracker"
 msgstr "problemas no rastreador de erros"
 
-#: src/pages/DeviceList.vue:8
+#: src/pages/DeviceList.vue:7
 msgid "Last seen:"
 msgstr "Visto pela última vez"
 
@@ -172,9 +172,10 @@ msgstr "Seguinte"
 msgid "No chats available"
 msgstr "Sem conversas disponiveis"
 
-#: src/pages/DeviceList.vue:16
-msgid "No devices available"
-msgstr "Sem dispositivos disponiveis"
+#: src/pages/DeviceList.vue:14
+#, fuzzy
+msgid "No linked devices"
+msgstr "Dispositivos conetados"
 
 #: src/pages/MessageList.vue:128
 msgid "No Messages available."
@@ -340,6 +341,9 @@ msgstr "Seu navegador não suporta o elemento de áudio."
 #: src/pages/MessageList.vue:85
 msgid "Your browser does not support the video element."
 msgstr "Seu navegador não suporta o elemento de vídeo."
+
+#~ msgid "No devices available"
+#~ msgstr "Sem dispositivos disponiveis"
 
 #~ msgid "Your key"
 #~ msgstr "A sua chave"
