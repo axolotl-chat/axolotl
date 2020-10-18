@@ -11,8 +11,9 @@ finish-args:
   # See https://docs.flatpak.org/en/latest/sandbox-permissions-reference.html
   # Write access for the user download folder (to save media)
   - --filesystem=xdg-download:rw
-  # Write access for config
-  - --filesystem=~/.local/share/textsecure.nanuc:rw
+  # File access for configs (read/write access, and create the directory if it doesn’t exist)
+  - --filesystem=~/.local/share/textsecure.nanuc:create
+  - --filesystem=~/.config/textsecure.nanuc:create
   # Read access for home folder (to upload media)
   - --filesystem=home:ro
   # Network access - to receive and send messages
@@ -46,8 +47,8 @@ modules:
       - "install -Dm 755 src/github.com/nanu-c/axolotl/axolotl ${FLATPAK_DEST}/bin/axolotl"
     sources:
       - type: git
-        url: "https://github.com/olof-nord/axolotl"
-        tag: initial-flatpak-package
+        url: "https://github.com/nanu-c/axolotl"
+        tag: main
         dest: src/github.com/nanu-c/axolotl
 
   - name: axolotl-web
@@ -68,6 +69,6 @@ modules:
       - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop"
     sources:
       - type: git
-        url: "https://github.com/olof-nord/axolotl"
-        tag: initial-flatpak-package
+        url: "https://github.com/nanu-c/axolotl"
+        tag: main
         dest: src/github.com/nanu-c/axolotl
