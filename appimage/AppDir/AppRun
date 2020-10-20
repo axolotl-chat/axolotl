@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd "$(dirname "$0")"
+exec usr/bin/axolotl -axolotlWebDir=usr/bin/axolotl-web/dist
