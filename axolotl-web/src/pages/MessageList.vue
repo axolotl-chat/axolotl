@@ -174,7 +174,12 @@ export default {
           that.recorder = new MicRecorder({
             bitRate: 128
           });
-          that.recorder.start();
+          that.recorder.start().then(() => {
+            // something else
+          }).catch((e) => {
+            /* eslint-disable no-console */
+            console.error(e);
+          });
       });
     },
     deleteAudio(){
