@@ -63,3 +63,26 @@ jobs:
         with:
           name: axolotl-web-${{ github.run_number }}
           path: axolotl-web/dist/
+
+  package:
+    needs: [build-axolotl, build-axolotl-web]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download axolotl build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: axolotl
+
+      - name: Download axolotl-web build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: axolotl-web
+
+      - name: Display axolotl files
+        run: ls -R
+        working-directory: axolotl/
+
+      - name: Display axolotl-web files
+        run: ls -R
+        working-directory: axolotl-web/
