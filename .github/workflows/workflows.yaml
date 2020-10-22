@@ -69,6 +69,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
       - name: Download axolotl build artifacts
         uses: actions/download-artifact@v2
         with:
@@ -80,9 +83,37 @@ jobs:
           path: axolotl-web
 
       - name: Display axolotl files
-        run: ls -R
-        working-directory: axolotl/
+        run: |
+          ls -R
+          pwd
 
-      - name: Display axolotl-web files
-        run: ls -R
-        working-directory: axolotl-web/
+      - name: Setup appimagetool
+        run: |
+          curl -sLO https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod +x appimagetool-x86_64.AppImage
+          ln -s appimagetool-x86_64.AppImage /usr/bin/appimagetool
+
+      - name: create an AppImage
+        run: |
+          rm -rf build/AppDir
+
+          mkdir -p build/AppDir/usr/bin
+          cp -f axolotl build/AppDir/usr/bin/axolotl
+
+          mkdir -p build/AppDir/usr/bin/axolotl-web
+          cp -rf axolotl-web/dist build/AppDir/usr/bin/axolotl-web
+
+          cp -f appimage/AppDir/AppRun build/AppDir/AppRun
+          cp -f appimage/AppDir/axolotl.desktop build/AppDir/axolotl.desktop
+          cp -f appimage/AppDir/axolotl.png build/AppDir/axolotl.png
+
+          mkdir -p build/AppDir/usr/share/metainfo
+          cp -f appimage/AppDir/axolotl.appdata.xml build/AppDir/usr/share/metainfo/axolotl.appdata.xml
+
+          appimagetool build/AppDir
+        working-directory: appimage/
+
+      - name: Display AppImage files
+        run: |
+          ls -R
+          pwd
