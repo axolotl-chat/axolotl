@@ -91,7 +91,6 @@ jobs:
         run: |
           curl -sLO https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
           chmod +x appimagetool-x86_64.AppImage
-          ln -s appimagetool-x86_64.AppImage /usr/bin/appimagetool
 
       - name: create an AppImage
         run: |
@@ -110,7 +109,7 @@ jobs:
           mkdir -p build/AppDir/usr/share/metainfo
           cp -f appimage/AppDir/axolotl.appdata.xml build/AppDir/usr/share/metainfo/axolotl.appdata.xml
 
-          appimagetool build/AppDir
+          ./appimagetool-x86_64.AppImage build/AppDir
 
       - name: Display AppImage files
         run: |
