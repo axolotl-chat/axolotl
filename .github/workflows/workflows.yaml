@@ -111,7 +111,6 @@ jobs:
           cp -f appimage/AppDir/axolotl.appdata.xml build/AppDir/usr/share/metainfo/axolotl.appdata.xml
 
           appimagetool build/AppDir
-        working-directory: appimage/
 
       - name: Display AppImage files
         run: |
