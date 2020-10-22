@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Set up Go 1.15
+      - name: Setup Go 1.15
         uses: actions/setup-go@v2
         with:
           go-version: 1.15
@@ -72,20 +72,13 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Download axolotl build artifacts
+      - name: Download build artifacts
         uses: actions/download-artifact@v2
         with:
-          path: axolotl
-
-      - name: Download axolotl-web build artifacts
-        uses: actions/download-artifact@v2
-        with:
-          path: axolotl-web
+          path: bin
 
       - name: Display axolotl files
-        run: |
-          ls -R
-          pwd
+        run: ls -R
 
       - name: Setup appimagetool
         run: |
