@@ -43,6 +43,7 @@ var (
 	VcardPath              string
 	ServerHost             string
 	ServerPort             string
+	AxolotlWebDir          string
 )
 
 var Config *textsecure.Config

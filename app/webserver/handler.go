@@ -59,7 +59,7 @@ type UpdateMessage struct {
 // UpdateMessageHandler sents message receipts to all connected clients for the activeChat
 func UpdateMessageHandler(msg *store.Message) {
 	if msg.ChatID == activeChat {
-		log.Debugln("[axolotl] UpdateMessageHandler ", msg.SentAt)
+		log.Debugln("[axolotl-ws] UpdateMessageHandler ", msg.SentAt)
 		updateMessage := &UpdateMessage{
 			UpdateMessage: msg,
 		}

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Axolotl
+Exec=axolotl
+Type=Application
+Comment=A signal client, AppImage version
+Categories=Network;InstantMessaging;Chat;
+Icon=axolotl

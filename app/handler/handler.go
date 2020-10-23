@@ -26,6 +26,9 @@ func prettyPrint(i interface{}) string {
 
 //messageHandler is used on incoming message
 func MessageHandler(msg *textsecure.Message) {
+	buildAndSaveMessage(msg, false)
+}
+func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 	var err error
 	var f []store.Attachment //should be array
 	mt := ""                 //
@@ -48,7 +51,7 @@ func MessageHandler(msg *textsecure.Message) {
 		msgFlags = helpers.MsgFlagResetSession
 	}
 	if msg.Flags() == 2 {
-		text = "Secure session reset."
+		text = "Message timer update."
 		msgFlags = helpers.MsgFlagExpirationTimerUpdate
 	}
 	//Group Message
@@ -115,7 +118,13 @@ func MessageHandler(msg *textsecure.Message) {
 		text = msg.Reaction().GetEmoji()
 	}
 	session := store.SessionsModel.Get(s)
-	m := session.Add(text, msg.Source(), f, mt, false, store.ActiveSessionID)
+	var m *store.Message
+	if syncMessage {
+		m = session.Add(text, "", f, mt, true, store.ActiveSessionID)
+		m.IsSent = true
+	} else {
+		m = session.Add(text, msg.Source(), f, mt, false, store.ActiveSessionID)
+	}
 	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
 	m.SentAt = msg.Timestamp()
 	session.ExpireTimer = msg.ExpireTimer()
@@ -148,7 +157,8 @@ func MessageHandler(msg *textsecure.Message) {
 		m.Flags = msgFlags
 	}
 	//TODO: have only one message per chat
-	if session.Notification {
+
+	if session.Notification && !syncMessage {
 		if settings.SettingsModel.EncryptDatabase {
 			text = "Encrypted message"
 		}
@@ -190,14 +200,13 @@ func TypingMessageHandler(msg *textsecure.Message) {
 }
 func ReceiptHandler(source string, devID uint32, timestamp uint64) {
 	log.Println("[axolotl] receiptHandler for message ", timestamp)
-	webserver.UpdateChatList()
-
 	s := store.SessionsModel.Get(source)
 	for i := len(s.Messages) - 1; i >= 0; i-- {
 		m := s.Messages[i]
 		if m.SentAt == timestamp {
 			m.IsSent = true
-			store.UpdateMessageReceiptSent(m)
+			m.Receipt = true
+			store.UpdateMessageReceipt(m)
 			webserver.UpdateMessageHandler(m)
 			return
 		}
@@ -208,6 +217,7 @@ func ReceiptHandler(source string, devID uint32, timestamp uint64) {
 
 func ReceiptMessageHandler(msg *textsecure.Message) {
 	log.Println("[axolotl] receiptMessageHandler for message ", msg.Timestamp())
+	log.Debugln("[axolotl] receiptMessageHandler for message ", msg.Timestamp(), msg.Message())
 
 	webserver.UpdateChatList()
 	s := store.SessionsModel.Get(msg.Source())
@@ -216,8 +226,9 @@ func ReceiptMessageHandler(msg *textsecure.Message) {
 		if m.SentAt == msg.Timestamp() {
 			if msg.Message() == "readReceiptMessage" {
 				m.IsRead = true
+				m.IsSent = true
 				store.UpdateMessageRead(m)
-			} else {
+			} else if msg.Message() == "deliveryReceiptMessage" {
 				log.Debugln("[axolotl] unhandeld receipt message type for message ", msg.Timestamp(), msg.Message())
 				m.IsSent = true
 				store.UpdateMessageReceiptSent(m)
@@ -228,116 +239,10 @@ func ReceiptMessageHandler(msg *textsecure.Message) {
 	}
 	webserver.UpdateChatList()
 	log.Printf("[axolotl] receipt: Message with timestamp %d not found\n", msg.Timestamp())
-	log.Println("[axolotl] receiptMessageHandler: Message ", msg)
 }
 
 func SyncSentHandler(msg *textsecure.Message, timestamp uint64) {
-	var err error
+	log.Debugln("[axolotl] handle sync message", msg.Timestamp())
 
-	var f []store.Attachment
-	mt := ""
-	if len(msg.Attachments()) > 0 {
-		for i, a := range msg.Attachments() {
-			mt = msg.Attachments()[i].MimeType
-			file, err := store.SaveAttachment(a)
-			if err != nil {
-				log.Printf("[Axolotl] Error saving %s\n", err.Error())
-			}
-			f = append(f, file)
-
-		}
-	}
-
-	msgFlags := 0
-
-	text := msg.Message()
-	if msg.Flags() == textsecure.EndSessionFlag {
-		text = "Secure session reset."
-		msgFlags = helpers.MsgFlagResetSession
-	}
-	//Group Message
-	gr := msg.Group()
-
-	if gr != nil && gr.Flags != 0 {
-		_, ok := store.Groups[gr.Hexid]
-		members := ""
-		if ok {
-			members = store.Groups[gr.Hexid].Members
-		}
-		av := []byte{}
-
-		if gr.Avatar != nil {
-			av, err = ioutil.ReadAll(bytes.NewReader(gr.Avatar))
-			if err != nil {
-				log.Println(err)
-				return
-			}
-		}
-		store.Groups[gr.Hexid] = &store.GroupRecord{
-			GroupID: gr.Hexid,
-			Members: strings.Join(gr.Members, ","),
-			Name:    gr.Name,
-			Avatar:  av,
-			Active:  true,
-		}
-		if ok {
-			store.UpdateGroup(store.Groups[gr.Hexid])
-		} else {
-			store.SaveGroup(store.Groups[gr.Hexid])
-		}
-
-		if gr.Flags == textsecure.GroupUpdateFlag {
-			dm, _ := helpers.MembersDiffAndUnion(members, strings.Join(gr.Members, ","))
-			text = store.GroupUpdateMsg(dm, gr.Name)
-			msgFlags = helpers.MsgFlagGroupUpdate
-		}
-		if gr.Flags == textsecure.GroupLeaveFlag {
-			text = store.TelToName(msg.Source()) + " has left the group."
-			msgFlags = helpers.MsgFlagGroupLeave
-		}
-	}
-	if msg.Sticker() != nil {
-		msgFlags = helpers.MsgFlagSticker
-		text = "Unsupported Message: sticker"
-	}
-	if msg.Contact() != nil {
-		msgFlags = helpers.MsgFlagContact
-		c := msg.Contact()
-		text = c[0].String()
-	}
-	s := msg.Source()
-	if gr != nil {
-		s = gr.Hexid
-	}
-	session := store.SessionsModel.Get(s)
-	m := session.Add(text, "", f, mt, true, store.ActiveSessionID)
-	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
-	m.SentAt = msg.Timestamp()
-	m.HTime = helpers.HumanizeTimestamp(m.SentAt)
-	session.Timestamp = m.SentAt
-	session.When = m.HTime
-	if gr != nil && gr.Flags == textsecure.GroupUpdateFlag {
-		session.Name = gr.Name
-	}
-	if msgFlags != 0 {
-		m.Flags = msgFlags
-		// m.StatusMessage = true
-	}
-	if len(text) == 0 {
-		// m.StatusMessage = true
-	}
-	m.IsSent = true
-	//TODO: have only one message per chat
-	// if session.Notification {
-	// 	if settings.SettingsModel.EncryptDatabase{
-	// 		text = "Encrypted message"
-	// 	}
-	// 	n := Nh.NewStandardPushMessage(
-	// 		session.Name,
-	// 		text, "")
-	// 	Nh.Send(n)
-	// }
-
-	store.SaveMessage(m)
-	store.UpdateSession(session)
+	buildAndSaveMessage(msg, true)
 }

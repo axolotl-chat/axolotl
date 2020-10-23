@@ -21,7 +21,9 @@
           </button>
         </div>
         <message v-for="(message) in messageList.Messages.slice().reverse()"
-          v-bind:key="message.ID" v-bind:message="message" v-bind:isGroup="isGroup">
+          :key="message.ID" :message="message" :isGroup="isGroup" :names="names"
+          @showFullscreenImg="showFullscreenImg($event)"
+          @showFullscreenVideo="showFullscreenVideo($event)">
         </message>
       </div>
       <div v-else class="no-entries">
@@ -55,7 +57,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import moment from 'moment';
 import Message from "@/components/Message"
 import AttachmentBar from "@/components/AttachmentBar"
@@ -97,24 +99,6 @@ export default {
         // this.showSettingsMenu = false;
         // document.getElementById("addVcf").click()
       }
-    },
-    getName(tel){
-      if(this.contacts!=null){
-        if(typeof this.names[tel]=="undefined"){
-          var contact = this.contacts.find(function(element) {
-            return element.Tel == tel;
-          });
-          if(typeof contact!="undefined"){
-            this.names[tel]=contact.Name;
-            return contact.Name
-          }else{
-            this.names[tel] = tel;
-            return tel
-          }
-        }else return this.names[tel]
-      }
-      return tel;
-
     },
     loadAttachmentDialog(){
       if(typeof this.config.Gui!="undefined"&&this.config.Gui=="ut"){
@@ -272,9 +256,6 @@ export default {
       return this.$store.state.messageList.Session.IsGroup
     },
     ... mapState(['contacts','config','messageList']),
-    ... mapGetters({
-        messages:"getMessages"
-    })
   }
 }
 </script>
