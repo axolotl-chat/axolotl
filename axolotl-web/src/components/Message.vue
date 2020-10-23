@@ -70,9 +70,9 @@
          </div>
        </div>
        <div class="message-text">
-         <blockquote v-if="message.quote != undefined">
-           <cite>{{message.quote.author}}</cite>
-           <p>{{message.quote.content}}</p>
+         <blockquote v-if="message.QuotedMessage != null">
+           <cite>{{getName(message.QuotedMessage.Source)}}</cite>
+           <p>{{message.QuotedMessage.Message}}</p>
          </blockquote>
          <div class="message-text-content" v-html="message.Message" v-linkified ></div>
          <div class="status-message" v-if="message.Attachment.includes('null')&&message.Message==''&&message.Flags==0">
