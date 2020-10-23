@@ -51,6 +51,7 @@ export default {
   methods:{
     unregister(){
       this.$store.dispatch("unregister");
+      localStorage.removeItem("registrationStatus");
     },
     toggleDarkMode(){
       var c = this.getCookie("darkMode")

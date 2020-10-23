@@ -39,6 +39,14 @@ export default {
   mounted(){
     var userLang = navigator.language || navigator.userLanguage;
     this.$language.current = userLang;
+    
+    // If we have a registration status, remove the loader
+    if (localStorage.getItem('registrationStatus') != null) {
+      let loader = document.getElementById('initial-loader');
+      if (loader != undefined) {
+        loader.remove();
+      }
+    }
   },
   computed: {
     error () {
@@ -56,8 +64,6 @@ html,
 body,
 #app {
   height: 100%;
-}
-#app {
   font-family:"ubuntu";
   display: flex;
   flex-direction: column;
