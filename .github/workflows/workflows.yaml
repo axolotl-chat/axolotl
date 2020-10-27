@@ -33,6 +33,7 @@ jobs:
         with:
           name: axolotl-${{ matrix.os }}-${{ github.run_number }}
           path: axolotl
+          retention-days: 1
 
   build-axolotl-web:
     runs-on: ubuntu-latest
@@ -63,6 +64,7 @@ jobs:
         with:
           name: axolotl-web-${{ github.run_number }}
           path: axolotl-web/dist/
+          retention-days: 1
 
   package:
     needs: [build-axolotl, build-axolotl-web]
@@ -89,10 +91,10 @@ jobs:
           rm -rf build/AppDir
 
           mkdir -p build/AppDir/usr/bin
-          cp -f ./bin/axolotl-ubuntu-latest-${{ github.run_number }}/axolotl build/AppDir/usr/bin/axolotl
+          cp -f bin/axolotl-ubuntu-latest-${{ github.run_number }}/axolotl build/AppDir/usr/bin/axolotl
 
           mkdir -p build/AppDir/usr/bin/axolotl-web
-          cp -rf ./bin/axolotl-web-${{ github.run_number }} build/AppDir/usr/bin/axolotl-web
+          cp -rf bin/axolotl-web-${{ github.run_number }} build/AppDir/usr/bin/axolotl-web
 
           cp -f appimage/AppDir/AppRun build/AppDir/AppRun
           cp -f appimage/AppDir/axolotl.desktop build/AppDir/axolotl.desktop
@@ -101,6 +103,8 @@ jobs:
           mkdir -p build/AppDir/usr/share/metainfo
           cp -f appimage/AppDir/axolotl.appdata.xml build/AppDir/usr/share/metainfo/axolotl.appdata.xml
 
+          ls -laR build/AppDir
+
           ./appimagetool-x86_64.AppImage build/AppDir
 
       - name: Upload the built AppImage artifact
@@ -108,3 +112,4 @@ jobs:
         with:
           name: Axolotl-x86_64-${{ github.run_number }}.AppImage
           path: Axolotl-x86_64.AppImage
+          retention-days: 1
