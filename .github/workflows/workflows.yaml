@@ -4,6 +4,7 @@ on: [ push, pull_request ]
 
 jobs:
   build-axolotl:
+    name: Build axolotl
     strategy:
       fail-fast: false
       matrix:
@@ -36,6 +37,7 @@ jobs:
           retention-days: 1
 
   build-axolotl-web:
+    name: Build axolotl-web
     runs-on: ubuntu-latest
 
     steps:
@@ -66,7 +68,8 @@ jobs:
           path: axolotl-web/dist/
           retention-days: 1
 
-  package:
+  package-appimage:
+    name: Package as an AppImage
     needs: [build-axolotl, build-axolotl-web]
     runs-on: ubuntu-latest
 
@@ -103,8 +106,6 @@ jobs:
 
           mkdir -p build/AppDir/usr/share/metainfo
           cp -f appimage/AppDir/axolotl.appdata.xml build/AppDir/usr/share/metainfo/axolotl.appdata.xml
-
-          ls -laR build/AppDir
 
           ./appimagetool-x86_64.AppImage build/AppDir
 
