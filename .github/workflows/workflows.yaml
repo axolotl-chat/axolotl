@@ -92,7 +92,7 @@ jobs:
           cp -f bin/axolotl-ubuntu-latest-${{ github.run_number }}/axolotl build/AppDir/usr/bin/axolotl
 
           mkdir -p build/AppDir/usr/bin/axolotl-web
-          cp -rf bin/axolotl-web-${{ github.run_number }}/axolotl-web build/AppDir/usr/bin/axolotl-web
+          cp -rf bin/axolotl-web-${{ github.run_number }}/* build/AppDir/usr/bin/axolotl-web
 
           cp -f appimage/AppDir/AppRun build/AppDir/AppRun
           cp -f appimage/AppDir/axolotl.desktop build/AppDir/axolotl.desktop
