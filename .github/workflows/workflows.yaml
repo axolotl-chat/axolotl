@@ -78,7 +78,10 @@ jobs:
           path: bin
 
       - name: Display axolotl files
-        run: ls -R
+        run: |
+          ls -la ./bin
+          ls -la ./bin/axolotl-*
+          ls -la ./bin/axolotl-web*
 
       - name: Setup appimagetool
         run: |
@@ -90,10 +93,10 @@ jobs:
           rm -rf build/AppDir
 
           mkdir -p build/AppDir/usr/bin
-          cp -f /bin/axolotl-ubuntu-latest-*/axolotl build/AppDir/usr/bin/axolotl
+          cp -f ./bin/axolotl-ubuntu-latest-*/axolotl build/AppDir/usr/bin/axolotl
 
           mkdir -p build/AppDir/usr/bin/axolotl-web
-          cp -rf /bin/axolotl-web-* build/AppDir/usr/bin/axolotl-web
+          cp -rf ./bin/axolotl-web-* build/AppDir/usr/bin/axolotl-web
 
           cp -f appimage/AppDir/AppRun build/AppDir/AppRun
           cp -f appimage/AppDir/axolotl.desktop build/AppDir/axolotl.desktop
