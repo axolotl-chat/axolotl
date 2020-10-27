@@ -104,7 +104,7 @@ jobs:
           ./appimagetool-x86_64.AppImage build/AppDir
 
       - name: Upload the built AppImage artifact
-          uses: actions/upload-artifact@v2
-          with:
-            name: Axolotl-x86_64-${{ github.run_number }}.AppImage
-            path: Axolotl-x86_64.AppImage
+        uses: actions/upload-artifact@v2
+        with:
+          name: Axolotl-x86_64-${{ github.run_number }}.AppImage
+          path: Axolotl-x86_64.AppImage
