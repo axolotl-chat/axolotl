@@ -90,6 +90,7 @@ jobs:
         run: |
           mkdir -p build/AppDir/usr/bin
           cp -f bin/axolotl-ubuntu-latest-${{ github.run_number }}/axolotl build/AppDir/usr/bin/axolotl
+          chmod +x build/AppDir/usr/bin/axolotl
 
           mkdir -p build/AppDir/usr/bin/axolotl-web/dist
           cp -rf bin/axolotl-web-${{ github.run_number }}/* build/AppDir/usr/bin/axolotl-web/dist
