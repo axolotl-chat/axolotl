@@ -89,6 +89,8 @@ jobs:
           chmod +x appimagetool-x86_64.AppImage
 
       - name: create an AppImage
+        env:
+          ARCH: x86_64
         run: |
           rm -rf build/AppDir
 
