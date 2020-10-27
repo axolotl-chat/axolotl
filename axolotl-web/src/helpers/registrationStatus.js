@@ -2,7 +2,6 @@ import { router } from '../router/router';
 
 function checkRegistrationStatus(registrationStatus) {
   if (registrationStatus == undefined) registrationStatus = "phoneNumber"
-  console.log(registrationStatus, router.currentRoute.path)
   localStorage.setItem("registrationStatus", registrationStatus);
   let loader = document.getElementById('initial-loader');
   if (loader != undefined) {
