@@ -58,6 +58,7 @@
 <script>
 import moment from 'moment';
 import { mapState } from 'vuex';
+import { router } from '../router/router';
 
 export default {
   name: 'ChatList',
@@ -129,7 +130,7 @@ export default {
     enterChat(chat){
       if(!this.editActive){
         this.$store.dispatch("setCurrentChat", chat);
-        window.router.push ('/chat/'+chat.Tel)
+        router.push ('/chat/'+chat.Tel)
       }
       else{
           this.selectedChat.push(chat.Tel);
