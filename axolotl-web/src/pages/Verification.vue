@@ -27,6 +27,8 @@
 <script>
 import Sms from 'ofcold-security-code';
 import { mapState } from 'vuex';
+import checkRegistrationStatus from '@/helpers/registrationStatus'
+
 export default {
   name: 'verification',
   components: {
@@ -36,6 +38,8 @@ export default {
     msg: String
   },
   mounted(){
+    // this.$store.dispatch("getRegistrationStatus");
+    checkRegistrationStatus(this.registrationStatus)
     document.getElementsByClassName("form-control")[0].focus()
   },
   methods:{
@@ -52,7 +56,12 @@ export default {
       }
     }
   },
-  computed: mapState(['verificationError', 'requestPin']),
+  watch:{
+    registrationStatus(oldValue, newValue) {
+      checkRegistrationStatus(newValue)
+    }
+  },
+  computed: mapState(['verificationError', 'requestPin', 'registrationStatus']),
   data() {
     return {
       code:"",

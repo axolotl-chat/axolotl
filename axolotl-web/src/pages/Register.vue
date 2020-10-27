@@ -32,6 +32,8 @@
 import VuePhoneNumberInput from 'vue-phone-number-input';
 import 'vue-phone-number-input/dist/vue-phone-number-input.css';
 import { mapState } from 'vuex';
+import checkRegistrationStatus from '@/helpers/registrationStatus'
+
 
 export default {
   name: 'register',
@@ -43,7 +45,7 @@ export default {
   },
   methods:{
     requestCode(){
-      // console.log(this.cc)
+      console.log(this.cc)
       if(typeof this.cc!="undefined")
       this.$store.dispatch("requestCode",this.cc);
     },
@@ -60,6 +62,7 @@ export default {
   mounted(){
     var userLang = navigator.language || navigator.userLanguage;
     this.$language.current = userLang;
+    this.$store.dispatch("getRegistrationStatus");
     document.getElementById("VuePhoneNumberInput_phone_number").focus();
   },
   data() {
@@ -69,10 +72,14 @@ export default {
       infoPage:true,
     };
   },
-  computed: mapState(['gui', 'ratelimitError']),
+  computed: mapState(['gui', 'ratelimitError', 'registrationStatus']),
   watch:{
     cc(){
       document.getElementById("VuePhoneNumberInput_phone_number").focus()
+    },
+    registrationStatus() {
+      console.log("a",this.registrationStatus)
+      checkRegistrationStatus(this.registrationStatus)
     }
   }
 

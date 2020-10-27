@@ -122,7 +122,7 @@ router.beforeEach((to, from, next) => {
   }
 
   // We have a status (regisered or not). Let's check access right
-  const publicPages = ['/register', '/verify', '/password'];
+  const publicPages = ['/register', '/verify', '/password', '/debug'];
   const authRequired = !publicPages.includes(to.path);
 
   // redirect to registration page if not registered and trying to access a restricted page

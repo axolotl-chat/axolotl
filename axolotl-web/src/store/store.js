@@ -120,21 +120,24 @@ export default new Vuex.Store({
         qrCode: data.FingerprintQRCode,
       }
     },
+    SET_REGISTRATION_STATUS(state, status) {
+      state.registrationStatus = status;
+    },
     SET_REQUEST(state, request) {
       var type = request["Type"]
       state.request = request;
       if (type == "getPhoneNumber") {
-        state.registrationStatus = "phoneNumber";
+        this.commit("SET_REGISTRATION_STATUS", "phoneNumber");
       } else if (type == "getVerificationCode") {
-        state.registrationStatus = "verificationCode";
+        this.commit("SET_REGISTRATION_STATUS", "verificationCode");
         state.verificationInProgress = true;
       } else if (type == "getPin") {
-        state.registrationStatus = "pin";
+        this.commit("SET_REGISTRATION_STATUS", "pin");
         state.requestPin = true;
       } else if (type == "getEncryptionPw") {
-        state.registrationStatus = "password";
+        this.commit("SET_REGISTRATION_STATUS", "password");
       } else if (type == "registrationDone") {
-        state.registrationStatus = "registered";
+        this.commit("SET_REGISTRATION_STATUS", "registered");
       } else if (type == "requestEnterChat") {
         router.push("/chat/" + request["Chat"])
         this.dispatch("getChatList")
@@ -291,8 +294,12 @@ export default new Vuex.Store({
         else {
           // console.log("unkown message ", Object.keys(messageData)[0]);
         }
-        state.socket.message = message.data
+        this.commit("SET_SOCKET_MESSAGE_DATA", message.data)
+
       }
+    },
+    SET_SOCKET_MESSAGE_DATA(state, data) {
+      state.socket.message = data
     },
     // mutations for reconnect methods
     SOCKET_RECONNECT() {
