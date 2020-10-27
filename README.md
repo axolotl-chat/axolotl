@@ -13,8 +13,6 @@ To use it from your Ubuntu Touch device, simply install it from the open store:
 Axolotl is also available as a snap package, to install it on Ubuntu desktop:  
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/axolotl)
 
-[![Snap Status](https://build.snapcraft.io/badge/nanu-c/axolotl.svg)](https://build.snapcraft.io/user/nanu-c/axolotl)
-
 What works
 -----------
 
@@ -66,22 +64,21 @@ That way running the backend is avoided, instead your current registration on ub
 * `cd axolotl-web`
 * `VUE_APP_WS_ADDRESS=10.0.0.2 npm run serve` replace 10.0.0.2 with the ip of your phone
 
+Installation 
+------------
+Axolotl can be built and installed in different ways.
+
+To find out how to build and install, please see below:
+
+* with Clickable: see [here](docs/INSTALL.md#clickable).
+* with Snap: see [here](docs/INSTALL.md#snap).
+* with Flatpak: see [here](docs/INSTALL.md#flatpak).
+* with AppImage: see [here](docs/INSTALL.md#appimage).
+
 Build Axolotl for all arches with clickable and snap
 ------------
 This requires clickable and snapcraft to be installed
 see [build.sh](scripts/build.sh)
-
-Installation on UT
-------------
-
-***If you want to use the current stable version, simply install it from the OpenStore***
-
-The build-system is now integrated in the `clickable` Version 3.2.0.
-* primary steps from installation
-* Get [clickable](https://github.com/bhdouglass/clickable#install)
-* Run `clickable`, this also transfers the click package to the Ubuntu Touch Phone
-* Run `clickable launch logs` to start signal and watch the log
-
 
 Run flags
 -----------

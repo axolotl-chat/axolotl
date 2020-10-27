@@ -31,11 +31,16 @@ To install all go dependencies, use `go mod download`.
 To run the default set of sub-commands, simply run clickable in the root directory.
 Clickable will attempt to auto detect the build template and other configuration options.
 
+This also transfers the click package to the Ubuntu Touch Phone.
+
 `clickable`
 
 **Run**
 
 `clickable launch`
+
+Clickable supports a few different parameters.
+For example, `clickable launch logs` to start signal and get logging output.
 
 For a full list of available clickable commands, see [here](https://clickable-ut.dev/en/latest/commands.html).
 
@@ -43,23 +48,31 @@ For a full list of available clickable commands, see [here](https://clickable-ut
 
 **Tooling**
 
-This requires `snapcraft` to be installed locally.
-Installation instructions can be found [here](https://snapcraft.io/docs/getting-started).
+This requires `snap` and `snapcraft` to be installed locally.
+Installation instructions for snapcraft can be found [here](https://snapcraft.io/docs/getting-started).
 
 **Dependencies**
 
-TODO: Add more info
+Snapcraft manages its own dependencies.
 
 **Build and Install**
 
 The Snap template used for the installation can be found
 in the /snap subdirectory.
 
-TODO: Add more info
+To build the application, use the following command from the root of this repository.
+
+`sudo snapcraft`
+
+To install the built snap, use snap:
+
+`sudo snap install axolotl_0.8.9_amd64.snap --dangerous`
 
 **Run**
 
-TODO: Add more info
+To start the application, either search for "Axolotl" in your app drawer or start it with the below command.
+
+`snap run axolotl`
 
 ## Flatpak
 
@@ -122,5 +135,6 @@ cd appimage
 **Run**
 
 To start the application, execute the AppImage binary directly:
+If needed, set the file as executable with `chmod +x Axolotl-x86_64.AppImage` first.
 
 `./Axolotl-x86_64.AppImage`
