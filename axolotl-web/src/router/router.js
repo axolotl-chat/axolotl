@@ -79,6 +79,11 @@ export const router = new Router({
       component: () => import("@/pages/EditGroup.vue")
     },
     {
+      path: "/debug",
+      name: "debug",
+      component: () => import("@/pages/Debug.vue")
+    },
+    {
       path: '/a', redirect: () => {
         // { path: '/a', redirect: to => {
         // const { hash, params, query } = to
@@ -91,6 +96,10 @@ export const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+  if (to.path === "/debug") {
+    return next();
+  }
+
   const registrationStatus = localStorage.getItem('registrationStatus');
 
   // If we're going to the waiting status page
