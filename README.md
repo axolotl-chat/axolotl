@@ -75,10 +75,6 @@ To find out how to build and install, please see below:
 * with Flatpak: see [here](docs/INSTALL.md#flatpak).
 * with AppImage: see [here](docs/INSTALL.md#appimage).
 
-Build Axolotl for all arches with clickable and snap
-------------
-This requires clickable and snapcraft to be installed
-see [build.sh](scripts/build.sh)
 
 Run flags
 -----------

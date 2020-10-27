@@ -138,3 +138,9 @@ To start the application, execute the AppImage binary directly:
 If needed, set the file as executable with `chmod +x Axolotl-x86_64.AppImage` first.
 
 `./Axolotl-x86_64.AppImage`
+
+## Build Axolotl for all arches with clickable and snap
+
+This requires clickable and snapcraft to be installed.
+It also requires the axolotl-web bundle to already be built.
+see [build.sh](../scripts/build.sh)
