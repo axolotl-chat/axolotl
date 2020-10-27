@@ -45,7 +45,6 @@ export default {
   },
   methods:{
     requestCode(){
-      console.log(this.cc)
       if(typeof this.cc!="undefined")
       this.$store.dispatch("requestCode",this.cc);
     },
@@ -78,7 +77,6 @@ export default {
       document.getElementById("VuePhoneNumberInput_phone_number").focus()
     },
     registrationStatus() {
-      console.log("a",this.registrationStatus)
       checkRegistrationStatus(this.registrationStatus)
     }
   }
