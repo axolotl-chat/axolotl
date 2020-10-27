@@ -72,33 +72,27 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Download build artifacts
+      - name: Download axolotl and axolotl-web build artifacts
         uses: actions/download-artifact@v2
         with:
           path: bin
-
-      - name: Display axolotl files
-        run: |
-          ls -la ./bin
-          ls -la ./bin/axolotl-*
-          ls -la ./bin/axolotl-web*
 
       - name: Setup appimagetool
         run: |
           curl -sLO https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
           chmod +x appimagetool-x86_64.AppImage
 
-      - name: create an AppImage
+      - name: Build the AppImage
         env:
           ARCH: x86_64
         run: |
           rm -rf build/AppDir
 
           mkdir -p build/AppDir/usr/bin
-          cp -f ./bin/axolotl-ubuntu-latest-*/axolotl build/AppDir/usr/bin/axolotl
+          cp -f ./bin/axolotl-ubuntu-latest-${{ github.run_number }}/axolotl build/AppDir/usr/bin/axolotl
 
           mkdir -p build/AppDir/usr/bin/axolotl-web
-          cp -rf ./bin/axolotl-web-* build/AppDir/usr/bin/axolotl-web
+          cp -rf ./bin/axolotl-web-${{ github.run_number }} build/AppDir/usr/bin/axolotl-web
 
           cp -f appimage/AppDir/AppRun build/AppDir/AppRun
           cp -f appimage/AppDir/axolotl.desktop build/AppDir/axolotl.desktop
@@ -109,7 +103,8 @@ jobs:
 
           ./appimagetool-x86_64.AppImage build/AppDir
 
-      - name: Display AppImage files
-        run: |
-          ls -R
-          pwd
+      - name: Upload the built AppImage artifact
+          uses: actions/upload-artifact@v2
+          with:
+            name: Axolotl-x86_64-${{ github.run_number }}.AppImage
+            path: Axolotl-x86_64.AppImage
