@@ -36,6 +36,7 @@ func MessageHandler(msg *store.Message) {
 		if msg.QuoteID != -1 {
 			err, qm := store.GetMessageById(msg.QuoteID)
 			if err != nil {
+				log.Errorln("[axolotl] Quoted Message not found ", err)
 			} else {
 				msg.QuotedMessage = qm
 			}

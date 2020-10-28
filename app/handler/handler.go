@@ -140,7 +140,6 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 			quoteMessage := session.Add(text, msg.Quote().GetAuthorE164(), nil, msg.Quote().GetText(), false, store.ActiveSessionID)
 			quoteMessage.Flags = helpers.MsgFlagHiddenQuote
 			err, savedQuoteMessage := store.SaveMessage(quoteMessage)
-			log.Debugln("id ", id)
 			id = savedQuoteMessage.ID
 			if err != nil {
 				log.Debugln("[axolotl] Error saving quote message")

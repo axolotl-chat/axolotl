@@ -149,13 +149,13 @@ func FindQuotedMessage(quote *signalservice.DataMessage_Quote) (error, int64) {
 
 // returns a message by it's ID
 func GetMessageById(id int64) (error, *Message) {
-	var quotedMessages = []Message{}
-	err := DS.Dbx.Select(&quotedMessages, "SELECT * FROM messages WHERE id = ?", id)
+	var message = []Message{}
+	err := DS.Dbx.Select(&message, "SELECT * FROM messages WHERE id = ?", id)
 	if err != nil {
 		return err, nil
 	}
-	if len(quotedMessages) == 0 {
+	if len(message) == 0 {
 		return errors.New("Message not found " + fmt.Sprint(id)), nil
 	}
-	return nil, &quotedMessages[0]
+	return nil, &message[0]
 }
