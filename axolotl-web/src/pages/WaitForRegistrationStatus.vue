@@ -9,12 +9,13 @@ export default {
   name: 'WaitForRegistrationStatus',
   computed: mapState(['registrationStatus']),
   watch:{
-    registrationStatus(oldValue, newValue) {
-      checkRegistrationStatus(newValue)
+    registrationStatus() {
+      checkRegistrationStatus(this.registrationStatus)
     }
   },
-  mounted(){
+  created(){
     this.$store.dispatch("getRegistrationStatus");
+    checkRegistrationStatus(this.registrationStatus)
   }
 }
 </script>

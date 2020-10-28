@@ -36,8 +36,8 @@ export default {
     this.$store.dispatch("getRegistrationStatus");
   },
   watch:{
-    registrationStatus(oldValue, newValue) {
-      checkRegistrationStatus(newValue)
+    registrationStatus() {
+      checkRegistrationStatus(this.registrationStatus)
     }
   },
   computed: {

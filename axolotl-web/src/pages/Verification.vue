@@ -57,8 +57,8 @@ export default {
     }
   },
   watch:{
-    registrationStatus(oldValue, newValue) {
-      checkRegistrationStatus(newValue)
+    registrationStatus() {
+      checkRegistrationStatus(this.registrationStatus)
     }
   },
   computed: mapState(['verificationError', 'requestPin', 'registrationStatus']),
