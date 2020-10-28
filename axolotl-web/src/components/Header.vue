@@ -11,7 +11,7 @@
             </button>
             <div class="row w-100" v-if="currentChat!=null">
               <div class="col-2 badge-container">
-                <div v-if="currentChat!=null&&currentChat.IsGroup" class="badge-name">
+                <div v-if="currentChat!=null" class="badge-name">
                   <img class="avatar-img" :src="'http://localhost:9080/avatars?file='+currentChat.Tel" @error="onImageError($event)" />
                   <font-awesome-icon icon="user-friends" />
                 </div>

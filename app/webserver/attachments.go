@@ -9,6 +9,7 @@ import (
 
 	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/store"
+	"github.com/signal-golang/textsecure"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -67,7 +68,18 @@ func avatarsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	//handle group abvatars
-	if len(Filename) > 30 {
+	if Filename[0] == '+' {
+		profile, err := textsecure.GetProfile(Filename)
+		if err != nil || len(profile.Avatar) == 0 {
+			http.Error(w, "File not found.", 404)
+			return
+		}
+		avatar := []byte(profile.Avatar)
+		FileContentType := http.DetectContentType(avatar)
+		w.Header().Set("Content-Disposition", "attachment; filename="+Filename+".png")
+		w.Header().Set("Content-Type", FileContentType)
+		w.Write(avatar)
+	} else {
 		group := store.GetGroupById(Filename)
 		if group == nil {
 			//File not found, send 404
@@ -78,60 +90,5 @@ func avatarsHandler(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Disposition", "attachment; filename="+Filename+".png")
 		w.Header().Set("Content-Type", FileContentType)
 		w.Write(group.Avatar)
-	} else {
-		// log.Debugln("[axolotl] non group")
-		Filename = "+" + Filename[1:]
-		avatar := store.GetContactForTel(Filename)
-		if avatar == nil {
-			http.Error(w, "File not found.", 404)
-			return
-		}
-		if len(avatar.Avatar) == 0 {
-			//File not found, send 404
-			http.Error(w, "File not found.", 404)
-			return
-		}
-		log.Debugln("avatar len >0")
-		FileContentType := http.DetectContentType(avatar.Avatar)
-		log.Debugln(FileContentType)
-		w.Header().Set("Content-Disposition", "attachment; filename="+Filename+".png")
-		w.Header().Set("Content-Type", FileContentType)
-		w.Write(avatar.Avatar)
-
 	}
-	//
-	// //Check if file exists and open
-	// Openfile, err := os.Open(Filename)
-	// defer Openfile.Close() //Close after function return
-	// if err != nil {
-	// 	//File not found, send 404
-	// 	http.Error(w, "File not found.", 404)
-	// 	return
-	// }
-	// //File is found, create and send the correct headers
-	//
-	// //Get the Content-Type of the file
-	// //Create a buffer to store the header of the file in
-	// FileHeader := make([]byte, 512)
-	// //Copy the headers into the FileHeader buffer
-	// Openfile.Read(FileHeader)
-	// //Get content type of file
-	// FileContentType := http.DetectContentType(FileHeader)
-	//
-	// //Get the file size
-	// FileStat, _ := Openfile.Stat()                     //Get info from file
-	// FileSize := strconv.FormatInt(FileStat.Size(), 10) //Get file size as a string
-	//
-	// //Send the headers
-	// w.Header().Set("Content-Disposition", "attachment; filename="+Filename)
-	// w.Header().Set("Content-Type", FileContentType)
-	// w.Header().Set("Content-Length", FileSize)
-	//
-	// //Send the file
-	// //We read 512 bytes from the file already, so we reset the offset back to 0
-	// Openfile.Seek(0, 0)
-	// io.Copy(w, Openfile) //'Copy' the file to the client
-	// return
-}
-func attachmentServer() {
 }

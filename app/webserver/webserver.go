@@ -33,7 +33,6 @@ var broadcast = make(chan []byte, 100)
 func Run() error {
 	log.Printf("[axolotl] Starting axolotl ws")
 	go syncClients()
-	go attachmentServer()
 	go websocketSender()
 	webserver()
 	return nil
