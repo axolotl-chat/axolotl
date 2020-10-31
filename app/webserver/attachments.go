@@ -58,7 +58,6 @@ func attachmentsHandler(w http.ResponseWriter, r *http.Request) {
 	return
 }
 func avatarsHandler(w http.ResponseWriter, r *http.Request) {
-
 	Filename := r.URL.Query().Get("file")
 	// log.Debugln("[axolotl] open avatar file: " + Filename)
 	if Filename == "" {
@@ -68,7 +67,8 @@ func avatarsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	//handle group abvatars
-	if Filename[0] == '+' {
+	if len(Filename)  != 32 {
+		Filename = strings.ReplaceAll(Filename, " ", "+")
 		profile, err := textsecure.GetProfile(Filename)
 		if err != nil || len(profile.Avatar) == 0 {
 			http.Error(w, "File not found.", 404)
