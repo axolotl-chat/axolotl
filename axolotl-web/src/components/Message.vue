@@ -257,6 +257,7 @@ video,
   margin-left: 4px;
   background-repeat: no-repeat;
   background-position: center;
+  background-size: contain;
 }
 .error .transfer-indicator {
   background-image: url("../assets/images/warning.svg");
