@@ -141,7 +141,7 @@ func FindQuotedMessage(quote *signalservice.DataMessage_Quote) (error, int64) {
 		return err, -1
 	}
 	if len(quotedMessages) == 0 {
-		return errors.New("quoted message not found " + string(quote.GetId())), -1
+		return errors.New("quoted message not found " + fmt.Sprint(quote.GetId())), -1
 	}
 	id := quotedMessages[0].ID
 	return nil, id
