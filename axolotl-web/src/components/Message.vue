@@ -71,7 +71,8 @@
        </div>
        <div class="message-text">
          <blockquote v-if="message.QuotedMessage != null">
-           <cite>{{getName(message.QuotedMessage.Source)}}</cite>
+           <cite v-if="message.QuotedMessage.Outgoing"  v-translate>You</cite>
+           <cite v-else>{{getName(message.QuotedMessage.Source)}}</cite>
            <p>{{message.QuotedMessage.Message}}</p>
          </blockquote>
          <div class="message-text-content" v-html="message.Message" v-linkified ></div>
