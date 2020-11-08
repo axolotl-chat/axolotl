@@ -47,16 +47,14 @@ $link-color: $primary;
 .transfer-indicator {
   background-image: url("../assets/images/" + $sending-url);
 }
-
 .sent .transfer-indicator {
-background-image: url("../assets/images/" + $sent-url);
+  background-image: url("../assets/images/" + $sent-url);
 }
 .delivered .transfer-indicator {
-background-image: url("../assets/images/" + $delivered-url);
+  background-image: url("../assets/images/" + $delivered-url);
 }
-
 .read .transfer-indicator {
-background-image: url("../assets/images/" + $read-url);
+  background-image: url("../assets/images/" + $read-url);
 }
 
 .messageInputBox {
