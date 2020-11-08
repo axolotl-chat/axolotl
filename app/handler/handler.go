@@ -117,12 +117,6 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		msgFlags = helpers.MsgFlagReaction
 		text = msg.Reaction().GetEmoji()
 	}
-	if msg.Quote() != nil {
-		msgFlags = helpers.MsgFlagQuote
-		text = ">" + msg.Quote().GetText() + `
-
-		` + msg.Message()
-	}
 	session := store.SessionsModel.Get(s)
 	var m *store.Message
 	if syncMessage {
@@ -137,6 +131,22 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 	store.UpdateSession(session)
 	m.ExpireTimer = msg.ExpireTimer()
 	m.HTime = helpers.HumanizeTimestamp(m.SentAt)
+	if msg.Quote() != nil {
+		msgFlags = helpers.MsgFlagQuote
+		text = msg.Message()
+		err, id := store.FindQuotedMessage(msg.Quote())
+		if err != nil || id == -1 {
+			// create quoted message
+			quoteMessage := session.Add(text, msg.Quote().GetAuthorE164(), nil, msg.Quote().GetText(), false, store.ActiveSessionID)
+			quoteMessage.Flags = helpers.MsgFlagHiddenQuote
+			err, savedQuoteMessage := store.SaveMessage(quoteMessage)
+			id = savedQuoteMessage.ID
+			if err != nil {
+				log.Debugln("[axolotl] Error saving quote message")
+			}
+		}
+		m.QuoteID = id
+	}
 	session.Timestamp = m.SentAt
 	session.When = m.HTime
 	if gr != nil && gr.Flags == textsecure.GroupUpdateFlag {
