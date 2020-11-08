@@ -253,10 +253,10 @@ video,
 }
 .transfer-indicator {
   width: 18px;
-  height: 18px;
+  height: 12px;
   margin-left: 4px;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: left center;
 }
 .error .transfer-indicator {
   background-image: url("../assets/images/warning.svg");
