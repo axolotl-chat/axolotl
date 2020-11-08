@@ -4,11 +4,16 @@
     <h1 class="title">Axolotl Beta {{config.Version}}</h1>
     <h2 class="subtitle" v-translate>A cross-plattform signal client</h2>
     <div class="description">
-      <span v-translate>This is a free and open source signal client written in golang and vuejs.
-      You can support the development of axolotl either by filling</span> <br/>
-      <a href="https://github.com/nanu-c/axolotl/issues" @click="openExtern($event, 'https://github.com/nanu-c/axolotl/issues')" ><span v-translate>issues at the bug tracker</span></a>. <br />
-      <span v-translate>or</span><br />
-      <span v-translate>by becoming a </span>
+      <span v-translate class="mr-1">This is a free and open source signal client </span>
+      <span v-translate class="mr-1">written in golang and vuejs.</span>
+      <br />
+      <span v-translate>You can support the development of axolotl either by filling</span>
+      <br/>
+      <a href="https://github.com/nanu-c/axolotl/issues" @click="openExtern($event, 'https://github.com/nanu-c/axolotl/issues')" ><span v-translate>issues at the bug tracker</span></a>.
+      <br />
+      <span v-translate>or</span>
+      <br />
+      <span v-translate class="mr-1">by becoming a</span>
       <a href="https://www.patreon.com/bePatron?u=11219559" @click="openExtern($event, 'https://www.patreon.com/bePatron?u=11219559')"><span v-translate>sponsor on patreon.</span></a><br />
       <br />
       <font-awesome-icon id="heart" icon="heart" />
