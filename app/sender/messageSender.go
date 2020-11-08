@@ -66,7 +66,7 @@ func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
 		}
 	}
 	ts := SendMessageLoop(s.Tel, m.Message, s.IsGroup, att, m.Flags, s.ExpireTimer)
-	log.Debugln("[axolotl] SendMessage", s.Tel)
+	log.Debugln("[axolotl] SendMessage", s.Tel, ts)
 	m.SentAt = ts
 	m.ExpireTimer = s.ExpireTimer
 	s.Timestamp = m.SentAt
