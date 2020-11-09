@@ -41,10 +41,6 @@ msgstr "Leden toevoegen"
 msgid "Audio"
 msgstr "Audio"
 
-#: src/pages/About.vue:15
-msgid "by becoming a"
-msgstr "door een"
-
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
 msgstr "Kan de contactpersoonslijst niet aanpassen: {{error}}"
@@ -191,8 +187,9 @@ msgid "Note, you can't add yourself to a group."
 msgstr "Je kunt jezelf niet toevoegen aan een groep."
 
 #: src/pages/About.vue:13
-msgid "or"
-msgstr "of"
+#, fuzzy
+msgid "or by becoming a"
+msgstr "door een"
 
 #: src/pages/Verification.vue:4
 msgid "or disable it on Android/IOs"
@@ -282,13 +279,14 @@ msgstr "Instellingen"
 msgid "Show identity"
 msgstr "Identiteit tonen"
 
-#: src/pages/About.vue:16
+#: src/pages/About.vue:14
 msgid "sponsor on patreon."
 msgstr "sponsor te worden op Patreon."
 
 #: src/pages/About.vue:6
 #, fuzzy
-msgid "This is a free and open source signal client"
+msgid ""
+"This is a free and open source signal client written in golang and vuejs."
 msgstr ""
 "Dit is een gratis, opensource Signal-client, geschreven in golang en vuejs.\n"
 "    Je kunt de ontwikkeling van Axolotl ondersteunen door"
@@ -327,13 +325,6 @@ msgstr "Identiteit verifiëren"
 msgid "Video"
 msgstr "Video"
 
-#: src/pages/About.vue:7
-#, fuzzy
-msgid "written in golang and vuejs."
-msgstr ""
-"Dit is een gratis, opensource Signal-client, geschreven in golang en vuejs.\n"
-"    Je kunt de ontwikkeling van Axolotl ondersteunen door"
-
 #: src/pages/Verification.vue:19
 msgid "Wrong code entered. Restart for another try."
 msgstr "De ingevoerde code is onjuist. Herstart en probeer het opnieuw."
@@ -342,7 +333,7 @@ msgstr "De ingevoerde code is onjuist. Herstart en probeer het opnieuw."
 msgid "You"
 msgstr ""
 
-#: src/pages/About.vue:9
+#: src/pages/About.vue:8
 #, fuzzy
 msgid "You can support the development of axolotl either by filling"
 msgstr ""
@@ -357,6 +348,16 @@ msgstr "Je browser heeft geen ondersteuning voor het audio-element."
 #: src/components/Message.vue:61
 msgid "Your browser does not support the video element."
 msgstr "Je browser heeft geen ondersteuning voor het video-element."
+
+#~ msgid "or"
+#~ msgstr "of"
+
+#, fuzzy
+#~ msgid "written in golang and vuejs."
+#~ msgstr ""
+#~ "Dit is een gratis, opensource Signal-client, geschreven in golang en "
+#~ "vuejs.\n"
+#~ "    Je kunt de ontwikkeling van Axolotl ondersteunen door"
 
 #~ msgid "No devices available"
 #~ msgstr "Geen beschikbare apparaten"

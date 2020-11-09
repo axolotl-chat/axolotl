@@ -42,10 +42,6 @@ msgstr "குழு உறுப்பினர்கள்"
 msgid "Audio"
 msgstr "ஒலி"
 
-#: src/pages/About.vue:15
-msgid "by becoming a"
-msgstr ""
-
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
 msgstr ""
@@ -197,7 +193,7 @@ msgid "Note, you can't add yourself to a group."
 msgstr ""
 
 #: src/pages/About.vue:13
-msgid "or"
+msgid "or by becoming a"
 msgstr ""
 
 #: src/pages/Verification.vue:4
@@ -290,12 +286,13 @@ msgstr "அமைப்புகள்"
 msgid "Show identity"
 msgstr "அடையாளத்தை சரிபார்"
 
-#: src/pages/About.vue:16
+#: src/pages/About.vue:14
 msgid "sponsor on patreon."
 msgstr ""
 
 #: src/pages/About.vue:6
-msgid "This is a free and open source signal client"
+msgid ""
+"This is a free and open source signal client written in golang and vuejs."
 msgstr ""
 
 #: src/components/Header.vue:26 src/pages/ChatList.vue:25
@@ -334,10 +331,6 @@ msgstr "அடையாளத்தை சரிபார்"
 msgid "Video"
 msgstr "காணொளி"
 
-#: src/pages/About.vue:7
-msgid "written in golang and vuejs."
-msgstr ""
-
 #: src/pages/Verification.vue:19
 msgid "Wrong code entered. Restart for another try."
 msgstr ""
@@ -346,7 +339,7 @@ msgstr ""
 msgid "You"
 msgstr ""
 
-#: src/pages/About.vue:9
+#: src/pages/About.vue:8
 msgid "You can support the development of axolotl either by filling"
 msgstr ""
 

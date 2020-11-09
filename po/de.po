@@ -41,10 +41,6 @@ msgstr "Mitglieder hinzufügen"
 msgid "Audio"
 msgstr "Audio"
 
-#: src/pages/About.vue:15
-msgid "by becoming a"
-msgstr "als"
-
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
 msgstr "Fehler beim ändern der Kontaktliste {{error}}"
@@ -191,8 +187,8 @@ msgid "Note, you can't add yourself to a group."
 msgstr "Hinweis: du kannst dich nicht selbst zur Gruppe hinzufügen."
 
 #: src/pages/About.vue:13
-msgid "or"
-msgstr "oder"
+msgid "or by becoming a"
+msgstr "oder als"
 
 #: src/pages/Verification.vue:4
 msgid "or disable it on Android/IOs"
@@ -282,13 +278,14 @@ msgstr "Einstellungen"
 msgid "Show identity"
 msgstr "Kontakt überprüfen"
 
-#: src/pages/About.vue:16
+#: src/pages/About.vue:14
 msgid "sponsor on patreon."
 msgstr "Sponsor auf Patreon."
 
 #: src/pages/About.vue:6
-msgid "This is a free and open source signal client"
-msgstr "Dies ist ein freier Open Source Signal-Client"
+msgid ""
+"This is a free and open source signal client written in golang and vuejs."
+msgstr "Dies ist ein freier Open Source Signal-Client geschrieben mit Golang und Vuejs."
 
 #: src/components/Header.vue:26 src/pages/ChatList.vue:25
 msgid "Unknown group"
@@ -323,10 +320,6 @@ msgstr "Kontakt überprüfen"
 msgid "Video"
 msgstr "Video"
 
-#: src/pages/About.vue:7
-msgid "written in golang and vuejs."
-msgstr "geschrieben mit Golang und Vuejs."
-
 #: src/pages/Verification.vue:19
 msgid "Wrong code entered. Restart for another try."
 msgstr "Falscher Code eingegeben. Neustarten für einen weiteren Versuch."
@@ -335,7 +328,7 @@ msgstr "Falscher Code eingegeben. Neustarten für einen weiteren Versuch."
 msgid "You"
 msgstr "Du"
 
-#: src/pages/About.vue:9
+#: src/pages/About.vue:8
 msgid "You can support the development of axolotl either by filling"
 msgstr "Du kannst die Entwicklung von Axolotl unterstützen durch das Erstellen von"
 
@@ -347,6 +340,12 @@ msgstr "Dein Browser unterstützt dieses Audio-Element nicht."
 #: src/components/Message.vue:61
 msgid "Your browser does not support the video element."
 msgstr "Dein Browser unterstützt dieses Video-Element nicht."
+
+#~ msgid "or"
+#~ msgstr "oder"
+
+#~ msgid "written in golang and vuejs."
+#~ msgstr "geschrieben mit Golang und Vuejs."
 
 #~ msgid "No devices available"
 #~ msgstr "Keine Geräte vorhanden"
