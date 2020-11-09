@@ -159,3 +159,16 @@ func GetMessageById(id int64) (error, *Message) {
 	}
 	return nil, &message[0]
 }
+
+// FindOutgoingMessage returns  a message that is found by it's timestamp
+func FindOutgoingMessage(timestamp uint64) (*Message, error) {
+	var message = []Message{}
+	err := DS.Dbx.Select(&message, "SELECT * FROM messages WHERE outgoing = 1 AND sentat = ?", timestamp)
+	if err != nil {
+		return nil, err
+	}
+	if len(message) == 0 {
+		return nil, errors.New("Message not found " + fmt.Sprint(timestamp))
+	}
+	return &message[0], nil
+}

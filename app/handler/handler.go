@@ -197,51 +197,47 @@ func CallMessageHandler(msg *textsecure.Message) {
 func TypingMessageHandler(msg *textsecure.Message) {
 	webserver.UpdateChatList()
 }
+
+// ReceiptHandler handles receipts for outgoing messages
 func ReceiptHandler(source string, devID uint32, timestamp uint64) {
-	log.Println("[axolotl] receiptHandler for message ", timestamp)
-	s := store.SessionsModel.Get(source)
-	for i := len(s.Messages) - 1; i >= 0; i-- {
-		m := s.Messages[i]
-		if m.SentAt == timestamp {
-			m.IsSent = true
-			m.Receipt = true
-			store.UpdateMessageReceipt(m)
-			webserver.UpdateMessageHandler(m)
-			return
-		}
+	m, err := store.FindOutgoingMessage(timestamp)
+	if err != nil {
+		log.Printf("[axolotl] ReceiptHandler: Message with timestamp %d not found\n", timestamp)
+	} else {
+		log.Println("[axolotl] ReceiptHandler for message ", timestamp, m.Source)
+		m.IsSent = true
+		m.Receipt = true
+		store.UpdateMessageReceipt(m)
+		webserver.UpdateMessageHandlerWithSource(m, m.Source)
+		return
 	}
-	webserver.UpdateChatList()
-	log.Printf("[axolotl] receipt: Message with timestamp %d not found\n", timestamp)
 }
 
+// ReceiptMessageHandler handles outgoing message receipts and marks messages as read
 func ReceiptMessageHandler(msg *textsecure.Message) {
-	log.Println("[axolotl] receiptMessageHandler for message ", msg.Timestamp())
-	log.Debugln("[axolotl] receiptMessageHandler for message ", msg.Timestamp(), msg.Message())
-
-	webserver.UpdateChatList()
-	s := store.SessionsModel.Get(msg.Source())
-	for i := len(s.Messages) - 1; i >= 0; i-- {
-		m := s.Messages[i]
-		if m.SentAt == msg.Timestamp() {
-			if msg.Message() == "readReceiptMessage" {
-				m.IsRead = true
-				m.IsSent = true
-				store.UpdateMessageRead(m)
-			} else if msg.Message() == "deliveryReceiptMessage" {
-				log.Debugln("[axolotl] unhandeld receipt message type for message ", msg.Timestamp(), msg.Message())
-				m.IsSent = true
-				store.UpdateMessageReceiptSent(m)
-			}
-			webserver.UpdateMessageHandler(m)
-			return
+	log.Println("[axolotl] ReceiptMessageHandler for message ", msg.Timestamp())
+	m, err := store.FindOutgoingMessage(msg.Timestamp())
+	if err != nil {
+		log.Printf("[axolotl] ReceiptMessageHandler: Message with timestamp %d not found\n", msg.Timestamp())
+		return
+	} else {
+		if msg.Message() == "readReceiptMessage" {
+			m.IsRead = true
+			m.IsSent = true
+			store.UpdateMessageRead(m)
+		} else if msg.Message() == "deliveryReceiptMessage" {
+			log.Debugln("[axolotl] unhandeld receipt message type for message ", msg.Timestamp(), msg.Message())
+			m.IsSent = true
+			store.UpdateMessageReceiptSent(m)
 		}
+		webserver.UpdateMessageHandlerWithSource(m, m.Source)
+		return
 	}
-	webserver.UpdateChatList()
-	log.Printf("[axolotl] receipt: Message with timestamp %d not found\n", msg.Timestamp())
 }
 
+// SyncSentHandler handle sync messages from signal desktop
 func SyncSentHandler(msg *textsecure.Message, timestamp uint64) {
 	log.Debugln("[axolotl] handle sync message", msg.Timestamp())
-
+	// use the same routine to save sync messages as incoming messages
 	buildAndSaveMessage(msg, true)
 }

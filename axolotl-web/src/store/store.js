@@ -184,7 +184,7 @@ export default new Vuex.Store({
       })
     },
     SET_MESSAGE_UPDATE(state, message) {
-      if (state.messageList.ID == message.ChatID) {
+      if (state.messageList.Session.ID == message.SID) {
         var index = state.messageList.Messages.findIndex(m => {
           return m.ID === message.ID;
         });

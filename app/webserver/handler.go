@@ -74,6 +74,23 @@ func UpdateMessageHandler(msg *store.Message) {
 		broadcast <- *message
 		UpdateChatList()
 	}
+}
+func UpdateMessageHandlerWithSource(msg *store.Message, source string) {
+	if source == activeChat {
+		log.Debugln("[axolotl-ws] UpdateMessageHandlerWithSource ", msg.SentAt)
+		updateMessage := &UpdateMessage{
+			UpdateMessage: msg,
+		}
+		var err error
+		message := &[]byte{}
+		*message, err = json.Marshal(updateMessage)
+		if err != nil {
+			log.Errorln("[axolotl-ws] ", err)
+			return
+		}
+		broadcast <- *message
+		UpdateChatList()
+	}
 
 }
 
