@@ -200,11 +200,11 @@ func TypingMessageHandler(msg *textsecure.Message) {
 
 // ReceiptHandler handles receipts for outgoing messages
 func ReceiptHandler(source string, devID uint32, timestamp uint64) {
-	m, err := store.GetMessageByTimestamp(timestamp)
-	log.Println("[axolotl] ReceiptHandler for message ", timestamp, m.Source)
+	m, err := store.FindOutgoingMessage(timestamp)
 	if err != nil {
 		log.Printf("[axolotl] ReceiptHandler: Message with timestamp %d not found\n", timestamp)
 	} else {
+		log.Println("[axolotl] ReceiptHandler for message ", timestamp, m.Source)
 		m.IsSent = true
 		m.Receipt = true
 		store.UpdateMessageReceipt(m)
@@ -216,7 +216,7 @@ func ReceiptHandler(source string, devID uint32, timestamp uint64) {
 // ReceiptMessageHandler handles outgoing message receipts and marks messages as read
 func ReceiptMessageHandler(msg *textsecure.Message) {
 	log.Println("[axolotl] ReceiptMessageHandler for message ", msg.Timestamp())
-	m, err := store.GetMessageByTimestamp(msg.Timestamp())
+	m, err := store.FindOutgoingMessage(msg.Timestamp())
 	if err != nil {
 		log.Printf("[axolotl] ReceiptMessageHandler: Message with timestamp %d not found\n", msg.Timestamp())
 		return
