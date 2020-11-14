@@ -1,7 +1,11 @@
 package store
 
 import (
+	"errors"
+	"fmt"
+
 	"github.com/nanu-c/axolotl/app/helpers"
+	signalservice "github.com/signal-golang/textsecure/protobuf"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -9,7 +13,7 @@ type Message struct {
 	ID            int64 `db:"id"`
 	SID           int64
 	ChatID        string
-	Source        string
+	Source        string `db:"source"`
 	Message       string
 	Outgoing      bool
 	SentAt        uint64
@@ -24,6 +28,8 @@ type Message struct {
 	SendingError  bool   `db:"sendingError"`
 	Receipt       bool   `db:"receipt"`
 	StatusMessage bool   `db:"statusMessage"`
+	QuoteID       int64  `db:"quoteId"`
+	QuotedMessage *Message
 }
 
 func SaveMessage(m *Message) (error, *Message) {
@@ -54,7 +60,7 @@ func UpdateMessageSent(m *Message) error {
 }
 
 func UpdateMessageRead(m *Message) error {
-	_, err := DS.Dbx.NamedExec("UPDATE messages SET isread = :isread WHERE id = :id", m)
+	_, err := DS.Dbx.NamedExec("UPDATE messages SET isread = :isread, issent = :issent, receipt = :receipt WHERE SendingError = 0 AND Outgoing = 1 AND Source = :source", m)
 	if err != nil {
 		return err
 	}
@@ -62,6 +68,13 @@ func UpdateMessageRead(m *Message) error {
 }
 func UpdateMessageReceiptSent(m *Message) error {
 	_, err := DS.Dbx.NamedExec("UPDATE messages SET issent = :issent WHERE id = :id", m)
+	if err != nil {
+		return err
+	}
+	return err
+}
+func UpdateMessageReceipt(m *Message) error {
+	_, err := DS.Dbx.NamedExec("UPDATE messages SET issent = :issent, receipt = :receipt WHERE id = :id", m)
 	if err != nil {
 		return err
 	}
@@ -102,21 +115,8 @@ func LoadMessagesFromDB() error {
 			m.HTime = helpers.HumanizeTimestamp(m.SentAt)
 		}
 	}
-	//qml.Changed(SessionsModel, &SessionsModel.Len)
 	return nil
 }
-
-// func LoadMessagesList(id int64) (error, *MessageList) {
-// 	messageList := &MessageList{
-// 		ID: id,
-// 	}
-// 	log.Printf("Loading Messages for " + string(id))
-// 	err := DS.Dbx.Select(&messageList.Messages, messagesSelectWhere, id)
-// 	if err != nil {
-// 		return err, nil
-// 	}
-// 	return nil, messageList
-// }
 func DeleteMessage(id int64) error {
 	_, err := DS.Dbx.Exec("DELETE FROM messages WHERE id = ?", id)
 	return err
@@ -130,4 +130,32 @@ func (s *Session) GetMessages(i int) *Message {
 }
 func (m *Message) GetName() string {
 	return TelToName(m.Source)
+}
+
+// FindQuotedMessage searches the equivalent message of DataMessage_Quote in our
+// DB and returns the local message id
+func FindQuotedMessage(quote *signalservice.DataMessage_Quote) (error, int64) {
+	var quotedMessages = []Message{}
+	err := DS.Dbx.Select(&quotedMessages, "SELECT * FROM messages WHERE sentat = ?", quote.GetId())
+	if err != nil {
+		return err, -1
+	}
+	if len(quotedMessages) == 0 {
+		return errors.New("quoted message not found " + fmt.Sprint(quote.GetId())), -1
+	}
+	id := quotedMessages[0].ID
+	return nil, id
+}
+
+// returns a message by it's ID
+func GetMessageById(id int64) (error, *Message) {
+	var message = []Message{}
+	err := DS.Dbx.Select(&message, "SELECT * FROM messages WHERE id = ?", id)
+	if err != nil {
+		return err, nil
+	}
+	if len(message) == 0 {
+		return errors.New("Message not found " + fmt.Sprint(id)), nil
+	}
+	return nil, &message[0]
 }

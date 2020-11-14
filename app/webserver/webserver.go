@@ -80,12 +80,8 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 func syncClients() {
 	for {
 		<-time.After(10 * time.Second)
-		// if registered {
-		// SetGui()
 		UpdateChatList()
 		UpdateContactList()
-		UpdateActiveChat()
-		// }
 	}
 }
 func wsReader(conn *websocket.Conn) {
@@ -144,8 +140,8 @@ func wsReader(conn *websocket.Conn) {
 		case "openChat":
 			openChatMessage := OpenChatMessage{}
 			json.Unmarshal([]byte(p), &openChatMessage)
-			log.Println("[axolotl] Open chat for ", openChatMessage.Id)
 			s := store.SessionsModel.Get(openChatMessage.Id)
+			log.Println("[axolotl] Open chat with id: ", s.ID)
 			activeChat = openChatMessage.Id
 			store.ActiveSessionID = activeChat
 			sendCurrentChat(s)
@@ -387,17 +383,25 @@ func webserver() {
 	for {
 		defer log.Errorln("[axolotl] webserver error")
 
-		path := "./axolotl-web/dist"
+		path := config.AxolotlWebDir
+
+		axolotlWebDirEnv := os.Getenv("AXOLOTL_WEB_DIR")
+		if len(axolotlWebDirEnv) > 0 {
+			path = axolotlWebDirEnv
+		}
+
 		snapEnv := os.Getenv("SNAP")
 		if len(snapEnv) > 0 && !strings.Contains(snapEnv, "/snap/go/") {
 			path = os.Getenv("SNAP") + "/bin/axolotl-web/"
 		}
-		log.Debugln("[axoltol] axoltol-web path", path)
+		log.Debugln("[axolotl] Using axolotl-web path", path)
+
 		http.Handle("/", http.FileServer(http.Dir(path)))
 		http.HandleFunc("/attachments", attachmentsHandler)
 		http.HandleFunc("/avatars", avatarsHandler)
 		http.HandleFunc("/ws", wsEndpoint)
-		log.Error("[axoltol] webserver error", http.ListenAndServe(config.ServerHost+":"+config.ServerPort, nil))
+
+		log.Error("[axolotl] webserver error", http.ListenAndServe(config.ServerHost+":"+config.ServerPort, nil))
 	}
 
 }

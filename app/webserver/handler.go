@@ -16,6 +16,7 @@ import (
 
 	"github.com/gorilla/websocket"
 	"github.com/nanu-c/axolotl/app/config"
+	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/nanu-c/axolotl/app/sender"
 	"github.com/nanu-c/axolotl/app/store"
 )
@@ -29,6 +30,17 @@ type MessageRecieved struct {
 func MessageHandler(msg *store.Message) {
 	messageRecieved := &MessageRecieved{
 		MessageRecieved: msg,
+	}
+	// fetch attached message
+	if msg.Flags == helpers.MsgFlagQuote {
+		if msg.QuoteID != -1 {
+			err, qm := store.GetMessageById(msg.QuoteID)
+			if err != nil {
+				log.Errorln("[axolotl] Quoted Message not found ", err)
+			} else {
+				msg.QuotedMessage = qm
+			}
+		}
 	}
 	var err error
 	message := &[]byte{}
@@ -48,7 +60,7 @@ type UpdateMessage struct {
 // UpdateMessageHandler sents message receipts to all connected clients for the activeChat
 func UpdateMessageHandler(msg *store.Message) {
 	if msg.ChatID == activeChat {
-		log.Debugln("[axolotl] UpdateMessageHandler ", msg.SentAt)
+		log.Debugln("[axolotl-ws] UpdateMessageHandler ", msg.SentAt)
 		updateMessage := &UpdateMessage{
 			UpdateMessage: msg,
 		}

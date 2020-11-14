@@ -98,6 +98,24 @@ func (s *Sessions) GetMessageList(id string) (error, *MessageList) {
 		}
 		err := DS.Dbx.Select(&messageList.Messages, messagesSelectWhere, messageList.Session.ID)
 		if err != nil {
+			log.Errorln("[axolotl] get messagelist", err)
+			return err, nil
+		}
+		// attach the quoted messages
+		for i, m := range messageList.Messages {
+			if m.Flags == helpers.MsgFlagQuote {
+				if m.QuoteID != -1 {
+					err, qm := GetMessageById(m.QuoteID)
+					if err != nil {
+						log.Debugln("[axolotl] messagelist quoted message: ", err)
+					} else {
+						m.QuotedMessage = qm
+						messageList.Messages[i] = m
+					}
+				}
+			}
+		}
+		if err != nil {
 			fmt.Println(err)
 			return err, nil
 		}
@@ -115,10 +133,23 @@ func (s *Sessions) GetMoreMessageList(id string, lastId string) (error, *Message
 			Session: s.GetSession(index),
 		}
 		err := DS.Dbx.Select(&messageList.Messages, messagesSelectWhereMore, messageList.Session.ID, lastId)
-		fmt.Println(lastId)
 		if err != nil {
 			fmt.Println(err)
 			return err, nil
+		}
+		// attach the quoted messages
+		for i, m := range messageList.Messages {
+			if m.Flags == helpers.MsgFlagQuote {
+				if m.QuoteID != -1 {
+					err, qm := GetMessageById(m.QuoteID)
+					if err != nil {
+						log.Debugln("[axolotl] messagelist quoted message: ", err)
+					} else {
+						m.QuotedMessage = qm
+						messageList.Messages[i] = m
+					}
+				}
+			}
 		}
 		return nil, messageList
 	} else {
@@ -126,10 +157,6 @@ func (s *Sessions) GetMoreMessageList(id string, lastId string) (error, *Message
 	}
 
 }
-
-// func (s *Sessions) GetActiveChat() *string {
-// 	return s.ActiveChat
-// }
 func (s *Session) Add(text string, source string, file []Attachment, mimetype string, outgoing bool, sessionID string) *Message {
 	var files []Attachment
 

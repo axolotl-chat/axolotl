@@ -4,6 +4,7 @@ on: [ push, pull_request ]
 
 jobs:
   build-axolotl:
+    name: Build axolotl
     strategy:
       fail-fast: false
       matrix:
@@ -11,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Set up Go 1.15
+      - name: Setup Go 1.15
         uses: actions/setup-go@v2
         with:
           go-version: 1.15
@@ -33,8 +34,10 @@ jobs:
         with:
           name: axolotl-${{ matrix.os }}-${{ github.run_number }}
           path: axolotl
+          retention-days: 1
 
   build-axolotl-web:
+    name: Build axolotl-web
     runs-on: ubuntu-latest
 
     steps:
@@ -63,3 +66,52 @@ jobs:
         with:
           name: axolotl-web-${{ github.run_number }}
           path: axolotl-web/dist/
+          retention-days: 1
+
+  package-appimage:
+    name: Package as an AppImage
+    needs: [build-axolotl, build-axolotl-web]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Download axolotl and axolotl-web build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: bin
+
+      - name: Setup appimagetool
+        run: |
+          curl -sLO https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod +x appimagetool-x86_64.AppImage
+
+      - name: Build the AppImage
+        env:
+          ARCH: x86_64
+        run: |
+          mkdir -p build/AppDir/usr/bin
+          cp -f bin/axolotl-ubuntu-latest-${{ github.run_number }}/axolotl build/AppDir/usr/bin/axolotl
+          chmod +x build/AppDir/usr/bin/axolotl
+
+          mkdir -p build/AppDir/usr/bin/axolotl-web/dist
+          cp -rf bin/axolotl-web-${{ github.run_number }}/* build/AppDir/usr/bin/axolotl-web/dist
+
+          cp -f appimage/AppDir/AppRun build/AppDir/AppRun
+          chmod +x build/AppDir/AppRun
+
+          cp -f appimage/AppDir/axolotl.desktop build/AppDir/axolotl.desktop
+          cp -f appimage/AppDir/axolotl.png build/AppDir/axolotl.png
+
+          mkdir -p build/AppDir/usr/share/metainfo
+          cp -f appimage/AppDir/axolotl.appdata.xml build/AppDir/usr/share/metainfo/axolotl.appdata.xml
+
+          ./appimagetool-x86_64.AppImage build/AppDir
+
+      - name: Upload the built AppImage artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Axolotl-x86_64-${{ github.run_number }}.AppImage
+          path: Axolotl-x86_64.AppImage
+          retention-days: 1

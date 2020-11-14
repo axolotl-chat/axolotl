@@ -2,7 +2,8 @@
    <div :class="{'col-12':true,
                'outgoing': message.Outgoing,
                'sent':message.IsSent && message.Outgoing,
-               'received':message.IsRead && message.Outgoing,
+               'read':message.IsRead && message.Outgoing,
+               'delivered':message.Receipt && message.Outgoing,
                'incoming':!message.Outgoing,
                'status':message.Flags>0&&message.Flags!=11&&message.Flags!=13&&message.Flags!=14
                ||message.StatusMessage||message.Attachment.includes('null')&&message.Message=='',
@@ -21,7 +22,7 @@
            <div  v-for="m in isAttachmentArray(message.Attachment)"
              v-bind:key="m.File">
              <div v-if="m.CType==2" class="attachment-img">
-               <img  :src="'http://localhost:9080/attachments?file='+m.File" @click="showFullscreenImg(m.File)"/>
+               <img  :src="'http://localhost:9080/attachments?file='+m.File" @click="$emit('showFullscreenImg',m.File)"/>
              </div>
              <div v-else-if="m.CType==3" class="attachment-audio">
                <audio controls>
@@ -32,7 +33,7 @@
              <div v-else-if="m.File!='' &&m.CType==0" class="attachment-file">
                <a @click="shareAttachment(m.File,$event)" :href="'http://localhost:9080/attachments?file='+m.File">{{m.FileName?m.FileName:m.File}}</a>
              </div>
-             <div v-else-if="m.CType==5" class="attachment-video" @click="showFullscreenVideo(m.File)">
+             <div v-else-if="m.CType==5" class="attachment-video" @click="$emit('showFullscreenVideo', m.File)">
                <video @click="showFullscreenVideo(m.File)">
                  <source :src="'http://localhost:9080/attachments?file='+m.File">
                    <span v-translate>Your browser does not support the audio element.</span>
@@ -45,7 +46,7 @@
          </div>
          <!-- this is legacy code -->
          <div v-else-if="message.CType==2" class="attachment-img">
-           <img  :src="'http://localhost:9080/attachments?file='+message.Attachment" @click="showFullscreenImg(message.Attachment)"/>
+           <img  :src="'http://localhost:9080/attachments?file='+message.Attachment" @click="$emit('showFullscreenImg', message.Attachment)"/>
          </div>
          <div v-else-if="message.CType==3" class="attachment-audio">
            <audio controls>
@@ -57,7 +58,7 @@
            {{message.Attachment}}
            <a :href="'http://localhost:9080/attachments?file='+message.Attachment">File</a>
          </div>
-         <div v-else-if="message.CType==5" class="attachment-video" @click="showFullscreenVideo(message.Attachment)">
+         <div v-else-if="message.CType==5" class="attachment-video" @click="$emit('showFullscreenVideo', message.Attachment)">
            <video @click="showFullscreenVideo(message.Attachment)">
              <source :src="'http://localhost:9080/attachments?file='+message.Attachment">
                <span v-translate>Your browser does not support the video element.</span>
@@ -69,6 +70,11 @@
          </div>
        </div>
        <div class="message-text">
+         <blockquote v-if="message.QuotedMessage != null">
+           <cite v-if="message.QuotedMessage.Outgoing"  v-translate>You</cite>
+           <cite v-else>{{getName(message.QuotedMessage.Source)}}</cite>
+           <p>{{message.QuotedMessage.Message}}</p>
+         </blockquote>
          <div class="message-text-content" v-html="message.Message" v-linkified ></div>
          <div class="status-message" v-if="message.Attachment.includes('null')&&message.Message==''&&message.Flags==0">
            <span v-translate>Set timer for self-destructing messages </span>
@@ -103,10 +109,30 @@
 
 <script>
 import moment from 'moment';
+import { mapState } from 'vuex';
+
 export default {
   name: 'Message',
-  props: ['message', 'isGroup'],
+  props: ['message', 'isGroup', 'names'],
+  computed: mapState(['contacts']),
   methods: {
+    getName(tel){
+      if(this.contacts!=null){
+        if(typeof this.names[tel]=="undefined"){
+          var contact = this.contacts.find(function(element) {
+            return element.Tel == tel;
+          });
+          if(typeof contact!="undefined"){
+            this.names[tel]=contact.Name;
+            return contact.Name
+          }else{
+            this.names[tel] = tel;
+            return tel
+          }
+        }else return this.names[tel]
+      }
+      return tel;
+    },
     isAttachmentArray(input){
       try{
         var attachments = JSON.parse(input)
@@ -165,7 +191,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .message-text{
   overflow-wrap: break-word;
 }
@@ -227,10 +253,10 @@ video,
 }
 .transfer-indicator {
   width: 18px;
-  height: 18px;
+  height: 12px;
   margin-left: 4px;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: left center;
 }
 .error .transfer-indicator {
   background-image: url("../assets/images/warning.svg");
@@ -282,5 +308,21 @@ video,
 .gallery img{
   padding-right:3px;
   padding-bottom:3px;
+}
+blockquote {
+  padding: 0.5rem;
+  margin-bottom: 5px;
+  background-color: #00000044;
+  border-left: solid 4px #00000044;
+  border-radius: 4px;
+
+  cite {
+    font-style: normal;
+    font-weight: bold;
+  }
+
+  p {
+    margin: 0;
+  }
 }
 </style>
