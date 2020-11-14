@@ -34,7 +34,7 @@
                <a @click="shareAttachment(m.File,$event)" :href="'http://localhost:9080/attachments?file='+m.File">{{m.FileName?m.FileName:m.File}}</a>
              </div>
              <div v-else-if="m.CType==5" class="attachment-video" @click="$emit('showFullscreenVideo', m.File)">
-               <video @click="showFullscreenVideo(m.File)">
+               <video>
                  <source :src="'http://localhost:9080/attachments?file='+m.File">
                    <span v-translate>Your browser does not support the audio element.</span>
                </video>
@@ -59,7 +59,7 @@
            <a :href="'http://localhost:9080/attachments?file='+message.Attachment">File</a>
          </div>
          <div v-else-if="message.CType==5" class="attachment-video" @click="$emit('showFullscreenVideo', message.Attachment)">
-           <video @click="showFullscreenVideo(message.Attachment)">
+           <video>
              <source :src="'http://localhost:9080/attachments?file='+message.Attachment">
                <span v-translate>Your browser does not support the video element.</span>
            </video>

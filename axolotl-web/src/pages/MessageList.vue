@@ -146,12 +146,12 @@ export default {
       } else
       saveAs('http://localhost:9080/attachments?file='+this.showFullscreenImgSrc)
     },
-    saveVid(e){
+    saveVideo(e){
       if(typeof this.config.Gui!="undefined"&&this.config.Gui=="ut"){
         e.preventDefault();
         alert("[oV]"+this.showFullscreenVideoSrc)
       } else
-      saveAs('http://localhost:9080/attachments?file='+this.showFullscreenImgSrc)
+      saveAs('http://localhost:9080/attachments?file='+this.showFullscreenVideoSrc)
     },
     sendMessage(){
       if(this.messageInput!=""){
