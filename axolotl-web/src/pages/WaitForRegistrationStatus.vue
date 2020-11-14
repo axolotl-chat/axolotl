@@ -13,6 +13,8 @@ export default {
       checkRegistrationStatus(this.registrationStatus)
     }
   },
+  created(){
+    // this.$store.dispatch("getRegistrationStatus");
     checkRegistrationStatus(this.registrationStatus)
   }
 }
