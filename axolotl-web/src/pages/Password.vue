@@ -33,7 +33,6 @@ export default {
   },
   mounted(){
     document.getElementById("passwordInput").focus();
-    this.$store.dispatch("getRegistrationStatus");
   },
   watch:{
     registrationStatus() {

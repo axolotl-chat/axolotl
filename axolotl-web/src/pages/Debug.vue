@@ -24,7 +24,6 @@ export default {
     }
   },
   mounted(){
-    this.$store.dispatch("getRegistrationStatus");
     // To be sure that this page isn't hidden by the loader
     let loader = document.getElementById('initial-loader');
     if (loader != undefined) {

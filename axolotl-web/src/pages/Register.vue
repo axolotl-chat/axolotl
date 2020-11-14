@@ -61,7 +61,6 @@ export default {
   mounted(){
     var userLang = navigator.language || navigator.userLanguage;
     this.$language.current = userLang;
-    this.$store.dispatch("getRegistrationStatus");
     document.getElementById("VuePhoneNumberInput_phone_number").focus();
   },
   data() {

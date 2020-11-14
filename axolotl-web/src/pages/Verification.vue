@@ -38,7 +38,6 @@ export default {
     msg: String
   },
   mounted(){
-    // this.$store.dispatch("getRegistrationStatus");
     checkRegistrationStatus(this.registrationStatus)
     document.getElementsByClassName("form-control")[0].focus()
   },
