@@ -42,10 +42,6 @@ msgstr "Удзельнікі групы"
 msgid "Audio"
 msgstr "Аўдыё"
 
-#: src/pages/About.vue:10
-msgid "by becoming a"
-msgstr ""
-
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
 msgstr ""
@@ -137,7 +133,7 @@ msgstr ""
 msgid "Info"
 msgstr ""
 
-#: src/pages/About.vue:8
+#: src/pages/About.vue:11
 msgid "issues at the bug tracker"
 msgstr ""
 
@@ -182,11 +178,11 @@ msgstr ""
 msgid "No linked devices"
 msgstr ""
 
-#: src/pages/MessageList.vue:128
+#: src/pages/MessageList.vue:25
 msgid "No Messages available."
 msgstr ""
 
-#: src/pages/MessageList.vue:64 src/pages/MessageList.vue:90
+#: src/components/Message.vue:40 src/components/Message.vue:66
 msgid "Not supported mime type:"
 msgstr ""
 
@@ -194,8 +190,8 @@ msgstr ""
 msgid "Note, you can't add yourself to a group."
 msgstr ""
 
-#: src/pages/About.vue:9
-msgid "or"
+#: src/pages/About.vue:13
+msgid "or by becoming a"
 msgstr ""
 
 #: src/pages/Verification.vue:4
@@ -267,7 +263,7 @@ msgstr ""
 msgid "Set password"
 msgstr ""
 
-#: src/pages/MessageList.vue:96
+#: src/components/Message.vue:77
 msgid "Set timer for self-destructing messages"
 msgstr ""
 
@@ -286,14 +282,13 @@ msgstr "Налады"
 msgid "Show identity"
 msgstr "Праверыць ідэнтыфікатар"
 
-#: src/pages/About.vue:11
+#: src/pages/About.vue:14
 msgid "sponsor on patreon."
 msgstr ""
 
 #: src/pages/About.vue:6
 msgid ""
-"This is a free and open source signal client written in golang and vuejs.\n"
-"      You can support the development of axolotl either by filling"
+"This is a free and open source signal client written in golang and vuejs."
 msgstr ""
 
 #: src/components/Header.vue:26 src/pages/ChatList.vue:25
@@ -315,7 +310,7 @@ msgstr "Зарэгістравацца"
 msgid "Unsafe password"
 msgstr ""
 
-#: src/pages/MessageList.vue:99
+#: src/components/Message.vue:80
 msgid "Unsupported message type: sticker"
 msgstr ""
 
@@ -336,12 +331,20 @@ msgstr ""
 msgid "Wrong code entered. Restart for another try."
 msgstr ""
 
-#: src/pages/MessageList.vue:14 src/pages/MessageList.vue:51
-#: src/pages/MessageList.vue:60 src/pages/MessageList.vue:75
+#: src/components/Message.vue:71
+msgid "You"
+msgstr ""
+
+#: src/pages/About.vue:8
+msgid "You can support the development of axolotl either by filling"
+msgstr ""
+
+#: src/components/Message.vue:27 src/components/Message.vue:36
+#: src/components/Message.vue:51 src/pages/MessageList.vue:14
 msgid "Your browser does not support the audio element."
 msgstr ""
 
-#: src/pages/MessageList.vue:85
+#: src/components/Message.vue:61
 msgid "Your browser does not support the video element."
 msgstr ""
 

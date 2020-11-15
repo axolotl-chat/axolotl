@@ -41,10 +41,6 @@ msgstr "Mitglieder hinzufügen"
 msgid "Audio"
 msgstr "Audio"
 
-#: src/pages/About.vue:10
-msgid "by becoming a"
-msgstr "als"
-
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
 msgstr "Fehler beim ändern der Kontaktliste {{error}}"
@@ -133,7 +129,7 @@ msgstr "Kontake werden importiert, komm später zurück"
 msgid "Info"
 msgstr "Info"
 
-#: src/pages/About.vue:8
+#: src/pages/About.vue:11
 msgid "issues at the bug tracker"
 msgstr "Fehlerberichten"
 
@@ -178,11 +174,11 @@ msgstr "Keine Chats vorhanden"
 msgid "No linked devices"
 msgstr "Verknüpfte Geräte"
 
-#: src/pages/MessageList.vue:128
+#: src/pages/MessageList.vue:25
 msgid "No Messages available."
 msgstr "Keine Nachrichten vorhanden."
 
-#: src/pages/MessageList.vue:64 src/pages/MessageList.vue:90
+#: src/components/Message.vue:40 src/components/Message.vue:66
 msgid "Not supported mime type:"
 msgstr "Nicht unterstützer Mime-Typ:"
 
@@ -190,9 +186,9 @@ msgstr "Nicht unterstützer Mime-Typ:"
 msgid "Note, you can't add yourself to a group."
 msgstr "Hinweis: du kannst dich nicht selbst zur Gruppe hinzufügen."
 
-#: src/pages/About.vue:9
-msgid "or"
-msgstr "oder"
+#: src/pages/About.vue:13
+msgid "or by becoming a"
+msgstr "oder als"
 
 #: src/pages/Verification.vue:4
 msgid "or disable it on Android/IOs"
@@ -262,7 +258,7 @@ msgstr "Verschlüsselung Passwort setzen"
 msgid "Set password"
 msgstr "Passwort setzen"
 
-#: src/pages/MessageList.vue:96
+#: src/components/Message.vue:77
 msgid "Set timer for self-destructing messages"
 msgstr "Zeitbegrenzung für verschwindende Nachrichten festgelegt"
 
@@ -282,19 +278,14 @@ msgstr "Einstellungen"
 msgid "Show identity"
 msgstr "Kontakt überprüfen"
 
-#: src/pages/About.vue:11
+#: src/pages/About.vue:14
 msgid "sponsor on patreon."
 msgstr "Sponsor auf Patreon."
 
 #: src/pages/About.vue:6
 msgid ""
-"This is a free and open source signal client written in golang and vuejs.\n"
-"      You can support the development of axolotl either by filling"
-msgstr ""
-"Dies ist ein freier Open Source Signal-Client geschrieben mit Golang und "
-"Vuejs.\n"
-"    Du kannst die Entwicklung von Axolotl unterstützen durch das Erstellen "
-"von"
+"This is a free and open source signal client written in golang and vuejs."
+msgstr "Dies ist ein freier Open Source Signal-Client geschrieben mit Golang und Vuejs."
 
 #: src/components/Header.vue:26 src/pages/ChatList.vue:25
 msgid "Unknown group"
@@ -313,7 +304,7 @@ msgstr "Registrierung löschen"
 msgid "Unsafe password"
 msgstr "Unsicheres Passwort"
 
-#: src/pages/MessageList.vue:99
+#: src/components/Message.vue:80
 msgid "Unsupported message type: sticker"
 msgstr "Nicht unterstützter Nachrichtentyp: Sticker"
 
@@ -333,14 +324,28 @@ msgstr "Video"
 msgid "Wrong code entered. Restart for another try."
 msgstr "Falscher Code eingegeben. Neustarten für einen weiteren Versuch."
 
-#: src/pages/MessageList.vue:14 src/pages/MessageList.vue:51
-#: src/pages/MessageList.vue:60 src/pages/MessageList.vue:75
+#: src/components/Message.vue:71
+msgid "You"
+msgstr "Du"
+
+#: src/pages/About.vue:8
+msgid "You can support the development of axolotl either by filling"
+msgstr "Du kannst die Entwicklung von Axolotl unterstützen durch das Erstellen von"
+
+#: src/components/Message.vue:27 src/components/Message.vue:36
+#: src/components/Message.vue:51 src/pages/MessageList.vue:14
 msgid "Your browser does not support the audio element."
 msgstr "Dein Browser unterstützt dieses Audio-Element nicht."
 
-#: src/pages/MessageList.vue:85
+#: src/components/Message.vue:61
 msgid "Your browser does not support the video element."
 msgstr "Dein Browser unterstützt dieses Video-Element nicht."
+
+#~ msgid "or"
+#~ msgstr "oder"
+
+#~ msgid "written in golang and vuejs."
+#~ msgstr "geschrieben mit Golang und Vuejs."
 
 #~ msgid "No devices available"
 #~ msgstr "Keine Geräte vorhanden"
