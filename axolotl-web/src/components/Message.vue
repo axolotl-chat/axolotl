@@ -38,6 +38,7 @@
                  <source :src="'http://localhost:9080/attachments?file='+m.File">
                    <span v-translate>Your browser does not support the audio element.</span>
                </video>
+               <img class="play-button" src="../assets/images/play.svg" />
              </div>
              <div v-else-if="m.File!=''" class="attachment">
                <span v-translate>Not supported mime type:</span> {{m.CType}}
@@ -308,6 +309,18 @@ video,
 .gallery img{
   padding-right:3px;
   padding-bottom:3px;
+}
+.attachment-video{
+  position:relative;
+
+  .play-button {
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
 }
 blockquote {
   padding: 0.5rem;
