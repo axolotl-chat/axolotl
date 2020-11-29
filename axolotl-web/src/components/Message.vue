@@ -34,10 +34,11 @@
                <a @click="shareAttachment(m.File,$event)" :href="'http://localhost:9080/attachments?file='+m.File">{{m.FileName?m.FileName:m.File}}</a>
              </div>
              <div v-else-if="m.CType==5" class="attachment-video" @click="$emit('showFullscreenVideo', m.File)">
-               <video @click="showFullscreenVideo(m.File)">
+               <video>
                  <source :src="'http://localhost:9080/attachments?file='+m.File">
                    <span v-translate>Your browser does not support the audio element.</span>
                </video>
+               <img class="play-button" src="../assets/images/play.svg" />
              </div>
              <div v-else-if="m.File!=''" class="attachment">
                <span v-translate>Not supported mime type:</span> {{m.CType}}
@@ -59,7 +60,7 @@
            <a :href="'http://localhost:9080/attachments?file='+message.Attachment">File</a>
          </div>
          <div v-else-if="message.CType==5" class="attachment-video" @click="$emit('showFullscreenVideo', message.Attachment)">
-           <video @click="showFullscreenVideo(message.Attachment)">
+           <video>
              <source :src="'http://localhost:9080/attachments?file='+message.Attachment">
                <span v-translate>Your browser does not support the video element.</span>
            </video>
@@ -308,6 +309,18 @@ video,
 .gallery img{
   padding-right:3px;
   padding-bottom:3px;
+}
+.attachment-video{
+  position:relative;
+
+  .play-button {
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
 }
 blockquote {
   padding: 0.5rem;
