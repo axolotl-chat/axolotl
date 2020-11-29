@@ -297,9 +297,7 @@
       'gui',
       'identity',
     ]),
-
     mounted() {
-      window.router = this.$router;
       this.names = [];
     },
     watch: {

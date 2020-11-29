@@ -259,13 +259,13 @@ var test = false
 
 func UpdateChatList() {
 
-	if activeChat == "" {
+	if activeChat == "" && registered {
 		sendChatList()
 	}
 }
 func UpdateContactList() {
 
-	if activeChat == "" {
+	if activeChat == "" && registered {
 		sendContactList()
 	}
 }

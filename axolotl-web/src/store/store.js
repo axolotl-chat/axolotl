@@ -1,5 +1,6 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
+import { router } from '../router/router';
 
 Vue.use(Vuex)
 
@@ -43,12 +44,11 @@ export default new Vuex.Store({
   getters: {
     // Here we will create a getter
     getMessages: state => {
-      return state.messageList.Messages
+      return state.messageList.Messages;
     }
   },
 
   mutations: {
-
     SET_ERROR(state, error) {
       if (error == "") {
         state.loginError = null;
@@ -109,7 +109,7 @@ export default new Vuex.Store({
     },
     CREATE_CHAT(state, tel) {
       state.currentChat = null;
-      window.router.push('/chat/' + tel)
+      router.push('/chat/' + tel)
     },
     SET_DEVICELIST(state, devices) {
       state.devices = devices
@@ -120,45 +120,33 @@ export default new Vuex.Store({
         qrCode: data.FingerprintQRCode,
       }
     },
+    SET_REGISTRATION_STATUS(state, status) {
+      state.registrationStatus = status;
+    },
     SET_REQUEST(state, request) {
       var type = request["Type"]
       state.request = request;
       if (type == "getPhoneNumber") {
-        window.router.push("/")
-      }
-      else if (type == "getVerificationCode") {
-        state.verificationInProgress = true
-        window.router.push("/verify")
-      }
-      else if (type == "getPin") {
-        state.requestPin = true
-        window.router.push("/verify")
-      }
-      else if (type == "getEncryptionPw") {
-        if (window.router.currentRoute.name != "password")
-          window.router.push("/password")
-      }
-      else if (type == "registrationDone") {
-        if (state.registrationStatus != "done") {
-          window.router.push("/chatList")
-          this.commit("SET_REGISTRATION_STATUS", "done")
-          this.dispatch("getChatList")
-        }
-      }
-      else if (type == "requestEnterChat") {
-        window.router.push("/chat/" + request["Chat"])
+        this.commit("SET_REGISTRATION_STATUS", "phoneNumber");
+      } else if (type == "getVerificationCode") {
+        this.commit("SET_REGISTRATION_STATUS", "verificationCode");
+        state.verificationInProgress = true;
+      } else if (type == "getPin") {
+        this.commit("SET_REGISTRATION_STATUS", "pin");
+        state.requestPin = true;
+      } else if (type == "getEncryptionPw") {
+        this.commit("SET_REGISTRATION_STATUS", "password");
+      } else if (type == "registrationDone") {
+        this.commit("SET_REGISTRATION_STATUS", "registered");
+      } else if (type == "requestEnterChat") {
+        router.push("/chat/" + request["Chat"])
         this.dispatch("getChatList")
-      }
-      else if (type == "config") {
+      } else if (type == "config") {
         this.commit("SET_CONFIG", request)
-      }
-      else if (type == "Error") {
+      } else if (type == "Error") {
         this.commit("SET_ERROR", request.Error)
       }
       // this.dispatch("requestCode", "+123456")
-    },
-    SET_REGISTRATION_STATUS(state, status) {
-      state.registrationStatus = status
     },
     SET_MESSAGELIST(state, messageList) {
       state.messageList = messageList;
@@ -243,9 +231,6 @@ export default new Vuex.Store({
     SOCKET_ONOPEN(state, event) {
       Vue.prototype.$socket = event.currentTarget
       state.socket.isConnected = true
-      this.dispatch("getRegistrationStatus")
-      // Vue.prototype.$socket.send("getChatList")
-
     },
     SOCKET_ONCLOSE(state) {
       state.socket.isConnected = false
@@ -309,8 +294,12 @@ export default new Vuex.Store({
         else {
           // console.log("unkown message ", Object.keys(messageData)[0]);
         }
-        state.socket.message = message.data
+        this.commit("SET_SOCKET_MESSAGE_DATA", message.data)
+
       }
+    },
+    SET_SOCKET_MESSAGE_DATA(state, data) {
+      state.socket.message = data
     },
     // mutations for reconnect methods
     SOCKET_RECONNECT() {
@@ -599,7 +588,7 @@ export default new Vuex.Store({
           "currentPw": password.cPw
         }
         Vue.prototype.$socket.send(JSON.stringify(message))
-        window.router.push("/chatList")
+        router.push("/chatList")
       }
     },
     getRegistrationStatus: function() {
@@ -608,7 +597,6 @@ export default new Vuex.Store({
           "request": "getRegistrationStatus",
         }
         Vue.prototype.$socket.send(JSON.stringify(message))
-
       }
     },
     unregister: function() {

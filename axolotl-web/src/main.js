@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import VueNativeSock from 'vue-native-websocket'
 import store from './store/store'
-import router from "./router/router";
+import {router} from "./router/router";
 import BootstrapVue from 'bootstrap-vue'
 import VueChatScroll from 'vue-chat-scroll'
 import linkify from 'vue-linkify'

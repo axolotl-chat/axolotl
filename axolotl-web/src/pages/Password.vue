@@ -8,6 +8,9 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+import checkRegistrationStatus from '@/helpers/registrationStatus'
+
 export default {
   name: 'password',
   methods:{
@@ -31,7 +34,13 @@ export default {
   mounted(){
     document.getElementById("passwordInput").focus();
   },
+  watch:{
+    registrationStatus() {
+      checkRegistrationStatus(this.registrationStatus)
+    }
+  },
   computed: {
+    ...mapState(['registrationStatus']),
     error () {
       return this.$store.state.loginError;
     }
