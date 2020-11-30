@@ -8,8 +8,9 @@
     "lint": "vue-cli-service lint",
     "translate": "npm run translate-extract && npm run translate-update && npm run translate-compile",
     "translate-extract": "node ./node_modules/easygettext/src/extract-cli.js --attribute v-translate --output ../po/textsecure.nanuc.pot $(find src -type f -name '*.vue')",
-    "translate-update": "find ../po/* -exec msgmerge --update {} ../po/textsecure.nanuc.pot \\;",
-    "translate-compile": "rm ../po/*~||true&&node ./node_modules/easygettext/src/compile-cli.js --output ./translations/translations.json $(find ../po/ -type f -name '*.po')"
+    "translate-update": "cd ../po && find ./ -exec msgmerge --update {} textsecure.nanuc.pot \\;",
+    "translate-remove-tmp":"cd ../po && ls ../po | grep -P '\\.po[~]{1}|\\.pot[~]{1}' | xargs -d'\n' rm || true",
+    "translate-compile": "npm run translate-remove-tmp&&node ./node_modules/easygettext/src/compile-cli.js --output ./translations/translations.json $(find ../po/ -type f -name '*.po')"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
