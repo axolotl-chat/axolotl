@@ -186,7 +186,7 @@ msgstr "Osvježi"
 msgid "No Messages available."
 msgstr ""
 
-#: src/components/Message.vue:40 src/components/Message.vue:66
+#: src/components/Message.vue:41 src/components/Message.vue:67
 msgid "Not supported mime type:"
 msgstr ""
 
@@ -269,7 +269,7 @@ msgstr "Resetiraj sigurnu sesiju"
 msgid "Set password"
 msgstr ""
 
-#: src/components/Message.vue:77
+#: src/components/Message.vue:78
 msgid "Set timer for self-destructing messages"
 msgstr ""
 
@@ -316,7 +316,7 @@ msgstr "Uklanjanje registracije"
 msgid "Unsafe password"
 msgstr ""
 
-#: src/components/Message.vue:80
+#: src/components/Message.vue:81
 msgid "Unsupported message type: sticker"
 msgstr ""
 
@@ -337,7 +337,7 @@ msgstr "Video"
 msgid "Wrong code entered. Restart for another try."
 msgstr ""
 
-#: src/components/Message.vue:71
+#: src/components/Message.vue:72
 msgid "You"
 msgstr ""
 
@@ -346,11 +346,11 @@ msgid "You can support the development of axolotl either by filling"
 msgstr ""
 
 #: src/components/Message.vue:27 src/components/Message.vue:36
-#: src/components/Message.vue:51 src/pages/MessageList.vue:14
+#: src/components/Message.vue:52 src/pages/MessageList.vue:14
 msgid "Your browser does not support the audio element."
 msgstr ""
 
-#: src/components/Message.vue:61
+#: src/components/Message.vue:62
 msgid "Your browser does not support the video element."
 msgstr ""
 

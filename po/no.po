@@ -178,7 +178,7 @@ msgstr "Refresh"
 msgid "No Messages available."
 msgstr "Ingen meldinger tilgjengelige."
 
-#: src/components/Message.vue:40 src/components/Message.vue:66
+#: src/components/Message.vue:41 src/components/Message.vue:67
 msgid "Not supported mime type:"
 msgstr "MIME-type ikke støttet:"
 
@@ -259,7 +259,7 @@ msgstr "Angi passord for sikker sesjon"
 msgid "Set password"
 msgstr "Angi passord"
 
-#: src/components/Message.vue:77
+#: src/components/Message.vue:78
 msgid "Set timer for self-destructing messages"
 msgstr "Angi tidsinnstilling for selvdestruerende meldinger"
 
@@ -307,7 +307,7 @@ msgstr "Avregistrér"
 msgid "Unsafe password"
 msgstr "Usikkert passord"
 
-#: src/components/Message.vue:80
+#: src/components/Message.vue:81
 #, fuzzy
 msgid "Unsupported message type: sticker"
 msgstr "MIME-type ikke støttet:"
@@ -328,7 +328,7 @@ msgstr "Video"
 msgid "Wrong code entered. Restart for another try."
 msgstr "Feil kode angitt. Gjør omstart for nytt forsøk."
 
-#: src/components/Message.vue:71
+#: src/components/Message.vue:72
 msgid "You"
 msgstr ""
 
@@ -341,11 +341,11 @@ msgstr ""
 "    Du kan støtte utviklingen av axolotl enten ved å fylle ut"
 
 #: src/components/Message.vue:27 src/components/Message.vue:36
-#: src/components/Message.vue:51 src/pages/MessageList.vue:14
+#: src/components/Message.vue:52 src/pages/MessageList.vue:14
 msgid "Your browser does not support the audio element."
 msgstr "Nettleseren støtter ikke lydelementet."
 
-#: src/components/Message.vue:61
+#: src/components/Message.vue:62
 msgid "Your browser does not support the video element."
 msgstr "Nettleseren støtter ikke videoelementet."
 

@@ -176,7 +176,7 @@ msgstr "Aucun appareil lié"
 msgid "No Messages available."
 msgstr "Aucun message disponible."
 
-#: src/components/Message.vue:40 src/components/Message.vue:66
+#: src/components/Message.vue:41 src/components/Message.vue:67
 msgid "Not supported mime type:"
 msgstr "Type de fichier non supporté :"
 
@@ -257,7 +257,7 @@ msgstr "Définir un mot de passe de chiffrement"
 msgid "Set password"
 msgstr "Définir un mot de passe"
 
-#: src/components/Message.vue:77
+#: src/components/Message.vue:78
 msgid "Set timer for self-destructing messages"
 msgstr "Régler la minuterie pour les messages auto-destructibles"
 
@@ -306,7 +306,7 @@ msgstr "Se désinscrire"
 msgid "Unsafe password"
 msgstr "Mot de passe peu sûr"
 
-#: src/components/Message.vue:80
+#: src/components/Message.vue:81
 msgid "Unsupported message type: sticker"
 msgstr "Type de fichier non supporté : autocollant"
 
@@ -326,7 +326,7 @@ msgstr "Vidéo"
 msgid "Wrong code entered. Restart for another try."
 msgstr "Code saisi incorrect. Redémarrez pour un nouvel essai."
 
-#: src/components/Message.vue:71
+#: src/components/Message.vue:72
 msgid "You"
 msgstr ""
 
@@ -338,11 +338,11 @@ msgstr ""
 "    Vous pouvez aider le développement d'Axolotl soit en remplissant"
 
 #: src/components/Message.vue:27 src/components/Message.vue:36
-#: src/components/Message.vue:51 src/pages/MessageList.vue:14
+#: src/components/Message.vue:52 src/pages/MessageList.vue:14
 msgid "Your browser does not support the audio element."
 msgstr "Votre navigateur ne prend pas en charge l'élément audio."
 
-#: src/components/Message.vue:61
+#: src/components/Message.vue:62
 msgid "Your browser does not support the video element."
 msgstr "Votre navigateur ne prend pas en charge l'élément vidéo."
 
