@@ -178,7 +178,7 @@ msgstr "Verknüpfte Geräte"
 msgid "No Messages available."
 msgstr "Keine Nachrichten vorhanden."
 
-#: src/components/Message.vue:40 src/components/Message.vue:66
+#: src/components/Message.vue:41 src/components/Message.vue:67
 msgid "Not supported mime type:"
 msgstr "Nicht unterstützer Mime-Typ:"
 
@@ -258,7 +258,7 @@ msgstr "Verschlüsselung Passwort setzen"
 msgid "Set password"
 msgstr "Passwort setzen"
 
-#: src/components/Message.vue:77
+#: src/components/Message.vue:78
 msgid "Set timer for self-destructing messages"
 msgstr "Zeitbegrenzung für verschwindende Nachrichten festgelegt"
 
@@ -285,7 +285,9 @@ msgstr "Sponsor auf Patreon."
 #: src/pages/About.vue:6
 msgid ""
 "This is a free and open source signal client written in golang and vuejs."
-msgstr "Dies ist ein freier Open Source Signal-Client geschrieben mit Golang und Vuejs."
+msgstr ""
+"Dies ist ein freier Open Source Signal-Client geschrieben mit Golang und "
+"Vuejs."
 
 #: src/components/Header.vue:26 src/pages/ChatList.vue:25
 msgid "Unknown group"
@@ -304,7 +306,7 @@ msgstr "Registrierung löschen"
 msgid "Unsafe password"
 msgstr "Unsicheres Passwort"
 
-#: src/components/Message.vue:80
+#: src/components/Message.vue:81
 msgid "Unsupported message type: sticker"
 msgstr "Nicht unterstützter Nachrichtentyp: Sticker"
 
@@ -324,20 +326,21 @@ msgstr "Video"
 msgid "Wrong code entered. Restart for another try."
 msgstr "Falscher Code eingegeben. Neustarten für einen weiteren Versuch."
 
-#: src/components/Message.vue:71
+#: src/components/Message.vue:72
 msgid "You"
 msgstr "Du"
 
 #: src/pages/About.vue:8
 msgid "You can support the development of axolotl either by filling"
-msgstr "Du kannst die Entwicklung von Axolotl unterstützen durch das Erstellen von"
+msgstr ""
+"Du kannst die Entwicklung von Axolotl unterstützen durch das Erstellen von"
 
 #: src/components/Message.vue:27 src/components/Message.vue:36
-#: src/components/Message.vue:51 src/pages/MessageList.vue:14
+#: src/components/Message.vue:52 src/pages/MessageList.vue:14
 msgid "Your browser does not support the audio element."
 msgstr "Dein Browser unterstützt dieses Audio-Element nicht."
 
-#: src/components/Message.vue:61
+#: src/components/Message.vue:62
 msgid "Your browser does not support the video element."
 msgstr "Dein Browser unterstützt dieses Video-Element nicht."
 
