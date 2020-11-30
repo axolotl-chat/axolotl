@@ -16,6 +16,11 @@ The following build dependencies are required:
 * Docker
 * Go
 
+The following translation dependencies are required:
+```
+sudo apt-get install gettext
+```
+
 The following go-qml dependencies are required:
 ```
 sudo add-apt-repository ppa:ubuntu-sdk-team/ppa
@@ -99,7 +104,7 @@ To list installed applications and/or runtimes, use `flatpak list`.
 The Flatpak [manifest](https://docs.flatpak.org/en/latest/manifests.html) used for the installation can be found
 in the /flatpak subdirectory.
 
-User-level: 
+User-level:
 
 ```flatpak-builder --user --install build ./flatpak/org.nanuc.Axolotl.yml```
 
