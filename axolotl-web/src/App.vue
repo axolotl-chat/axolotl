@@ -46,14 +46,6 @@ export default {
   mounted(){
     var userLang = navigator.language || navigator.userLanguage;
     this.$language.current = userLang;
-
-    // If we have a registration status, remove the loader
-    if (localStorage.getItem('registrationStatus') != null) {
-      let loader = document.getElementById('initial-loader');
-      if (loader != undefined) {
-        loader.remove();
-      }
-    }
   },
   computed: {
     error () {

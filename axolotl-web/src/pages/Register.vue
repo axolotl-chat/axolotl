@@ -32,8 +32,6 @@
 import VuePhoneNumberInput from 'vue-phone-number-input';
 import 'vue-phone-number-input/dist/vue-phone-number-input.css';
 import { mapState } from 'vuex';
-import checkRegistrationStatus from '@/helpers/registrationStatus'
-
 
 export default {
   name: 'register',
@@ -74,9 +72,6 @@ export default {
   watch:{
     cc(){
       document.getElementById("VuePhoneNumberInput_phone_number").focus()
-    },
-    registrationStatus() {
-      checkRegistrationStatus(this.registrationStatus)
     }
   }
 

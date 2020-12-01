@@ -9,7 +9,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import checkRegistrationStatus from '@/helpers/registrationStatus'
 
 export default {
   name: 'password',
@@ -23,7 +22,6 @@ export default {
     },
     unregister(){
       this.$store.dispatch("unregister");
-
     }
   },
   data() {
@@ -33,11 +31,6 @@ export default {
   },
   mounted(){
     document.getElementById("passwordInput").focus();
-  },
-  watch:{
-    registrationStatus() {
-      checkRegistrationStatus(this.registrationStatus)
-    }
   },
   computed: {
     ...mapState(['registrationStatus']),

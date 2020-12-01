@@ -29,10 +29,10 @@ func websocketSender() {
 }
 func sendRegistrationStatus() {
 	log.Debugln("[axolotl-ws] getRegistrationStatus")
-	if requestPassword {
-		sendRequest("getEncryptionPw")
-	} else if registered {
+	if registered {
 		sendRequest("registrationDone")
+	} else if requestPassword {
+		sendRequest("getEncryptionPw")
 	} else {
 		sendRequest("getPhoneNumber")
 	}
