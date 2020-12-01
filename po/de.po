@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-07 09:22+0200\n"
-"PO-Revision-Date: 2019-01-04 23:10+0100\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2020-12-01 06:08+0100\n"
 "Last-Translator: Daniel Frost <one@frostinfo.de>\n"
 "Language-Team: none\n"
 "Language: de\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #: src/pages/About.vue:4 src/pages/Register.vue:5
 msgid "A cross-plattform signal client"
@@ -70,9 +70,8 @@ msgid "Contact list is empty..."
 msgstr "Die Kontaktliste ist leer..."
 
 #: src/pages/NewGroup.vue:12
-#, fuzzy
 msgid "Create group"
-msgstr "Gruppe verlassen"
+msgstr "Gruppe erstellen"
 
 #: src/pages/NewGroup.vue:31
 msgid "Creating Group"
@@ -116,7 +115,7 @@ msgstr "Passwort eingeben"
 
 #: src/pages/Verification.vue:3
 msgid "Enter your registration pin"
-msgstr ""
+msgstr "Bitte Registrierungs-Pin eingeben"
 
 #: src/components/ErrorModal.vue:5
 msgid "Error"
@@ -232,7 +231,7 @@ msgstr "Verschlüsselung neu starten"
 
 #: src/components/IdentityModal.vue:14
 msgid "Safety numbers of you and"
-msgstr ""
+msgstr "Sicherheitsnummer von dir und"
 
 #: src/components/EditContactModal.vue:20
 msgid "Save"
@@ -283,14 +282,14 @@ msgid "sponsor on patreon."
 msgstr " Sponsors auf Patreon"
 
 #: src/pages/About.vue:6
-#, fuzzy
 msgid ""
 "This is a free and open source signal client written in golang and vuejs.\n"
 "      You can support the development of axolotl either by filling"
 msgstr ""
-"Das ist ein freier Open Source Signal-Client geschrieben mit Golang und "
+"Dies ist ein freier Open Source Signal-Client geschrieben mit Golang und "
 "Vuejs.\n"
-"    Du kannst die Entwicklung von Axolotl unterstützen durch das Senden von "
+"      Du kannst die Entwicklung von Axolotl unterstützen durch das Senden "
+"von "
 
 #: src/components/Header.vue:26 src/pages/ChatList.vue:25
 msgid "Unknown group"
@@ -310,9 +309,8 @@ msgid "Unsafe password"
 msgstr "Unsicheres Passwort"
 
 #: src/pages/MessageList.vue:99
-#, fuzzy
 msgid "Unsupported message type: sticker"
-msgstr "Nicht unterstützer Mime-Typ"
+msgstr "Nicht unterstützer Mime-Typ: Sticker"
 
 #: src/pages/EditGroup.vue:41
 msgid "Updating Group"
@@ -333,11 +331,11 @@ msgstr "Falscher Code eingegeben. neustarten für einen weiteren Versuch"
 #: src/pages/MessageList.vue:14 src/pages/MessageList.vue:51
 #: src/pages/MessageList.vue:60 src/pages/MessageList.vue:75
 msgid "Your browser does not support the audio element."
-msgstr ""
+msgstr "Dein Browser unterstützt dieses Audio-Element nicht."
 
 #: src/pages/MessageList.vue:85
 msgid "Your browser does not support the video element."
-msgstr ""
+msgstr "Dein Browser unterstützt dieses Video-Element nicht."
 
 #~ msgid "'s key"
 #~ msgstr "'s Schlüssel"
