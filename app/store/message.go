@@ -52,7 +52,7 @@ func UpdateMessageSent(m *Message) error {
 	if m.SendingError {
 		log.Errorln("[axolotl] sending message failed ", m.SentAt)
 	}
-	_, err := DS.Dbx.NamedExec("UPDATE messages SET sentat = :sentat, sendingError = :sendingError, expireTimer = :expireTimer  WHERE id = :id", m)
+	_, err := DS.Dbx.NamedExec("UPDATE messages SET sentat = :sentat, sendingError = :sendingError,  issent = :issent, expireTimer = :expireTimer  WHERE id = :id", m)
 	if err != nil {
 		return err
 	}
