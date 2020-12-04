@@ -26,10 +26,6 @@ func PushHelperProcess() {
 	os.Exit(0)
 }
 
-// type PushMessage struct {
-// 	Notification string `json:"notification"`
-// }
-
 type AppMessageCard struct {
 	Summary   string   `json:"summary"`
 	Body      string   `json:"body"`
