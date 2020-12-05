@@ -70,7 +70,7 @@ func InitModels() {
 }
 func RunUi(e string) {
 	// cmd := exec.Command("webapp-container", "http://[::1]:8080/")
-	if e == "ut" || e == "me" {
+	if e == "ut" || e == "me"  || e == "qml" {
 		runUIUbuntuTouch(e)
 	} else if e == "lorca" {
 		fmt.Println("[axolotl] start lorca")

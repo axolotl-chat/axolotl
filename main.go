@@ -57,7 +57,7 @@ func runBackend() {
 }
 func runUI() error {
 	defer wg.Done()
-	if config.Gui != "ut" && config.Gui != "me" && config.Gui != "lorca" {
+	if config.Gui != "ut" && config.Gui != "me" && config.Gui != "lorca" && config.Gui != "qml" {
 		ui.RunUi(config.Gui)
 		runElectron()
 	} else {
