@@ -90,10 +90,11 @@ Installation instructions can be found [here](https://flatpak.org/setup/)
 
 The following Flatpak SDKs are required:
 ```
-flatpak install org.freedesktop.Platform//20.08
-flatpak install org.freedesktop.Sdk//20.08
+flatpak install org.kde.Platform//5.15
+flatpak install org.kde.Sdk//5.15
 flatpak install org.freedesktop.Sdk.Extension.golang//20.08
 flatpak install org.freedesktop.Sdk.Extension.node12//20.08
+flatpak install io.qt.qtwebengine.BaseApp//5.15
 ```
 
 **Build and Install**
@@ -119,6 +120,10 @@ Note that this requires root.
 To start the application, either search for "Axolotl" in your app drawer or start it with the below command.
 
 `flatpak run org.nanuc.Axolotl`
+
+On systems without electron and Ubuntu Touch libraries:
+
+`flatpak run org.nanuc.Axolotl -e qml`
 
 ## AppImage
 
