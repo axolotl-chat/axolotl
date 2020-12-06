@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-10-08 22:47+0200\n"
+"PO-Revision-Date: 2020-12-06 17:45+0100\n"
 "Last-Translator: Daniel Frost <one@frostinfo.de>\n"
 "Language-Team: none\n"
 "Language: de\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #: src/pages/About.vue:4 src/pages/Register.vue:5
 msgid "A cross-plattform signal client"
@@ -151,7 +151,7 @@ msgstr "Gruppenmitglieder"
 
 #: src/components/Header.vue:58
 msgid "Mute"
-msgstr "Stumm"
+msgstr "Benachrichtigungen aus"
 
 #: src/components/AddContactModal.vue:12
 msgid "Name"
@@ -162,9 +162,8 @@ msgid "New group"
 msgstr "Neue Gruppe"
 
 #: src/pages/SetPassword.vue:13
-#, fuzzy
 msgid "New password"
-msgstr "Passwort setzen"
+msgstr "Neues Passwort"
 
 #: src/pages/Register.vue:16
 msgid "Next"
@@ -175,9 +174,8 @@ msgid "No chats available"
 msgstr "Keine Chats vorhanden"
 
 #: src/pages/DeviceList.vue:14
-#, fuzzy
 msgid "No linked devices"
-msgstr "Verknüpfte Geräte"
+msgstr "Keine verknüpfte Geräte"
 
 #: src/pages/MessageList.vue:25
 msgid "No Messages available."
