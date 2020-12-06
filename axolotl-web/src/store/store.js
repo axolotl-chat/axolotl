@@ -131,13 +131,17 @@ export default new Vuex.Store({
       } else if (type == "getVerificationCode") {
         this.commit("SET_REGISTRATION_STATUS", "verificationCode");
         state.verificationInProgress = true;
+        router.push("/verify")
       } else if (type == "getPin") {
         this.commit("SET_REGISTRATION_STATUS", "pin");
+        router.push("/pin")
         state.requestPin = true;
       } else if (type == "getEncryptionPw") {
         this.commit("SET_REGISTRATION_STATUS", "password");
+        router.push("/password")
       } else if (type == "registrationDone") {
         this.commit("SET_REGISTRATION_STATUS", "registered");
+        router.push("/")
       } else if (type == "requestEnterChat") {
         router.push("/chat/" + request["Chat"])
         this.dispatch("getChatList")
@@ -319,7 +323,7 @@ export default new Vuex.Store({
         state.darkMode = darkMode;
         window.location.replace("/")
       }
-    },
+    }
   },
 
   actions: {
