@@ -12,9 +12,7 @@
       Current password is wrong
     </div>
     <label for="passwordRepeat" class="text-primary" v-translate>New password</label>
-
     <password v-model="password" type="password" name="password" id="setPassword"
-    placeholder="Password"
     :secureLength="7"/>
     <div class="form-group">
         <label for="passwordRepeat" class="text-primary" v-translate>Repeat password</label>
