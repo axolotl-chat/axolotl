@@ -161,6 +161,11 @@ msgstr "Name"
 msgid "New group"
 msgstr "Neue Gruppe"
 
+#: src/pages/SetPassword.vue:13
+#, fuzzy
+msgid "New password"
+msgstr "Passwort setzen"
+
 #: src/pages/Register.vue:16
 msgid "Next"
 msgstr "Weiter"
@@ -193,10 +198,6 @@ msgstr "oder als"
 #: src/pages/Verification.vue:4
 msgid "or disable it on Android/IOs"
 msgstr "oder deaktivere den Pin in Android/IOs"
-
-#: src/pages/SetPassword.vue:13
-msgid "Password"
-msgstr "Passwort"
 
 #: src/pages/Password.vue:2
 msgid "Password is wrong"
@@ -343,6 +344,9 @@ msgstr "Dein Browser unterstützt dieses Audio-Element nicht."
 #: src/components/Message.vue:62
 msgid "Your browser does not support the video element."
 msgstr "Dein Browser unterstützt dieses Video-Element nicht."
+
+#~ msgid "Password"
+#~ msgstr "Passwort"
 
 #~ msgid "or"
 #~ msgstr "oder"

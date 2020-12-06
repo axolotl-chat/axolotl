@@ -11,7 +11,7 @@
     <div v-if="currentPasswordWrong" class="alert alert-danger" role="alert" v-translate>
       Current password is wrong
     </div>
-    <label for="passwordRepeat" class="text-primary" v-translate>Password</label>
+    <label for="passwordRepeat" class="text-primary" v-translate>New password</label>
 
     <password v-model="password" type="password" name="password" id="setPassword"
     placeholder="Password"

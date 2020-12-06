@@ -153,6 +153,10 @@ msgstr ""
 msgid "New group"
 msgstr ""
 
+#: src/pages/SetPassword.vue:13
+msgid "New password"
+msgstr ""
+
 #: src/pages/Register.vue:16
 msgid "Next"
 msgstr ""
@@ -183,10 +187,6 @@ msgstr ""
 
 #: src/pages/Verification.vue:4
 msgid "or disable it on Android/IOs"
-msgstr ""
-
-#: src/pages/SetPassword.vue:13
-msgid "Password"
 msgstr ""
 
 #: src/pages/Password.vue:2

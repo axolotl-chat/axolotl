@@ -164,6 +164,11 @@ msgstr ""
 msgid "New group"
 msgstr "ಹೋಸ ಸಮೂಹ"
 
+#: src/pages/SetPassword.vue:13
+#, fuzzy
+msgid "New password"
+msgstr "ಹೊಸ ಸಂದೇಶ"
+
 #: src/pages/Register.vue:16
 msgid "Next"
 msgstr ""
@@ -194,10 +199,6 @@ msgstr ""
 
 #: src/pages/Verification.vue:4
 msgid "or disable it on Android/IOs"
-msgstr ""
-
-#: src/pages/SetPassword.vue:13
-msgid "Password"
 msgstr ""
 
 #: src/pages/Password.vue:2
@@ -364,10 +365,6 @@ msgstr ""
 
 #~ msgid "Mark all read"
 #~ msgstr "ಎಲ್ಲವನ್ನು ಓದಿದೆ ಎಂದು ಗುರುತು ಮಾಡಿ"
-
-#, fuzzy
-#~ msgid "New passphrase"
-#~ msgstr "ಹೊಸ ಸಂದೇಶ"
 
 #, fuzzy
 #~ msgid "New passphrase too short(6)!"
