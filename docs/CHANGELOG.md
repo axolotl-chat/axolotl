@@ -8,7 +8,7 @@
 * Improve documentation (olof-nord)
 * Fix message syncing between signal desktop and axolotl (nanu-c)
 * Indicate if the attachment is a video and handle video donwloads correctly (nanu-c)
-* Update translations (Anne017)
+* Update translations (Anne017 + danfro)
 
 0.8.9 (Oct 09 2020)
 ------------------------------------
