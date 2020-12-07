@@ -1,3 +1,15 @@
+0.9.0 (Nov 30 2020)
+------------------------------------
+* Improve ci-scripts, appimage and flat-package (olof-nord)
+* Add support for displaying quoted messages (flaburgan & nanu-c)
+* Add a loading screen until Axolotl is ready (flaburgan)
+* Fix avatar handling (blackoverflow)
+* Add support for message read status ticks (nanu-c)
+* Improve documentation (olof-nord)
+* Fix message syncing between signal desktop and axolotl (nanu-c)
+* Indicate if the attachment is a video and handle video donwloads correctly (nanu-c)
+* Update translations (Anne017 + danfro)
+
 0.8.9 (Oct 09 2020)
 ------------------------------------
 * Fix scrolling to old messages display duplicates, by flaburgan
