@@ -167,6 +167,11 @@ msgstr ""
 msgid "New group"
 msgstr "புதிய குழு"
 
+#: src/pages/SetPassword.vue:13
+#, fuzzy
+msgid "New password"
+msgstr "புதிய செய்தி"
+
 #: src/pages/Register.vue:16
 msgid "Next"
 msgstr ""
@@ -198,10 +203,6 @@ msgstr ""
 
 #: src/pages/Verification.vue:4
 msgid "or disable it on Android/IOs"
-msgstr ""
-
-#: src/pages/SetPassword.vue:13
-msgid "Password"
 msgstr ""
 
 #: src/pages/Password.vue:2
@@ -374,10 +375,6 @@ msgstr ""
 
 #~ msgid "Help"
 #~ msgstr "உதவி"
-
-#, fuzzy
-#~ msgid "New passphrase"
-#~ msgstr "புதிய செய்தி"
 
 #, fuzzy
 #~ msgid "New passphrase too short(6)!"

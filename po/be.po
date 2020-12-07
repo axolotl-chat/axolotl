@@ -166,6 +166,11 @@ msgstr ""
 msgid "New group"
 msgstr "Новая група"
 
+#: src/pages/SetPassword.vue:13
+#, fuzzy
+msgid "New password"
+msgstr "Новае паведамленне"
+
 #: src/pages/Register.vue:16
 msgid "Next"
 msgstr ""
@@ -196,10 +201,6 @@ msgstr ""
 
 #: src/pages/Verification.vue:4
 msgid "or disable it on Android/IOs"
-msgstr ""
-
-#: src/pages/SetPassword.vue:13
-msgid "Password"
 msgstr ""
 
 #: src/pages/Password.vue:2
@@ -361,10 +362,6 @@ msgstr ""
 
 #~ msgid "Mark all read"
 #~ msgstr "Пазначыць усе як прачытаныя"
-
-#, fuzzy
-#~ msgid "New passphrase"
-#~ msgstr "Новае паведамленне"
 
 #, fuzzy
 #~ msgid "New passphrase too short(6)!"

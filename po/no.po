@@ -161,6 +161,11 @@ msgstr ""
 msgid "New group"
 msgstr "Ny gruppe"
 
+#: src/pages/SetPassword.vue:13
+#, fuzzy
+msgid "New password"
+msgstr "Angi passord"
+
 #: src/pages/Register.vue:16
 msgid "Next"
 msgstr "Neste"
@@ -194,10 +199,6 @@ msgstr "ved å bli en"
 #: src/pages/Verification.vue:4
 msgid "or disable it on Android/IOs"
 msgstr "eller deaktivér i Android/IOs"
-
-#: src/pages/SetPassword.vue:13
-msgid "Password"
-msgstr "Passord"
 
 #: src/pages/Password.vue:2
 msgid "Password is wrong"
@@ -348,6 +349,9 @@ msgstr "Nettleseren støtter ikke lydelementet."
 #: src/components/Message.vue:62
 msgid "Your browser does not support the video element."
 msgstr "Nettleseren støtter ikke videoelementet."
+
+#~ msgid "Password"
+#~ msgstr "Passord"
 
 #~ msgid "or"
 #~ msgstr "eller"

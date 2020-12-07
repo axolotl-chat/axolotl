@@ -160,6 +160,11 @@ msgstr ""
 msgid "New group"
 msgstr "Novo grupo"
 
+#: src/pages/SetPassword.vue:13
+#, fuzzy
+msgid "New password"
+msgstr "Definir password"
+
 #: src/pages/Register.vue:16
 msgid "Next"
 msgstr "Seguinte"
@@ -193,10 +198,6 @@ msgstr "Ao Tornar-se um"
 #: src/pages/Verification.vue:4
 msgid "or disable it on Android/IOs"
 msgstr "ou desabilite no Android/IOs"
-
-#: src/pages/SetPassword.vue:13
-msgid "Password"
-msgstr "Password"
 
 #: src/pages/Password.vue:2
 msgid "Password is wrong"
@@ -349,6 +350,9 @@ msgstr "Seu navegador não suporta o elemento de áudio."
 #: src/components/Message.vue:62
 msgid "Your browser does not support the video element."
 msgstr "Seu navegador não suporta o elemento de vídeo."
+
+#~ msgid "Password"
+#~ msgstr "Password"
 
 #~ msgid "or"
 #~ msgstr "ou"
