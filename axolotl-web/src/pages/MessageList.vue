@@ -58,7 +58,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import moment from 'moment';
 import Message from "@/components/Message"
 import AttachmentBar from "@/components/AttachmentBar"
 import { saveAs } from 'file-saver';
@@ -163,14 +162,6 @@ export default {
       }
 
       this.scrollDown();
-    },
-    timerPercentage(m){
-      var r = moment(m.ReceivedAt)
-      var duration = moment.duration(r.diff(moment.now()));
-      var percentage = 1-((m.ExpireTimer+duration.asSeconds())/m.ExpireTimer)
-      if(percentage<1)
-      return 179*percentage
-      else return 0
     },
     handleScroll (event) {
       if(!this.$data.scrollLocked

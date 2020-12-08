@@ -144,6 +144,14 @@ export default {
       }
       // JSON.parse(input)
     },
+    timerPercentage(m){
+      var r = moment(m.ReceivedAt)
+      var duration = moment.duration(r.diff(moment.now()));
+      var percentage = 1-((m.ExpireTimer+duration.asSeconds())/m.ExpireTimer)
+      if(percentage<1)
+      return 179*percentage
+      else return 0
+    },
     verifySelfDestruction(m){
       if(m.ExpireTimer!=0){
         // console.log(m.ExpireTimer,m.SentAt, m.ReceivedAt, Date.now())
@@ -152,6 +160,7 @@ export default {
           var r = moment(m.ReceivedAt)
           var duration = moment.duration(r.diff(moment.now()));
           if((duration.asSeconds()+m.ExpireTimer)<0&&m.Message!=""){
+            // TODO: message should be deleted
             return false;
           }
         }
@@ -159,6 +168,7 @@ export default {
           var rS = moment(m.SentAt)
           var durationS = moment.duration(rS.diff(moment.now()));
           if((durationS.asSeconds()+m.ExpireTimer)<0&&m.Message!=""){
+            // TODO: message should be deleted
             return false;
           }
         }
