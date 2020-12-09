@@ -72,7 +72,7 @@ msgstr "Deixar o grupo"
 msgid "Creating Group"
 msgstr "Criar grupo"
 
-#: src/pages/SetPassword.vue:21
+#: src/pages/SetPassword.vue:20
 msgid "Current Password"
 msgstr "Password atual"
 
@@ -219,7 +219,7 @@ msgstr "Fotografia"
 msgid "Registered number"
 msgstr "Registar"
 
-#: src/pages/SetPassword.vue:17
+#: src/pages/SetPassword.vue:16
 msgid "Repeat password"
 msgstr "Repetir password"
 
@@ -255,7 +255,7 @@ msgstr "Enviar pin"
 msgid "Set encryption password"
 msgstr "Definir password de criptografia"
 
-#: src/pages/SetPassword.vue:24 src/pages/Settings.vue:14
+#: src/pages/SetPassword.vue:23 src/pages/Settings.vue:14
 msgid "Set password"
 msgstr "Definir password"
 

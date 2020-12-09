@@ -1,3 +1,7 @@
+0.9.0.1 (Dez 9 2020)
+------------------------------------
+* Hotfix - disappearing messages
+
 0.9.0 (Nov 30 2020)
 ------------------------------------
 * Improve ci-scripts, appimage and flat-package (olof-nord)

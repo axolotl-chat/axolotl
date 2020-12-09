@@ -80,7 +80,7 @@ msgstr "Salir del grupo"
 msgid "Creating Group"
 msgstr ""
 
-#: src/pages/SetPassword.vue:21
+#: src/pages/SetPassword.vue:20
 msgid "Current Password"
 msgstr ""
 
@@ -233,7 +233,7 @@ msgstr ""
 msgid "Registered number"
 msgstr "Registrar"
 
-#: src/pages/SetPassword.vue:17
+#: src/pages/SetPassword.vue:16
 #, fuzzy
 msgid "Repeat password"
 msgstr "Repetir nueva contraseña"
@@ -272,7 +272,7 @@ msgstr ""
 msgid "Set encryption password"
 msgstr "Reiniciar la sesión segura"
 
-#: src/pages/SetPassword.vue:24 src/pages/Settings.vue:14
+#: src/pages/SetPassword.vue:23 src/pages/Settings.vue:14
 msgid "Set password"
 msgstr ""
 

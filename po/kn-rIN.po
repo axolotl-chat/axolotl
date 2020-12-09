@@ -73,7 +73,7 @@ msgstr "ಸಮೂಹವನ್ನು ಬಿಟ್ಟುಬಿಡಿ"
 msgid "Creating Group"
 msgstr ""
 
-#: src/pages/SetPassword.vue:21
+#: src/pages/SetPassword.vue:20
 msgid "Current Password"
 msgstr ""
 
@@ -222,7 +222,7 @@ msgstr ""
 msgid "Registered number"
 msgstr "ನೋಂದಾಯಿಸು"
 
-#: src/pages/SetPassword.vue:17
+#: src/pages/SetPassword.vue:16
 msgid "Repeat password"
 msgstr ""
 
@@ -260,7 +260,7 @@ msgstr ""
 msgid "Set encryption password"
 msgstr "ಸುರಕ್ಷಿತ ಸೆಷನ್ ಮರು ಪ್ರಾರಂಭಿಸಿ?"
 
-#: src/pages/SetPassword.vue:24 src/pages/Settings.vue:14
+#: src/pages/SetPassword.vue:23 src/pages/Settings.vue:14
 msgid "Set password"
 msgstr ""
 
