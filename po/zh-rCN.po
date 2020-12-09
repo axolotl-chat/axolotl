@@ -75,7 +75,7 @@ msgstr "离开群组"
 msgid "Creating Group"
 msgstr ""
 
-#: src/pages/SetPassword.vue:21
+#: src/pages/SetPassword.vue:20
 msgid "Current Password"
 msgstr ""
 
@@ -226,7 +226,7 @@ msgstr ""
 msgid "Registered number"
 msgstr "注册人"
 
-#: src/pages/SetPassword.vue:17
+#: src/pages/SetPassword.vue:16
 msgid "Repeat password"
 msgstr ""
 
@@ -264,7 +264,7 @@ msgstr ""
 msgid "Set encryption password"
 msgstr "重置安全会话"
 
-#: src/pages/SetPassword.vue:24 src/pages/Settings.vue:14
+#: src/pages/SetPassword.vue:23 src/pages/Settings.vue:14
 msgid "Set password"
 msgstr ""
 

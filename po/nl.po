@@ -73,7 +73,7 @@ msgstr "Groep aanmaken"
 msgid "Creating Group"
 msgstr "Groep aanmaken"
 
-#: src/pages/SetPassword.vue:21
+#: src/pages/SetPassword.vue:20
 msgid "Current Password"
 msgstr "Huidig wachtwoord"
 
@@ -220,7 +220,7 @@ msgstr "Foto"
 msgid "Registered number"
 msgstr "Geregistreerd nummer"
 
-#: src/pages/SetPassword.vue:17
+#: src/pages/SetPassword.vue:16
 msgid "Repeat password"
 msgstr "Wachtwoord herhalen"
 
@@ -256,7 +256,7 @@ msgstr "Pincode versturen"
 msgid "Set encryption password"
 msgstr "Versleutelwachtwoord instellen"
 
-#: src/pages/SetPassword.vue:24 src/pages/Settings.vue:14
+#: src/pages/SetPassword.vue:23 src/pages/Settings.vue:14
 msgid "Set password"
 msgstr "Wachtwoord instellen"
 
