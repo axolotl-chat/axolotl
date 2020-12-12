@@ -33,6 +33,7 @@ finish-args:
   - --talk-name=org.freedesktop.Notifications
   # Specify axolotl-web location
   - --env=AXOLOTL_WEB_DIR=/app/bin/axolotl-web/dist
+  - --env=AXOLOTL_GUI_DIR=/app/share/axolotl/
 
 modules:
   - name: axolotl

@@ -105,7 +105,8 @@ func runUIUbuntuTouch(e string) {
 	if config.Gui == "ut" {
 		cmd = exec.Command("qmlscene", "--scaling", "guis/qml/ut/MainUt.qml")
 	} else if config.Gui == "qt" {
-		cmd = exec.Command("qmlscene", "--scaling", "guis/qml/qml/MainQML.qml")
+		guilocation := os.Getenv("AXOLOTL_GUI_DIR")
+		cmd = exec.Command("qmlscene", "--scaling", guilocation + "guis/qml/qml/MainQML.qml")
 	} else if config.Gui == "me" {
 		cmd = exec.Command("/home/nanu/Qt/5.13.0/gcc_64/bin/qmlscene", "--scaling", "guis/qml/Main.qml")
 
