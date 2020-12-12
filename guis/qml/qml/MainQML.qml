@@ -12,12 +12,9 @@ import QtMultimedia 5.8
     property var activeTransfer
     property var selectionType
     property var requestContentHub : false
-    //property string url
-    //title: "Axolotl"
     id: webView
     profile:webProfile
     url: "http://localhost:9080/"
-    // url: "https://google.de"
     settings.showScrollBars: false
     anchors {
       left: parent.left
@@ -43,8 +40,6 @@ import QtMultimedia 5.8
     width: parent.width
     visible:Qt.inputMethod.visible
     anchors {
-      // bottomMargin: (UbuntuApplication.inputMethod.visible) ? -height : 0
-      // onBottomMarginChanged: hidden = (anchors.bottomMargin == -height ? true : hidden)
       left: parent.left
       right: parent.right
       bottom: parent.bottom

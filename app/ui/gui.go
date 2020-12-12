@@ -70,7 +70,7 @@ func InitModels() {
 }
 func RunUi(e string) {
 	// cmd := exec.Command("webapp-container", "http://[::1]:8080/")
-	if e == "ut" || e == "me"  || e == "qml" {
+	if e == "ut" || e == "me"  || e == "qt" {
 		runUIUbuntuTouch(e)
 	} else if e == "lorca" {
 		fmt.Println("[axolotl] start lorca")
@@ -104,7 +104,7 @@ func runUIUbuntuTouch(e string) {
 
 	if config.Gui == "ut" {
 		cmd = exec.Command("qmlscene", "--scaling", "guis/qml/ut/MainUt.qml")
-	} else if config.Gui == "qml" {
+	} else if config.Gui == "qt" {
 		cmd = exec.Command("qmlscene", "--scaling", "guis/qml/qml/MainQML.qml")
 	} else if config.Gui == "me" {
 		cmd = exec.Command("/home/nanu/Qt/5.13.0/gcc_64/bin/qmlscene", "--scaling", "guis/qml/Main.qml")
