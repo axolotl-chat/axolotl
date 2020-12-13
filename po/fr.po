@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-10-17 17:55+0200\n"
+"PO-Revision-Date: 2020-12-13 18:44+0100\n"
 "Last-Translator: Anne017\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -161,9 +161,8 @@ msgid "New group"
 msgstr "Nouveau groupe"
 
 #: src/pages/SetPassword.vue:13
-#, fuzzy
 msgid "New password"
-msgstr "Définir un mot de passe"
+msgstr "Nouveau mot de passe"
 
 #: src/pages/Register.vue:16
 msgid "Next"
@@ -190,9 +189,8 @@ msgid "Note, you can't add yourself to a group."
 msgstr "Note : vous ne pouvez pas vous ajouter vous-même à un groupe."
 
 #: src/pages/About.vue:13
-#, fuzzy
 msgid "or by becoming a"
-msgstr "en devenant un"
+msgstr "ou en devenant un"
 
 #: src/pages/Verification.vue:4
 msgid "or disable it on Android/IOs"
@@ -283,12 +281,9 @@ msgid "sponsor on patreon."
 msgstr "mécène sur Patreon."
 
 #: src/pages/About.vue:6
-#, fuzzy
 msgid ""
 "This is a free and open source signal client written in golang and vuejs."
-msgstr ""
-"Ceci est un client Signal libre écrit en golang et vuejs.\n"
-"    Vous pouvez aider le développement d'Axolotl soit en remplissant"
+msgstr "Ceci est un client Signal libre écrit en golang et vuejs."
 
 #: src/components/Header.vue:26 src/pages/ChatList.vue:25
 msgid "Unknown group"
@@ -329,14 +324,11 @@ msgstr "Code saisi incorrect. Redémarrez pour un nouvel essai."
 
 #: src/components/Message.vue:72
 msgid "You"
-msgstr ""
+msgstr "Vous"
 
 #: src/pages/About.vue:8
-#, fuzzy
 msgid "You can support the development of axolotl either by filling"
-msgstr ""
-"Ceci est un client Signal libre écrit en golang et vuejs.\n"
-"    Vous pouvez aider le développement d'Axolotl soit en remplissant"
+msgstr "Vous pouvez aider le développement d'Axolotl soit en remplissant"
 
 #: src/components/Message.vue:27 src/components/Message.vue:36
 #: src/components/Message.vue:52 src/pages/MessageList.vue:14
