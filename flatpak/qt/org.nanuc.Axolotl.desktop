@@ -2,7 +2,7 @@
 
 [Desktop Entry]
 Name=Axolotl
-Exec=flatpak run org.nanuc.Axolotl -axolotlWebDir=/app/bin/axolotl-web/dist -e=qt
+Exec=axolotl -axolotlWebDir=/app/bin/axolotl-web/dist -e=qt
 Type=Application
 Comment=A signal client, flatpak version
 Terminal=false
