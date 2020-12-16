@@ -76,7 +76,7 @@
            <cite v-else>{{getName(message.QuotedMessage.Source)}}</cite>
            <p>{{message.QuotedMessage.Message}}</p>
          </blockquote>
-         <div class="message-text-content" v-html="message.Message" v-linkified ></div>
+         <div class="message-text-content" v-html="linkify($sanitize(message.Message))"></div>
          <div class="status-message" v-if="message.Attachment.includes('null')&&message.Message==''&&message.Flags==0">
            <span v-translate>Set timer for self-destructing messages </span>
            <div> {{humanifyTimePeriod(message.ExpireTimer)}}</div>

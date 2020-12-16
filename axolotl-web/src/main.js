@@ -5,10 +5,11 @@ import store from './store/store'
 import {router} from "./router/router";
 import BootstrapVue from 'bootstrap-vue'
 import VueChatScroll from 'vue-chat-scroll'
-import linkify from 'vue-linkify'
 import GetTextPlugin from 'vue-gettext'
 import translations from '../translations/translations.json'
 import { library } from '@fortawesome/fontawesome-svg-core'
+import LinkifyHtml from 'linkifyjs/html'
+import VueSanitize from "vue-sanitize";
 import {
   faArrowLeft,
   faEllipsisV,
@@ -35,8 +36,20 @@ Vue.directive('longclick', longClickInstance)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(VueChatScroll)
 Vue.use(BootstrapVue)
+Vue.mixin({
+  methods: {
+    linkify: function (content) {
+      return LinkifyHtml(content);
+    },
+  },
+})
+var defaultSanitizeOptions = {
+    allowedTags: [],
+    allowedAttributes: {
+    }
+};
+Vue.use(VueSanitize, defaultSanitizeOptions);
 Vue.use(GetTextPlugin, { translations: translations, defaultLanguage: 'en', })
-Vue.directive('linkified', linkify)
 Vue.config.productionTip = false
 var websocketAdress = "ws://";
 if (window.location.protocol === "https:") {
