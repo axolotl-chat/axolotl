@@ -25,7 +25,7 @@ var e string
 
 func init() {
 	flag.StringVar(&config.MainQml, "qml", "qml/phoneui/main.qml", "The qml file to load.")
-	flag.StringVar(&config.Gui, "e", "", "use either electron, ut, lorca, server or me")
+	flag.StringVar(&config.Gui, "e", "", "use either electron, ut, lorca, qt, server or me")
 	flag.StringVar(&config.AxolotlWebDir, "axolotlWebDir", "./axolotl-web/dist", "Specify the directory to use for axolotl-web")
 	flag.BoolVar(&config.ElectronDebug, "eDebug", false, "use to show development console in electron")
 	flag.StringVar(&config.ServerHost, "host", "127.0.0.1", "Host to serve UI from.")
@@ -57,7 +57,7 @@ func runBackend() {
 }
 func runUI() error {
 	defer wg.Done()
-	if config.Gui != "ut" && config.Gui != "me" && config.Gui != "lorca" {
+	if config.Gui != "ut" && config.Gui != "me" && config.Gui != "lorca" && config.Gui != "qt" {
 		ui.RunUi(config.Gui)
 		runElectron()
 	} else {

@@ -91,6 +91,7 @@ Run flags
 Environment variables
 -----------
 * `AXOLOTL_WEB_DIR` Specify the directory to use for axolotl-web. This is used by `axolotl` during startup.
+* `AXOLOTL_GUI_DIR` Specifies the directory used for GUI specifications. This is used by `axolotl` only when in `qt` mode.
 
 Contributing
 -----------

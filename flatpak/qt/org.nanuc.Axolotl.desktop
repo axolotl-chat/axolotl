@@ -1,0 +1,10 @@
+# https://docs.flatpak.org/en/latest/freedesktop-quick-reference.html#desktop-files
+
+[Desktop Entry]
+Name=Axolotl
+Exec=flatpak run org.nanuc.Axolotl -axolotlWebDir=/app/bin/axolotl-web/dist -e=qt
+Type=Application
+Comment=A signal client, flatpak version
+Terminal=false
+Categories=Network;InstantMessaging;Chat;
+Icon=org.nanuc.Axolotl
