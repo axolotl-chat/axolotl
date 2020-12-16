@@ -159,6 +159,37 @@ To start the application, either search for "Axolotl" in your app drawer or star
 
 `flatpak run org.nanuc.Axolotl -e=qt`
 
+### Create a Flatpak bundle
+
+Flatpak supports creating a [bundle](https://docs.flatpak.org/en/latest/single-file-bundles.html), which is a single
+binary which can be used to distribute the application using removable media, or to send the application as an email
+attachment.
+
+To create a bundle, use the following steps.
+
+**Dependencies**
+
+During the build process, a gpg key is needed.
+To generate one, install [gpg](https://www.gnupg.org/download/) and use it to generate a key (if you dont have one
+already) with `gpg --gen-key`.
+
+Then find and take note what your gpg key id is by looking for your key with `gpg --list-keys`.
+
+**Build and Sign**
+
+```
+flatpak-builder --default-branch=main --disable-cache --force-clean --gpg-sign=mQINBFlD2sABEADsiUZUO... --repo=axolotl.repo axolotl.build ./flatpak/web/org.nanuc.Axolotl.yml
+```
+
+To then create the bundle, use the following.
+Note that they should be executed from the same location, as the folder "axolotl.repo" is first generated, and then used.
+
+```
+flatpak build-bundle axolotl.repo axolotl.flatpak org.nanuc.Axolotl main --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo
+```
+
+The end result is a binary file called `axolotl.flatpak`. 
+
 ## AppImage
 
 **Tooling**

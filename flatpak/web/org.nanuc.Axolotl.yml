@@ -64,8 +64,8 @@ modules:
          npm run build"
       - "mkdir -p ${FLATPAK_DEST}/bin/axolotl-web"
       - "cp -r src/github.com/nanu-c/axolotl/axolotl-web/dist ${FLATPAK_DEST}/bin/axolotl-web"
-      - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/web/org.nanuc.Axolotl.png ${FLATPAK_DEST}/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png"
-      - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/web/org.nanuc.Axolotl.appdata.xml ${FLATPAK_DEST}/share/appdata/${FLATPAK_ID}.appdata.xml"
+      - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.png ${FLATPAK_DEST}/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png"
+      - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.appdata.xml ${FLATPAK_DEST}/share/appdata/${FLATPAK_ID}.appdata.xml"
       - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/web/org.nanuc.Axolotl.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop"
     sources:
       - type: git
