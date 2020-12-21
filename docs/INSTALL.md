@@ -71,7 +71,7 @@ To build the application, use the following command from the root of this reposi
 
 To install the built snap, use snap:
 
-`sudo snap install axolotl_0.9.0.1_amd64.snap --dangerous`
+`sudo snap install axolotl_0.9.2_amd64.snap --dangerous`
 
 **Run**
 
@@ -188,7 +188,7 @@ Note that they should be executed from the same location, as the folder "axolotl
 flatpak build-bundle axolotl.repo axolotl.flatpak org.nanuc.Axolotl main --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo
 ```
 
-The end result is a binary file called `axolotl.flatpak`. 
+The end result is a binary file called `axolotl.flatpak`.
 
 ## AppImage
 

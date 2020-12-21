@@ -1,4 +1,8 @@
-0.9.0.1 (Dez 9 2020)
+0.9.2 (Dec 21 2020)
+------------------------------------
+* Hotfix - Fix XSS injection in messages
+
+0.9.0.1 (Dec 9 2020)
 ------------------------------------
 * Hotfix - disappearing messages
 
