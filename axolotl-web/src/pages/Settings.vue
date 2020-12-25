@@ -34,6 +34,10 @@
         About Axolotl
       </router-link>
     </div>
+    <div class="warning-box">
+      Due to technical limitations, Axolotl doesn't support push notifications. Keep the app open to be notified in real time.<br />
+      In Ubuntu Touch, use UT Tweak Tool to set Axolotl on "Prevent app suspension".
+    </div>
   </div>
 </template>
 
@@ -116,6 +120,9 @@ export default {
   padding-top:20px;
   border-top: 1px solid #bbb;
   text-align:center;
+}
+.warning-box {
+  margin-top: 0.5rem;
 }
 </style>
 
