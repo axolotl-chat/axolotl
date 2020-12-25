@@ -1,4 +1,5 @@
 $sent-message-link-visited: darken($sent-message-link, 10%);
+$default-radius: 5px;
 
 // Start bootstrap override
 $dropdown-bg: $body-bg;
@@ -73,4 +74,13 @@ $link-color: $primary;
 
 .info {
   background-color: $body-bg;
+}
+
+.warning-box {
+  color: #000;
+  border: solid 2px #f80;
+  border-radius: $default-radius;
+  background-color: #f80a;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.9rem;
 }
