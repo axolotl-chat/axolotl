@@ -245,10 +245,34 @@ export default {
   font-size:0.9rem;
   font-weight:bold;
 }
+.gallery{
+  display: flex;
+
+  div + div {
+    margin-left: 3px;
+  }
+}
 video,
 .attachment-img img {
     max-width: 100%;
     max-height: 80vh;
+}
+.outgoing .attachment-img {
+  background: center center no-repeat;
+  background-color: #000;
+  background-image: url("../assets/images/loading.svg");
+
+  img {
+    opacity: 0.2;
+  }
+}
+.sent .attachment-img {
+  background-color: #eee; // To deal with images with a transparent background
+  background-image: none;
+
+  img {
+    opacity: 1;
+  }
 }
 .status .message {
   background-color:transparent;
@@ -321,13 +345,6 @@ video,
 }
 .message-text .message-text-content{
   white-space: pre-line;
-}
-.gallery{
-  display:flex;
-}
-.gallery img{
-  padding-right:3px;
-  padding-bottom:3px;
 }
 .attachment-video{
   position:relative;
