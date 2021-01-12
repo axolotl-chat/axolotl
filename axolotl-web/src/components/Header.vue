@@ -129,7 +129,7 @@
                 <font-awesome-icon icon="ellipsis-v" />
               </button>
               <div v-if="showSettingsMenu" class="dropdown-menu" id="settings-dropdown" aria-labelledby="dropdownMenuButton">
-                <button class="dropdown-item" @click="refreshContacts" v-translate>Add Contacts</button>
+                <button class="dropdown-item" @click="refreshContacts" v-translate>Import contacts</button>
                 <input id="addVcf" type="file" @change="readVcf" style="position: fixed; top: -100em">
               </div>
             </div>
@@ -142,6 +142,9 @@
               <font-awesome-icon icon="ellipsis-v" />
             </button>
             <div v-if="showSettingsMenu" class="dropdown-menu" id="settings-dropdown" aria-labelledby="dropdownMenuButton">
+              <router-link class="dropdown-item" :to="'/contacts'" @click="showSettingsMenu=false" v-translate>
+                Contacts
+              </router-link>
               <router-link class="dropdown-item" :to="'/newGroup'" @click="showSettingsMenu=false" v-translate>
                 New group
               </router-link>
