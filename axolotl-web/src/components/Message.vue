@@ -11,7 +11,7 @@
                }"
        v-bind:key="message.ID">
      <div class="message" v-if="verifySelfDestruction(message)">
-       <div class="sender" v-if="!message.Outgoing&&isGroup&&message.Flags==0">
+       <div class="sender" v-if="isSenderNameDisplayed">
          <div v-if="names[message.Source]">
            {{names[message.Source]}}
          </div>
@@ -115,7 +115,14 @@ import { mapState } from 'vuex';
 export default {
   name: 'Message',
   props: ['message', 'isGroup', 'names'],
-  computed: mapState(['contacts']),
+  computed: {
+    ...mapState(['contacts']),
+    isSenderNameDisplayed() {
+      return !this.message.Outgoing &&
+        this.isGroup &&
+        (this.message.Flags == 0 || this.message.Flags == 14); // 14 is quoting messages
+    }
+  },
   methods: {
     getName(tel){
       if(this.contacts!=null){
@@ -334,6 +341,7 @@ video,
 }
 blockquote {
   padding: 0.5rem;
+  margin-top: 3px;
   margin-bottom: 5px;
   background-color: #00000044;
   border-left: solid 4px #00000044;
