@@ -84,7 +84,10 @@
          <div v-if="message.Flags==10" v-translate>Unsupported message type: sticker</div>
        </div>
        <div class="meta" v-if="message.SentAt!=0">
-         <div class="time">{{humanifyDate(message.SentAt)}}</div>
+         <div class="time">
+           <span @click="showDate = !showDate">{{humanifyDateFromNow(message.SentAt)}}</span>
+           <span class="fullDate" v-if="showDate">{{humanifyDate(message.SentAt)}}</span>
+         </div>
          <div v-if="message.ExpireTimer>0&&message.Message!=''">
            <div class="circle-wrap">
              <div class="circle">
@@ -114,6 +117,11 @@ import { mapState } from 'vuex';
 
 export default {
   name: 'Message',
+  data() {
+    return {
+      showDate: false
+    }
+  },
   props: ['message', 'isGroup', 'names'],
   computed: mapState(['contacts']),
   methods: {
@@ -176,16 +184,10 @@ export default {
       return true
     },
     humanifyDate(inputDate){
-      moment.locale(this.$language.current);
-      var date = new moment(inputDate);
-      var min = moment().diff(date, 'minutes')
-      if(min<60){
-        if(min == 0) return "now"
-        return moment().diff(date, 'minutes') +" min"
-      }
-      var hours = moment().diff(date, 'hours')
-      if(hours <24) return hours + " h"
-      return date.format("DD. MMM");
+      return new moment(inputDate).format('lll');
+    },
+    humanifyDateFromNow(inputDate){
+      return new moment(inputDate).fromNow();
     },
     humanifyTimePeriod(time){
       if(time<60)
@@ -347,5 +349,9 @@ blockquote {
   p {
     margin: 0;
   }
+}
+.fullDate {
+  font-style: italic;
+  margin-left: 2px;
 }
 </style>
