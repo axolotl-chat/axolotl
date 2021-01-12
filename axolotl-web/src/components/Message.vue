@@ -17,6 +17,11 @@
          </div>
          <div v-else>{{getName(message.Source)}}</div>
        </div>
+       <blockquote v-if="message.QuotedMessage != null">
+         <cite v-if="message.QuotedMessage.Outgoing"  v-translate>You</cite>
+         <cite v-else>{{getName(message.QuotedMessage.Source)}}</cite>
+         <p>{{message.QuotedMessage.Message}}</p>
+       </blockquote>
        <div v-if="message.Attachment!=''" class="attachment">
          <div class="gallery" v-if="isAttachmentArray(message.Attachment)">
            <div  v-for="m in isAttachmentArray(message.Attachment)"
@@ -71,11 +76,6 @@
          </div>
        </div>
        <div class="message-text">
-         <blockquote v-if="message.QuotedMessage != null">
-           <cite v-if="message.QuotedMessage.Outgoing"  v-translate>You</cite>
-           <cite v-else>{{getName(message.QuotedMessage.Source)}}</cite>
-           <p>{{message.QuotedMessage.Message}}</p>
-         </blockquote>
          <div class="message-text-content" v-html="linkify($sanitize(message.Message))"></div>
          <div class="status-message" v-if="message.Attachment.includes('null')&&message.Message==''&&message.Flags==0">
            <span v-translate>Set timer for self-destructing messages </span>
