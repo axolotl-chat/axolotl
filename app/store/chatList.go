@@ -10,6 +10,7 @@ import (
 
 	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/signal-golang/textsecure"
+	"github.com/signal-golang/textsecure/groupsv2"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -20,7 +21,7 @@ type Session struct {
 	Name         string
 	Tel          string
 	IsGroup      bool
-	Type         int64 //describes the type of the session, wether it's a private conversation or groupv1 or groupv2
+	Type         int32 //describes the type of the session, wether it's a private conversation or groupv1 or groupv2
 	Last         string
 	Timestamp    uint64
 	When         string
@@ -44,9 +45,13 @@ type Sessions struct {
 	Type       string
 }
 
+// SessionTypes
 const (
 	invalidSession = -1
 	invalidQuote   = -1
+	SessionTypePrivateChat int32 = 0
+	SessionTypeGroupV1     int32 = 1
+	SessionTypeGroupV2     int32 = 2
 )
 
 //TODO that hasn't to  be in the db controller
@@ -312,6 +317,7 @@ func (s *Sessions) CreateSessionForE164(tel string, UUID string) *Session {
 		IsGroup:      false,
 		Notification: true,
 		UUID:         UUID,
+		Type:         SessionTypePrivateChat,
 	}
 	s.Sess = append(s.Sess, ses)
 	s.Len++
@@ -367,6 +373,27 @@ func (s *Sessions) CreateSessionForGroup(group *textsecure.Group) *Session {
 		IsGroup:      true,
 		Notification: true,
 		UUID:         group.Hexid,
+		Type:         SessionTypeGroupV1,
+	}
+	s.Sess = append(s.Sess, ses)
+	s.Len++
+	ses, err := SaveSession(ses)
+	if err != nil {
+		log.Errorln("CreateSessionForGroup failed:", err)
+		return nil
+	}
+	return ses
+}
+
+// CreateSessionForGroupV2 creates a session for a group
+func (s *Sessions) CreateSessionForGroupV2(group *groupsv2.GroupV2) *Session {
+	ses := &Session{Tel: group.Hexid, // for legacy reasons add group id also as Tel number
+		Name:         group.Name,
+		Active:       true,
+		IsGroup:      true,
+		Notification: true,
+		UUID:         group.Hexid,
+		Type:         SessionTypeGroupV2,
 	}
 	s.Sess = append(s.Sess, ses)
 	s.Len++
