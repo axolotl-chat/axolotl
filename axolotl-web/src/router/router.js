@@ -20,7 +20,7 @@ export const router = new Router({
       path: "/chat/:id",
       name: "chat",
       props: route => ({
-        chatId: route.params.id,
+        chatId: Number(route.params.id),
       }),
       component: () => import("@/pages/MessageList.vue")
     },

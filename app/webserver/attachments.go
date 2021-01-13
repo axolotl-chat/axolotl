@@ -91,7 +91,7 @@ func avatarsHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "File not found.", 404)
 			return
 		}
-		log.Debugln("avatar len >0")
+		log.Debugln("[axolotl] avatar len >0")
 		FileContentType := http.DetectContentType(avatar.Avatar)
 		log.Debugln(FileContentType)
 		w.Header().Set("Content-Disposition", "attachment; filename="+Filename+".png")

@@ -26,6 +26,7 @@ type TextsecureAPI struct {
 	PushToken       string
 	ActiveSessionID string
 	PhoneNumber     string
+	UUID            string
 	LogLevel        bool
 }
 
@@ -164,10 +165,6 @@ func RunBackend() {
 	} else {
 		client.GetLocalContacts = contact.GetDesktopContacts
 	}
-	// start connection to openwhisper
-	// if !isEncrypted {
-	// 	startSession()
-	// }
 
 	//Load Messages
 
@@ -223,6 +220,21 @@ func startSession() {
 		Api.HasContacts = true
 		store.RefreshContacts()
 	}
+	Api.UUID = config.Config.UUID
+	if !config.Config.AccountCapabilities.UUID {
+		log.Debugln("[axoltol] uuid not set, start uuid migration")
+
+		config.Config.AccountCapabilities = textsecure.AccountCapabilities{
+			UUID:         true,
+			Gv2:          false,
+			Storage:      false,
+			Gv1Migration: false,
+		}
+		err := textsecure.WriteConfig(config.ConfigFile, config.Config)
+		if err != nil {
+			log.Debugln("[axoltol] uuid migration: ", err)
+		}
+	}
 	for _, s := range store.SessionsModel.Sess {
 		s.Name = store.TelToName(s.Tel)
 	}
@@ -246,17 +258,28 @@ func (Api *TextsecureAPI) FilterContacts(sub string) {
 func (Api *TextsecureAPI) SaveSettings() error {
 	return settings.SaveSettings(settings.SettingsModel)
 }
-func (Api *TextsecureAPI) GetActiveSessionID() string {
+
+// GetActiveSessionID returns the active session id
+func (Api *TextsecureAPI) GetActiveSessionID() int64 {
 	return store.ActiveSessionID
 }
-func (Api *TextsecureAPI) SetActiveSessionID(sId string) {
-	store.ActiveSessionID = sId
+
+// SetActiveSessionID updates the active session id
+func (Api *TextsecureAPI) SetActiveSessionID(ID int64) {
+	store.ActiveSessionID = ID
 }
+
+// LeaveChat reset the active session id
 func (Api *TextsecureAPI) LeaveChat() {
-	// store.Sessions.ActiveChat = ""
-	store.ActiveSessionID = ""
+	store.ActiveSessionID = -1
 }
+
+// TgNotification turns the notification for the currently active chat on/off
 func (Api *TextsecureAPI) TgNotification(notification bool) {
-	sess := store.SessionsModel.Get(store.ActiveSessionID)
+	sess, err := store.SessionsModel.Get(store.ActiveSessionID)
+	if err != nil {
+		ui.ShowError(err)
+		return
+	}
 	sess.ToggleSessionNotifcation()
 }

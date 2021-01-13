@@ -10,19 +10,17 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func (Api *TextsecureAPI) SendContactAttachment(to, message string, file string) error {
+// SendContactAttachment extracts the phone number from a contact and sends it as number
+func (Api *TextsecureAPI) SendContactAttachment(to int64, message string, file string) error {
 	phone, err := contact.PhoneFromVCardFile(file)
 	if err != nil {
-		log.Println(err)
+		log.Errorln("[axolotl] SendContactAttachment: ", err)
 		return err
 	}
 	return Api.SendMessage(to, phone)
 }
-func (Api *TextsecureAPI) Test() {
-	log.Printf("SendAttachmentApi")
 
-}
-func (Api *TextsecureAPI) SendAttachmentToApi(to, message string, file string) error {
+func (Api *TextsecureAPI) SendAttachmentToApi(to int64, message string, file string) error {
 	// Do not allow sending attachments larger than 100M for now
 	var maxAttachmentSize int64 = 100 * 1024 * 1024
 	// log.Printf("SendAttachmentApi")

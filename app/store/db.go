@@ -23,12 +23,12 @@ var (
 	dbFile   string
 	saltFile string
 
-	sessionsSchema = "CREATE TABLE IF NOT EXISTS sessions (id INTEGER PRIMARY KEY, name text, tel text, isgroup boolean, last string, timestamp integer, ctype integer, unread integer default 0, notification boolean default 1, expireTimer integer default 0)"
-	sessionsInsert = "INSERT OR REPLACE INTO sessions (name, tel, isgroup, last, ctype, timestamp, notification, expireTimer) VALUES (:name, :tel, :isgroup, :last, :ctype, :timestamp, :notification, :expireTimer)"
+	sessionsSchema = "CREATE TABLE IF NOT EXISTS sessions (id INTEGER PRIMARY KEY, name text, tel text, isgroup boolean, last string, timestamp integer, ctype integer, unread integer default 0, notification boolean default 1, expireTimer integer default 0, type integer, uuid string  NOT NULL DEFAULT 0)"
+	sessionsInsert = "INSERT OR REPLACE INTO sessions (name, tel, isgroup, last, ctype, timestamp, notification, expireTimer, type, uuid ) VALUES ( :name, :tel, :isgroup, :last, :ctype, :timestamp, :notification, :expireTimer, :type, :uuid)"
 	sessionsSelect = "SELECT * FROM sessions ORDER BY timestamp DESC"
 
-	messagesSchema                 = "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, sid integer, source text, message text, outgoing boolean, sentat integer, receivedat integer, ctype integer, attachment string, issent boolean, isread boolean, flags integer default 0, sendingError boolean, expireTimer integer default 0, receipt boolean default 0, statusMessage boolean default 0, quoteId integer NOT NULL default -1)"
-	messagesInsert                 = "INSERT INTO messages (sid, source, message, outgoing, sentat, receivedat, ctype, attachment, issent, isread, flags, sendingError, expireTimer, statusMessage, quoteID) VALUES (:sid, :source, :message, :outgoing, :sentat, :receivedat, :ctype, :attachment, :issent, :isread, :flags, :sendingError, :expireTimer, :statusMessage, :quoteId)"
+	messagesSchema                 = "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, sid integer, source text, sourceUUID string NOT NULL DEFAULT 0, message text, outgoing boolean, sentat integer, receivedat integer, ctype integer, attachment string, issent boolean, isread boolean, flags integer default 0, sendingError boolean, expireTimer integer default 0, receipt boolean default 0, statusMessage boolean default 0, quoteId integer NOT NULL default -1)"
+	messagesInsert                 = "INSERT INTO messages (sid, source, srcUUID, message, outgoing, sentat, receivedat, ctype, attachment, issent, isread, flags, sendingError, expireTimer, statusMessage, quoteID) VALUES (:sid, :source, :srcUUID, :message, :outgoing, :sentat, :receivedat, :ctype, :attachment, :issent, :isread, :flags, :sendingError, :expireTimer, :statusMessage, :quoteId)"
 	messagesSelectWhere            = "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT 20"
 	messagesSelectWhereMore        = "SELECT * FROM messages WHERE sid = ? AND id< ? ORDER BY sentat DESC LIMIT 20"
 	messagesSelectWhereLastMessage = "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT 1"
@@ -75,6 +75,8 @@ func (ds *DataStore) Decrypt(dbPath string) error {
 func (ds *DataStore) DBX() *sqlx.DB {
 	return DS.Dbx
 }
+
+// SetupDb tries to decrypt the database and runs the migrations
 func (ds *DataStore) SetupDb(password string) bool {
 	var err error
 	dbDir = filepath.Join(config.DataDir, "db")
@@ -90,13 +92,20 @@ func (ds *DataStore) SetupDb(password string) bool {
 	UpdateMessagesTable_v_0_7_8()
 	UpdateSessionTable_v_0_7_8()
 	UpdateSessionTable_v_0_9_0()
+	UpdateSessionTable_v_0_9_3()
 
-	LoadChats()
+	err = LoadChats()
+	if err != nil {
+		log.Errorln("[axolotl]  SetupDB: ", err)
+
+	}
 	//qml.Changed(SessionsModel, &SessionsModel.Len)
 	log.Printf("[axolotl] Db setup finished")
 
 	return true
 }
+
+// ResetDb removes the database file and resets the config for encrypted database.
 func (ds *DataStore) ResetDb() {
 	dbDir = filepath.Join(config.DataDir, "db")
 	dbFile = filepath.Join(dbDir, "db.sql")

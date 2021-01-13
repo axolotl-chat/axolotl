@@ -15,8 +15,9 @@ import (
 	"github.com/signal-golang/textsecure"
 )
 
-func SendMessageHelper(to, message, file string, updateMessageChannel chan *store.Message) (error, *store.Message) {
-	if to != "" {
+// SendMessageHelper sends the message and returns the updated message
+func SendMessageHelper(ID int64, message, file string, updateMessageChannel chan *store.Message) (error, *store.Message) {
+	if ID >= 0 {
 		var err error
 		attachments := []store.Attachment{}
 		if file != "" {
@@ -30,10 +31,14 @@ func SendMessageHelper(to, message, file string, updateMessageChannel chan *stor
 			attachments = []store.Attachment{store.Attachment{File: file, FileName: strParts[len(strParts)-1]}}
 
 		}
-		session := store.SessionsModel.Get(to)
-
+		session, err := store.SessionsModel.Get(ID)
+		if err != nil {
+			log.Errorln("[axolotl] SendMessageHelper:" + err.Error())
+			return err, nil
+		}
 		m := session.Add(message, "", attachments, "", true, store.ActiveSessionID)
-		m.Source = to
+		m.Source = session.Tel
+		m.SourceUUID = session.UUID
 		m.ExpireTimer = session.ExpireTimer
 		_, savedM := store.SaveMessage(m)
 
@@ -44,10 +49,9 @@ func SendMessageHelper(to, message, file string, updateMessageChannel chan *stor
 			}
 		}()
 		return nil, savedM
-	} else {
-		log.Errorln("[axolotl] send to is empty")
-		return errors.New("send to is empty"), nil
 	}
+	log.Errorln("[axolotl] send to is empty")
+	return errors.New("send to is empty"), nil
 }
 
 func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
@@ -65,7 +69,13 @@ func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
 			log.Printf("[axolotl] SendMessage FileOpend")
 		}
 	}
-	ts := SendMessageLoop(s.Tel, m.Message, s.IsGroup, att, m.Flags, s.ExpireTimer)
+	var recipient string
+	if s.UUID != "0" {
+		recipient = s.UUID
+	} else {
+		recipient = s.Tel
+	}
+	ts := SendMessageLoop(recipient, m.Message, s.IsGroup, att, m.Flags, s.ExpireTimer)
 	log.Debugln("[axolotl] SendMessage", s.Tel, ts)
 	m.SentAt = ts
 	m.ExpireTimer = s.ExpireTimer
@@ -88,7 +98,7 @@ func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
 }
 
 // SendMessageLoop sends a single message and also loops over groups in order to send it to each participant of the group
-func SendMessageLoop(to, message string, group bool, att io.Reader, flags int, timer uint32) uint64 {
+func SendMessageLoop(to string, message string, group bool, att io.Reader, flags int, timer uint32) uint64 {
 	var err error
 	var ts uint64
 	var count int

@@ -8,17 +8,14 @@ import (
 	"os/signal"
 	"sync"
 
-	"github.com/signal-golang/textsecure"
 	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/settings"
 	"github.com/nanu-c/axolotl/app/store"
 	"github.com/nanu-c/axolotl/app/webserver"
+	"github.com/signal-golang/textsecure"
 	log "github.com/sirupsen/logrus"
 	"github.com/zserge/lorca"
 )
-
-// var Win *qml.Window
-// var Engine *qml.Engine
 
 func GroupUpdateMsg(tels []string, title string) string {
 	s := ""
@@ -37,18 +34,6 @@ func RegistrationDone() {
 	settings.SettingsModel.Registered = true
 	webserver.RegistrationDone()
 }
-func SetComponent() error {
-	// component, err := Engine.LoadFile(config.MainQml)
-	// if err != nil {
-	// 	log.Println(err)
-	// 	return err
-	// }
-	// Win = component.CreateWindow(nil)
-	return nil
-}
-func SetEngine() {
-	// Engine = qml.NewEngine()
-}
 func InitModels() {
 	var err error
 	settings.SettingsModel, err = settings.LoadSettings()
@@ -59,18 +44,11 @@ func InitModels() {
 			log.Debugf("[axolotl] Already registered")
 		}
 	}
-	// Engine.Context().SetVar("contactsModel", store.ContactsModel)
-	// Engine.Context().SetVar("settingsModel", settings.SettingsModel)
-	// Engine.Context().SetVar("sessionsModel", store.SessionsModel)
 	// textsecure.LinkedDevices()
-	// Engine.Context().SetVar("linkedDevicesModel", store.LinkedDevicesModel)
-	// Engine.Context().SetVar("storeModel", store.DS)
-
 	go store.UpdateTimestamps()
 }
 func RunUi(e string) {
-	// cmd := exec.Command("webapp-container", "http://[::1]:8080/")
-	if e == "ut" || e == "me"  || e == "qt" {
+	if e == "ut" || e == "me" || e == "qt" {
 		runUIUbuntuTouch(e)
 	} else if e == "lorca" {
 		fmt.Println("[axolotl] start lorca")
@@ -106,10 +84,7 @@ func runUIUbuntuTouch(e string) {
 		cmd = exec.Command("qmlscene", "--scaling", "guis/qml/ut/MainUt.qml")
 	} else if config.Gui == "qt" {
 		guilocation := os.Getenv("AXOLOTL_GUI_DIR")
-		cmd = exec.Command("qmlscene", "--scaling", guilocation + "guis/qml/qml/MainQML.qml")
-	} else if config.Gui == "me" {
-		cmd = exec.Command("/home/nanu/Qt/5.13.0/gcc_64/bin/qmlscene", "--scaling", "guis/qml/Main.qml")
-
+		cmd = exec.Command("qmlscene", "--scaling", guilocation+"guis/qml/qml/MainQML.qml")
 	} else {
 		cmd = exec.Command("qmlscene", "--scaling", "guis/qml/Main.qml")
 	}

@@ -13,9 +13,9 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/emersion/go-vcard"
-	"github.com/signal-golang/textsecure"
 	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/helpers"
+	"github.com/signal-golang/textsecure"
 	"github.com/ttacon/libphonenumber"
 )
 
@@ -98,10 +98,8 @@ func EditContact(cContact textsecure.Contact, editContact textsecure.Contact) er
 	for i := range contacts {
 		if contacts[i].Tel == cContact.Tel {
 			newContactList = append(newContactList, editContact)
-			// log.Debugln(id, contacts[i].Tel)
 		} else {
 			newContactList = append(newContactList, contacts[i])
-			// log.Debugln(id, i)
 		}
 	}
 	sort.Slice(newContactList, func(i, j int) bool { return newContactList[i].Name < newContactList[j].Name })

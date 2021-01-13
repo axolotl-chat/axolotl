@@ -13,31 +13,37 @@ type GroupRecord struct {
 var AllGroups []*GroupRecord
 var Groups = map[string]*GroupRecord{}
 
-func UpdateGroup(g *GroupRecord) error {
-	_, err := DS.Dbx.NamedExec(groupsUpdate, g)
+func UpdateGroup(g *GroupRecord) (*GroupRecord, error) {
+	res, err := DS.Dbx.NamedExec(groupsUpdate, g)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return err
+	id, err := res.LastInsertId()
+	if err != nil {
+		return nil, err
+	}
+	g.ID = id
+	return g, err
 }
 
+// DeleteGroup deletes a group from the database
 func DeleteGroup(hexid string) error {
 	_, err := DS.Dbx.Exec(groupsDelete, hexid)
 	return err
 }
-func SaveGroup(g *GroupRecord) error {
+func SaveGroup(g *GroupRecord) (*GroupRecord, error) {
 	res, err := DS.Dbx.NamedExec(groupsInsert, g)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	id, err := res.LastInsertId()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	g.ID = id
-	return nil
+	return g, nil
 }
 func FetchAllGroups() error {
 	return nil
