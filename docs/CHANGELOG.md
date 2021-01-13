@@ -1,3 +1,14 @@
+0.9.3 (Jan 13 2021)
+------------------------------------
+* Add an indication in the "Settings" page about how to enable notifications in Axolotl (flaburgan)
+* Fix the desktop shortcut in Flatpak installation (joshbowyer)
+* When quoting a message and answer with an image, display the quoted message above the image (flaburgan)
+* Add a link to the "Contacts" page in the main menu (flaburgan)
+* Add the sender name of a quoting message in groups (flaburgan)
+* Add the complete date and time of a message when tapping the "From now" time (flaburgan)
+* Add a "Loading" spinner on the picture when sending (flaburgan)
+
+
 0.9.2 (Dec 21 2020)
 ------------------------------------
 * Hotfix - Fix XSS injection in messages

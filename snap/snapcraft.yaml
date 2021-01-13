@@ -1,12 +1,12 @@
 name: axolotl
 summary: A signal client.
 description: |
-  Axolotl is a cross-platform signal client
+  Axolotl is a cross-platform Signal client
 grade: stable
 confinement: strict
 base: core18
 icon: snap/gui/axolotl.png
-version: "0.9.2"
+version: "0.9.3"
 
 parts:
   axolotl:
