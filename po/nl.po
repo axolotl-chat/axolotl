@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-07-10 17:33+0200\n"
+"PO-Revision-Date: 2021-01-14 17:33+0100\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: none\n"
 "Language: nl\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #: src/pages/About.vue:4 src/pages/Register.vue:5
 msgid "A cross-plattform signal client"
@@ -43,7 +43,7 @@ msgstr "Audio"
 
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
-msgstr "Kan de contactpersoonslijst niet aanpassen: {{error}}"
+msgstr "Kan de contactpersonenlijst niet aanpassen: {{error}}"
 
 #: src/components/IdentityModal.vue:21
 msgid "Close"
@@ -63,7 +63,7 @@ msgstr "Contactpersoon"
 
 #: src/pages/Contacts.vue:16
 msgid "Contact list is empty..."
-msgstr "Je contactpersoonslijst is leeg..."
+msgstr "Je contactpersonenlijst is leeg..."
 
 #: src/pages/NewGroup.vue:12
 msgid "Create group"
@@ -155,16 +155,15 @@ msgstr "Dempen"
 
 #: src/components/AddContactModal.vue:12
 msgid "Name"
-msgstr ""
+msgstr "Naam"
 
 #: src/components/Header.vue:98 src/components/Header.vue:144
 msgid "New group"
 msgstr "Nieuwe groep"
 
 #: src/pages/SetPassword.vue:13
-#, fuzzy
 msgid "New password"
-msgstr "Wachtwoord instellen"
+msgstr "Nieuw wachtwoord"
 
 #: src/pages/Register.vue:16
 msgid "Next"
@@ -175,9 +174,8 @@ msgid "No chats available"
 msgstr "Geen beschikbare chats"
 
 #: src/pages/DeviceList.vue:14
-#, fuzzy
 msgid "No linked devices"
-msgstr "Gekoppelde apparaten"
+msgstr "Geen gekoppelde apparaten"
 
 #: src/pages/MessageList.vue:25
 msgid "No Messages available."
@@ -192,13 +190,12 @@ msgid "Note, you can't add yourself to a group."
 msgstr "Je kunt jezelf niet toevoegen aan een groep."
 
 #: src/pages/About.vue:13
-#, fuzzy
 msgid "or by becoming a"
-msgstr "door een"
+msgstr "of door"
 
 #: src/pages/Verification.vue:4
 msgid "or disable it on Android/IOs"
-msgstr "of schakel het dit op Android/iOS"
+msgstr "of schakel het uit op Android/iOS"
 
 #: src/pages/Password.vue:2
 msgid "Password is wrong"
@@ -285,11 +282,11 @@ msgid "sponsor on patreon."
 msgstr "sponsor te worden op Patreon."
 
 #: src/pages/About.vue:6
-#, fuzzy
 msgid ""
 "This is a free and open source signal client written in golang and vuejs."
 msgstr ""
-"Dit is een gratis, opensource Signal-client, geschreven in golang en vuejs.\n"
+"Dit is een gratis, open source Signal-client, geschreven in golang en "
+"vuejs.\n"
 "    Je kunt de ontwikkeling van Axolotl ondersteunen door"
 
 #: src/components/Header.vue:26 src/pages/ChatList.vue:25
@@ -310,9 +307,8 @@ msgid "Unsafe password"
 msgstr "Onveilig wachtwoord"
 
 #: src/components/Message.vue:81
-#, fuzzy
 msgid "Unsupported message type: sticker"
-msgstr "Niet-ondersteund mimetype:"
+msgstr "Niet-ondersteunde berichtsoort: sticker"
 
 #: src/pages/EditGroup.vue:41
 msgid "Updating Group"
@@ -332,13 +328,13 @@ msgstr "De ingevoerde code is onjuist. Herstart en probeer het opnieuw."
 
 #: src/components/Message.vue:72
 msgid "You"
-msgstr ""
+msgstr "Ik"
 
 #: src/pages/About.vue:8
-#, fuzzy
 msgid "You can support the development of axolotl either by filling"
 msgstr ""
-"Dit is een gratis, opensource Signal-client, geschreven in golang en vuejs.\n"
+"Dit is een gratis, open source Signal-client, geschreven in golang en "
+"vuejs.\n"
 "    Je kunt de ontwikkeling van Axolotl ondersteunen door"
 
 #: src/components/Message.vue:27 src/components/Message.vue:36
