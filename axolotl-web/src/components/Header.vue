@@ -129,11 +129,12 @@
                 <font-awesome-icon icon="ellipsis-v" />
               </button>
               <div v-if="showSettingsMenu" class="dropdown-menu" id="settings-dropdown" aria-labelledby="dropdownMenuButton">
-                <button class="dropdown-item" @click="refreshContacts" v-translate>Import contacts</button>
+                <button class="dropdown-item" @click="showSettingsMenu = false; showImportUnavailableModal = true;" v-translate>Import contacts</button>
                 <input id="addVcf" type="file" @change="readVcf" style="position: fixed; top: -100em">
               </div>
             </div>
           </div>
+          <import-unavailable-modal v-if="showImportUnavailableModal" @close="showImportUnavailableModal = false" />
         </div>
         <div v-else-if="route()=='chatList'" class="settings-container row">
           <div v-if="errorConnection!=null" class="connection-error"></div>
@@ -166,6 +167,7 @@
 <script>
   import IdentityModal from "@/components/IdentityModal.vue"
   import ConfirmationModal from "@/components/ConfirmationModal.vue"
+  import ImportUnavailableModal from "@/components/ImportUnavailableModal.vue"
   import {
     mapState
   } from 'vuex';
@@ -173,7 +175,8 @@
     name: 'Header',
     components: {
       ConfirmationModal,
-      IdentityModal
+      IdentityModal,
+      ImportUnavailableModal
     },
     props: {
       msg: String
@@ -183,6 +186,7 @@
         showSettingsMenu: false,
         showConfirmationModal: false,
         showIdentityModal: false,
+        showImportUnavailableModal: false,
         cMTitle: "",
         cMText: "",
         cMType: "",
