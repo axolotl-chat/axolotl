@@ -1,3 +1,9 @@
+0.9.4 (Jan 15 2021)
+------------------------------------
+* Warn users that due to upstream changes in Signal, importing contacts is currently broken. (flaburgan)
+* Allow to manually add contacts as a workaround by disabling discovery (nanu-c)
+* Update Dutch translations (Vistaus)
+
 0.9.3 (Jan 13 2021)
 ------------------------------------
 * Add an indication in the "Settings" page about how to enable notifications in Axolotl (flaburgan)
@@ -7,7 +13,6 @@
 * Add the sender name of a quoting message in groups (flaburgan)
 * Add the complete date and time of a message when tapping the "From now" time (flaburgan)
 * Add a "Loading" spinner on the picture when sending (flaburgan)
-
 
 0.9.2 (Dec 21 2020)
 ------------------------------------
