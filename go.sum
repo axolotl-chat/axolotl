@@ -106,6 +106,8 @@ github.com/golang/protobuf v1.4.0/go.mod h1:jodUvKwWbYaEsadDk5Fwe5c77LiNKVO9IDvq
 github.com/golang/protobuf v1.4.1/go.mod h1:U8fpvMrcmy5pZrNK1lt4xCsGvpyWQ/VVv6QDs8UjoX8=
 github.com/golang/protobuf v1.4.2 h1:+Z5KGCizgyZCbGh1KZqA0fcLLkwbsjIzS4aV2v7wJX0=
 github.com/golang/protobuf v1.4.2/go.mod h1:oDoupMAO8OvCJWAcko0GGGIgR6R6ocIYbsSw735rRwI=
+github.com/golang/protobuf v1.4.3 h1:JjCZWpVbqXDqFVmTfYWEVTMIYrL/NPdPSCHPJ0T/raM=
+github.com/golang/protobuf v1.4.3/go.mod h1:oDoupMAO8OvCJWAcko0GGGIgR6R6ocIYbsSw735rRwI=
 github.com/golang/snappy v0.0.0-20180518054509-2e65f85255db/go.mod h1:/XxbfmMg8lxefKM7IXC3fBNl/7bRcc72aCRzEWrmP2Q=
 github.com/google/btree v0.0.0-20180813153112-4030bb1f1f0c/go.mod h1:lNA+9X1NB3Zf8V7Ke586lFgjr2dZNuvo3lPJSGZ5JPQ=
 github.com/google/btree v1.0.0/go.mod h1:lNA+9X1NB3Zf8V7Ke586lFgjr2dZNuvo3lPJSGZ5JPQ=
@@ -287,6 +289,8 @@ github.com/signal-golang/textsecure v1.2.1-0.20200926055409-3d5efd49468b h1:XQLq
 github.com/signal-golang/textsecure v1.2.1-0.20200926055409-3d5efd49468b/go.mod h1:kvZwgCzRQ7D2j76MH9BUy3g5F1BPnpvCwyYEruAYb/U=
 github.com/signal-golang/textsecure v1.2.1 h1:cl9hNpBgN5vx9VVTxLoJmpcFJx7fAKF9cUPVhyKbb78=
 github.com/signal-golang/textsecure v1.2.1/go.mod h1:kvZwgCzRQ7D2j76MH9BUy3g5F1BPnpvCwyYEruAYb/U=
+github.com/signal-golang/textsecure v1.2.4-2 h1:pSGRheQvwl0WqG4HnBHwldLzTLRb69Vfe62XeWNEQnA=
+github.com/signal-golang/textsecure v1.2.4-2/go.mod h1:hgHm1r1axfHfEatgE9kdxmpKFHWUs4/9RV5oUrgLnZQ=
 github.com/signal-golang/textsecure v1.2.4 h1:+i0XIGWs/kOkm6zyWIWspvEdS3k4IRAW3DAsXmDM8aE=
 github.com/signal-golang/textsecure v1.2.4/go.mod h1:kvZwgCzRQ7D2j76MH9BUy3g5F1BPnpvCwyYEruAYb/U=
 github.com/sirupsen/logrus v1.2.0/go.mod h1:LxeOpSwHxABJmUn/MG1IvRgCAasNZTLOkJPxbbu5VWo=
