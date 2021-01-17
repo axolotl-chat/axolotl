@@ -62,18 +62,16 @@ export default new Vuex.Store({
       } else if (error.includes("no such host") || error.includes("timeout")) {
         state.errorConnection = error;
       } else if (error.includes("Your registration is faulty")) {
-        state.error = error + " .Please consider to register again";
+        state.error = error;
       } else if (error.includes(400)) {
         //when pin is missing
         if (state.verificationInProgress)
           state.verificationError = 400
-      }
-      else if (error.includes(404)) {
+      } else if (error.includes(404)) {
         //when code was wrong
         if (state.verificationInProgress)
           state.verificationError = 404
-      }
-      else if (error.includes("RegistrationLockFailure")) {
+      } else if (error.includes("RegistrationLockFailure")) {
         state.verificationError = "RegistrationLockFailure"
       }
     },
