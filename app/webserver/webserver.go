@@ -146,7 +146,7 @@ func wsReader(conn *websocket.Conn) {
 			} else {
 				activeChat = openChatMessage.Id
 				if !s.IsGroup {
-					// TODO: Avatar and profile handling for private chats
+					// TODO: Avatar and profile handling for private chats, decryption is not yet done on the textsecure part
 					// p, _ := textsecure.GetProfile(s.Tel)
 					// profile = p
 				}
