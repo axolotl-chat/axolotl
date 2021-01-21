@@ -45,7 +45,7 @@ type Sessions struct {
 
 const (
 	invalidSession = -1
-	invalidQuote = -1
+	invalidQuote   = -1
 )
 
 //TODO that hasn't to  be in the db controller
@@ -265,15 +265,15 @@ func (s *Sessions) Get(id int64) (*Session, error) {
 	return nil, fmt.Errorf("Session with id %d not found", id)
 }
 
-// GetByE164 returns the session by the telephone number amd creates it if it doesn't exists
+// GetByE164 returns the session by the telephone number and creates it if it doesn't exists
 func (s *Sessions) GetByE164(tel string) *Session {
 	for _, ses := range s.Sess {
 		if ses.Tel == tel {
 			return ses
 		}
 	}
-
-	return nil
+	newSession := s.CreateSessionForE164(tel, "0")
+	return newSession
 }
 
 // CreateSessionForE164 creates a new Session for the phone number

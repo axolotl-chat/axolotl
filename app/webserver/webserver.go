@@ -134,8 +134,7 @@ func wsReader(conn *websocket.Conn) {
 			newChat := createChat(createChatMessage.Tel)
 			activeChat = newChat.ID
 			store.ActiveSessionID = activeChat
-			s := store.SessionsModel.GetByE164(createChatMessage.Tel)
-			sendCurrentChat(s)
+			requestEnterChat(activeChat)
 		case "openChat":
 			openChatMessage := OpenChatMessage{}
 			json.Unmarshal([]byte(p), &openChatMessage)

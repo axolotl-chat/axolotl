@@ -105,9 +105,8 @@ export default new Vuex.Store({
     SEND_MESSAGE() {
 
     },
-    CREATE_CHAT(state, tel) {
+    CREATE_CHAT(state) {
       state.currentChat = null;
-      router.push('/chat/' + tel)
     },
     SET_DEVICELIST(state, devices) {
       state.devices = devices

@@ -23,7 +23,7 @@ var (
 	dbFile   string
 	saltFile string
 
-	sessionsSchema = "CREATE TABLE IF NOT EXISTS sessions (id INTEGER PRIMARY KEY, name text, tel text, isgroup boolean, last string, timestamp integer, ctype integer, unread integer default 0, notification boolean default 1, expireTimer integer default 0, type integer, uuid string  NOT NULL DEFAULT 0)"
+	sessionsSchema = "CREATE TABLE IF NOT EXISTS sessions (id INTEGER PRIMARY KEY, name text, tel text, isgroup boolean, last string, timestamp integer, ctype integer, unread integer default 0, notification boolean default 1, expireTimer integer default 0, type integer NOT NULL DEFAULT 0, uuid string  NOT NULL DEFAULT 0)"
 	sessionsInsert = "INSERT OR REPLACE INTO sessions (name, tel, isgroup, last, ctype, timestamp, notification, expireTimer, type, uuid ) VALUES ( :name, :tel, :isgroup, :last, :ctype, :timestamp, :notification, :expireTimer, :type, :uuid)"
 	sessionsSelect = "SELECT * FROM sessions ORDER BY timestamp DESC"
 

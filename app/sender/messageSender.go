@@ -15,6 +15,8 @@ import (
 	"github.com/signal-golang/textsecure"
 )
 
+const emptyUUID = "0"
+
 // SendMessageHelper sends the message and returns the updated message
 func SendMessageHelper(ID int64, message, file string, updateMessageChannel chan *store.Message) (error, *store.Message) {
 	if ID >= 0 {
@@ -70,13 +72,14 @@ func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
 		}
 	}
 	var recipient string
-	if s.UUID != "0" {
+	if s.UUID != emptyUUID {
 		recipient = s.UUID
 	} else {
+		log.Debugln("[axolotl] send message: empty uuid")
 		recipient = s.Tel
 	}
 	ts := SendMessageLoop(recipient, m.Message, s.IsGroup, att, m.Flags, s.ExpireTimer)
-	log.Debugln("[axolotl] SendMessage", s.Tel, ts)
+	log.Debugln("[axolotl] SendMessage", recipient, ts)
 	m.SentAt = ts
 	m.ExpireTimer = s.ExpireTimer
 	s.Timestamp = m.SentAt
