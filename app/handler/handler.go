@@ -122,7 +122,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		// Session could not be found, lets try to find it by E164 aka phone number
 		log.Println("[axolotl] MessageHandler Error ", err)
 		session = store.SessionsModel.GetByE164(msg.Source())
-		if session != nil && gr == nil {
+		if session != nil {
 			// add uuid to session
 			log.Println("[axolotl] Update Session to new schema ", msg.Source())
 			session.UUID = msgSource
