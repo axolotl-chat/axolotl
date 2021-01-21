@@ -92,7 +92,7 @@ func (ds *DataStore) SetupDb(password string) bool {
 	UpdateMessagesTable_v_0_7_8()
 	UpdateSessionTable_v_0_7_8()
 	UpdateSessionTable_v_0_9_0()
-	UpdateSessionTable_v_0_9_3()
+	UpdateSessionTable_v_0_9_5()
 
 	err = LoadChats()
 	if err != nil {

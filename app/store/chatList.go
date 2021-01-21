@@ -43,6 +43,11 @@ type Sessions struct {
 	Type       string
 }
 
+const (
+	invalidSession = -1
+	invalidQuote = -1
+)
+
 //TODO that hasn't to  be in the db controller
 var AllSessions []*Session
 
@@ -97,7 +102,7 @@ func (s *Sessions) GetSession(i int64) *Session {
 
 // GetMessageList returns the message list for the session id
 func (s *Sessions) GetMessageList(ID int64) (error, *MessageList) {
-	if ID != -1 {
+	if ID != invalidSession {
 		sess, err := s.Get(ID)
 		if err != nil {
 			log.Errorln("[axolotl] get messagelist", err)
@@ -115,7 +120,7 @@ func (s *Sessions) GetMessageList(ID int64) (error, *MessageList) {
 		// attach the quoted messages
 		for i, m := range messageList.Messages {
 			if m.Flags == helpers.MsgFlagQuote {
-				if m.QuoteID != -1 {
+				if m.QuoteID != invalidQuote {
 					err, qm := GetMessageById(m.QuoteID)
 					if err != nil {
 						log.Debugln("[axolotl] messagelist quoted message: ", err)
