@@ -1,3 +1,8 @@
+0.9.5 (Jan 15 2021)
+------------------------------------
+* Support for empty prekeys - solves message sending errors (nanu-c)
+* Support for uuids (nanu-c)
+
 0.9.4 (Jan 15 2021)
 ------------------------------------
 * Warn users that due to upstream changes in Signal, importing contacts is currently broken. (flaburgan)
