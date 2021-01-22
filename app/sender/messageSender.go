@@ -72,7 +72,7 @@ func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
 		}
 	}
 	var recipient string
-	if s.UUID != emptyUUID {
+	if s.UUID != emptyUUID && s.UUID != "" {
 		recipient = s.UUID
 	} else {
 		log.Debugln("[axolotl] send message: empty uuid")
