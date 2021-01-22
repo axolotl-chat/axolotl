@@ -158,7 +158,7 @@ export default new Vuex.Store({
       }
     },
     SET_MESSAGE_RECIEVED(state, message) {
-      if (state.messageList.ID == message.ChatID) {
+      if (state.messageList.ID == message.SID) {
         var tmpList = state.messageList.Messages;
         tmpList.push(message);
         tmpList.sort(function(a, b) {
