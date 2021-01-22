@@ -2,6 +2,7 @@
 ------------------------------------
 * Support for empty prekeys - solves message sending errors (nanu-c)
 * Support for uuids (nanu-c)
+* Add a more telling error message when something isn't working (flaburgan)
 
 0.9.4 (Jan 15 2021)
 ------------------------------------
