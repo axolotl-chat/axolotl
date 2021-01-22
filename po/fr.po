@@ -48,6 +48,7 @@ msgstr "Impossible de mettre à jour la liste des contacts : {{error}}"
 
 #: src/components/ErrorModal.vue:18 src/components/IdentityModal.vue:21
 #: src/components/ImportUnavailableModal.vue:15
+#: src/components/StartChatModal.vue:13
 msgid "Close"
 msgstr "Fermer"
 
@@ -242,6 +243,10 @@ msgstr "Téléphone"
 msgid "Photo"
 msgstr "Photo"
 
+#: src/components/StartChatModal.vue:11
+msgid "Please ask your conversation partner to start the chat first."
+msgstr ""
+
 #: src/pages/Settings.vue:5
 msgid "Registered number"
 msgstr "Numéro d'enregistrement"
@@ -309,6 +314,10 @@ msgstr "Afficher l’identité"
 #: src/pages/About.vue:14
 msgid "sponsor on patreon."
 msgstr "mécène sur Patreon."
+
+#: src/components/StartChatModal.vue:5
+msgid "Starting new chats is currently broken in Axolotl."
+msgstr ""
 
 #: src/pages/About.vue:6
 msgid ""

@@ -51,6 +51,7 @@ msgstr ""
 
 #: src/components/ErrorModal.vue:18 src/components/IdentityModal.vue:21
 #: src/components/ImportUnavailableModal.vue:15
+#: src/components/StartChatModal.vue:13
 msgid "Close"
 msgstr ""
 
@@ -252,6 +253,10 @@ msgstr ""
 msgid "Photo"
 msgstr ""
 
+#: src/components/StartChatModal.vue:11
+msgid "Please ask your conversation partner to start the chat first."
+msgstr ""
+
 #: src/pages/Settings.vue:5
 #, fuzzy
 msgid "Registered number"
@@ -320,6 +325,10 @@ msgstr "Zweryfikuj tożsamość"
 
 #: src/pages/About.vue:14
 msgid "sponsor on patreon."
+msgstr ""
+
+#: src/components/StartChatModal.vue:5
+msgid "Starting new chats is currently broken in Axolotl."
 msgstr ""
 
 #: src/pages/About.vue:6

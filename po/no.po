@@ -48,6 +48,7 @@ msgstr "Kan ikke endre kontaktlisten: {{error}}"
 
 #: src/components/ErrorModal.vue:18 src/components/IdentityModal.vue:21
 #: src/components/ImportUnavailableModal.vue:15
+#: src/components/StartChatModal.vue:13
 msgid "Close"
 msgstr "Lukk"
 
@@ -246,6 +247,10 @@ msgstr "Telefon"
 msgid "Photo"
 msgstr "Bilde"
 
+#: src/components/StartChatModal.vue:11
+msgid "Please ask your conversation partner to start the chat first."
+msgstr ""
+
 #: src/pages/Settings.vue:5
 msgid "Registered number"
 msgstr "Registrér nummer"
@@ -311,6 +316,10 @@ msgstr "Vis identitet"
 #: src/pages/About.vue:14
 msgid "sponsor on patreon."
 msgstr "sponsor på patreon."
+
+#: src/components/StartChatModal.vue:5
+msgid "Starting new chats is currently broken in Axolotl."
+msgstr ""
 
 #: src/pages/About.vue:6
 #, fuzzy
