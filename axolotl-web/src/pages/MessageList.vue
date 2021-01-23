@@ -64,7 +64,7 @@ import { saveAs } from 'file-saver';
 export default {
   name: 'Chat',
   props: {
-    chatId: String
+    chatId: Number
   },
   components:{
     AttachmentBar,

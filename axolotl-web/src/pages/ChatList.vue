@@ -10,7 +10,7 @@
       </button>
     </div>
     <div class="row" v-for="(chat) in chats" v-bind:key="chat.id">
-      <div id="chat.id"
+      <div :id="chat.id"
       :class="editActive&&selectedChat.indexOf(chat.Tel)>=0?'selected col-12 chat-container':'col-12 chat-container '"
       @click="enterChat(chat)">
         <div class="row chat-entry">
@@ -130,7 +130,7 @@ export default {
     enterChat(chat){
       if(!this.editActive){
         this.$store.dispatch("setCurrentChat", chat);
-        router.push ('/chat/'+chat.Tel)
+        router.push ('/chat/'+chat.ID)
       }
       else{
           this.selectedChat.push(chat.Tel);

@@ -15,7 +15,8 @@
                   <img class="avatar-img" :src="'http://localhost:9080/avatars?file='+currentChat.Tel" @error="onImageError($event)" />
                   <font-awesome-icon icon="user-friends" />
                 </div>
-                <div v-else class="group-badge">{{currentChat.Name[0]}}</div>
+                <div v-else class="group-badge">{{currentChat.Name[0]}}
+                </div>
               </div>
               <div class="col-10 center">
                 <div class="row">
@@ -40,7 +41,7 @@
                     <div class="number-text" v-if="currentChat!=null&&currentChat.IsGroup&&currentGroup!=null&&typeof currentGroup!='undefined'">
                       <div class="name" v-for="(n,i) in names" v-bind:key="i">{{n}}<span v-if="i<names.length-1">,</span></div>
                     </div>
-                    <div class="number-text" v-if="currentChat!=null&&!currentChat.IsGroup&&currentChat.Name==currentChat.Tel"> {{messageList.ID}}</div>
+                    <div class="number-text" v-if="currentChat!=null&&!currentChat.IsGroup&&currentChat.Name==currentChat.Tel"> {{currentChat.Tel}}</div>
 
                   </div>
                 </div>
@@ -161,6 +162,7 @@
         </div>
       </div>
     </div>
+    
   </div>
 </template>
 

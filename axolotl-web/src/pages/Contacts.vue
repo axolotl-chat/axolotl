@@ -36,10 +36,12 @@
         v-bind:key="contact.Tel"
         :class="contact.Tel==editContactId?'selected btn col-12 chat':'btn col-12 chat'">
       <div class="row chat-entry">
-        <div class="avatar col-3" @click="contactClick(contact)">
+        <!-- <div class="avatar col-3" @click="contactClick(contact)"> -->
+        <div class="avatar col-3" @click="startChatModalOpen()">
           <div class="badge-name">{{contact.Name[0]+contact.Name[1]}}</div>
         </div>
-        <div class="meta col-9" @click="contactClick(contact)"  v-longclick="()=>{showContactAction(contact)}">
+        <!-- <div class="meta col-9" @click="contactClick(contact)"  v-longclick="()=>{showContactAction(contact)}"> -->
+        <div class="meta col-9" @click="startChatModalOpen()"  v-longclick="()=>{showContactAction(contact)}">
           <p class="name">{{contact.Name}}</p>
           <p class="number">{{contact.Tel}}</p>
         </div>
@@ -60,6 +62,11 @@
       @save="saveContact($event)"
       />
     </div>
+        <div v-if="startChatModal" class="startChatModal">
+      <start-chat-modal
+        @close="startChatModal=false"
+      />
+    </div>
     <button class="btn add-contact" @click="addContactModal=true"><font-awesome-icon icon="plus" /></button>
   </div>
 </template>
@@ -67,6 +74,7 @@
 <script>
 import AddContactModal from "@/components/AddContactModal.vue"
 import EditContactModal from "@/components/EditContactModal.vue"
+import StartChatModal from "@/components/StartChatModal.vue"
 export default {
   name: 'Contacts',
   props: {
@@ -74,7 +82,8 @@ export default {
   },
   components: {
     AddContactModal,
-    EditContactModal
+    EditContactModal,
+    StartChatModal
   },
   data() {
     return {
@@ -83,6 +92,7 @@ export default {
       editContactModal: false,
       contact:null,
       contactId:null,
+      startChatModal: false,
       editContactId:"",
       i:null
     }
@@ -125,6 +135,9 @@ export default {
       this.contactId = this.editContactId;
       this.showActions = false;
       this.editContactId ="";
+    },
+    startChatModalOpen(){
+      this.startChatModal=true;
     }
   },
   computed: {

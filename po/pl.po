@@ -21,14 +21,9 @@ msgstr ""
 msgid "About Axolotl"
 msgstr ""
 
-#: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:21
+#: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:22
 msgid "Add"
 msgstr ""
-
-#: src/components/Header.vue:131
-#, fuzzy
-msgid "Add Contacts"
-msgstr "Kontakt"
 
 #: src/components/AddGroupMembersModal.vue:51
 #, fuzzy
@@ -44,11 +39,19 @@ msgstr "Użytkownicy grupy"
 msgid "Audio"
 msgstr "Audio"
 
+#: src/components/ErrorModal.vue:11
+msgid ""
+"Axolotl encountered an error communicating with Signal servers. Please try "
+"again."
+msgstr ""
+
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
 msgstr ""
 
-#: src/components/IdentityModal.vue:21
+#: src/components/ErrorModal.vue:18 src/components/IdentityModal.vue:21
+#: src/components/ImportUnavailableModal.vue:15
+#: src/components/StartChatModal.vue:13
 msgid "Close"
 msgstr ""
 
@@ -56,7 +59,7 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
-#: src/components/Header.vue:72
+#: src/components/Header.vue:73
 msgid "Connect with Signal"
 msgstr "Połącz z aplikacją Signal"
 
@@ -67,6 +70,11 @@ msgstr "Kontakt"
 #: src/pages/Contacts.vue:16
 msgid "Contact list is empty..."
 msgstr ""
+
+#: src/components/Header.vue:146
+#, fuzzy
+msgid "Contacts"
+msgstr "Kontakt"
 
 #: src/pages/NewGroup.vue:12
 #, fuzzy
@@ -101,17 +109,17 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: src/components/Header.vue:104
+#: src/components/Header.vue:105
 #, fuzzy
 msgid "Edit group"
 msgstr "Aktualizuj grupę"
 
-#: src/components/Header.vue:63
+#: src/components/Header.vue:64
 #, fuzzy
 msgid "Edit Group"
 msgstr "Aktualizuj grupę"
 
-#: src/components/Header.vue:75
+#: src/components/Header.vue:76
 msgid "Enter password"
 msgstr ""
 
@@ -120,12 +128,34 @@ msgid "Enter your registration pin"
 msgstr ""
 
 #: src/components/ErrorModal.vue:5
-msgid "Error"
+msgid "Error communicating with Signal servers"
 msgstr ""
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
 msgstr "Nazwa grupy"
+
+#: src/components/ErrorModal.vue:15
+msgid ""
+"If you think that something is wrong on your side, you can <a href=\"#\" "
+"@click=\"unregister\">unregister</a> and register again.\n"
+"            Be careful, <strong>your encryption key will change and you will "
+"lose all your messages</strong> if you choose to do that."
+msgstr ""
+
+#: src/components/ErrorModal.vue:12
+msgid ""
+"If you're seeing that error multiple times, check the <a href=\"https://"
+"status.signal.org/\" target=\"_blank\">status of Signal servers</a>.\n"
+"            If it's fine, then please tell us there is a problem by <a href="
+"\"https://github.com/nanu-c/axolotl/issues\" target=\"_blank\">opening an "
+"issue</a>."
+msgstr ""
+
+#: src/components/Header.vue:132
+#, fuzzy
+msgid "Import contacts"
+msgstr "Kontakt"
 
 #: src/pages/Contacts.vue:4
 msgid "Importing contacts, head back later"
@@ -157,15 +187,15 @@ msgstr ""
 msgid "Members"
 msgstr "Użytkownicy grupy"
 
-#: src/components/Header.vue:58
+#: src/components/Header.vue:59
 msgid "Mute"
 msgstr ""
 
-#: src/components/AddContactModal.vue:12
+#: src/components/AddContactModal.vue:13
 msgid "Name"
 msgstr ""
 
-#: src/components/Header.vue:98 src/components/Header.vue:144
+#: src/components/Header.vue:99 src/components/Header.vue:149
 msgid "New group"
 msgstr "Nowa grupa"
 
@@ -191,7 +221,7 @@ msgstr "Odśwież"
 msgid "No Messages available."
 msgstr ""
 
-#: src/components/Message.vue:41 src/components/Message.vue:67
+#: src/components/Message.vue:46 src/components/Message.vue:72
 msgid "Not supported mime type:"
 msgstr ""
 
@@ -215,12 +245,16 @@ msgstr ""
 msgid "Passwords don't match"
 msgstr ""
 
-#: src/components/AddContactModal.vue:16 src/components/EditContactModal.vue:15
+#: src/components/AddContactModal.vue:17 src/components/EditContactModal.vue:15
 msgid "Phone"
 msgstr ""
 
 #: src/components/AttachmentBar.vue:11
 msgid "Photo"
+msgstr ""
+
+#: src/components/StartChatModal.vue:11
+msgid "Please ask your conversation partner to start the chat first."
 msgstr ""
 
 #: src/pages/Settings.vue:5
@@ -236,7 +270,7 @@ msgstr ""
 msgid "Request code"
 msgstr ""
 
-#: src/components/Header.vue:62
+#: src/components/Header.vue:63
 #, fuzzy
 msgid "Reset encryption"
 msgstr "Reset bezpiecznej sesji"
@@ -261,7 +295,7 @@ msgstr ""
 msgid "Send pin"
 msgstr ""
 
-#: src/components/Header.vue:81
+#: src/components/Header.vue:82
 #, fuzzy
 msgid "Set encryption password"
 msgstr "Reset bezpiecznej sesji"
@@ -280,11 +314,11 @@ msgid ""
 "required!"
 msgstr ""
 
-#: src/components/Header.vue:92 src/components/Header.vue:147
+#: src/components/Header.vue:93 src/components/Header.vue:152
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: src/components/Header.vue:61
+#: src/components/Header.vue:62
 #, fuzzy
 msgid "Show identity"
 msgstr "Zweryfikuj tożsamość"
@@ -293,22 +327,25 @@ msgstr "Zweryfikuj tożsamość"
 msgid "sponsor on patreon."
 msgstr ""
 
+#: src/components/StartChatModal.vue:5
+msgid "Starting new chats is currently broken in Axolotl."
+msgstr ""
+
 #: src/pages/About.vue:6
 msgid ""
 "This is a free and open source signal client written in golang and vuejs."
 msgstr ""
 
-#: src/components/Header.vue:26 src/pages/ChatList.vue:25
+#: src/components/Header.vue:27 src/pages/ChatList.vue:25
 #, fuzzy
 msgid "Unknown group"
 msgstr "Nowa grupa"
 
-#: src/components/Header.vue:59
+#: src/components/Header.vue:60
 msgid "Unmute"
 msgstr ""
 
-#: src/components/ErrorModal.vue:13 src/pages/Password.vue:5
-#: src/pages/Settings.vue:18
+#: src/pages/Password.vue:5 src/pages/Settings.vue:18
 #, fuzzy
 msgid "Unregister"
 msgstr "Wyrejestrowanie"
@@ -338,7 +375,7 @@ msgstr "Wideo"
 msgid "Wrong code entered. Restart for another try."
 msgstr ""
 
-#: src/components/Message.vue:72
+#: src/components/Message.vue:19
 msgid "You"
 msgstr ""
 
@@ -346,14 +383,18 @@ msgstr ""
 msgid "You can support the development of axolotl either by filling"
 msgstr ""
 
-#: src/components/Message.vue:27 src/components/Message.vue:36
-#: src/components/Message.vue:52 src/pages/MessageList.vue:14
+#: src/components/Message.vue:32 src/components/Message.vue:41
+#: src/components/Message.vue:57 src/pages/MessageList.vue:14
 msgid "Your browser does not support the audio element."
 msgstr ""
 
-#: src/components/Message.vue:62
+#: src/components/Message.vue:67
 msgid "Your browser does not support the video element."
 msgstr ""
+
+#, fuzzy
+#~ msgid "Add Contacts"
+#~ msgstr "Kontakt"
 
 #, fuzzy
 #~ msgid "<b>Group name</b>"
@@ -444,14 +485,6 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Add contact"
-#~ msgstr "Kontakt"
-
-#, fuzzy
-#~ msgid "Contacts"
-#~ msgstr "Kontakt"
-
-#, fuzzy
-#~ msgid "No contacts"
 #~ msgstr "Kontakt"
 
 #~ msgid "Verifying number"

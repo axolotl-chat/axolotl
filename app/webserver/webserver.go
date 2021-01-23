@@ -16,7 +16,6 @@ import (
 	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/contact"
 	"github.com/nanu-c/axolotl/app/helpers"
-	"github.com/nanu-c/axolotl/app/push"
 	"github.com/nanu-c/axolotl/app/sender"
 	"github.com/nanu-c/axolotl/app/settings"
 	"github.com/nanu-c/axolotl/app/store"
@@ -24,8 +23,9 @@ import (
 )
 
 var clients = make(map[*websocket.Conn]bool)
-var activeChat = ""
+var activeChat int64 = -1
 var codeVerification = false
+var profile textsecure.Contact
 
 var broadcast = make(chan []byte, 100)
 
@@ -46,7 +46,7 @@ var upgrader = websocket.Upgrader{
 	WriteBufferSize: 1024,
 }
 
-func RemoveClientFromList(client *websocket.Conn) {
+func removeClientFromList(client *websocket.Conn) {
 	log.Debugln("[axolotl-ws] remove client")
 	delete(clients, client)
 }
@@ -91,7 +91,7 @@ func wsReader(conn *websocket.Conn) {
 	for {
 		defer func() {
 			if err := recover(); err != nil {
-				log.Println("panic occurred:", err)
+				log.Println("[axolotl-ws] panic occurred:", err)
 				conn.Close()
 			}
 		}()
@@ -113,9 +113,6 @@ func wsReader(conn *websocket.Conn) {
 			id := getMessageListMessage.ID
 			activeChat = getMessageListMessage.ID
 			store.ActiveSessionID = activeChat
-			if push.Nh != nil {
-				push.Nh.Clear(id)
-			}
 			log.Debugln("[axolotl] Enter chat ", id)
 			sendMessageList(id)
 		case "setDarkMode":
@@ -134,28 +131,37 @@ func wsReader(conn *websocket.Conn) {
 			createChatMessage := CreateChatMessage{}
 			json.Unmarshal([]byte(p), &createChatMessage)
 			log.Println("[axolotl] Create chat for ", createChatMessage.Tel)
-			createChat(createChatMessage.Tel)
-			activeChat = createChatMessage.Tel
+			newChat := createChat(createChatMessage.Tel)
+			activeChat = newChat.ID
 			store.ActiveSessionID = activeChat
-			s := store.SessionsModel.Get(createChatMessage.Tel)
-			sendCurrentChat(s)
+			requestEnterChat(activeChat)
 		case "openChat":
 			openChatMessage := OpenChatMessage{}
 			json.Unmarshal([]byte(p), &openChatMessage)
-			s := store.SessionsModel.Get(openChatMessage.Id)
-			log.Println("[axolotl] Open chat with id: ", s.ID)
-			activeChat = openChatMessage.Id
-			store.ActiveSessionID = activeChat
-			sendCurrentChat(s)
+
+			log.Println("[axolotl] Open chat with id: ", openChatMessage.Id)
+			s, err := store.SessionsModel.Get(openChatMessage.Id)
+			if err != nil {
+				log.Errorln("[axolotl] Open chat with id: ", openChatMessage.Id, "failed", err)
+			} else {
+				activeChat = openChatMessage.Id
+				if !s.IsGroup {
+					// TODO: Avatar and profile handling for private chats, decryption is not yet done on the textsecure part
+					// p, _ := textsecure.GetProfile(s.Tel)
+					// profile = p
+				}
+				store.ActiveSessionID = activeChat
+				sendCurrentChat(s)
+			}
 		case "leaveChat":
-			activeChat = ""
-			store.ActiveSessionID = ""
+			activeChat = -1
+			store.ActiveSessionID = -1
 		case "createGroup":
 			createGroupMessage := CreateGroupMessage{}
 			json.Unmarshal([]byte(p), &createGroupMessage)
 			log.Println("[axolotl] Create group ", createGroupMessage.Name)
 			group := createGroup(createGroupMessage)
-			activeChat = group.Tel
+			activeChat = group.ID
 			store.ActiveSessionID = activeChat
 			requestEnterChat(activeChat)
 			sendContactList()
@@ -173,25 +179,26 @@ func wsReader(conn *websocket.Conn) {
 			updateMessageChannel := make(chan *store.Message)
 			err, m := sender.SendMessageHelper(sendMessageMessage.To,
 				sendMessageMessage.Message, "", updateMessageChannel)
-			// show message in the message list
-			if err == nil {
-				go MessageHandler(m)
+			if err != nil || m == nil {
+				log.Errorln("[axolotl] send message: ", err)
+			} else {
+				if err == nil {
+					go MessageHandler(m)
+				}
+				// catch status
+				go func() {
+					m := <-updateMessageChannel
+					go UpdateMessageHandlerWithSource(m)
+
+				}()
 			}
-			// catch status
-			go func() {
-				m := <-updateMessageChannel
-				go UpdateMessageHandlerWithSource(m, sendMessageMessage.To)
-
-			}()
-
 		case "getContacts":
 			go sendContactList()
 		case "addContact":
-			log.Infoln("Add contact")
 			addContactMessage := AddContactMessage{}
 			json.Unmarshal([]byte(p), &addContactMessage)
-			log.Println(addContactMessage.Name)
 			contact.AddContact(addContactMessage.Name, addContactMessage.Phone)
+			log.Infoln("[Axolotl] Add contact", addContactMessage.Name)
 			err = store.RefreshContacts()
 			if err != nil {
 				ShowError(err.Error())
@@ -350,10 +357,13 @@ func wsReader(conn *websocket.Conn) {
 				ShowError(err.Error())
 			}
 		case "toggleNotifcations":
-			toggleNotificationsMessage := ToggleNotificationsMessage{}
+			toggleNotificationsMessage := toggleNotificationsMessage{}
 			json.Unmarshal([]byte(p), &toggleNotificationsMessage)
 			log.Debugln("[axolotl] toggle notification for: ", toggleNotificationsMessage.Chat)
-			s := store.SessionsModel.Get(toggleNotificationsMessage.Chat)
+			s, err := store.SessionsModel.Get(toggleNotificationsMessage.Chat)
+			if err != nil {
+				ShowError(err.Error())
+			}
 			s.ToggleSessionNotifcation()
 			sendCurrentChat(s)
 			sendChatList()
@@ -361,17 +371,24 @@ func wsReader(conn *websocket.Conn) {
 			resetEncryptionMessage := ResetEncryptionMessage{}
 			json.Unmarshal([]byte(p), &resetEncryptionMessage)
 			log.Debugln("[axolotl] reset encryption for: ", resetEncryptionMessage.Chat)
-			s := store.SessionsModel.Get(resetEncryptionMessage.Chat)
+			s, err := store.SessionsModel.Get(resetEncryptionMessage.Chat)
+			if err != nil {
+				ShowError(err.Error())
+			}
 			m := s.Add("Secure session reset.", "", []store.Attachment{}, "", true, store.ActiveSessionID)
 			m.Flags = helpers.MsgFlagResetSession
 			store.SaveMessage(m)
 			go sender.SendMessage(s, m)
 			sendChatList()
 		case "verifyIdentity":
-			verifyIdentityMessage := ToggleNotificationsMessage{}
+			verifyIdentityMessage := verifyIdentityMessage{}
 			json.Unmarshal([]byte(p), &verifyIdentityMessage)
 			log.Debugln("[axolotl] identity information for: ", verifyIdentityMessage.Chat)
-			fingerprintNumbers, fingerprintQRCode, err := textsecure.GetFingerprint(verifyIdentityMessage.Chat)
+			s, err := store.SessionsModel.Get(verifyIdentityMessage.Chat)
+			if err != nil {
+				ShowError(err.Error())
+			}
+			fingerprintNumbers, fingerprintQRCode, err := textsecure.GetFingerprint(s.Tel)
 			if err != nil {
 				log.Debugln("[axolotl] identity information ", err)
 			}

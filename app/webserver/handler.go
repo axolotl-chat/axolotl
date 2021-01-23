@@ -59,7 +59,7 @@ type UpdateMessage struct {
 
 // UpdateMessageHandler sents message receipts to all connected clients for the activeChat
 func UpdateMessageHandler(msg *store.Message) {
-	if msg.ChatID == activeChat {
+	if msg.SID == activeChat {
 		log.Debugln("[axolotl-ws] UpdateMessageHandler ", msg.SentAt)
 		updateMessage := &UpdateMessage{
 			UpdateMessage: msg,
@@ -75,9 +75,12 @@ func UpdateMessageHandler(msg *store.Message) {
 		UpdateChatList()
 	}
 }
-func UpdateMessageHandlerWithSource(msg *store.Message, source string) {
-	if source == activeChat {
-		log.Debugln("[axolotl-ws] UpdateMessageHandlerWithSource ", msg.SentAt)
+
+// UpdateMessageHandlerWithSource checks if the message belongs to the current chat and if yes
+// triggers an update on axolotl web
+func UpdateMessageHandlerWithSource(msg *store.Message) {
+	if msg.SID == activeChat {
+		log.Debugln("[axolotl-ws] UpdateMessageHandlerWithSource ", msg.SID, msg.SentAt)
 		updateMessage := &UpdateMessage{
 			UpdateMessage: msg,
 		}
@@ -117,6 +120,7 @@ func sendRequest(requestType string) {
 
 var registered = false
 
+// RegistrationDone sets restration status to done and sends registration status to axoltol-web
 func RegistrationDone() {
 	registered = true
 	sendRequest("registrationDone")
@@ -124,10 +128,10 @@ func RegistrationDone() {
 
 type SendEnterChatRequest struct {
 	Type string
-	Chat string
+	Chat int64
 }
 
-func requestEnterChat(chat string) {
+func requestEnterChat(chat int64) {
 	var err error
 	request := &SendEnterChatRequest{
 		Type: "requestEnterChat",
@@ -187,7 +191,7 @@ func ClearError() {
 }
 
 func sendAttachment(attachment SendAttachmentMessage) error {
-	// log.Infoln("[axolotl] send attachment ", attachment.Path)
+	log.Infoln("[axolotl] send attachment ")
 	// Do not allow sending attachments larger than 100M for now
 	var maxAttachmentSize int64 = 100 * 1024 * 1024
 	file := strings.TrimPrefix(attachment.Path, "file://")

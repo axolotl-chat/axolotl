@@ -1,6 +1,7 @@
 package worker
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/nanu-c/axolotl/app/helpers"
@@ -9,8 +10,12 @@ import (
 	"github.com/nanu-c/axolotl/app/ui"
 )
 
-func (Api *TextsecureAPI) EndSession(tel string) error {
-	session := store.SessionsModel.Get(tel)
+// EndSession resets the current session.
+func (Api *TextsecureAPI) EndSession(ID int64) error {
+	session, err := store.SessionsModel.Get(ID)
+	if err != nil {
+		return err
+	}
 	m := session.Add("Secure session reset.", "", []store.Attachment{}, "", true, store.ActiveSessionID)
 	m.Flags = helpers.MsgFlagResetSession
 	store.SaveMessage(m)
@@ -19,19 +24,20 @@ func (Api *TextsecureAPI) EndSession(tel string) error {
 }
 
 // MarkSessionsRead marks one or all sessions as read
-func (Api *TextsecureAPI) MarkSessionsRead(tel string) {
-	if tel != "" {
-		s := store.SessionsModel.Get(tel)
+func (Api *TextsecureAPI) MarkSessionRead(ID int64) error {
+	if ID != -1 {
+		s, err := store.SessionsModel.Get(ID)
+		if err != nil {
+			return err
+		}
 		s.MarkRead()
-		return
+		return nil
 	}
-	for _, s := range store.SessionsModel.Sess {
-		s.MarkRead()
-	}
+	return fmt.Errorf("Session not found %d", ID)
 }
 
-func (Api *TextsecureAPI) DeleteSession(tel string) {
-	err := store.DeleteSession(tel)
+func (Api *TextsecureAPI) DeleteSession(ID int64) {
+	err := store.DeleteSession(ID)
 	if err != nil {
 		ui.ShowError(err)
 	}

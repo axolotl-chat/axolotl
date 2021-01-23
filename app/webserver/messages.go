@@ -55,7 +55,7 @@ type Message struct {
 }
 type GetMessageListMessage struct {
 	Type string `json:"request"`
-	ID   string `json:"id"`
+	ID   int64  `json:"id"`
 }
 type GetMoreMessages struct {
 	Type   string `json:"request"`
@@ -63,7 +63,7 @@ type GetMoreMessages struct {
 }
 type SendMessageMessage struct {
 	Type    string `json:"request"`
-	To      string `json:"to"`
+	To      int64  `json:"to"`
 	Message string `json:"message"`
 }
 type RequestCodeMessage struct {
@@ -120,7 +120,7 @@ type UploadVcf struct {
 }
 type DelChatMessage struct {
 	Type string `json:"request"`
-	ID   string `json:"id"`
+	ID   int64  `json:"id"`
 }
 type CreateChatMessage struct {
 	Type string `json:"request"`
@@ -128,7 +128,7 @@ type CreateChatMessage struct {
 }
 type OpenChatMessage struct {
 	Type string `json:"request"`
-	Id   string `json:"id"`
+	Id   int64  `json:"id"`
 }
 type CreateGroupMessage struct {
 	Type    string   `json:"request"`
@@ -145,26 +145,26 @@ type SendAttachmentMessage struct {
 	Type    string `json:"request"`
 	AType   string `json:"type"`
 	Path    string `json:"path"`
-	To      string `json:"to"`
+	To      int64  `json:"to"`
 	Message string `json:"message"`
 }
 type UploadAttachmentMessage struct {
 	Type       string `json:"request"`
-	To         string `json:"to"`
+	To         int64  `json:"to"`
 	Attachment string `json:"attachment"`
 	Message    string `json:"message"`
 }
-type ToggleNotificationsMessage struct {
+type toggleNotificationsMessage struct {
 	Type string `json:"request"`
-	Chat string `json:"chat"`
+	Chat int64  `json:"chat"`
 }
 type ResetEncryptionMessage struct {
 	Type string `json:"request"`
-	Chat string `json:"chat"`
+	Chat int64  `json:"chat"`
 }
-type VerifyIdentityMessage struct {
+type verifyIdentityMessage struct {
 	Type string `json:"request"`
-	Chat string `json:"chat"`
+	Chat int64  `json:"chat"`
 }
 type SetDarkMode struct {
 	Type     string `json:"request"`

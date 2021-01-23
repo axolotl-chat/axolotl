@@ -25,7 +25,7 @@ var e string
 
 func init() {
 	flag.StringVar(&config.MainQml, "qml", "qml/phoneui/main.qml", "The qml file to load.")
-	flag.StringVar(&config.Gui, "e", "", "use either electron, ut, lorca, qt, server or me")
+	flag.StringVar(&config.Gui, "e", "", "use either electron, ut, lorca, qt or server")
 	flag.StringVar(&config.AxolotlWebDir, "axolotlWebDir", "./axolotl-web/dist", "Specify the directory to use for axolotl-web")
 	flag.BoolVar(&config.ElectronDebug, "eDebug", false, "use to show development console in electron")
 	flag.StringVar(&config.ServerHost, "host", "127.0.0.1", "Host to serve UI from.")
@@ -46,10 +46,6 @@ func setup() {
 	log.Infoln("[axolotl] Starting Signal for Ubuntu version", config.AppVersion)
 }
 func runBackend() {
-	ui.SetEngine()
-	//
-	// ui.Engine.AddImageProvider("avatar", store.AvatarImageProvider)
-	ui.SetComponent()
 	go worker.RunBackend()
 	if config.IsPushHelper {
 		push.PushHelperProcess()
@@ -57,7 +53,7 @@ func runBackend() {
 }
 func runUI() error {
 	defer wg.Done()
-	if config.Gui != "ut" && config.Gui != "me" && config.Gui != "lorca" && config.Gui != "qt" {
+	if config.Gui != "ut" && config.Gui != "lorca" && config.Gui != "qt" {
 		ui.RunUi(config.Gui)
 		runElectron()
 	} else {

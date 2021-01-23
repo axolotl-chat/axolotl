@@ -11,6 +11,7 @@ import (
 	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/contact"
 	"github.com/nanu-c/axolotl/app/helpers"
+	"github.com/nanu-c/axolotl/app/push"
 	"github.com/nanu-c/axolotl/app/settings"
 	"github.com/nanu-c/axolotl/app/store"
 	"github.com/signal-golang/textsecure"
@@ -22,7 +23,7 @@ func websocketSender() {
 		for client := range clients {
 			if err := client.WriteMessage(websocket.TextMessage, message); err != nil {
 				log.Errorln("[axolotl-ws] send message", err)
-				RemoveClientFromList(client)
+				removeClientFromList(client)
 			}
 		}
 	}
@@ -54,17 +55,14 @@ func sendCurrentChat(s *store.Session) {
 	var (
 		err error
 		gr  *textsecure.Group
-		c   *textsecure.Contact
 	)
 	if s.IsGroup {
 		gr, err = textsecure.GetGroupById(s.Tel)
-	} else {
-		c = store.GetContactForTel(s.Tel)
 	}
 	currentChatEnvelope := &CurrentChatEnvelope{
 		OpenChat: &OpenChat{
 			CurrentChat: s,
-			Contact:     c,
+			Contact:     &profile,
 			Group:       gr,
 		},
 	}
@@ -114,13 +112,13 @@ func refreshContacts(path string) {
 }
 func recoverFromWsPanic(client *websocket.Conn) {
 	client.Close()
-	RemoveClientFromList(client)
+	removeClientFromList(client)
 
 }
 func sendContactList() {
 	defer func() {
 		if err := recover(); err != nil {
-			log.Println("panic occurred:", err)
+			log.Println("[axolotl] sendContactList panic occurred:", err)
 		}
 	}()
 	var err error
@@ -150,7 +148,7 @@ func sendDeviceList() {
 	broadcast <- *message
 }
 func createChat(tel string) *store.Session {
-	return store.SessionsModel.Get(tel)
+	return store.SessionsModel.GetByE164(tel)
 }
 func createGroup(newGroupData CreateGroupMessage) *store.Session {
 	group, err := textsecure.NewGroup(newGroupData.Name, newGroupData.Members)
@@ -169,7 +167,7 @@ func createGroup(newGroupData CreateGroupMessage) *store.Session {
 		Members: members,
 	}
 	store.SaveGroup(store.Groups[group.Hexid])
-	session := store.SessionsModel.Get(group.Hexid)
+	session := store.SessionsModel.GetByE164(group.Hexid)
 	msg := session.Add(store.GroupUpdateMsg(append(newGroupData.Members, config.Config.Tel), newGroupData.Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
 	msg.Flags = helpers.MsgFlagGroupNew
 	//qml.Changed(msg, &msg.Flags)
@@ -190,7 +188,7 @@ func updateGroup(updateGroupData UpdateGroupMessage) *store.Session {
 		Members: members,
 	}
 	store.SaveGroup(store.Groups[group.Hexid])
-	session := store.SessionsModel.Get(group.Hexid)
+	session := store.SessionsModel.GetByE164(group.Hexid)
 	msg := session.Add(store.GroupUpdateMsg(updateGroupData.Members, updateGroupData.Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
 	msg.Flags = helpers.MsgFlagGroupNew
 	//qml.Changed(msg, &msg.Flags)
@@ -198,15 +196,19 @@ func updateGroup(updateGroupData UpdateGroupMessage) *store.Session {
 
 	return session
 }
-func sendMessageList(id string) {
+func sendMessageList(ID int64) {
 	message := &[]byte{}
-
-	err, messageList := store.SessionsModel.GetMessageList(id)
+	log.Debugln("[axolotl] sendMessageList for conversation", ID)
+	err, messageList := store.SessionsModel.GetMessageList(ID)
 	if err != nil {
+		log.Errorln("[Axolotl] sendMessageList: ", err)
 		fmt.Println(err)
 		return
 	}
 	messageList.Session.MarkRead()
+	if push.Nh != nil {
+		push.Nh.Clear(messageList.Session.Tel)
+	}
 	chatListEnvelope := &MessageListEnvelope{
 		MessageList: messageList,
 	}
@@ -217,7 +219,7 @@ func sendMessageList(id string) {
 	}
 	broadcast <- *message
 }
-func sendMoreMessageList(id string, lastId string) {
+func sendMoreMessageList(id int64, lastId string) {
 	message := &[]byte{}
 	err, messageList := store.SessionsModel.GetMoreMessageList(id, lastId)
 	if err != nil {
@@ -257,30 +259,41 @@ func sendIdentityInfo(fingerprintNumbers []string, fingerprintQRCode []byte) {
 
 var test = false
 
+// UpdateChatList updates the chatlist if not entered a chat + registered
 func UpdateChatList() {
 
-	if activeChat == "" && registered {
+	if activeChat == -1 && registered {
 		sendChatList()
 	}
 }
+
+// UpdateContactList updates the contactlist if not entered a chat + registered
 func UpdateContactList() {
 
-	if activeChat == "" && registered {
+	if activeChat == -1 && registered {
 		sendContactList()
 	}
 }
+
+// UpdateActiveChat checks if there is an active chat an if yes it updates it on axolotl web
 func UpdateActiveChat() {
-	if activeChat != "" {
+	if activeChat != -1 {
 		// log.Debugln("[axolotl] update activ	e chat")
-		s := store.SessionsModel.Get(activeChat)
-		updateCurrentChat(s)
+		s, err := store.SessionsModel.Get(activeChat)
+		if err != nil {
+			log.Errorln("[axolotl-ws] UpdateActiveChat", err)
+		} else {
+			updateCurrentChat(s)
+		}
 	}
 }
 
+// SendGui sends to axolotl the gui to trigger ubuntu touch specific parts
 type SendGui struct {
 	Gui string
 }
 
+// SetGui sets the gui
 func SetGui() {
 	var err error
 	gui := config.Gui
@@ -300,7 +313,7 @@ func SetGui() {
 	// RemoveClientFromList(client)
 }
 
-type SendDarkmode struct {
+type sendDarkmode struct {
 	DarkMode bool
 }
 
@@ -310,7 +323,7 @@ func SetUiDarkMode() {
 	var err error
 	mode := settings.SettingsModel.DarkMode
 
-	request := &SendDarkmode{
+	request := &sendDarkmode{
 		DarkMode: mode,
 	}
 	message := &[]byte{}

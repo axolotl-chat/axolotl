@@ -5,8 +5,8 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/signal-golang/textsecure"
 	"github.com/nanu-c/axolotl/app/config"
+	"github.com/signal-golang/textsecure"
 	yaml "gopkg.in/yaml.v2"
 )
 
@@ -33,7 +33,7 @@ func GetContactForTel(tel string) *textsecure.Contact {
 }
 func RefreshContacts() error {
 	c, err := textsecure.GetRegisteredContacts()
-	log.Debugln("[axolotl] refresh contacts", len(c))
+	log.Debugln("[axolotl] Refresh contacts count: ", len(c))
 
 	if err != nil {
 		c, _ = readRegisteredContacts(config.RegisteredContactsFile)

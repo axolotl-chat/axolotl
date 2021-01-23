@@ -19,3 +19,5 @@ dist
 .flatpak
 .idea/*
 .idea
+axolotl.code-workspace
+libzkgroup.so

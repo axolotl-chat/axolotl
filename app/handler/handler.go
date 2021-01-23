@@ -100,9 +100,9 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		}
 	}
 
-	s := msg.Source()
+	msgSource := msg.SourceUUID()
 	if gr != nil {
-		s = gr.Hexid
+		msgSource = gr.Hexid
 	}
 	if msg.Sticker() != nil {
 		msgFlags = helpers.MsgFlagSticker
@@ -117,7 +117,28 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		msgFlags = helpers.MsgFlagReaction
 		text = msg.Reaction().GetEmoji()
 	}
-	session := store.SessionsModel.Get(s)
+	session, err := store.SessionsModel.GetByUUID(msgSource)
+	if err != nil && gr == nil {
+		// Session could not be found, lets try to find it by E164 aka phone number
+		log.Println("[axolotl] MessageHandler Error ", err)
+		session = store.SessionsModel.GetByE164(msg.Source())
+		if session != nil {
+			// add uuid to session
+			log.Println("[axolotl] Update Session to new schema ", msg.Source())
+			session.UUID = msgSource
+			err := store.UpdateSession(session)
+			if err != nil {
+				log.Debugln("[axolotl] Error update Session to new schema", err)
+			}
+		} else {
+			// create a new session
+			session = store.SessionsModel.CreateSessionForE164(msg.Source(), msg.SourceUUID())
+		}
+	} else if err != nil {
+		log.Infoln("[axolotl] MessageHandler group Error ", err)
+		session = store.SessionsModel.CreateSessionForGroup(gr)
+		// TODO create group
+	}
 	var m *store.Message
 	if syncMessage {
 		m = session.Add(text, "", f, mt, true, store.ActiveSessionID)
@@ -127,6 +148,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 	}
 	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
 	m.SentAt = msg.Timestamp()
+	m.SourceUUID = msg.SourceUUID()
 	session.ExpireTimer = msg.ExpireTimer()
 	store.UpdateSession(session)
 	m.ExpireTimer = msg.ExpireTimer()
@@ -142,7 +164,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 			err, savedQuoteMessage := store.SaveMessage(quoteMessage)
 			id = savedQuoteMessage.ID
 			if err != nil {
-				log.Debugln("[axolotl] Error saving quote message")
+				log.Debugln("[axolotl] Error saving quote message", err)
 			}
 		}
 		m.QuoteID = id
@@ -163,11 +185,11 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		}
 		//only send a notification, when it's not the current chat
 		// if session.ID != store.Sessions.GetActiveChat {
-		if s != store.ActiveSessionID {
+		if session.ID != store.ActiveSessionID {
 			if config.Gui == "ut" {
 				n := push.Nh.NewStandardPushMessage(
 					session.Name,
-					text, "", s)
+					text, "", msgSource)
 				push.Nh.Send(n)
 			} else {
 				err := beeep.Notify("Axolotl: "+session.Name, text, "axolotl-web/dist/public/axolotl.png")
@@ -187,7 +209,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 }
 func CallMessageHandler(msg *textsecure.Message) {
 	log.Debugln("[axolotl] CallMessageHandler", msg)
-	session := store.SessionsModel.Get(msg.Source())
+	session := store.SessionsModel.GetByE164(msg.Source())
 	var f []store.Attachment
 	m := session.Add(msg.Message(), "", f, "", true, store.ActiveSessionID)
 	store.SaveMessage(m)
@@ -208,7 +230,7 @@ func ReceiptHandler(source string, devID uint32, timestamp uint64) {
 		m.IsSent = true
 		m.Receipt = true
 		store.UpdateMessageReceipt(m)
-		webserver.UpdateMessageHandlerWithSource(m, m.Source)
+		webserver.UpdateMessageHandlerWithSource(m)
 		return
 	}
 }
@@ -230,7 +252,7 @@ func ReceiptMessageHandler(msg *textsecure.Message) {
 			m.IsSent = true
 			store.UpdateMessageReceiptSent(m)
 		}
-		webserver.UpdateMessageHandlerWithSource(m, m.Source)
+		webserver.UpdateMessageHandlerWithSource(m)
 		return
 	}
 }

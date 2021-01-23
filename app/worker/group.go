@@ -37,8 +37,16 @@ func (Api *TextsecureAPI) NewGroup(name string, members string) error {
 		Name:    name,
 		Members: members,
 	}
-	store.SaveGroup(store.Groups[group.Hexid])
-	session := store.SessionsModel.Get(group.Hexid)
+	g, err := store.SaveGroup(store.Groups[group.Hexid])
+	if err != nil {
+		ui.ShowError(err)
+		return err
+	}
+	session, err := store.SessionsModel.Get(g.ID)
+	if err != nil {
+		ui.ShowError(err)
+		return err
+	}
 	msg := session.Add(GroupUpdateMsg(append(m, config.Config.Tel), name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
 	msg.Flags = helpers.MsgFlagGroupNew
 	//qml.Changed(msg, &msg.Flags)
@@ -62,8 +70,16 @@ func (Api *TextsecureAPI) UpdateGroup(hexid, name string, members string) error 
 		Active:  g.Active,
 		Avatar:  g.Avatar,
 	}
-	store.UpdateGroup(store.Groups[hexid])
-	session := store.SessionsModel.Get(hexid)
+	g, err := store.UpdateGroup(store.Groups[hexid])
+	if err != nil {
+		ui.ShowError(err)
+		return err
+	}
+	session, err := store.SessionsModel.Get(g.ID)
+	if err != nil {
+		ui.ShowError(err)
+		return err
+	}
 	msg := session.Add(ui.GroupUpdateMsg(dm, name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
 	msg.Flags = helpers.MsgFlagGroupUpdate
 	//qml.Changed(msg, &msg.Flags)
@@ -76,15 +92,21 @@ func (Api *TextsecureAPI) UpdateGroup(hexid, name string, members string) error 
 }
 
 func (Api *TextsecureAPI) LeaveGroup(hexid string) error {
-	session := store.SessionsModel.Get(hexid)
+	store.Groups[hexid].Active = false
+	g, err := store.UpdateGroup(store.Groups[hexid])
+	if err != nil {
+		ui.ShowError(err)
+		return err
+	}
+	session, err := store.SessionsModel.Get(g.ID)
+	if err != nil {
+		ui.ShowError(err)
+		return err
+	}
 	msg := session.Add("You have left the group.", "", []store.Attachment{}, "", true, store.ActiveSessionID)
 	msg.Flags = helpers.MsgFlagGroupLeave
-	//qml.Changed(msg, &msg.Flags)
 	store.SaveMessage(msg)
 	session.Active = false
-	//qml.Changed(session, &session.Active)
-	store.Groups[hexid].Active = false
-	err := store.UpdateGroup(store.Groups[hexid])
 	go sender.SendMessage(session, msg)
 	return err
 }

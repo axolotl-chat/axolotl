@@ -14,6 +14,7 @@ type Message struct {
 	SID           int64
 	ChatID        string
 	Source        string `db:"source"`
+	SourceUUID    string `db:"srcUUID"`
 	Message       string
 	Outgoing      bool
 	SentAt        uint64

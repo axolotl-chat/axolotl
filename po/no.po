@@ -20,13 +20,9 @@ msgstr "En kryssplattform signal klient"
 msgid "About Axolotl"
 msgstr "Om Axolotl"
 
-#: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:21
+#: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:22
 msgid "Add"
 msgstr "Legg til"
-
-#: src/components/Header.vue:131
-msgid "Add Contacts"
-msgstr "Legg til kontakter"
 
 #: src/components/AddGroupMembersModal.vue:51
 msgid "Add Contacts first"
@@ -40,11 +36,19 @@ msgstr "Legg til gruppemedlemmer"
 msgid "Audio"
 msgstr "Lyd"
 
+#: src/components/ErrorModal.vue:11
+msgid ""
+"Axolotl encountered an error communicating with Signal servers. Please try "
+"again."
+msgstr ""
+
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
 msgstr "Kan ikke endre kontaktlisten: {{error}}"
 
-#: src/components/IdentityModal.vue:21
+#: src/components/ErrorModal.vue:18 src/components/IdentityModal.vue:21
+#: src/components/ImportUnavailableModal.vue:15
+#: src/components/StartChatModal.vue:13
 msgid "Close"
 msgstr "Lukk"
 
@@ -52,7 +56,7 @@ msgstr "Lukk"
 msgid "Confirm"
 msgstr "Bekreft"
 
-#: src/components/Header.vue:72
+#: src/components/Header.vue:73
 msgid "Connect with Signal"
 msgstr "Kontakt gjennom Signal"
 
@@ -63,6 +67,11 @@ msgstr "Kontakt"
 #: src/pages/Contacts.vue:16
 msgid "Contact list is empty..."
 msgstr "Kontaktlisten er tom..."
+
+#: src/components/Header.vue:146
+#, fuzzy
+msgid "Contacts"
+msgstr "Kontakter"
 
 #: src/pages/NewGroup.vue:12
 msgid "Create group"
@@ -96,16 +105,16 @@ msgstr "Dokument"
 msgid "Edit"
 msgstr "Redigér"
 
-#: src/components/Header.vue:104
+#: src/components/Header.vue:105
 #, fuzzy
 msgid "Edit group"
 msgstr "Oppdatér gruppe"
 
-#: src/components/Header.vue:63
+#: src/components/Header.vue:64
 msgid "Edit Group"
 msgstr "Oppdatér gruppe"
 
-#: src/components/Header.vue:75
+#: src/components/Header.vue:76
 msgid "Enter password"
 msgstr "Oppgi passord"
 
@@ -114,12 +123,34 @@ msgid "Enter your registration pin"
 msgstr "Oppgi pinkode for registrering"
 
 #: src/components/ErrorModal.vue:5
-msgid "Error"
-msgstr "Feil"
+msgid "Error communicating with Signal servers"
+msgstr ""
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
 msgstr "Gruppenavn"
+
+#: src/components/ErrorModal.vue:15
+msgid ""
+"If you think that something is wrong on your side, you can <a href=\"#\" "
+"@click=\"unregister\">unregister</a> and register again.\n"
+"            Be careful, <strong>your encryption key will change and you will "
+"lose all your messages</strong> if you choose to do that."
+msgstr ""
+
+#: src/components/ErrorModal.vue:12
+msgid ""
+"If you're seeing that error multiple times, check the <a href=\"https://"
+"status.signal.org/\" target=\"_blank\">status of Signal servers</a>.\n"
+"            If it's fine, then please tell us there is a problem by <a href="
+"\"https://github.com/nanu-c/axolotl/issues\" target=\"_blank\">opening an "
+"issue</a>."
+msgstr ""
+
+#: src/components/Header.vue:132
+#, fuzzy
+msgid "Import contacts"
+msgstr "Ingen kontakter"
 
 #: src/pages/Contacts.vue:4
 msgid "Importing contacts, head back later"
@@ -149,15 +180,15 @@ msgstr "Laster..."
 msgid "Members"
 msgstr "Medlemmer"
 
-#: src/components/Header.vue:58
+#: src/components/Header.vue:59
 msgid "Mute"
 msgstr "Lydløs"
 
-#: src/components/AddContactModal.vue:12
+#: src/components/AddContactModal.vue:13
 msgid "Name"
 msgstr ""
 
-#: src/components/Header.vue:98 src/components/Header.vue:144
+#: src/components/Header.vue:99 src/components/Header.vue:149
 msgid "New group"
 msgstr "Ny gruppe"
 
@@ -183,7 +214,7 @@ msgstr "Refresh"
 msgid "No Messages available."
 msgstr "Ingen meldinger tilgjengelige."
 
-#: src/components/Message.vue:41 src/components/Message.vue:67
+#: src/components/Message.vue:46 src/components/Message.vue:72
 msgid "Not supported mime type:"
 msgstr "MIME-type ikke støttet:"
 
@@ -208,13 +239,17 @@ msgstr "Passordfeil"
 msgid "Passwords don't match"
 msgstr "Passordene samsvarer ikke"
 
-#: src/components/AddContactModal.vue:16 src/components/EditContactModal.vue:15
+#: src/components/AddContactModal.vue:17 src/components/EditContactModal.vue:15
 msgid "Phone"
 msgstr "Telefon"
 
 #: src/components/AttachmentBar.vue:11
 msgid "Photo"
 msgstr "Bilde"
+
+#: src/components/StartChatModal.vue:11
+msgid "Please ask your conversation partner to start the chat first."
+msgstr ""
 
 #: src/pages/Settings.vue:5
 msgid "Registered number"
@@ -228,7 +263,7 @@ msgstr "Gjenta passord"
 msgid "Request code"
 msgstr "Få kode"
 
-#: src/components/Header.vue:62
+#: src/components/Header.vue:63
 msgid "Reset encryption"
 msgstr "Nullstill sikker sesjon"
 
@@ -252,7 +287,7 @@ msgstr "Send kode"
 msgid "Send pin"
 msgstr "Send PIN"
 
-#: src/components/Header.vue:81
+#: src/components/Header.vue:82
 msgid "Set encryption password"
 msgstr "Angi passord for sikker sesjon"
 
@@ -270,17 +305,21 @@ msgid ""
 "required!"
 msgstr "Å angi passord på enheter med lite minne frarådes. Omstart påkrevd."
 
-#: src/components/Header.vue:92 src/components/Header.vue:147
+#: src/components/Header.vue:93 src/components/Header.vue:152
 msgid "Settings"
 msgstr "Innstillinger"
 
-#: src/components/Header.vue:61
+#: src/components/Header.vue:62
 msgid "Show identity"
 msgstr "Vis identitet"
 
 #: src/pages/About.vue:14
 msgid "sponsor on patreon."
 msgstr "sponsor på patreon."
+
+#: src/components/StartChatModal.vue:5
+msgid "Starting new chats is currently broken in Axolotl."
+msgstr ""
 
 #: src/pages/About.vue:6
 #, fuzzy
@@ -291,16 +330,15 @@ msgstr ""
 "vuejs.\n"
 "    Du kan støtte utviklingen av axolotl enten ved å fylle ut"
 
-#: src/components/Header.vue:26 src/pages/ChatList.vue:25
+#: src/components/Header.vue:27 src/pages/ChatList.vue:25
 msgid "Unknown group"
 msgstr "Ukjent gruppe"
 
-#: src/components/Header.vue:59
+#: src/components/Header.vue:60
 msgid "Unmute"
 msgstr "Opphev lydløs"
 
-#: src/components/ErrorModal.vue:13 src/pages/Password.vue:5
-#: src/pages/Settings.vue:18
+#: src/pages/Password.vue:5 src/pages/Settings.vue:18
 msgid "Unregister"
 msgstr "Avregistrér"
 
@@ -329,7 +367,7 @@ msgstr "Video"
 msgid "Wrong code entered. Restart for another try."
 msgstr "Feil kode angitt. Gjør omstart for nytt forsøk."
 
-#: src/components/Message.vue:72
+#: src/components/Message.vue:19
 msgid "You"
 msgstr ""
 
@@ -341,14 +379,20 @@ msgstr ""
 "vuejs.\n"
 "    Du kan støtte utviklingen av axolotl enten ved å fylle ut"
 
-#: src/components/Message.vue:27 src/components/Message.vue:36
-#: src/components/Message.vue:52 src/pages/MessageList.vue:14
+#: src/components/Message.vue:32 src/components/Message.vue:41
+#: src/components/Message.vue:57 src/pages/MessageList.vue:14
 msgid "Your browser does not support the audio element."
 msgstr "Nettleseren støtter ikke lydelementet."
 
-#: src/components/Message.vue:62
+#: src/components/Message.vue:67
 msgid "Your browser does not support the video element."
 msgstr "Nettleseren støtter ikke videoelementet."
+
+#~ msgid "Add Contacts"
+#~ msgstr "Legg til kontakter"
+
+#~ msgid "Error"
+#~ msgstr "Feil"
 
 #~ msgid "Password"
 #~ msgstr "Passord"
@@ -460,14 +504,6 @@ msgstr "Nettleseren støtter ikke videoelementet."
 #, fuzzy
 #~ msgid "Add contact"
 #~ msgstr "Legg til kontakt"
-
-#, fuzzy
-#~ msgid "Contacts"
-#~ msgstr "Kontakter"
-
-#, fuzzy
-#~ msgid "No contacts"
-#~ msgstr "Ingen kontakter"
 
 #~ msgid "Verifying number"
 #~ msgstr "Verifiserer nummer"

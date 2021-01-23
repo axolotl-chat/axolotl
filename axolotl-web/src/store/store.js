@@ -105,9 +105,8 @@ export default new Vuex.Store({
     SEND_MESSAGE() {
 
     },
-    CREATE_CHAT(state, tel) {
+    CREATE_CHAT(state) {
       state.currentChat = null;
-      router.push('/chat/' + tel)
     },
     SET_DEVICELIST(state, devices) {
       state.devices = devices
@@ -159,7 +158,7 @@ export default new Vuex.Store({
       }
     },
     SET_MESSAGE_RECIEVED(state, message) {
-      if (state.messageList.ID == message.ChatID) {
+      if (state.messageList.ID == message.SID) {
         var tmpList = state.messageList.Messages;
         tmpList.push(message);
         tmpList.sort(function(a, b) {
@@ -174,10 +173,11 @@ export default new Vuex.Store({
       })
     },
     SET_MESSAGE_UPDATE(state, message) {
-      if (state.messageList.Session.ID == message.SID) {
+      if (state.messageList.ID == message.SID) {
         var index = state.messageList.Messages.findIndex(m => {
           return m.ID === message.ID;
         });
+        // check if message exists
         if (index != -1) {
           var tmpList = JSON.parse(JSON.stringify(state.messageList.Messages));
           tmpList[index] = message;
@@ -194,6 +194,9 @@ export default new Vuex.Store({
             })
           }
           state.messageList.Messages = tmpList;
+        } else{
+          // add message to message list
+          state.messageList.Messages.unshift(message)
         }
       }
     },
@@ -438,7 +441,7 @@ export default new Vuex.Store({
       if (this.state.socket.isConnected) {
         var message = {
           "request": "toggleNotifcations",
-          "chat": this.state.currentChat.Tel
+          "chat": this.state.currentChat.ID
         }
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
@@ -447,7 +450,7 @@ export default new Vuex.Store({
       if (this.state.socket.isConnected) {
         var message = {
           "request": "resetEncryption",
-          "chat": this.state.currentChat.Tel
+          "chat": this.state.currentChat.ID
         }
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
@@ -456,7 +459,7 @@ export default new Vuex.Store({
       if (this.state.socket.isConnected) {
         var message = {
           "request": "verifyIdentity",
-          "chat": this.state.currentChat.Tel
+          "chat": this.state.currentChat.ID
         }
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
