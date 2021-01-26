@@ -5,64 +5,80 @@
         <div class="modal-header">
           <h5 class="modal-title" v-translate>Add members</h5>
           <div class="actions" v-if="!searchActive">
-            <button type="button" class="btn search" @click="searchActive=true;">
-              <font-awesome-icon icon="search"/>
+            <button
+              type="button"
+              class="btn search"
+              @click="searchActive = true"
+            >
+              <font-awesome-icon icon="search" />
             </button>
             <button type="button" class="btn" @click="$emit('close')">
-              <font-awesome-icon icon="times"/>
+              <font-awesome-icon icon="times" />
             </button>
           </div>
           <div class="actions" v-if="searchActive">
             <div class="input-container">
-              <input type="text" class="form-control"
-                    v-model="contactsFilter"
-                    @change="filterContacts()"
-                    @keyup="filterContacts()" />
+              <input
+                type="text"
+                class="form-control"
+                v-model="contactsFilter"
+                @change="filterContacts()"
+                @keyup="filterContacts()"
+              />
             </div>
-            <button type="button" class="btn" @click="searchActive=false;">
-              <font-awesome-icon icon="times"/>
+            <button type="button" class="btn" @click="searchActive = false">
+              <font-awesome-icon icon="times" />
             </button>
           </div>
         </div>
         <div class="modal-body">
           <div class="contact-list">
-            <div v-if="contacts.length>0&&contactsFilter==''">
-              <div v-for="contact in contacts"
-                  v-bind:key="contact.Tel"
-                  class="btn col-12 chat">
+            <div v-if="contacts.length > 0 && contactsFilter == ''">
+              <div
+                v-for="contact in contacts"
+                v-bind:key="contact.Tel"
+                class="btn col-12 chat"
+              >
                 <div class="row chat-entry">
                   <div class="avatar col-3" @click="contactClick(contact)">
-                    <div class="badge-name" v-if="contact.Name">{{contact.Name[0]+contact.Name[1]}}</div>
+                    <div class="badge-name" v-if="contact.Name">
+                      {{ contact.Name[0] + contact.Name[1] }}
+                    </div>
                   </div>
-                  <div class="meta col-7" @click="$emit('add', contact)" >
-                    <p class="name">{{contact.Name}}</p>
-                    <p class="number">{{contact.Tel}}</p>
+                  <div class="meta col-7" @click="$emit('add', contact)">
+                    <p class="name">{{ contact.Name }}</p>
+                    <p class="number">{{ contact.Tel }}</p>
                   </div>
                 </div>
               </div>
             </div>
-            <div v-else-if="contactsFilter!=''">
-              <div v-for="contact in contactsFilterd"
-                  v-bind:key="contact.Tel"
-                  class="btn col-12 chat">
+            <div v-else-if="contactsFilter != ''">
+              <div
+                v-for="contact in contactsFilterd"
+                v-bind:key="contact.Tel"
+                class="btn col-12 chat"
+              >
                 <div class="row chat-entry">
                   <div class="avatar col-3" @click="contactClick(contact)">
-                    <div class="badge-name">{{contact.Name[0]+contact.Name[1]}}</div>
+                    <div class="badge-name">
+                      {{ contact.Name[0] + contact.Name[1] }}
+                    </div>
                   </div>
-                  <div class="meta col-7" @click="$emit('add', contact)" >
-                    <p class="name">{{contact.Name}}</p>
-                    <p class="number">{{contact.Tel}}</p>
+                  <div class="meta col-7" @click="$emit('add', contact)">
+                    <p class="name">{{ contact.Name }}</p>
+                    <p class="number">{{ contact.Tel }}</p>
                   </div>
                 </div>
               </div>
             </div>
-            <div v-else><span v-translate>Add Contacts first</span><div>
+            <div v-else>
+              <span v-translate>Add Contacts first</span>
+              <div></div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
   </div>
 </template>
 
@@ -82,7 +98,7 @@ export default {
     }
   },
   mounted(){
-    this.contacts = this.$store.state.contacts
+    this.contacts = this.$store.state.contacts.filter(c=>c.UUID[0]!=0||c.UUID[c.UUID.length-1]!=0)
   },
   methods: {
     contactClick(contact){
@@ -96,19 +112,40 @@ export default {
   },
   computed: {
     contactsFilterd () {
-      return this.$store.state.contactsFilterd
+      return this.$store.state.contactsFilterd.filter(c => {
+        if(c.UUID[0]==0&&c.UUID[c.UUID.length-1]==0) return true;
+        var found = this.allreadyAdded.find(function(element) {
+            return element.Tel == c.Tel;
+        });
+        if(typeof found =="undefined")return true;
+        else return false;
+      }); 
     },
   },
   watch:{
     allreadyAdded(){
       var that = this
-      this.contacts=that.$store.state.contacts.filter(function (el) {
+      if(this.contactsFilter!=""){
+      this.contacts=that.$store.state.contacts.filter( c=> {
+        if(c.UUID[0]==0&&c.UUID[c.UUID.length-1]==0) return true;
         var found = that.allreadyAdded.find(function(element) {
-            return element.Tel == el.Tel;
+            return element.Tel == c.Tel;
         });
         if(typeof found =="undefined")return true;
         else return false;
       });
+      }
+      else{
+      this.contacts=that.$store.state.contactsFilterd.filter( c=> {
+        if(c.UUID[0]==0&&c.UUID[c.UUID.length-1]==0) return true;
+        var found = that.allreadyAdded.find(function(element) {
+            return element.Tel == c.Tel;
+        });
+        if(typeof found =="undefined")return true;
+        else return false;
+      }); 
+      }
+
     }
   }
 }
@@ -121,7 +158,7 @@ export default {
   bottom: 16px;
   right: 10px;
   background-color: #2090ea;
-  color: #FFF;
+  color: #fff;
   border-radius: 50%;
   width: 45px;
   height: 45px;
@@ -130,68 +167,68 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.chat{
+.chat {
   padding: 0px;
 }
-.number{
-  font-size:14px;
+.number {
+  font-size: 14px;
 }
 .actions-header {
-    position: fixed;
-    background-color: #cacaca;
-    width: 100%;
-    left: 0;
-    display: flex;
-    justify-content: flex-end;
-    z-index: 2;
-    top: 0;
-    height: 51px;
+  position: fixed;
+  background-color: #cacaca;
+  width: 100%;
+  left: 0;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 2;
+  top: 0;
+  height: 51px;
 }
-.hide-actions{
-  padding-right:40px;
+.hide-actions {
+  padding-right: 40px;
 }
 .col-2.actions {
-    position: absolute;
-    display: flex;
-    right: 0px;
-    justify-content:center;
-    align-items:center;
+  position: absolute;
+  display: flex;
+  right: 0px;
+  justify-content: center;
+  align-items: center;
 }
 .col-2.actions .btn {
-    font-size: 15px;
-    padding: 5px;
+  font-size: 15px;
+  padding: 5px;
 }
 .modal {
-    display: block;
-    border:none;
+  display: block;
+  border: none;
 }
 .modal-content {
-  border-radius:0px;
+  border-radius: 0px;
 }
 .modal-body {
-  max-height:80vh;
-  overflow:auto;
+  max-height: 80vh;
+  overflow: auto;
 }
 .modal-header {
   border-bottom: none;
   background-color: #2090ea;
   border-radius: 0px;
-  color: #FFF;
+  color: #fff;
 }
-.modal-title{
-  display:flex;
+.modal-title {
+  display: flex;
 }
-.modal-title > div{
-  margin-left:10px;
+.modal-title > div {
+  margin-left: 10px;
 }
-.modal-footer{
-  border-top:0px;
+.modal-footer {
+  border-top: 0px;
 }
-.actions .btn{
-  color:#FFF;
-  opacity:1;
+.actions .btn {
+  color: #fff;
+  opacity: 1;
 }
-.actions{
+.actions {
   display: flex;
 }
 </style>

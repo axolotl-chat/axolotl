@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/nanu-c/axolotl/app/helpers"
@@ -300,6 +301,21 @@ func (s *Sessions) CreateSessionForE164(tel string, UUID string) *Session {
 	return ses
 }
 
+func (s *Sessions) CreateSessionForUUID(UUID string) *Session {
+	contact := GetContactForUUID(UUID)
+	ses := &Session{Tel: contact.Tel,
+		Name:         contact.Name,
+		Active:       true,
+		IsGroup:      false,
+		Notification: true,
+		UUID:         UUID,
+	}
+	s.Sess = append(s.Sess, ses)
+	s.Len++
+	SaveSession(ses)
+	return ses
+}
+
 // CreateSessionForGroup creates a session for a group
 func (s *Sessions) CreateSessionForGroup(group *textsecure.Group) *Session {
 	ses := &Session{Tel: group.Hexid, // for legacy reasons add group id also as Tel number
@@ -331,12 +347,32 @@ func (s *Sessions) GetByUUID(UUID string) (*Session, error) {
 	}
 	return nil, fmt.Errorf("Session with uuid %s not found", UUID)
 }
+func HexToUUID(id string) string {
+	msbHex := id[:16]
+	lsbHex := id[16:]
+	return msbHex[:8] + "-" + msbHex[8:12] + "-" + msbHex[12:] + "-" + lsbHex[:4] + "-" + lsbHex[4:]
+}
 
 // UpdateSessionNames updates the non groups with the name from the phone book
 func (s *Sessions) UpdateSessionNames() {
 	for _, ses := range s.Sess {
 		if ses.IsGroup == false {
 			ses.Name = TelToName(ses.Tel)
+			if ses.UUID == "" || ses.UUID == "0" {
+				uuid, err := TelUUID(ses.Tel)
+				if err != nil {
+					log.Debugln("[axolotl] update sessions", err)
+				} else {
+					log.Debugln("[axolotl] update session from tel to uuid", ses.Tel)
+					index := strings.Index(uuid, "-")
+					log.Debugln("a!", index)
+					if index == -1 {
+						uuid = HexToUUID(uuid)
+					}
+					ses.UUID = uuid
+				}
+			}
+
 			UpdateSession(ses)
 		}
 	}

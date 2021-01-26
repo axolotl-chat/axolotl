@@ -124,7 +124,7 @@ type DelChatMessage struct {
 }
 type CreateChatMessage struct {
 	Type string `json:"request"`
-	Tel  string `json:"tel"`
+	UUID string `json:"uuid"`
 }
 type OpenChatMessage struct {
 	Type string `json:"request"`

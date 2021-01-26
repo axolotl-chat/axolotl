@@ -38,6 +38,15 @@ func SendMessageHelper(ID int64, message, file string, updateMessageChannel chan
 			log.Errorln("[axolotl] SendMessageHelper:" + err.Error())
 			return err, nil
 		}
+		if !session.IsGroup && strings.Index(session.UUID, "-") == -1 {
+			contact := store.GetContactForTel(session.Tel)
+			log.Debugln(contact)
+			if strings.Index(contact.UUID, "-") != -1 {
+				session.UUID = contact.UUID
+				store.SaveSession(session)
+			}
+		}
+		log.Debugln(session)
 		m := session.Add(message, "", attachments, "", true, store.ActiveSessionID)
 		m.Source = session.Tel
 		m.SourceUUID = session.UUID
@@ -55,6 +64,11 @@ func SendMessageHelper(ID int64, message, file string, updateMessageChannel chan
 	log.Errorln("[axolotl] send to is empty")
 	return errors.New("send to is empty"), nil
 }
+func HexToUUID(id string) string {
+	msbHex := id[:16]
+	lsbHex := id[16:]
+	return msbHex[:8] + "-" + msbHex[8:12] + "-" + msbHex[12:] + "-" + lsbHex[:4] + "-" + lsbHex[4:]
+}
 
 func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
 	var att io.Reader
@@ -71,13 +85,28 @@ func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
 			log.Printf("[axolotl] SendMessage FileOpend")
 		}
 	}
+	log.Debugln(s.UUID, m.SourceUUID)
+
 	var recipient string
-	if s.UUID != emptyUUID && s.UUID != "" {
+	if s.UUID != emptyUUID && s.UUID != "" && !s.IsGroup {
 		recipient = s.UUID
+		index := strings.Index(recipient, "-")
+		log.Debugln(index)
+		if index == -1 {
+			recipient = HexToUUID(recipient)
+		}
 	} else {
 		log.Debugln("[axolotl] send message: empty uuid")
 		recipient = s.Tel
+		if recipient[0] != '+' {
+			index := strings.Index(recipient, "-")
+			log.Debugln("a!", index)
+			if index == -1 {
+				recipient = HexToUUID(recipient)
+			}
+		}
 	}
+
 	ts := SendMessageLoop(recipient, m.Message, s.IsGroup, att, m.Flags, s.ExpireTimer)
 	log.Debugln("[axolotl] SendMessage", recipient, ts)
 	m.SentAt = ts

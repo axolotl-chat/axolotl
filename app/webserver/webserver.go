@@ -130,8 +130,8 @@ func wsReader(conn *websocket.Conn) {
 		case "createChat":
 			createChatMessage := CreateChatMessage{}
 			json.Unmarshal([]byte(p), &createChatMessage)
-			log.Println("[axolotl] Create chat for ", createChatMessage.Tel)
-			newChat := createChat(createChatMessage.Tel)
+			log.Println("[axolotl] Create chat for ", createChatMessage.UUID)
+			newChat := createChat(createChatMessage.UUID)
 			activeChat = newChat.ID
 			store.ActiveSessionID = activeChat
 			requestEnterChat(activeChat)
@@ -160,11 +160,19 @@ func wsReader(conn *websocket.Conn) {
 			createGroupMessage := CreateGroupMessage{}
 			json.Unmarshal([]byte(p), &createGroupMessage)
 			log.Println("[axolotl] Create group ", createGroupMessage.Name)
-			group := createGroup(createGroupMessage)
-			activeChat = group.ID
-			store.ActiveSessionID = activeChat
-			requestEnterChat(activeChat)
-			sendContactList()
+			group, err := createGroup(createGroupMessage)
+			log.Println("[axolotl] Create group2 ", createGroupMessage.Name)
+
+			if err != nil {
+				log.Errorln("[axolotl] Create chat failed: ", err)
+
+			} else {
+				activeChat = group.ID
+				store.ActiveSessionID = activeChat
+				requestEnterChat(activeChat)
+				sendContactList()
+			}
+
 		case "updateGroup":
 			updateGroupMessage := UpdateGroupMessage{}
 			json.Unmarshal([]byte(p), &updateGroupMessage)

@@ -143,11 +143,19 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 	}
 	if err != nil && gr == nil {
 		// Session could not be found, lets try to find it by E164 aka phone number
+<<<<<<< HEAD
 		log.Println("[axolotl] MessageHandler: ", err)
 		session = store.SessionsModel.GetByE164(msg.Source())
 		if session != nil {
 			// add uuid to session
 			log.Println("[axolotl] Update Session to new uuid for tel", msg.Source())
+=======
+		log.Println("[axolotl] MessageHandler ", err)
+		session = store.SessionsModel.GetByE164(msg.Source())
+		if session != nil {
+			// add uuid to session
+			log.Println("[axolotl] Update Session to new uuid for tel ", msg.Source())
+>>>>>>> continue replaceing phone numbers by uuids
 			session.UUID = msgSource
 			err := store.UpdateSession(session)
 			if err != nil {
@@ -249,7 +257,7 @@ func ReceiptHandler(source string, devID uint32, timestamp uint64) {
 	if err != nil {
 		log.Printf("[axolotl] ReceiptHandler: Message with timestamp %d not found\n", timestamp)
 	} else {
-		log.Println("[axolotl] ReceiptHandler for message ", timestamp, m.Source)
+		log.Println("[axolotl] ReceiptHandler for message ", timestamp, m.SourceUUID)
 		m.IsSent = true
 		m.Receipt = true
 		store.UpdateMessageReceipt(m)
