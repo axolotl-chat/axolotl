@@ -23,10 +23,11 @@ assignees: ''
 
 #### Versions
 
-Please provide the Version as written in `Settings->Advanced-> Submit Debug Log`
+Please provide the Version as written in `Settings->About Axolotl`
 
 #### Device
-What device
+What device or OS are you using?
 
 #### Link to Debug Log
-Please provide a link to debug
+Please provide a link to debug from ~/.cache/upstart/application-click-textsecure.nanuc_textsecure*.log
+Be careful it contains sensible data
