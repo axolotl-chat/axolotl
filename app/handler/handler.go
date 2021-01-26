@@ -290,7 +290,7 @@ func ReceiptMessageHandler(msg *textsecure.Message) {
 
 // SyncSentHandler handle sync messages from signal desktop
 func SyncSentHandler(msg *textsecure.Message, timestamp uint64) {
-	log.Debugln("[axolotl] handle sync message", msg.Timestamp())
+	log.Debugln("[axolotl] handle sync message", msg.Timestamp(), msg.SourceUUID())
 	// use the same routine to save sync messages as incoming messages
 	buildAndSaveMessage(msg, true)
 }

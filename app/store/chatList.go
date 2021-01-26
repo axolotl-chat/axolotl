@@ -342,12 +342,17 @@ func (s *Sessions) GetByUUID(UUID string) (*Session, error) {
 	}
 	for _, ses := range s.Sess {
 		if ses.UUID == UUID {
+			log.Debugln("Session with uuid found", UUID)
+
 			return ses, nil
 		}
 	}
 	return nil, fmt.Errorf("Session with uuid %s not found", UUID)
 }
 func HexToUUID(id string) string {
+	if len(id) != 32 {
+		return id
+	}
 	msbHex := id[:16]
 	lsbHex := id[16:]
 	return msbHex[:8] + "-" + msbHex[8:12] + "-" + msbHex[12:] + "-" + lsbHex[:4] + "-" + lsbHex[4:]
@@ -359,18 +364,15 @@ func (s *Sessions) UpdateSessionNames() {
 		if ses.IsGroup == false {
 			ses.Name = TelToName(ses.Tel)
 			if ses.UUID == "" || ses.UUID == "0" {
-				uuid, err := TelUUID(ses.Tel)
-				if err != nil {
-					log.Debugln("[axolotl] update sessions", err)
-				} else {
-					log.Debugln("[axolotl] update session from tel to uuid", ses.Tel)
-					index := strings.Index(uuid, "-")
-					log.Debugln("a!", index)
-					if index == -1 {
-						uuid = HexToUUID(uuid)
-					}
-					ses.UUID = uuid
+				c := GetContactForTel(ses.Tel)
+				uuid := c.UUID
+				log.Debugln("[axolotl] update session from tel to uuid", ses.Tel)
+				index := strings.Index(uuid, "-")
+				log.Debugln("a2!", index, s)
+				if index == -1 {
+					uuid = HexToUUID(uuid)
 				}
+				ses.UUID = uuid
 			}
 
 			UpdateSession(ses)

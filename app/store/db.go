@@ -93,7 +93,7 @@ func (ds *DataStore) SetupDb(password string) bool {
 	UpdateSessionTable_v_0_7_8()
 	UpdateSessionTable_v_0_9_0()
 	UpdateSessionTable_v_0_9_5()
-
+	emptyTheUuids()
 	err = LoadChats()
 	if err != nil {
 		log.Errorln("[axolotl]  SetupDB: ", err)
@@ -103,6 +103,16 @@ func (ds *DataStore) SetupDb(password string) bool {
 	log.Printf("[axolotl] Db setup finished")
 
 	return true
+}
+
+// TODO has to be run once, how to ensure that is only once?
+func emptyTheUuids() error {
+	log.Infof("[axolotl] empty the uuids")
+	_, err := DS.Dbx.Exec("UPDATE sessions SET uuid = '' WHERE isgroup=false;")
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // ResetDb removes the database file and resets the config for encrypted database.
