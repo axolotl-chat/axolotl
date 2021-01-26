@@ -48,7 +48,6 @@ func RefreshContacts() error {
 		c, _ = readRegisteredContacts(config.RegisteredContactsFile)
 	} else {
 		writeRegisteredContacts(config.RegisteredContactsFile, c)
-
 	}
 	ContactsModel.Contacts = c
 	ContactsModel.Len = len(c)

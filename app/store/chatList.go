@@ -360,19 +360,22 @@ func HexToUUID(id string) string {
 
 // UpdateSessionNames updates the non groups with the name from the phone book
 func (s *Sessions) UpdateSessionNames() {
+	log.Debugln("[axoltl] update session names + uuids")
 	for _, ses := range s.Sess {
 		if ses.IsGroup == false {
 			ses.Name = TelToName(ses.Tel)
 			if ses.UUID == "" || ses.UUID == "0" {
 				c := GetContactForTel(ses.Tel)
-				uuid := c.UUID
-				log.Debugln("[axolotl] update session from tel to uuid", ses.Tel)
-				index := strings.Index(uuid, "-")
-				log.Debugln("a2!", index, s)
-				if index == -1 {
-					uuid = HexToUUID(uuid)
+				if c != nil && c.UUID != "" && c.UUID != "0" && (c.UUID[0] != 0 || c.UUID[len(c.UUID)-1] != 0) {
+					uuid := c.UUID
+					log.Debugln("[axolotl] update session from tel to uuid", ses.Tel, uuid)
+					index := strings.Index(uuid, "-")
+
+					if index == -1 {
+						uuid = HexToUUID(uuid)
+					}
+					ses.UUID = uuid
 				}
-				ses.UUID = uuid
 			}
 
 			UpdateSession(ses)
