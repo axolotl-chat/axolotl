@@ -45,7 +45,6 @@ func SendMessageHelper(ID int64, message, file string, updateMessageChannel chan
 		}
 		if !session.IsGroup && strings.Index(session.UUID, "-") == -1 {
 			contact := store.GetContactForTel(session.Tel)
-			log.Debugln(contact)
 			if strings.Index(contact.UUID, "-") != -1 {
 				session.UUID = contact.UUID
 				store.SaveSession(session)
@@ -55,8 +54,10 @@ func SendMessageHelper(ID int64, message, file string, updateMessageChannel chan
 			// deduplicate sessions fix bug in 1.9.4 could be deleted later
 			sessions := store.SessionsModel.GetAllSessionsByE164(session.Tel)
 			if len(sessions) > 1 {
+				log.Println("[axolotl] MessageHandler update private session duplicate")
 				store.MigrateMessagesFromSessionToAnotherSession(sessions[0].ID, sessions[1].ID)
 				session = store.SessionsModel.GetByE164(session.Tel)
+				ID = session.ID
 			}
 		}
 		if session.IsGroup {
@@ -72,10 +73,11 @@ func SendMessageHelper(ID int64, message, file string, updateMessageChannel chan
 					store.MigrateMessagesFromSessionToAnotherSession(sessions[1].ID, sessions[0].ID)
 				}
 				session = store.SessionsModel.GetByE164(session.Tel)
+				ID = session.ID
+
 			}
 		}
-		log.Debugln(session)
-		m := session.Add(message, "", attachments, "", true, store.ActiveSessionID)
+		m := session.Add(message, "", attachments, "", true, ID)
 		m.Source = session.Tel
 		m.SourceUUID = session.UUID
 		m.ExpireTimer = session.ExpireTimer
@@ -122,7 +124,6 @@ func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
 	if s.UUID != emptyUUID && s.UUID != "" && !s.IsGroup {
 		recipient = s.UUID
 		index := strings.Index(recipient, "-")
-		log.Debugln(index)
 		if index == -1 {
 			recipient = HexToUUID(recipient)
 		}
@@ -131,7 +132,6 @@ func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
 		if recipient[0] != '+' && !s.IsGroup {
 			log.Debugln("[axolotl] send message: empty uuid")
 			index := strings.Index(recipient, "-")
-			log.Debugln("a!", index)
 			if index == -1 {
 				recipient = HexToUUID(recipient)
 			}
@@ -198,7 +198,7 @@ func SendMessageLoop(to string, message string, group bool, att io.Reader, flags
 		if err == nil {
 			break
 		}
-		log.Println("[axolotl]", err)
+		log.Errorln("[axolotl] SendMessageLoop", err)
 		//If sending failed, try again after a while
 		time.Sleep(3 * time.Second)
 		count++

@@ -309,6 +309,7 @@ func wsReader(conn *websocket.Conn) {
 			if err != nil {
 				ShowError(err.Error())
 			}
+			f.Close()
 			go sendContactList()
 		case "delContact":
 			delContactMessage := DelContactMessage{}

@@ -343,7 +343,7 @@ func (s *Sessions) GetByUUID(UUID string) (*Session, error) {
 	}
 	for _, ses := range s.Sess {
 		if ses.UUID == UUID {
-			log.Debugln("Session with uuid found", UUID)
+			log.Debugln("[axolotl] Session with uuid found", UUID)
 
 			return ses, nil
 		}
