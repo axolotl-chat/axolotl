@@ -143,19 +143,11 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 	}
 	if err != nil && gr == nil {
 		// Session could not be found, lets try to find it by E164 aka phone number
-<<<<<<< HEAD
 		log.Println("[axolotl] MessageHandler: ", err)
 		session = store.SessionsModel.GetByE164(msg.Source())
 		if session != nil {
 			// add uuid to session
 			log.Println("[axolotl] Update Session to new uuid for tel", msg.Source())
-=======
-		log.Println("[axolotl] MessageHandler ", err)
-		session = store.SessionsModel.GetByE164(msg.Source())
-		if session != nil {
-			// add uuid to session
-			log.Println("[axolotl] Update Session to new uuid for tel ", msg.Source())
->>>>>>> continue replaceing phone numbers by uuids
 			session.UUID = msgSource
 			err := store.UpdateSession(session)
 			if err != nil {

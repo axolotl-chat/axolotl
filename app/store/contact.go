@@ -111,5 +111,5 @@ func TelUUID(tel string) (string, error) {
 	if tel == config.Config.Tel {
 		return config.Config.UUID, nil
 	}
-	return "", fmt.Errorf("contact for tel not found", tel)
+	return "", fmt.Errorf("contact for tel not found %s", tel)
 }

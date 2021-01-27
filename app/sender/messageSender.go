@@ -38,12 +38,40 @@ func SendMessageHelper(ID int64, message, file string, updateMessageChannel chan
 			log.Errorln("[axolotl] SendMessageHelper:" + err.Error())
 			return err, nil
 		}
+		// sessions fix bug in 1.9.4 could be deleted later
+		if !session.IsGroup && len(session.Tel) > 0 && session.Tel[0] != '+' {
+			session.IsGroup = true
+			store.UpdateSession(session)
+		}
 		if !session.IsGroup && strings.Index(session.UUID, "-") == -1 {
 			contact := store.GetContactForTel(session.Tel)
 			log.Debugln(contact)
 			if strings.Index(contact.UUID, "-") != -1 {
 				session.UUID = contact.UUID
 				store.SaveSession(session)
+			}
+		}
+		if !session.IsGroup {
+			// deduplicate sessions fix bug in 1.9.4 could be deleted later
+			sessions := store.SessionsModel.GetAllSessionsByE164(session.Tel)
+			if len(sessions) > 1 {
+				store.MigrateMessagesFromSessionToAnotherSession(sessions[0].ID, sessions[1].ID)
+				session = store.SessionsModel.GetByE164(session.Tel)
+			}
+		}
+		if session.IsGroup {
+			// deduplicate sessions fix bug in 1.9.4 could be deleted later
+			log.Println("[axolotl] MessageHandler1 update group session uuid")
+
+			sessions := store.SessionsModel.GetAllSessionsByE164(session.Tel)
+			if len(sessions) > 1 {
+				log.Println("[axolotl] MessageHandler update group session uuid")
+				if len(sessions[0].UUID) < 32 {
+					store.MigrateMessagesFromSessionToAnotherSession(sessions[0].ID, sessions[1].ID)
+				} else {
+					store.MigrateMessagesFromSessionToAnotherSession(sessions[1].ID, sessions[0].ID)
+				}
+				session = store.SessionsModel.GetByE164(session.Tel)
 			}
 		}
 		log.Debugln(session)

@@ -269,6 +269,7 @@ func (s *Sessions) Get(id int64) (*Session, error) {
 // GetByE164 returns the session by the telephone number and creates it if it doesn't exists
 func (s *Sessions) GetByE164(tel string) *Session {
 	for _, ses := range s.Sess {
+
 		if ses.Tel == tel {
 			return ses
 		}
