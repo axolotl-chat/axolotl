@@ -411,11 +411,14 @@ func (s *Session) moveToTop() {
 	topSession = s.ID
 }
 func LoadChats() error {
-	log.Printf("[axolotl] Loading Chats")
+	log.Printf("[axolotl] Loading Chats", SessionsModel.Len)
 	err := DS.Dbx.Select(&AllGroups, groupsSelect)
 	if err != nil {
 		return err
 	}
+	// Reset groups
+	newGroups := map[string]*GroupRecord{}
+	Groups = newGroups
 	for _, g := range AllGroups {
 		Groups[g.GroupID] = g
 	}
@@ -424,6 +427,13 @@ func LoadChats() error {
 	if err != nil {
 		return err
 	}
+	// Reset session model
+	NewSessionsModel := &Sessions{
+		Sess: make([]*Session, 0),
+	}
+	SessionsModel = NewSessionsModel
+	log.Printf("[axolotl] Loading Chats", SessionsModel.Len)
+
 	for _, s := range AllSessions {
 		s.When = helpers.HumanizeTimestamp(s.Timestamp)
 		s.Active = !s.IsGroup || (Groups[s.Tel] != nil && Groups[s.Tel].Active)
