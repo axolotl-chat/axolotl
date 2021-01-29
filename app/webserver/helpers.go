@@ -147,7 +147,11 @@ func sendDeviceList() {
 	broadcast <- *message
 }
 func createChat(uuid string) *store.Session {
-	return store.SessionsModel.CreateSessionForUUID(uuid)
+	session, err := store.SessionsModel.GetByUUID(uuid)
+	if err != nil {
+		session = store.SessionsModel.CreateSessionForUUID(uuid)
+	}
+	return session
 }
 func createGroup(newGroupData CreateGroupMessage) (*store.Session, error) {
 	group, err := textsecure.NewGroup(newGroupData.Name, newGroupData.Members)
