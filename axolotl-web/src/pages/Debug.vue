@@ -1,6 +1,10 @@
 <template>
   <div>
-    <h1>For developers only, use with care!</h1>
+    <h1>Debug screen</h1>
+    <p class="warning-box">For developers only, use with care!</p>
+    <p style="text-align: center">
+      <a href="/" class="btn btn-primary">Exit</a>
+    </p>
     <section>
       <h2>Registration data</h2>
       <p>Current registration status in local storage: {{localRegistrationStatus}}</p>

@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     checkDebug() {
-      if (this.lastTappedForDebug.getTime() + 1000 > Date.now()) {
+      if (this.lastTappedForDebug.getTime() + 500 > Date.now()) {
         this.nbTappedForDebug++;
       } else {
         this.nbTappedForDebug = 1;
