@@ -54,8 +54,11 @@ func SendMessageHelper(ID int64, message, file string, updateMessageChannel chan
 			// deduplicate sessions fix bug in 1.9.4 could be deleted later
 			sessions := store.SessionsModel.GetAllSessionsByE164(session.Tel)
 			if len(sessions) > 1 {
-				log.Println("[axolotl] MessageHandler update private session duplicate")
-				store.MigrateMessagesFromSessionToAnotherSession(sessions[0].ID, sessions[1].ID)
+				log.Println("[axolotl] MessageHandler update private session duplicate", sessions[0].ID, sessions[1].ID)
+				err := store.MigrateMessagesFromSessionToAnotherSession(sessions[0].ID, sessions[1].ID)
+				if err != nil {
+					log.Debugln("[axolotl] error migrating session", err)
+				}
 				session = store.SessionsModel.GetByE164(session.Tel)
 				ID = session.ID
 			}
