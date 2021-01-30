@@ -77,12 +77,22 @@ $link-color: $primary;
 }
 
 .warning-box {
+  position: relative;
   color: #000;
   border: solid 2px #f80;
   border-radius: $default-radius;
   background-color: #f80a;
   padding: 0.5rem 0.8rem;
   font-size: 0.9rem;
+}
+
+.close-warning-box {
+  position: absolute;
+  top: 0px;
+  right: 5px;
+  font-size: 20px;
+  color: #e60;
+  font-weight: bold;
 }
 
 .modal {
