@@ -117,10 +117,8 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		msgFlags = helpers.MsgFlagReaction
 		text = msg.Reaction().GetEmoji()
 	}
-	var session *store.Session
+	session, err := store.SessionsModel.GetByUUID(msgSource)
 	if gr != nil {
-
-		session, err = store.SessionsModel.GetByUUID(msgSource)
 		if err != nil {
 			log.Println("[axolotl] MessageHandler error finding group session by uuid", err)
 			session = store.SessionsModel.GetByE164(msgSource)
@@ -131,10 +129,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 				err = nil
 			}
 		}
-	} else {
-		session, err = store.SessionsModel.GetByUUID(msgSource)
 	}
-
 	if err != nil && gr == nil {
 		// Session could not be found, lets try to find it by E164 aka phone number
 		log.Println("[axolotl] MessageHandler: ", err)
