@@ -312,6 +312,9 @@ func (s *Sessions) CreateSessionForGroup(group *textsecure.Group) *Session {
 
 // GetByUUID returns the session by the ChatUUID
 func (s *Sessions) GetByUUID(UUID string) (*Session, error) {
+	if len(UUID) == 0 {
+		return nil, fmt.Errorf("Empty session id %s", UUID)
+	}
 	for _, ses := range s.Sess {
 		if ses.UUID == UUID {
 			return ses, nil
