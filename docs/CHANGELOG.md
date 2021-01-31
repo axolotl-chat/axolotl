@@ -1,9 +1,16 @@
+0.9.6 (Jan 31 2021)
+------------------------------------
+* Add a message to warn about current broken state in Axolotl due to upstream Signal changes (flaburgan)
+* Fix messages sometimes going to the wrong conversation (nanu-c)
+* Fix duplicate conversations for the same group (nanu-c)
+* Make the debug screen harder to reach and allow users to exit if they went there by mistake (flaburgan)
+
 0.9.5 (Jan 15 2021)
 ------------------------------------
 * Support for empty prekeys - solves message sending errors (nanu-c)
 * Support for uuids (nanu-c)
 * Add a more telling error message when something isn't working (flaburgan)
-* Fix sending messages if a signal desktop is linked (nanu-c) 
+* Fix sending messages if a signal desktop is linked (nanu-c)
 
 0.9.4 (Jan 15 2021)
 ------------------------------------
