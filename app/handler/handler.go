@@ -118,17 +118,29 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		text = msg.Reaction().GetEmoji()
 	}
 	session, err := store.SessionsModel.GetByUUID(msgSource)
+	if gr != nil {
+		if err != nil {
+			log.Println("[axolotl] MessageHandler error finding group session by uuid", err)
+			session = store.SessionsModel.GetByE164(msgSource)
+			if session != nil {
+				log.Println("[axolotl] MessageHandler update group session uuid")
+				session.UUID = session.Tel
+				store.UpdateSession(session)
+				err = nil
+			}
+		}
+	}
 	if err != nil && gr == nil {
 		// Session could not be found, lets try to find it by E164 aka phone number
-		log.Println("[axolotl] MessageHandler Error ", err)
+		log.Println("[axolotl] MessageHandler: ", err)
 		session = store.SessionsModel.GetByE164(msg.Source())
 		if session != nil {
 			// add uuid to session
-			log.Println("[axolotl] Update Session to new schema ", msg.Source())
+			log.Println("[axolotl] Update Session to new uuid for tel", msg.Source())
 			session.UUID = msgSource
 			err := store.UpdateSession(session)
 			if err != nil {
-				log.Debugln("[axolotl] Error update Session to new schema", err)
+				log.Debugln("[axolotl] Error update Session to new uuid", err)
 			}
 		} else {
 			// create a new session
