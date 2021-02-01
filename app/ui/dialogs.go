@@ -10,7 +10,7 @@ import (
 func GetTextFromDialog(fun, obj, signal string) string {
 	defer func() {
 		if r := recover(); r != nil {
-			log.Errorln("Error: GetTextFromDialog: ", r)
+			log.Errorln("[axolotl] Error: GetTextFromDialog: ", r)
 		}
 	}()
 	log.Debugf("Opening Dialog: " + fun)

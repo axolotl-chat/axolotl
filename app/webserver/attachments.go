@@ -93,7 +93,7 @@ func avatarsHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		log.Debugln("[axolotl] avatar len >0")
 		FileContentType := http.DetectContentType(avatar.Avatar)
-		log.Debugln(FileContentType)
+		log.Debugln("[axolotl] file content type", FileContentType)
 		w.Header().Set("Content-Disposition", "attachment; filename="+Filename+".png")
 		w.Header().Set("Content-Type", FileContentType)
 		w.Write(avatar.Avatar)

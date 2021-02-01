@@ -2,7 +2,6 @@ package webserver
 
 import (
 	"encoding/json"
-	"fmt"
 	"strings"
 
 	log "github.com/sirupsen/logrus"
@@ -46,7 +45,7 @@ func sendChatList() {
 	message := &[]byte{}
 	*message, err = json.Marshal(chatListEnvelope)
 	if err != nil {
-		fmt.Println(err)
+		log.Errorln("[axolotl] sendRegistrationStatus", err)
 		return
 	}
 	broadcast <- *message
@@ -69,7 +68,7 @@ func sendCurrentChat(s *store.Session) {
 	message := &[]byte{}
 	*message, err = json.Marshal(currentChatEnvelope)
 	if err != nil {
-		fmt.Println(err)
+		log.Errorln("[axolotl] sendRegistrationStatus", err)
 		return
 	}
 	broadcast <- *message
@@ -95,7 +94,7 @@ func updateCurrentChat(s *store.Session) {
 	message := &[]byte{}
 	*message, err = json.Marshal(updateCurrentChatEnvelope)
 	if err != nil {
-		fmt.Println(err)
+		log.Errorln("[axolotl] updateCurrentChat", err)
 		return
 	}
 	broadcast <- *message
@@ -118,7 +117,7 @@ func recoverFromWsPanic(client *websocket.Conn) {
 func sendContactList() {
 	defer func() {
 		if err := recover(); err != nil {
-			log.Println("[axolotl] sendContactList panic occurred:", err)
+			log.Errorln("[axolotl] sendContactList panic occurred:", err)
 		}
 	}()
 	var err error
@@ -128,7 +127,7 @@ func sendContactList() {
 	message := &[]byte{}
 	*message, err = json.Marshal(contactListEnvelope)
 	if err != nil {
-		fmt.Println(err)
+		log.Errorln("[axolotl] sendContactList ", err)
 		return
 	}
 	broadcast <- *message
@@ -142,7 +141,7 @@ func sendDeviceList() {
 	message := &[]byte{}
 	*message, err = json.Marshal(deviceListEnvelope)
 	if err != nil {
-		fmt.Println(err)
+		log.Errorln("[axolotl] sendDeviceList", err)
 		return
 	}
 	broadcast <- *message
@@ -158,7 +157,6 @@ func createGroup(newGroupData CreateGroupMessage) *store.Session {
 	}
 	members := strings.Join(newGroupData.Members, ",")
 	if !strings.Contains(members, config.Config.Tel) {
-		// log.Debugln(members, config.Config.Tel)
 		members = members + "," + config.Config.Tel
 	}
 	store.Groups[group.Hexid] = &store.GroupRecord{
@@ -170,7 +168,6 @@ func createGroup(newGroupData CreateGroupMessage) *store.Session {
 	session := store.SessionsModel.GetByE164(group.Hexid)
 	msg := session.Add(store.GroupUpdateMsg(append(newGroupData.Members, config.Config.Tel), newGroupData.Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
 	msg.Flags = helpers.MsgFlagGroupNew
-	//qml.Changed(msg, &msg.Flags)
 	store.SaveMessage(msg)
 
 	return session
@@ -201,8 +198,7 @@ func sendMessageList(ID int64) {
 	log.Debugln("[axolotl] sendMessageList for conversation", ID)
 	err, messageList := store.SessionsModel.GetMessageList(ID)
 	if err != nil {
-		log.Errorln("[Axolotl] sendMessageList: ", err)
-		fmt.Println(err)
+		log.Errorln("[axolotl] sendMessageList: ", err)
 		return
 	}
 	messageList.Session.MarkRead()
@@ -214,7 +210,7 @@ func sendMessageList(ID int64) {
 	}
 	*message, err = json.Marshal(chatListEnvelope)
 	if err != nil {
-		fmt.Println(err)
+		log.Errorln("[axolotl] sendMessageList: ", err)
 		return
 	}
 	broadcast <- *message
@@ -223,7 +219,7 @@ func sendMoreMessageList(id int64, lastId string) {
 	message := &[]byte{}
 	err, messageList := store.SessionsModel.GetMoreMessageList(id, lastId)
 	if err != nil {
-		fmt.Println(err)
+		log.Errorln("[axolotl] sendMoreMessageList: ", err)
 		return
 	}
 	moreMessageListEnvelope := &MoreMessageListEnvelope{
@@ -231,11 +227,9 @@ func sendMoreMessageList(id int64, lastId string) {
 	}
 	*message, err = json.Marshal(moreMessageListEnvelope)
 	if err != nil {
-		fmt.Println(err)
+		log.Errorln("[axolotl] sendMoreMessageList: ", err)
 		return
 	}
-	// mu.Lock()
-	// defer mu.Unlock()
 	broadcast <- *message
 }
 func sendIdentityInfo(fingerprintNumbers []string, fingerprintQRCode []byte) {
@@ -251,7 +245,7 @@ func sendIdentityInfo(fingerprintNumbers []string, fingerprintQRCode []byte) {
 	}
 	*message, err = json.Marshal(identityEnvelope)
 	if err != nil {
-		fmt.Println(err)
+		log.Errorln("[axolotl] sendIdentityInfo: ", err)
 		return
 	}
 	broadcast <- *message
@@ -346,7 +340,7 @@ func sendConfig() {
 	}
 	*message, err = json.Marshal(configEnvelope)
 	if err != nil {
-		fmt.Println(err)
+		log.Errorln("[axolotl] sendConfig", err)
 		return
 	}
 	broadcast <- *message
