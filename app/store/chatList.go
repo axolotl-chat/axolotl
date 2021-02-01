@@ -90,8 +90,8 @@ func DeleteSession(ID int64) error {
 	if err != nil {
 		return err
 	}
-	SessionsModel.Sess = append(SessionsModel.Sess[:ID], SessionsModel.Sess[ID+1:]...)
-	SessionsModel.Len--
+
+	LoadChats()
 	return nil
 }
 
