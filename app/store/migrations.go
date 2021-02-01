@@ -1,6 +1,7 @@
 package store
 
 import (
+	"fmt"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -149,4 +150,21 @@ func UpdateSessionTable_v_0_9_5() error {
 	}
 
 	return err
+}
+// MigrateMessagesFromSessionToAnotherSession copies the messages from the
+// old session to the new session and then deletes the oldSession
+func MigrateMessagesFromSessionToAnotherSession(oldSession int64, newSession int64) error {
+	log.Infoln("[axolotl] migrate messages to ", newSession)
+
+	query := fmt.Sprintf("UPDATE messages SET sid=%d WHERE sid = %d;", newSession, oldSession)
+
+	_, err := DS.Dbx.Exec(query)
+	if err != nil {
+		return err
+	}
+	DeleteSession(oldSession)
+	if err != nil {
+		return err
+	}
+	return nil
 }
