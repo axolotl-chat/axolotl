@@ -5,8 +5,8 @@ import (
 	"image"
 	"strings"
 
-	"github.com/signal-golang/textsecure"
 	"github.com/nanu-c/axolotl/app/store"
+	"github.com/signal-golang/textsecure"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -85,7 +85,7 @@ func extractUuidPubKey(qr string) (string, string, error) {
 		return uuid, pub_key, nil
 	} else {
 
-		log.Println("no uuid/pubkey found")
+		log.Println("[axolotl] no uuid/pubkey found")
 		return "", "", errors.New("Wrong qr" + qr)
 	}
 }

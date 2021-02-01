@@ -45,7 +45,7 @@ func (Api *TextsecureAPI) IdentityInfo(id string) string {
 	myID := textsecure.MyIdentityKey()
 	theirID, err := textsecure.ContactIdentityKey(id)
 	if err != nil {
-		log.Println(err)
+		log.Errorln("[axolotl] IdentityInfo ", err)
 	}
 	return "Their identity (they read):" + "<br>" + fmt.Sprintf("% 0X", theirID) + "<br><br>" +
 		"Your identity (you read):" + "<br><br>" + fmt.Sprintf("% 0X", myID)

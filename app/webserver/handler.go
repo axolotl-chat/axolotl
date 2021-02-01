@@ -2,7 +2,6 @@ package webserver
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"math/rand"
 	"os"
@@ -46,7 +45,7 @@ func MessageHandler(msg *store.Message) {
 	message := &[]byte{}
 	*message, err = json.Marshal(messageRecieved)
 	if err != nil {
-		log.Errorln("[axolotl-ws] ", err)
+		log.Errorln("[axolotl-ws] messageHandler", err)
 		return
 	}
 	broadcast <- *message
@@ -68,7 +67,7 @@ func UpdateMessageHandler(msg *store.Message) {
 		message := &[]byte{}
 		*message, err = json.Marshal(updateMessage)
 		if err != nil {
-			log.Errorln("[axolotl-ws] ", err)
+			log.Errorln("[axolotl-ws] UpdateMessageHandler", err)
 			return
 		}
 		broadcast <- *message
@@ -88,7 +87,7 @@ func UpdateMessageHandlerWithSource(msg *store.Message) {
 		message := &[]byte{}
 		*message, err = json.Marshal(updateMessage)
 		if err != nil {
-			log.Errorln("[axolotl-ws] ", err)
+			log.Errorln("[axolotl-ws] UpdateMessageHandlerWithSource", err)
 			return
 		}
 		broadcast <- *message
@@ -112,7 +111,7 @@ func sendRequest(requestType string) {
 	message := &[]byte{}
 	*message, err = json.Marshal(request)
 	if err != nil {
-		fmt.Println(err)
+		log.Errorln("[axolotl-ws] SendRequest", err)
 		return
 	}
 	broadcast <- *message
@@ -140,9 +139,10 @@ func requestEnterChat(chat int64) {
 	message := &[]byte{}
 	*message, err = json.Marshal(request)
 	if err != nil {
-		fmt.Println(err)
+		log.Errorln("[axolotl] requestEnterChat", err)
 		return
 	}
+	activeChat = chat
 	broadcast <- *message
 }
 
@@ -168,7 +168,7 @@ func sendError(client *websocket.Conn, errorMessage string) {
 	message := &[]byte{}
 	*message, err = json.Marshal(request)
 	if err != nil {
-		fmt.Println(err)
+		log.Errorln("[axolotl] sendError", err)
 		return
 	}
 	broadcast <- *message
@@ -244,7 +244,8 @@ func uploadSendAttachment(attachment UploadAttachmentMessage) error {
 	file := config.AttachDir + "/" + RandStringBytesMaskImprSrcUnsafe(10)
 	dataURL, err := dataurl.DecodeString(attachment.Attachment)
 	if err != nil {
-		fmt.Println(err)
+		log.Errorln("[axolotl] requestEnterChat", err)
+
 	}
 	ioutil.WriteFile(file, dataURL.Data, 0644)
 

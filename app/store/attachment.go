@@ -2,7 +2,6 @@ package store
 
 import (
 	"crypto/rand"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"mime"
@@ -37,13 +36,13 @@ func SaveAttachment(a *textsecure.Attachment) (Attachment, error) {
 	// }
 	fileName := a.FileName
 	if fileName == "" {
-	  fileName = helpers.RandomString(10)
-	  extension, err := mime.ExtensionsByType(a.MimeType)
-	  if err != nil {
-	    log.Debugln("[axolotl] could not detect file extension", a.MimeType)
-	  } else if len(extension) > 0 {
-	    fileName +=  extension[0]
-	  }
+		fileName = helpers.RandomString(10)
+		extension, err := mime.ExtensionsByType(a.MimeType)
+		if err != nil {
+			log.Debugln("[axolotl] could not detect file extension", a.MimeType)
+		} else if len(extension) > 0 {
+			fileName += extension[0]
+		}
 	}
 	log.Debugln("[axolotl] save attachment to",
 		dt.Format("01-02-2006-15-04-05")+fileName)
@@ -69,14 +68,13 @@ func CopyAttachment(src string) (string, error) {
 	dest := filepath.Join(config.AttachDir, b)
 	input, err := ioutil.ReadFile(src)
 	if err != nil {
-		fmt.Println(err)
+		log.Errorln("[axolotl] CopyAttachment ", err)
 		return "", err
 	}
 
 	err = ioutil.WriteFile(dest, input, 0644)
 	if err != nil {
-		fmt.Println("Error creating", dest)
-		fmt.Println(err)
+		log.Errorln("[axolotl] CopyAttachment Error creating ", dest, err)
 		return "", err
 	}
 	return dest, nil

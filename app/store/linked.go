@@ -1,10 +1,11 @@
 package store
 
 import (
+	"errors"
 	"log"
 	"strings"
+
 	"github.com/signal-golang/textsecure"
-	"errors"
 )
 
 type LinkedDevices struct {
@@ -15,7 +16,7 @@ type LinkedDevices struct {
 var LinkedDevicesModel *LinkedDevices = &LinkedDevices{}
 
 func (c *LinkedDevices) GetDevice(i int) textsecure.DeviceInfo {
-	log.Println(i)
+	log.Println("[axolotl] get linked devices ", i)
 	if i == -1 {
 		return textsecure.DeviceInfo{}
 	}
@@ -51,7 +52,7 @@ func (c *LinkedDevices) DeleteDevice() error {
 	LinkedDevicesModel.Len = len(d)
 	return nil
 }
-func RefreshDevices() (*LinkedDevices,error ) {
+func RefreshDevices() (*LinkedDevices, error) {
 	d, err := textsecure.LinkedDevices()
 	if err != nil {
 		return nil, err
@@ -62,7 +63,7 @@ func RefreshDevices() (*LinkedDevices,error ) {
 	//qml.Changed(LinkedDevicesModel, &LinkedDevicesModel.Len)
 	return LinkedDevicesModel, nil
 }
-func AddDevice(url string) error{
+func AddDevice(url string) error {
 	uuid, pubKey, err := extractUuidPubKey(url)
 	if err != nil {
 		return err
@@ -70,7 +71,7 @@ func AddDevice(url string) error{
 	textsecure.AddNewLinkedDevice(uuid, pubKey)
 	RefreshDevices()
 	return nil
-}	
+}
 func extractUuidPubKey(qr string) (string, string, error) {
 	sUuid := strings.Index(qr, "=")
 	eUuid := strings.Index(qr, "&")
@@ -84,7 +85,7 @@ func extractUuidPubKey(qr string) (string, string, error) {
 		return uuid, pub_key, nil
 	} else {
 
-		log.Println("no uuid/pubkey found")
+		log.Println("[axolotl] no uuid/pubkey found")
 		return "", "", errors.New("Wrong qr" + qr)
 	}
 }

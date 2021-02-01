@@ -49,7 +49,6 @@ func (Api *TextsecureAPI) NewGroup(name string, members string) error {
 	}
 	msg := session.Add(GroupUpdateMsg(append(m, config.Config.Tel), name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
 	msg.Flags = helpers.MsgFlagGroupNew
-	//qml.Changed(msg, &msg.Flags)
 	store.SaveMessage(msg)
 
 	return nil
@@ -60,7 +59,6 @@ func (Api *TextsecureAPI) UpdateGroup(hexid, name string, members string) error 
 	if !ok {
 		log.Errorf("[textsecure] Update group: Unknown group id %s\n", hexid)
 		return fmt.Errorf("[textsecure] Update group: Unknown group id %s\n", hexid)
-		// store.LoadGroups()
 	}
 	dm, members := helpers.MembersDiffAndUnion(g.Members, members)
 	store.Groups[hexid] = &store.GroupRecord{
@@ -82,10 +80,8 @@ func (Api *TextsecureAPI) UpdateGroup(hexid, name string, members string) error 
 	}
 	msg := session.Add(ui.GroupUpdateMsg(dm, name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
 	msg.Flags = helpers.MsgFlagGroupUpdate
-	//qml.Changed(msg, &msg.Flags)
 	store.SaveMessage(msg)
 	session.Name = name
-	//qml.Changed(session, &session.Name)
 	store.UpdateSession(session)
 	go sender.SendMessage(session, msg)
 	return nil

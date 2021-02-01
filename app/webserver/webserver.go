@@ -91,14 +91,14 @@ func wsReader(conn *websocket.Conn) {
 	for {
 		defer func() {
 			if err := recover(); err != nil {
-				log.Println("[axolotl-ws] panic occurred:", err)
+				log.Errorln("[axolotl-ws] wsReader panic occurred:", err)
 				conn.Close()
 			}
 		}()
 		// read in a message
 		_, p, err := conn.ReadMessage()
 		if err != nil {
-			log.Println(err)
+			log.Errorln("[axolotl-ws] wsReader ", err)
 			return
 		}
 		incomingMessage := Message{}
@@ -262,7 +262,7 @@ func wsReader(conn *websocket.Conn) {
 		case "delDevice":
 			delDeviceMessage := DelDeviceMessage{}
 			json.Unmarshal([]byte(p), &delDeviceMessage)
-			log.Println(delDeviceMessage.Id)
+			log.Println("[axolotl] delDevice", delDeviceMessage.Id)
 			textsecure.UnlinkDevice(delDeviceMessage.Id)
 			go sendDeviceList()
 		case "getDevices":
@@ -280,19 +280,19 @@ func wsReader(conn *websocket.Conn) {
 			json.Unmarshal([]byte(p), &uploadVcf)
 			f, err := os.Create("import.vcf")
 			if err != nil {
-				fmt.Println(err)
+				log.Debugln("[axolotl] import vcf ", err)
 				return
 			}
 			l, err := f.WriteString(uploadVcf.Vcf)
 			if err != nil {
-				fmt.Println(err)
+				log.Debugln("[axolotl] import vcf ", err)
 				f.Close()
 				return
 			}
-			fmt.Println(l, "bytes written successfully")
+			log.Debugln("[axolotl] import vcf bytes written successfully", l)
 			err = f.Close()
 			if err != nil {
-				fmt.Println(err)
+				log.Debugln("[axolotl] import vcf ", err)
 				return
 			}
 			config.VcardPath = "import.vcf"
@@ -428,6 +428,6 @@ func print(stdout io.ReadCloser) {
 	scanner.Split(bufio.ScanWords)
 	for scanner.Scan() {
 		m := scanner.Text()
-		fmt.Println(m)
+		log.Infoln("[axolotl] print ", m)
 	}
 }

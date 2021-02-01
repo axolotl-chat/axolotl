@@ -42,7 +42,7 @@ func FormatE164(tel string, country string) string {
 	}
 	num, err := libphonenumber.Parse(tel, country)
 	if err != nil {
-		log.Println(err)
+		log.Errorln("[axolotl] FormatE164", err)
 		return tel
 	}
 	return libphonenumber.Format(num, libphonenumber.E164)

@@ -38,7 +38,7 @@ func InitModels() {
 	var err error
 	settings.SettingsModel, err = settings.LoadSettings()
 	if err != nil {
-		log.Println(err)
+		log.Errorln("[axolotl] InitModels", err)
 	} else {
 		if settings.SettingsModel.Registered {
 			log.Debugf("[axolotl] Already registered")
