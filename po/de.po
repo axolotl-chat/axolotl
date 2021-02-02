@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-10-08 22:47+0200\n"
+"PO-Revision-Date: 2021-02-02 21:12+0100\n"
 "Last-Translator: Daniel Frost <one@frostinfo.de>\n"
 "Language-Team: none\n"
 "Language: de\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 2.3\n"
 
 #: src/pages/About.vue:4 src/pages/Register.vue:5
 msgid "A cross-plattform signal client"
@@ -42,6 +42,8 @@ msgid ""
 "Axolotl encountered an error communicating with Signal servers. Please try "
 "again."
 msgstr ""
+"Axolotl hat eine Kommunikationsfehler mit dem Signal-Server festgestellt. "
+"Bitte versuche es später noch einmal."
 
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
@@ -123,7 +125,7 @@ msgstr "Registrierungspin eingeben"
 
 #: src/components/ErrorModal.vue:5
 msgid "Error communicating with Signal servers"
-msgstr ""
+msgstr "Kommunikationsfehler mit Signal-Server"
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
@@ -136,6 +138,11 @@ msgid ""
 "            Be careful, <strong>your encryption key will change and you will "
 "lose all your messages</strong> if you choose to do that."
 msgstr ""
+"Falls du denkst, dass an deinem Ende etwas nicht stimmt, kannst du auf <a "
+"href=\"#\" @click=\"unregister\">Registrierung löschen</a> und dich nochmals "
+"neu registrieren.\n"
+"            Aber bitte beachte, <strong>dein Schlüssel ändert sich dadurch "
+"und du wirst alle Nachrichten verlieren</strong> wenn du das machst."
 
 #: src/components/ErrorModal.vue:12
 msgid ""
@@ -145,11 +152,14 @@ msgid ""
 "\"https://github.com/nanu-c/axolotl/issues\" target=\"_blank\">opening an "
 "issue</a>."
 msgstr ""
+"Wenn dieser Fehler mehrmals auftritt, bitte prüfe <a href=\"https://status."
+"signal.org/\" target=\"_blank\">Status des Signal-Servers</a>.\n"
+"Wenn der Server-Status fehlerfrei ist, bitte <a href=\"https://github.com/"
+"nanu-c/axolotl/issues\" target=\"_blank\">erstelle einen Fehlerbericht</a>."
 
 #: src/components/Header.vue:132
-#, fuzzy
 msgid "Import contacts"
-msgstr "Keine Kontakte"
+msgstr "Kontakte importieren"
 
 #: src/pages/Contacts.vue:4
 msgid "Importing contacts, head back later"
@@ -192,9 +202,8 @@ msgid "New group"
 msgstr "Neue Gruppe"
 
 #: src/pages/SetPassword.vue:13
-#, fuzzy
 msgid "New password"
-msgstr "Passwort setzen"
+msgstr "Neues Passwort"
 
 #: src/pages/Register.vue:16
 msgid "Next"
@@ -205,9 +214,8 @@ msgid "No chats available"
 msgstr "Keine Chats vorhanden"
 
 #: src/pages/DeviceList.vue:14
-#, fuzzy
 msgid "No linked devices"
-msgstr "Verknüpfte Geräte"
+msgstr "Keine verknüpften Geräte"
 
 #: src/pages/MessageList.vue:25
 msgid "No Messages available."
@@ -247,7 +255,7 @@ msgstr "Foto"
 
 #: src/components/StartChatModal.vue:11
 msgid "Please ask your conversation partner to start the chat first."
-msgstr ""
+msgstr "Bitte deinen Gesprächspartner ein neues Gespräch zu beginnen."
 
 #: src/pages/Settings.vue:5
 msgid "Registered number"
@@ -320,6 +328,7 @@ msgstr "Sponsor auf Patreon."
 #: src/components/StartChatModal.vue:5
 msgid "Starting new chats is currently broken in Axolotl."
 msgstr ""
+"Momentan können leider mit Axolotl keine neuen Gespräche begonnen werden."
 
 #: src/pages/About.vue:6
 msgid ""
