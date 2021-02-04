@@ -14,25 +14,25 @@ msgstr ""
 
 #: src/pages/About.vue:4 src/pages/Register.vue:5
 msgid "A cross-plattform signal client"
-msgstr ""
+msgstr "Multi-platformový klient pro Signal"
 
 #: src/pages/Settings.vue:27
 msgid "About Axolotl"
-msgstr ""
+msgstr "O Axolotlu"
 
 #: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:22
 msgid "Add"
-msgstr ""
+msgstr "Přidat"
 
 #: src/components/AddGroupMembersModal.vue:51
 #, fuzzy
 msgid "Add Contacts first"
-msgstr "Kontakt"
+msgstr "Nejprve přidat kontakty"
 
 #: src/components/AddGroupMembersModal.vue:5
 #, fuzzy
 msgid "Add members"
-msgstr "Členové skupiny"
+msgstr "Přidat členy skupiny"
 
 #: src/components/AttachmentBar.vue:13
 msgid "Audio"
@@ -42,25 +42,26 @@ msgstr "Audio"
 msgid ""
 "Axolotl encountered an error communicating with Signal servers. Please try "
 "again."
-msgstr ""
+msgstr "Axolotl má problém v komunikaci se serverem Signálu."
+"Zkuste to prosím znovu."
 
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
-msgstr ""
+msgstr "Chyba při změně v seznamu kontaktů: {{error}}"
 
 #: src/components/ErrorModal.vue:18 src/components/IdentityModal.vue:21
 #: src/components/ImportUnavailableModal.vue:15
 #: src/components/StartChatModal.vue:13
 msgid "Close"
-msgstr ""
+msgstr "Zavřít"
 
 #: src/components/ConfirmationModal.vue:13
 msgid "Confirm"
-msgstr ""
+msgstr "Potvrdit"
 
 #: src/components/Header.vue:73
 msgid "Connect with Signal"
-msgstr "Připojení pomocí Signál"
+msgstr "Připojit se k Signálu"
 
 #: src/components/AddContactModal.vue:5 src/components/EditContactModal.vue:5
 msgid "Contact"
@@ -68,17 +69,17 @@ msgstr "Kontakt"
 
 #: src/pages/Contacts.vue:16
 msgid "Contact list is empty..."
-msgstr ""
+msgstr "Seznam kontaktů je prázdný..."
 
 #: src/components/Header.vue:146
 #, fuzzy
 msgid "Contacts"
-msgstr "Kontakt"
+msgstr "Kontakty"
 
 #: src/pages/NewGroup.vue:12
 #, fuzzy
 msgid "Create group"
-msgstr "Opustit skupinu"
+msgstr "Vytvořit novou skupinu"
 
 #: src/pages/NewGroup.vue:31
 msgid "Creating Group"
@@ -86,27 +87,27 @@ msgstr ""
 
 #: src/pages/SetPassword.vue:20
 msgid "Current Password"
-msgstr ""
+msgstr "Aktuální heslo"
 
 #: src/pages/SetPassword.vue:10
 msgid "Current password is wrong"
-msgstr ""
+msgstr "Aktuální heslo je chybné"
 
 #: src/pages/Settings.vue:23
 msgid "Dark mode"
-msgstr ""
+msgstr "Tmavý styl"
 
 #: src/pages/Password.vue:4
 msgid "Decrypt"
-msgstr ""
+msgstr "Dešifrovat"
 
 #: src/components/AttachmentBar.vue:14
 msgid "Document"
-msgstr ""
+msgstr "Dokument"
 
 #: src/components/EditContactModal.vue:5
 msgid "Edit"
-msgstr ""
+msgstr "Editovat"
 
 #: src/components/Header.vue:105
 #, fuzzy
