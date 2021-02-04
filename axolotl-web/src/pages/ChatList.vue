@@ -1,6 +1,7 @@
 
 <template>
   <div class="chatList" v-if="chatList">
+    <WarningMessage />
     <div v-if="editActive" class="actions-header">
       <button class="btn hide-actions" @click="delChat($event)">
         <font-awesome-icon icon="trash"/>
@@ -59,9 +60,13 @@
 import moment from 'moment';
 import { mapState } from 'vuex';
 import { router } from '../router/router';
+import WarningMessage from '@/components/WarningMessage'
 
 export default {
   name: 'ChatList',
+  components: {
+    WarningMessage
+  },
   props: {
     msg: String
   },
