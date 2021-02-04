@@ -42,7 +42,8 @@ msgstr "Audio"
 msgid ""
 "Axolotl encountered an error communicating with Signal servers. Please try "
 "again."
-msgstr "Axolotl má problém v komunikaci se serverem Signálu."
+msgstr ""
+"Axolotl má problém v komunikaci se serverem Signálu. "
 "Zkuste to prosím znovu."
 
 #: src/pages/Contacts.vue:3
@@ -83,7 +84,7 @@ msgstr "Vytvořit novou skupinu"
 
 #: src/pages/NewGroup.vue:31
 msgid "Creating Group"
-msgstr ""
+msgstr "Vytváření skupiny"
 
 #: src/pages/SetPassword.vue:20
 msgid "Current Password"
@@ -121,15 +122,15 @@ msgstr "Upravit skupinu"
 
 #: src/components/Header.vue:76
 msgid "Enter password"
-msgstr ""
+msgstr "Zadat heslo"
 
 #: src/pages/Verification.vue:2
 msgid "Enter your registration pin"
-msgstr ""
+msgstr "Zadejte registrační pin"
 
 #: src/components/ErrorModal.vue:5
 msgid "Error communicating with Signal servers"
-msgstr ""
+msgstr "Problém v komunikaci se serverem Signálu"
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
@@ -142,6 +143,11 @@ msgid ""
 "            Be careful, <strong>your encryption key will change and you will "
 "lose all your messages</strong> if you choose to do that."
 msgstr ""
+"Pokud se domníváte, že na vaší straně došlo k nějaké chybě, můžete "
+"<a href=\"#\" @click=\"unregister\">registraci zrušit</a> a registrovat "
+"se znovu.\n"
+"            Ale pozor! Pokud se k tomuto kroku rozhodnete, "
+<strong>váš šifrovací klíč se změni a tím ztratíte všechny vaše zprávy</strong>."
 
 #: src/components/ErrorModal.vue:12
 msgid ""
@@ -151,36 +157,40 @@ msgid ""
 "\"https://github.com/nanu-c/axolotl/issues\" target=\"_blank\">opening an "
 "issue</a>."
 msgstr ""
+"Pokud se tato chybová zpráva objeví vícekrát, překontrolujte "
+"<a href=\"https://status.signal.org/\" target=\"_blank\">stav serveru Signálu</a>.\n"
+"            Pokud se zdá být vše v pořádku, nahlašte nám prosím tento problém "
+"na <a href=\"https://github.com/nanu-c/axolotl/issues\" target=\"_blank\">github</a>."
 
 #: src/components/Header.vue:132
 #, fuzzy
 msgid "Import contacts"
-msgstr "Kontakt"
+msgstr "Importovat kontakty"
 
 #: src/pages/Contacts.vue:4
 msgid "Importing contacts, head back later"
-msgstr ""
+msgstr "Importování kontaktů, může to chvíli trvat"
 
 #: src/pages/SetPassword.vue:2
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: src/pages/About.vue:11
 msgid "issues at the bug tracker"
-msgstr ""
+msgstr "záznamy (issues) v registru chyb"
 
 #: src/pages/DeviceList.vue:7
 msgid "Last seen:"
-msgstr ""
+msgstr "Naposledy přečteno:"
 
 #: src/pages/Settings.vue:11
 #, fuzzy
 msgid "Linked devices"
-msgstr "Obnovit"
+msgstr "Připojená zařízení"
 
 #: src/pages/Verification.vue:15
 msgid "Loading..."
-msgstr ""
+msgstr "Načítá..."
 
 #: src/pages/NewGroup.vue:10
 #, fuzzy
@@ -189,11 +199,11 @@ msgstr "Členové skupiny"
 
 #: src/components/Header.vue:59
 msgid "Mute"
-msgstr ""
+msgstr "Ztlumit"
 
 #: src/components/AddContactModal.vue:13
 msgid "Name"
-msgstr ""
+msgstr "Jméno"
 
 #: src/components/Header.vue:99 src/components/Header.vue:149
 msgid "New group"
