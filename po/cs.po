@@ -147,7 +147,7 @@ msgstr ""
 "<a href=\"#\" @click=\"unregister\">registraci zrušit</a> a registrovat "
 "se znovu.\n"
 "            Ale pozor! Pokud se k tomuto kroku rozhodnete, "
-<strong>váš šifrovací klíč se změni a tím ztratíte všechny vaše zprávy</strong>."
+"<strong>váš šifrovací klíč se změni a tím ztratíte všechny vaše zprávy</strong>."
 
 #: src/components/ErrorModal.vue:12
 msgid ""
@@ -323,8 +323,8 @@ msgid ""
 "Setting a password is not adviced on devices short in memory. Restart is "
 "required!"
 msgstr ""
-"Nastavení hesla se nedoporučuje pro zařízení s malou pamětí."
-"Restart je nutný!"
+"Nastavení hesla se nedoporučuje pro zařízení s malou pamětí. "
+"Nutný restart!"
 
 #: src/components/Header.vue:93 src/components/Header.vue:152
 msgid "Settings"
@@ -369,12 +369,12 @@ msgstr "Heslo není bezpečné"
 
 #: src/components/Message.vue:81
 msgid "Unsupported message type: sticker"
-msgstr "Nepodporovaný typ zprávy: nálepka / sticker"
+msgstr "Nepodporovaný typ zprávy: nálepka (sticker)"
 
 #: src/pages/EditGroup.vue:41
 #, fuzzy
 msgid "Updating Group"
-msgstr "Aktualizovat skupinu"
+msgstr "Aktualizuje skupinu"
 
 #: src/components/IdentityModal.vue:5
 msgid "Verify identity"
