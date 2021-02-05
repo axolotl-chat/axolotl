@@ -108,7 +108,7 @@ msgstr "Dokument"
 
 #: src/components/EditContactModal.vue:5
 msgid "Edit"
-msgstr "Editovat"
+msgstr "Upravit"
 
 #: src/components/Header.vue:105
 #, fuzzy
@@ -229,15 +229,15 @@ msgstr "Žádná připojená zařízení"
 
 #: src/pages/MessageList.vue:25
 msgid "No Messages available."
-msgstr "Nenalezeny žádné zprávy"
+msgstr "Nenalezeny žádné zprávy."
 
 #: src/components/Message.vue:46 src/components/Message.vue:72
 msgid "Not supported mime type:"
-msgstr "Nepodporovaný typ mime"
+msgstr "Nepodporovaný typ mime:"
 
 #: src/pages/EditGroup.vue:8 src/pages/NewGroup.vue:8
 msgid "Note, you can't add yourself to a group."
-msgstr "Pozor, není možné přidat sám/samu sebe do skupiny"
+msgstr "Pozor, není možné přidat sám/samu sebe do skupiny."
 
 #: src/pages/About.vue:13
 msgid "or by becoming a"
@@ -265,7 +265,7 @@ msgstr "Foto"
 
 #: src/components/StartChatModal.vue:11
 msgid "Please ask your conversation partner to start the chat first."
-msgstr "Prosím požádejte vašeho partnera, aby začal konverzaci jako první"
+msgstr "Prosím požádejte vašeho partnera, aby začal konverzaci jako první."
 
 #: src/pages/Settings.vue:5
 #, fuzzy
@@ -434,7 +434,7 @@ msgstr "Váš prohlížeč nepodporuje tento element videa."
 
 #, fuzzy
 #~ msgid "New passphrase too short(6)!"
-#~ msgstr "Nové heslo je příliš krátké (6)"
+#~ msgstr "Nové heslo je příliš krátké (6)!"
 
 #~ msgid "Disable Signal messages and calls?"
 #~ msgstr "Zakázat zprávy a volání ze Signálu?"
@@ -462,7 +462,7 @@ msgstr "Váš prohlížeč nepodporuje tento element videa."
 #~ msgstr "Mezinárodní předvolba a telefonní číslo"
 
 #~ msgid "Verify your phone number to connect with Signal."
-#~ msgstr "Ověřit vaše telefoní číslo pro připojení k Signálu"
+#~ msgstr "Ověřit vaše telefoní číslo pro připojení k Signálu."
 
 #~ msgid ""
 #~ "Registration transmits some contact information to the server. It is not "
@@ -591,10 +591,10 @@ msgstr "Váš prohlížeč nepodporuje tento element videa."
 #~ msgstr "Reset zabezpečené komunikace."
 
 #~ msgid "You have left the group."
-#~ msgstr "Opustil(a) jste skupinu"
+#~ msgstr "Opustil(a) jste skupinu,"
 
 #~ msgid "Their identity (they read):"
-#~ msgstr "Jejich identita (čtou)"
+#~ msgstr "Jejich identita (čtou):"
 
 #~ msgid "Your identity (you read):"
 #~ msgstr "Vaše identita (čtete):"
