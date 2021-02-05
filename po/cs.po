@@ -160,7 +160,7 @@ msgstr ""
 "Pokud se tato chybová zpráva objeví vícekrát, překontrolujte "
 "<a href=\"https://status.signal.org/\" target=\"_blank\">stav serveru Signálu</a>.\n"
 "            Pokud se zdá být vše v pořádku, nahlašte nám prosím tento problém "
-"na <a href=\"https://github.com/nanu-c/axolotl/issues\" target=\"_blank\">github</a>."
+"na <a href=\"https://github.com/nanu-c/axolotl/issues\" target=\"_blank\">github.com</a>."
 
 #: src/components/Header.vue:132
 #, fuzzy
@@ -212,32 +212,32 @@ msgstr "Nová skupina"
 #: src/pages/SetPassword.vue:13
 #, fuzzy
 msgid "New password"
-msgstr "Nová zpráva"
+msgstr "Nové heslo"
 
 #: src/pages/Register.vue:16
 msgid "Next"
-msgstr ""
+msgstr "Další"
 
 #: src/pages/ChatList.vue:45
 msgid "No chats available"
-msgstr ""
+msgstr "Nenalezen žádný chat"
 
 #: src/pages/DeviceList.vue:14
 #, fuzzy
 msgid "No linked devices"
-msgstr "Obnovit"
+msgstr "Žádná připojená zařízení"
 
 #: src/pages/MessageList.vue:25
 msgid "No Messages available."
-msgstr ""
+msgstr "Nenalezeny žádné zprávy"
 
 #: src/components/Message.vue:46 src/components/Message.vue:72
 msgid "Not supported mime type:"
-msgstr ""
+msgstr "Nepodporovaný typ mime"
 
 #: src/pages/EditGroup.vue:8 src/pages/NewGroup.vue:8
 msgid "Note, you can't add yourself to a group."
-msgstr ""
+msgstr "Pozor, není možné přidat sám/samu sebe do skupiny"
 
 #: src/pages/About.vue:13
 msgid "or by becoming a"
@@ -249,28 +249,28 @@ msgstr ""
 
 #: src/pages/Password.vue:2
 msgid "Password is wrong"
-msgstr ""
+msgstr "Nesprávné heslo"
 
 #: src/pages/SetPassword.vue:4
 msgid "Passwords don't match"
-msgstr ""
+msgstr "Rozdílná hesla"
 
 #: src/components/AddContactModal.vue:17 src/components/EditContactModal.vue:15
 msgid "Phone"
-msgstr ""
+msgstr "Telefon"
 
 #: src/components/AttachmentBar.vue:11
 msgid "Photo"
-msgstr ""
+msgstr "Foto"
 
 #: src/components/StartChatModal.vue:11
 msgid "Please ask your conversation partner to start the chat first."
-msgstr ""
+msgstr "Prosím požádejte vašeho partnera, aby začal konverzaci jako první"
 
 #: src/pages/Settings.vue:5
 #, fuzzy
 msgid "Registered number"
-msgstr "Zaregistrovat"
+msgstr "Zaregistrované číslo"
 
 #: src/pages/SetPassword.vue:16
 msgid "Repeat password"
