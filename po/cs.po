@@ -220,7 +220,7 @@ msgstr "Další"
 
 #: src/pages/ChatList.vue:45
 msgid "No chats available"
-msgstr "Nenalezen žádný chat"
+msgstr "Nenalezena žádná konverzace"
 
 #: src/pages/DeviceList.vue:14
 #, fuzzy
@@ -270,15 +270,15 @@ msgstr "Prosím požádejte vašeho partnera, aby začal konverzaci jako první"
 #: src/pages/Settings.vue:5
 #, fuzzy
 msgid "Registered number"
-msgstr "Zaregistrované číslo"
+msgstr "Registrované číslo"
 
 #: src/pages/SetPassword.vue:16
 msgid "Repeat password"
-msgstr ""
+msgstr "Zopakovat heslo"
 
 #: src/pages/Register.vue:25
 msgid "Request code"
-msgstr ""
+msgstr "Vyžádat kód"
 
 #: src/components/Header.vue:63
 #, fuzzy
@@ -287,7 +287,7 @@ msgstr "Resetovat zabezpečenou konverzaci"
 
 #: src/components/IdentityModal.vue:14
 msgid "Safety numbers of you and"
-msgstr ""
+msgstr "Bezpečnostní kódy vaše a"
 
 #: src/components/EditContactModal.vue:20
 msgid "Save"
@@ -295,15 +295,15 @@ msgstr "Uložit"
 
 #: src/components/AttachmentBar.vue:5
 msgid "Send Attachments"
-msgstr ""
+msgstr "Poslat přílohy"
 
 #: src/pages/Verification.vue:11
 msgid "Send code"
-msgstr ""
+msgstr "Poslat kód"
 
 #: src/pages/Verification.vue:6
 msgid "Send pin"
-msgstr ""
+msgstr "Poslat pin"
 
 #: src/components/Header.vue:82
 #, fuzzy
@@ -312,17 +312,19 @@ msgstr "Resetovat zabezpečenou konverzaci"
 
 #: src/pages/SetPassword.vue:23 src/pages/Settings.vue:14
 msgid "Set password"
-msgstr ""
+msgstr "Nastavit heslo"
 
 #: src/components/Message.vue:78
 msgid "Set timer for self-destructing messages"
-msgstr ""
+msgstr "Nastavit časovač pro sebedestruktivní zprávy"
 
 #: src/pages/SetPassword.vue:3
 msgid ""
 "Setting a password is not adviced on devices short in memory. Restart is "
 "required!"
 msgstr ""
+"Nastavení hesla se nedoporučuje pro zařízení s malou pamětí."
+"Restart je nutný!"
 
 #: src/components/Header.vue:93 src/components/Header.vue:152
 msgid "Settings"
@@ -335,43 +337,44 @@ msgstr "Ověření identity"
 
 #: src/pages/About.vue:14
 msgid "sponsor on patreon."
-msgstr ""
+msgstr "sponzor na Patreon."
 
 #: src/components/StartChatModal.vue:5
 msgid "Starting new chats is currently broken in Axolotl."
-msgstr ""
+msgstr "Momentálně nelze na Axolotlu začít novou konverzaci."
 
 #: src/pages/About.vue:6
 msgid ""
 "This is a free and open source signal client written in golang and vuejs."
 msgstr ""
+"Toto je svobodný a otevřený klient pro Signál, naprogramovaný v golang a vuejs."
 
 #: src/components/Header.vue:27 src/pages/ChatList.vue:25
 #, fuzzy
 msgid "Unknown group"
-msgstr "Nová skupina"
+msgstr "Neznámá skupina"
 
 #: src/components/Header.vue:60
 msgid "Unmute"
-msgstr ""
+msgstr "Ukončit ztlumení"
 
 #: src/pages/Password.vue:5 src/pages/Settings.vue:18
 #, fuzzy
 msgid "Unregister"
-msgstr "Rušení registrace"
+msgstr "Zrušit registraci"
 
 #: src/pages/SetPassword.vue:7
 msgid "Unsafe password"
-msgstr ""
+msgstr "Heslo není bezpečné"
 
 #: src/components/Message.vue:81
 msgid "Unsupported message type: sticker"
-msgstr ""
+msgstr "Nepodporovaný typ zprávy: nálepka / sticker"
 
 #: src/pages/EditGroup.vue:41
 #, fuzzy
 msgid "Updating Group"
-msgstr "Upravit skupinu"
+msgstr "Aktualizovat skupinu"
 
 #: src/components/IdentityModal.vue:5
 msgid "Verify identity"
@@ -383,36 +386,36 @@ msgstr "Video"
 
 #: src/pages/Verification.vue:19
 msgid "Wrong code entered. Restart for another try."
-msgstr ""
+msgstr "Zadán neplatný kód. Restartovat pro nový pokus."
 
 #: src/components/Message.vue:19
 msgid "You"
-msgstr ""
+msgstr "Vy"
 
 #: src/pages/About.vue:8
 msgid "You can support the development of axolotl either by filling"
-msgstr ""
+msgstr "Vývoj Axolotlu můžete podpořit buď vyplněním"
 
 #: src/components/Message.vue:32 src/components/Message.vue:41
 #: src/components/Message.vue:57 src/pages/MessageList.vue:14
 msgid "Your browser does not support the audio element."
-msgstr ""
+msgstr "Váš prohlížeč nepodporuje tento element audia."
 
 #: src/components/Message.vue:67
 msgid "Your browser does not support the video element."
-msgstr ""
+msgstr "Váš prohlížeč nepodporuje tento element videa."
 
 #, fuzzy
 #~ msgid "Add Contacts"
-#~ msgstr "Kontakt"
+#~ msgstr "Přidat kontakty"
 
 #, fuzzy
 #~ msgid "<b>Group name</b>"
-#~ msgstr "Název skupiny"
+#~ msgstr "<b>Název skupiny</b>"
 
 #, fuzzy
 #~ msgid "Forwarded from "
-#~ msgstr "Přeposlat zprávu"
+#~ msgstr "Přeposláno z "
 
 #~ msgid "Image"
 #~ msgstr "Obrázek"
@@ -431,66 +434,66 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "New passphrase too short(6)!"
-#~ msgstr "Nová zpráva"
+#~ msgstr "Nové heslo je příliš krátké (6)"
 
 #~ msgid "Disable Signal messages and calls?"
-#~ msgstr "Zakázat Signal zprávy a volání?"
+#~ msgstr "Zakázat zprávy a volání ze Signálu?"
 
 #~ msgid ""
 #~ "Disable Signal messages and calls by unregistering from the server. You "
 #~ "will need to re-register your phone number to use them again in the "
 #~ "future."
 #~ msgstr ""
-#~ "Tímto zakážete Signal zprávy a volání odregistrací ze serveru. Abyste "
-#~ "mohli používat Signal zprávy v budoucnosti, budete muset znovu "
-#~ "registrovat svoje telefonní číslo."
+#~ "Zrušením registrace ze serveru znemožníte Signálu posílání zpráv a volání. "
+#~ "Abyste mohli Signál znovu používat, budete muset znovu registrovat "
+#~ "vaše telefonní číslo."
 
 #~ msgid "Enter key sends"
 #~ msgstr "Klávesa Enter odesílá"
 
 #, fuzzy
 #~ msgid "Activate Debuglog"
-#~ msgstr "Odeslat ladící log"
+#~ msgstr "Aktivovat logování pro hledání chyb programu"
 
 #~ msgid "YOUR COUNTRY"
-#~ msgstr "Země"
+#~ msgstr "Vaše země"
 
 #~ msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
-#~ msgstr "Kód země Telefonní číslo"
+#~ msgstr "Mezinárodní předvolba a telefonní číslo"
 
 #~ msgid "Verify your phone number to connect with Signal."
-#~ msgstr "Ověření vašeho telefoního čísla pro připojení k Signal"
+#~ msgstr "Ověřit vaše telefoní číslo pro připojení k Signálu"
 
 #~ msgid ""
 #~ "Registration transmits some contact information to the server. It is not "
 #~ "stored."
 #~ msgstr ""
 #~ "V průběhu registrace jsou odeslány některé kontaktní informace na server. "
-#~ "Nejsou ale uloženy."
+#~ "Nebudou ale uloženy."
 
 #~ msgid ""
 #~ "Double-check that this is your number! We're about to verify it with an "
 #~ "SMS."
-#~ msgstr "Znovu zkontrolujte Vaše číslo! Nyní bude ověřeno pomocí SMS."
+#~ msgstr "Znovu zkontrolujte vaše číslo! Nyní bude ověřeno pomocí SMS."
 
 #, fuzzy
 #~ msgid "Delete selected Device?"
-#~ msgstr "Smazat zprávu"
+#~ msgstr "Smazat vybrané zařízení?"
 
 #, fuzzy
 #~ msgid "This will permanently delete the selected Device."
-#~ msgstr "Tímto trvale smažete všechy zprávy této konverzace."
+#~ msgstr "Tímto trvale smažete vybrané zařízení."
 
 #, fuzzy
 #~ msgid "This will permanently delete all messages!"
-#~ msgstr "Tímto trvale smažete všechy zprávy této konverzace."
+#~ msgstr "Tímto trvale smažete všechy zprávy této konverzace!"
 
 #~ msgid "Refresh"
 #~ msgstr "Obnovit"
 
 #, fuzzy
 #~ msgid "Add contact"
-#~ msgstr "Kontakt"
+#~ msgstr "Přidat kontakt"
 
 #~ msgid "Verifying number"
 #~ msgstr "Probíhá ověření čísla"
@@ -503,7 +506,7 @@ msgstr ""
 #~ "zprávy."
 
 #~ msgid "Waiting for SMS verification..."
-#~ msgstr "Čekám na ověřovací ověřovací SMS..."
+#~ msgstr "Čekám na ověřovací SMS..."
 
 #~ msgid "Call"
 #~ msgstr "Volat"
@@ -515,7 +518,7 @@ msgstr ""
 #~ "This may help if you're having encryption problems in this conversation. "
 #~ "Your messages will be kept."
 #~ msgstr ""
-#~ "Může to pomoct pokud máte problém s šifrováním této konverzace. Vaše "
+#~ "Může to pomoci, pokud máte problém s šifrováním této konverzace. Vaše "
 #~ "zprávy zůstanou zachovány."
 
 #~ msgid "Recipients list"
@@ -525,7 +528,7 @@ msgstr ""
 #~ msgstr "Opustit skupinu?"
 
 #~ msgid "Are you sure you want to leave this group?"
-#~ msgstr "Jsi si jistý, že chceš opustit tuto skupinu?"
+#~ msgstr "Jsi si jistý/jistá, že chcete opustit tuto skupinu?"
 
 #~ msgid "Delete conversation"
 #~ msgstr "Smazat konverzaci"
@@ -552,25 +555,25 @@ msgstr ""
 #~ msgstr "Smazat zprávu"
 
 #~ msgid "Send Signal message"
-#~ msgstr "Poslat Signal zprávu"
+#~ msgstr "Poslat zprávu Signálu"
 
 #~ msgid "Delete"
 #~ msgstr "Smazat"
 
 #, fuzzy
 #~ msgid "Delete selected message?"
-#~ msgstr "Smazat zprávu"
+#~ msgstr "Smazat vybranou zprávu?"
 
 #, fuzzy
 #~ msgid "This will permanently delete the selected message."
-#~ msgstr "Tímto trvale smažete všechy zprávy této konverzace."
+#~ msgstr "Tímto trvale smažete vybranou zprávu."
 
 #~ msgid "Group members"
 #~ msgstr "Členové skupiny"
 
 #, fuzzy
 #~ msgid "Forward message to %1?"
-#~ msgstr "Přeposlat zprávu"
+#~ msgstr "Přeposlat zprávu na %1?"
 
 #~ msgid "Advanced"
 #~ msgstr "Rozšířené možnosti"
