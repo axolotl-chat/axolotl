@@ -374,6 +374,17 @@ func LoadChats() error {
 	if err != nil {
 		return err
 	}
+	// Reset groups
+	newGroups := map[string]*GroupRecord{}
+	Groups = newGroups
+	for _, g := range AllGroups {
+		Groups[g.GroupID] = g
+	}
+
+	// Reset session model
+	SessionsModel.Sess = make([]*Session, 0)
+	SessionsModel.Len = 0
+	AllSessions = []*Session{}
 	for _, g := range AllGroups {
 		Groups[g.GroupID] = g
 	}
