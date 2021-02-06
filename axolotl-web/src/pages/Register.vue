@@ -1,5 +1,6 @@
 <template>
   <div class="register">
+    <WarningMessage />
     <div v-if="infoPage" class="page1 info">
       <img class="logo" src="/axolotl.png" />
       <h1 class="title">Axolotl Beta</h1>
@@ -30,13 +31,15 @@
 
 <script>
 import VuePhoneNumberInput from 'vue-phone-number-input';
+import WarningMessage from '@/components/WarningMessage'
 import 'vue-phone-number-input/dist/vue-phone-number-input.css';
 import { mapState } from 'vuex';
 
 export default {
   name: 'register',
   components: {
-    VuePhoneNumberInput
+    VuePhoneNumberInput,
+    WarningMessage
   },
   props: {
     msg: String
