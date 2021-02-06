@@ -121,7 +121,7 @@ router.beforeEach((to, from, next) => {
 });
 
 function proceed(to, next) {
-  const registrationPages = ['/register', '/verify', '/password', '/pin', '/captcha'];
+  const registrationPages = ['/register', '/verify', '/password', '/pin'];
   const registrationStatus = store.state.registrationStatus;
 
   //disable routes when registration is not finished yet
