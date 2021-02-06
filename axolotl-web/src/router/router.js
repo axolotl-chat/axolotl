@@ -102,8 +102,11 @@ export const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-
-  if (to.path === "/debug") {
+  if(to.query.token){
+    store.dispatch("setCaptchaToken",
+    to.query.token)
+  }
+  if (to.path === "/debug" || to.path ==="/verify") {
     return next();
   }
 
@@ -118,7 +121,7 @@ router.beforeEach((to, from, next) => {
 });
 
 function proceed(to, next) {
-  const registrationPages = ['/register', '/verify', '/password', '/pin'];
+  const registrationPages = ['/register', '/verify', '/password', '/pin', '/captcha'];
   const registrationStatus = store.state.registrationStatus;
 
   //disable routes when registration is not finished yet

@@ -80,13 +80,12 @@ func SetupConfig() {
 
 	IsPhone = helpers.Exists("/home/phablet")
 	IsPushHelper = filepath.Base(os.Args[0]) == "pushHelper"
-
 	flag.Parse()
 	if len(flag.Args()) == 1 {
 		TsDeviceURL = flag.Arg(0)
 	}
 
-	if IsPushHelper {
+	if IsPushHelper || IsPhone{
 		log.Printf("[axolotl] use push helper")
 		HomeDir = "/home/phablet"
 	} else {

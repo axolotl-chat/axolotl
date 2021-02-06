@@ -34,6 +34,8 @@ export default new Vuex.Store({
     verificationError: null,
     requestPin: false,
     registrationStatus: null,
+    captchaToken: null,
+    captchaTokenSent: false,
     socket: {
       isConnected: false,
       message: '',
@@ -133,6 +135,9 @@ export default new Vuex.Store({
         this.commit("SET_REGISTRATION_STATUS", "pin");
         router.push("/pin")
         state.requestPin = true;
+      } else if (type == "getCaptchaToken") {
+        this.commit("SET_REGISTRATION_STATUS", "verificationCode");
+        window.location = "https://signalcaptchas.org/registration/generate.html";
       } else if (type == "getEncryptionPw") {
         this.commit("SET_REGISTRATION_STATUS", "password");
         router.push("/password")
@@ -242,6 +247,12 @@ export default new Vuex.Store({
     },
     SOCKET_ONERROR() {
       // console.error(state, event)
+    },
+    SET_CAPTCHA_TOKEN(state, token){
+      state.captchaToken = token;
+    },
+    SET_CAPTCHA_TOKEN_SENT(state){
+      state.captchaTokenSent = true;
     },
     // default handler called for all methods
     SOCKET_ONMESSAGE(state, message) {
@@ -666,6 +677,20 @@ export default new Vuex.Store({
         Vue.prototype.$socket.send(JSON.stringify(message))
         this.state.DarkMode = darkMode;
       }
+    },
+    sendCaptchaToken:function(){
+      if (this.state.socket.isConnected) {
+        var message = {
+          "request": "sendCaptchaToken",
+          "token": this.state.captchaToken,
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
+        this.commit("SET_CAPTCHA_TOKEN_SENT");
+
+      }
+    },
+    setCaptchaToken: function(state, token) {
+        this.commit("SET_CAPTCHA_TOKEN", token);
     }
   }
 });

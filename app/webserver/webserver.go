@@ -224,6 +224,16 @@ func wsReader(conn *websocket.Conn) {
 				json.Unmarshal([]byte(p), &sendPinMessage)
 				requestChannel <- sendPinMessage.Pin
 			}
+		case "sendCaptchaToken":
+			log.Debugln("[axolotl] got captcha")
+			requestSmsVerificationCode = true
+			if requestChannel != nil {
+				sendCaptchaTokenMessage := SendCaptchaTokenMessage{}
+				json.Unmarshal([]byte(p), &sendCaptchaTokenMessage)
+				log.Debugln("[axolotl] got captcha2", sendCaptchaTokenMessage.Token)
+
+				requestChannel <- sendCaptchaTokenMessage.Token
+			}
 		case "sendPassword":
 			if requestChannel != nil {
 				sendPasswordMessage := SendPasswordMessage{}

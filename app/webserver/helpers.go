@@ -27,13 +27,17 @@ func websocketSender() {
 		}
 	}
 }
+var requestSmsVerificationCode = false 
 func sendRegistrationStatus() {
 	log.Debugln("[axolotl-ws] getRegistrationStatus")
 	if registered {
 		sendRequest("registrationDone")
 	} else if requestPassword {
 		sendRequest("getEncryptionPw")
-	} else {
+	} else if requestSmsVerificationCode{
+
+		sendRequest("getVerificationCode")
+		}else{
 		sendRequest("getPhoneNumber")
 	}
 }
