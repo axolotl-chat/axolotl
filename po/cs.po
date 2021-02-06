@@ -241,11 +241,11 @@ msgstr "Pozor, není možné přidat sám/samu sebe do skupiny."
 
 #: src/pages/About.vue:13
 msgid "or by becoming a"
-msgstr ""
+msgstr "nebo jako"
 
 #: src/pages/Verification.vue:4
 msgid "or disable it on Android/IOs"
-msgstr ""
+msgstr "nebo deaktivovat pin na Androidu/IOs"
 
 #: src/pages/Password.vue:2
 msgid "Password is wrong"
@@ -502,7 +502,7 @@ msgstr "Váš prohlížeč nepodporuje tento element videa."
 #~ "Signal will now automatically verify your number with a confirmation SMS "
 #~ "message."
 #~ msgstr ""
-#~ "Signal nyní automaticky ověří vaše telefonní číslo pomocí potvrzovací SMS "
+#~ "Signál nyní automaticky ověří vaše telefonní číslo pomocí potvrzovací SMS "
 #~ "zprávy."
 
 #~ msgid "Waiting for SMS verification..."
