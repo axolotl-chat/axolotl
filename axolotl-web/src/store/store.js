@@ -136,7 +136,6 @@ export default new Vuex.Store({
         router.push("/pin")
         state.requestPin = true;
       } else if (type == "getCaptchaToken") {
-        this.commit("SET_REGISTRATION_STATUS", "verificationCode");
         window.location = "https://signalcaptchas.org/registration/generate.html";
       } else if (type == "getEncryptionPw") {
         this.commit("SET_REGISTRATION_STATUS", "password");

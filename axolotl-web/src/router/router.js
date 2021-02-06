@@ -106,7 +106,7 @@ router.beforeEach((to, from, next) => {
     store.dispatch("setCaptchaToken",
     to.query.token)
   }
-  if (to.path === "/debug" || to.path ==="/verify") {
+  if (to.path === "/debug") {
     return next();
   }
 
