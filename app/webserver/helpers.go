@@ -27,7 +27,6 @@ func websocketSender() {
 		}
 	}
 }
-var requestSmsVerificationCode = false 
 func sendRegistrationStatus() {
 	log.Debugln("[axolotl-ws] getRegistrationStatus")
 	if registered {

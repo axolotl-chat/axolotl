@@ -22,12 +22,18 @@ import (
 	"github.com/signal-golang/textsecure"
 )
 
-var clients = make(map[*websocket.Conn]bool)
-var activeChat int64 = -1
-var codeVerification = false
-var profile textsecure.Contact
-
-var broadcast = make(chan []byte, 100)
+var (
+	clients = make(map[*websocket.Conn]bool)
+	activeChat int64 = -1
+	codeVerification = false
+	profile textsecure.Contact
+	broadcast = make(chan []byte, 100)
+	requestChannel chan string
+	upgrader = websocket.Upgrader{
+	ReadBufferSize:  1024,
+	WriteBufferSize: 1024,
+	}
+)
 
 // Run runs the webserver and the websocket
 func Run() error {
@@ -37,13 +43,6 @@ func Run() error {
 	go websocketSender()
 	webserver()
 	return nil
-}
-
-var requestChannel chan string
-
-var upgrader = websocket.Upgrader{
-	ReadBufferSize:  1024,
-	WriteBufferSize: 1024,
 }
 
 func removeClientFromList(client *websocket.Conn) {

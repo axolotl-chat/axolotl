@@ -20,7 +20,13 @@ import (
 	"github.com/nanu-c/axolotl/app/store"
 )
 
-var mu sync.Mutex
+var (
+	mu sync.Mutex
+  registered = false
+  requestPassword = false
+	requestSmsVerificationCode = false 
+
+)
 
 type MessageRecieved struct {
 	MessageRecieved *store.Message
@@ -117,8 +123,6 @@ func sendRequest(requestType string) {
 	broadcast <- *message
 }
 
-var registered = false
-
 // RegistrationDone sets restration status to done and sends registration status to axoltol-web
 func RegistrationDone() {
 	registered = true
@@ -145,8 +149,6 @@ func requestEnterChat(chat int64) {
 	activeChat = chat
 	broadcast <- *message
 }
-
-var requestPassword = false
 
 func RequestInput(request string) string {
 	if request == "getEncryptionPw" {
