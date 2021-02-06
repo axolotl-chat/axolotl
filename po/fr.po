@@ -41,6 +41,8 @@ msgid ""
 "Axolotl encountered an error communicating with Signal servers. Please try "
 "again."
 msgstr ""
+"Axolotl a rencontré une erreur en communiquant avec les serveurs de Signal. Veuillez essayer "
+"à nouveau."
 
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
@@ -115,15 +117,15 @@ msgstr "Modifier le groupe"
 
 #: src/components/Header.vue:76
 msgid "Enter password"
-msgstr "Saisissez votre mot de passe"
+msgstr "Saisir le mot de passe"
 
 #: src/pages/Verification.vue:2
 msgid "Enter your registration pin"
-msgstr "Saisissez votre code d'enregistrement"
+msgstr "Entrez votre code d'enregistrement"
 
 #: src/components/ErrorModal.vue:5
 msgid "Error communicating with Signal servers"
-msgstr ""
+msgstr "Erreur de communication avec les serveurs de Signal"
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
@@ -136,6 +138,10 @@ msgid ""
 "            Be careful, <strong>your encryption key will change and you will "
 "lose all your messages</strong> if you choose to do that."
 msgstr ""
+"Si vous pensez que quelque chose ne va pas de votre côté, vous pouvez <a href=\"#\" "
+"@click=\"unregister\">vous désinscrire</a> et vous inscrire à nouveau.\n"
+"            Soyez prudents, <strong>Votre clé de cryptage sera modifiée et vous "
+"perdrez tous vos messages</strong> si vous choisissez de le faire."
 
 #: src/components/ErrorModal.vue:12
 msgid ""
@@ -145,11 +151,16 @@ msgid ""
 "\"https://github.com/nanu-c/axolotl/issues\" target=\"_blank\">opening an "
 "issue</a>."
 msgstr ""
+"Si vous constatez cette erreur à plusieurs reprises, vérifiez l'<a href=\"https://"
+"status.signal.org/\" target=\"_blank\">état des serveurs de Signal</a>.\n"
+"            Si tout va bien, veuillez nous signaler le problème en <a href="
+"\"https://github.com/nanu-c/axolotl/issues\" target=\"_blank\">ouvrant un "
+"problème</a>."
 
 #: src/components/Header.vue:132
 #, fuzzy
 msgid "Import contacts"
-msgstr "Aucun contact"
+msgstr "Importer des contacts"
 
 #: src/pages/Contacts.vue:4
 msgid "Importing contacts, head back later"
@@ -157,11 +168,11 @@ msgstr "Importation des contacts en cours, revenez plus tard"
 
 #: src/pages/SetPassword.vue:2
 msgid "Info"
-msgstr "Informations"
+msgstr "Infos"
 
 #: src/pages/About.vue:11
 msgid "issues at the bug tracker"
-msgstr "problèmes dans le système de suivi"
+msgstr "problèmes au niveau du système de suivi des bogues"
 
 #: src/pages/DeviceList.vue:7
 msgid "Last seen:"
