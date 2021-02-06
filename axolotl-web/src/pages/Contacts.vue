@@ -41,7 +41,7 @@
           <div class="badge-name">{{contact.Name[0]+contact.Name[1]}}</div>
         </div>
         <!-- <div class="meta col-9" @click="contactClick(contact)"  v-longclick="()=>{showContactAction(contact)}"> -->
-        <div class="meta col-9" @click="contactClick(contact)"  v-longclick="()=>{showContactAction(contact)}">
+        <div class="meta col-9" @click="startChatModalOpen(contact)"  v-longclick="()=>{showContactAction(contact)}">
           <p class="name">{{contact.Name}}</p>
           <p class="number">{{contact.Tel}}</p>
         </div>
