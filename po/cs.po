@@ -528,7 +528,7 @@ msgstr "Váš prohlížeč nepodporuje tento element videa."
 #~ msgstr "Opustit skupinu?"
 
 #~ msgid "Are you sure you want to leave this group?"
-#~ msgstr "Jsi si jistý/jistá, že chcete opustit tuto skupinu?"
+#~ msgstr "Jste si jistý/jistá, že chcete opustit tuto skupinu?"
 
 #~ msgid "Delete conversation"
 #~ msgstr "Smazat konverzaci"
