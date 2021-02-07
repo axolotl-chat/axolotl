@@ -142,7 +142,7 @@ func runElectron() {
 	    for {
 	       select {
 	        case <- ticker.C:
-						w.ExecuteJavaScript("window.onToken = function(token){alert('http://"+config.ServerHost+":"+config.ServerPort+"/?token='+token);};")
+						w.ExecuteJavaScript("window.onToken = function(token){window.location='http://"+config.ServerHost+":"+config.ServerPort+"/?token='+token;};")
 	        case <- quit:
 	            ticker.Stop()
 	            return
