@@ -8,7 +8,6 @@ import (
 	"io"
 	"os"
 	"sync"
-	"time"
 
 	astilectron "github.com/asticode/go-astilectron"
 	"github.com/pkg/errors"
@@ -78,26 +77,7 @@ func runElectron() {
 		VersionElectron:    "11.1.1",
 		SingleInstance:     true,
 		ElectronSwitches:   []string{"--disable-dev-shm-usage", "--no-sandbox"}})
-	a.On(astilectron.EventNameAppCrash, func(e astilectron.Event) (deleteListener bool) {
-		log.Errorln("[axolotl-electron] Electron App has crashed", e)
-		return
-	})
-	a.On(astilectron.EventNameWindowEventDidFinishLoad, func(e astilectron.Event) (deleteListener bool) {
-		log.Infoln("[axolotl-electron] Electron App load", e)
-		return
-	})
-	a.On(astilectron.EventNameWindowEventWillNavigate, func(e astilectron.Event) (deleteListener bool) {
-		log.Infoln("[axolotl-electron] Electron navigation", e)
-		return
-	})
-	a.On(astilectron.EventNameWindowEventWebContentsExecutedJavaScript, func(e astilectron.Event) (deleteListener bool) {
-		log.Infoln("[axolotl-electron] Electron navigation js", e)
-		return
-	})
-	a.On(astilectron.EventNameWindowEventDidGetRedirectRequest, func(e astilectron.Event) (deleteListener bool) {
-		log.Infoln("[axolotl-electron] Electron navigation rr", e)
-		return
-	})
+
 	defer a.Close()
 
 	// Start astilectron
@@ -125,7 +105,23 @@ func runElectron() {
 	}); err != nil {
 		log.Debugln("[axolotl-electron]", errors.Wrap(err, "main: new window failed"))
 	}
-
+	w.On(astilectron.EventNameAppCrash, func(e astilectron.Event) (deleteListener bool) {
+		log.Errorln("[axolotl-electron] Electron App has crashed")
+		return
+	})
+	w.On(astilectron.EventNameWindowEventDidFinishLoad, func(e astilectron.Event) (deleteListener bool) {
+		log.Infoln("[axolotl-electron] Electron App load")
+		w.ExecuteJavaScript("window.onToken = function(token){window.location='http://"+config.ServerHost+":"+config.ServerPort+"/?token='+token;};")
+		return
+	})
+	w.On(astilectron.EventNameWindowEventWillNavigate, func(e astilectron.Event) (deleteListener bool) {
+		log.Infoln("[axolotl-electron] Electron navigation")
+		return
+	})
+	w.On(astilectron.EventNameWindowEventWebContentsExecutedJavaScript, func(e astilectron.Event) (deleteListener bool) {
+		log.Infoln("[axolotl-electron] Electron navigation js")
+		return
+	})
 	// Create windows
 	if err = w.Create(); err != nil {
 		log.Debugln("[axolotl-electron]", errors.Wrap(err, "main: creating window failed"))
@@ -136,19 +132,6 @@ func runElectron() {
 		w.OpenDevTools()
 	}
 	w.Session.ClearCache()
-	ticker := time.NewTicker(5 * time.Second)
-	quit := make(chan struct{})
-	go func() {
-	    for {
-	       select {
-	        case <- ticker.C:
-						w.ExecuteJavaScript("window.onToken = function(token){window.location='http://"+config.ServerHost+":"+config.ServerPort+"/?token='+token;};")
-	        case <- quit:
-	            ticker.Stop()
-	            return
-	        }
-	    }
-	 }()
 	// Blocking pattern
 	a.Wait()
 }
