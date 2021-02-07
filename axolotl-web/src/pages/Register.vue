@@ -63,6 +63,10 @@ export default {
     var userLang = navigator.language || navigator.userLanguage;
     this.$language.current = userLang;
     document.getElementById("VuePhoneNumberInput_phone_number").focus();
+    if(this.captchaToken!=null&&!this.captchaTokenSent){
+      this.$store.dispatch("sendCaptchaToken")
+
+    }
   },
   data() {
     return {
@@ -71,7 +75,7 @@ export default {
       infoPage:true,
     };
   },
-  computed: mapState(['gui', 'ratelimitError', 'registrationStatus']),
+  computed: mapState(['gui', 'ratelimitError', 'registrationStatus', "captchaToken", "captchaTokenSent"]),
   watch:{
     cc(){
       document.getElementById("VuePhoneNumberInput_phone_number").focus()

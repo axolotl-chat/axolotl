@@ -40,8 +40,8 @@ func print(stdout io.ReadCloser) {
 	}
 }
 func setup() {
-	config.SetupConfig()
 	helpers.SetupLogging()
+	config.SetupConfig()
 	log.SetLevel(log.DebugLevel)
 	log.Infoln("[axolotl] Starting Signal for Ubuntu version", config.AppVersion)
 }
@@ -74,13 +74,15 @@ func runElectron() {
 		AppIconDefaultPath: "axolotl-web/public/axolotl.png", // If path is relative, it must be relative to the data directory
 		AppIconDarwinPath:  "axolotl-web/public/axolotl.png", // Same here
 		BaseDirectoryPath:  electronPath,
-		VersionElectron:    "10.1.2",
+		VersionElectron:    "11.1.1",
 		SingleInstance:     true,
 		ElectronSwitches:   []string{"--disable-dev-shm-usage", "--no-sandbox"}})
 
 	defer a.Close()
 
 	// Start astilectron
+	a.HandleSignals()
+
 	if err := a.Start(); err != nil {
 		log.Debugln(errors.Wrap(err, "[axolotl-electron] main: starting astilectron failed"))
 	}
@@ -103,10 +105,26 @@ func runElectron() {
 	}); err != nil {
 		log.Debugln("[axolotl-electron]", errors.Wrap(err, "main: new window failed"))
 	}
-
+	w.On(astilectron.EventNameAppCrash, func(e astilectron.Event) (deleteListener bool) {
+		log.Errorln("[axolotl-electron] Electron App has crashed")
+		return
+	})
+	w.On(astilectron.EventNameWindowEventDidFinishLoad, func(e astilectron.Event) (deleteListener bool) {
+		log.Infoln("[axolotl-electron] Electron App load")
+		w.ExecuteJavaScript("window.onToken = function(token){window.location='http://"+config.ServerHost+":"+config.ServerPort+"/?token='+token;};")
+		return
+	})
+	w.On(astilectron.EventNameWindowEventWillNavigate, func(e astilectron.Event) (deleteListener bool) {
+		log.Infoln("[axolotl-electron] Electron navigation")
+		return
+	})
+	w.On(astilectron.EventNameWindowEventWebContentsExecutedJavaScript, func(e astilectron.Event) (deleteListener bool) {
+		log.Infoln("[axolotl-electron] Electron navigation js")
+		return
+	})
 	// Create windows
 	if err = w.Create(); err != nil {
-		log.Debugln(errors.Wrap(err, "main: creating window failed"))
+		log.Debugln("[axolotl-electron]", errors.Wrap(err, "main: creating window failed"))
 	}
 	log.Debugln("[axolotl-electron] open dev tools", config.ElectronDebug)
 
@@ -114,7 +132,6 @@ func runElectron() {
 		w.OpenDevTools()
 	}
 	w.Session.ClearCache()
-
 	// Blocking pattern
 	a.Wait()
 }

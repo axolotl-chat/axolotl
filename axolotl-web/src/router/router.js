@@ -102,7 +102,10 @@ export const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-
+  if(to.query.token){
+    store.dispatch("setCaptchaToken",
+    to.query.token)
+  }
   if (to.path === "/debug") {
     return next();
   }

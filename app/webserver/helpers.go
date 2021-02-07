@@ -33,7 +33,10 @@ func sendRegistrationStatus() {
 		sendRequest("registrationDone")
 	} else if requestPassword {
 		sendRequest("getEncryptionPw")
-	} else {
+	} else if requestSmsVerificationCode{
+
+		sendRequest("getVerificationCode")
+		}else{
 		sendRequest("getPhoneNumber")
 	}
 }
