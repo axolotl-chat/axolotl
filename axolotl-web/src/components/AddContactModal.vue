@@ -9,7 +9,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <p><strong>Only add numbers that you are sure are registered Signal accounts.</strong></p>
+          <span v-translate><strong>Only add numbers that you are sure are registered Signal accounts.</strong></span>
           <div class="form-group">
             <label for="inputPhone" v-translate>Name</label>
             <input v-model="name" type="text" class="form-control" id="nameInput">

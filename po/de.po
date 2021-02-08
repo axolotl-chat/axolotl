@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2021-02-02 21:12+0100\n"
+"PO-Revision-Date: 2021-02-08 23:15+0100\n"
 "Last-Translator: Daniel Frost <one@frostinfo.de>\n"
 "Language-Team: none\n"
 "Language: de\n"
@@ -12,6 +12,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.3\n"
+
+#: src/components/AddContactModal.vue:11
+msgid ""
+"<strong>Only add numbers that you are sure are registered Signal accounts.</"
+"strong>"
+msgstr ""
+"<strong>Füge nur Telefonnummern von hinzu von denen du weißt, dass sie ein "
+"registriertes Signal Konto haben.</strong>"
 
 #: src/pages/About.vue:4 src/pages/Register.vue:6
 msgid "A cross-plattform signal client"
@@ -108,17 +116,17 @@ msgid ""
 "Due to upstream changes in Signal, some features are currently broken.\n"
 "      We're working as fast as we can to bring them back."
 msgstr ""
+"Wegen Änderungen am Quellcode von Signal sind momentan einige Funktionen "
+"nicht verwendbar.\n"
+"      Wir arbeiten daran, diese so schnell wie möglich wieder verfügbar zu "
+"machen."
 
 #: src/components/EditContactModal.vue:5
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: src/components/Header.vue:105
+#: src/components/Header.vue:64 src/components/Header.vue:105
 msgid "Edit group"
-msgstr "Gruppe bearbeiten"
-
-#: src/components/Header.vue:64
-msgid "Edit Group"
 msgstr "Gruppe bearbeiten"
 
 #: src/components/Header.vue:76
@@ -136,10 +144,25 @@ msgstr "Kommunikationsfehler mit Signal-Server"
 #: src/components/WarningMessage.vue:7
 msgid "Follow the progress or join us to help with development on"
 msgstr ""
+"Folge dem Entwicklungsprozess oder unterstütze uns bei der Entwicklung auf"
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
 msgstr "Gruppenname"
+
+#: src/components/ImportUnavailableModal.vue:12
+#, fuzzy
+msgid ""
+"If you are <strong>really sure that the persons you want to text with have "
+"Signal</strong>, you can manually add them using the \"plus\" action on that "
+"page.<br/>\n"
+"          Be careful, if you add too many numbers which aren't Signal "
+"accounts, you won't be able to add contacts anymore."
+msgstr ""
+"Wenn du <strong> wirklich sicher bist, dass dein Gegenüber Signal hat</"
+"strong>, kannst du den Kontakt manuell mit dem Plus-Symbol hinzufügen.<br/>\n"
+"         Aber sei vorsichtig, wenn du zu viele Kontakte hinzufügst, die "
+"nicht bei Signal sind, kannst du keine weiteren Kontakte hinzufügen."
 
 #: src/components/ErrorModal.vue:15
 msgid ""
@@ -170,6 +193,10 @@ msgstr ""
 #: src/components/Header.vue:132
 msgid "Import contacts"
 msgstr "Kontakte importieren"
+
+#: src/components/ImportUnavailableModal.vue:5
+msgid "Import contacts feature unavailable"
+msgstr "Kontaktimport nicht verfügbar"
 
 #: src/pages/Contacts.vue:4
 msgid "Importing contacts, head back later"
@@ -213,6 +240,9 @@ msgid ""
 "the linked Desktop Client. Alternatively, your counterparty could start the "
 "discussion."
 msgstr ""
+"Das beginnen neuer Konversationen ist momentan deaktiviert. Bitte starte "
+"diese von einem verknüpften Destkop-Gerät oder bitte dein Gegenüber diese zu "
+"starten."
 
 #: src/components/Header.vue:99 src/components/Header.vue:149
 msgid "New group"
@@ -382,6 +412,14 @@ msgstr "Kontakt überprüfen"
 msgid "Video"
 msgstr "Video"
 
+#: src/components/ImportUnavailableModal.vue:11
+msgid ""
+"We are sorry, but due to a change in the Signal protocol, automatic import "
+"of contacts is currently unavailble."
+msgstr ""
+"Der automatische Import von Kontakten ist, wegen Änderungen im Signal-"
+"Protokoll, leider momentan nicht verfügbar."
+
 #: src/pages/Verification.vue:19
 msgid "Wrong code entered. Restart for another try."
 msgstr "Falscher Code eingegeben. Neustarten für einen weiteren Versuch."
@@ -403,6 +441,9 @@ msgstr "Dein Browser unterstützt dieses Audio-Element nicht."
 #: src/components/Message.vue:67
 msgid "Your browser does not support the video element."
 msgstr "Dein Browser unterstützt dieses Video-Element nicht."
+
+#~ msgid "Edit Group"
+#~ msgstr "Gruppe bearbeiten"
 
 #~ msgid "Please ask your conversation partner to start the chat first."
 #~ msgstr "Bitte deinen Gesprächspartner ein neues Gespräch zu beginnen."
