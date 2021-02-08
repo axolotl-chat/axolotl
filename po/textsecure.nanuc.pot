@@ -5,7 +5,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: easygettext\n"
 
-#: src/pages/About.vue:4 src/pages/Register.vue:5
+#: src/pages/About.vue:4 src/pages/Register.vue:6
 msgid "A cross-plattform signal client"
 msgstr ""
 
@@ -178,6 +178,13 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
+#: src/components/StartChatModal.vue:11
+msgid ""
+"New conversations are temporarily disabled. You can create a new chat from "
+"the linked Desktop Client. Alternatively, your counterparty could start the "
+"discussion."
+msgstr ""
+
 #: src/components/Header.vue:99 src/components/Header.vue:149
 msgid "New group"
 msgstr ""
@@ -186,11 +193,11 @@ msgstr ""
 msgid "New password"
 msgstr ""
 
-#: src/pages/Register.vue:16
+#: src/pages/Register.vue:17
 msgid "Next"
 msgstr ""
 
-#: src/pages/ChatList.vue:45
+#: src/pages/ChatList.vue:46
 msgid "No chats available"
 msgstr ""
 
@@ -234,10 +241,6 @@ msgstr ""
 msgid "Photo"
 msgstr ""
 
-#: src/components/StartChatModal.vue:11
-msgid "Please ask your conversation partner to start the chat first."
-msgstr ""
-
 #: src/pages/Settings.vue:5
 msgid "Registered number"
 msgstr ""
@@ -246,7 +249,7 @@ msgstr ""
 msgid "Repeat password"
 msgstr ""
 
-#: src/pages/Register.vue:25
+#: src/pages/Register.vue:26
 msgid "Request code"
 msgstr ""
 
@@ -313,7 +316,7 @@ msgid ""
 "This is a free and open source signal client written in golang and vuejs."
 msgstr ""
 
-#: src/components/Header.vue:27 src/pages/ChatList.vue:25
+#: src/components/Header.vue:27 src/pages/ChatList.vue:26
 msgid "Unknown group"
 msgstr ""
 

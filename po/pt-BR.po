@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/pages/About.vue:4 src/pages/Register.vue:5
+#: src/pages/About.vue:4 src/pages/Register.vue:6
 msgid "A cross-plattform signal client"
 msgstr "Um cliente multiplataforma do Signal"
 
@@ -40,8 +40,8 @@ msgid ""
 "Axolotl encountered an error communicating with Signal servers. Please try "
 "again."
 msgstr ""
-"Axolotl encontrou um erro ao se comunicar com os servidores do Signal."
-"Tente novamente por favor."
+"Axolotl encontrou um erro ao se comunicar com os servidores do Signal.Tente "
+"novamente por favor."
 
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
@@ -138,8 +138,8 @@ msgid ""
 msgstr ""
 "Se você acha que algo está errado do seu lado, você pode se <a href=\"#\" "
 "@click=\"unregister\">descadastrar</a> e se cadastrar novamente.\n"
-"            Cuidado, <strong>sua chave criptográfica mudará e você "
-"perderá todas suas mensagens</strong> se você decidir fazer isso."
+"            Cuidado, <strong>sua chave criptográfica mudará e você perderá "
+"todas suas mensagens</strong> se você decidir fazer isso."
 
 #: src/components/ErrorModal.vue:12
 msgid ""
@@ -195,6 +195,13 @@ msgstr "Mudo"
 msgid "Name"
 msgstr "Nome"
 
+#: src/components/StartChatModal.vue:11
+msgid ""
+"New conversations are temporarily disabled. You can create a new chat from "
+"the linked Desktop Client. Alternatively, your counterparty could start the "
+"discussion."
+msgstr ""
+
 #: src/components/Header.vue:99 src/components/Header.vue:149
 msgid "New group"
 msgstr "Novo grupo"
@@ -203,11 +210,11 @@ msgstr "Novo grupo"
 msgid "New password"
 msgstr "Nova senha"
 
-#: src/pages/Register.vue:16
+#: src/pages/Register.vue:17
 msgid "Next"
 msgstr "Próximo"
 
-#: src/pages/ChatList.vue:45
+#: src/pages/ChatList.vue:46
 msgid "No chats available"
 msgstr "Nenhuma conversa disponível"
 
@@ -251,10 +258,6 @@ msgstr "Telefone"
 msgid "Photo"
 msgstr "Foto"
 
-#: src/components/StartChatModal.vue:11
-msgid "Please ask your conversation partner to start the chat first."
-msgstr "Por favor, peça ao seu colega para começar a conversa primeiro."
-
 #: src/pages/Settings.vue:5
 msgid "Registered number"
 msgstr "Número cadastrado"
@@ -263,7 +266,7 @@ msgstr "Número cadastrado"
 msgid "Repeat password"
 msgstr "Repetir senha"
 
-#: src/pages/Register.vue:25
+#: src/pages/Register.vue:26
 msgid "Request code"
 msgstr "Pedir código"
 
@@ -308,8 +311,8 @@ msgid ""
 "Setting a password is not adviced on devices short in memory. Restart is "
 "required!"
 msgstr ""
-"Definir uma senha não é recomendado em dispositivos com pouca memória. "
-"É necessário reiniciar!"
+"Definir uma senha não é recomendado em dispositivos com pouca memória. É "
+"necessário reiniciar!"
 
 #: src/components/Header.vue:93 src/components/Header.vue:152
 msgid "Settings"
@@ -331,9 +334,10 @@ msgstr "No momento começar novas conversas no Axolotl não funciona."
 msgid ""
 "This is a free and open source signal client written in golang and vuejs."
 msgstr ""
-"Esse é um cliente de Signal livre e de código aberto escrito em Golang e vuejs."
+"Esse é um cliente de Signal livre e de código aberto escrito em Golang e "
+"vuejs."
 
-#: src/components/Header.vue:27 src/pages/ChatList.vue:25
+#: src/components/Header.vue:27 src/pages/ChatList.vue:26
 msgid "Unknown group"
 msgstr "Grupo desconhecido"
 
@@ -385,6 +389,9 @@ msgstr "Seu navegador não suporta o elemento audio."
 #: src/components/Message.vue:67
 msgid "Your browser does not support the video element."
 msgstr "Seu navegador não suporta o elemento video"
+
+#~ msgid "Please ask your conversation partner to start the chat first."
+#~ msgstr "Por favor, peça ao seu colega para começar a conversa primeiro."
 
 #, fuzzy
 #~ msgid "Add Contacts"
