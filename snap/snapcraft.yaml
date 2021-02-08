@@ -34,6 +34,7 @@ parts:
     nodejs-package-manager: npm
     build-packages:
       - git
+      - python #needed for rebuilding node sass on all arch except
     override-build: |
       # Add npm to path
       export PATH=$PWD/../npm/bin:$PATH
