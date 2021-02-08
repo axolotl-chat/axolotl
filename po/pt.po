@@ -101,6 +101,12 @@ msgstr "Descriptografar"
 msgid "Document"
 msgstr "Documento"
 
+#: src/components/WarningMessage.vue:3
+msgid ""
+"Due to upstream changes in Signal, some features are currently broken.\n"
+"      We're working as fast as we can to bring them back."
+msgstr ""
+
 #: src/components/EditContactModal.vue:5
 msgid "Edit"
 msgstr "Editar"
@@ -123,6 +129,10 @@ msgstr "Insira o seu pin de registo"
 
 #: src/components/ErrorModal.vue:5
 msgid "Error communicating with Signal servers"
+msgstr ""
+
+#: src/components/WarningMessage.vue:7
+msgid "Follow the progress or join us to help with development on"
 msgstr ""
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
