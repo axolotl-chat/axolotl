@@ -73,7 +73,6 @@ msgid "Contact list is empty..."
 msgstr "Seznam kontaktů je prázdný..."
 
 #: src/components/Header.vue:146
-#, fuzzy
 msgid "Contacts"
 msgstr "Kontakty"
 
@@ -111,12 +110,10 @@ msgid "Edit"
 msgstr "Upravit"
 
 #: src/components/Header.vue:105
-#, fuzzy
 msgid "Edit group"
 msgstr "Upravit skupinu"
 
 #: src/components/Header.vue:64
-#, fuzzy
 msgid "Edit Group"
 msgstr "Upravit skupinu"
 
@@ -163,7 +160,6 @@ msgstr ""
 "na <a href=\"https://github.com/nanu-c/axolotl/issues\" target=\"_blank\">github.com</a>."
 
 #: src/components/Header.vue:132
-#, fuzzy
 msgid "Import contacts"
 msgstr "Importovat kontakty"
 
@@ -281,7 +277,6 @@ msgid "Request code"
 msgstr "Vyžádat kód"
 
 #: src/components/Header.vue:63
-#, fuzzy
 msgid "Reset encryption"
 msgstr "Resetovat zabezpečenou konverzaci"
 
@@ -306,7 +301,6 @@ msgid "Send pin"
 msgstr "Poslat pin"
 
 #: src/components/Header.vue:82
-#, fuzzy
 msgid "Set encryption password"
 msgstr "Resetovat zabezpečenou konverzaci"
 
@@ -331,7 +325,6 @@ msgid "Settings"
 msgstr "Nastavení"
 
 #: src/components/Header.vue:62
-#, fuzzy
 msgid "Show identity"
 msgstr "Ověření identity"
 
@@ -350,7 +343,6 @@ msgstr ""
 "Toto je svobodný a otevřený klient pro Signál, naprogramovaný v golang a vuejs."
 
 #: src/components/Header.vue:27 src/pages/ChatList.vue:25
-#, fuzzy
 msgid "Unknown group"
 msgstr "Neznámá skupina"
 
