@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/pages/About.vue:4 src/pages/Register.vue:5
+#: src/pages/About.vue:4 src/pages/Register.vue:6
 msgid "A cross-plattform signal client"
 msgstr ""
 
@@ -104,6 +104,12 @@ msgstr ""
 msgid "Document"
 msgstr ""
 
+#: src/components/WarningMessage.vue:3
+msgid ""
+"Due to upstream changes in Signal, some features are currently broken.\n"
+"      We're working as fast as we can to bring them back."
+msgstr ""
+
 #: src/components/EditContactModal.vue:5
 msgid "Edit"
 msgstr ""
@@ -128,6 +134,10 @@ msgstr ""
 
 #: src/components/ErrorModal.vue:5
 msgid "Error communicating with Signal servers"
+msgstr ""
+
+#: src/components/WarningMessage.vue:7
+msgid "Follow the progress or join us to help with development on"
 msgstr ""
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
@@ -194,6 +204,13 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
+#: src/components/StartChatModal.vue:11
+msgid ""
+"New conversations are temporarily disabled. You can create a new chat from "
+"the linked Desktop Client. Alternatively, your counterparty could start the "
+"discussion."
+msgstr ""
+
 #: src/components/Header.vue:99 src/components/Header.vue:149
 msgid "New group"
 msgstr "Új csoport"
@@ -203,11 +220,11 @@ msgstr "Új csoport"
 msgid "New password"
 msgstr "Új üzenet"
 
-#: src/pages/Register.vue:16
+#: src/pages/Register.vue:17
 msgid "Next"
 msgstr ""
 
-#: src/pages/ChatList.vue:45
+#: src/pages/ChatList.vue:46
 msgid "No chats available"
 msgstr ""
 
@@ -252,10 +269,6 @@ msgstr ""
 msgid "Photo"
 msgstr ""
 
-#: src/components/StartChatModal.vue:11
-msgid "Please ask your conversation partner to start the chat first."
-msgstr ""
-
 #: src/pages/Settings.vue:5
 #, fuzzy
 msgid "Registered number"
@@ -265,7 +278,7 @@ msgstr "Regisztrálás"
 msgid "Repeat password"
 msgstr ""
 
-#: src/pages/Register.vue:25
+#: src/pages/Register.vue:26
 msgid "Request code"
 msgstr ""
 
@@ -335,7 +348,7 @@ msgid ""
 "This is a free and open source signal client written in golang and vuejs."
 msgstr ""
 
-#: src/components/Header.vue:27 src/pages/ChatList.vue:25
+#: src/components/Header.vue:27 src/pages/ChatList.vue:26
 #, fuzzy
 msgid "Unknown group"
 msgstr "Új csoport"

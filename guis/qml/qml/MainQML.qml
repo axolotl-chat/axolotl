@@ -26,6 +26,13 @@ import QtMultimedia 5.8
       var msg = "[Axolotl Web View] [JS] (%1:%2) %3".arg(sourceID).arg(lineNumber).arg(message)
       console.log(msg)
     }
+    onLoadingChanged:{
+      // interceptor to make the registration captcha work
+      var msg = "[Axolotl Web View] [JS] url changed %1".arg(url)
+      console.log(msg)
+      var  interceptor = "window.onToken = function(token){window.location = 'http://localhost:9080/?token='+token;};"
+      webView.runJavaScript(interceptor)
+    }
   WebEngineProfile{
     id:webProfile
   }

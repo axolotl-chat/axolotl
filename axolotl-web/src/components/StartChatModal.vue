@@ -9,7 +9,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <p v-translate>Please ask your conversation partner to start the chat first.</p>
+          <p v-translate>New conversations are temporarily disabled. You can create a new chat from the linked Desktop Client. Alternatively, your counterparty could start the discussion.</p>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" @click="$emit('close')" v-translate>Close</button>
           </div>
