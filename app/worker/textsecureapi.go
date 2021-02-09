@@ -132,6 +132,10 @@ func RunBackend() {
 			pin := ui.GetPin()
 			return pin
 		},
+		GetCaptchaToken: func() string {
+			captcha := ui.GetCaptchaToken()
+			return captcha
+		},
 		GetStoragePassword: func() string {
 			password := ui.GetStoragePassword()
 			log.Debugf("[axolotl] Asking for password")

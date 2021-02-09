@@ -38,7 +38,49 @@ func SendMessageHelper(ID int64, message, file string, updateMessageChannel chan
 			log.Errorln("[axolotl] SendMessageHelper:" + err.Error())
 			return err, nil
 		}
-		m := session.Add(message, "", attachments, "", true, store.ActiveSessionID)
+		// sessions fix bug in 1.9.4 could be deleted later
+		if !session.IsGroup && len(session.Tel) > 0 && session.Tel[0] != '+' {
+			session.IsGroup = true
+			store.UpdateSession(session)
+		}
+		if !session.IsGroup && strings.Index(session.UUID, "-") == -1 {
+			contact := store.GetContactForTel(session.Tel)
+			if strings.Index(contact.UUID, "-") != -1 {
+				session.UUID = contact.UUID
+				store.SaveSession(session)
+			}
+		}
+		if !session.IsGroup {
+			// deduplicate sessions fix bug in 1.9.4 could be deleted later
+			sessions := store.SessionsModel.GetAllSessionsByE164(session.Tel)
+			if len(sessions) > 1 {
+				log.Println("[axolotl] MessageHandler update private session duplicate", sessions[0].ID, sessions[1].ID)
+				err := store.MigrateMessagesFromSessionToAnotherSession(sessions[0].ID, sessions[1].ID)
+				if err != nil {
+					log.Debugln("[axolotl] error migrating session", err)
+				}
+				session = store.SessionsModel.GetByE164(session.Tel)
+				ID = session.ID
+			}
+		}
+		if session.IsGroup {
+			// deduplicate sessions fix bug in 1.9.4 could be deleted later
+			log.Println("[axolotl] MessageHandler1 update group session uuid")
+
+			sessions := store.SessionsModel.GetAllSessionsByE164(session.Tel)
+			if len(sessions) > 1 {
+				log.Println("[axolotl] MessageHandler update group session uuid")
+				if len(sessions[0].UUID) < 32 {
+					store.MigrateMessagesFromSessionToAnotherSession(sessions[0].ID, sessions[1].ID)
+				} else {
+					store.MigrateMessagesFromSessionToAnotherSession(sessions[1].ID, sessions[0].ID)
+				}
+				session = store.SessionsModel.GetByE164(session.Tel)
+				ID = session.ID
+
+			}
+		}
+		m := session.Add(message, "", attachments, "", true, ID)
 		m.Source = session.Tel
 		m.SourceUUID = session.UUID
 		m.ExpireTimer = session.ExpireTimer
@@ -54,6 +96,15 @@ func SendMessageHelper(ID int64, message, file string, updateMessageChannel chan
 	}
 	log.Errorln("[axolotl] send to is empty")
 	return errors.New("send to is empty"), nil
+}
+
+func HexToUUID(id string) string {
+	if len(id) != 32 {
+		return id
+	}
+	msbHex := id[:16]
+	lsbHex := id[16:]
+	return msbHex[:8] + "-" + msbHex[8:12] + "-" + msbHex[12:] + "-" + lsbHex[:4] + "-" + lsbHex[4:]
 }
 
 func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
@@ -72,6 +123,23 @@ func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
 		}
 	}
 	var recipient string
+	// check if user uuid exists and if yes send it to the uuid instead of the phone number
+	if s.UUID != emptyUUID && s.UUID != "" && !s.IsGroup {
+		recipient = s.UUID
+		index := strings.Index(recipient, "-")
+		if index == -1 {
+			recipient = HexToUUID(recipient)
+		}
+	} else {
+		recipient = s.Tel
+		if recipient[0] != '+' && !s.IsGroup {
+			log.Debugln("[axolotl] send message: empty uuid")
+			index := strings.Index(recipient, "-")
+			if index == -1 {
+				recipient = HexToUUID(recipient)
+			}
+		}
+	}
 	if s.UUID != emptyUUID && s.UUID != "" {
 		recipient = s.UUID
 	} else {

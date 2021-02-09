@@ -16,7 +16,7 @@ import (
 
 var AppName = "textsecure.nanuc"
 
-var AppVersion = "0.9.6"
+var AppVersion = "0.9.7"
 
 // Do not allow sending attachments larger than 100M for now
 var MaxAttachmentSize int64 = 100 * 1024 * 1024
@@ -80,13 +80,12 @@ func SetupConfig() {
 
 	IsPhone = helpers.Exists("/home/phablet")
 	IsPushHelper = filepath.Base(os.Args[0]) == "pushHelper"
-
 	flag.Parse()
 	if len(flag.Args()) == 1 {
 		TsDeviceURL = flag.Arg(0)
 	}
 
-	if IsPushHelper {
+	if IsPushHelper || IsPhone{
 		log.Printf("[axolotl] use push helper")
 		HomeDir = "/home/phablet"
 	} else {

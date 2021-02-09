@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: src/pages/About.vue:4 src/pages/Register.vue:5
+#: src/pages/About.vue:4 src/pages/Register.vue:6
 msgid "A cross-plattform signal client"
 msgstr "Multi-platformový klient pro Signál"
 
@@ -105,6 +105,12 @@ msgstr "Dešifrovat"
 msgid "Document"
 msgstr "Dokument"
 
+#: src/components/WarningMessage.vue:3
+msgid ""
+"Due to upstream changes in Signal, some features are currently broken.\n"
+"      We're working as fast as we can to bring them back."
+msgstr ""
+
 #: src/components/EditContactModal.vue:5
 msgid "Edit"
 msgstr "Upravit"
@@ -128,6 +134,10 @@ msgstr "Zadejte registrační pin"
 #: src/components/ErrorModal.vue:5
 msgid "Error communicating with Signal servers"
 msgstr "Problém v komunikaci se serverem Signálu"
+
+#: src/components/WarningMessage.vue:7
+msgid "Follow the progress or join us to help with development on"
+msgstr ""
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
@@ -201,6 +211,13 @@ msgstr "Ztlumit"
 msgid "Name"
 msgstr "Jméno"
 
+#: src/components/StartChatModal.vue:11
+msgid ""
+"New conversations are temporarily disabled. You can create a new chat from "
+"the linked Desktop Client. Alternatively, your counterparty could start the "
+"discussion."
+msgstr ""
+
 #: src/components/Header.vue:99 src/components/Header.vue:149
 msgid "New group"
 msgstr "Nová skupina"
@@ -210,11 +227,11 @@ msgstr "Nová skupina"
 msgid "New password"
 msgstr "Nové heslo"
 
-#: src/pages/Register.vue:16
+#: src/pages/Register.vue:17
 msgid "Next"
 msgstr "Další"
 
-#: src/pages/ChatList.vue:45
+#: src/pages/ChatList.vue:46
 msgid "No chats available"
 msgstr "Nenalezena žádná konverzace"
 
@@ -260,7 +277,10 @@ msgid "Photo"
 msgstr "Foto"
 
 #: src/components/StartChatModal.vue:11
-msgid "Please ask your conversation partner to start the chat first."
+msgid ""
+"New conversations are temporarily disabled. You can create a new chat from "
+"the linked Desktop Client. Alternatively, your counterparty could start the "
+"discussion."
 msgstr "Prosím požádejte vašeho partnera, aby začal konverzaci jako první."
 
 #: src/pages/Settings.vue:5
@@ -272,7 +292,7 @@ msgstr "Registrované číslo"
 msgid "Repeat password"
 msgstr "Zopakovat heslo"
 
-#: src/pages/Register.vue:25
+#: src/pages/Register.vue:26
 msgid "Request code"
 msgstr "Vyžádat kód"
 
@@ -342,7 +362,7 @@ msgid ""
 msgstr ""
 "Toto je svobodný a otevřený klient pro Signál, naprogramovaný v golang a vuejs."
 
-#: src/components/Header.vue:27 src/pages/ChatList.vue:25
+#: src/components/Header.vue:27 src/pages/ChatList.vue:26
 msgid "Unknown group"
 msgstr "Neznámá skupina"
 
