@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-12-13 18:44+0100\n"
+"PO-Revision-Date: 2021-02-09 22:25+0100\n"
 "Last-Translator: Anne017\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -41,6 +41,8 @@ msgid ""
 "Axolotl encountered an error communicating with Signal servers. Please try "
 "again."
 msgstr ""
+"Axolotl a rencontré une erreur lors de sa communication avec les serveurs de "
+"Signal. Veuillez réessayer."
 
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
@@ -69,7 +71,6 @@ msgid "Contact list is empty..."
 msgstr "La liste des contacts est vide..."
 
 #: src/components/Header.vue:146
-#, fuzzy
 msgid "Contacts"
 msgstr "Contacts"
 
@@ -106,6 +107,9 @@ msgid ""
 "Due to upstream changes in Signal, some features are currently broken.\n"
 "      We're working as fast as we can to bring them back."
 msgstr ""
+"En raison de modifications en amont dans Signal, certaines fonctionnalités "
+"sont actuellement en panne.\n"
+"      Nous travaillons aussi vite que possible pour les rétablir."
 
 #: src/components/EditContactModal.vue:5
 msgid "Edit"
@@ -129,11 +133,12 @@ msgstr "Saisissez votre code d'enregistrement"
 
 #: src/components/ErrorModal.vue:5
 msgid "Error communicating with Signal servers"
-msgstr ""
+msgstr "Erreur lors de la communication avec les serveurs de Signal"
 
 #: src/components/WarningMessage.vue:7
 msgid "Follow the progress or join us to help with development on"
 msgstr ""
+"Suivez les progrès ou rejoignez-nous pour nous aider au développement sur"
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
@@ -146,6 +151,10 @@ msgid ""
 "            Be careful, <strong>your encryption key will change and you will "
 "lose all your messages</strong> if you choose to do that."
 msgstr ""
+"Si vous pensez que quelque chose est bizarre de votre côté, vous pouvez <a "
+"href=\"#\" @click=\"unregister\">vous désinscrire</a> et vous réinscrire.\n"
+"            Soyez prudent(e), <strong>votre clé de chiffrement changera et "
+"vous perdrez tous vos messages</strong> si vous choisissez de faire cela."
 
 #: src/components/ErrorModal.vue:12
 msgid ""
@@ -155,11 +164,15 @@ msgid ""
 "\"https://github.com/nanu-c/axolotl/issues\" target=\"_blank\">opening an "
 "issue</a>."
 msgstr ""
+"Si vous voyez plusieurs fois cette erreur, vérifiez le <a href=\"https://"
+"status.signal.org/\" target=\"_blank\">statut des servers Signal</a>.\n"
+"            Si cela ne vient pas de là, indiquez-nous qu'il y a un problème "
+"en <a href=\"https://github.com/nanu-c/axolotl/issues\" target=\"_blank"
+"\">ouvrant un problème</a>."
 
 #: src/components/Header.vue:132
-#, fuzzy
 msgid "Import contacts"
-msgstr "Aucun contact"
+msgstr "Importer les contacts"
 
 #: src/pages/Contacts.vue:4
 msgid "Importing contacts, head back later"
@@ -203,6 +216,9 @@ msgid ""
 "the linked Desktop Client. Alternatively, your counterparty could start the "
 "discussion."
 msgstr ""
+"Les nouvelles conversations sont temporairement désactivées. Vous pouvez "
+"créer une nouvelle conversation à partir du client lié sur bureau. Sinon, "
+"votre interlocuteur/trice peut lancer la discussion."
 
 #: src/components/Header.vue:99 src/components/Header.vue:149
 msgid "New group"
@@ -331,6 +347,7 @@ msgstr "mécène sur Patreon."
 #: src/components/StartChatModal.vue:5
 msgid "Starting new chats is currently broken in Axolotl."
 msgstr ""
+"Le lancement de nouvelles discussions est actuellement en panne dans Axolotl."
 
 #: src/pages/About.vue:6
 msgid ""
