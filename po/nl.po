@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2021-01-14 17:33+0100\n"
+"PO-Revision-Date: 2021-02-09 14:20+0100\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: none\n"
 "Language: nl\n"
@@ -42,6 +42,8 @@ msgid ""
 "Axolotl encountered an error communicating with Signal servers. Please try "
 "again."
 msgstr ""
+"Er is een fout opgetreden tijdens het communiceren met de Signal-servers. "
+"Probeer het opnieuw."
 
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
@@ -70,9 +72,8 @@ msgid "Contact list is empty..."
 msgstr "Je contactpersonenlijst is leeg..."
 
 #: src/components/Header.vue:146
-#, fuzzy
 msgid "Contacts"
-msgstr "Contactpersoon"
+msgstr "Contactpersonen"
 
 #: src/pages/NewGroup.vue:12
 msgid "Create group"
@@ -107,6 +108,8 @@ msgid ""
 "Due to upstream changes in Signal, some features are currently broken.\n"
 "      We're working as fast as we can to bring them back."
 msgstr ""
+"Door veranderingen in Signal werken sommige functies momenteel niet.\n"
+"      We werken met man en macht om alles weer aan de praat te krijgen."
 
 #: src/components/EditContactModal.vue:5
 msgid "Edit"
@@ -130,11 +133,11 @@ msgstr "Voer je registratiecode in"
 
 #: src/components/ErrorModal.vue:5
 msgid "Error communicating with Signal servers"
-msgstr ""
+msgstr "Fout tijdens communiceren met Signal-servers"
 
 #: src/components/WarningMessage.vue:7
 msgid "Follow the progress or join us to help with development on"
-msgstr ""
+msgstr "Volg de voortgang of help ons op"
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
@@ -147,6 +150,8 @@ msgid ""
 "            Be careful, <strong>your encryption key will change and you will "
 "lose all your messages</strong> if you choose to do that."
 msgstr ""
+"Als je van mening bent dat er iets mis gaan aan jouw kant, dan kun je <a "
+"href=\"#\" @click=\"unregister\">deregistreren</a> en opnieuw registreren."
 
 #: src/components/ErrorModal.vue:12
 msgid ""
@@ -156,11 +161,15 @@ msgid ""
 "\"https://github.com/nanu-c/axolotl/issues\" target=\"_blank\">opening an "
 "issue</a>."
 msgstr ""
+"Als je de foutmelding meermaals ziet, controleer dan de <a href=\"https://"
+"status.signal.org/\" target=\"_blank\">status van de Signal-servers</a>.\n"
+"           Als daar niks aan de hand is, meld het probleem dan aan ons door "
+"<a href=\"https://github.com/nanu-c/axolotl/issues\" target=\"_blank\">een "
+"'issue' te openen</a>."
 
 #: src/components/Header.vue:132
-#, fuzzy
 msgid "Import contacts"
-msgstr "Contactpersoon"
+msgstr "Contactpersonen importeren"
 
 #: src/pages/Contacts.vue:4
 msgid "Importing contacts, head back later"
@@ -204,6 +213,9 @@ msgid ""
 "the linked Desktop Client. Alternatively, your counterparty could start the "
 "discussion."
 msgstr ""
+"Nieuwe gesprekken zijn tijdelijk uitgeschakeld. Je kunt een nieuw gesprek "
+"starten middels de gekoppelde computerclient. Of laat de ander het voor je "
+"doen."
 
 #: src/components/Header.vue:99 src/components/Header.vue:149
 msgid "New group"
@@ -332,6 +344,7 @@ msgstr "sponsor te worden op Patreon."
 #: src/components/StartChatModal.vue:5
 msgid "Starting new chats is currently broken in Axolotl."
 msgstr ""
+"Het starten van nieuwe gesprekken is momenteel niet mogelijk middels Axolotl."
 
 #: src/pages/About.vue:6
 msgid ""
