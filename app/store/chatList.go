@@ -319,6 +319,21 @@ func (s *Sessions) CreateSessionForE164(tel string, UUID string) *Session {
 	return ses
 }
 
+func (s *Sessions) CreateSessionForUUID(UUID string) *Session {
+	contact := GetContactForUUID(UUID)
+	ses := &Session{Tel: contact.Tel,
+		Name:         contact.Name,
+		Active:       true,
+		IsGroup:      false,
+		Notification: true,
+		UUID:         UUID,
+	}
+	s.Sess = append(s.Sess, ses)
+	s.Len++
+	SaveSession(ses)
+	return ses
+}
+
 // CreateSessionForGroup creates a session for a group
 func (s *Sessions) CreateSessionForGroup(group *textsecure.Group) *Session {
 	ses := &Session{Tel: group.Hexid, // for legacy reasons add group id also as Tel number

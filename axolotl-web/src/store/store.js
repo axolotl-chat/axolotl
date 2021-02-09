@@ -222,8 +222,14 @@ export default new Vuex.Store({
     },
     SET_CONTACTS_FOR_GROUP_FILTER(state, filter) {
       filter = filter.toLowerCase()
-      var f = state.contacts.filter(c => c.Name.toLowerCase().includes(filter));
-      f = f.filter(c => state.currentGroup.Members.indexOf(c.Tel) == -1);
+      var f = state.contacts.filter(c => {
+        if(c.UUID[0]==0 && c.UUID[c.UUID.length-1]==0) return false
+        if(c.Name.toLowerCase().includes(filter))
+        return true;
+        return false;
+      });
+      if(state.currentGroup!=null)
+      f = f.filter(c => state.currentGroup.Members.indexOf(c.UUID) == -1);
       state.contactsFilterd = f;
       state.contactsFilterActive = true;
     },
@@ -427,15 +433,15 @@ export default new Vuex.Store({
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
-    createChat: function(state, tel) {
+    createChat: function(state, uuid) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "createChat",
-          "tel": tel
+          "uuid": uuid
         }
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
-      this.commit("CREATE_CHAT", tel);
+      this.commit("CREATE_CHAT", uuid);
     },
     sendMessage: function(state, messageContainer) {
       if (this.state.socket.isConnected) {
