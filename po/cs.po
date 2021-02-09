@@ -403,7 +403,7 @@ msgstr "Váš prohlížeč nepodporuje tento element videa."
 
 #, fuzzy
 #~ msgid "<b>Group name</b>"
-#~ msgstr "<b>Název skupiny</b>"
+#~ msgstr "Název skupiny"
 
 #, fuzzy
 #~ msgid "Forwarded from "
