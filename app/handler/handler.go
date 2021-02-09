@@ -249,7 +249,7 @@ func ReceiptHandler(source string, devID uint32, timestamp uint64) {
 	if err != nil {
 		log.Printf("[axolotl] ReceiptHandler: Message with timestamp %d not found\n", timestamp)
 	} else {
-		log.Println("[axolotl] ReceiptHandler for message ", timestamp, m.Source)
+		log.Println("[axolotl] ReceiptHandler for message ", timestamp, m.SourceUUID)
 		m.IsSent = true
 		m.Receipt = true
 		store.UpdateMessageReceipt(m)
@@ -282,7 +282,7 @@ func ReceiptMessageHandler(msg *textsecure.Message) {
 
 // SyncSentHandler handle sync messages from signal desktop
 func SyncSentHandler(msg *textsecure.Message, timestamp uint64) {
-	log.Debugln("[axolotl] handle sync message", msg.Timestamp())
+	log.Debugln("[axolotl] handle sync message", msg.Timestamp(), msg.SourceUUID())
 	// use the same routine to save sync messages as incoming messages
 	buildAndSaveMessage(msg, true)
 }

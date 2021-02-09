@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/nanu-c/axolotl/app/helpers"
@@ -331,12 +332,35 @@ func (s *Sessions) GetByUUID(UUID string) (*Session, error) {
 	}
 	return nil, fmt.Errorf("Session with uuid %s not found", UUID)
 }
+func HexToUUID(id string) string {
+	if len(id) != 32 {
+		return id
+	}
+	msbHex := id[:16]
+	lsbHex := id[16:]
+	return msbHex[:8] + "-" + msbHex[8:12] + "-" + msbHex[12:] + "-" + lsbHex[:4] + "-" + lsbHex[4:]
+}
 
 // UpdateSessionNames updates the non groups with the name from the phone book
 func (s *Sessions) UpdateSessionNames() {
+	log.Debugln("[axoltl] update session names + uuids")
 	for _, ses := range s.Sess {
 		if ses.IsGroup == false {
 			ses.Name = TelToName(ses.Tel)
+			if ses.UUID == "" || ses.UUID == "0" {
+				c := GetContactForTel(ses.Tel)
+				if c != nil && c.UUID != "" && c.UUID != "0" && (c.UUID[0] != 0 || c.UUID[len(c.UUID)-1] != 0) {
+					uuid := c.UUID
+					log.Debugln("[axolotl] update session from tel to uuid", ses.Tel, uuid)
+					index := strings.Index(uuid, "-")
+
+					if index == -1 {
+						uuid = HexToUUID(uuid)
+					}
+					ses.UUID = uuid
+				}
+			}
+
 			UpdateSession(ses)
 		}
 	}
