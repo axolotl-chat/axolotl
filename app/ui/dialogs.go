@@ -56,6 +56,9 @@ func GetVerificationCode() string {
 func GetPin() string {
 	return GetTextFromWs("getPin")
 }
+func GetCaptchaToken() string {
+	return GetTextFromWs("getCaptchaToken")
+}
 func GetEncryptionPw() string {
 	return GetTextFromWs("getEncryptionPw")
 }

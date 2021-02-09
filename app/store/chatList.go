@@ -422,6 +422,14 @@ func LoadChats() error {
 	for _, g := range AllGroups {
 		Groups[g.GroupID] = g
 	}
+
+	// Reset session model
+	SessionsModel.Sess = make([]*Session, 0)
+	SessionsModel.Len = 0
+	AllSessions = []*Session{}
+	for _, g := range AllGroups {
+		Groups[g.GroupID] = g
+	}
 	// Reset session model
 	SessionsModel.Sess = make([]*Session, 0)
 	SessionsModel.Len = 0

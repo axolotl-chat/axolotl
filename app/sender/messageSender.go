@@ -106,6 +106,15 @@ func HexToUUID(id string) string {
 	return msbHex[:8] + "-" + msbHex[8:12] + "-" + msbHex[12:] + "-" + lsbHex[:4] + "-" + lsbHex[4:]
 }
 
+func HexToUUID(id string) string {
+	if len(id) != 32 {
+		return id
+	}
+	msbHex := id[:16]
+	lsbHex := id[16:]
+	return msbHex[:8] + "-" + msbHex[8:12] + "-" + msbHex[12:] + "-" + lsbHex[:4] + "-" + lsbHex[4:]
+}
+
 func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
 	var att io.Reader
 	var err error
@@ -124,6 +133,7 @@ func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
 	log.Debugln(s.UUID, m.SourceUUID)
 
 	var recipient string
+	// check if user uuid exists and if yes send it to the uuid instead of the phone number
 	if s.UUID != emptyUUID && s.UUID != "" && !s.IsGroup {
 		recipient = s.UUID
 		index := strings.Index(recipient, "-")

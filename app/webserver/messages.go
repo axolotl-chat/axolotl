@@ -87,6 +87,10 @@ type SendPinMessage struct {
 	Type string `json:"request"`
 	Pin  string `json:"pin"`
 }
+type SendCaptchaTokenMessage struct {
+	Type string `json:"request"`
+	Token  string `json:"token"`
+}
 type AddDeviceMessage struct {
 	Type string `json:"request"`
 	Url  string `json:"url"`
