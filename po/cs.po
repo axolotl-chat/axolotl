@@ -217,6 +217,9 @@ msgid ""
 "the linked Desktop Client. Alternatively, your counterparty could start the "
 "discussion."
 msgstr ""
+"Dočasně není možné začít novou konverzaci. Můžete ji ale začít z "
+"propojeného desktop clientu na vašem počítači. Jiná možnost je, že "
+"konverzaci začne jako první váš partner."
 
 #: src/components/Header.vue:99 src/components/Header.vue:149
 msgid "New group"
@@ -281,7 +284,10 @@ msgid ""
 "New conversations are temporarily disabled. You can create a new chat from "
 "the linked Desktop Client. Alternatively, your counterparty could start the "
 "discussion."
-msgstr "Prosím požádejte vašeho partnera, aby začal konverzaci jako první."
+msgstr ""
+"Dočasně není možné začít novou konverzaci. Můžete ji ale začít z "
+"propojeného desktop clientu na vašem počítači. Jiná možnost je, že "
+"konverzaci začne jako první váš partner."
 
 #: src/pages/Settings.vue:5
 #, fuzzy
