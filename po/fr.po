@@ -20,7 +20,7 @@ msgstr "Un client Signal multi-plateforme"
 msgid "About Axolotl"
 msgstr "À propos d'Axolotl"
 
-#: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:22
+#: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:24
 msgid "Add"
 msgstr "Ajouter"
 
@@ -42,12 +42,18 @@ msgid ""
 "again."
 msgstr ""
 
+#: src/components/ImportUnavailableModal.vue:18
+msgid ""
+"Be careful, if you add too many numbers which aren't Signal accounts, you "
+"won't be able to add contacts anymore."
+msgstr ""
+
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
 msgstr "Impossible de mettre à jour la liste des contacts : {{error}}"
 
 #: src/components/ErrorModal.vue:18 src/components/IdentityModal.vue:21
-#: src/components/ImportUnavailableModal.vue:15
+#: src/components/ImportUnavailableModal.vue:23
 #: src/components/StartChatModal.vue:13
 msgid "Close"
 msgstr "Fermer"
@@ -101,22 +107,25 @@ msgstr "Déchiffrer"
 msgid "Document"
 msgstr "Document"
 
+#: src/pages/Settings.vue:32
+msgid ""
+"Due to technical limitations, Axolotl doesn't support push notifications. "
+"Keep the app open to be notified in real time. In Ubuntu Touch, use UT Tweak "
+"Tool to set Axolotl on \"Prevent app suspension\"."
+msgstr ""
+
 #: src/components/WarningMessage.vue:3
 msgid ""
-"Due to upstream changes in Signal, some features are currently broken.\n"
-"      We're working as fast as we can to bring them back."
+"Due to upstream changes in Signal, some features are currently broken. We're "
+"working as fast as we can to bring them back."
 msgstr ""
 
 #: src/components/EditContactModal.vue:5
 msgid "Edit"
 msgstr "Modifier"
 
-#: src/components/Header.vue:105
+#: src/components/Header.vue:64 src/components/Header.vue:105
 msgid "Edit group"
-msgstr "Modifier le groupe"
-
-#: src/components/Header.vue:64
-msgid "Edit Group"
 msgstr "Modifier le groupe"
 
 #: src/components/Header.vue:76
@@ -131,13 +140,19 @@ msgstr "Saisissez votre code d'enregistrement"
 msgid "Error communicating with Signal servers"
 msgstr ""
 
-#: src/components/WarningMessage.vue:7
+#: src/components/WarningMessage.vue:6
 msgid "Follow the progress or join us to help with development on"
 msgstr ""
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
 msgstr "Nom du groupe"
+
+#: src/components/ImportUnavailableModal.vue:13
+msgid ""
+"If you are really sure that the persons you want to text with have Signal, "
+"you can manually add them using the \"plus\" action on that page."
+msgstr ""
 
 #: src/components/ErrorModal.vue:15
 msgid ""
@@ -160,6 +175,11 @@ msgstr ""
 #, fuzzy
 msgid "Import contacts"
 msgstr "Aucun contact"
+
+#: src/components/ImportUnavailableModal.vue:5
+#, fuzzy
+msgid "Import contacts feature unavailable"
+msgstr "Importation des contacts en cours, revenez plus tard"
 
 #: src/pages/Contacts.vue:4
 msgid "Importing contacts, head back later"
@@ -193,7 +213,7 @@ msgstr "Membres"
 msgid "Mute"
 msgstr "Mettre en silencieux"
 
-#: src/components/AddContactModal.vue:13
+#: src/components/AddContactModal.vue:15
 msgid "Name"
 msgstr "Nom"
 
@@ -236,6 +256,10 @@ msgstr "Type de fichier non supporté :"
 msgid "Note, you can't add yourself to a group."
 msgstr "Note : vous ne pouvez pas vous ajouter vous-même à un groupe."
 
+#: src/components/AddContactModal.vue:11
+msgid "Only add numbers that you are sure are registered Signal accounts!"
+msgstr ""
+
 #: src/pages/About.vue:13
 msgid "or by becoming a"
 msgstr "ou en devenant un"
@@ -252,7 +276,7 @@ msgstr "Mot de passe incorrect"
 msgid "Passwords don't match"
 msgstr "Les nouveaux mots de passe ne sont pas identiques"
 
-#: src/components/AddContactModal.vue:17 src/components/EditContactModal.vue:15
+#: src/components/AddContactModal.vue:19 src/components/EditContactModal.vue:15
 msgid "Phone"
 msgstr "Téléphone"
 
@@ -369,6 +393,12 @@ msgstr "Vérifier l’identité"
 msgid "Video"
 msgstr "Vidéo"
 
+#: src/components/ImportUnavailableModal.vue:8
+msgid ""
+"We are sorry, but due to a change in the Signal protocol, automatic import "
+"of contacts is currently unavailble."
+msgstr ""
+
 #: src/pages/Verification.vue:19
 msgid "Wrong code entered. Restart for another try."
 msgstr "Code saisi incorrect. Redémarrez pour un nouvel essai."
@@ -389,6 +419,9 @@ msgstr "Votre navigateur ne prend pas en charge l'élément audio."
 #: src/components/Message.vue:67
 msgid "Your browser does not support the video element."
 msgstr "Votre navigateur ne prend pas en charge l'élément vidéo."
+
+#~ msgid "Edit Group"
+#~ msgstr "Modifier le groupe"
 
 #~ msgid "Add Contacts"
 #~ msgstr "Ajouter des contacts"
