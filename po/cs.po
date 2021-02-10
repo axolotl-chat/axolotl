@@ -279,16 +279,6 @@ msgstr "Telefon"
 msgid "Photo"
 msgstr "Foto"
 
-#: src/components/StartChatModal.vue:11
-msgid ""
-"New conversations are temporarily disabled. You can create a new chat from "
-"the linked Desktop Client. Alternatively, your counterparty could start the "
-"discussion."
-msgstr ""
-"Dočasně není možné začít novou konverzaci. Můžete ji ale začít z "
-"propojeného desktop clientu na vašem počítači. Jiná možnost je, že "
-"konverzaci začne jako první váš partner."
-
 #: src/pages/Settings.vue:5
 #, fuzzy
 msgid "Registered number"
