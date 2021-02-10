@@ -35,8 +35,9 @@
       </router-link>
     </div>
     <div class="warning-box">
-      Due to technical limitations, Axolotl doesn't support push notifications. Keep the app open to be notified in real time.<br />
-      In Ubuntu Touch, use UT Tweak Tool to set Axolotl on "Prevent app suspension".
+      <span v-translate>
+        Due to technical limitations, Axolotl doesn't support push notifications. Keep the app open to be notified in real time. In Ubuntu Touch, use UT Tweak Tool to set Axolotl on "Prevent app suspension".
+      </span>
     </div>
   </div>
 </template>
