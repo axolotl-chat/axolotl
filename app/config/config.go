@@ -16,7 +16,7 @@ import (
 
 var AppName = "textsecure.nanuc"
 
-var AppVersion = "0.9.7"
+var AppVersion = "0.9.8"
 
 // Do not allow sending attachments larger than 100M for now
 var MaxAttachmentSize int64 = 100 * 1024 * 1024

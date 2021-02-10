@@ -1,3 +1,9 @@
+0.9.8 (Feb 10 2021)
+------------------------------------
+* Fix recieving messages because of Signal-API changes(nanu-c)
+* Delviver call messages in the appropiate Chats (nanu-c)
+
+
 0.9.7 (Feb 8 2021)
 ------------------------------------
 * Add support for registration captchas (nanu-c)
@@ -6,7 +12,6 @@
 * Add complete translation for PT-BR (yds12)
 * Don't show the currently broken warning everywhere (flaburgan)
 * Fix messages sent by signal desktop appearing in the wrong chat (nanu-c)
-
 
 0.9.6 (Jan 31 2021)
 ------------------------------------
