@@ -26,7 +26,7 @@ msgstr "Ajouter"
 
 #: src/components/AddGroupMembersModal.vue:51
 msgid "Add Contacts first"
-msgstr "Veuillez d'abord ajouter des contacts"
+msgstr "Ajoutez d'abord des contacts"
 
 #: src/components/AddGroupMembersModal.vue:5
 msgid "Add members"
@@ -41,12 +41,12 @@ msgid ""
 "Axolotl encountered an error communicating with Signal servers. Please try "
 "again."
 msgstr ""
-"Axolotl a rencontré une erreur en communiquant avec les serveurs de Signal. Veuillez essayer "
-"à nouveau."
+"Axolotl a rencontré une erreur en communiquant avec les serveurs de Signal."
+"Veuillez essayer à nouveau."
 
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
-msgstr "Impossible de mettre à jour la liste des contacts : {{error}}"
+msgstr "Impossible de modifier la liste des contacts : {{error}}"
 
 #: src/components/ErrorModal.vue:18 src/components/IdentityModal.vue:21
 #: src/components/ImportUnavailableModal.vue:15
@@ -140,8 +140,8 @@ msgid ""
 msgstr ""
 "Si vous pensez que quelque chose ne va pas de votre côté, vous pouvez <a href=\"#\" "
 "@click=\"unregister\">vous désinscrire</a> et vous inscrire à nouveau.\n"
-"            Soyez prudents, <strong>Votre clé de cryptage sera modifiée et vous "
-"perdrez tous vos messages</strong> si vous choisissez de le faire."
+"            Soyez prudents, <strong>Votre clé de cryptage sera modifiée et"
+"vous perdrez tous vos messages</strong> si vous choisissez de le faire."
 
 #: src/components/ErrorModal.vue:12
 msgid ""
@@ -180,7 +180,7 @@ msgstr "Vu(e) pour la dernière fois :"
 
 #: src/pages/Settings.vue:11
 msgid "Linked devices"
-msgstr "Appareils liés"
+msgstr "Appareils reliés"
 
 #: src/pages/Verification.vue:15
 msgid "Loading..."
@@ -192,7 +192,7 @@ msgstr "Membres"
 
 #: src/components/Header.vue:59
 msgid "Mute"
-msgstr "Mettre en silencieux"
+msgstr "Désactiver le son"
 
 #: src/components/AddContactModal.vue:13
 msgid "Name"
@@ -216,7 +216,7 @@ msgstr "Aucune discussion disponible"
 
 #: src/pages/DeviceList.vue:14
 msgid "No linked devices"
-msgstr "Aucun appareil lié"
+msgstr "Aucun appareil relié"
 
 #: src/pages/MessageList.vue:25
 msgid "No Messages available."
@@ -228,7 +228,7 @@ msgstr "Type de fichier non supporté :"
 
 #: src/pages/EditGroup.vue:8 src/pages/NewGroup.vue:8
 msgid "Note, you can't add yourself to a group."
-msgstr "Note : vous ne pouvez pas vous ajouter vous-même à un groupe."
+msgstr "Notez que vous ne pouvez pas vous ajouter vous-même à un groupe."
 
 #: src/pages/About.vue:13
 msgid "or by becoming a"
@@ -244,7 +244,7 @@ msgstr "Mot de passe incorrect"
 
 #: src/pages/SetPassword.vue:4
 msgid "Passwords don't match"
-msgstr "Les nouveaux mots de passe ne sont pas identiques"
+msgstr "Les mots de passe ne correspondent pas"
 
 #: src/components/AddContactModal.vue:17 src/components/EditContactModal.vue:15
 msgid "Phone"
@@ -256,7 +256,8 @@ msgstr "Photo"
 
 #: src/components/StartChatModal.vue:11
 msgid "Please ask your conversation partner to start the chat first."
-msgstr ""
+msgstr "Veuillez demander à votre interlocuteur de commencer la conversation"
+"en premier."
 
 #: src/pages/Settings.vue:5
 msgid "Registered number"
@@ -308,11 +309,11 @@ msgstr "Régler la minuterie pour les messages auto-destructibles"
 
 #: src/pages/SetPassword.vue:3
 msgid ""
-"Setting a password is not adviced on devices short in memory. Restart is "
+"Setting a password is not advised on devices short in memory. Restart is "
 "required!"
 msgstr ""
 "Il n'est pas conseillé de définir un mot de passe sur les appareils ayant "
-"une mémoire limitée Un redémarrage est nécessaire !"
+"une mémoire limitée. Un redémarrage est nécessaire !"
 
 #: src/components/Header.vue:93 src/components/Header.vue:152
 msgid "Settings"
@@ -323,12 +324,13 @@ msgid "Show identity"
 msgstr "Afficher l’identité"
 
 #: src/pages/About.vue:14
-msgid "sponsor on patreon."
+msgid "sponsor on Patreon."
 msgstr "mécène sur Patreon."
 
 #: src/components/StartChatModal.vue:5
 msgid "Starting new chats is currently broken in Axolotl."
-msgstr ""
+msgstr "Le lancement de nouvelles discussions est actuellement indisponible"
+"dans Axolotl."
 
 #: src/pages/About.vue:6
 msgid ""
@@ -341,7 +343,7 @@ msgstr "Groupe inconnu"
 
 #: src/components/Header.vue:60
 msgid "Unmute"
-msgstr "Désactiver le silencieux"
+msgstr "Rétablir le son"
 
 #: src/pages/Password.vue:5 src/pages/Settings.vue:18
 msgid "Unregister"
@@ -349,7 +351,7 @@ msgstr "Se désinscrire"
 
 #: src/pages/SetPassword.vue:7
 msgid "Unsafe password"
-msgstr "Mot de passe peu sûr"
+msgstr "Mot de passe non sécurisé"
 
 #: src/components/Message.vue:81
 msgid "Unsupported message type: sticker"
@@ -377,7 +379,7 @@ msgstr "Vous"
 
 #: src/pages/About.vue:8
 msgid "You can support the development of axolotl either by filling"
-msgstr "Vous pouvez aider le développement d'Axolotl soit en remplissant"
+msgstr "Vous pouvez soutenir le développement de l'axolotl soit en remplissant"
 
 #: src/components/Message.vue:32 src/components/Message.vue:41
 #: src/components/Message.vue:57 src/pages/MessageList.vue:14
@@ -404,7 +406,7 @@ msgstr "Votre navigateur ne prend pas en charge l'élément vidéo."
 #~ msgid "written in golang and vuejs."
 #~ msgstr ""
 #~ "Ceci est un client Signal libre écrit en golang et vuejs.\n"
-#~ "    Vous pouvez aider le développement d'Axolotl soit en remplissant"
+#~ "    Vous pouvez soutenir le développement de l'axolotl soit en remplissant"
 
 #~ msgid "No devices available"
 #~ msgstr "Aucun appareil disponible"
@@ -417,14 +419,14 @@ msgstr "Votre navigateur ne prend pas en charge l'élément vidéo."
 
 #, fuzzy
 #~ msgid "<b>Group name</b>"
-#~ msgstr "Nom du groupe"
+#~ msgstr "<b>Nom du groupe</b>"
 
 #~ msgid "Signal"
 #~ msgstr "Signal"
 
 #, fuzzy
 #~ msgid "Forwarded from "
-#~ msgstr "Transféré à partir de"
+#~ msgstr "Transféré depuis "
 
 #~ msgid "Image"
 #~ msgstr "Image"
@@ -445,51 +447,51 @@ msgstr "Votre navigateur ne prend pas en charge l'élément vidéo."
 #~ msgstr "Aide"
 
 #~ msgid "From: "
-#~ msgstr "De :"
+#~ msgstr "De : "
 
 #~ msgid "Change passphrase"
-#~ msgstr "Modifier le mot de passe"
+#~ msgstr "Modifier la phrase de passe"
 
 #~ msgid "Create passphrase"
-#~ msgstr "Créer un mot de passe"
+#~ msgstr "Créer une phrase de passe"
 
 #~ msgid "Old passphrase"
-#~ msgstr "Ancien mot de passe"
+#~ msgstr "Ancienne phrase de passe"
 
 #, fuzzy
 #~ msgid "New passphrase"
-#~ msgstr "Nouveau mot de passe"
+#~ msgstr "Nouvelle phrase de passe"
 
 #~ msgid "Submit passphrase"
-#~ msgstr "Soumettre le mot de passe"
+#~ msgstr "Soumettre la phrase de passe"
 
 #~ msgid "Disable passphrase?"
-#~ msgstr "Désactiver le mot de passe ?"
+#~ msgstr "Désactiver la phrase de passe ?"
 
 #~ msgid "Incorrect old passphrase!"
-#~ msgstr "Ancien mot de passe incorrect !"
+#~ msgstr "Ancienne phrase de passe incorrecte !"
 
 #, fuzzy
 #~ msgid "New passphrase too short(6)!"
-#~ msgstr "Le nouveau mot de passe est trop court !"
+#~ msgstr "La nouvelle phrase de passe est trop courte(6) !"
 
 #~ msgid "Privacy"
 #~ msgstr "Vie privée"
 
 #~ msgid "Add/Remove linked devices"
-#~ msgstr "Ajouter ou supprimer des appareils liés"
+#~ msgstr "Ajouter ou supprimer des appareils reliés"
 
 #~ msgid "Disable Signal messages and calls?"
-#~ msgstr "Désactiver les messages et les appels provenant de Signal ?"
+#~ msgstr "Désactiver les messages et les appels de Signal ?"
 
 #~ msgid ""
 #~ "Disable Signal messages and calls by unregistering from the server. You "
 #~ "will need to re-register your phone number to use them again in the "
 #~ "future."
 #~ msgstr ""
-#~ "Désactive les messages et les appels provenant de Signal en vous "
+#~ "Désactive les messages et les appels de Signal en vous "
 #~ "désinscrivant du serveur. Vous devrez réinscrire votre numéro de "
-#~ "téléphone pour les utiliser à nouveau."
+#~ "téléphone pour pouvoir les utiliser à nouveau."
 
 #~ msgid "Enter key sends"
 #~ msgstr "Envoi par la touche Entrée"
@@ -505,24 +507,24 @@ msgstr "Votre navigateur ne prend pas en charge l'élément vidéo."
 #~ msgstr "VOTRE CODE PAYS ET VOTRE NUMÉRO DE TÉLÉPHONE"
 
 #~ msgid "Verify your phone number to connect with Signal."
-#~ msgstr "Vérifier votre numéro de téléphone pour vous connecter avec Signal"
+#~ msgstr "Vérifiez votre numéro de téléphone pour vous connecter avec Signal"
 
 #~ msgid ""
 #~ "Registration transmits some contact information to the server. It is not "
 #~ "stored."
 #~ msgstr ""
-#~ "L'inscription transmettra des informations de contact au serveur. Elle ne "
-#~ "seront pas stockées."
+#~ "L'inscription transmet certaines informations de contact au serveur. Elles"
+#~ "ne sont pas stockées."
 
 #~ msgid ""
 #~ "Double-check that this is your number! We're about to verify it with an "
 #~ "SMS."
 #~ msgstr ""
-#~ "Vérifiez qu'il s’agit bien de votre numéro ! Nous allons envoyer un texto "
-#~ "de vérification."
+#~ "Vérifiez qu'il s’agit bien de votre numéro ! Nous sommes sur le point de "
+#~ "le vérifier par un SMS"
 
 #~ msgid "Link a Device"
-#~ msgstr "Lier un appareil"
+#~ msgstr "Relier un appareil"
 
 #~ msgid "Add device"
 #~ msgstr "Ajouter un appareil"
@@ -540,21 +542,21 @@ msgstr "Votre navigateur ne prend pas en charge l'élément vidéo."
 #~ msgstr "Cela supprimera définitivement l'appareil sélectionné."
 
 #~ msgid "Passphrase"
-#~ msgstr "Mot de passe"
+#~ msgstr "Phrase de passe"
 
 #, fuzzy
 #~ msgid "This will permanently delete all messages!"
 #~ msgstr "Cela supprimera définitivement tous les messages !"
 
 #~ msgid "Invalid passphrase!"
-#~ msgstr "Mot de passe non valide !"
+#~ msgstr "Phrase de passe non valide !"
 
 #~ msgid "Refresh"
 #~ msgstr "Actualiser"
 
 #, fuzzy
 #~ msgid "Add contact"
-#~ msgstr "Aucun contact"
+#~ msgstr "Ajouter un contact"
 
 #~ msgid "Content Picker"
 #~ msgstr "Sélecteur de contenu"
@@ -566,20 +568,20 @@ msgstr "Votre navigateur ne prend pas en charge l'élément vidéo."
 #~ "Signal will now automatically verify your number with a confirmation SMS "
 #~ "message."
 #~ msgstr ""
-#~ "Signal va maintenant automatiquement vérifier votre numéro à l'aide d'un "
-#~ "texto de confirmation."
+#~ "Signal va maintenant vérifier automatiquement votre numéro avec un SMS "
+#~ "de confirmation."
 
 #~ msgid "Waiting for SMS verification..."
-#~ msgstr "Attente du texto de vérification..."
+#~ msgstr "En attente du SMS de vérification..."
 
 #~ msgid "Code"
 #~ msgstr "Code"
 
 #~ msgid "Calling you (this may take a while)..."
-#~ msgstr "Nous vons appelons (cela peut prendre un moment)..."
+#~ msgstr "Nous vons appelons (cela peut prendre un certain temps)..."
 
 #~ msgid "Please wait a moment and try again"
-#~ msgstr "Veuillez attendre un moment et réessayer"
+#~ msgstr "Veuillez patienter un moment et réessayer"
 
 #~ msgid "Incorrect code. Please try again."
 #~ msgstr "Code incorrect. Veuillez réessayer."
@@ -595,15 +597,15 @@ msgstr "Votre navigateur ne prend pas en charge l'élément vidéo."
 #~ "Your messages will be kept."
 #~ msgstr ""
 #~ "Cela peut aider si vous avez des problèmes de chiffrement dans cette "
-#~ "conversation. Vos messages seront sauvegardés."
+#~ "conversation. Vos messages seront conservés"
 
 #, fuzzy
 #~ msgid "Mute notifications?"
-#~ msgstr "Notifications activées"
+#~ msgstr "Désactiver le son des notifications ?"
 
 #, fuzzy
 #~ msgid "Unmute notifications?"
-#~ msgstr "Notifications activées"
+#~ msgstr "Activer le son des notifications ?"
 
 #~ msgid "Recipients list"
 #~ msgstr "Liste des destinataires"
@@ -622,7 +624,7 @@ msgstr "Votre navigateur ne prend pas en charge l'élément vidéo."
 
 #~ msgid "This will permanently delete all messages in this conversation."
 #~ msgstr ""
-#~ "Cela supprimera définitivement tous les messages dans cette conversation."
+#~ "Cela supprimera définitivement tous les messages de cette conversation."
 
 #~ msgid "Select all"
 #~ msgstr "Tout sélectionner"
@@ -634,7 +636,7 @@ msgstr "Votre navigateur ne prend pas en charge l'élément vidéo."
 #~ msgstr "Copier le texte"
 
 #~ msgid "Forward message"
-#~ msgstr "Faire suivre le message"
+#~ msgstr "Transférer le message"
 
 #~ msgid "Delete message"
 #~ msgstr "Supprimer le message"
@@ -652,7 +654,7 @@ msgstr "Votre navigateur ne prend pas en charge l'élément vidéo."
 #, fuzzy
 #~ msgid "This will permanently delete the selected message."
 #~ msgstr ""
-#~ "Cela supprimera définitivement tous les messages dans cette conversation."
+#~ "Cela supprimera définitivement le message sélectionné."
 
 #~ msgid "No messages here yet..."
 #~ msgstr "Aucun message ici pour le moment..."
@@ -665,8 +667,8 @@ msgstr "Votre navigateur ne prend pas en charge l'élément vidéo."
 #~ "feature requests on github:<br>            <a href='https://github.com/"
 #~ "nanu-c/axolotl/issues'>https://github.com/nanu-c/axolotl/issues</a><br>"
 #~ msgstr ""
-#~ "<h3>Merci d'essayer Signal !</h3><br><br>             Signalez les "
-#~ "problèmes et les demandes de fonctionnalités sur GitHub :<br>            "
+#~ "<h3>Merci d'essayer Signal !</h3><br><br>             Signalement des "
+#~ "problèmes et demandes de fonctionnalités sur GitHub :<br>            "
 #~ "<a href='https://github.com/nanu-c/axolotl/issues'>https://github.com/"
 #~ "nanu-c/axolotl/issues</a><br>"
 
@@ -675,7 +677,7 @@ msgstr "Votre navigateur ne prend pas en charge l'élément vidéo."
 #~ msgstr "Faire suivre le message à %1 ?"
 
 #~ msgid "Off Notifications"
-#~ msgstr "Notifications désactivées"
+#~ msgstr "Désactiver les notifications"
 
 #~ msgid "Turn Notifications off?"
 #~ msgstr "Désactiver les notifications ?"
