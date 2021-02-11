@@ -15,7 +15,7 @@ msgstr ""
 
 #: src/pages/About.vue:4 src/pages/Register.vue:6
 msgid "A cross-plattform signal client"
-msgstr "Ein Multi-Plattform Signal/Client"
+msgstr "Ein Multi-Plattform Signal-Client"
 
 #: src/pages/Settings.vue:27
 msgid "About Axolotl"
