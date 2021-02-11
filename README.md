@@ -74,7 +74,6 @@ To find out how to build and install, please see below:
 * with Snap: see [here](docs/INSTALL.md#snap).
 * with Flatpak: see [here](docs/INSTALL.md#flatpak).
 * with AppImage: see [here](docs/INSTALL.md#appimage).
-* for Mobian: see [here](docs/INSTALL.md#mobian).
 
 
 Run flags
