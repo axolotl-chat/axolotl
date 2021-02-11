@@ -106,9 +106,9 @@ If you contribute new strings, please:
 
 examples:
 
-- `<p v-translate>Translate me!</p> instead of `<p>Translate me!<p>`
-- `<p><strong v-translate>Translate me!</strong><p>` instead of `<p v-translate><strong>Translate me!</strong><p>`
-- `<p v-translate>Translate me!</p><br/><p v-translate> Please...<p>` instead of `<p v-translate>Translate me! <br/>
+- `<p v-translate>Translate me!</p>` instead of `<p>Translate me!</p>`
+- `<p><strong v-translate>Translate me!</strong></p>` instead of `<p v-translate><strong>Translate me!</strong></p>`
+- `<p v-translate>Translate me!</p><br/><p v-translate> Please...</p>` instead of `<p v-translate>Translate me! <br/> Please...</p>`
 
 Migrating from `janimo/axolotl`
 --------------------------------------
