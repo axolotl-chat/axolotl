@@ -15,7 +15,7 @@ msgstr ""
 
 #: src/pages/About.vue:4 src/pages/Register.vue:6
 msgid "A cross-plattform signal client"
-msgstr "Ein Multi-Plattform Signal Client"
+msgstr "Ein Multi-Plattform Signal/Client"
 
 #: src/pages/Settings.vue:27
 msgid "About Axolotl"
@@ -148,11 +148,11 @@ msgid ""
 "            Be careful, <strong>your encryption key will change and you will "
 "lose all your messages</strong> if you choose to do that."
 msgstr ""
-"Falls du denkst, dass an deinem Ende etwas nicht stimmt, kannst du auf <a "
+"Falls du denkst, dass an deinem Ende etwas nicht stimmt, kannst du deine <a "
 "href=\"#\" @click=\"unregister\">Registrierung löschen</a> und dich nochmals "
 "neu registrieren.\n"
 "            Aber bitte beachte, <strong>dein Schlüssel ändert sich dadurch "
-"und du wirst alle Nachrichten verlieren</strong> wenn du das machst."
+"und du wirst alle Nachrichten verlieren</strong>, wenn du das machst."
 
 #: src/components/ErrorModal.vue:12
 msgid ""
@@ -280,7 +280,7 @@ msgstr "Passwort hier wiederholen"
 
 #: src/pages/Register.vue:26
 msgid "Request code"
-msgstr "Code empfangen"
+msgstr "Code anfordern"
 
 #: src/components/Header.vue:63
 msgid "Reset encryption"
@@ -308,7 +308,7 @@ msgstr "Pin senden"
 
 #: src/components/Header.vue:82
 msgid "Set encryption password"
-msgstr "Verschlüsselung Passwort setzen"
+msgstr "Verschlüsselungs-Passwort setzen"
 
 #: src/pages/SetPassword.vue:23 src/pages/Settings.vue:14
 msgid "Set password"
@@ -316,7 +316,7 @@ msgstr "Passwort setzen"
 
 #: src/components/Message.vue:78
 msgid "Set timer for self-destructing messages"
-msgstr "Zeitbegrenzung für verschwindende Nachrichten festgelegt"
+msgstr "Zeitbegrenzung für verschwindende Nachrichten festlegen"
 
 #: src/pages/SetPassword.vue:3
 msgid ""
@@ -347,7 +347,7 @@ msgstr ""
 msgid ""
 "This is a free and open source signal client written in golang and vuejs."
 msgstr ""
-"Dies ist ein freier Open Source Signal-Client geschrieben mit Golang und "
+"Dies ist ein freier Open Source Signal-Client, geschrieben mit Golang und "
 "Vuejs."
 
 #: src/components/Header.vue:27 src/pages/ChatList.vue:26
@@ -372,7 +372,7 @@ msgstr "Nicht unterstützter Nachrichtentyp: Sticker"
 
 #: src/pages/EditGroup.vue:41
 msgid "Updating Group"
-msgstr "Gruppe Aktualisieren"
+msgstr "Gruppe aktualisieren"
 
 #: src/components/IdentityModal.vue:5
 msgid "Verify identity"
@@ -405,7 +405,7 @@ msgid "Your browser does not support the video element."
 msgstr "Dein Browser unterstützt dieses Video-Element nicht."
 
 #~ msgid "Please ask your conversation partner to start the chat first."
-#~ msgstr "Bitte deinen Gesprächspartner ein neues Gespräch zu beginnen."
+#~ msgstr "Bitte deinen Gesprächspartner, ein neues Gespräch zu beginnen."
 
 #~ msgid "Add Contacts"
 #~ msgstr "Kontakte hinzufügen"
@@ -564,7 +564,7 @@ msgstr "Dein Browser unterstützt dieses Video-Element nicht."
 
 #, fuzzy
 #~ msgid "Add contact"
-#~ msgstr "Keine Kontakte"
+#~ msgstr "Kontakt hinzufügen"
 
 #~ msgid "Content Picker"
 #~ msgstr "Datenauswahl"
@@ -608,11 +608,11 @@ msgstr "Dein Browser unterstützt dieses Video-Element nicht."
 
 #, fuzzy
 #~ msgid "Mute notifications?"
-#~ msgstr "Benachrichtigungen An"
+#~ msgstr "Benachrichtigungen stummschalten?"
 
 #, fuzzy
 #~ msgid "Unmute notifications?"
-#~ msgstr "Benachrichtigungen An"
+#~ msgstr "Benachrichtigungen an?"
 
 #~ msgid "Recipients list"
 #~ msgstr "Mitgliederliste"
@@ -670,7 +670,7 @@ msgstr "Dein Browser unterstützt dieses Video-Element nicht."
 #~ "feature requests on github:<br>            <a href='https://github.com/"
 #~ "nanu-c/axolotl/issues'>https://github.com/nanu-c/axolotl/issues</a><br>"
 #~ msgstr ""
-#~ "<h3>Danke dass du Signal ausprobierst!</h3><br><br>             Erstelle "
+#~ "<h3>Danke, dass du Signal ausprobierst!</h3><br><br>             Erstelle "
 #~ "Fehlerberichte und Funktionswünsche auf github:<br>            <a "
 #~ "href='https://github.com/nanu-c/axolotl/issues'>https://github.com/nanu-c/"
 #~ "axolotl/issues</a><br>"
