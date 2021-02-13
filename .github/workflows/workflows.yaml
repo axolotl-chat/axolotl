@@ -133,7 +133,7 @@ jobs:
 
       - name: Set git tag version
         run: |
-          echo ::set-env name=VERSION::${{ steps.get_version.outputs.version }}
+          echo "VERSION=${{ steps.get_version.outputs.version }}" >> $GITHUB_ENV
 
       - name: Download build artifacts
         uses: actions/download-artifact@v2
@@ -150,8 +150,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${VERSION}
-          release_name: ${VERSION}
+          tag_name: ${{ env.VERSION }}
+          release_name: ${{ env.VERSION }}
           body: |
             -
             -
@@ -165,7 +165,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./build-artifacts/sources.zip
-          asset_name: sources-${VERSION}.zip
+          asset_name: sources-${{ env.VERSION }}.zip
           asset_content_type: application/zip
 
       - name: Add AppImage to release
@@ -175,5 +175,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./build-artifacts/Axolotl-AppImage/Axolotl-x86_64.AppImage
-          asset_name: Axolotl-${VERSION}-x86_64.AppImage
+          asset_name: Axolotl-${{ env.VERSION }}-x86_64.AppImage
           asset_content_type: application/vnd.appimage
