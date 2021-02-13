@@ -92,11 +92,11 @@ jobs:
           ARCH: x86_64
         run: |
           mkdir -p build/AppDir/usr/bin
-          cp -f bin/axolotl-ubuntu-latest-${{ github.run_number }}/axolotl build/AppDir/usr/bin/axolotl
+          cp -f bin/axolotl-ubuntu-latest/axolotl build/AppDir/usr/bin/axolotl
           chmod +x build/AppDir/usr/bin/axolotl
 
           mkdir -p build/AppDir/usr/bin/axolotl-web/dist
-          cp -rf bin/axolotl-web-${{ github.run_number }}/* build/AppDir/usr/bin/axolotl-web/dist
+          cp -rf bin/axolotl-web/* build/AppDir/usr/bin/axolotl-web/dist
 
           cp -f appimage/AppDir/AppRun build/AppDir/AppRun
           chmod +x build/AppDir/AppRun
@@ -129,10 +129,9 @@ jobs:
         with:
           path: build-artifacts
 
-      - name: Create zip archives for release page from build artifacts
+      - name: Create zip archive of repo
         run: |
-          zip -r ./build-artifacts/axolotl.zip ./build-artifacts/axolotl/*
-          zip -r ./build-artifacts/axolotl-web.zip ./build-artifacts/axolotl-web/*
+          zip -r ./build-artifacts/sources.zip ./ --exclude ./build-artifacts
 
       - name: Create draft GitHub release page
         # if: startsWith(github.ref, "refs/tags/")
@@ -156,22 +155,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build-artifacts/axolotl.zip
-          asset_name: axolotl.zip
+          asset_path: ./build-artifacts/sources.zip
+          asset_name: sources.zip
           asset_content_type: application/zip
 
-      - name: Add axolotl-web sources to release
-        # if: startsWith(github.ref, "refs/tags/")
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build-artifacts/axolotl-web.zip
-          asset_name: axolotl-web.zip
-          asset_content_type: application/zip
-
-      - name: Add AppImage file to release
+      - name: Add AppImage to release
         # if: startsWith(github.ref, "refs/tags/")
         uses: actions/upload-release-asset@v1
         env:
