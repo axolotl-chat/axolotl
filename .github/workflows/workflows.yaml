@@ -112,6 +112,48 @@ jobs:
       - name: Upload the built AppImage artifact
         uses: actions/upload-artifact@v2
         with:
-          name: Axolotl-x86_64-${{ github.run_number }}.AppImage
+          name: Axolotl-x86_64-${{ github.run_number }}
           path: Axolotl-x86_64.AppImage
           retention-days: 1
+
+  release:
+    needs: [package-appimage]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: build-artifacts
+
+      - name: Create GitHub release
+        # if: github.ref == 'refs/heads/main'
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          RELEASE_VERSION: ${{ steps.git_tag.outputs.tag }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          body: |
+            -
+            -
+          draft: true
+          prerelease: false
+
+      - name: Upload release assets
+        # if: github.ref == 'refs/heads/main'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # This pulls from the step above, referencing it's ID to get its outputs object,
+          # which includes an `upload_url`.
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build-artifacts/Axolotl-x86_64-${{ github.run_number }}/Axolotl-x86_64.AppImage
+          asset_name: Axolotl-x86_64.AppImage
+          asset_content_type: application/vnd.appimage
