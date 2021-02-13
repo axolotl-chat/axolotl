@@ -134,7 +134,6 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          RELEASE_VERSION: ${{ steps.git_tag.outputs.tag }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
