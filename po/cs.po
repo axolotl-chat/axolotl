@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-07 09:22+0200\n"
-"PO-Revision-Date: 2016-02-29 11:36+0200\n"
+"PO-Revision-Date: 2021-02-11 16:20+0200\n"
 "Last-Translator: jato\n"
 "Language-Team: none\n"
 "Language: cs\n"
@@ -109,7 +109,9 @@ msgstr "Dokument"
 msgid ""
 "Due to upstream changes in Signal, some features are currently broken.\n"
 "      We're working as fast as we can to bring them back."
-msgstr ""
+msgstr "Vzhledem ke změnám Signálu v přenosu směrem k operátorovi (upstream) "
+"nefungují některé funkce.\n"
+"      Pracujeme s plným nasazením, aby bylo brzy opět vše v pořádku."
 
 #: src/components/EditContactModal.vue:5
 msgid "Edit"
@@ -137,7 +139,7 @@ msgstr "Problém v komunikaci se serverem Signálu"
 
 #: src/components/WarningMessage.vue:7
 msgid "Follow the progress or join us to help with development on"
-msgstr ""
+msgstr "Sledujte naše pokroky nebo se připojte a pomozte s vývojem na"
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
