@@ -220,7 +220,7 @@ This requires clickable and snapcraft to be installed.
 It also requires the axolotl-web bundle to already be built.
 see [build.sh](../scripts/build.sh)
 
-##Mobian
+## Mobian
 
 If you want to run Axolotl on Mobian, you can download the installer, which is a simple script with all neccessary commands included. It can be found [here](../scripts/axolotl_installer_mobian_1-1.sh) - right click "Safe Link As...".
 Execute it from your Download folder with
