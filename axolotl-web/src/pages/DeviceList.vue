@@ -18,23 +18,42 @@
     </div>
     <!-- eslint-enable -->
     <button @click="linkDevice" class="btn start-chat"><font-awesome-icon icon="plus" /></button>
+    <add-device-modal v-if="showModal" @close="showModal=false" @add="addDevice($event)"/>
   </div>
 </template>
 
 <script>
+import AddDeviceModal from '@/components/AddDeviceModal'
+
 export default {
   name: 'DeviceList',
+  components:{
+    AddDeviceModal
+  },
   props: {
     msg: String
   },
   mounted(){
     this.$store.dispatch("getDevices");
   },
+  data(){
+    return{
+      showModal:false
+    }
+  },
   methods:{
     linkDevice() {
+      if (this.gui == "ut") {
       var result = window.prompt("desktopLink");
       this.showSettingsMenu = false;
       this.$store.dispatch("addDevice", result);
+      } else this.showModal = true;
+
+    },
+    addDevice(qr){
+      this.showModal = false;
+      if(qr!="")
+      this.$store.dispatch("addDevice", qr);
     },
     delDevice(id) {
       this.$store.dispatch("delDevice", id);
