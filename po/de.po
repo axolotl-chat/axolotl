@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2021-02-02 21:12+0100\n"
+"PO-Revision-Date: 2021-02-10 22:29+0100\n"
 "Last-Translator: Daniel Frost <one@frostinfo.de>\n"
 "Language-Team: none\n"
 "Language: de\n"
@@ -21,7 +21,7 @@ msgstr "Ein Multi-Plattform Signal Client"
 msgid "About Axolotl"
 msgstr "Über Axolotl"
 
-#: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:22
+#: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:24
 msgid "Add"
 msgstr "Hinzufügen"
 
@@ -45,12 +45,20 @@ msgstr ""
 "Axolotl hat eine Kommunikationsfehler mit dem Signal-Server festgestellt. "
 "Bitte versuche es später noch einmal."
 
+#: src/components/ImportUnavailableModal.vue:18
+msgid ""
+"Be careful, if you add too many numbers which aren't Signal accounts, you "
+"won't be able to add contacts anymore."
+msgstr ""
+"Aber sei vorsichtig, wenn du zu viele Kontakte hinzufügst, die nicht bei "
+"Signal sind, kannst du keine weiteren Kontakte hinzufügen."
+
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
 msgstr "Fehler beim ändern der Kontaktliste {{error}}"
 
 #: src/components/ErrorModal.vue:18 src/components/IdentityModal.vue:21
-#: src/components/ImportUnavailableModal.vue:15
+#: src/components/ImportUnavailableModal.vue:23
 #: src/components/StartChatModal.vue:13
 msgid "Close"
 msgstr "Schließen"
@@ -103,22 +111,32 @@ msgstr "Entschlüsseln"
 msgid "Document"
 msgstr "Dokument"
 
+#: src/pages/Settings.vue:32
+msgid ""
+"Due to technical limitations, Axolotl doesn't support push notifications. "
+"Keep the app open to be notified in real time. In Ubuntu Touch, use UT Tweak "
+"Tool to set Axolotl on \"Prevent app suspension\"."
+msgstr ""
+"Wegen technischer Einschränkungen unterstützt Axolotl keine "
+"Hintergrunddienst-Benachrichtigungen. Halte die App offen um Echtzeit-"
+"Benachrichtigungen zu erhalten. In Ubuntu Touch aktiviere "
+"\"Hintergrundsuspendierung verhindern\" mit dem UT Tweak Tool."
+
 #: src/components/WarningMessage.vue:3
 msgid ""
-"Due to upstream changes in Signal, some features are currently broken.\n"
-"      We're working as fast as we can to bring them back."
+"Due to upstream changes in Signal, some features are currently broken. We're "
+"working as fast as we can to bring them back."
 msgstr ""
+"Wegen Änderungen am Quellcode von Signal sind momentan einige Funktionen "
+"nicht verwendbar. Wir arbeiten daran, diese so schnell wie möglich wieder "
+"verfügbar zu machen."
 
 #: src/components/EditContactModal.vue:5
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: src/components/Header.vue:105
+#: src/components/Header.vue:64 src/components/Header.vue:105
 msgid "Edit group"
-msgstr "Gruppe bearbeiten"
-
-#: src/components/Header.vue:64
-msgid "Edit Group"
 msgstr "Gruppe bearbeiten"
 
 #: src/components/Header.vue:76
@@ -133,13 +151,22 @@ msgstr "Registrierungspin eingeben"
 msgid "Error communicating with Signal servers"
 msgstr "Kommunikationsfehler mit Signal-Server"
 
-#: src/components/WarningMessage.vue:7
+#: src/components/WarningMessage.vue:6
 msgid "Follow the progress or join us to help with development on"
 msgstr ""
+"Folge dem Entwicklungsprozess oder unterstütze uns bei der Entwicklung auf"
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
 msgstr "Gruppenname"
+
+#: src/components/ImportUnavailableModal.vue:13
+msgid ""
+"If you are really sure that the persons you want to text with have Signal, "
+"you can manually add them using the \"plus\" action on that page."
+msgstr ""
+"Wenn du wirklich sicher bist, dass dein Gegenüber Signal hat, kannst du den "
+"Kontakt manuell mit dem Plus-Symbol hinzufügen."
 
 #: src/components/ErrorModal.vue:15
 msgid ""
@@ -164,12 +191,17 @@ msgid ""
 msgstr ""
 "Wenn dieser Fehler mehrmals auftritt, bitte prüfe <a href=\"https://status."
 "signal.org/\" target=\"_blank\">Status des Signal-Servers</a>.\n"
-"Wenn der Server-Status fehlerfrei ist, bitte <a href=\"https://github.com/"
-"nanu-c/axolotl/issues\" target=\"_blank\">erstelle einen Fehlerbericht</a>."
+"            Wenn der Server-Status fehlerfrei ist, bitte <a href=\"https://"
+"github.com/nanu-c/axolotl/issues\" target=\"_blank\">erstelle einen "
+"Fehlerbericht</a>."
 
 #: src/components/Header.vue:132
 msgid "Import contacts"
 msgstr "Kontakte importieren"
+
+#: src/components/ImportUnavailableModal.vue:5
+msgid "Import contacts feature unavailable"
+msgstr "Kontaktimport nicht verfügbar"
 
 #: src/pages/Contacts.vue:4
 msgid "Importing contacts, head back later"
@@ -203,7 +235,7 @@ msgstr "Gruppenmitglieder"
 msgid "Mute"
 msgstr "Stumm"
 
-#: src/components/AddContactModal.vue:13
+#: src/components/AddContactModal.vue:15
 msgid "Name"
 msgstr "Name"
 
@@ -213,6 +245,9 @@ msgid ""
 "the linked Desktop Client. Alternatively, your counterparty could start the "
 "discussion."
 msgstr ""
+"Das beginnen neuer Konversationen ist momentan deaktiviert. Bitte starte "
+"diese von einem verknüpften Destkop-Gerät oder bitte dein Gegenüber diese zu "
+"starten."
 
 #: src/components/Header.vue:99 src/components/Header.vue:149
 msgid "New group"
@@ -246,6 +281,12 @@ msgstr "Nicht unterstützer Mime-Typ:"
 msgid "Note, you can't add yourself to a group."
 msgstr "Hinweis: du kannst dich nicht selbst zur Gruppe hinzufügen."
 
+#: src/components/AddContactModal.vue:11
+msgid "Only add numbers that you are sure are registered Signal accounts!"
+msgstr ""
+"Füge nur Telefonnummern von Nutzern hinzu von denen du weißt, dass sie bei "
+"Signal registriert sind!"
+
 #: src/pages/About.vue:13
 msgid "or by becoming a"
 msgstr "oder als"
@@ -262,7 +303,7 @@ msgstr "Das Passwort ist falsch"
 msgid "Passwords don't match"
 msgstr "Die Passwörter stimmen nicht überein"
 
-#: src/components/AddContactModal.vue:17 src/components/EditContactModal.vue:15
+#: src/components/AddContactModal.vue:19 src/components/EditContactModal.vue:15
 msgid "Phone"
 msgstr "Telefon"
 
@@ -382,6 +423,14 @@ msgstr "Kontakt überprüfen"
 msgid "Video"
 msgstr "Video"
 
+#: src/components/ImportUnavailableModal.vue:8
+msgid ""
+"We are sorry, but due to a change in the Signal protocol, automatic import "
+"of contacts is currently unavailble."
+msgstr ""
+"Der automatische Import von Kontakten ist, wegen Änderungen im Signal-"
+"Protokoll, leider momentan nicht verfügbar."
+
 #: src/pages/Verification.vue:19
 msgid "Wrong code entered. Restart for another try."
 msgstr "Falscher Code eingegeben. Neustarten für einen weiteren Versuch."
@@ -403,6 +452,9 @@ msgstr "Dein Browser unterstützt dieses Audio-Element nicht."
 #: src/components/Message.vue:67
 msgid "Your browser does not support the video element."
 msgstr "Dein Browser unterstützt dieses Video-Element nicht."
+
+#~ msgid "Edit Group"
+#~ msgstr "Gruppe bearbeiten"
 
 #~ msgid "Please ask your conversation partner to start the chat first."
 #~ msgstr "Bitte deinen Gesprächspartner ein neues Gespräch zu beginnen."

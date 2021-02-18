@@ -21,7 +21,7 @@ msgstr ""
 msgid "About Axolotl"
 msgstr ""
 
-#: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:22
+#: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:24
 msgid "Add"
 msgstr ""
 
@@ -45,12 +45,18 @@ msgid ""
 "again."
 msgstr ""
 
+#: src/components/ImportUnavailableModal.vue:18
+msgid ""
+"Be careful, if you add too many numbers which aren't Signal accounts, you "
+"won't be able to add contacts anymore."
+msgstr ""
+
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
 msgstr ""
 
 #: src/components/ErrorModal.vue:18 src/components/IdentityModal.vue:21
-#: src/components/ImportUnavailableModal.vue:15
+#: src/components/ImportUnavailableModal.vue:23
 #: src/components/StartChatModal.vue:13
 msgid "Close"
 msgstr ""
@@ -105,24 +111,26 @@ msgstr ""
 msgid "Document"
 msgstr ""
 
+#: src/pages/Settings.vue:32
+msgid ""
+"Due to technical limitations, Axolotl doesn't support push notifications. "
+"Keep the app open to be notified in real time. In Ubuntu Touch, use UT Tweak "
+"Tool to set Axolotl on \"Prevent app suspension\"."
+msgstr ""
+
 #: src/components/WarningMessage.vue:3
 msgid ""
-"Due to upstream changes in Signal, some features are currently broken.\n"
-"      We're working as fast as we can to bring them back."
+"Due to upstream changes in Signal, some features are currently broken. We're "
+"working as fast as we can to bring them back."
 msgstr ""
 
 #: src/components/EditContactModal.vue:5
 msgid "Edit"
 msgstr ""
 
-#: src/components/Header.vue:105
+#: src/components/Header.vue:64 src/components/Header.vue:105
 #, fuzzy
 msgid "Edit group"
-msgstr "Ažuriraj grupu"
-
-#: src/components/Header.vue:64
-#, fuzzy
-msgid "Edit Group"
 msgstr "Ažuriraj grupu"
 
 #: src/components/Header.vue:76
@@ -137,13 +145,19 @@ msgstr ""
 msgid "Error communicating with Signal servers"
 msgstr ""
 
-#: src/components/WarningMessage.vue:7
+#: src/components/WarningMessage.vue:6
 msgid "Follow the progress or join us to help with development on"
 msgstr ""
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
 msgstr "Naziv grupe"
+
+#: src/components/ImportUnavailableModal.vue:13
+msgid ""
+"If you are really sure that the persons you want to text with have Signal, "
+"you can manually add them using the \"plus\" action on that page."
+msgstr ""
 
 #: src/components/ErrorModal.vue:15
 msgid ""
@@ -165,6 +179,11 @@ msgstr ""
 #: src/components/Header.vue:132
 #, fuzzy
 msgid "Import contacts"
+msgstr "Kontakt"
+
+#: src/components/ImportUnavailableModal.vue:5
+#, fuzzy
+msgid "Import contacts feature unavailable"
 msgstr "Kontakt"
 
 #: src/pages/Contacts.vue:4
@@ -201,7 +220,7 @@ msgstr "Članovi grupe"
 msgid "Mute"
 msgstr ""
 
-#: src/components/AddContactModal.vue:13
+#: src/components/AddContactModal.vue:15
 msgid "Name"
 msgstr ""
 
@@ -246,6 +265,10 @@ msgstr ""
 msgid "Note, you can't add yourself to a group."
 msgstr ""
 
+#: src/components/AddContactModal.vue:11
+msgid "Only add numbers that you are sure are registered Signal accounts!"
+msgstr ""
+
 #: src/pages/About.vue:13
 msgid "or by becoming a"
 msgstr ""
@@ -262,7 +285,7 @@ msgstr ""
 msgid "Passwords don't match"
 msgstr ""
 
-#: src/components/AddContactModal.vue:17 src/components/EditContactModal.vue:15
+#: src/components/AddContactModal.vue:19 src/components/EditContactModal.vue:15
 msgid "Phone"
 msgstr ""
 
@@ -384,6 +407,12 @@ msgstr "Provjeri identitet"
 msgid "Video"
 msgstr "Video"
 
+#: src/components/ImportUnavailableModal.vue:8
+msgid ""
+"We are sorry, but due to a change in the Signal protocol, automatic import "
+"of contacts is currently unavailble."
+msgstr ""
+
 #: src/pages/Verification.vue:19
 msgid "Wrong code entered. Restart for another try."
 msgstr ""
@@ -404,6 +433,10 @@ msgstr ""
 #: src/components/Message.vue:67
 msgid "Your browser does not support the video element."
 msgstr ""
+
+#, fuzzy
+#~ msgid "Edit Group"
+#~ msgstr "Ažuriraj grupu"
 
 #, fuzzy
 #~ msgid "Add Contacts"

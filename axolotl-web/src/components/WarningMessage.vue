@@ -1,8 +1,7 @@
 <template>
   <div class="warning-box mb-2" v-if="mainWarningMessage">
     <span class="close-warning-box" @click="mainWarningMessage = false;">x</span>
-    <p v-translate class="pb-0 mb-0"> Due to upstream changes in Signal, some features are currently broken.
-      We're working as fast as we can to bring them back.
+    <p v-translate class="pb-0 mb-0"> Due to upstream changes in Signal, some features are currently broken. We're working as fast as we can to bring them back.
     </p>
     <div class="d-flex">
       <span v-translate class="mr-1">

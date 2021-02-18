@@ -3,18 +3,25 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Import contacts feature unavailable</h5>
-          <button type="button" class="close" @click="$emit('close')">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <h5 class="modal-title" v-translate>Import contacts feature unavailable</h5>
         </div>
         <div class="modal-body">
-          <p>We are sorry, but due to a change in the Signal protocol, automatic import of contacts is currently unavailble.</p>
-          <p>If you are <strong>really sure that the persons you want to text with have Signal</strong>, you can manually add them using the "plus" action on that page.<br/>
-          Be careful, if add too many numbers which aren't Signal accounts, you won't be able to add contacts anymore.</p>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" @click="$emit('close')" v-translate>Close</button>
-          </div>
+          <span v-translate>
+            We are sorry, but due to a change in the Signal protocol, automatic import of contacts is currently unavailble.
+          </span>
+        </div>
+        <div class="modal-body">
+          <span v-translate>
+            If you are really sure that the persons you want to text with have Signal, you can manually add them using the "plus" action on that page.
+          </span>
+        </div>
+        <div class="modal-body">
+          <span v-translate>
+            Be careful, if you add too many numbers which aren't Signal accounts, you won't be able to add contacts anymore.
+          </span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" @click="$emit('close')" v-translate>Close</button>
         </div>
       </div>
     </div>
