@@ -106,7 +106,6 @@ func SetupConfig() {
 	}
 	CacheDir = filepath.Join(HomeDir, ".cache/", AppName)
 	LogFileName := []string{"application-click-", AppName, "_textsecure_", AppVersion, ".log"}
-	LogFile = filepath.Join(HomeDir, ".cache/", "upstart/", strings.Join(LogFileName, ""))
 	ConfigDir = filepath.Join(HomeDir, ".config/", AppName)
 	ContactsFile = filepath.Join(ConfigDir, "contacts.yml")
 	RegisteredContactsFile = filepath.Join(ConfigDir, "registeredContacts.yml")
@@ -116,6 +115,12 @@ func SetupConfig() {
 	}
 	os.MkdirAll(ConfigDir, 0700)
 	DataDir = filepath.Join(HomeDir, ".local", "share", AppName)
+	if IsPushHelper || IsPhone{
+		LogFile = filepath.Join(HomeDir, ".cache/", "upstart/", strings.Join(LogFileName, ""))
+	} else {
+		LogFile = filepath.Join(DataDir, strings.Join(LogFileName, ""))
+
+	}
 	AttachDir = filepath.Join(DataDir, "attachments")
 	os.MkdirAll(AttachDir, 0700)
 	StorageDir = filepath.Join(DataDir, ".storage")
