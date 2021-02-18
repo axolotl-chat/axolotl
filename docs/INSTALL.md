@@ -71,7 +71,7 @@ To build the application, use the following command from the root of this reposi
 
 To install the built snap, use snap:
 
-`sudo snap install axolotl_0.9.7_amd64.snap --dangerous`
+`sudo snap install axolotl_0.9.8_amd64.snap --dangerous`
 
 **Run**
 
@@ -219,3 +219,14 @@ If needed, set the file as executable with `chmod +x Axolotl-x86_64.AppImage` fi
 This requires clickable and snapcraft to be installed.
 It also requires the axolotl-web bundle to already be built.
 see [build.sh](../scripts/build.sh)
+
+## Mobian
+
+If you want to run Axolotl on Mobian, you can download the installer, which is a simple script with all neccessary commands included. It can be found [here](../scripts/axolotl_installer_mobian_1-1.sh) - right click "Safe Link As...".
+Execute it from your Download folder with
+
+```
+sh axolotl_installer_mobian.sh
+```
+
+To check out, what the script does exactly or to execute commands separately, visit the [Mobian wiki page for Axolotl](https://wiki.mobian-project.org/doku.php?id=axolotl) - section Manual Installation.

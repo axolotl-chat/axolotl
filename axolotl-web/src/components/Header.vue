@@ -62,7 +62,7 @@
                 <!-- <button v-if="currentChat!=null&&currentChat.IsGroup" class="dropdown-item" @click="editGroup">Edit group</button> -->
                 <button v-if="currentChat!=null&&!currentChat.IsGroup" class="dropdown-item" @click="verifyIdentity" v-translate>Show identity</button>
                 <button v-if="currentChat!=null&&!currentChat.IsGroup" class="dropdown-item" @click="resetEncryptionModal" v-translate>Reset encryption</button>
-                <router-link v-if="currentChat!=null&&currentChat.IsGroup" :to="'/editGroup/'+currentChat.Tel" class="dropdown-item" v-translate>Edit Group</router-link>
+                <router-link v-if="currentChat!=null&&currentChat.IsGroup" :to="'/editGroup/'+currentChat.Tel" class="dropdown-item" v-translate>Edit group</router-link>
 
               </div>
               <identity-modal v-if="showIdentityModal" @close="showIdentityModal=false" @confirm="showIdentityModal=false" />
@@ -162,7 +162,7 @@
         </div>
       </div>
     </div>
-    
+
   </div>
 </template>
 

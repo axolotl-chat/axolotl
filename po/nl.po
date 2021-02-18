@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2021-01-14 17:33+0100\n"
+"PO-Revision-Date: 2021-02-09 14:20+0100\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: none\n"
 "Language: nl\n"
@@ -21,7 +21,7 @@ msgstr "Een Signal-client voor meerdere platformen"
 msgid "About Axolotl"
 msgstr "Over Axolotl"
 
-#: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:22
+#: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:24
 msgid "Add"
 msgstr "Toevoegen"
 
@@ -42,13 +42,21 @@ msgid ""
 "Axolotl encountered an error communicating with Signal servers. Please try "
 "again."
 msgstr ""
+"Er is een fout opgetreden tijdens het communiceren met de Signal-servers. "
+"Probeer het opnieuw."
+
+#: src/components/ImportUnavailableModal.vue:18
+msgid ""
+"Be careful, if you add too many numbers which aren't Signal accounts, you "
+"won't be able to add contacts anymore."
+msgstr ""
 
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
 msgstr "Kan de contactpersonenlijst niet aanpassen: {{error}}"
 
 #: src/components/ErrorModal.vue:18 src/components/IdentityModal.vue:21
-#: src/components/ImportUnavailableModal.vue:15
+#: src/components/ImportUnavailableModal.vue:23
 #: src/components/StartChatModal.vue:13
 msgid "Close"
 msgstr "Sluiten"
@@ -70,9 +78,8 @@ msgid "Contact list is empty..."
 msgstr "Je contactpersonenlijst is leeg..."
 
 #: src/components/Header.vue:146
-#, fuzzy
 msgid "Contacts"
-msgstr "Contactpersoon"
+msgstr "Contactpersonen"
 
 #: src/pages/NewGroup.vue:12
 msgid "Create group"
@@ -102,22 +109,27 @@ msgstr "Ontsleutelen"
 msgid "Document"
 msgstr "Document"
 
+#: src/pages/Settings.vue:32
+msgid ""
+"Due to technical limitations, Axolotl doesn't support push notifications. "
+"Keep the app open to be notified in real time. In Ubuntu Touch, use UT Tweak "
+"Tool to set Axolotl on \"Prevent app suspension\"."
+msgstr ""
+
 #: src/components/WarningMessage.vue:3
 msgid ""
-"Due to upstream changes in Signal, some features are currently broken.\n"
-"      We're working as fast as we can to bring them back."
+"Due to upstream changes in Signal, some features are currently broken. We're "
+"working as fast as we can to bring them back."
 msgstr ""
+"Door veranderingen in Signal werken sommige functies momenteel niet.\n"
+"      We werken met man en macht om alles weer aan de praat te krijgen."
 
 #: src/components/EditContactModal.vue:5
 msgid "Edit"
 msgstr "Aanpassen"
 
-#: src/components/Header.vue:105
+#: src/components/Header.vue:64 src/components/Header.vue:105
 msgid "Edit group"
-msgstr "Groep aanpassen"
-
-#: src/components/Header.vue:64
-msgid "Edit Group"
 msgstr "Groep aanpassen"
 
 #: src/components/Header.vue:76
@@ -130,15 +142,21 @@ msgstr "Voer je registratiecode in"
 
 #: src/components/ErrorModal.vue:5
 msgid "Error communicating with Signal servers"
-msgstr ""
+msgstr "Fout tijdens communiceren met Signal-servers"
 
-#: src/components/WarningMessage.vue:7
+#: src/components/WarningMessage.vue:6
 msgid "Follow the progress or join us to help with development on"
-msgstr ""
+msgstr "Volg de voortgang of help ons op"
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
 msgstr "Groepsnaam"
+
+#: src/components/ImportUnavailableModal.vue:13
+msgid ""
+"If you are really sure that the persons you want to text with have Signal, "
+"you can manually add them using the \"plus\" action on that page."
+msgstr ""
 
 #: src/components/ErrorModal.vue:15
 msgid ""
@@ -147,6 +165,8 @@ msgid ""
 "            Be careful, <strong>your encryption key will change and you will "
 "lose all your messages</strong> if you choose to do that."
 msgstr ""
+"Als je van mening bent dat er iets mis gaan aan jouw kant, dan kun je <a "
+"href=\"#\" @click=\"unregister\">deregistreren</a> en opnieuw registreren."
 
 #: src/components/ErrorModal.vue:12
 msgid ""
@@ -156,11 +176,20 @@ msgid ""
 "\"https://github.com/nanu-c/axolotl/issues\" target=\"_blank\">opening an "
 "issue</a>."
 msgstr ""
+"Als je de foutmelding meermaals ziet, controleer dan de <a href=\"https://"
+"status.signal.org/\" target=\"_blank\">status van de Signal-servers</a>.\n"
+"           Als daar niks aan de hand is, meld het probleem dan aan ons door "
+"<a href=\"https://github.com/nanu-c/axolotl/issues\" target=\"_blank\">een "
+"'issue' te openen</a>."
 
 #: src/components/Header.vue:132
-#, fuzzy
 msgid "Import contacts"
-msgstr "Contactpersoon"
+msgstr "Contactpersonen importeren"
+
+#: src/components/ImportUnavailableModal.vue:5
+#, fuzzy
+msgid "Import contacts feature unavailable"
+msgstr "Bezig met importeren van contactpersonen..."
 
 #: src/pages/Contacts.vue:4
 msgid "Importing contacts, head back later"
@@ -194,7 +223,7 @@ msgstr "Leden"
 msgid "Mute"
 msgstr "Dempen"
 
-#: src/components/AddContactModal.vue:13
+#: src/components/AddContactModal.vue:15
 msgid "Name"
 msgstr "Naam"
 
@@ -204,6 +233,9 @@ msgid ""
 "the linked Desktop Client. Alternatively, your counterparty could start the "
 "discussion."
 msgstr ""
+"Nieuwe gesprekken zijn tijdelijk uitgeschakeld. Je kunt een nieuw gesprek "
+"starten middels de gekoppelde computerclient. Of laat de ander het voor je "
+"doen."
 
 #: src/components/Header.vue:99 src/components/Header.vue:149
 msgid "New group"
@@ -237,6 +269,10 @@ msgstr "Niet-ondersteund mimetype:"
 msgid "Note, you can't add yourself to a group."
 msgstr "Je kunt jezelf niet toevoegen aan een groep."
 
+#: src/components/AddContactModal.vue:11
+msgid "Only add numbers that you are sure are registered Signal accounts!"
+msgstr ""
+
 #: src/pages/About.vue:13
 msgid "or by becoming a"
 msgstr "of door"
@@ -253,7 +289,7 @@ msgstr "Onjuist wachtwoord"
 msgid "Passwords don't match"
 msgstr "Wachtwoorden komen niet overeen"
 
-#: src/components/AddContactModal.vue:17 src/components/EditContactModal.vue:15
+#: src/components/AddContactModal.vue:19 src/components/EditContactModal.vue:15
 msgid "Phone"
 msgstr "Telefoon"
 
@@ -332,6 +368,7 @@ msgstr "sponsor te worden op Patreon."
 #: src/components/StartChatModal.vue:5
 msgid "Starting new chats is currently broken in Axolotl."
 msgstr ""
+"Het starten van nieuwe gesprekken is momenteel niet mogelijk middels Axolotl."
 
 #: src/pages/About.vue:6
 msgid ""
@@ -373,6 +410,12 @@ msgstr "Identiteit verifiëren"
 msgid "Video"
 msgstr "Video"
 
+#: src/components/ImportUnavailableModal.vue:8
+msgid ""
+"We are sorry, but due to a change in the Signal protocol, automatic import "
+"of contacts is currently unavailble."
+msgstr ""
+
 #: src/pages/Verification.vue:19
 msgid "Wrong code entered. Restart for another try."
 msgstr "De ingevoerde code is onjuist. Herstart en probeer het opnieuw."
@@ -396,6 +439,9 @@ msgstr "Je browser heeft geen ondersteuning voor het audio-element."
 #: src/components/Message.vue:67
 msgid "Your browser does not support the video element."
 msgstr "Je browser heeft geen ondersteuning voor het video-element."
+
+#~ msgid "Edit Group"
+#~ msgstr "Groep aanpassen"
 
 #~ msgid "Add Contacts"
 #~ msgstr "Contactpersonen toevoegen"

@@ -19,7 +19,7 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.0 // indirect
 	github.com/mutecomm/go-sqlcipher v0.0.0-20190227152316-55dbde17881f
 	github.com/pkg/errors v0.9.1
-	github.com/signal-golang/textsecure v1.2.11
+	github.com/signal-golang/textsecure v1.2.13
 	github.com/sirupsen/logrus v1.7.0
 	github.com/stretchr/testify v1.6.1 // indirect
 	github.com/ttacon/builder v0.0.0-20170518171403-c099f663e1c2 // indirect

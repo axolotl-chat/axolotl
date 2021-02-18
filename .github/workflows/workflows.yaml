@@ -5,11 +5,7 @@ on: [ push, pull_request ]
 jobs:
   build-axolotl:
     name: Build axolotl
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
       - name: Setup Go 1.15
@@ -32,7 +28,7 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: axolotl-${{ matrix.os }}-${{ github.run_number }}
+          name: axolotl
           path: axolotl
           retention-days: 1
 
@@ -64,12 +60,14 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: axolotl-web-${{ github.run_number }}
+          name: axolotl-web
           path: axolotl-web/dist/
           retention-days: 1
 
   package-appimage:
     name: Package as an AppImage
+    # This ensures that this job only runs on git tags
+    if: startsWith(github.ref, 'refs/tags/v')
     needs: [build-axolotl, build-axolotl-web]
     runs-on: ubuntu-latest
 
@@ -80,23 +78,23 @@ jobs:
       - name: Download axolotl and axolotl-web build artifacts
         uses: actions/download-artifact@v2
         with:
-          path: bin
+          path: build-artifacts
 
       - name: Setup appimagetool
         run: |
           curl -sLO https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
           chmod +x appimagetool-x86_64.AppImage
 
-      - name: Build the AppImage
+      - name: Build AppImage (x86_64)
         env:
           ARCH: x86_64
         run: |
           mkdir -p build/AppDir/usr/bin
-          cp -f bin/axolotl-ubuntu-latest-${{ github.run_number }}/axolotl build/AppDir/usr/bin/axolotl
+          cp -f build-artifacts/axolotl/axolotl build/AppDir/usr/bin/axolotl
           chmod +x build/AppDir/usr/bin/axolotl
 
           mkdir -p build/AppDir/usr/bin/axolotl-web/dist
-          cp -rf bin/axolotl-web-${{ github.run_number }}/* build/AppDir/usr/bin/axolotl-web/dist
+          cp -rf build-artifacts/axolotl-web/* build/AppDir/usr/bin/axolotl-web/dist
 
           cp -f appimage/AppDir/AppRun build/AppDir/AppRun
           chmod +x build/AppDir/AppRun
@@ -112,6 +110,143 @@ jobs:
       - name: Upload the built AppImage artifact
         uses: actions/upload-artifact@v2
         with:
-          name: Axolotl-x86_64-${{ github.run_number }}.AppImage
+          name: Axolotl-AppImage
           path: Axolotl-x86_64.AppImage
           retention-days: 1
+
+  package-clickable:
+    name: Package as clickables
+    # This ensures that this job only runs on git tags
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Setup Node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - name: Download npm dependencies
+        run: npm --prefix ./axolotl-web ci
+
+      - name: Build clickable (amd64)
+        uses: docker://clickable/ci-16.04-amd64:6.23.2
+        env:
+          GOPATH: $HOME/go
+        with:
+          args: clickable clean build
+
+      - name: Build clickable (armhf)
+        uses: docker://clickable/ci-16.04-armhf:6.23.2
+        env:
+          GOPATH: $HOME/go
+        with:
+          args: clickable clean build
+
+      - name: Upload the built clickable artifact (amd64)
+        uses: actions/upload-artifact@v2
+        with:
+          name: Axolotl-Clickable
+          path: build/x86_64-linux-gnu/app/textsecure.nanuc_*.click
+          retention-days: 1
+
+      - name: Upload the built clickable artifact (armhf)
+        uses: actions/upload-artifact@v2
+        with:
+          name: Axolotl-Clickable
+          path: build/arm-linux-gnueabihf/app/textsecure.nanuc_*.click
+          retention-days: 1
+
+  release:
+    name: Create release
+    # This ensures that this job only runs on git tags
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [package-appimage, package-clickable]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Get git tag version
+        id: get_version
+        uses: battila7/get-version-action@v2
+
+      - name: Set git tag version
+        run: |
+          echo "VERSION=${{ steps.get_version.outputs.version }}" >> $GITHUB_ENV
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: build-artifacts
+
+      - name: Get clickable version
+        id: get_clickable_version
+        run: |
+          echo "::set-output name=version::$(ls ./build-artifacts/Axolotl-Clickable/*amd64.click | cut --delimiter="_" --fields=2)"
+
+      - name: Set clickable version
+        run: |
+          echo "CLICKABLE_VERSION=${{ steps.get_clickable_version.outputs.version }}" >> $GITHUB_ENV
+
+      - name: Create zip archive of repo
+        run: |
+          zip -r ./build-artifacts/sources.zip ./ --exclude ./build-artifacts
+
+      - name: Create draft GitHub release page
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.VERSION }}
+          release_name: ${{ env.VERSION }}
+          body: |
+            -
+            -
+          draft: true
+          prerelease: false
+
+      - name: Add axolotl sources to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build-artifacts/sources.zip
+          asset_name: sources-${{ env.VERSION }}.zip
+          asset_content_type: application/zip
+
+      - name: Add AppImage to release (x86_64)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build-artifacts/Axolotl-AppImage/Axolotl-x86_64.AppImage
+          asset_name: Axolotl-${{ env.VERSION }}-x86_64.AppImage
+          asset_content_type: application/vnd.appimage
+
+      - name: Add clickable to release (amd64)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build-artifacts/Axolotl-Clickable/textsecure.nanuc_${{ env.CLICKABLE_VERSION }}_amd64.click
+          asset_name: textsecure.nanuc_${{ env.VERSION }}_amd64.click
+          asset_content_type: application/vnd.debian.binary-package
+
+      - name: Add clickable to release (armhf)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build-artifacts/Axolotl-Clickable/textsecure.nanuc_${{ env.CLICKABLE_VERSION }}_armhf.click
+          asset_name: textsecure.nanuc_${{ env.VERSION }}_armhf.click
+          asset_content_type: application/vnd.debian.binary-package
