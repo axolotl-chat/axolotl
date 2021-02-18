@@ -22,10 +22,10 @@
         v-bind:key="contact.Tel"
           :class="contact.Tel==editContactId?'selected btn col-12 chat':'btn col-12 chat'">
         <div class="row chat-entry">
-          <div :class="'avatar col-3 '+contact.UUID&&contact.UUID[0]==0 && contact.UUID[contact.UUID.length-1]==0?'not-registered':''" @click="startChatModalOpen(contact,i)">
+          <div :class="'avatar col-3 '+contact.UUID&&contact.UUID[0]==0 && contact.UUID[contact.UUID.length-1]==0?'not-registered':''" @click="contactClick(contact,i)">
             <div class="badge-name">{{contact.Name[0]+contact.Name[1]}}</div>
           </div>
-          <div class="meta col-9" @click="startChatModalOpen(contact)"  v-longclick="()=>{showContactAction(contact)}">
+          <div class="meta col-9" @click="contactClick(contact)"  v-longclick="()=>{showContactAction(contact)}">
             <p class="name">{{contact.Name}}</p>
             <p class="number">{{contact.Tel}}</p>
           </div>
@@ -41,7 +41,7 @@
           <div class="badge-name">{{contact.Name[0]+contact.Name[1]}}</div>
         </div>
         <!-- <div class="meta col-9" @click="contactClick(contact)"  v-longclick="()=>{showContactAction(contact)}"> -->
-        <div class="meta col-9" @click="startChatModalOpen(contact)"  v-longclick="()=>{showContactAction(contact)}">
+        <div class="meta col-9" @click="contactClick(contact)"  v-longclick="()=>{showContactAction(contact)}">
           <p class="name">{{contact.Name}}</p>
           <p class="number">{{contact.Tel}}</p>
         </div>

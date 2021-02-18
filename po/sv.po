@@ -24,7 +24,7 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: src/components/AddGroupMembersModal.vue:51
+#: src/components/AddGroupMembersModal.vue:56
 #, fuzzy
 msgid "Add Contacts first"
 msgstr "Kontakt"

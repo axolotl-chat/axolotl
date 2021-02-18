@@ -24,7 +24,7 @@ msgstr "À propos d'Axolotl"
 msgid "Add"
 msgstr "Ajouter"
 
-#: src/components/AddGroupMembersModal.vue:51
+#: src/components/AddGroupMembersModal.vue:56
 msgid "Add Contacts first"
 msgstr "Veuillez d'abord ajouter des contacts"
 

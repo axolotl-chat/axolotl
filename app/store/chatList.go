@@ -321,16 +321,46 @@ func (s *Sessions) CreateSessionForE164(tel string, UUID string) *Session {
 
 func (s *Sessions) CreateSessionForUUID(UUID string) *Session {
 	contact := GetContactForUUID(UUID)
-	ses := &Session{Tel: contact.Tel,
+	ses := &Session{
+		Tel:          contact.Tel,
 		Name:         contact.Name,
 		Active:       true,
 		IsGroup:      false,
 		Notification: true,
 		UUID:         UUID,
 	}
+	if s.Len == 0 {
+		ses.ID = 1
+	}
+	ses, err := SaveSession(ses)
+	log.Errorln("[axolotl] CreateSessionForUUID failed:", ses.ID)
+
+	if err != nil {
+		log.Errorln("[axolotl] CreateSessionForUUID failed:", err)
+		return nil
+	}
 	s.Sess = append(s.Sess, ses)
-	s.Len++
-	SaveSession(ses)
+	s.Len = len(s.Sess)
+
+	message := &Message{
+		Message:    "Chat created",
+		SID:        ses.ID,
+		ChatID:     ses.Tel,
+		Source:     ses.Tel,
+		SourceUUID: ses.UUID,
+		Outgoing:   true,
+		Flags:      helpers.MsgFlagChatCreated,
+		HTime:      "Now",
+		SentAt:     uint64(time.Now().UnixNano() / 1000000),
+	}
+	SaveMessage(message)
+	ses.Messages = append(ses.Messages, message)
+	ses.Last = message.Message
+	UpdateSession(ses)
+	if err != nil {
+		log.Errorln("[axolotl] CreateSessionForUUID failed:", err)
+		return nil
+	}
 	return ses
 }
 
