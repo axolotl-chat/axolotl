@@ -4,9 +4,9 @@
     <p v-translate class="pb-0 mb-0"> Due to upstream changes in Signal, some features are currently broken. We're working as fast as we can to bring them back.
     </p>
     <div class="d-flex">
-      <p v-translate class="mr-1">
+      <span v-translate class="mr-1">
         Follow the progress or join us to help with development on
-      </p>
+      </span>
       <a href="https://t.me/axolotl_dev" target="_blank" @click="openExtern($event, 'https://t.me/axolotl_dev')">telegram</a>.
     </div>
   </div>

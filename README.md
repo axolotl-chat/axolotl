@@ -46,10 +46,9 @@ Installation of development environment
 * get go dependencies `go mod download`
 * install axolotl-web dependencies: `cd axolotl-web&&npm install`
 
-Translations
-------------
+When setting up for the first time and maybe occasionally later you need to update the browser list with your installed browsers. Change into the axolotl-web subfolder and run the following command:
 
-For information how to translate, please see [TRANSLATE.md](docs/TRANSLATE.md).
+`npx browserslist@latest --update-db`
 
 Run development
 ------------
@@ -64,7 +63,7 @@ That way running the backend is avoided, instead your current registration on ub
 * `cd axolotl-web`
 * `VUE_APP_WS_ADDRESS=10.0.0.2 npm run serve` replace 10.0.0.2 with the ip of your phone
 
-Installation 
+Installation
 ------------
 Axolotl can be built and installed in different ways.
 
@@ -74,12 +73,13 @@ To find out how to build and install, please see below:
 * with Snap: see [here](docs/INSTALL.md#snap).
 * with Flatpak: see [here](docs/INSTALL.md#flatpak).
 * with AppImage: see [here](docs/INSTALL.md#appimage).
+* for Mobian: see [here](docs/INSTALL.md#mobian).
 
 
 Run flags
 -----------
 * `-axolotlWebDir` Specify the directory to use for axolotl-web. Defaults to "./axolotl-web/dist".
-* `-e` for either 
+* `-e` for either
     `lorca`-> native chromium (has to be installed),
     `ut` -> runs in the ut enviroment,
     `me` -> qmlscene,
@@ -95,8 +95,21 @@ Environment variables
 
 Contributing
 -----------
+* Please fill issues here on github https://github.com/nanu-c/axolotl/issues
+* Help translating Axolotl to your language(s). For information how to translate, please see [TRANSLATE.md](docs/TRANSLATE.md).
+* Contribute code by making PR's (pull requests)
 
-Please fill issues here on github https://github.com/nanu-c/axolotl/issues
+If you contribute new strings, please:
+
+- make them translatable using v-translate in the enclosing tag
+- avoid linebreaks within one tag, that will break extracting the strings for translation
+- try to reduce formatting tags within translatable strings
+
+examples:
+
+- `<p v-translate>Translate me!</p>` instead of `<p>Translate me!</p>`
+- `<p><strong v-translate>Translate me!</strong></p>` instead of `<p v-translate><strong>Translate me!</strong></p>`
+- `<p v-translate>Translate me!</p><br/><p v-translate> Please...</p>` instead of `<p v-translate>Translate me! <br/> Please...</p>`
 
 Migrating from `janimo/axolotl`
 --------------------------------------
