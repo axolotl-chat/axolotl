@@ -175,7 +175,7 @@ export default {
           var r = moment(m.ReceivedAt)
           var duration = moment.duration(r.diff(moment.now()));
           if((duration.asSeconds()+m.ExpireTimer)<0&&m.Message!=""){
-            // TODO: message should be deleted
+            this.$store.dispatch("deleteSelfDestructingMessage", m)
             return false;
           }
         }
@@ -183,7 +183,7 @@ export default {
           var rS = moment(m.SentAt)
           var durationS = moment.duration(rS.diff(moment.now()));
           if((durationS.asSeconds()+m.ExpireTimer)<0&&m.Message!=""){
-            // TODO: message should be deleted
+            this.$store.dispatch("deleteSelfDestructingMessage", m)
             return false;
           }
         }

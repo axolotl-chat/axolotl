@@ -11,7 +11,7 @@
         <font-awesome-icon icon="pencil-alt"  />
       </button>
       <button class="btn hide-actions">
-        <font-awesome-icon icon="times"  @click="showActions=false"/>
+        <font-awesome-icon icon="times"  @click="closeActionMode"/>
       </button>
     </div>
     <div v-if="contacts.length ==0" class="empty" v-translate>
@@ -121,6 +121,15 @@ export default {
       this.contact = contact;
       this.showActions = true;
     },
+    closeActionMode(){
+      this.addContactModal=  false;
+      this.showActions=  false;
+      this.editContactModal=  false;
+      this.contact= null;
+      this.contactId= null;
+      this.startChatModal=  false;
+      this.editContactId= "";
+    },
     contactClick(contact){
       if(!this.showActions){
         this.$store.dispatch("createChat", contact.Tel)
@@ -137,7 +146,9 @@ export default {
       this.editContactId ="";
     },
     startChatModalOpen(){
-      this.startChatModal=true;
+        if(!this.showActions){
+          this.startChatModal=true;
+        }
     }
   },
   computed: {

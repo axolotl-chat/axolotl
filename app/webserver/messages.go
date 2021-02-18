@@ -53,6 +53,10 @@ type Message struct {
 	Type string                 `json:"request"`
 	Data map[string]interface{} `json:"-"` // Rest of the fields should go here.
 }
+type DelMessageMessage struct {
+	Type string `json:"request"`
+	ID   int64  `json:"id"`
+}
 type GetMessageListMessage struct {
 	Type string `json:"request"`
 	ID   int64  `json:"id"`
@@ -88,8 +92,8 @@ type SendPinMessage struct {
 	Pin  string `json:"pin"`
 }
 type SendCaptchaTokenMessage struct {
-	Type string `json:"request"`
-	Token  string `json:"token"`
+	Type  string `json:"request"`
+	Token string `json:"token"`
 }
 type AddDeviceMessage struct {
 	Type string `json:"request"`

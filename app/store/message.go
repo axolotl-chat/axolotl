@@ -119,6 +119,7 @@ func LoadMessagesFromDB() error {
 	return nil
 }
 func DeleteMessage(id int64) error {
+	// TODO: delete Attachments
 	_, err := DS.Dbx.Exec("DELETE FROM messages WHERE id = ?", id)
 	return err
 }

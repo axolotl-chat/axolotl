@@ -23,15 +23,15 @@ import (
 )
 
 var (
-	clients = make(map[*websocket.Conn]bool)
-	activeChat int64 = -1
-	codeVerification = false
-	profile textsecure.Contact
-	broadcast = make(chan []byte, 100)
-	requestChannel chan string
-	upgrader = websocket.Upgrader{
-	ReadBufferSize:  1024,
-	WriteBufferSize: 1024,
+	clients                = make(map[*websocket.Conn]bool)
+	activeChat       int64 = -1
+	codeVerification       = false
+	profile          textsecure.Contact
+	broadcast        = make(chan []byte, 100)
+	requestChannel   chan string
+	upgrader         = websocket.Upgrader{
+		ReadBufferSize:  1024,
+		WriteBufferSize: 1024,
 	}
 )
 
@@ -191,6 +191,11 @@ func wsReader(conn *websocket.Conn) {
 
 				}()
 			}
+		case "delMessage":
+			deleteMessageMessage := DelMessageMessage{}
+			json.Unmarshal([]byte(p), &deleteMessageMessage)
+			log.Println("[axolotl] delete message ", deleteMessageMessage.ID)
+			store.DeleteMessage(deleteMessageMessage.ID)
 		case "getContacts":
 			go sendContactList()
 		case "addContact":
@@ -329,7 +334,7 @@ func wsReader(conn *websocket.Conn) {
 				Tel:  editContactMessage.Phone,
 				Name: editContactMessage.Name,
 			}
-			log.Debugln("[axolotl ]editContact", editContactMessage.Name)
+			log.Debugln("[axolotl] editContact", editContactMessage.Name)
 			contact.EditContact(store.ContactsModel.GetContact(editContactMessage.ID), replaceContact)
 			err = store.RefreshContacts()
 			if err != nil {
@@ -339,8 +344,8 @@ func wsReader(conn *websocket.Conn) {
 		case "delChat":
 			delChatMessage := DelChatMessage{}
 			json.Unmarshal([]byte(p), &delChatMessage)
+			log.Debugln("[axolotl] deleteSession", delChatMessage.ID)
 			store.DeleteSession(delChatMessage.ID)
-			err = store.RefreshContacts()
 			if err != nil {
 				ShowError(err.Error())
 			}

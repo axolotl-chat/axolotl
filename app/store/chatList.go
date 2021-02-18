@@ -82,6 +82,7 @@ func UpdateSession(s *Session) error {
 
 // DeleteSession deletes a session in the database
 func DeleteSession(ID int64) error {
+	// TODO: delete Attachments
 	_, err := DS.Dbx.Exec("DELETE FROM messages WHERE sid = ?", ID)
 	if err != nil {
 		return err
@@ -275,6 +276,7 @@ func (s *Sessions) GetByE164(tel string) *Session {
 	newSession := s.CreateSessionForE164(tel, "0")
 	return newSession
 }
+
 // GetAllSessionsByE164 returns multiple sessions when they are duplicated
 func (s *Sessions) GetAllSessionsByE164(tel string) []*Session {
 	var sessions = []*Session{}
@@ -285,6 +287,7 @@ func (s *Sessions) GetAllSessionsByE164(tel string) []*Session {
 	}
 	return sessions
 }
+
 // CreateSessionForE164 creates a new Session for the phone number
 func (s *Sessions) CreateSessionForE164(tel string, UUID string) *Session {
 	ses := &Session{Tel: tel,

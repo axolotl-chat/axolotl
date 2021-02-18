@@ -545,6 +545,15 @@ export default new Vuex.Store({
         Vue.prototype.$socket.send(JSON.stringify(message))
       }
     },
+    deleteSelfDestructingMessage: function(state, m){
+      if (this.state.socket.isConnected) {
+        var message = {
+          "request": "delMessage",
+          "id": m.ID
+        }
+        Vue.prototype.$socket.send(JSON.stringify(message))
+      }
+    },
     editContact: function(state, data) {
       state.ratelimitError = null;
       if (this.state.socket.isConnected) {
