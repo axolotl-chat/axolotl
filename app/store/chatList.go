@@ -276,6 +276,7 @@ func (s *Sessions) GetByE164(tel string) *Session {
 	newSession := s.CreateSessionForE164(tel, "0")
 	return newSession
 }
+
 // GetAllSessionsByE164 returns multiple sessions when they are duplicated
 func (s *Sessions) GetAllSessionsByE164(tel string) []*Session {
 	var sessions = []*Session{}
@@ -286,6 +287,7 @@ func (s *Sessions) GetAllSessionsByE164(tel string) []*Session {
 	}
 	return sessions
 }
+
 // CreateSessionForE164 creates a new Session for the phone number
 func (s *Sessions) CreateSessionForE164(tel string, UUID string) *Session {
 	ses := &Session{Tel: tel,
@@ -332,14 +334,6 @@ func (s *Sessions) GetByUUID(UUID string) (*Session, error) {
 	}
 	return nil, fmt.Errorf("Session with uuid %s not found", UUID)
 }
-func HexToUUID(id string) string {
-	if len(id) != 32 {
-		return id
-	}
-	msbHex := id[:16]
-	lsbHex := id[16:]
-	return msbHex[:8] + "-" + msbHex[8:12] + "-" + msbHex[12:] + "-" + lsbHex[:4] + "-" + lsbHex[4:]
-}
 
 // UpdateSessionNames updates the non groups with the name from the phone book
 func (s *Sessions) UpdateSessionNames() {
@@ -355,7 +349,7 @@ func (s *Sessions) UpdateSessionNames() {
 					index := strings.Index(uuid, "-")
 
 					if index == -1 {
-						uuid = HexToUUID(uuid)
+						uuid = helpers.HexToUUID(uuid)
 					}
 					ses.UUID = uuid
 				}
