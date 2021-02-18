@@ -30,7 +30,7 @@ func MessageHandler(msg *textsecure.Message) {
 }
 func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 	var err error
-	var f []store.Attachment //should be array
+	var attachments []store.Attachment //should be array
 	mt := ""                 //
 	if len(msg.Attachments()) > 0 {
 		for i, a := range msg.Attachments() {
@@ -39,7 +39,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 			if err != nil {
 				log.Printf("[axolotl] MessageHandler Error saving attachments %s\n", err.Error())
 			}
-			f = append(f, file)
+			attachments = append(attachments, file)
 		}
 	}
 
@@ -164,10 +164,10 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 	}
 	var m *store.Message
 	if syncMessage {
-		m = session.Add(text, "", f, mt, true, store.ActiveSessionID)
+		m = session.Add(text, "", attachments, mt, true, store.ActiveSessionID)
 		m.IsSent = true
 	} else {
-		m = session.Add(text, msg.Source(), f, mt, false, store.ActiveSessionID)
+		m = session.Add(text, msg.Source(), attachments, mt, false, store.ActiveSessionID)
 	}
 	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
 	m.SentAt = msg.Timestamp()

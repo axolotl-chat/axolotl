@@ -118,11 +118,16 @@ func LoadMessagesFromDB() error {
 	}
 	return nil
 }
+
 func DeleteMessage(id int64) error {
-	// TODO: delete Attachments
-	_, err := DS.Dbx.Exec("DELETE FROM messages WHERE id = ?", id)
+	err := deleteAttachmentForMessage(id)
+	if err!=nil{
+		log.Errorln("[axolotl] could not delete attachment", err)
+	}
+	_, err = DS.Dbx.Exec("DELETE FROM messages WHERE id = ?", id)
 	return err
 }
+
 func (s *Session) GetMessages(i int) *Message {
 	//FIXME when is index -1 ?
 	if i == -1 || i >= len(s.Messages) {
@@ -149,17 +154,17 @@ func FindQuotedMessage(quote *signalservice.DataMessage_Quote) (error, int64) {
 	return nil, id
 }
 
-// returns a message by it's ID
-func GetMessageById(id int64) (error, *Message) {
+// GetMessageById returns a message by it's ID
+func GetMessageById(id int64) ( *Message, error) {
 	var message = []Message{}
 	err := DS.Dbx.Select(&message, "SELECT * FROM messages WHERE id = ?", id)
 	if err != nil {
-		return err, nil
+		return nil, err
 	}
 	if len(message) == 0 {
-		return errors.New("Message not found " + fmt.Sprint(id)), nil
+		return nil, errors.New("Message not found " + fmt.Sprint(id))
 	}
-	return nil, &message[0]
+	return &message[0], nil 
 }
 
 // FindOutgoingMessage returns  a message that is found by it's timestamp
