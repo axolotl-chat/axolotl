@@ -222,11 +222,11 @@ see [build.sh](../scripts/build.sh)
 
 ## Mobian
 
-If you want to run Axolotl on Mobian, you can download the installer, which is a simple script with all neccessary commands included. It can be found [here](../scripts/axolotl_installer_mobian_1-1.sh) - right click "Safe Link As...".
+If you want to run Axolotl on Mobian, you can download the installer, which is a simple script with all neccessary commands included. It can be found [here](../scripts/mobian_installer.sh) - right click "Safe Link As...".
 Execute it from your Download folder with
 
 ```
-sh axolotl_installer_mobian.sh
+sh mobian_installer.sh
 ```
 
 To check out, what the script does exactly or to execute commands separately, visit the [Mobian wiki page for Axolotl](https://wiki.mobian-project.org/doku.php?id=axolotl) - section Manual Installation.
