@@ -2,62 +2,109 @@
 <template>
   <div class="deviceList">
     <!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->
-    <div class="row device" v-for="device in devices" v-if="device.id!=1" v-bind:key="device.id">
+    <div
+      class="row device"
+      v-for="device in devices"
+      v-if="device.id != 1"
+      v-bind:key="device.id"
+    >
       <div class="col-10">
-        <div class="device-name">{{device.name}}</div>
+        <div class="device-name">{{ device.name }}</div>
         <div class="meta">
-          <span class="lastSeen"><span v-translate>Last seen:</span> {{humanifyDate(device.lastSeen)}}</span>
+          <span class="lastSeen"
+            ><span v-translate>Last seen:</span>
+            {{ humanifyDate(device.lastSeen) }}</span
+          >
         </div>
       </div>
       <div class="col-2 actions">
-        <button class="btn" @click="delDevice(device.id)"><font-awesome-icon icon="trash" /></button>
+        <button class="btn" @click="delDevice(device.id)">
+          <font-awesome-icon icon="trash" />
+        </button>
       </div>
     </div>
     <div v-if="devices.length == 0" class="no-entries" v-translate>
       No linked devices
     </div>
     <!-- eslint-enable -->
-    <button @click="linkDevice" class="btn start-chat"><font-awesome-icon icon="plus" /></button>
+    <button @click="linkDevice" class="btn start-chat">
+      <font-awesome-icon icon="plus" />
+    </button>
+    <add-device-modal
+      v-if="showModal"
+      @close="showModal = false"
+      @add="addDevice($event)"
+    />
   </div>
 </template>
 
 <script>
+import AddDeviceModal from "@/components/AddDeviceModal";
+
 export default {
-  name: 'DeviceList',
-  props: {
-    msg: String
+  name: "DeviceList",
+  components: {
+    AddDeviceModal,
   },
-  mounted(){
+  props: {
+    msg: String,
+  },
+  mounted() {
     this.$store.dispatch("getDevices");
   },
-  methods:{
+  data() {
+    return {
+      showModal: false,
+    };
+  },
+  methods: {
     linkDevice() {
-      var result = window.prompt("desktopLink");
-      this.showSettingsMenu = false;
-      this.$store.dispatch("addDevice", result);
+      if (this.gui == "ut") {
+        var result = window.prompt("desktopLink");
+        this.showSettingsMenu = false;
+        this.$store.dispatch("addDevice", result);
+      } else {
+        this.showModal = true;
+      }
+    },
+    addDevice(qr) {
+      this.showModal = false;
+      if (qr != "") this.$store.dispatch("addDevice", qr);
     },
     delDevice(id) {
       this.$store.dispatch("delDevice", id);
     },
-    humanifyDate(inputDate){
+    humanifyDate(inputDate) {
       var now = new Date();
       var date = new Date(inputDate);
-      var diff=(now-date)/1000;
+      var diff = (now - date) / 1000;
       var seconds = diff;
-      if(seconds<60)return "now";
-      var minutes = seconds/60;
-      if(minutes<60)return Math.floor(minutes)+" minutes ago";
-      var hours = minutes/60
-      if(hours<24)return Math.floor(hours)+" hours ago";
-      return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
+      if (seconds < 60) return "now";
+      var minutes = seconds / 60;
+      if (minutes < 60) return Math.floor(minutes) + " minutes ago";
+      var hours = minutes / 60;
+      if (hours < 24) return Math.floor(hours) + " hours ago";
+      return (
+        date.getFullYear() +
+        "-" +
+        (date.getMonth() + 1) +
+        "-" +
+        date.getDate() +
+        " " +
+        date.getHours() +
+        ":" +
+        date.getMinutes() +
+        ":" +
+        date.getSeconds()
+      );
     },
   },
   computed: {
-    devices () {
-      return this.$store.state.devices
-    }
-  }
-}
+    devices() {
+      return this.$store.state.devices;
+    },
+  },
+};
 </script>
 <style scoped>
 .device {
