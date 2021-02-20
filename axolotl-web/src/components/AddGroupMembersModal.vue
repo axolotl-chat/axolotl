@@ -55,7 +55,7 @@
         <div v-else-if="contactsFilter != ''">
           <div
           v-for="contact in contactsFilterd"
-          v-bind:key="'filter_'+contact.UUID"
+          v-bind:key="'filter_' + contact.UUID"
           class="btn col-12 chat"
           >
           <div class="row chat-entry">
@@ -83,70 +83,60 @@
 
 <script>
 export default {
-  name: 'AddGroupMembersModal',
+  name: "AddGroupMembersModal",
   props: {
-    allreadyAdded:Array
+    allreadyAdded: Array,
   },
-  components: {
-  },
+  components: {},
   data() {
     return {
-      contacts:[],
-      searchActive:false,
-      contactsFilter:"",
-    }
+      contacts: [],
+      searchActive: false,
+      contactsFilter: "",
+    };
   },
-  mounted(){
-    this.contacts = this.$store.state.contacts.filter(c=>c.UUID[0]!=0||c.UUID[c.UUID.length-1]!=0)
+  mounted() {
+    this.contacts = this.filterForOnlyContactsWithUUID(
+      this.$store.state.contacts
+    );
   },
   methods: {
-    contactClick(contact){
-      this.$store.dispatch("addNewGroupMember", contact)
+    contactClick(contact) {
+      this.$store.dispatch("addNewGroupMember", contact);
     },
-    filterContacts(){
-      if(this.contactsFilter!="")
-      this.$store.dispatch("filterContactsForGroup", this.contactsFilter);
-      else  this.$store.dispatch("clearFilterContacts");
+    filterContacts() {
+      if (this.contactsFilter != ""){
+        this.$store.dispatch("filterContactsForGroup", this.contactsFilter);
+      }
+      else{
+        this.$store.dispatch("clearFilterContacts");
+      }
     },
-  },
-  computed: {
-    contactsFilterd () {
-      return this.$store.state.contactsFilterd.filter(c => {
-        if(c.UUID[0]==0&&c.UUID[c.UUID.length-1]==0) return true;
-        var found = this.allreadyAdded.find(function(element) {
+    filterForOnlyContactsWithUUID(contacts) {
+      return contacts.filter((c) => {
+        if (c.UUID[0] == 0 && c.UUID[c.UUID.length - 1] == 0) return false;
+        var found = this.allreadyAdded.find(function (element) {
           return element.Tel == c.Tel;
         });
         return found === undefined;
       });
     },
   },
-  watch:{
-    allreadyAdded(){
-      var that = this
-      if(this.contactsFilter!=""){
-        this.contacts=that.$store.state.contacts.filter( c=> {
-          if(c.UUID[0]==0&&c.UUID[c.UUID.length-1]==0) return true;
-          var found = that.allreadyAdded.find(function(element) {
-            return element.Tel == c.Tel;
-          });
-          if(typeof found =="undefined")return true;
-          else return false;
-        });
-      }
-      else{
-        this.contacts=that.$store.state.contactsFilterd.filter( c=> {
-          if(c.UUID[0]==0&&c.UUID[c.UUID.length-1]==0) return true;
-          var found = that.allreadyAdded.find(function(element) {
-            return element.Tel == c.Tel;
-          });
-          if(typeof found =="undefined")return true;
-          else return false;
-        });
-      }
-
-    }
-  }
-}
+  computed: {
+    contactsFilterd() {
+      return this.filterForOnlyContactsWithUUID(
+        this.$store.state.contactsFilterd
+      );
+    },
+  },
+  watch: {
+    allreadyAdded() {
+      this.contacts = this.filterForOnlyContactsWithUUID(
+        this.$store.state.contacts
+      );
+    },
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
