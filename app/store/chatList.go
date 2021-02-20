@@ -83,7 +83,23 @@ func UpdateSession(s *Session) error {
 
 // DeleteSession deletes a session in the database
 func DeleteSession(ID int64) error {
-	_, err := DS.Dbx.Exec("DELETE FROM messages WHERE sid = ?", ID)
+	var messagesWithAttachment = []Message{}
+
+	err := DS.Dbx.Select(&messagesWithAttachment, "SELECT * FROM messages WHERE attachment NOT LIKE null AND id = ? ", ID)
+	if err != nil {
+		return err
+	}
+	if len(messagesWithAttachment )>0{
+		for _, message := range messagesWithAttachment {
+			err:=deleteAttachmentForMessage(message.ID)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+
+	_, err = DS.Dbx.Exec("DELETE FROM messages WHERE sid = ?", ID)
 	if err != nil {
 		return err
 	}
@@ -122,7 +138,7 @@ func (s *Sessions) GetMessageList(ID int64) (error, *MessageList) {
 		for i, m := range messageList.Messages {
 			if m.Flags == helpers.MsgFlagQuote {
 				if m.QuoteID != invalidQuote {
-					err, qm := GetMessageById(m.QuoteID)
+					qm, err := GetMessageById(m.QuoteID)
 					if err != nil {
 						log.Debugln("[axolotl] messagelist quoted message: ", err)
 					} else {
@@ -162,7 +178,7 @@ func (s *Sessions) GetMoreMessageList(ID int64, lastID string) (error, *MessageL
 		for i, m := range messageList.Messages {
 			if m.Flags == helpers.MsgFlagQuote {
 				if m.QuoteID != -1 {
-					err, qm := GetMessageById(m.QuoteID)
+					qm, err := GetMessageById(m.QuoteID)
 					if err != nil {
 						log.Debugln("[axolotl] messagelist quoted message: ", err)
 					} else {

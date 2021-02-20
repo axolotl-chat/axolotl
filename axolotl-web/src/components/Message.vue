@@ -88,7 +88,7 @@
            <span @click="showDate = !showDate">{{humanifyDateFromNow(message.SentAt)}}</span>
            <span class="fullDate" v-if="showDate">{{humanifyDate(message.SentAt)}}</span>
          </div>
-         <div v-if="message.ExpireTimer>0&&message.Message!=''">
+         <div v-if="message.ExpireTimer>0">
            <div class="circle-wrap">
              <div class="circle">
                <div class="mask full" :style="'transform: rotate('+timerPercentage(message)+'deg)'">
@@ -174,8 +174,8 @@ export default {
           // hide destructed messages but not timer settings
           var r = moment(m.ReceivedAt)
           var duration = moment.duration(r.diff(moment.now()));
-          if((duration.asSeconds()+m.ExpireTimer)<0&&m.Message!=""){
-            // TODO: message should be deleted
+          if((duration.asSeconds()+m.ExpireTimer)<0){
+            this.$store.dispatch("deleteSelfDestructingMessage", m)
             return false;
           }
         }
@@ -183,7 +183,7 @@ export default {
           var rS = moment(m.SentAt)
           var durationS = moment.duration(rS.diff(moment.now()));
           if((durationS.asSeconds()+m.ExpireTimer)<0&&m.Message!=""){
-            // TODO: message should be deleted
+            this.$store.dispatch("deleteSelfDestructingMessage", m)
             return false;
           }
         }

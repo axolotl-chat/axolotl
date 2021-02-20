@@ -22,7 +22,7 @@
             </div>
             <div v-else class="badge-name">{{chat.Name[0]}}</div>
           </div>
-          <div class="meta col-10" v-longclick="()=>{editChat(chat.Tel)}">
+          <div class="meta col-10" v-longclick="()=>{editChat(chat.ID)}">
             <div class="row">
               <div class="col-9">
                 <div class="name">
@@ -128,6 +128,7 @@ export default {
         })
       }
       this.editWasActive = true;
+      this.selectedChat = [];
     },
     onImageError(event){
       event.target.style.display = "none";
