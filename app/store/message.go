@@ -123,6 +123,7 @@ func DeleteMessage(id int64) error {
 	err := deleteAttachmentForMessage(id)
 	if err!=nil{
 		log.Errorln("[axolotl] could not delete attachment", err)
+		return err
 	}
 	_, err = DS.Dbx.Exec("DELETE FROM messages WHERE id = ?", id)
 	return err
@@ -164,7 +165,7 @@ func GetMessageById(id int64) ( *Message, error) {
 	if len(message) == 0 {
 		return nil, errors.New("Message not found " + fmt.Sprint(id))
 	}
-	return &message[0], nil 
+	return &message[0], nil
 }
 
 // FindOutgoingMessage returns  a message that is found by it's timestamp
