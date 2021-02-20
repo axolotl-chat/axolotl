@@ -3,7 +3,6 @@
 * Fix recieving messages because of Signal-API changes(nanu-c)
 * Delviver call messages in the appropiate Chats (nanu-c)
 
-
 0.9.7 (Feb 8 2021)
 ------------------------------------
 * Add support for registration captchas (nanu-c)

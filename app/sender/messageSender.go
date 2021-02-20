@@ -98,15 +98,6 @@ func SendMessageHelper(ID int64, message, file string, updateMessageChannel chan
 	return errors.New("send to is empty"), nil
 }
 
-func HexToUUID(id string) string {
-	if len(id) != 32 {
-		return id
-	}
-	msbHex := id[:16]
-	lsbHex := id[16:]
-	return msbHex[:8] + "-" + msbHex[8:12] + "-" + msbHex[12:] + "-" + lsbHex[:4] + "-" + lsbHex[4:]
-}
-
 func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
 	var att io.Reader
 	var err error
@@ -128,7 +119,7 @@ func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
 		recipient = s.UUID
 		index := strings.Index(recipient, "-")
 		if index == -1 {
-			recipient = HexToUUID(recipient)
+			recipient = helpers.HexToUUID(recipient)
 		}
 	} else {
 		recipient = s.Tel
@@ -136,7 +127,7 @@ func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
 			log.Debugln("[axolotl] send message: empty uuid")
 			index := strings.Index(recipient, "-")
 			if index == -1 {
-				recipient = HexToUUID(recipient)
+				recipient = helpers.HexToUUID(recipient)
 			}
 		}
 	}

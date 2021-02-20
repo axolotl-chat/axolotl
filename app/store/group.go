@@ -1,5 +1,7 @@
 package store
 
+import log "github.com/sirupsen/logrus"
+
 type GroupRecord struct {
 	ID      int64
 	Uuid    string
@@ -32,6 +34,7 @@ func DeleteGroup(hexid string) error {
 	return err
 }
 func SaveGroup(g *GroupRecord) (*GroupRecord, error) {
+	log.Debugln("[axolotl] saveGroup ", g.Uuid)
 	res, err := DS.Dbx.NamedExec(groupsInsert, g)
 	if err != nil {
 		return nil, err

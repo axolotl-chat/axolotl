@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/nanu-c/axolotl/app/helpers"
@@ -275,6 +276,7 @@ func (s *Sessions) GetByE164(tel string) *Session {
 	newSession := s.CreateSessionForE164(tel, "0")
 	return newSession
 }
+
 // GetAllSessionsByE164 returns multiple sessions when they are duplicated
 func (s *Sessions) GetAllSessionsByE164(tel string) []*Session {
 	var sessions = []*Session{}
@@ -285,6 +287,7 @@ func (s *Sessions) GetAllSessionsByE164(tel string) []*Session {
 	}
 	return sessions
 }
+
 // CreateSessionForE164 creates a new Session for the phone number
 func (s *Sessions) CreateSessionForE164(tel string, UUID string) *Session {
 	ses := &Session{Tel: tel,
@@ -334,9 +337,24 @@ func (s *Sessions) GetByUUID(UUID string) (*Session, error) {
 
 // UpdateSessionNames updates the non groups with the name from the phone book
 func (s *Sessions) UpdateSessionNames() {
+	log.Debugln("[axoltl] update session names + uuids")
 	for _, ses := range s.Sess {
 		if ses.IsGroup == false {
 			ses.Name = TelToName(ses.Tel)
+			if ses.UUID == "" || ses.UUID == "0" {
+				c := GetContactForTel(ses.Tel)
+				if c != nil && c.UUID != "" && c.UUID != "0" && (c.UUID[0] != 0 || c.UUID[len(c.UUID)-1] != 0) {
+					uuid := c.UUID
+					log.Debugln("[axolotl] update session from tel to uuid", ses.Tel, uuid)
+					index := strings.Index(uuid, "-")
+
+					if index == -1 {
+						uuid = helpers.HexToUUID(uuid)
+					}
+					ses.UUID = uuid
+				}
+			}
+
 			UpdateSession(ses)
 		}
 	}
