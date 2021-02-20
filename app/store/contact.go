@@ -1,7 +1,6 @@
 package store
 
 import (
-	"fmt"
 	"io/ioutil"
 
 	log "github.com/sirupsen/logrus"
@@ -98,19 +97,4 @@ func TelToName(tel string) string {
 		return "Me"
 	}
 	return tel
-}
-
-func TelUUID(tel string) (string, error) {
-	if g, ok := Groups[tel]; ok {
-		return g.Name, nil
-	}
-	for _, c := range ContactsModel.Contacts {
-		if c.Tel == tel {
-			return c.UUID, nil
-		}
-	}
-	if tel == config.Config.Tel {
-		return config.Config.UUID, nil
-	}
-	return "", fmt.Errorf("contact for tel not found %s", tel)
 }

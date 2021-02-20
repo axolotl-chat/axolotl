@@ -161,8 +161,6 @@ func wsReader(conn *websocket.Conn) {
 			json.Unmarshal([]byte(p), &createGroupMessage)
 			log.Println("[axolotl] Create group ", createGroupMessage.Name)
 			group, err := createGroup(createGroupMessage)
-			log.Println("[axolotl] Create group2 ", createGroupMessage.Name)
-
 			if err != nil {
 				log.Errorln("[axolotl] Create chat failed: ", err)
 

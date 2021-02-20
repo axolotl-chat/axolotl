@@ -321,7 +321,7 @@ func (s *Sessions) CreateSessionForE164(tel string, UUID string) *Session {
 
 func (s *Sessions) CreateSessionForUUID(UUID string) *Session {
 	contact := GetContactForUUID(UUID)
-	ses := &Session{
+	newSession := &Session{
 		Tel:          contact.Tel,
 		Name:         contact.Name,
 		Active:       true,
@@ -330,38 +330,33 @@ func (s *Sessions) CreateSessionForUUID(UUID string) *Session {
 		UUID:         UUID,
 	}
 	if s.Len == 0 {
-		ses.ID = 1
+		newSession.ID = 1
 	}
-	ses, err := SaveSession(ses)
-	log.Errorln("[axolotl] CreateSessionForUUID failed:", ses.ID)
+	newSession, err := SaveSession(newSession)
 
 	if err != nil {
 		log.Errorln("[axolotl] CreateSessionForUUID failed:", err)
 		return nil
 	}
-	s.Sess = append(s.Sess, ses)
+	s.Sess = append(s.Sess, newSession)
 	s.Len = len(s.Sess)
 
 	message := &Message{
 		Message:    "Chat created",
-		SID:        ses.ID,
-		ChatID:     ses.Tel,
-		Source:     ses.Tel,
-		SourceUUID: ses.UUID,
+		SID:        newSession.ID,
+		ChatID:     newSession.Tel,
+		Source:     newSession.Tel,
+		SourceUUID: newSession.UUID,
 		Outgoing:   true,
 		Flags:      helpers.MsgFlagChatCreated,
 		HTime:      "Now",
 		SentAt:     uint64(time.Now().UnixNano() / 1000000),
 	}
 	SaveMessage(message)
-	ses.Messages = append(ses.Messages, message)
-	ses.Last = message.Message
-	UpdateSession(ses)
-	if err != nil {
-		log.Errorln("[axolotl] CreateSessionForUUID failed:", err)
-		return nil
-	}
-	return ses
+	newSession.Messages = append(newSession.Messages, message)
+	newSession.Last = message.Message
+	UpdateSession(newSession)
+	return newSession
 }
 
 // CreateSessionForGroup creates a session for a group

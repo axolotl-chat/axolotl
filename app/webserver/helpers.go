@@ -150,6 +150,9 @@ func sendDeviceList() {
 	broadcast <- *message
 }
 func createChat(uuid string) *store.Session {
+	if uuid == "0"{
+		return nil
+	}
 	session, err := store.SessionsModel.GetByUUID(uuid)
 	if err != nil {
 		session = store.SessionsModel.CreateSessionForUUID(uuid)
@@ -171,7 +174,7 @@ func createGroup(newGroupData CreateGroupMessage) (*store.Session, error) {
 		Name:    newGroupData.Name,
 		Members: members,
 	}
-	store.SaveGroup(store.Groups[group.Hexid])
+	_, err = store.SaveGroup(store.Groups[group.Hexid])
 	if err != nil {
 		ShowError(err.Error())
 		return nil, err

@@ -226,7 +226,6 @@ export default new Vuex.Store({
         if(c.UUID[0]==0 && c.UUID[c.UUID.length-1]==0) return false
         if(c.Name.toLowerCase().includes(filter))
         return true;
-        return false;
       });
       if(state.currentGroup!=null)
       f = f.filter(c => state.currentGroup.Members.indexOf(c.UUID) == -1);
