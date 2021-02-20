@@ -22,7 +22,7 @@
         v-bind:key="contact.Tel"
           :class="contact.Tel==editContactId?'selected btn col-12 chat':'btn col-12 chat'">
         <div class="row chat-entry">
-          <div :class="'avatar col-3 '+contact.UUID&&contact.UUID[0]==0 && contact.UUID[contact.UUID.length-1]==0?'not-registered':''" @click="contactClick(contact,i)">
+          <div :class="'avatar col-3 '+checkForUUIDClass(contact)" @click="contactClick(contact,i)">
             <div class="badge-name">{{contact.Name[0]+contact.Name[1]}}</div>
           </div>
           <div class="meta col-9" @click="contactClick(contact)"  v-longclick="()=>{showContactAction(contact)}">
@@ -37,7 +37,7 @@
         :class="contact.Tel==editContactId?'selected btn col-12 chat':'btn col-12 chat'">
       <div class="row chat-entry">
         <!-- <div class="avatar col-3" @click="contactClick(contact)"> -->
-        <div :class="'avatar col-3 '+contact.UUID&&contact.UUID[0]==0 && contact.UUID[contact.UUID.length-1]==0?' avatar col-3 not-registered':'avatar col-3'" @click="contactClick(contact,i)">
+        <div :class="'avatar col-3 avatar '+checkForUUIDClass(contact)" @click="contactClick(contact,i)">
           <div class="badge-name">{{contact.Name[0]+contact.Name[1]}}</div>
         </div>
         <!-- <div class="meta col-9" @click="contactClick(contact)"  v-longclick="()=>{showContactAction(contact)}"> -->
@@ -109,6 +109,9 @@ export default {
       this.$store.dispatch("delContact", this.editContactId)
       this.showActions = false;
       this.editContactId ="";
+    },
+    checkForUUIDClass(contact){
+      return contact.UUID&&contact.UUID[0]==0 && contact.UUID[contact.UUID.length-1]==0?'not-registered':''
     },
     saveContact(data){
       this.editContactModal=false
