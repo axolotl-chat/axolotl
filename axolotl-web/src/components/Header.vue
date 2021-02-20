@@ -130,7 +130,7 @@
                 <font-awesome-icon icon="ellipsis-v" />
               </button>
               <div v-if="showSettingsMenu" class="dropdown-menu" id="settings-dropdown" aria-labelledby="dropdownMenuButton">
-                <button class="dropdown-item" @click="showSettingsMenu = false; showImportUnavailableModal = true;" v-translate>Import contacts</button>
+                <button class="dropdown-item" @click="showSettingsMenu = false; refreshContacts()" v-translate>Import contacts</button>
                 <input id="addVcf" type="file" @change="readVcf" style="position: fixed; top: -100em">
               </div>
             </div>

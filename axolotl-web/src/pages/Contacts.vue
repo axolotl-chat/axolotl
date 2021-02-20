@@ -22,7 +22,7 @@
         v-bind:key="contact.Tel"
           :class="contact.Tel==editContactId?'selected btn col-12 chat':'btn col-12 chat'">
         <div class="row chat-entry">
-          <div class="avatar col-3" @click="contactClick(contact,i)">
+          <div :class="'avatar col-3 '+checkForUUIDClass(contact)" @click="contactClick(contact,i)">
             <div class="badge-name">{{contact.Name[0]+contact.Name[1]}}</div>
           </div>
           <div class="meta col-9" @click="contactClick(contact)"  v-longclick="()=>{showContactAction(contact)}">
@@ -37,11 +37,11 @@
         :class="contact.Tel==editContactId?'selected btn col-12 chat':'btn col-12 chat'">
       <div class="row chat-entry">
         <!-- <div class="avatar col-3" @click="contactClick(contact)"> -->
-        <div class="avatar col-3" @click="startChatModalOpen()">
+        <div :class="'avatar col-3 avatar '+checkForUUIDClass(contact)" @click="contactClick(contact,i)">
           <div class="badge-name">{{contact.Name[0]+contact.Name[1]}}</div>
         </div>
         <!-- <div class="meta col-9" @click="contactClick(contact)"  v-longclick="()=>{showContactAction(contact)}"> -->
-        <div class="meta col-9" @click="startChatModalOpen()"  v-longclick="()=>{showContactAction(contact)}">
+        <div class="meta col-9" @click="contactClick(contact)"  v-longclick="()=>{showContactAction(contact)}">
           <p class="name">{{contact.Name}}</p>
           <p class="number">{{contact.Tel}}</p>
         </div>
@@ -110,6 +110,9 @@ export default {
       this.showActions = false;
       this.editContactId ="";
     },
+    checkForUUIDClass(contact){
+      return contact.UUID&&contact.UUID[0]==0 && contact.UUID[contact.UUID.length-1]==0?'not-registered':''
+    },
     saveContact(data){
       this.editContactModal=false
       this.showActions = false;
@@ -132,7 +135,8 @@ export default {
     },
     contactClick(contact){
       if(!this.showActions){
-        this.$store.dispatch("createChat", contact.Tel)
+        if(contact.UUID!="" && (contact.UUID[0]!="0"||contact.UUID[contact.UUID.length-1]!="0"))
+        this.$store.dispatch("createChat", contact.UUID)
       }
       else{
         this.editContactId=contact.Tel;
@@ -227,5 +231,8 @@ export default {
   display:flex;
   justify-content:center;
   align-items:center;
+}
+.not-registered .badge-name{
+  background: linear-gradient(0deg,rgb(191, 191, 191) 8%, rgb(100, 100, 100) 42%, rgb(134, 134, 134) 100%);
 }
 </style>

@@ -31,6 +31,14 @@ func GetContactForTel(tel string) *textsecure.Contact {
 	}
 	return nil
 }
+func GetContactForUUID(uuid string) *textsecure.Contact {
+	for _, c := range ContactsModel.Contacts {
+		if c.UUID == uuid {
+			return &c
+		}
+	}
+	return nil
+}
 func RefreshContacts() error {
 	c, err := textsecure.GetRegisteredContacts()
 	log.Debugln("[axolotl] Refresh contacts count: ", len(c))

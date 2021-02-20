@@ -319,6 +319,46 @@ func (s *Sessions) CreateSessionForE164(tel string, UUID string) *Session {
 	return ses
 }
 
+func (s *Sessions) CreateSessionForUUID(UUID string) *Session {
+	contact := GetContactForUUID(UUID)
+	newSession := &Session{
+		Tel:          contact.Tel,
+		Name:         contact.Name,
+		Active:       true,
+		IsGroup:      false,
+		Notification: true,
+		UUID:         UUID,
+	}
+	if s.Len == 0 {
+		newSession.ID = 1
+	}
+	newSession, err := SaveSession(newSession)
+
+	if err != nil {
+		log.Errorln("[axolotl] CreateSessionForUUID failed:", err)
+		return nil
+	}
+	s.Sess = append(s.Sess, newSession)
+	s.Len = len(s.Sess)
+
+	message := &Message{
+		Message:    "Chat created",
+		SID:        newSession.ID,
+		ChatID:     newSession.Tel,
+		Source:     newSession.Tel,
+		SourceUUID: newSession.UUID,
+		Outgoing:   true,
+		Flags:      helpers.MsgFlagChatCreated,
+		HTime:      "Now",
+		SentAt:     uint64(time.Now().UnixNano() / 1000000),
+	}
+	SaveMessage(message)
+	newSession.Messages = append(newSession.Messages, message)
+	newSession.Last = message.Message
+	UpdateSession(newSession)
+	return newSession
+}
+
 // CreateSessionForGroup creates a session for a group
 func (s *Sessions) CreateSessionForGroup(group *textsecure.Group) *Session {
 	ses := &Session{Tel: group.Hexid, // for legacy reasons add group id also as Tel number

@@ -149,14 +149,21 @@ func sendDeviceList() {
 	}
 	broadcast <- *message
 }
-func createChat(tel string) *store.Session {
-	return store.SessionsModel.GetByE164(tel)
+func createChat(uuid string) *store.Session {
+	if uuid == "0"{
+		return nil
+	}
+	session, err := store.SessionsModel.GetByUUID(uuid)
+	if err != nil {
+		session = store.SessionsModel.CreateSessionForUUID(uuid)
+	}
+	return session
 }
-func createGroup(newGroupData CreateGroupMessage) *store.Session {
+func createGroup(newGroupData CreateGroupMessage) (*store.Session, error) {
 	group, err := textsecure.NewGroup(newGroupData.Name, newGroupData.Members)
 	if err != nil {
 		ShowError(err.Error())
-		return nil
+		return nil, err
 	}
 	members := strings.Join(newGroupData.Members, ",")
 	if !strings.Contains(members, config.Config.Tel) {
@@ -167,13 +174,16 @@ func createGroup(newGroupData CreateGroupMessage) *store.Session {
 		Name:    newGroupData.Name,
 		Members: members,
 	}
-	store.SaveGroup(store.Groups[group.Hexid])
-	session := store.SessionsModel.GetByE164(group.Hexid)
+	_, err = store.SaveGroup(store.Groups[group.Hexid])
+	if err != nil {
+		ShowError(err.Error())
+		return nil, err
+	}
+	session := store.SessionsModel.CreateSessionForGroup(group)
 	msg := session.Add(store.GroupUpdateMsg(append(newGroupData.Members, config.Config.Tel), newGroupData.Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
 	msg.Flags = helpers.MsgFlagGroupNew
 	store.SaveMessage(msg)
-
-	return session
+	return session, nil
 }
 func updateGroup(updateGroupData UpdateGroupMessage) *store.Session {
 	group, err := textsecure.UpdateGroup(updateGroupData.ID, updateGroupData.Name, updateGroupData.Members)
