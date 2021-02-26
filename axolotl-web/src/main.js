@@ -51,6 +51,8 @@ var defaultSanitizeOptions = {
 Vue.use(VueSanitize, defaultSanitizeOptions);
 Vue.use(GetTextPlugin, { translations: translations, defaultLanguage: 'en', })
 Vue.config.productionTip = false
+
+// set backend adress
 var websocketAdress = "ws://";
 if (window.location.protocol === "https:") {
   websocketAdress = "wss://";
@@ -65,6 +67,7 @@ if (process.env.NODE_ENV == "development") {
     websocketAdress = 'ws://localhost:9080/ws';
   }
 }
+// initialise connection to the backend
 Vue.use(VueNativeSock, websocketAdress,
   {
     store: store,
