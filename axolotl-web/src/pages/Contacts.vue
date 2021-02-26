@@ -75,6 +75,8 @@
 import AddContactModal from "@/components/AddContactModal.vue"
 import EditContactModal from "@/components/EditContactModal.vue"
 import StartChatModal from "@/components/StartChatModal.vue"
+import {validateUUID} from '@/helpers/uuidCheck'
+
 export default {
   name: 'Contacts',
   props: {
@@ -101,6 +103,7 @@ export default {
     this.$store.dispatch("getContacts")
   },
   methods: {
+    validateUUID,
     addContact(data){
       this.$store.dispatch("addContact", data)
       this.addContactModal=false
@@ -111,7 +114,8 @@ export default {
       this.editContactId ="";
     },
     checkForUUIDClass(contact){
-      return contact.UUID&&contact.UUID[0]==0 && contact.UUID[contact.UUID.length-1]==0?'not-registered':''
+      var isValid = this.validateUUID(contact.UUID)
+      return isValid?'':'not-registered'
     },
     saveContact(data){
       this.editContactModal=false
@@ -135,7 +139,7 @@ export default {
     },
     contactClick(contact){
       if(!this.showActions){
-        if(contact.UUID!="" && (contact.UUID[0]!="0"||contact.UUID[contact.UUID.length-1]!="0"))
+        if(this.validateUUID(contact.UUID))
         this.$store.dispatch("createChat", contact.UUID)
       }
       else{

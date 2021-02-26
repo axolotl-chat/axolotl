@@ -1,6 +1,7 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
 import { router } from '../router/router';
+import {validateUUID} from '@/helpers/uuidCheck'
 
 Vue.use(Vuex)
 
@@ -223,7 +224,7 @@ export default new Vuex.Store({
     SET_CONTACTS_FOR_GROUP_FILTER(state, filter) {
       filter = filter.toLowerCase()
       var f = state.contacts.filter(c => {
-        if(c.UUID[0]==0 && c.UUID[c.UUID.length-1]==0) return false
+        if(!validateUUID(c.UUID))return false
         if(c.Name.toLowerCase().includes(filter))
         return true;
       });

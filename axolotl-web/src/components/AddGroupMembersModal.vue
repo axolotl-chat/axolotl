@@ -82,6 +82,8 @@
 </template>
 
 <script>
+import {validateUUID} from '@/helpers/uuidCheck'
+
 export default {
   name: "AddGroupMembersModal",
   props: {
@@ -101,6 +103,7 @@ export default {
     );
   },
   methods: {
+    validateUUID,
     contactClick(contact) {
       this.$store.dispatch("addNewGroupMember", contact);
     },
@@ -114,7 +117,9 @@ export default {
     },
     filterForOnlyContactsWithUUID(contacts) {
       return contacts.filter((c) => {
-        if (c.UUID[0] == 0 && c.UUID[c.UUID.length - 1] == 0) return false;
+        var isValid = this.validateUUID(c.UUID)
+
+        if (isValid) return false;
         var found = this.allreadyAdded.find(function (element) {
           return element.Tel == c.Tel;
         });
