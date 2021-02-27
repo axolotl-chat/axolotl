@@ -1,3 +1,13 @@
+0.9.9 (Feb 27 2021)
+------------------------------------
+* Add github actions to automagically build fltapak and clicks and appimages on release(olof nord)
+* Reenable starting new chats and check if your contacts are registered with signal(nanu-c)
+* Install script for mobian (nuehm-arno)
+* .Deb Packaging (nuehm-arno)
+* Improve Logging on non ut (nanu-c)
+* Update translation and contribution documentation (danfro)
+* Update Czech translation (jato-p)
+
 0.9.8 (Feb 10 2021)
 ------------------------------------
 * Fix recieving messages because of Signal-API changes(nanu-c)

@@ -12,6 +12,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: src/components/AddDeviceModal.vue:12
+msgid "1. Open Signal Desktop"
+msgstr ""
+
+#: src/components/AddDeviceModal.vue:13
+msgid "2. Scan the qr-Code with a qr-Code scanner"
+msgstr ""
+
+#: src/components/AddDeviceModal.vue:14
+msgid "3. Paste the Qr-Code here:"
+msgstr ""
+
 #: src/pages/About.vue:4 src/pages/Register.vue:6
 msgid "A cross-plattform signal client"
 msgstr "Um cliente signal multiplataforma"
@@ -21,10 +33,16 @@ msgid "About Axolotl"
 msgstr "Sobre Axolotl"
 
 #: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:24
+#: src/components/AddDeviceModal.vue:22
 msgid "Add"
 msgstr "Adicionar"
 
-#: src/components/AddGroupMembersModal.vue:51
+#: src/components/AddDeviceModal.vue:5
+#, fuzzy
+msgid "Add a new device"
+msgstr "Dispositivos conetados"
+
+#: src/components/AddGroupMembersModal.vue:56
 msgid "Add Contacts first"
 msgstr "Adicionar contatos primeiro"
 
@@ -241,7 +259,7 @@ msgstr "Seguinte"
 msgid "No chats available"
 msgstr "Sem conversas disponiveis"
 
-#: src/pages/DeviceList.vue:14
+#: src/pages/DeviceList.vue:17
 #, fuzzy
 msgid "No linked devices"
 msgstr "Dispositivos conetados"
@@ -286,6 +304,10 @@ msgstr "Télemovel"
 #: src/components/AttachmentBar.vue:11
 msgid "Photo"
 msgstr "Fotografia"
+
+#: src/components/AddDeviceModal.vue:17
+msgid "QR-Code"
+msgstr ""
 
 #: src/pages/Settings.vue:5
 msgid "Registered number"

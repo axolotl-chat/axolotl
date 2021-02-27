@@ -12,6 +12,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#: src/components/AddDeviceModal.vue:12
+msgid "1. Open Signal Desktop"
+msgstr ""
+
+#: src/components/AddDeviceModal.vue:13
+msgid "2. Scan the qr-Code with a qr-Code scanner"
+msgstr ""
+
+#: src/components/AddDeviceModal.vue:14
+msgid "3. Paste the Qr-Code here:"
+msgstr ""
+
 #: src/pages/About.vue:4 src/pages/Register.vue:6
 msgid "A cross-plattform signal client"
 msgstr "Un client Signal multi-plateforme"
@@ -21,10 +33,16 @@ msgid "About Axolotl"
 msgstr "À propos d'Axolotl"
 
 #: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:24
+#: src/components/AddDeviceModal.vue:22
 msgid "Add"
 msgstr "Ajouter"
 
-#: src/components/AddGroupMembersModal.vue:51
+#: src/components/AddDeviceModal.vue:5
+#, fuzzy
+msgid "Add a new device"
+msgstr "Ajouter un appareil"
+
+#: src/components/AddGroupMembersModal.vue:56
 msgid "Add Contacts first"
 msgstr "Veuillez d'abord ajouter des contacts"
 
@@ -240,7 +258,7 @@ msgstr "Suivant"
 msgid "No chats available"
 msgstr "Aucune discussion disponible"
 
-#: src/pages/DeviceList.vue:14
+#: src/pages/DeviceList.vue:17
 msgid "No linked devices"
 msgstr "Aucun appareil lié"
 
@@ -283,6 +301,11 @@ msgstr "Téléphone"
 #: src/components/AttachmentBar.vue:11
 msgid "Photo"
 msgstr "Photo"
+
+#: src/components/AddDeviceModal.vue:17
+#, fuzzy
+msgid "QR-Code"
+msgstr "Code"
 
 #: src/pages/Settings.vue:5
 msgid "Registered number"
@@ -559,9 +582,6 @@ msgstr "Votre navigateur ne prend pas en charge l'élément vidéo."
 #~ msgid "Link a Device"
 #~ msgstr "Lier un appareil"
 
-#~ msgid "Add device"
-#~ msgstr "Ajouter un appareil"
-
 #, fuzzy
 #~ msgid "Refresh devices"
 #~ msgstr "Actualiser les appareils"
@@ -606,9 +626,6 @@ msgstr "Votre navigateur ne prend pas en charge l'élément vidéo."
 
 #~ msgid "Waiting for SMS verification..."
 #~ msgstr "Attente du texto de vérification..."
-
-#~ msgid "Code"
-#~ msgstr "Code"
 
 #~ msgid "Calling you (this may take a while)..."
 #~ msgstr "Nous vons appelons (cela peut prendre un moment)..."

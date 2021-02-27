@@ -13,6 +13,18 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
 
+#: src/components/AddDeviceModal.vue:12
+msgid "1. Open Signal Desktop"
+msgstr ""
+
+#: src/components/AddDeviceModal.vue:13
+msgid "2. Scan the qr-Code with a qr-Code scanner"
+msgstr ""
+
+#: src/components/AddDeviceModal.vue:14
+msgid "3. Paste the Qr-Code here:"
+msgstr ""
+
 #: src/pages/About.vue:4 src/pages/Register.vue:6
 msgid "A cross-plattform signal client"
 msgstr ""
@@ -22,10 +34,16 @@ msgid "About Axolotl"
 msgstr ""
 
 #: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:24
+#: src/components/AddDeviceModal.vue:22
 msgid "Add"
 msgstr ""
 
-#: src/components/AddGroupMembersModal.vue:51
+#: src/components/AddDeviceModal.vue:5
+#, fuzzy
+msgid "Add a new device"
+msgstr "Reîmprospătează"
+
+#: src/components/AddGroupMembersModal.vue:56
 #, fuzzy
 msgid "Add Contacts first"
 msgstr "Contact"
@@ -248,7 +266,7 @@ msgstr ""
 msgid "No chats available"
 msgstr ""
 
-#: src/pages/DeviceList.vue:14
+#: src/pages/DeviceList.vue:17
 #, fuzzy
 msgid "No linked devices"
 msgstr "Reîmprospătează"
@@ -291,6 +309,10 @@ msgstr ""
 
 #: src/components/AttachmentBar.vue:11
 msgid "Photo"
+msgstr ""
+
+#: src/components/AddDeviceModal.vue:17
+msgid "QR-Code"
 msgstr ""
 
 #: src/pages/Settings.vue:5
