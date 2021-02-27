@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: src/components/AddDeviceModal.vue:12
+msgid "1. Open Signal Desktop"
+msgstr ""
+
+#: src/components/AddDeviceModal.vue:13
+msgid "2. Scan the qr-Code with a qr-Code scanner"
+msgstr ""
+
+#: src/components/AddDeviceModal.vue:14
+msgid "3. Paste the Qr-Code here:"
+msgstr ""
+
 #: src/pages/About.vue:4 src/pages/Register.vue:6
 msgid "A cross-plattform signal client"
 msgstr ""
@@ -20,10 +32,16 @@ msgid "About Axolotl"
 msgstr ""
 
 #: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:24
+#: src/components/AddDeviceModal.vue:22
 msgid "Add"
 msgstr ""
 
-#: src/components/AddGroupMembersModal.vue:51
+#: src/components/AddDeviceModal.vue:5
+#, fuzzy
+msgid "Add a new device"
+msgstr "刷新"
+
+#: src/components/AddGroupMembersModal.vue:56
 #, fuzzy
 msgid "Add Contacts first"
 msgstr "联系人"
@@ -246,7 +264,7 @@ msgstr ""
 msgid "No chats available"
 msgstr ""
 
-#: src/pages/DeviceList.vue:14
+#: src/pages/DeviceList.vue:17
 #, fuzzy
 msgid "No linked devices"
 msgstr "刷新"
@@ -289,6 +307,10 @@ msgstr ""
 
 #: src/components/AttachmentBar.vue:11
 msgid "Photo"
+msgstr ""
+
+#: src/components/AddDeviceModal.vue:17
+msgid "QR-Code"
 msgstr ""
 
 #: src/pages/Settings.vue:5
