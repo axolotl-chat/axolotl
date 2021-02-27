@@ -193,10 +193,6 @@ jobs:
         run: |
           echo "CLICKABLE_VERSION=${{ steps.get_clickable_version.outputs.version }}" >> $GITHUB_ENV
 
-      - name: Create zip archive of repo
-        run: |
-          zip -r ./build-artifacts/sources.zip ./ --exclude ./build-artifacts
-
       - name: Create draft GitHub release page
         id: create_release
         uses: actions/create-release@v1
@@ -210,16 +206,6 @@ jobs:
             -
           draft: true
           prerelease: false
-
-      - name: Add axolotl sources to release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build-artifacts/sources.zip
-          asset_name: sources-${{ env.VERSION }}.zip
-          asset_content_type: application/zip
 
       - name: Add AppImage to release (x86_64)
         uses: actions/upload-release-asset@v1
