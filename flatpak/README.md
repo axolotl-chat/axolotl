@@ -60,7 +60,7 @@ npm ci
 Lastly, create the archive we want, naming it after the tag we checked out before.
 
 ```
-tar -cfvJ ../flatpak/archives/axolotl-web-dependencies-v0.9.9.tar.xz node_modules
+tar cfvJ ../flatpak/archives/axolotl-web-dependencies-v0.9.9.tar.xz node_modules
 ```
 
-To verify, the archive can be extracted by using `tar -xvJf axolotl-web-dependencies-v0.9.9.tar.xz`.
+To verify, the archive can be extracted by using `tar xvJf axolotl-web-dependencies-v0.9.9.tar.xz`.
