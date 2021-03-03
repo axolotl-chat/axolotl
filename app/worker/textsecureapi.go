@@ -230,15 +230,32 @@ func startSession() {
 	if !config.Config.AccountCapabilities.UUID {
 		log.Debugln("[axoltol] uuid not set, start uuid migration")
 
+		// config.Config.AccountCapabilities = textsecure.AccountCapabilities{
+		// 	UUID:    true,
+		// 	Gv2:     false,
+		// 	Storage: false,
+		// }
+		// err := textsecure.WriteConfig(config.ConfigFile, config.Config)
+		// if err != nil {
+		// 	log.Debugln("[axoltol] uuid migration: ", err)
+		// }
+	}
+	if !config.Config.AccountCapabilities.Gv2 {
+		log.Debugln("[axoltol] gv2 not set, start gv2 migration")
+		// enable gv2 capabilities
 		config.Config.AccountCapabilities = textsecure.AccountCapabilities{
-			UUID:         true,
-			Gv2:          false,
+			UUID:         false,
+			Gv2:          true,
 			Storage:      false,
 			Gv1Migration: false,
 		}
 		err := textsecure.WriteConfig(config.ConfigFile, config.Config)
 		if err != nil {
-			log.Debugln("[axoltol] uuid migration: ", err)
+			log.Debugln("[axoltol] gv2 migration save config: ", err)
+		}
+		textsecure.SetAccountCapabilities(config.Config.AccountCapabilities)
+		if err != nil {
+			log.Debugln("[axoltol] gv2 migration: ", err)
 		}
 	}
 	for _, s := range store.SessionsModel.Sess {
