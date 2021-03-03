@@ -26,6 +26,5 @@
     ".flatpak-builder",
     ".idea"
   ],
-  "postbuild": "$ROOT/scripts/postbuild.sh $INSTALL_DIR",
-  "dependencies_target": ["qml-module-qtcontacts"]
+  "postbuild": "$ROOT/scripts/postbuild.sh $INSTALL_DIR"
 }
