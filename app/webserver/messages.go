@@ -3,6 +3,7 @@ package webserver
 import (
 	"github.com/nanu-c/axolotl/app/store"
 	"github.com/signal-golang/textsecure"
+	textsecureContacts "github.com/signal-golang/textsecure/contacts"
 )
 
 type MessageListEnvelope struct {
@@ -15,14 +16,14 @@ type ChatListEnvelope struct {
 	ChatList []*store.Session
 }
 type ContactListEnvelope struct {
-	ContactList []textsecure.Contact
+	ContactList []textsecureContacts.Contact
 }
 type DeviceListEnvelope struct {
 	DeviceList []textsecure.DeviceInfo
 }
 type OpenChat struct {
 	CurrentChat *store.Session
-	Contact     *textsecure.Contact
+	Contact     *textsecureContacts.Contact
 	Group       *textsecure.Group
 }
 type CurrentChatEnvelope struct {
@@ -30,7 +31,7 @@ type CurrentChatEnvelope struct {
 }
 type UpdateCurrentChat struct {
 	CurrentChat *store.Session
-	Contact     *textsecure.Contact
+	Contact     *textsecureContacts.Contact
 	Group       *textsecure.Group
 }
 type UpdateCurrentChatEnvelope struct {

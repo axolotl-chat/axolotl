@@ -18,6 +18,8 @@ import (
 	"github.com/nanu-c/axolotl/app/store"
 	"github.com/nanu-c/axolotl/app/ui"
 	"github.com/signal-golang/textsecure"
+	textsecureContacts "github.com/signal-golang/textsecure/contacts"
+
 	log "github.com/sirupsen/logrus"
 )
 
@@ -249,7 +251,7 @@ func startSession() {
 func (Api *TextsecureAPI) FilterContacts(sub string) {
 	sub = strings.ToUpper(sub)
 
-	fc := []textsecure.Contact{}
+	fc := []textsecureContacts.Contact{}
 	for _, c := range store.ContactsModel.Contacts {
 		if strings.Contains(strings.ToUpper(store.TelToName(c.Tel)), sub) {
 			fc = append(fc, c)

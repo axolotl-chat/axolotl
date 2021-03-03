@@ -20,13 +20,14 @@ import (
 	"github.com/nanu-c/axolotl/app/settings"
 	"github.com/nanu-c/axolotl/app/store"
 	"github.com/signal-golang/textsecure"
+	textsecureContacts "github.com/signal-golang/textsecure/contacts"
 )
 
 var (
 	clients                = make(map[*websocket.Conn]bool)
 	activeChat       int64 = -1
 	codeVerification       = false
-	profile          textsecure.Contact
+	profile          textsecureContacts.Contact
 	broadcast        = make(chan []byte, 100)
 	requestChannel   chan string
 	upgrader         = websocket.Upgrader{
@@ -337,7 +338,7 @@ func wsReader(conn *websocket.Conn) {
 		case "editContact":
 			editContactMessage := EditContactMessage{}
 			json.Unmarshal([]byte(p), &editContactMessage)
-			replaceContact := textsecure.Contact{
+			replaceContact := textsecureContacts.Contact{
 				Tel:  editContactMessage.Phone,
 				Name: editContactMessage.Name,
 			}
