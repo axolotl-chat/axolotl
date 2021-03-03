@@ -21,11 +21,10 @@ require (
 	github.com/mdempsky/unconvert v0.0.0-20200228143138-95ecdbfc0b5f // indirect
 	github.com/mibk/dupl v1.0.0 // indirect
 	github.com/mutecomm/go-sqlcipher v0.0.0-20190227152316-55dbde17881f
-	github.com/nanu-c/zkgroup v0.0.0-20210220173654-12660e919918 // indirect
 	github.com/opennota/check v0.0.0-20180911053232-0c771f5545ff // indirect
 	github.com/pieterbork/ed25519 v0.0.0-20200301051623-f19b832d0d2e // indirect
 	github.com/pkg/errors v0.9.1
-	github.com/signal-golang/textsecure v1.2.14
+	github.com/signal-golang/textsecure v1.2.15-0.20210303224615-91c2683b885a
 	github.com/sirupsen/logrus v1.7.0
 	github.com/stretchr/testify v1.6.1 // indirect
 	github.com/stripe/safesql v0.2.0 // indirect
@@ -43,4 +42,5 @@ require (
 	mvdan.cc/interfacer v0.0.0-20180901003855-c20040233aed // indirect
 	mvdan.cc/lint v0.0.0-20170908181259-adc824a0674b // indirect
 )
-replace github.com/signal-golang/textsecure v1.2.14 => /home/nanu/go/src/github.com/signal-golang/textsecure
+
+// replace github.com/signal-golang/textsecure v1.2.14 => /home/nanu/go/src/github.com/signal-golang/textsecure

@@ -176,6 +176,7 @@ github.com/mozilla/tls-observatory v0.0.0-20200317151703-4fa42e1c2dee h1:1xJ+Xi9
 github.com/mozilla/tls-observatory v0.0.0-20200317151703-4fa42e1c2dee/go.mod h1:SrKMQvPiws7F7iqYp8/TX+IhxCYhzr6N/1yb8cwHsGk=
 github.com/mutecomm/go-sqlcipher v0.0.0-20190227152316-55dbde17881f h1:hd3r+uv9DNLScbOrnlj82rBldHQf3XWmCeXAWbw8euQ=
 github.com/mutecomm/go-sqlcipher v0.0.0-20190227152316-55dbde17881f/go.mod h1:MyUWrZlB1aI5bs7j9/pJ8ckLLZ4QcCYcNiSbsAW32D4=
+github.com/nanu-c/zkgroup v0.0.0-20210220173654-12660e919918/go.mod h1:6c1LFh8Neuzl2qF51yPsH4sdvXFeEdfucfITI4Jbu7o=
 github.com/nanu-c/zkgroup v0.7.16 h1:BRozu0uP2VzHW5cXhSreEfdK1g6wsMqwB2JOmSdbHgk=
 github.com/nanu-c/zkgroup v0.7.16/go.mod h1:6c1LFh8Neuzl2qF51yPsH4sdvXFeEdfucfITI4Jbu7o=
 github.com/nbutton23/zxcvbn-go v0.0.0-20180912185939-ae427f1e4c1d/go.mod h1:o96djdrsSGy3AWPyBgZMAGfxZNfgntdJG+11KU4QvbU=
@@ -220,6 +221,8 @@ github.com/signal-golang/mimemagic v0.0.0-20200821045537-3f613cf2cd3f h1:S17lCk5
 github.com/signal-golang/mimemagic v0.0.0-20200821045537-3f613cf2cd3f/go.mod h1:tU6SWwv50oGkZNPlvTFvmqZvEBp0vWWCC+LCEVlTE5A=
 github.com/signal-golang/textsecure v1.2.14 h1:CrX1M1rxs7mc4VKVIVk1tUpM2DN43OjFIugdPsfHvAw=
 github.com/signal-golang/textsecure v1.2.14/go.mod h1:cd48dGnBVDos8iaB+DO0V4pVTYnNwYqAbcmJAcTLTgc=
+github.com/signal-golang/textsecure v1.2.15-0.20210303224615-91c2683b885a h1:acAzEULKdReqQmHvvP5ba+x9CG7IIFRym1OGmRO2Vdo=
+github.com/signal-golang/textsecure v1.2.15-0.20210303224615-91c2683b885a/go.mod h1:Lo/x4VzFYuFs/I9945SU2RMUFY6VLZ443rEsnfaUaUU=
 github.com/sirupsen/logrus v1.6.0 h1:UBcNElsrwanuuMsnGSlYmtmgbb23qDR5dG+6X6Oo89I=
 github.com/sirupsen/logrus v1.6.0/go.mod h1:7uNnSEd1DgxDLC74fIahvMZmmYsHGZGEOFrfsX/uA88=
 github.com/sirupsen/logrus v1.7.0 h1:ShrD1U9pZB12TX0cVy0DtePoCH97K8EtX+mg7ZARUtM=
