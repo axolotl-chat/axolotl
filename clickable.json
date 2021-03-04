@@ -26,5 +26,6 @@
     ".flatpak-builder",
     ".idea"
   ],
-  "postbuild": "$ROOT/scripts/postbuild.sh $INSTALL_DIR"
+  "postbuild": "$ROOT/scripts/postbuild.sh $INSTALL_DIR; cp ${GOPATH}/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_${ARCH}.so ${INSTALL_DIR}/lib/libzkgroup_linux_${ARCH}.so "
+
 }
