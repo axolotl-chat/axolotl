@@ -2,9 +2,9 @@
   <div class="about">
     <img class="logo" src="/axolotl.png" />
     <h1 class="title">Axolotl Beta {{config.Version}}</h1>
-    <h2 class="subtitle" v-translate>A cross-plattform signal client</h2>
+    <h2 class="subtitle" v-translate>A cross-plattform Signal client</h2>
     <div class="description">
-      <translate>This is a free and open source signal client written in golang and vuejs.</translate>
+      <translate>This is a free and open source Signal client written in golang and vuejs.</translate>
       <br />
       <translate class="mr-1">
         You can support the development of axolotl either by filling
