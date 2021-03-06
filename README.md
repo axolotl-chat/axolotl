@@ -44,7 +44,7 @@ Installation of development environment
 * Check out this git `go get -d github.com/nanu-c/axolotl`
 * `cd $(go env GOPATH)/src/github.com/nanu-c/axolotl`
 * get go dependencies `go mod download`
-* install axolotl-web dependencies: `cd axolotl-web&&npm install`
+* install axolotl-web dependencies: `cd axolotl-web && npm install`
 
 When setting up for the first time and maybe occasionally later you need to update the browser list with your installed browsers. Change into the axolotl-web subfolder and run the following command:
 
@@ -54,7 +54,7 @@ Run development
 ------------
 * `cd $(go env GOPATH)/src/github.com/nanu-c/axolotl`
 * `go run .`
-* in a new terminal `cd axolotl-web&&npm run serve`
+* in a new terminal `cd axolotl-web && npm run serve`
 * point a browser to the link printed in the terminal  like `http://localhost:9080`
 
 Run frontend and connect to phone ip
