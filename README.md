@@ -85,6 +85,7 @@ Run flags
     `me` -> qmlscene,
     `server` -> just run the webserver. Defaults to run with `electron`.
 * `-eDebug` show developer console in electron mode
+* `-version` Print version info
 * `-host` Set the host to run the webserver from. Defaults to localhost.
 * `-port` Set the port to run the webserver from. Defaults to 9080.
 
