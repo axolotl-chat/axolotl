@@ -7,6 +7,7 @@ import (
 	"os/user"
 	"path/filepath"
 	"strings"
+	"runtime"
 
 	log "github.com/sirupsen/logrus"
 
@@ -14,9 +15,9 @@ import (
 	"github.com/signal-golang/textsecure"
 )
 
-var AppName = "textsecure.nanuc"
+const AppName = "textsecure.nanuc"
 
-var AppVersion = "0.9.9"
+const AppVersion = "0.9.9"
 
 // Do not allow sending attachments larger than 100M for now
 var MaxAttachmentSize int64 = 100 * 1024 * 1024
@@ -27,6 +28,7 @@ var (
 	MainQml                string
 	Gui                    string
 	ElectronDebug          bool
+	PrintVersion           bool
 	HomeDir                string
 	ConfigDir              string
 	CacheDir               string
@@ -84,6 +86,12 @@ func SetupConfig() {
 	if len(flag.Args()) == 1 {
 		TsDeviceURL = flag.Arg(0)
 	}
+
+	if PrintVersion {
+        fmt.Printf("%s %s %s %s %s\n",
+                    AppName, AppVersion, runtime.GOOS, runtime.GOARCH, runtime.Version())
+        os.Exit(0)
+    }
 
 	if IsPushHelper || IsPhone{
 		log.Printf("[axolotl] use push helper")
