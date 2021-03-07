@@ -7,7 +7,11 @@ Unlike the desktop Signal client, **Axolotl is completely autonomous** and doesn
 
 It is built upon the [Go textsecure package](https://github.com/nanu-c/textsecure/) and a vuejs app that runs in a electron/qml WebEngineView container.
 
-![axolotl screenshot](./screenshot.png)
+<p align="center">
+  <kbd>
+    <img src="https://github.com/nanu-c/axolotl/blob/main/screenshot.png" alt="Screenshot of axolotl" width="300px"/>
+  </kbd>
+</p>
 
 To use it from your Ubuntu Touch device, simply install it from the open store:  
 [![OpenStore](https://open-store.io/badges/en_US.png)](https://open-store.io/app/textsecure.nanuc)
