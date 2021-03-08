@@ -5,7 +5,7 @@ runtime-version: '20.08'
 sdk: org.freedesktop.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.golang
-  - org.freedesktop.Sdk.Extension.node12
+  - org.freedesktop.Sdk.Extension.node14
 command: axolotl
 finish-args:
   # See https://docs.flatpak.org/en/latest/sandbox-permissions-reference.html
@@ -54,8 +54,8 @@ modules:
   - name: axolotl-web
     buildsystem: simple
     build-options:
-      prefix: /usr/lib/sdk/node12
-      prepend-path: /usr/lib/sdk/node12/bin
+      prefix: /usr/lib/sdk/node14
+      prepend-path: /usr/lib/sdk/node14/bin
       build-args:
         - --share=network
     build-commands:
