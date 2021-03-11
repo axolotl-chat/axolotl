@@ -51,7 +51,8 @@ nvm use
 ```
 
 Then, from the axolotl-web directory, install all npm dependencies listed in
-[package-lock.json](../axolotl-web/package-lock.json)
+[package-lock.json](../axolotl-web/package-lock.json).
+Note that `python` is required (!) for the node-sass installation to complete.
 
 ```
 npm ci
@@ -60,7 +61,7 @@ npm ci
 Lastly, create the archive we want, naming it after the tag we checked out before.
 
 ```
-tar cfvJ ../flatpak/archives/axolotl-web-dependencies-v0.9.9.tar.xz node_modules
+tar cfvJ ../flatpak/archives/axolotl-web-dependencies-x86_64-v0.9.9.tar.xz node_modules
 ```
 
-To verify, the archive can be extracted by using `tar xvJf axolotl-web-dependencies-v0.9.9.tar.xz`.
+To verify, the archive can be extracted by using `tar xvJf axolotl-web-dependencies-x86_64-v0.9.9.tar.xz`.
