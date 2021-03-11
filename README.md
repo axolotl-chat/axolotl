@@ -40,7 +40,7 @@ Axolotl can be installed through different means.
 | Package | Maintainer | Comment |
 | ------- | ---------- | -------- |
 | <a href='https://open-store.io/app/textsecure.nanuc'><img width='130' alt="Get it from the OpenStore" src="https://open-store.io/badges/en_US.png"></a> | nanu-c | For Ubuntu Touch |
-| <a href='https://snapcraft.io/axolotl'><img width='130' alt="Get it from the Snap Store" src="https://snapcraft.io/static/images/badges/en/snap-store-black.svg"></a> |  | For Ubuntu desktop |
+| <a href='https://snapcraft.io/axolotl'><img width='130' alt="Get it from the Snap Store" src="https://snapcraft.io/static/images/badges/en/snap-store-black.svg"></a> | nanu-c | For Ubuntu desktop |
 | Flathub (work in progress) | olof-nord | [Pull Request](https://github.com/flathub/flathub/pull/2149) |
 | <a href='https://github.com/nuehm-arno/axolotl-mobian-package'><img alt="mobian version" src="https://img.shields.io/badge/axolotl-deb-%23A80030"></a> | nuehm-arno | https://github.com/nuehm-arno/axolotl-mobian-package |
 
