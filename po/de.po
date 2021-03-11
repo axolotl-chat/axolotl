@@ -27,7 +27,7 @@ msgstr ""
 
 #: src/pages/About.vue:4 src/pages/Register.vue:6
 msgid "A cross-plattform signal client"
-msgstr "Ein Multi-Plattform Signal Client"
+msgstr "Ein Multi-Plattform Signal-Client"
 
 #: src/pages/Settings.vue:27
 msgid "About Axolotl"
@@ -193,11 +193,11 @@ msgid ""
 "            Be careful, <strong>your encryption key will change and you will "
 "lose all your messages</strong> if you choose to do that."
 msgstr ""
-"Falls du denkst, dass an deinem Ende etwas nicht stimmt, kannst du auf <a "
+"Falls du denkst, dass an deinem Ende etwas nicht stimmt, kannst du deine <a "
 "href=\"#\" @click=\"unregister\">Registrierung löschen</a> und dich nochmals "
 "neu registrieren.\n"
 "            Aber bitte beachte, <strong>dein Schlüssel ändert sich dadurch "
-"und du wirst alle Nachrichten verlieren</strong> wenn du das machst."
+"und du wirst alle Nachrichten verlieren</strong>, wenn du das machst."
 
 #: src/components/ErrorModal.vue:12
 msgid ""
@@ -344,7 +344,7 @@ msgstr "Passwort hier wiederholen"
 
 #: src/pages/Register.vue:26
 msgid "Request code"
-msgstr "Code empfangen"
+msgstr "Code anfordern"
 
 #: src/components/Header.vue:63
 msgid "Reset encryption"
@@ -372,7 +372,7 @@ msgstr "Pin senden"
 
 #: src/components/Header.vue:82
 msgid "Set encryption password"
-msgstr "Verschlüsselung Passwort setzen"
+msgstr "Verschlüsselungs-Passwort setzen"
 
 #: src/pages/SetPassword.vue:23 src/pages/Settings.vue:14
 msgid "Set password"
@@ -380,7 +380,7 @@ msgstr "Passwort setzen"
 
 #: src/components/Message.vue:78
 msgid "Set timer for self-destructing messages"
-msgstr "Zeitbegrenzung für verschwindende Nachrichten festgelegt"
+msgstr "Zeitbegrenzung für verschwindende Nachrichten festlegen"
 
 #: src/pages/SetPassword.vue:3
 msgid ""
@@ -411,7 +411,7 @@ msgstr ""
 msgid ""
 "This is a free and open source signal client written in golang and vuejs."
 msgstr ""
-"Dies ist ein freier Open Source Signal-Client geschrieben mit Golang und "
+"Dies ist ein freier Open Source Signal-Client, geschrieben mit Golang und "
 "Vuejs."
 
 #: src/components/Header.vue:27 src/pages/ChatList.vue:26
@@ -436,7 +436,7 @@ msgstr "Nicht unterstützter Nachrichtentyp: Sticker"
 
 #: src/pages/EditGroup.vue:41
 msgid "Updating Group"
-msgstr "Gruppe Aktualisieren"
+msgstr "Gruppe aktualisieren"
 
 #: src/components/IdentityModal.vue:5
 msgid "Verify identity"
@@ -480,7 +480,7 @@ msgstr "Dein Browser unterstützt dieses Video-Element nicht."
 #~ msgstr "Gruppe bearbeiten"
 
 #~ msgid "Please ask your conversation partner to start the chat first."
-#~ msgstr "Bitte deinen Gesprächspartner ein neues Gespräch zu beginnen."
+#~ msgstr "Bitte deinen Gesprächspartner, ein neues Gespräch zu beginnen."
 
 #~ msgid "Add Contacts"
 #~ msgstr "Kontakte hinzufügen"
@@ -576,8 +576,8 @@ msgstr "Dein Browser unterstützt dieses Video-Element nicht."
 #~ "will need to re-register your phone number to use them again in the "
 #~ "future."
 #~ msgstr ""
-#~ "Signal-Nachrichten und -Anrufe durch Löschen Ihrer Registrierung vom "
-#~ "Server deaktivieren. Sie werden Ihre Rufnummer erneut registrieren "
+#~ "Signal-Nachrichten und -Anrufe durch Löschen deiner Registrierung vom "
+#~ "Server deaktivieren. Du wirdst deine Rufnummer erneut registrieren "
 #~ "müssen, um zukünftig wieder verschlüsselt zu kommunizieren."
 
 #~ msgid "Enter key sends"
@@ -593,7 +593,7 @@ msgstr "Dein Browser unterstützt dieses Video-Element nicht."
 #~ msgstr "IHRE LANDESVORWAHL UND RUFNUMMER"
 
 #~ msgid "Verify your phone number to connect with Signal."
-#~ msgstr "Überprüfen Sie Ihre Rufnummer zur Registrierung bei Signal."
+#~ msgstr "Überprüfe deine Rufnummer zur Registrierung bei Signal."
 
 #~ msgid ""
 #~ "Registration transmits some contact information to the server. It is not "
@@ -606,7 +606,7 @@ msgstr "Dein Browser unterstützt dieses Video-Element nicht."
 #~ "Double-check that this is your number! We're about to verify it with an "
 #~ "SMS."
 #~ msgstr ""
-#~ "Bitte kontrollieren Sie noch einmal Ihre Rufnummer. Diese wird "
+#~ "Bitte kontrolliere noch einmal deine Rufnummer. Diese wird "
 #~ "anschließend durch eine SMS überprüft."
 
 #~ msgid "Link a Device"
@@ -636,7 +636,7 @@ msgstr "Dein Browser unterstützt dieses Video-Element nicht."
 
 #, fuzzy
 #~ msgid "Add contact"
-#~ msgstr "Keine Kontakte"
+#~ msgstr "Kontakt hinzufügen"
 
 #~ msgid "Content Picker"
 #~ msgstr "Datenauswahl"
@@ -648,7 +648,7 @@ msgstr "Dein Browser unterstützt dieses Video-Element nicht."
 #~ "Signal will now automatically verify your number with a confirmation SMS "
 #~ "message."
 #~ msgstr ""
-#~ "Signal wird Ihre Rufnummer nun automatisch mit einer SMS überprüfen."
+#~ "Signal wird deine Rufnummer nun automatisch mit einer SMS überprüfen."
 
 #~ msgid "Waiting for SMS verification..."
 #~ msgstr "Warten auf SMS-Überprüfung …"
@@ -677,11 +677,11 @@ msgstr "Dein Browser unterstützt dieses Video-Element nicht."
 
 #, fuzzy
 #~ msgid "Mute notifications?"
-#~ msgstr "Benachrichtigungen An"
+#~ msgstr "Benachrichtigungen stummschalten?"
 
 #, fuzzy
 #~ msgid "Unmute notifications?"
-#~ msgstr "Benachrichtigungen An"
+#~ msgstr "Benachrichtigungen an?"
 
 #~ msgid "Recipients list"
 #~ msgstr "Mitgliederliste"
@@ -690,7 +690,7 @@ msgstr "Dein Browser unterstützt dieses Video-Element nicht."
 #~ msgstr "Gruppe verlassen?"
 
 #~ msgid "Are you sure you want to leave this group?"
-#~ msgstr "Wollen Sie wirklich diese Gruppe verlassen?"
+#~ msgstr "Willst du wirklich diese Gruppe verlassen?"
 
 #~ msgid "Delete conversation"
 #~ msgstr "Unterhaltung löschen"
@@ -739,7 +739,7 @@ msgstr "Dein Browser unterstützt dieses Video-Element nicht."
 #~ "feature requests on github:<br>            <a href='https://github.com/"
 #~ "nanu-c/axolotl/issues'>https://github.com/nanu-c/axolotl/issues</a><br>"
 #~ msgstr ""
-#~ "<h3>Danke dass du Signal ausprobierst!</h3><br><br>             Erstelle "
+#~ "<h3>Danke, dass du Signal ausprobierst!</h3><br><br>             Erstelle "
 #~ "Fehlerberichte und Funktionswünsche auf github:<br>            <a "
 #~ "href='https://github.com/nanu-c/axolotl/issues'>https://github.com/nanu-c/"
 #~ "axolotl/issues</a><br>"
@@ -773,10 +773,10 @@ msgstr "Dein Browser unterstützt dieses Video-Element nicht."
 #~ msgstr "Verschlüsselung neu gestartet."
 
 #~ msgid "You have left the group."
-#~ msgstr "Sie haben die Gruppe verlassen."
+#~ msgstr "Du hast die Gruppe verlassen."
 
 #~ msgid "Their identity (they read):"
 #~ msgstr "Schlüssel des Kontakts:"
 
 #~ msgid "Your identity (you read):"
-#~ msgstr "Ihr Schlüssel:"
+#~ msgstr "Dein Schlüssel:"

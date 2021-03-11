@@ -95,7 +95,7 @@ The following Flatpak SDKs are required:
 flatpak install org.freedesktop.Platform//20.08
 flatpak install org.freedesktop.Sdk//20.08
 flatpak install org.freedesktop.Sdk.Extension.golang//20.08
-flatpak install org.freedesktop.Sdk.Extension.node12//20.08
+flatpak install org.freedesktop.Sdk.Extension.node14//20.08
 ```
 
 **Build and Install**
@@ -131,7 +131,7 @@ The following Flatpak SDKs are required:
 flatpak install org.kde.Platform//5.15
 flatpak install org.kde.Sdk//5.15
 flatpak install org.freedesktop.Sdk.Extension.golang//20.08
-flatpak install org.freedesktop.Sdk.Extension.node12//20.08
+flatpak install org.freedesktop.Sdk.Extension.node14//20.08
 flatpak install io.qt.qtwebengine.BaseApp//5.15
 ```
 

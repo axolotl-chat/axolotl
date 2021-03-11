@@ -25,9 +25,10 @@ var e string
 
 func init() {
 	flag.StringVar(&config.MainQml, "qml", "qml/phoneui/main.qml", "The qml file to load.")
-	flag.StringVar(&config.Gui, "e", "", "use either electron, ut, lorca, qt or server")
+	flag.StringVar(&config.Gui, "e", "", "Specify runtime environment. Use either electron, ut, lorca, qt or server")
 	flag.StringVar(&config.AxolotlWebDir, "axolotlWebDir", "./axolotl-web/dist", "Specify the directory to use for axolotl-web")
-	flag.BoolVar(&config.ElectronDebug, "eDebug", false, "use to show development console in electron")
+	flag.BoolVar(&config.ElectronDebug, "eDebug", false, "Open electron development console")
+	flag.BoolVar(&config.PrintVersion, "version", false, "Print version info")
 	flag.StringVar(&config.ServerHost, "host", "127.0.0.1", "Host to serve UI from.")
 	flag.StringVar(&config.ServerPort, "port", "9080", "Port to serve UI from.")
 }

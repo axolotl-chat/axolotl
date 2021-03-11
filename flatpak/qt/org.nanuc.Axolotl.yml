@@ -5,7 +5,7 @@ runtime-version: '5.15'
 sdk: org.kde.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.golang
-  - org.freedesktop.Sdk.Extension.node12
+  - org.freedesktop.Sdk.Extension.node14
 command: axolotl
 base: io.qt.qtwebengine.BaseApp
 base-version: "5.15"
@@ -58,8 +58,8 @@ modules:
   - name: axolotl-web
     buildsystem: simple
     build-options:
-      prefix: /usr/lib/sdk/node12
-      prepend-path: /usr/lib/sdk/node12/bin
+      prefix: /usr/lib/sdk/node14
+      prepend-path: /usr/lib/sdk/node14/bin
       build-args:
         - --share=network
     build-commands:

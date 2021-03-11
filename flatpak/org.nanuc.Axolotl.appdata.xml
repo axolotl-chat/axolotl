@@ -20,6 +20,12 @@
             you to have created an account with the official Signal application.
         </p>
     </description>
+    <screenshots>
+        <screenshot type="default">
+            <caption>Axolotl screenshot</caption>
+            <image>https://raw.githubusercontent.com/nanu-c/axolotl/main/screenshot.png</image>
+        </screenshot>
+    </screenshots>
     <releases>
       <release version="0.9.9" date="2021-02-27">
           <url>https://github.com/nanu-c/axolotl/releases/tag/v0.9.9</url>
