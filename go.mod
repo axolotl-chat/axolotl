@@ -13,34 +13,22 @@ require (
 	github.com/google/go-cmp v0.5.1 // indirect
 	github.com/gopherjs/gopherjs v0.0.0-20200217142428-fce0ec30dd00 // indirect
 	github.com/gorilla/websocket v1.4.2
-	github.com/jgautheron/goconst v0.0.0-20201117150253-ccae5bf973f3 // indirect
 	github.com/jmoiron/sqlx v1.2.0
 	github.com/lib/pq v1.8.0 // indirect
 	github.com/mattn/go-sqlite3 v1.14.0 // indirect
-	github.com/mdempsky/maligned v0.0.0-20201101000000-d73c43cb16d0 // indirect
-	github.com/mdempsky/unconvert v0.0.0-20200228143138-95ecdbfc0b5f // indirect
-	github.com/mibk/dupl v1.0.0 // indirect
 	github.com/mutecomm/go-sqlcipher v0.0.0-20190227152316-55dbde17881f
-	github.com/opennota/check v0.0.0-20180911053232-0c771f5545ff // indirect
-	github.com/pieterbork/ed25519 v0.0.0-20200301051623-f19b832d0d2e // indirect
 	github.com/pkg/errors v0.9.1
-	github.com/signal-golang/textsecure v1.2.15-0.20210303224615-91c2683b885a
+	github.com/signal-golang/textsecure v1.2.15-0.20210311233800-66e88d3d661a
 	github.com/sirupsen/logrus v1.7.0
-	github.com/stretchr/testify v1.6.1 // indirect
-	github.com/stripe/safesql v0.2.0 // indirect
-	github.com/tsenart/deadcode v0.0.0-20160724212837-210d2dc333e9 // indirect
 	github.com/ttacon/builder v0.0.0-20170518171403-c099f663e1c2 // indirect
 	github.com/ttacon/libphonenumber v1.1.0
 	github.com/vincent-petithory/dataurl v0.0.0-20191104211930-d1553a71de50
-	github.com/walle/lll v1.0.1 // indirect
 	github.com/z3ntu/go-dbus v0.0.0-20170220120108-c022b8b2e127
 	github.com/zserge/lorca v0.1.9
 	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad
 	gopkg.in/yaml.v2 v2.4.0
 	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776 // indirect
 	launchpad.net/gocheck v0.0.0-20140225173054-000000000087 // indirect
-	mvdan.cc/interfacer v0.0.0-20180901003855-c20040233aed // indirect
-	mvdan.cc/lint v0.0.0-20170908181259-adc824a0674b // indirect
 )
 
-// replace github.com/signal-golang/textsecure v1.2.14 => /home/nanu/go/src/github.com/signal-golang/textsecure
+replace github.com/signal-golang/textsecure v1.2.15-0.20210303224615-91c2683b885a => /home/nanu/go/src/github.com/signal-golang/textsecure

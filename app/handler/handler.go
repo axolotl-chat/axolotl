@@ -31,7 +31,7 @@ func MessageHandler(msg *textsecure.Message) {
 func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 	var err error
 	var attachments []store.Attachment //should be array
-	mt := ""                 //
+	mt := ""                           //
 	if len(msg.Attachments()) > 0 {
 		for i, a := range msg.Attachments() {
 			mt = msg.Attachments()[i].MimeType
@@ -72,7 +72,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		if gr.Avatar != nil {
 			av, err = ioutil.ReadAll(bytes.NewReader(gr.Avatar))
 			if err != nil {
-				log.Println("[axolotl]", err)
+				log.Println("[axolotl] avatar", err)
 				return
 			}
 		}
@@ -102,6 +102,23 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 	//GroupV2 Message
 	grV2 := msg.GroupV2()
 	if grV2 != nil {
+		log.Debugln(grV2)
+		group := store.Groups[grV2.Hexid]
+		if group != nil {
+			group.Name = grV2.Name
+			store.UpdateGroup(group)
+		} else {
+			store.Groups[grV2.Hexid] = &store.GroupRecord{
+				GroupID: grV2.Hexid,
+				Name:    grV2.Name,
+			}
+			_, err = store.SaveGroup(store.Groups[grV2.Hexid])
+			if err != nil {
+				log.Println("[axolotl] save groupV2", err)
+
+			}
+
+		}
 		// handle groupv2 updates etc
 	}
 
@@ -171,7 +188,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		session = store.SessionsModel.CreateSessionForGroup(gr)
 		// TODO create group
 	} else if err != nil && grV2 != nil {
-		log.Infoln("[axolotl] MessageHandler group Error ", err)
+		log.Infoln("[axolotl] MessageHandler group2 not found, lets create it ", err)
 		session = store.SessionsModel.CreateSessionForGroupV2(grV2)
 		// TODO create group
 	}

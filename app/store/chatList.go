@@ -47,8 +47,8 @@ type Sessions struct {
 
 // SessionTypes
 const (
-	invalidSession = -1
-	invalidQuote   = -1
+	invalidSession               = -1
+	invalidQuote                 = -1
 	SessionTypePrivateChat int32 = 0
 	SessionTypeGroupV1     int32 = 1
 	SessionTypeGroupV2     int32 = 2
@@ -94,15 +94,14 @@ func DeleteSession(ID int64) error {
 	if err != nil {
 		return err
 	}
-	if len(messagesWithAttachment )>0{
+	if len(messagesWithAttachment) > 0 {
 		for _, message := range messagesWithAttachment {
-			err:=deleteAttachmentForMessage(message.ID)
+			err := deleteAttachmentForMessage(message.ID)
 			if err != nil {
 				return err
 			}
 		}
 	}
-
 
 	_, err = DS.Dbx.Exec("DELETE FROM messages WHERE sid = ?", ID)
 	if err != nil {
@@ -402,6 +401,11 @@ func (s *Sessions) CreateSessionForGroupV2(group *groupsv2.GroupV2) *Session {
 		log.Errorln("[axolotl] CreateSessionForGroup failed:", err)
 		return nil
 	}
+	Groups[group.Hexid] = &GroupRecord{
+		GroupID: group.Hexid,
+		Name:    group.Name,
+	}
+	SaveGroup(Groups[group.Hexid])
 	return ses
 }
 

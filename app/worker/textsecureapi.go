@@ -18,6 +18,7 @@ import (
 	"github.com/nanu-c/axolotl/app/store"
 	"github.com/nanu-c/axolotl/app/ui"
 	"github.com/signal-golang/textsecure"
+	textsecureConfig "github.com/signal-golang/textsecure/config"
 	textsecureContacts "github.com/signal-golang/textsecure/contacts"
 
 	log "github.com/sirupsen/logrus"
@@ -243,7 +244,7 @@ func startSession() {
 	if !config.Config.AccountCapabilities.Gv2 {
 		log.Debugln("[axoltol] gv2 not set, start gv2 migration")
 		// enable gv2 capabilities
-		config.Config.AccountCapabilities = textsecure.AccountCapabilities{
+		config.Config.AccountCapabilities = textsecureConfig.AccountCapabilities{
 			UUID:         false,
 			Gv2:          true,
 			Storage:      false,
