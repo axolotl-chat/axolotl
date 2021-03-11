@@ -30,7 +30,7 @@ parts:
     # https://github.com/snapcore/snapcraft/blob/master/snapcraft/plugins/v1/nodejs.py
     plugin: nodejs
     source: ./axolotl-web
-    nodejs-version: 12.18.4
+    nodejs-version: 14.16.0
     nodejs-package-manager: npm
     build-packages:
       - git

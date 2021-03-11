@@ -37,10 +37,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Setup Node 12
+      - name: Setup Node 14
         uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
+          node-version: '14.x'
 
       - name: Check out code
         uses: actions/checkout@v2
@@ -124,10 +124,10 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Setup Node 12
+      - name: Setup Node 14
         uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
+          node-version: '14.x'
 
       - name: Download npm dependencies
         run: npm --prefix ./axolotl-web ci
