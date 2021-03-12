@@ -1,0 +1,12 @@
+ignores:
+  - "core-js"
+  - "node-sass"
+  - "sass-loader"
+  - "@vue/cli-plugin-eslint"
+  - "babel-eslint"
+  - "@vue/cli-plugin-babel"
+  - "browserslist"
+specials:
+  - "bin"
+  - "eslint"
+skip-missing: true
