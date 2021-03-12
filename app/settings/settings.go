@@ -3,8 +3,9 @@ package settings
 import (
 	"io/ioutil"
 
-	yaml "github.com/go-yaml/yaml"
 	"github.com/nanu-c/axolotl/app/config"
+
+	yaml "gopkg.in/yaml.v2"
 	log "github.com/sirupsen/logrus"
 )
 
