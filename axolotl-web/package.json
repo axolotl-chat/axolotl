@@ -1,6 +1,6 @@
 {
   "name": "axolotl-web",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -10,7 +10,8 @@
     "translate-extract": "node ./node_modules/easygettext/src/extract-cli.js --attribute v-translate --output ../po/textsecure.nanuc.pot $(find src -type f -name '*.vue')",
     "translate-update": "cd ../po && find ./ -exec msgmerge --update {} textsecure.nanuc.pot \\;",
     "translate-remove-tmp": "cd ../po && ls ../po | grep -P '\\.po[~]{1}|\\.pot[~]{1}' | xargs -d'\n' rm || true",
-    "translate-compile": "npm run translate-remove-tmp&&node ./node_modules/easygettext/src/compile-cli.js --output ./translations/translations.json $(find ../po/ -type f -name '*.po')"
+    "translate-compile": "npm run translate-remove-tmp&&node ./node_modules/easygettext/src/compile-cli.js --output ./translations/translations.json $(find ../po/ -type f -name '*.po')",
+    "depcheck": "depcheck"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
@@ -24,20 +25,15 @@
     "moment": "^2.27.0",
     "ofcold-security-code": "git+https://github.com/ofcold/security-code.git",
     "qrcode": "^1.4.4",
-    "qwebchannel": "^5.9.0",
-    "single-byte": "^1.0.7",
     "vue": "^2.6.11",
     "vue-chat-scroll": "^1.4.0",
     "vue-gettext": "^2.1.10",
-    "vue-head": "^2.2.0",
     "vue-long-click": "0.0.4",
     "vue-native-websocket": "^2.0.14",
     "vue-password-strength-meter": "^1.7.2",
     "vue-phone-number-input": "^0.2.8",
     "vue-router": "^3.4.3",
     "vue-sanitize": "^0.2.1",
-    "vue-socket.io": "^3.0.10",
-    "vue-tel-input": "^3.3.0",
     "vuex": "^3.5.1",
     "zxcvbn": "^4.4.2"
   },
@@ -47,6 +43,7 @@
     "@vue/cli-service": "^4.5.3",
     "babel-eslint": "^10.1.0",
     "browserslist": "^4.14.5",
+    "depcheck": "^1.4.0",
     "easygettext": "^2.14.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",

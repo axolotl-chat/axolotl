@@ -54,6 +54,9 @@ jobs:
       - name: Lint application
         run: npm --prefix ./axolotl-web run lint
 
+      - name: Analyze npm dependencies
+        run: npm --prefix ./axolotl-web run depcheck
+
       - name: Build
         run: npm --prefix ./axolotl-web run build
 
