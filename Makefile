@@ -20,6 +20,11 @@ build:
 run: build
 	$(GO) run .
 
+.PHONY: build-deps
+build-deps:
+	$(GO) mod download
+	$(NPM) install --prefix axolotl-web
+
 .PHONY: clean
 clean:
 	rm -f axolotl
