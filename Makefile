@@ -1,7 +1,7 @@
 # This is the Makefile for axolotl.
 # For more info about the syntax, see https://makefiletutorial.com/
 
-EXECUTABLES = go npm
+EXECUTABLES = go npm node
 K := $(foreach exec,$(EXECUTABLES),\
         $(if $(shell which $(exec)),,$(error "No $(exec) in PATH")))
 
