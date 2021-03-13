@@ -12,18 +12,30 @@ GO=$(shell which go)
 all: clean build run
 
 .PHONY: build
-build:
-	$(GO) build -v .
+build: build-axolotl-web build-axolotl
+
+.PHONY: build-axolotl-web
+build-axolotl-web:
 	$(NPM) run build --prefix axolotl-web
+
+.PHONY: build-axolotl
+build-axolotl:
+	$(GO) build -v .
 
 .PHONY: run
 run: build
 	$(GO) run .
 
-.PHONY: build-deps
-build-deps:
-	$(GO) mod download
+.PHONY: build-dependencies
+build-dependencies: build-dependencies-axolotl-web build-dependencies-axolotl
+
+.PHONY: build-dependencies-axolotl-web
+build-dependencies-axolotl-web:
 	$(NPM) install --prefix axolotl-web
+
+.PHONY: build-dependencies-axolotl
+build-dependencies-axolotl:
+	$(GO) mod download
 
 .PHONY: clean
 clean:
