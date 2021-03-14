@@ -1,11 +1,9 @@
-import Vuex from 'vuex'
-import Vue from 'vue'
+import { createStore } from 'vuex'
 import { router } from '../router/router';
-import {validateUUID} from '@/helpers/uuidCheck'
+import { validateUUID } from '@/helpers/uuidCheck'
+import main from "../main";
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+export default createStore({
   state: {
     chatList: [],
     messageList: {},
@@ -41,6 +39,8 @@ export default new Vuex.Store({
       isConnected: false,
       message: '',
       reconnectError: false,
+      heartBeatInterval: 50000,
+      heartBeatTimer: 0
     }
   },
 
@@ -95,7 +95,7 @@ export default new Vuex.Store({
       if (state.messageList.Messages == undefined) {
         state.messageList.Messages = []
       }
-      var prepare = state.messageList.Messages.map(function(e) { return e.ID; })
+      var prepare = state.messageList.Messages.map(function (e) { return e.ID; })
       if (data.CurrentChat.Messages != null) {
         data.CurrentChat.Messages.forEach(m => {
           state.messageList.Messages[prepare.indexOf(m.ID)] = m;
@@ -166,7 +166,7 @@ export default new Vuex.Store({
       if (state.messageList.ID == message.SID) {
         var tmpList = state.messageList.Messages;
         tmpList.push(message);
-        tmpList.sort(function(a, b) {
+        tmpList.sort(function (a, b) {
           return b.ID - a.ID
         })
         state.messageList.Messages = tmpList;
@@ -186,7 +186,7 @@ export default new Vuex.Store({
         if (index != -1) {
           var tmpList = JSON.parse(JSON.stringify(state.messageList.Messages));
           tmpList[index] = message;
-          tmpList.sort(function(a, b) {
+          tmpList.sort(function (a, b) {
             return b.ID - a.ID
           })
           // mark all as read if it's a is read update
@@ -199,7 +199,7 @@ export default new Vuex.Store({
             })
           }
           state.messageList.Messages = tmpList;
-        } else{
+        } else {
           // add message to message list
           state.messageList.Messages.unshift(message)
         }
@@ -224,12 +224,12 @@ export default new Vuex.Store({
     SET_CONTACTS_FOR_GROUP_FILTER(state, filter) {
       filter = filter.toLowerCase()
       var f = state.contacts.filter(c => {
-        if(!validateUUID(c.UUID))return false
-        if(c.Name.toLowerCase().includes(filter))
-        return true;
+        if (!validateUUID(c.UUID)) return false
+        if (c.Name.toLowerCase().includes(filter))
+          return true;
       });
-      if(state.currentGroup!=null)
-      f = f.filter(c => state.currentGroup.Members.indexOf(c.UUID) == -1);
+      if (state.currentGroup != null)
+        f = f.filter(c => state.currentGroup.Members.indexOf(c.UUID) == -1);
       state.contactsFilterd = f;
       state.contactsFilterActive = true;
     },
@@ -243,24 +243,38 @@ export default new Vuex.Store({
       state.currentChat = null;
       this.commit("CLEAR_MESSAGELIST");
     },
+    SET_CAPTCHA_TOKEN(state, token) {
+      state.captchaToken = token;
+    },
+    SET_CAPTCHA_TOKEN_SENT(state) {
+      state.captchaTokenSent = true;
+    },
     SOCKET_ONOPEN(state, event) {
-      Vue.prototype.$socket = event.currentTarget
-      state.socket.isConnected = true
+      main.config.globalProperties.$socket = event.currentTarget;
+      state.socket.isConnected = true;
+      state.socket.heartBeatTimer = setInterval(() => {
+        const message = "ping";
+        state.socket.isConnected &&
+          main.config.globalProperties.$socket.sendObj({
+            code: 200,
+            msg: message
+          });
+      }, state.socket.heartBeatInterval);
     },
     SOCKET_ONCLOSE(state) {
-      state.socket.isConnected = false
+      state.socket.isConnected = false;
+      clearInterval(state.socket.heartBeatTimer);
+      state.socket.heartBeatTimer = 0;
     },
     SOCKET_ONERROR() {
       // console.error(state, event)
     },
-    SET_CAPTCHA_TOKEN(state, token){
-      state.captchaToken = token;
-    },
-    SET_CAPTCHA_TOKEN_SENT(state){
-      state.captchaTokenSent = true;
+    SOCKET_RECONNECT_ERROR(state) {
+      state.socket.reconnectError = true;
     },
     // default handler called for all methods
     SOCKET_ONMESSAGE(state, message) {
+      state.socket.message = message;
       if (message.data != "Hi Client!") {
         var messageData = JSON.parse(message.data);
         if (typeof messageData.Error != "undefined") {
@@ -322,12 +336,6 @@ export default new Vuex.Store({
     SET_SOCKET_MESSAGE_DATA(state, data) {
       state.socket.message = data
     },
-    // mutations for reconnect methods
-    SOCKET_RECONNECT() {
-    },
-    SOCKET_RECONNECT_ERROR(state) {
-      state.socket.reconnectError = true;
-    },
     SET_CONFIG_GUI(state, gui) {
       state.gui = gui;
     },
@@ -344,70 +352,70 @@ export default new Vuex.Store({
   },
 
   actions: {
-    addDevice: function(state, url) {
+    addDevice: function (state, url) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "addDevice",
           "url": url,
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    delDevice: function(state, id) {
+    delDevice: function (state, id) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "delDevice",
           "id": id,
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    getDevices: function() {
+    getDevices: function () {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "getDevices",
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    getChatList: function() {
+    getChatList: function () {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "getChatList",
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    delChat: function(state, id) {
+    delChat: function (state, id) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "delChat",
           "id": id,
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    getMessageList: function(state, chatId) {
+    getMessageList: function (state, chatId) {
       this.commit("CLEAR_MESSAGELIST");
       if (this.state.socket.isConnected) {
         var message = {
           "request": "getMessageList",
           "id": chatId
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    openChat: function(state, chatId) {
+    openChat: function (state, chatId) {
       this.commit("CLEAR_MESSAGELIST");
       if (this.state.socket.isConnected) {
         var message = {
           "request": "openChat",
           "id": chatId
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    getMoreMessages: function() {
+    getMoreMessages: function () {
       if (this.state.socket.isConnected && typeof this.state.messageList.Messages != "undefined"
         && this.state.messageList.Messages != null
         && this.state.messageList.Messages.length > 19 && this.state.messageList.Messages.slice(-1)[0].ID > 1) {
@@ -415,81 +423,81 @@ export default new Vuex.Store({
           "request": "getMoreMessages",
           "lastId": String(this.state.messageList.Messages.slice(-1)[0].ID)
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    clearMessageList: function() {
+    clearMessageList: function () {
       this.commit("CLEAR_MESSAGELIST");
     },
-    setCurrentChat: function(state, chat) {
+    setCurrentChat: function (state, chat) {
       this.commit("SET_CURRENT_CHAT", chat);
     },
-    leaveChat: function() {
+    leaveChat: function () {
       this.commit("LEAVE_CHAT");
       if (this.state.socket.isConnected) {
         var message = {
           "request": "leaveChat",
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    createChat: function(state, uuid) {
+    createChat: function (state, uuid) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "createChat",
           "uuid": uuid
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
       this.commit("CREATE_CHAT", uuid);
     },
-    sendMessage: function(state, messageContainer) {
+    sendMessage: function (state, messageContainer) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "sendMessage",
           "to": messageContainer.to,
           "message": messageContainer.message
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    toggleNotifcations: function() {
+    toggleNotifcations: function () {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "toggleNotifcations",
           "chat": this.state.currentChat.ID
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    resetEncryption: function() {
+    resetEncryption: function () {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "resetEncryption",
           "chat": this.state.currentChat.ID
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    verifyIdentity: function() {
+    verifyIdentity: function () {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "verifyIdentity",
           "chat": this.state.currentChat.ID
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    getContacts: function(state) {
+    getContacts: function (state) {
       if (this.state.socket.isConnected) {
         state.importingContacts = false;
         var message = {
           "request": "getContacts",
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    addContact: function(state, contact) {
+    addContact: function (state, contact) {
       state.ratelimitError = null;
       if (this.state.socket.isConnected
         && contact.name != "" && contact.phone != "") {
@@ -498,19 +506,19 @@ export default new Vuex.Store({
           "name": contact.name,
           "phone": contact.phone,
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    filterContacts: function(state, filter) {
+    filterContacts: function (state, filter) {
       this.commit("SET_CONTACTS_FILTER", filter);
     },
-    filterContactsForGroup: function(state, filter) {
+    filterContactsForGroup: function (state, filter) {
       this.commit("SET_CONTACTS_FOR_GROUP_FILTER", filter);
     },
-    clearFilterContacts: function() {
+    clearFilterContacts: function () {
       this.commit("SET_CLEAR_CONTACTS_FILTER");
     },
-    uploadVcf: function(state, vcf) {
+    uploadVcf: function (state, vcf) {
       state.ratelimitError = null;
       state.importingContacts = true;
       if (this.state.socket.isConnected) {
@@ -518,49 +526,49 @@ export default new Vuex.Store({
           "request": "uploadVcf",
           "vcf": vcf
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    uploadAttachment: function(state, attachment) {
+    uploadAttachment: function (state, attachment) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "uploadAttachment",
           "attachment": attachment.attachment,
           "to": attachment.to,
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    refreshContacts: function(state, chUrl) {
+    refreshContacts: function (state, chUrl) {
       state.importingContacts = true;
       if (this.state.socket.isConnected) {
         var message = {
           "request": "refreshContacts",
           "url": chUrl
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    delContact: function(state, id) {
+    delContact: function (state, id) {
       state.ratelimitError = null;
       if (this.state.socket.isConnected) {
         var message = {
           "request": "delContact",
           "id": id,
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    deleteSelfDestructingMessage: function(state, m){
+    deleteSelfDestructingMessage: function (state, m) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "delMessage",
           "id": m.ID
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    editContact: function(state, data) {
+    editContact: function (state, data) {
       state.ratelimitError = null;
       if (this.state.socket.isConnected) {
         var message = {
@@ -569,95 +577,95 @@ export default new Vuex.Store({
           "name": data.contact.Name,
           "id": data.id
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     // registration functions
-    requestCode: function(state, tel) {
+    requestCode: function (state, tel) {
       this.state.verificationError = null
       if (this.state.socket.isConnected) {
         var message = {
           "request": "requestCode",
           "tel": tel,
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    sendCode: function(state, code) {
+    sendCode: function (state, code) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "sendCode",
           "code": code,
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    sendPin: function(state, pin) {
+    sendPin: function (state, pin) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "sendPin",
           "pin": pin,
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    sendPassword: function(state, password) {
+    sendPassword: function (state, password) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "sendPassword",
           "pw": password,
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    setPassword: function(state, password) {
+    setPassword: function (state, password) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "setPassword",
           "pw": password.pw,
           "currentPw": password.cPw
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
         router.push("/chatList")
       }
     },
-    getRegistrationStatus: function() {
+    getRegistrationStatus: function () {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "getRegistrationStatus",
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    unregister: function() {
+    unregister: function () {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "unregister",
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
 
       }
     },
-    getConfig: function() {
+    getConfig: function () {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "getConfig",
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    createNewGroup: function(state, data) {
+    createNewGroup: function (state, data) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "createGroup",
           "name": data.name,
           "members": data.members,
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
 
       }
     },
-    updateGroup: function(state, data) {
+    updateGroup: function (state, data) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "updateGroup",
@@ -665,11 +673,11 @@ export default new Vuex.Store({
           "id": data.id,
           "members": data.members,
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
 
       }
     },
-    sendAttachment: function(state, data) {
+    sendAttachment: function (state, data) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "sendAttachment",
@@ -678,33 +686,33 @@ export default new Vuex.Store({
           "to": data.to,
           "message": data.message,
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
 
       }
     },
-    setDarkMode: function(state, darkMode) {
+    setDarkMode: function (state, darkMode) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "setDarkMode",
           "darkMode": darkMode,
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
         this.state.DarkMode = darkMode;
       }
     },
-    sendCaptchaToken:function(){
+    sendCaptchaToken: function () {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "sendCaptchaToken",
           "token": this.state.captchaToken,
         }
-        Vue.prototype.$socket.send(JSON.stringify(message))
+        main.config.globalProperties.$socket.send(JSON.stringify(message))
         this.commit("SET_CAPTCHA_TOKEN_SENT");
 
       }
     },
-    setCaptchaToken: function(state, token) {
-        this.commit("SET_CAPTCHA_TOKEN", token);
+    setCaptchaToken: function (state, token) {
+      this.commit("SET_CAPTCHA_TOKEN", token);
     }
   }
 });

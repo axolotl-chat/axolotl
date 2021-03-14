@@ -1,14 +1,10 @@
-import Vue from "vue";
-import Router from "vue-router";
+import { createRouter,createWebHistory  } from 'vue-router'
 import store from '../store/store'
 
-Vue.use(Router);
 
-const base = "/";
 
-export const router = new Router({
-  mode: "history",
-  base,
+export const router = new createRouter({
+  history: createWebHistory(),
   routes: [
     {
       path: "/",

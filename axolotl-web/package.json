@@ -1,93 +1,66 @@
 {
   "name": "axolotl-web",
   "version": "0.1.1",
-  "description": "This is the frontend half of the axolotl project. Axolotl is a complete cross-platform Signal client.",
-  "license": "GPL-3.0",
-  "homepage": "https://axolotl.chat",
   "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "translate": "npm run translate-extract && npm run translate-update && npm run translate-compile",
-    "translate-extract": "node ./node_modules/easygettext/src/extract-cli.js --attribute v-translate --output ../po/textsecure.nanuc.pot $(find src -type f -name '*.vue')",
-    "translate-update": "cd ../po && find ./ -exec msgmerge --update {} textsecure.nanuc.pot \\;",
-    "translate-remove-tmp": "cd ../po && ls ../po | grep -P '\\.po[~]{1}|\\.pot[~]{1}' | xargs -d'\n' rm || true",
-    "translate-compile": "npm run translate-remove-tmp&&node ./node_modules/easygettext/src/compile-cli.js --output ./translations/translations.json $(find ../po/ -type f -name '*.po')",
-    "depcheck": "depcheck"
-  },
-  "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.30",
-    "@fortawesome/free-solid-svg-icons": "^5.14.0",
-    "@fortawesome/vue-fontawesome": "^0.1.10",
-    "bootstrap": "^4.5.2",
-    "bootstrap-vue": "^2.16.0",
-    "core-js": "^2.6.11",
-    "file-saver": "^2.0.2",
-    "linkifyjs": "^2.1.8",
-    "moment": "^2.27.0",
-    "ofcold-security-code": "git+https://github.com/ofcold/security-code.git",
-    "qrcode": "^1.4.4",
-    "vue": "^2.6.11",
-    "vue-chat-scroll": "^1.4.0",
-    "vue-gettext": "^2.1.10",
-    "vue-long-click": "0.0.4",
-    "vue-native-websocket": "^2.0.14",
-    "vue-password-strength-meter": "^1.7.2",
-    "vue-phone-number-input": "^0.2.8",
-    "vue-router": "^3.4.3",
-    "vue-sanitize": "^0.2.1",
-    "vuex": "^3.5.1",
-    "zxcvbn": "^4.4.2"
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.12.1",
-    "@vue/cli-plugin-eslint": "^3.12.1",
-    "@vue/cli-service": "^4.5.3",
-    "babel-eslint": "^10.1.0",
-    "browserslist": "^4.14.5",
-    "depcheck": "^1.4.0",
-    "easygettext": "^2.14.0",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "node-sass": "^4.14.1",
-    "sass-loader": "^8.0.2",
-    "vue-template-compiler": "^2.6.11"
-  },
-  "keywords": [
-    "signal",
-    "messaging",
-    "vue"
-  ],
-  "engines": {
-    "node": ">= 14.0.0"
-  },
-  "main": "src/main.js",
+  "description": "This is the frontend half of the axolotl project. Axolotl is a complete cross-platform Signal client.",
   "author": {
     "name": "nanu-c",
     "url": "https://github.com/nanu-c"
   },
-  "bugs": {
-    "url": "https://github.com/nanu-c/axolotl/issues"
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "depcheck": "depcheck",
+    "translate": "npm run translate-extract && npm run translate-update && npm run translate-compile",
+    "translate-compile": "npm run translate-remove-tmp&&node ./node_modules/easygettext/src/compile-cli.js --output ./translations/translations.json $(find ../po/ -type f -name '*.po')",
+    "translate-extract": "node ./node_modules/easygettext/src/extract-cli.js --attribute v-translate --output ../po/textsecure.nanuc.pot $(find src -type f -name '*.vue')",
+    "translate-remove-tmp": "cd ../po && ls ../po | grep -P '\\.po[~]{1}|\\.pot[~]{1}' | xargs -d'\n' rm || true",
+    "translate-update": "cd ../po && find ./ -exec msgmerge --update {} textsecure.nanuc.pot \\;"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/nanu-c/axolotl.git"
+  "main": "src/main.js",
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.34",
+    "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@fortawesome/vue-fontawesome": "^3.0.0-3",
+    "@jshmrtn/vue3-gettext": "^1.0.1",
+    "bootstrap": "^4.6.0",
+    "core-js": "^3.6.5",
+    "file-saver": "^2.0.5",
+    "linkifyjs": "^3.0.0-beta.3",
+    "moment": "^2.29.1",
+    "ofcold-security-code": "git+https://github.com/ofcold/security-code.git",
+    "qrcode": "^1.4.4",
+    "vue": "^3.0.7",
+    "vue-loader": "^16.1.2",
+    "vue-long-click": "0.0.4",
+    "vue-native-websocket-vue3": "^3.1.0",
+    "vue-password-strength-meter": "^1.7.2",
+    "vue-phone-number-input": "^1.1.10",
+    "vue-router": "^4.0.5",
+    "vuex": "^4.0.0",
+    "zxcvbn": "^4.4.2"
   },
-  "eslintConfig": {
-    "root": true,
-    "lintOnSave": false,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "rules": {},
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.11",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "^4.5.3",
+    "@vue/compiler-sfc": "^3.0.7",
+    "@vue/eslint-config-airbnb": "^5.0.2",
+    "babel-eslint": "^10.1.0",
+    "browserslist": "^4.16.3",
+    "depcheck": "^1.4.0",
+    "easygettext": "^2.16.1",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-prettier-vue": "^2.1.1",
+    "eslint-plugin-vue": "^7.7.0",
+    "prettier": "^1.19.1",
+    "sass": "^1.32.8",
+    "sass-loader": "^10.0.1",
+    "webpack": "^4.45.0"
   },
   "postcss": {
     "plugins": {
@@ -97,5 +70,22 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "bugs": {
+    "url": "https://github.com/nanu-c/axolotl/issues"
+  },
+  "engines": {
+    "node": ">= 14.0.0"
+  },
+  "homepage": "https://axolotl.chat",
+  "keywords": [
+    "signal",
+    "messaging",
+    "vue"
+  ],
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nanu-c/axolotl.git"
+  }
 }
