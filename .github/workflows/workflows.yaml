@@ -74,7 +74,7 @@ jobs:
           retention-days: 1
 
   package-appimage:
-    name: Package as an AppImage
+    name: Package as AppImage
     # This ensures that this job only runs on git tags
     if: startsWith(github.ref, 'refs/tags/v')
     needs: [build-axolotl, build-axolotl-web]
