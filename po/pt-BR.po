@@ -387,7 +387,6 @@ msgid "Starting new chats is currently broken in Axolotl."
 msgstr "No momento começar novas conversas no Axolotl não funciona."
 
 #: src/pages/About.vue:6
-#, fuzzy
 msgid ""
 "This is a free and open source Signal client written in golang and vuejs."
 msgstr ""

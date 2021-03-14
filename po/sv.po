@@ -456,9 +456,6 @@ msgstr "Din webbläsare stöder inte ljudelement."
 msgid "Your browser does not support the video element."
 msgstr "Din webbläsare stöder inte videoelement."
 
-#~ msgid "A cross-plattform signal client"
-#~ msgstr "En multi-platform Signal klient"
-
 #, fuzzy
 #~ msgid "Edit Group"
 #~ msgstr "Uppdatera grupp"
