@@ -393,7 +393,6 @@ msgstr ""
 "Het starten van nieuwe gesprekken is momenteel niet mogelijk middels Axolotl."
 
 #: src/pages/About.vue:6
-#, fuzzy
 msgid ""
 "This is a free and open source Signal client written in golang and vuejs."
 msgstr ""

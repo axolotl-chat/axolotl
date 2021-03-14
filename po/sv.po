@@ -25,7 +25,6 @@ msgid "3. Paste the Qr-Code here:"
 msgstr ""
 
 #: src/pages/About.vue:4 src/pages/Register.vue:6
-#, fuzzy
 msgid "A cross-plattform Signal client"
 msgstr "En multi-platform Signal klient"
 
