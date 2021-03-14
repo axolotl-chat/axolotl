@@ -7,17 +7,17 @@
     >
       <p v-translate>or disable it on Android/IOs</p>
       <input v-model="pin" type="text" />
-      <button class="btn btn-primary" @click="sendPin()" v-translate>
+      <button v-translate class="btn btn-primary" @click="sendPin()">
         Send pin
       </button>
     </div>
-    <div class="verify" v-if="!requestPin">
-      <Sms v-model="code" class="codeInput"></Sms>
+    <div v-if="!requestPin" class="verify">
+      <sms v-model="code" class="codeInput" />
       <button
+        v-translate
         :disabled="inProgress"
         class="btn btn-primary"
         @click="sendCode()"
-        v-translate
       >
         Send code
       </button>
@@ -27,7 +27,7 @@
       class="spinner"
     >
       <div class="spinner-border" role="status">
-        <span class="sr-only" v-translate>Loading...</span>
+        <span v-translate class="sr-only">Loading...</span>
       </div>
     </div>
     <div v-if="verificationError == 404">
@@ -41,13 +41,21 @@ import Sms from "ofcold-security-code";
 import { mapState } from "vuex";
 
 export default {
-  name: "verification",
+  name: "Verification",
   components: {
     Sms,
   },
   props: {
     msg: String,
   },
+  data() {
+    return {
+      code: "",
+      pin: "",
+      inProgress: false,
+    };
+  },
+  computed: mapState(["verificationError", "requestPin", "registrationStatus"]),
   mounted() {
     document.getElementsByClassName("form-control")[0].focus();
   },
@@ -64,14 +72,6 @@ export default {
         this.inProgress = true;
       }
     },
-  },
-  computed: mapState(["verificationError", "requestPin", "registrationStatus"]),
-  data() {
-    return {
-      code: "",
-      pin: "",
-      inProgress: false,
-    };
   },
 };
 </script>

@@ -1,7 +1,7 @@
 
 <template>
   <div class="chatList" v-if="chatList">
-    <WarningMessage />
+    <warning-message />
     <div v-if="editActive" class="actions-header">
       <button class="btn hide-actions" @click="delChat($event)">
         <font-awesome-icon icon="trash" />
