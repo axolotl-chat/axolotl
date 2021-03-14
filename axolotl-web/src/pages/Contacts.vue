@@ -1,182 +1,220 @@
 <template>
   <div class="contact-list">
-
-    <div v-if="error!=null" class="alert alert-danger" v-translate>Can't change contact list: {{error}}</div>
-    <div v-if="importing" class="alert alert-warning" v-translate>Importing contacts, head back later</div>
+    <div v-if="error != null" class="alert alert-danger" v-translate>
+      Can't change contact list: {{ error }}
+    </div>
+    <div v-if="importing" class="alert alert-warning" v-translate>
+      Importing contacts, head back later
+    </div>
     <div v-if="showActions" class="actions-header">
       <button class="btn" @click="delContact(i)">
-        <font-awesome-icon icon="trash"  />
+        <font-awesome-icon icon="trash" />
       </button>
-      <button class="btn" @click="editContactModalOpen(contact,i)">
-        <font-awesome-icon icon="pencil-alt"  />
+      <button class="btn" @click="editContactModalOpen(contact, i)">
+        <font-awesome-icon icon="pencil-alt" />
       </button>
       <button class="btn hide-actions">
-        <font-awesome-icon icon="times"  @click="closeActionMode"/>
+        <font-awesome-icon icon="times" @click="closeActionMode" />
       </button>
     </div>
-    <div v-if="contacts.length ==0" class="empty" v-translate>
+    <div v-if="contacts.length == 0" class="empty" v-translate>
       Contact list is empty...
     </div>
     <div v-if="contactsFilterActive">
-      <div v-for="(contact) in contactsFilterd"
+      <div
+        v-for="contact in contactsFilterd"
         v-bind:key="contact.Tel"
-          :class="contact.Tel==editContactId?'selected btn col-12 chat':'btn col-12 chat'">
+        :class="
+          contact.Tel == editContactId
+            ? 'selected btn col-12 chat'
+            : 'btn col-12 chat'
+        "
+      >
         <div class="row chat-entry">
-          <div :class="'avatar col-3 '+checkForUUIDClass(contact)" @click="contactClick(contact,i)">
-            <div class="badge-name">{{contact.Name[0]+contact.Name[1]}}</div>
+          <div
+            :class="'avatar col-3 ' + checkForUUIDClass(contact)"
+            @click="contactClick(contact, i)"
+          >
+            <div class="badge-name">
+              {{ contact.Name[0] + contact.Name[1] }}
+            </div>
           </div>
-          <div class="meta col-9" @click="contactClick(contact)"  v-longclick="()=>{showContactAction(contact)}">
-            <p class="name">{{contact.Name}}</p>
-            <p class="number">{{contact.Tel}}</p>
+          <div
+            class="meta col-9"
+            @click="contactClick(contact)"
+            v-longclick="
+              () => {
+                showContactAction(contact);
+              }
+            "
+          >
+            <p class="name">{{ contact.Name }}</p>
+            <p class="number">{{ contact.Tel }}</p>
           </div>
         </div>
       </div>
     </div>
-    <div v-else v-for="(contact) in contacts"
-        v-bind:key="contact.Tel"
-        :class="contact.Tel==editContactId?'selected btn col-12 chat':'btn col-12 chat'">
+    <div
+      v-else
+      v-for="contact in contacts"
+      v-bind:key="contact.Tel"
+      :class="
+        contact.Tel == editContactId
+          ? 'selected btn col-12 chat'
+          : 'btn col-12 chat'
+      "
+    >
       <div class="row chat-entry">
         <!-- <div class="avatar col-3" @click="contactClick(contact)"> -->
-        <div :class="'avatar col-3 avatar '+checkForUUIDClass(contact)" @click="contactClick(contact,i)">
-          <div class="badge-name">{{contact.Name[0]+contact.Name[1]}}</div>
+        <div
+          :class="'avatar col-3 avatar ' + checkForUUIDClass(contact)"
+          @click="contactClick(contact, i)"
+        >
+          <div class="badge-name">{{ contact.Name[0] + contact.Name[1] }}</div>
         </div>
         <!-- <div class="meta col-9" @click="contactClick(contact)"  v-longclick="()=>{showContactAction(contact)}"> -->
-        <div class="meta col-9" @click="contactClick(contact)"  v-longclick="()=>{showContactAction(contact)}">
-          <p class="name">{{contact.Name}}</p>
-          <p class="number">{{contact.Tel}}</p>
+        <div
+          class="meta col-9"
+          @click="contactClick(contact)"
+          v-longclick="
+            () => {
+              showContactAction(contact);
+            }
+          "
+        >
+          <p class="name">{{ contact.Name }}</p>
+          <p class="number">{{ contact.Tel }}</p>
         </div>
       </div>
     </div>
 
     <div v-if="addContactModal" class="addContactModal">
       <add-contact-modal
-      @close="addContactModal=false"
-      @add="addContact($event)"
+        @close="addContactModal = false"
+        @add="addContact($event)"
       />
     </div>
     <div v-if="editContactModal" class="editContactModal">
       <edit-contact-modal
-      :contact="contact"
-      :id="contactId"
-      @close="editContactModal=false"
-      @save="saveContact($event)"
+        :contact="contact"
+        :id="contactId"
+        @close="editContactModal = false"
+        @save="saveContact($event)"
       />
     </div>
-        <div v-if="startChatModal" class="startChatModal">
-      <start-chat-modal
-        @close="startChatModal=false"
-      />
+    <div v-if="startChatModal" class="startChatModal">
+      <start-chat-modal @close="startChatModal = false" />
     </div>
-    <button class="btn add-contact" @click="addContactModal=true"><font-awesome-icon icon="plus" /></button>
+    <button class="btn add-contact" @click="addContactModal = true">
+      <font-awesome-icon icon="plus" />
+    </button>
   </div>
 </template>
 
 <script>
-import AddContactModal from "@/components/AddContactModal.vue"
-import EditContactModal from "@/components/EditContactModal.vue"
-import StartChatModal from "@/components/StartChatModal.vue"
-import {validateUUID} from '@/helpers/uuidCheck'
+import AddContactModal from "@/components/AddContactModal.vue";
+import EditContactModal from "@/components/EditContactModal.vue";
+import StartChatModal from "@/components/StartChatModal.vue";
+import { validateUUID } from "@/helpers/uuidCheck";
 
 export default {
-  name: 'Contacts',
+  name: "Contacts",
   props: {
-    msg: String
+    msg: String,
   },
   components: {
     AddContactModal,
     EditContactModal,
-    StartChatModal
+    StartChatModal,
   },
   data() {
     return {
       addContactModal: false,
       showActions: false,
       editContactModal: false,
-      contact:null,
-      contactId:null,
+      contact: null,
+      contactId: null,
       startChatModal: false,
-      editContactId:"",
-      i:null
-    }
+      editContactId: "",
+      i: null,
+    };
   },
-  mounted(){
-    this.$store.dispatch("getContacts")
+  mounted() {
+    this.$store.dispatch("getContacts");
   },
   methods: {
     validateUUID,
-    addContact(data){
-      this.$store.dispatch("addContact", data)
-      this.addContactModal=false
+    addContact(data) {
+      this.$store.dispatch("addContact", data);
+      this.addContactModal = false;
     },
-    delContact(){
-      this.$store.dispatch("delContact", this.editContactId)
+    delContact() {
+      this.$store.dispatch("delContact", this.editContactId);
       this.showActions = false;
-      this.editContactId ="";
+      this.editContactId = "";
     },
-    checkForUUIDClass(contact){
-      var isValid = this.validateUUID(contact.UUID)
-      return isValid?'':'not-registered'
+    checkForUUIDClass(contact) {
+      var isValid = this.validateUUID(contact.UUID);
+      return isValid ? "" : "not-registered";
     },
-    saveContact(data){
-      this.editContactModal=false
+    saveContact(data) {
+      this.editContactModal = false;
       this.showActions = false;
-      this.editContactId ="";
-      this.$store.dispatch("editContact", data)
+      this.editContactId = "";
+      this.$store.dispatch("editContact", data);
     },
-    showContactAction(contact){
-      this.editContactId=contact.Tel;
+    showContactAction(contact) {
+      this.editContactId = contact.Tel;
       this.contact = contact;
       this.showActions = true;
     },
-    closeActionMode(){
-      this.addContactModal=  false;
-      this.showActions=  false;
-      this.editContactModal=  false;
-      this.contact= null;
-      this.contactId= null;
-      this.startChatModal=  false;
-      this.editContactId= "";
+    closeActionMode() {
+      this.addContactModal = false;
+      this.showActions = false;
+      this.editContactModal = false;
+      this.contact = null;
+      this.contactId = null;
+      this.startChatModal = false;
+      this.editContactId = "";
     },
-    contactClick(contact){
-      if(!this.showActions){
-        if(this.validateUUID(contact.UUID))
-        this.$store.dispatch("createChat", contact.UUID)
-      }
-      else{
-        this.editContactId=contact.Tel;
+    contactClick(contact) {
+      if (!this.showActions) {
+        if (this.validateUUID(contact.UUID))
+          this.$store.dispatch("createChat", contact.UUID);
+      } else {
+        this.editContactId = contact.Tel;
       }
     },
-    editContactModalOpen(){
-      this.editContactModal=true;
-      this.contact = this.contact;
+    editContactModalOpen() {
+      this.editContactModal = true;
       this.contactId = this.editContactId;
       this.showActions = false;
-      this.editContactId ="";
+      this.editContactId = "";
     },
-    startChatModalOpen(){
-        if(!this.showActions){
-          this.startChatModal=true;
-        }
-    }
+    startChatModalOpen() {
+      if (!this.showActions) {
+        this.startChatModal = true;
+      }
+    },
   },
   computed: {
-    contacts () {
-      return this.$store.state.contacts
+    contacts() {
+      return this.$store.state.contacts;
     },
-    contactsFilterd () {
-      return this.$store.state.contactsFilterd
+    contactsFilterd() {
+      return this.$store.state.contactsFilterd;
     },
-    contactsFilterActive () {
-      return this.$store.state.contactsFilterActive
+    contactsFilterActive() {
+      return this.$store.state.contactsFilterActive;
     },
-    error () {
+    error() {
       return this.$store.state.ratelimitError;
     },
-    importing () {
+    importing() {
       return this.$store.state.importingContacts;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -186,7 +224,7 @@ export default {
   bottom: 16px;
   right: 10px;
   background-color: #2090ea;
-  color: #FFF;
+  color: #fff;
   border-radius: 50%;
   width: 45px;
   height: 45px;
@@ -195,48 +233,53 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.chat{
+.chat {
   padding: 0px;
 }
-.number{
-  font-size:14px;
+.number {
+  font-size: 14px;
 }
 .actions-header {
-    position: fixed;
-    background-color: #173d5c;
-    width: 100%;
-    left: 0;
-    display: flex;
-    justify-content: flex-end;
-    z-index: 2;
-    top: 0;
-    height: 51px;
+  position: fixed;
+  background-color: #173d5c;
+  width: 100%;
+  left: 0;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 2;
+  top: 0;
+  height: 51px;
 }
-.hide-actions{
-  padding-right:40px;
+.hide-actions {
+  padding-right: 40px;
 }
 .col-2.actions {
-    position: absolute;
-    display: flex;
-    right: 0px;
-    justify-content:center;
-    align-items:center;
+  position: absolute;
+  display: flex;
+  right: 0px;
+  justify-content: center;
+  align-items: center;
 }
 .col-2.actions .btn {
-    font-size: 15px;
-    padding: 5px;
+  font-size: 15px;
+  padding: 5px;
 }
-.selected{
-  background-color:#c5e4f0;
+.selected {
+  background-color: #c5e4f0;
 }
-.empty{
-  width:100%;
-  height:70vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+.empty {
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.not-registered .badge-name{
-  background: linear-gradient(0deg,rgb(191, 191, 191) 8%, rgb(100, 100, 100) 42%, rgb(134, 134, 134) 100%);
+.not-registered .badge-name {
+  background: linear-gradient(
+    0deg,
+    rgb(191, 191, 191) 8%,
+    rgb(100, 100, 100) 42%,
+    rgb(134, 134, 134) 100%
+  );
 }
 </style>

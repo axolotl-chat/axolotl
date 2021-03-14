@@ -1,29 +1,63 @@
 
 <template>
   <div class="chat">
-    <div class="messageList-container" id="messageList-container" @scroll="handleScroll($event)">
-      <div id="messageList" class="messageList row" v-if="messages && messages.length>0" >
-        <div v-if="showFullscreenImgSrc!=''" class="fullscreenImage">
-          <img :src="'http://localhost:9080/attachments?file='+showFullscreenImgSrc" >
+    <div
+      class="messageList-container"
+      id="messageList-container"
+      @scroll="handleScroll($event)"
+    >
+      <div
+        id="messageList"
+        class="messageList row"
+        v-if="messages && messages.length > 0"
+      >
+        <div v-if="showFullscreenImgSrc != ''" class="fullscreenImage">
+          <img
+            :src="
+              'http://localhost:9080/attachments?file=' + showFullscreenImgSrc
+            "
+          />
           <button class="btn btn-secondary save" @click="saveImg($event)">
             <font-awesome-icon icon="arrow-down" />
           </button>
-          <button class="btn btn-secondary close" @click="showFullscreenImgSrc=''">X</button>
+          <button
+            class="btn btn-secondary close"
+            @click="showFullscreenImgSrc = ''"
+          >
+            X
+          </button>
         </div>
-        <div v-if="showFullscreenVideoSrc!=''" class="fullscreenImage">
+        <div v-if="showFullscreenVideoSrc != ''" class="fullscreenImage">
           <video controls>
-            <source :src="'http://localhost:9080/attachments?file='+showFullscreenVideoSrc">
-              <span v-translate>Your browser does not support the audio element.</span>
+            <source
+              :src="
+                'http://localhost:9080/attachments?file=' +
+                showFullscreenVideoSrc
+              "
+            />
+            <span v-translate
+              >Your browser does not support the audio element.</span
+            >
           </video>
-          <button class="btn btn-secondary close" @click="showFullscreenVideoSrc=''">X</button>
+          <button
+            class="btn btn-secondary close"
+            @click="showFullscreenVideoSrc = ''"
+          >
+            X
+          </button>
           <button class="btn btn-secondary save" @click="saveVideo($event)">
             <font-awesome-icon icon="arrow-down" />
           </button>
         </div>
-        <message v-for="(message) in messageList.Messages.slice().reverse()"
-          :key="message.ID" :message="message" :isGroup="isGroup" :names="names"
+        <message
+          v-for="message in messageList.Messages.slice().reverse()"
+          :key="message.ID"
+          :message="message"
+          :isGroup="isGroup"
+          :names="names"
           @showFullscreenImg="showFullscreenImg($event)"
-          @showFullscreenVideo="showFullscreenVideo($event)">
+          @showFullscreenVideo="showFullscreenVideo($event)"
+        >
         </message>
       </div>
       <div v-else class="no-entries">
@@ -35,10 +69,15 @@
       <!-- <div v-if="chat&&chat.IsGroup&&chat.Name==chat.Tel" class="alert alert-warning">Group has to be updated by a member.</div>
       <div v-else class=""> -->
       <div class="messageInput-container">
-        <textarea id="messageInput" type="textarea" v-model="messageInput"
-        contenteditable="true" v-longclick="paste"/>
+        <textarea
+          id="messageInput"
+          type="textarea"
+          v-model="messageInput"
+          contenteditable="true"
+          v-longclick="paste"
+        />
       </div>
-      <div class="messageInput-btn-container" v-if="messageInput!=''">
+      <div class="messageInput-btn-container" v-if="messageInput != ''">
         <button class="btn send" @click="sendMessage">
           <font-awesome-icon icon="paper-plane" />
         </button>
@@ -49,113 +88,135 @@
         </button>
       </div>
     </div>
-    <attachment-bar v-if="showAttachmentsBar"
-    @close="showAttachmentsBar=false"
-    @send="callContentHub($event)" />
-    <input id="attachment" type="file" @change="sendDesktopAttachment" style="position: fixed; top: -100em">
+    <attachment-bar
+      v-if="showAttachmentsBar"
+      @close="showAttachmentsBar = false"
+      @send="callContentHub($event)"
+    />
+    <input
+      id="attachment"
+      type="file"
+      @change="sendDesktopAttachment"
+      style="position: fixed; top: -100em"
+    />
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import Message from "@/components/Message"
-import AttachmentBar from "@/components/AttachmentBar"
-import { saveAs } from 'file-saver';
+import { mapState } from "vuex";
+import Message from "@/components/Message";
+import AttachmentBar from "@/components/AttachmentBar";
+import { saveAs } from "file-saver";
 export default {
-  name: 'Chat',
+  name: "Chat",
   props: {
-    chatId: Number
+    chatId: Number,
   },
-  components:{
+  components: {
     AttachmentBar,
-    Message
+    Message,
   },
   data() {
     return {
       messageInput: "",
-      scrolled:false,
-      showAttachmentsBar:false,
-      showFullscreenImgSrc:"",
-      showFullscreenVideoSrc:"",
-      names:{},
-      lastCHeight:0,
-      lastMHeight:0,
-      scrollLocked: false
-    }
+      scrolled: false,
+      showAttachmentsBar: false,
+      showFullscreenImgSrc: "",
+      showFullscreenVideoSrc: "",
+      names: {},
+      lastCHeight: 0,
+      lastMHeight: 0,
+      scrollLocked: false,
+    };
   },
   methods: {
-    getId: function() {
-      return(this.chatId)
+    getId: function () {
+      return this.chatId;
     },
     callContentHub(type) {
       this.showAttachmentsBar = false;
-      if(typeof this.config.Gui!="undefined"&&this.config.Gui=="ut"){
+      if (typeof this.config.Gui != "undefined" && this.config.Gui == "ut") {
         var result = window.prompt(type);
         this.showSettingsMenu = false;
-        if(result!="canceld")
-        this.$store.dispatch("sendAttachment", {type:type, path:result, to: this.chatId, message:this.messageInput});
+        if (result != "canceld")
+          this.$store.dispatch("sendAttachment", {
+            type: type,
+            path: result,
+            to: this.chatId,
+            message: this.messageInput,
+          });
       } else {
         // this.showSettingsMenu = false;
         // document.getElementById("addVcf").click()
       }
     },
-    loadAttachmentDialog(){
-      if(typeof this.config.Gui!="undefined"&&this.config.Gui=="ut"){
-      this.showAttachmentsBar=true
-      }
-      else{
-        document.getElementById("attachment").click()
+    loadAttachmentDialog() {
+      if (typeof this.config.Gui != "undefined" && this.config.Gui == "ut") {
+        this.showAttachmentsBar = true;
+      } else {
+        document.getElementById("attachment").click();
       }
     },
-    shareAttachment(file, e){
-      if(typeof this.config.Gui!="undefined"&&this.config.Gui=="ut"){
+    shareAttachment(file, e) {
+      if (typeof this.config.Gui != "undefined" && this.config.Gui == "ut") {
         e.preventDefault();
-        alert("[oD]"+file)
-      // this.showAttachmentsBar=true
-      }
-      else{
+        alert("[oD]" + file);
+        // this.showAttachmentsBar=true
+      } else {
         // alert(file)
-          // console.log(file)
+        // console.log(file)
       }
     },
-    sendDesktopAttachment(evt){
+    sendDesktopAttachment(evt) {
       var f = evt.target.files[0];
       if (f) {
         var r = new FileReader();
         var that = this;
-        r.onload = function(e) {
-            var attachment = e.target.result;
-            that.$store.dispatch("uploadAttachment", {attachment:attachment, to: that.chatId, message:this.messageInput});
-        }
-        r.readAsDataURL(f)
+        r.onload = function (e) {
+          var attachment = e.target.result;
+          that.$store.dispatch("uploadAttachment", {
+            attachment: attachment,
+            to: that.chatId,
+            message: this.messageInput,
+          });
+        };
+        r.readAsDataURL(f);
       } else {
         alert("Failed to load file");
       }
     },
-    showFullscreenImg(img){
+    showFullscreenImg(img) {
       this.showFullscreenImgSrc = img;
     },
-    showFullscreenVideo(video){
+    showFullscreenVideo(video) {
       this.showFullscreenVideoSrc = video;
     },
-    saveImg(e){
-      if(typeof this.config.Gui!="undefined"&&this.config.Gui=="ut"){
+    saveImg(e) {
+      if (typeof this.config.Gui != "undefined" && this.config.Gui == "ut") {
         e.preventDefault();
-        alert("[oP]"+this.showFullscreenImgSrc)
+        alert("[oP]" + this.showFullscreenImgSrc);
       } else
-      saveAs('http://localhost:9080/attachments?file='+this.showFullscreenImgSrc)
+        saveAs(
+          "http://localhost:9080/attachments?file=" + this.showFullscreenImgSrc
+        );
     },
-    saveVideo(e){
-      if(typeof this.config.Gui!="undefined"&&this.config.Gui=="ut"){
+    saveVideo(e) {
+      if (typeof this.config.Gui != "undefined" && this.config.Gui == "ut") {
         e.preventDefault();
-        alert("[oV]"+this.showFullscreenVideoSrc)
+        alert("[oV]" + this.showFullscreenVideoSrc);
       } else
-      saveAs('http://localhost:9080/attachments?file='+this.showFullscreenVideoSrc)
+        saveAs(
+          "http://localhost:9080/attachments?file=" +
+            this.showFullscreenVideoSrc
+        );
     },
-    sendMessage(){
-      if(this.messageInput!=""){
-        this.$store.dispatch("sendMessage", {to:this.chatId, message:this.messageInput});
-        if(this.$store.state.messageList.Messages == null) {
+    sendMessage() {
+      if (this.messageInput != "") {
+        this.$store.dispatch("sendMessage", {
+          to: this.chatId,
+          message: this.messageInput,
+        });
+        if (this.$store.state.messageList.Messages == null) {
           this.$store.dispatch("getMessageList", this.getId());
         }
         this.messageInput = "";
@@ -163,50 +224,55 @@ export default {
 
       this.scrollDown();
     },
-    handleScroll (event) {
-      if(!this.$data.scrollLocked
-        && event.target.scrollTop < 80
-        && this.$store.state.messageList.Messages != null
-        && this.$store.state.messageList.Messages.length > 19) {
+    handleScroll(event) {
+      if (
+        !this.$data.scrollLocked &&
+        event.target.scrollTop < 80 &&
+        this.$store.state.messageList.Messages != null &&
+        this.$store.state.messageList.Messages.length > 19
+      ) {
         this.$data.scrollLocked = true;
         this.$store.dispatch("getMoreMessages");
       }
     },
-    back(){
-      this.$router.go(-1)
+    back() {
+      this.$router.go(-1);
     },
-    paste(){
-      if(typeof this.config.Gui!="undefined"&&this.config.Gui=="ut"){
+    paste() {
+      if (typeof this.config.Gui != "undefined" && this.config.Gui == "ut") {
         // Don't follow the link
         var result = window.prompt("paste");
-        this.messageInput=this.messageInput+result;
+        this.messageInput = this.messageInput + result;
       }
     },
-    scrollDown(){
+    scrollDown() {
       document.getElementById("chat-bottom").scrollIntoView();
-    }
+    },
   },
-  mounted(){
+  mounted() {
     this.$store.dispatch("openChat", this.getId());
     this.$store.dispatch("getMessageList", this.getId());
-    document.getElementById('messageInput').focus();
+    document.getElementById("messageInput").focus();
     setTimeout(this.scrollDown, 600);
     var that = this;
-    document.addEventListener('click', function (event) {
-
-      // If the clicked element doesn't have the right selector, bail
-      if (!event.target.matches('.linkified')) return;
-      if(typeof that.config.Gui!="undefined"&&that.config.Gui=="ut"){
-        // Don't follow the link
-        event.preventDefault();
-        alert(event.target.href)
-      }
-      // else
-      // console.log(that.config.Gui)
-    }, false);
+    document.addEventListener(
+      "click",
+      function (event) {
+        // If the clicked element doesn't have the right selector, bail
+        if (!event.target.matches(".linkified")) return;
+        if (typeof that.config.Gui != "undefined" && that.config.Gui == "ut") {
+          // Don't follow the link
+          event.preventDefault();
+          alert(event.target.href);
+        }
+        // else
+        // console.log(that.config.Gui)
+      },
+      false
+    );
   },
-  watch:{
-    messageInput(){
+  watch: {
+    messageInput() {
       // Adapt height of the textarea when its content changed
       let textarea = document.getElementById("messageInput");
       if (this.messageInput == "") {
@@ -216,39 +282,39 @@ export default {
         textarea.style.height = textarea.scrollHeight + 5 + "px";
       }
     },
-    contacts(){
-      if(this.contacts!=null){
-        Object.keys(this.names).forEach((i)=>{
-          var contact = this.contacts.find(function(element) {
+    contacts() {
+      if (this.contacts != null) {
+        Object.keys(this.names).forEach((i) => {
+          var contact = this.contacts.find(function (element) {
             return element.Tel == i;
           });
-          if(typeof contact!="undefined"){
-            this.names[i]=contact.Name;
+          if (typeof contact != "undefined") {
+            this.names[i] = contact.Name;
           }
         });
       }
     },
     messages: {
       // This will let Vue know to look inside the array
-      deep:true,
-      handler(){
+      deep: true,
+      handler() {
         this.$data.scrollLocked = false;
-      }
-    }
+      },
+    },
   },
   computed: {
     chat() {
-      return this.$store.state.currentChat
+      return this.$store.state.currentChat;
     },
     messages() {
-      return this.$store.state.messageList.Messages
+      return this.$store.state.messageList.Messages;
     },
     isGroup() {
-      return this.$store.state.messageList.Session.IsGroup
+      return this.$store.state.messageList.Session.IsGroup;
     },
-    ... mapState(['contacts','config','messageList']),
-  }
-}
+    ...mapState(["contacts", "config", "messageList"]),
+  },
+};
 </script>
 
 <style scoped>
@@ -262,11 +328,11 @@ export default {
 .header {
   text-align: left;
 }
-.messageList{
+.messageList {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-.messageList-container{
+.messageList-container {
   overflow-x: hidden;
   overflow-y: scroll;
   transition: width 0.5s, height 0.5s;
@@ -274,7 +340,7 @@ export default {
 }
 
 .chat-list-container::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 /* .chat-list-container{
   padding-bottom:70px;
@@ -284,7 +350,7 @@ export default {
   scrollbar-width: none;
 } */
 .messageList > div:last-child {
-    padding-bottom: 20px;
+  padding-bottom: 20px;
 }
 .messageInputBox {
   display: flex;
@@ -298,7 +364,7 @@ export default {
   flex-shrink: 1;
   margin-left: 15px;
 }
-#messageInput{
+#messageInput {
   resize: none;
   width: 100%;
   height: 35px;
@@ -306,15 +372,16 @@ export default {
   padding: 3px 10px;
   border-radius: 4px;
   ::-webkit-scrollbar {
-      display: block;
+    display: block;
   }
 }
-textarea:focus, input:focus{
-    outline: none;
+textarea:focus,
+input:focus {
+  outline: none;
 }
-.send{
+.send {
   background-color: #2090ea;
-  color: #FFF;
+  color: #fff;
   border-radius: 50%;
   width: 35px;
   height: 35px;
@@ -324,36 +391,36 @@ textarea:focus, input:focus{
   align-items: center;
 }
 .fullscreenImage {
-    position: fixed;
-    z-index: 100;
-    top: 0px;
-    left: 0px;
-    width: 100vw;
-    height: 100vh;
-    background-color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: fixed;
+  z-index: 100;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .fullscreenImage img,
 .fullscreenImage video {
   max-height: 100%;
   max-width: 100%;
-  height:unset;
+  height: unset;
 }
 .fullscreenImage .close {
-  position:absolute;
-  right:10px;
-  top:10px;
-  padding:10px;
-  background-color:#FFFFFF;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  padding: 10px;
+  background-color: #ffffff;
 }
 .fullscreenImage .save {
-  position:absolute;
-  right:50px;
-  top:10px;
-  padding:10px;
-  background-color:#FFFFFF;
-  color:black;
+  position: absolute;
+  right: 50px;
+  top: 10px;
+  padding: 10px;
+  background-color: #ffffff;
+  color: black;
 }
 </style>

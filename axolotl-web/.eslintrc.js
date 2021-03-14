@@ -20,7 +20,7 @@ module.exports = {
     'import/extensions': 'off',
     'implicit-arrow-linebreak': 'off',
     'import/prefer-default-export': 'off',
-    "vue/no-mutating-props":"off",
+    "vue/no-mutating-props": "off",
     "vue/component-name-in-template-casing": ["error", "kebab-case", {
       "ignores": []
     }],

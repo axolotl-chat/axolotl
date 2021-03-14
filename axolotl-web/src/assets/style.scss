@@ -17,7 +17,7 @@ $close-color: $body-color;
 $link-color: $primary;
 // End of bootstrap override
 
-@import 'node_modules/bootstrap/scss/bootstrap';
+@import "node_modules/bootstrap/scss/bootstrap";
 
 // All variables are now loaded, we can use them
 .row.chat-entry {
