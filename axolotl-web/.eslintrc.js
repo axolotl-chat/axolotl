@@ -23,8 +23,6 @@ module.exports = {
     "vue/no-mutating-props": "off",
     "vue/singleline-html-element-content-newline":"off",
     "vue/max-attributes-per-line":"off",
-    "vue/component-name-in-template-casing": ["error", "kebab-case", {
-      "ignores": []
-    }],
+    "vue/component-name-in-template-casing": "off"
   },
 };
