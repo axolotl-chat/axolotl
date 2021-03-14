@@ -23,11 +23,7 @@ msgstr ""
 msgid "3. Paste the Qr-Code here:"
 msgstr ""
 
-#: src/pages/Register.vue:6
-msgid "A cross-plattform signal client"
-msgstr ""
-
-#: src/pages/About.vue:4
+#: src/pages/About.vue:4 src/pages/Register.vue:6
 msgid "A cross-plattform Signal client"
 msgstr ""
 
