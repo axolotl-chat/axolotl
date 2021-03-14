@@ -1,6 +1,9 @@
 {
   "name": "axolotl-web",
   "version": "0.1.1",
+  "description": "This is the frontend half of the axolotl project. Axolotl is a complete cross-platform Signal client.",
+  "license": "GPL-3.0",
+  "homepage": "https://axolotl.chat",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -50,6 +53,26 @@
     "node-sass": "^4.14.1",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11"
+  },
+  "keywords": [
+    "signal",
+    "messaging",
+    "vue"
+  ],
+  "engines": {
+    "node": ">= 14.0.0"
+  },
+  "main": "src/main.js",
+  "author": {
+    "name": "nanu-c",
+    "url": "https://github.com/nanu-c"
+  },
+  "bugs": {
+    "url": "https://github.com/nanu-c/axolotl/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nanu-c/axolotl.git"
   },
   "eslintConfig": {
     "root": true,
