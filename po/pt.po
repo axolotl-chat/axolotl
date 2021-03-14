@@ -25,7 +25,6 @@ msgid "3. Paste the Qr-Code here:"
 msgstr ""
 
 #: src/pages/About.vue:4 src/pages/Register.vue:6
-#, fuzzy
 msgid "A cross-plattform Signal client"
 msgstr "Um cliente signal multiplataforma"
 
@@ -454,9 +453,6 @@ msgstr "Seu navegador não suporta o elemento de áudio."
 #: src/components/Message.vue:67
 msgid "Your browser does not support the video element."
 msgstr "Seu navegador não suporta o elemento de vídeo."
-
-#~ msgid "A cross-plattform signal client"
-#~ msgstr "Um cliente signal multiplataforma"
 
 #~ msgid "Edit Group"
 #~ msgstr "Atualizar grupo"

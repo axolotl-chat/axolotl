@@ -26,7 +26,6 @@ msgid "3. Paste the Qr-Code here:"
 msgstr ""
 
 #: src/pages/About.vue:4 src/pages/Register.vue:6
-#, fuzzy
 msgid "A cross-plattform Signal client"
 msgstr "Ein Multi-Plattform Signal-Client"
 
@@ -409,7 +408,6 @@ msgstr ""
 "Momentan können leider mit Axolotl keine neuen Gespräche begonnen werden."
 
 #: src/pages/About.vue:6
-#, fuzzy
 msgid ""
 "This is a free and open source Signal client written in golang and vuejs."
 msgstr ""
@@ -477,9 +475,6 @@ msgstr "Dein Browser unterstützt dieses Audio-Element nicht."
 #: src/components/Message.vue:67
 msgid "Your browser does not support the video element."
 msgstr "Dein Browser unterstützt dieses Video-Element nicht."
-
-#~ msgid "A cross-plattform signal client"
-#~ msgstr "Ein Multi-Plattform Signal-Client"
 
 #~ msgid "Edit Group"
 #~ msgstr "Gruppe bearbeiten"
