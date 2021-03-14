@@ -25,8 +25,13 @@ msgstr ""
 msgid "3. Paste the Qr-Code here:"
 msgstr ""
 
-#: src/pages/About.vue:4 src/pages/Register.vue:6
+#: src/pages/Register.vue:6
 msgid "A cross-plattform signal client"
+msgstr "Een Signal-client voor meerdere platformen"
+
+#: src/pages/About.vue:4
+#, fuzzy
+msgid "A cross-plattform Signal client"
 msgstr "Een Signal-client voor meerdere platformen"
 
 #: src/pages/Settings.vue:27
@@ -393,8 +398,9 @@ msgstr ""
 "Het starten van nieuwe gesprekken is momenteel niet mogelijk middels Axolotl."
 
 #: src/pages/About.vue:6
+#, fuzzy
 msgid ""
-"This is a free and open source signal client written in golang and vuejs."
+"This is a free and open source Signal client written in golang and vuejs."
 msgstr ""
 "Dit is een gratis, open source Signal-client, geschreven in golang en "
 "vuejs.\n"
