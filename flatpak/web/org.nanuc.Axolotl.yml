@@ -8,7 +8,7 @@ sdk-extensions:
   - org.freedesktop.Sdk.Extension.node14
 command: axolotl
 tags:
-  - nightly
+  - latest
 finish-args:
   # See https://docs.flatpak.org/en/latest/sandbox-permissions-reference.html
   # Write access for the user download folder (to save media)

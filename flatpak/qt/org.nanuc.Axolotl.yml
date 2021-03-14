@@ -10,7 +10,7 @@ command: axolotl
 base: io.qt.qtwebengine.BaseApp
 base-version: "5.15"
 tags:
-  - nightly
+  - latest
 finish-args:
   # See https://docs.flatpak.org/en/latest/sandbox-permissions-reference.html
   # Write access for the user download folder (to save media)
