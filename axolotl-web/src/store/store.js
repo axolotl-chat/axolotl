@@ -1,7 +1,7 @@
 import { createStore } from 'vuex'
 import { router } from '../router/router';
 import { validateUUID } from '@/helpers/uuidCheck'
-import main from "../main";
+import app from "../main";
 
 export default createStore({
   state: {
@@ -250,12 +250,12 @@ export default createStore({
       state.captchaTokenSent = true;
     },
     SOCKET_ONOPEN(state, event) {
-      main.config.globalProperties.$socket = event.currentTarget;
+      app.config.globalProperties.$socket = event.currentTarget;
       state.socket.isConnected = true;
       state.socket.heartBeatTimer = setInterval(() => {
         const message = "ping";
         state.socket.isConnected &&
-          main.config.globalProperties.$socket.sendObj({
+          app.config.globalProperties.$socket.sendObj({
             code: 200,
             msg: message
           });
@@ -358,7 +358,7 @@ export default createStore({
           "request": "addDevice",
           "url": url,
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     delDevice: function (state, id) {
@@ -367,7 +367,7 @@ export default createStore({
           "request": "delDevice",
           "id": id,
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     getDevices: function () {
@@ -375,7 +375,7 @@ export default createStore({
         var message = {
           "request": "getDevices",
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     getChatList: function () {
@@ -383,7 +383,7 @@ export default createStore({
         var message = {
           "request": "getChatList",
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     delChat: function (state, id) {
@@ -392,7 +392,7 @@ export default createStore({
           "request": "delChat",
           "id": id,
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     getMessageList: function (state, chatId) {
@@ -402,7 +402,7 @@ export default createStore({
           "request": "getMessageList",
           "id": chatId
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     openChat: function (state, chatId) {
@@ -412,7 +412,7 @@ export default createStore({
           "request": "openChat",
           "id": chatId
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     getMoreMessages: function () {
@@ -423,7 +423,7 @@ export default createStore({
           "request": "getMoreMessages",
           "lastId": String(this.state.messageList.Messages.slice(-1)[0].ID)
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     clearMessageList: function () {
@@ -438,7 +438,7 @@ export default createStore({
         var message = {
           "request": "leaveChat",
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     createChat: function (state, uuid) {
@@ -447,7 +447,7 @@ export default createStore({
           "request": "createChat",
           "uuid": uuid
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
       this.commit("CREATE_CHAT", uuid);
     },
@@ -458,7 +458,7 @@ export default createStore({
           "to": messageContainer.to,
           "message": messageContainer.message
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     toggleNotifcations: function () {
@@ -467,7 +467,7 @@ export default createStore({
           "request": "toggleNotifcations",
           "chat": this.state.currentChat.ID
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     resetEncryption: function () {
@@ -476,7 +476,7 @@ export default createStore({
           "request": "resetEncryption",
           "chat": this.state.currentChat.ID
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     verifyIdentity: function () {
@@ -485,7 +485,7 @@ export default createStore({
           "request": "verifyIdentity",
           "chat": this.state.currentChat.ID
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     getContacts: function (state) {
@@ -494,7 +494,7 @@ export default createStore({
         var message = {
           "request": "getContacts",
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     addContact: function (state, contact) {
@@ -506,7 +506,7 @@ export default createStore({
           "name": contact.name,
           "phone": contact.phone,
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     filterContacts: function (state, filter) {
@@ -526,7 +526,7 @@ export default createStore({
           "request": "uploadVcf",
           "vcf": vcf
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     uploadAttachment: function (state, attachment) {
@@ -536,7 +536,7 @@ export default createStore({
           "attachment": attachment.attachment,
           "to": attachment.to,
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     refreshContacts: function (state, chUrl) {
@@ -546,7 +546,7 @@ export default createStore({
           "request": "refreshContacts",
           "url": chUrl
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     delContact: function (state, id) {
@@ -556,7 +556,7 @@ export default createStore({
           "request": "delContact",
           "id": id,
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     deleteSelfDestructingMessage: function (state, m) {
@@ -565,7 +565,7 @@ export default createStore({
           "request": "delMessage",
           "id": m.ID
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     editContact: function (state, data) {
@@ -577,7 +577,7 @@ export default createStore({
           "name": data.contact.Name,
           "id": data.id
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     // registration functions
@@ -588,7 +588,7 @@ export default createStore({
           "request": "requestCode",
           "tel": tel,
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     sendCode: function (state, code) {
@@ -597,7 +597,7 @@ export default createStore({
           "request": "sendCode",
           "code": code,
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     sendPin: function (state, pin) {
@@ -606,7 +606,7 @@ export default createStore({
           "request": "sendPin",
           "pin": pin,
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     sendPassword: function (state, password) {
@@ -615,7 +615,7 @@ export default createStore({
           "request": "sendPassword",
           "pw": password,
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     setPassword: function (state, password) {
@@ -625,7 +625,7 @@ export default createStore({
           "pw": password.pw,
           "currentPw": password.cPw
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
         router.push("/chatList")
       }
     },
@@ -634,7 +634,7 @@ export default createStore({
         var message = {
           "request": "getRegistrationStatus",
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     unregister: function () {
@@ -642,7 +642,7 @@ export default createStore({
         var message = {
           "request": "unregister",
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
 
       }
     },
@@ -651,7 +651,7 @@ export default createStore({
         var message = {
           "request": "getConfig",
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     createNewGroup: function (state, data) {
@@ -661,7 +661,7 @@ export default createStore({
           "name": data.name,
           "members": data.members,
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
 
       }
     },
@@ -673,7 +673,7 @@ export default createStore({
           "id": data.id,
           "members": data.members,
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
 
       }
     },
@@ -686,7 +686,7 @@ export default createStore({
           "to": data.to,
           "message": data.message,
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
 
       }
     },
@@ -696,7 +696,7 @@ export default createStore({
           "request": "setDarkMode",
           "darkMode": darkMode,
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
         this.state.DarkMode = darkMode;
       }
     },
@@ -706,7 +706,7 @@ export default createStore({
           "request": "sendCaptchaToken",
           "token": this.state.captchaToken,
         }
-        main.config.globalProperties.$socket.send(JSON.stringify(message))
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
         this.commit("SET_CAPTCHA_TOKEN_SENT");
 
       }
