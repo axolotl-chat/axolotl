@@ -19,6 +19,8 @@
             : 'col-12 chat-container '
         "
         @click="enterChat(chat)"
+        data-long-press-delay="500"
+        @long-press="editChat(chat.ID)"
       >
         <div class="row chat-entry">
           <div class="avatar col-2">
@@ -32,14 +34,7 @@
             </div>
             <div v-else class="badge-name">{{ chat.Name[0] }}</div>
           </div>
-          <div
-            class="meta col-10"
-            v-longclick="
-              () => {
-                editChat(chat.ID);
-              }
-            "
-          >
+          <div class="meta col-10">
             <div class="row">
               <div class="col-9">
                 <div class="name">
@@ -104,6 +99,7 @@ import moment from "moment";
 import { mapState } from "vuex";
 import { router } from "../router/router";
 import WarningMessage from "@/components/WarningMessage";
+import longPressEvent from "long-press-event/dist/long-press-event.min.js";
 
 export default {
   name: "ChatList",

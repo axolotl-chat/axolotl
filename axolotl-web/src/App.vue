@@ -1,6 +1,6 @@
 <template>
   <div id="app" @click="checkDebug">
-    <header-comp></header-comp>
+    <header-comp />
     <main class="container">
       <error-modal v-if="error" />
       <router-view />

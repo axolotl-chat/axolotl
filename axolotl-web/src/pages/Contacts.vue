@@ -42,11 +42,8 @@
           <div
             class="meta col-9"
             @click="contactClick(contact)"
-            v-longclick="
-              () => {
-                showContactAction(contact);
-              }
-            "
+            data-long-press-delay="500"
+            @long-press="showContactAction(contact)"
           >
             <p class="name">{{ contact.Name }}</p>
             <p class="number">{{ contact.Tel }}</p>
@@ -65,22 +62,17 @@
       "
     >
       <div class="row chat-entry">
-        <!-- <div class="avatar col-3" @click="contactClick(contact)"> -->
         <div
           :class="'avatar col-3 avatar ' + checkForUUIDClass(contact)"
           @click="contactClick(contact, i)"
         >
           <div class="badge-name">{{ contact.Name[0] + contact.Name[1] }}</div>
         </div>
-        <!-- <div class="meta col-9" @click="contactClick(contact)"  v-longclick="()=>{showContactAction(contact)}"> -->
         <div
           class="meta col-9"
           @click="contactClick(contact)"
-          v-longclick="
-            () => {
-              showContactAction(contact);
-            }
-          "
+          data-long-press-delay="500"
+          @long-press="showContactAction(contact)"
         >
           <p class="name">{{ contact.Name }}</p>
           <p class="number">{{ contact.Tel }}</p>
@@ -116,6 +108,7 @@ import AddContactModal from "@/components/AddContactModal.vue";
 import EditContactModal from "@/components/EditContactModal.vue";
 import StartChatModal from "@/components/StartChatModal.vue";
 import { validateUUID } from "@/helpers/uuidCheck";
+import longPressEvent from "long-press-event/dist/long-press-event.min.js";
 
 export default {
   name: "Contacts",

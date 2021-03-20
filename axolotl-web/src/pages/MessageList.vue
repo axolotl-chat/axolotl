@@ -74,7 +74,8 @@
           type="textarea"
           v-model="messageInput"
           contenteditable="true"
-          v-longclick="paste"
+          data-long-press-delay="500"
+          @long-press="paste"
         />
       </div>
       <div class="messageInput-btn-container" v-if="messageInput != ''">
@@ -107,6 +108,7 @@ import { mapState } from "vuex";
 import Message from "@/components/Message";
 import AttachmentBar from "@/components/AttachmentBar";
 import { saveAs } from "file-saver";
+import longPressEvent from "long-press-event/dist/long-press-event.min.js";
 export default {
   name: "Chat",
   props: {
@@ -221,7 +223,6 @@ export default {
         }
         this.messageInput = "";
       }
-
       this.scrollDown();
     },
     handleScroll(event) {
@@ -298,7 +299,9 @@ export default {
       // This will let Vue know to look inside the array
       deep: true,
       handler() {
+        if (!this.$data.scrollLocked) setTimeout(this.scrollDown, 600);
         this.$data.scrollLocked = false;
+        // this.scrollDown();
       },
     },
   },
