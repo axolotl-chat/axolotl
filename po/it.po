@@ -25,7 +25,7 @@ msgid "3. Paste the Qr-Code here:"
 msgstr "3. Incolla qui il Qr-Code:"
 
 #: src/pages/About.vue:4 src/pages/Register.vue:6
-msgid "A cross-plattform signal client"
+msgid "A cross-plattform Signal client"
 msgstr "Un client di signal multipiattaforma"
 
 #: src/pages/Settings.vue:27
@@ -132,16 +132,18 @@ msgid ""
 "Tool to set Axolotl on \"Prevent app suspension\"."
 msgstr ""
 "A causa di limitazioni tecniche, Axolotl non supporta le notifiche push."
-"Tieni l'app aperta per ricevere notifiche in tempo reale. In Ubuntu Touch, usa UT Tweak "
-"Strumento per impostare Axolotl su \"Impedisci sospensione app\"."
+"Tieni l'app aperta per ricevere notifiche in tempo reale. In Ubuntu Touch, "
+"usa UT Tweak Strumento per impostare Axolotl su \"Impedisci sospensione app"
+"\"."
 
 #: src/components/WarningMessage.vue:3
 msgid ""
 "Due to upstream changes in Signal, some features are currently broken. We're "
 "working as fast as we can to bring them back."
 msgstr ""
-"A causa di modifiche a monte in Signal, alcune funzionalità sono attualmente non funzionanti. Stiamo "
-"lavorando il più velocemente possibile per ripristinarle."
+"A causa di modifiche a monte in Signal, alcune funzionalità sono attualmente "
+"non funzionanti. Stiamo lavorando il più velocemente possibile per "
+"ripristinarle."
 
 #: src/components/EditContactModal.vue:5
 msgid "Edit"
@@ -176,8 +178,9 @@ msgid ""
 "If you are really sure that the persons you want to text with have Signal, "
 "you can manually add them using the \"plus\" action on that page."
 msgstr ""
-"Se sei veramente sicuro che le persone con cui desideri inviare messaggi abbiano Signal, "
-"puoi aggiungerli manualmente utilizzando l'azione \"più\"in quella pagina."
+"Se sei veramente sicuro che le persone con cui desideri inviare messaggi "
+"abbiano Signal, puoi aggiungerli manualmente utilizzando l'azione \"più\"in "
+"quella pagina."
 
 #: src/components/ErrorModal.vue:15
 msgid ""
@@ -246,9 +249,9 @@ msgid ""
 "the linked Desktop Client. Alternatively, your counterparty could start the "
 "discussion."
 msgstr ""
-"Le nuove conversazioni sono temporaneamente disabilitate. Puoi creare una nuova chat da "
-"il client desktop collegato. In alternativa, la tua controparte potrebbe avviare il "
-"discussione."
+"Le nuove conversazioni sono temporaneamente disabilitate. Puoi creare una "
+"nuova chat da il client desktop collegato. In alternativa, la tua "
+"controparte potrebbe avviare il discussione."
 
 #: src/components/Header.vue:99 src/components/Header.vue:149
 msgid "New group"
@@ -284,7 +287,8 @@ msgstr "Nota: non puoi aggiungerti a un gruppo."
 
 #: src/components/AddContactModal.vue:11
 msgid "Only add numbers that you are sure are registered Signal accounts!"
-msgstr "Aggiungi solo numeri di cui sei sicuro siano account Signal registrati!"
+msgstr ""
+"Aggiungi solo numeri di cui sei sicuro siano account Signal registrati!"
 
 #: src/pages/About.vue:13
 msgid "or by becoming a"
@@ -367,8 +371,8 @@ msgid ""
 "Setting a password is not adviced on devices short in memory. Restart is "
 "required!"
 msgstr ""
-"L'impostazione di una password non è consigliata sui dispositivi con poca memoria. Il riavvio è "
-"necessario!"
+"L'impostazione di una password non è consigliata sui dispositivi con poca "
+"memoria. Il riavvio è necessario!"
 
 #: src/components/Header.vue:93 src/components/Header.vue:152
 msgid "Settings"
@@ -387,10 +391,12 @@ msgid "Starting new chats is currently broken in Axolotl."
 msgstr "L'avvio di nuove chat è attualmente interrotto in Axolotl."
 
 #: src/pages/About.vue:6
+#, fuzzy
 msgid ""
-"This is a free and open source signal client written in golang and vuejs."
+"This is a free and open source Signal client written in golang and vuejs."
 msgstr ""
-"Questo è un client di signal gratuito e open source scritto in golang e vuejs."
+"Questo è un client di signal gratuito e open source scritto in golang e "
+"vuejs."
 
 #: src/components/Header.vue:27 src/pages/ChatList.vue:26
 msgid "Unknown group"
@@ -429,8 +435,8 @@ msgid ""
 "We are sorry, but due to a change in the Signal protocol, automatic import "
 "of contacts is currently unavailble."
 msgstr ""
-"Siamo spiacenti, ma a causa di un cambiamento nel protocollo Signal, l'importazione automatica "
-"dei contatti non è attualmente disponibile."
+"Siamo spiacenti, ma a causa di un cambiamento nel protocollo Signal, "
+"l'importazione automatica dei contatti non è attualmente disponibile."
 
 #: src/pages/Verification.vue:19
 msgid "Wrong code entered. Restart for another try."
@@ -460,7 +466,7 @@ msgstr "Il tuo browser non supporta l'elemento video."
 #~ msgstr "Aggiungi Contatto"
 
 #~ msgid "<b>Group name</b>"
-#~ msgstr ""<b>Nome gruppo</b>"
+#~ msgstr "<b>Nome gruppo</b>"
 
 #~ msgid "Forwarded from "
 #~ msgstr "Inoltrato da "
@@ -528,8 +534,7 @@ msgstr "Il tuo browser non supporta l'elemento video."
 #~ msgstr "Eliminare il dispositivo selezionato?"
 
 #~ msgid "This will permanently delete the selected Device."
-#~ msgstr ""
-#~ "Questo eliminerà definitivamente il dispositivo selezionato."
+#~ msgstr "Questo eliminerà definitivamente il dispositivo selezionato."
 
 #~ msgid "This will permanently delete all messages!"
 #~ msgstr "Questo eliminerà definitivamente tutti i messaggi!"

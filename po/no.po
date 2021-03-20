@@ -25,7 +25,7 @@ msgid "3. Paste the Qr-Code here:"
 msgstr ""
 
 #: src/pages/About.vue:4 src/pages/Register.vue:6
-msgid "A cross-plattform signal client"
+msgid "A cross-plattform Signal client"
 msgstr "En kryssplattform signal klient"
 
 #: src/pages/Settings.vue:27
@@ -383,7 +383,7 @@ msgstr ""
 #: src/pages/About.vue:6
 #, fuzzy
 msgid ""
-"This is a free and open source signal client written in golang and vuejs."
+"This is a free and open source Signal client written in golang and vuejs."
 msgstr ""
 "Dette er en gratis og åpen kildekode signal klient skrevet i golang og "
 "vuejs.\n"
