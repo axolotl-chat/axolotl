@@ -54,7 +54,7 @@
     </div>
     <div class="form-group">
       <label for="passwordCurrent" class="text-primary" v-translate
-        >Current Password</label
+        >Current password</label
       >
       <input
         required
