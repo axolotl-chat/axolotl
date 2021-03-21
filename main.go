@@ -100,7 +100,6 @@ func runElectron() {
 	a.HandleSignals()
 	// New window
 	var w *astilectron.Window
-	var err error
 	center := true
 	height := 800
 	width := 600
