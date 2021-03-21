@@ -70,7 +70,7 @@ func runElectron() {
 	if len(electronPath) == 0 {
 		electronPath = config.ConfigDir + "/electron"
 	}
-	var a, initErr = astilectron.New(l, astilectron.Options{
+	a, err := astilectron.New(l, astilectron.Options{
 		AppName:            "axolotl",
 		AppIconDefaultPath: "axolotl-web/public/axolotl.png", // If path is relative, it must be relative to the data directory
 		AppIconDarwinPath:  "axolotl-web/public/axolotl.png", // Same here
@@ -80,8 +80,8 @@ func runElectron() {
 		SingleInstance:     true,
 		ElectronSwitches:   []string{"--disable-dev-shm-usage", "--no-sandbox"}})
 
-	if initErr != nil {
-	  log.Errorln(errors.Wrap(initErr, "[axolotl-electron]: creating astilectron failed"))
+	if err != nil {
+	  log.Errorln(errors.Wrap(err, "[axolotl-electron]: creating astilectron failed"))
   }
 
 	defer a.Close()
@@ -89,7 +89,7 @@ func runElectron() {
 	// Start astilectron
 	a.HandleSignals()
 
-	if err := a.Start(); err != nil {
+	if err = a.Start(); err != nil {
 		log.Errorln(errors.Wrap(err, "[axolotl-electron] main: starting astilectron failed"))
 	}
 
