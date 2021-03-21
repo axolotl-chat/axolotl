@@ -81,7 +81,7 @@ func runElectron() {
 		ElectronSwitches:   []string{"--disable-dev-shm-usage", "--no-sandbox"}})
 
 	if initErr != nil {
-	  log.Errorln(errors.Wrap(err, "[axolotl-electron]: creating astilectron failed"))
+	  log.Errorln(errors.Wrap(initErr, "[axolotl-electron]: creating astilectron failed"))
   }
 
 	defer a.Close()
