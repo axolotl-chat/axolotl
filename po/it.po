@@ -405,7 +405,7 @@ msgstr "L'avvio di nuove chat è attualmente interrotto in Axolotl."
 msgid ""
 "This is a free and open source Signal client written in golang and vuejs."
 msgstr ""
-Questo è un client Signal gratuito e open source scritto in golang e vuejs.
+"Questo è un client Signal gratuito e open source scritto in golang e vuejs."
 
 #: src/components/Header.vue:27 src/pages/ChatList.vue:26
 msgid "Unknown group"
