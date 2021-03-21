@@ -1,11 +1,11 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-07 09:22+0200\n"
-"PO-Revision-Date: 2021-03-12 22:15+0200\n"
-"Last-Translator: olof-nord\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,396 +24,412 @@ msgstr ""
 msgid "3. Paste the Qr-Code here:"
 msgstr ""
 
-#: src/pages/About.vue:4 src/pages/Register.vue:6
+#: src/pages/Register.vue:6
+msgid "A cross-plattform signal client"
+msgstr ""
+
+#: src/pages/About.vue:4
 msgid "A cross-plattform Signal client"
-msgstr "En multi-platform Signal klient"
+msgstr ""
 
-#: src/pages/Settings.vue:27
+#: src/pages/Settings.vue:25
 msgid "About Axolotl"
-msgstr "Om axolotl"
+msgstr ""
 
-#: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:24
+#: src/components/AddContactModal.vue:6 src/components/AddContactModal.vue:29
 #: src/components/AddDeviceModal.vue:22
 msgid "Add"
-msgstr "Lägg till"
+msgstr ""
 
 #: src/components/AddDeviceModal.vue:5
 #, fuzzy
 msgid "Add a new device"
-msgstr "Lägg till en ny enhet"
+msgstr "Uppdatera"
 
 #: src/components/AddGroupMembersModal.vue:56
 #, fuzzy
 msgid "Add Contacts first"
-msgstr "Lägg till kontakt först"
+msgstr "Kontakt"
 
 #: src/components/AddGroupMembersModal.vue:5
 #, fuzzy
 msgid "Add members"
-msgstr "Lägg till gruppmedlemmar"
+msgstr "Gruppmedlemmar"
 
-#: src/components/AttachmentBar.vue:13
+#: src/components/AttachmentBar.vue:17
 msgid "Audio"
 msgstr "Ljud"
 
-#: src/components/ErrorModal.vue:11
+#: src/components/ErrorModal.vue:13
 msgid ""
-"Axolotl encountered an error communicating with Signal servers. Please try "
-"again."
+"Axolotl encountered an error communicating with Signal servers.\n"
+"            Please try again."
 msgstr ""
 
-#: src/components/ImportUnavailableModal.vue:18
-msgid ""
-"Be careful, if you add too many numbers which aren't Signal accounts, you "
-"won't be able to add contacts anymore."
-msgstr ""
-
-#: src/pages/Contacts.vue:3
-msgid "Can't change contact list: {{error}}"
-msgstr "Inte möjligt att ändra kontaktlista: {{error}}"
-
-#: src/components/ErrorModal.vue:18 src/components/IdentityModal.vue:21
 #: src/components/ImportUnavailableModal.vue:23
-#: src/components/StartChatModal.vue:13
+msgid ""
+"Be careful, if you add too many numbers which aren't Signal\n"
+"            accounts, you won't be able to add contacts anymore."
+msgstr ""
+
+#: src/pages/Contacts.vue:2
+msgid "Can't change contact list: {{ error }}"
+msgstr ""
+
+#: src/components/ErrorModal.vue:31 src/components/IdentityModal.vue:22
+#: src/components/ImportUnavailableModal.vue:29
+#: src/components/StartChatModal.vue:19
 msgid "Close"
-msgstr "Stäng"
+msgstr ""
 
 #: src/components/ConfirmationModal.vue:13
 msgid "Confirm"
-msgstr "Bekräfta"
+msgstr ""
 
-#: src/components/Header.vue:73
+#: src/components/Header.vue:114
 msgid "Connect with Signal"
-msgstr "Anslut till Signal"
+msgstr "Anslut med Signal"
 
-#: src/components/AddContactModal.vue:5 src/components/EditContactModal.vue:5
+#: src/components/AddContactModal.vue:8 src/components/EditContactModal.vue:8
 msgid "Contact"
 msgstr "Kontakt"
 
-#: src/pages/Contacts.vue:16
+#: src/pages/Contacts.vue:19
 msgid "Contact list is empty..."
-msgstr "Kontaktlistan är tom..."
+msgstr ""
 
-#: src/components/Header.vue:146
+#: src/components/Header.vue:196
 #, fuzzy
 msgid "Contacts"
-msgstr "Kontakter"
+msgstr "Kontakt"
 
 #: src/pages/NewGroup.vue:12
 #, fuzzy
 msgid "Create group"
-msgstr "Skapa grupp"
+msgstr "Lämna grupp"
 
 #: src/pages/NewGroup.vue:31
 msgid "Creating Group"
-msgstr "Skapar grupp"
+msgstr ""
 
-#: src/pages/SetPassword.vue:20
+#: src/pages/SetPassword.vue:23
 msgid "Current Password"
-msgstr "Nuvarande lösenord"
+msgstr ""
 
-#: src/pages/SetPassword.vue:10
+#: src/pages/SetPassword.vue:13
 msgid "Current password is wrong"
-msgstr "Nuvarande lösenord är inkorrekt"
+msgstr ""
 
-#: src/pages/Settings.vue:23
+#: src/pages/Settings.vue:21
 msgid "Dark mode"
-msgstr "Mörkt läge"
+msgstr ""
 
-#: src/pages/Password.vue:4
+#: src/pages/Password.vue:6
 msgid "Decrypt"
-msgstr "Dekryptera"
+msgstr ""
 
-#: src/components/AttachmentBar.vue:14
+#: src/components/AttachmentBar.vue:20
 msgid "Document"
-msgstr "Dokument"
+msgstr ""
 
-#: src/pages/Settings.vue:32
+#: src/pages/Settings.vue:30
 msgid ""
-"Due to technical limitations, Axolotl doesn't support push notifications. "
-"Keep the app open to be notified in real time. In Ubuntu Touch, use UT Tweak "
-"Tool to set Axolotl on \"Prevent app suspension\"."
+"Due to technical limitations, Axolotl doesn't support push\n"
+"        notifications. Keep the app open to be notified in real time. In "
+"Ubuntu\n"
+"        Touch, use UT Tweak Tool to set Axolotl on \"Prevent app suspension"
+"\"."
 msgstr ""
 
 #: src/components/WarningMessage.vue:3
 msgid ""
-"Due to upstream changes in Signal, some features are currently broken. We're "
-"working as fast as we can to bring them back."
+"Due to upstream changes in Signal, some features are currently broken.\n"
+"      We're working as fast as we can to bring them back."
 msgstr ""
 
-#: src/components/EditContactModal.vue:5
+#: src/components/EditContactModal.vue:6
 msgid "Edit"
-msgstr "Uppdatera"
+msgstr ""
 
-#: src/components/Header.vue:64 src/components/Header.vue:105
+#: src/components/Header.vue:105 src/components/Header.vue:149
 #, fuzzy
 msgid "Edit group"
 msgstr "Uppdatera grupp"
 
-#: src/components/Header.vue:76
+#: src/components/Header.vue:118
 msgid "Enter password"
-msgstr "Ange lösenord"
+msgstr ""
 
 #: src/pages/Verification.vue:2
 msgid "Enter your registration pin"
-msgstr "Ange din registrerings pin"
+msgstr ""
 
 #: src/components/ErrorModal.vue:5
 msgid "Error communicating with Signal servers"
-msgstr "Det gick inte att ansluta till Signals servrar."
+msgstr ""
 
-#: src/components/WarningMessage.vue:6
+#: src/components/WarningMessage.vue:8
 msgid "Follow the progress or join us to help with development on"
-msgstr "Följ utvecklingen eller hjälp till på"
+msgstr ""
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
 msgstr "Gruppnamn"
 
-#: src/components/ImportUnavailableModal.vue:13
+#: src/components/ImportUnavailableModal.vue:16
 msgid ""
-"If you are really sure that the persons you want to text with have Signal, "
-"you can manually add them using the \"plus\" action on that page."
+"If you are really sure that the persons you want to text with have\n"
+"            Signal, you can manually add them using the \"plus\" action on "
+"that\n"
+"            page."
 msgstr ""
 
-#: src/components/ErrorModal.vue:15
+#: src/components/ErrorModal.vue:22
 msgid ""
-"If you think that something is wrong on your side, you can <a href=\"#\" "
-"@click=\"unregister\">unregister</a> and register again.\n"
-"            Be careful, <strong>your encryption key will change and you will "
-"lose all your messages</strong> if you choose to do that."
+"If you think that something is wrong on your side, you can\n"
+"            <a href=\"#\" @click=\"unregister\">unregister</a> and register "
+"again.\n"
+"            Be careful,\n"
+"            <strong>your encryption key will change and you will lose all "
+"your\n"
+"              messages</strong>\n"
+"            if you choose to do that."
 msgstr ""
 
-#: src/components/ErrorModal.vue:12
+#: src/components/ErrorModal.vue:17
 msgid ""
-"If you're seeing that error multiple times, check the <a href=\"https://"
-"status.signal.org/\" target=\"_blank\">status of Signal servers</a>.\n"
-"            If it's fine, then please tell us there is a problem by <a href="
-"\"https://github.com/nanu-c/axolotl/issues\" target=\"_blank\">opening an "
-"issue</a>."
+"If you're seeing that error multiple times, check the\n"
+"            <a href=\"https://status.signal.org/\" target=\"_blank\">status "
+"of Signal servers</a>. If it's fine, then please tell us there is a problem "
+"by\n"
+"            <a href=\"https://github.com/nanu-c/axolotl/issues\" target="
+"\"_blank\">opening an issue</a>."
 msgstr ""
 
-#: src/components/Header.vue:132
+#: src/components/Header.vue:177
 #, fuzzy
 msgid "Import contacts"
-msgstr "Importera kontakter"
+msgstr "Kontakt"
 
 #: src/components/ImportUnavailableModal.vue:5
 #, fuzzy
 msgid "Import contacts feature unavailable"
-msgstr "Det är inte möjligt att importera kontakter"
+msgstr "Kontakt"
 
-#: src/pages/Contacts.vue:4
+#: src/pages/Contacts.vue:5
 msgid "Importing contacts, head back later"
-msgstr "Importerar kontakter, kom tillbaka senare"
+msgstr ""
 
 #: src/pages/SetPassword.vue:2
 msgid "Info"
-msgstr "Information"
+msgstr ""
 
-#: src/pages/About.vue:11
+#: src/pages/About.vue:12
 msgid "issues at the bug tracker"
 msgstr ""
 
 #: src/pages/DeviceList.vue:7
 msgid "Last seen:"
-msgstr "Senast sedd:"
+msgstr ""
 
-#: src/pages/Settings.vue:11
+#: src/pages/Settings.vue:9
 #, fuzzy
 msgid "Linked devices"
-msgstr "Länkade enheter"
+msgstr "Uppdatera"
 
-#: src/pages/Verification.vue:15
+#: src/pages/Verification.vue:18
 msgid "Loading..."
-msgstr "Läser in..."
+msgstr ""
 
-#: src/pages/NewGroup.vue:10
+#: src/pages/NewGroup.vue:9
 #, fuzzy
 msgid "Members"
 msgstr "Gruppmedlemmar"
 
-#: src/components/Header.vue:59
+#: src/components/Header.vue:92
 msgid "Mute"
-msgstr "Tysta"
-
-#: src/components/AddContactModal.vue:15
-msgid "Name"
-msgstr "Namn"
-
-#: src/components/StartChatModal.vue:11
-msgid ""
-"New conversations are temporarily disabled. You can create a new chat from "
-"the linked Desktop Client. Alternatively, your counterparty could start the "
-"discussion."
 msgstr ""
 
-#: src/components/Header.vue:99 src/components/Header.vue:149
+#: src/components/AddContactModal.vue:20
+msgid "Name"
+msgstr ""
+
+#: src/components/StartChatModal.vue:13
+msgid ""
+"New conversations are temporarily disabled. You can create a new\n"
+"            chat from the linked Desktop Client. Alternatively, your\n"
+"            counterparty could start the discussion."
+msgstr ""
+
+#: src/components/Header.vue:143 src/components/Header.vue:199
 msgid "New group"
 msgstr "Ny grupp"
 
-#: src/pages/SetPassword.vue:13
+#: src/pages/SetPassword.vue:16
 #, fuzzy
 msgid "New password"
 msgstr "Nytt meddelande"
 
-#: src/pages/Register.vue:17
+#: src/pages/Register.vue:18
 msgid "Next"
-msgstr "Nästa"
+msgstr ""
 
-#: src/pages/ChatList.vue:46
+#: src/pages/ChatList.vue:62
 msgid "No chats available"
-msgstr "Inga chattar tillgängliga"
+msgstr ""
 
 #: src/pages/DeviceList.vue:17
 #, fuzzy
 msgid "No linked devices"
-msgstr "Inga länkade enheter"
+msgstr "Uppdatera"
 
-#: src/pages/MessageList.vue:25
+#: src/pages/MessageList.vue:34
 msgid "No Messages available."
-msgstr "Inga meddelanden tillgängliga"
+msgstr ""
 
-#: src/components/Message.vue:46 src/components/Message.vue:72
+#: src/components/Message.vue:52 src/components/Message.vue:86
 msgid "Not supported mime type:"
-msgstr "mime typ stöds inte:"
+msgstr ""
 
-#: src/pages/EditGroup.vue:8 src/pages/NewGroup.vue:8
+#: src/pages/EditGroup.vue:7 src/pages/NewGroup.vue:7
 msgid "Note, you can't add yourself to a group."
-msgstr "Du kan inte lägga till dig själv till en grupp."
+msgstr ""
 
-#: src/components/AddContactModal.vue:11
-msgid "Only add numbers that you are sure are registered Signal accounts!"
-msgstr "Lägg bara till nummer som du är säker är registrerade Signal-konton!"
+#: src/components/AddContactModal.vue:15
+msgid ""
+"Only add numbers that you are sure are registered Signal\n"
+"              accounts!"
+msgstr ""
 
-#: src/pages/About.vue:13
+#: src/pages/About.vue:14
 msgid "or by becoming a"
-msgstr "eller bli en"
+msgstr ""
 
 #: src/pages/Verification.vue:4
 msgid "or disable it on Android/IOs"
-msgstr "eller inaktivera det på Android/iOS"
+msgstr ""
 
 #: src/pages/Password.vue:2
 msgid "Password is wrong"
-msgstr "Lösenordet är fel"
+msgstr ""
 
-#: src/pages/SetPassword.vue:4
+#: src/pages/SetPassword.vue:7
 msgid "Passwords don't match"
-msgstr "Lösenorden stämmer inte överens"
+msgstr ""
 
-#: src/components/AddContactModal.vue:19 src/components/EditContactModal.vue:15
+#: src/components/AddContactModal.vue:24 src/components/EditContactModal.vue:19
 msgid "Phone"
-msgstr "Telefon"
+msgstr ""
 
 #: src/components/AttachmentBar.vue:11
 msgid "Photo"
-msgstr "Foto"
+msgstr ""
 
 #: src/components/AddDeviceModal.vue:17
 msgid "QR-Code"
-msgstr "QR-kod"
+msgstr ""
 
-#: src/pages/Settings.vue:5
+#: src/pages/Settings.vue:4
 #, fuzzy
 msgid "Registered number"
-msgstr "Registrerat nummer"
+msgstr "Registrera"
 
-#: src/pages/SetPassword.vue:16
+#: src/pages/SetPassword.vue:19
 msgid "Repeat password"
-msgstr "Upprepa lösenord"
+msgstr ""
 
-#: src/pages/Register.vue:26
+#: src/pages/Register.vue:29
 msgid "Request code"
-msgstr "Begär kod"
+msgstr ""
 
-#: src/components/Header.vue:63
+#: src/components/Header.vue:102
 #, fuzzy
 msgid "Reset encryption"
 msgstr "Starta om säker session"
 
 #: src/components/IdentityModal.vue:14
 msgid "Safety numbers of you and"
-msgstr "Säkerhetsnummer från dig och"
+msgstr ""
 
-#: src/components/EditContactModal.vue:20
+#: src/components/EditContactModal.vue:24
 msgid "Save"
 msgstr "Spara"
 
 #: src/components/AttachmentBar.vue:5
 msgid "Send Attachments"
-msgstr "Skicka bifogade filer"
+msgstr ""
 
-#: src/pages/Verification.vue:11
+#: src/pages/Verification.vue:12
 msgid "Send code"
-msgstr "Skicka kod"
+msgstr ""
 
 #: src/pages/Verification.vue:6
 msgid "Send pin"
-msgstr "Skicka pin"
+msgstr ""
 
-#: src/components/Header.vue:82
+#: src/components/Header.vue:125
 #, fuzzy
 msgid "Set encryption password"
 msgstr "Starta om säker session"
 
-#: src/pages/SetPassword.vue:23 src/pages/Settings.vue:14
+#: src/pages/SetPassword.vue:26 src/pages/Settings.vue:12
 msgid "Set password"
-msgstr "Ange lösenord"
+msgstr ""
 
-#: src/components/Message.vue:78
+#: src/components/Message.vue:96
 msgid "Set timer for self-destructing messages"
-msgstr "Sätt en timer för själv-förstörande meddelanden"
+msgstr ""
 
 #: src/pages/SetPassword.vue:3
 msgid ""
-"Setting a password is not adviced on devices short in memory. Restart is "
-"required!"
+"Setting a password is not adviced on devices short in memory. Restart is\n"
+"      required!"
 msgstr ""
 
-#: src/components/Header.vue:93 src/components/Header.vue:152
+#: src/components/Header.vue:137 src/components/Header.vue:202
 msgid "Settings"
 msgstr "Inställningar"
 
-#: src/components/Header.vue:62
+#: src/components/Header.vue:99
 #, fuzzy
 msgid "Show identity"
 msgstr "Verifiera identiteten"
 
-#: src/pages/About.vue:14
+#: src/pages/About.vue:17
 msgid "sponsor on patreon."
-msgstr "sponsra på Patreon."
+msgstr ""
 
 #: src/components/StartChatModal.vue:5
 msgid "Starting new chats is currently broken in Axolotl."
-msgstr "Att starta nya chattar är för tillfället inte möjligt med Axolotl."
+msgstr ""
 
 #: src/pages/About.vue:6
 msgid ""
-"This is a free and open source Signal client written in golang and vuejs."
+"This is a free and open source Signal client written in golang and\n"
+"        vuejs."
 msgstr ""
 
-#: src/components/Header.vue:27 src/pages/ChatList.vue:26
+#: src/components/Header.vue:32 src/pages/ChatList.vue:30
 #, fuzzy
 msgid "Unknown group"
-msgstr "Okänd grupp"
+msgstr "Ny grupp"
 
-#: src/components/Header.vue:60
+#: src/components/Header.vue:95
 msgid "Unmute"
-msgstr "Ljud på"
+msgstr ""
 
-#: src/pages/Password.vue:5 src/pages/Settings.vue:18
+#: src/pages/Password.vue:9 src/pages/Settings.vue:16
 #, fuzzy
 msgid "Unregister"
-msgstr "Avregistrera"
+msgstr "Avregistrering"
 
-#: src/pages/SetPassword.vue:7
+#: src/pages/SetPassword.vue:10
 msgid "Unsafe password"
-msgstr "Osäkert lösenord"
+msgstr ""
 
-#: src/components/Message.vue:81
+#: src/components/Message.vue:99
 msgid "Unsupported message type: sticker"
-msgstr "Meddelandetypen stöds inte: sticker"
+msgstr ""
 
 #: src/pages/EditGroup.vue:41
 #, fuzzy
@@ -424,36 +440,36 @@ msgstr "Uppdatera grupp"
 msgid "Verify identity"
 msgstr "Verifiera identiteten"
 
-#: src/components/AttachmentBar.vue:12
+#: src/components/AttachmentBar.vue:14
 msgid "Video"
 msgstr "Video"
 
-#: src/components/ImportUnavailableModal.vue:8
+#: src/components/ImportUnavailableModal.vue:10
 msgid ""
-"We are sorry, but due to a change in the Signal protocol, automatic import "
-"of contacts is currently unavailble."
+"We are sorry, but due to a change in the Signal protocol, automatic\n"
+"            import of contacts is currently unavailble."
 msgstr ""
 
-#: src/pages/Verification.vue:19
+#: src/pages/Verification.vue:22
 msgid "Wrong code entered. Restart for another try."
-msgstr "Fel kod. Starta om för att försöka igen."
+msgstr ""
 
-#: src/components/Message.vue:19
+#: src/components/Message.vue:25
 msgid "You"
-msgstr "Du"
+msgstr ""
 
-#: src/pages/About.vue:8
+#: src/pages/About.vue:9
 msgid "You can support the development of axolotl either by filling"
-msgstr "Du kan stötta utvecklingen av axolotl antingen genom att fylla"
+msgstr ""
 
-#: src/components/Message.vue:32 src/components/Message.vue:41
-#: src/components/Message.vue:57 src/pages/MessageList.vue:14
+#: src/components/Message.vue:38 src/components/Message.vue:47
+#: src/components/Message.vue:67 src/pages/MessageList.vue:21
 msgid "Your browser does not support the audio element."
-msgstr "Din webbläsare stöder inte ljudelement."
+msgstr ""
 
-#: src/components/Message.vue:67
+#: src/components/Message.vue:81
 msgid "Your browser does not support the video element."
-msgstr "Din webbläsare stöder inte videoelement."
+msgstr ""
 
 #, fuzzy
 #~ msgid "Edit Group"

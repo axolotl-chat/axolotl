@@ -1,75 +1,88 @@
 <template>
   <div class="settings">
     <div class="profile">
-      <div class="avatar">
-      </div>
-      <div class="name" v-translate> Registered number
-      </div>
+      <div class="avatar"></div>
+      <div class="name" v-translate>Registered number</div>
       <div class="number">
-        {{config.RegisteredNumber}}
+        {{ config.RegisteredNumber }}
       </div>
     </div>
     <router-link class="btn btn-primary" :to="'/devices/'" v-translate>
       Linked devices
     </router-link>
-    <router-link  class="btn btn-primary" :to="'/setPassword/'" v-translate>
+    <router-link class="btn btn-primary" :to="'/setPassword/'" v-translate>
       Set password
     </router-link>
 
-    <button class="btn btn-danger" @click="showConfirmationModal=true" v-translate>
+    <button
+      class="btn btn-danger"
+      @click="showConfirmationModal = true"
+      v-translate
+    >
       Unregister
     </button>
     <div class="custom-control custom-switch darkmode-switch">
-      <input type="checkbox" v-model="darkMode" class="custom-control-input" id="darkmode-switch" @change="toggleDarkMode()">
-      <label class="custom-control-label" for="darkmode-switch" v-translate>Dark mode</label>
+      <input
+        type="checkbox"
+        v-model="darkMode"
+        class="custom-control-input"
+        id="darkmode-switch"
+        @change="toggleDarkMode()"
+      />
+      <label class="custom-control-label" for="darkmode-switch" v-translate
+        >Dark mode</label
+      >
     </div>
     <confirmation-modal
-    v-if="showConfirmationModal"
-    @close="showConfirmationModal=false"
-    @confirm="unregister"
-    title="Unregister"
-    text="Do you really want to unregister? Everything will be deleted!" />
+      v-if="showConfirmationModal"
+      @close="showConfirmationModal = false"
+      @confirm="unregister"
+      title="Unregister"
+      text="Do you really want to unregister? Everything will be deleted!"
+    />
     <div class="about w-100">
-      <router-link  class="btn btn-primary" :to="'/about'" v-translate>
+      <router-link class="btn btn-primary" :to="'/about'" v-translate>
         About Axolotl
       </router-link>
     </div>
     <div class="warning-box">
       <span v-translate>
-        Due to technical limitations, Axolotl doesn't support push notifications. Keep the app open to be notified in real time. In Ubuntu Touch, use UT Tweak Tool to set Axolotl on "Prevent app suspension".
+        Due to technical limitations, Axolotl doesn't support push
+        notifications. Keep the app open to be notified in real time. In Ubuntu
+        Touch, use UT Tweak Tool to set Axolotl on "Prevent app suspension".
       </span>
     </div>
   </div>
 </template>
 
 <script>
-import ConfirmationModal from "@/components/ConfirmationModal.vue"
-import { mapState } from 'vuex';
+import ConfirmationModal from "@/components/ConfirmationModal.vue";
+import { mapState } from "vuex";
 export default {
-  name: 'settings',
+  name: "settings",
   components: {
-    ConfirmationModal
+    ConfirmationModal,
   },
   props: {
-    msg: String
+    msg: String,
   },
-  methods:{
-    unregister(){
+  methods: {
+    unregister() {
       this.$store.dispatch("unregister");
       localStorage.removeItem("registrationStatus");
     },
-    toggleDarkMode(){
-      var c = this.getCookie("darkMode")
-      if((this.getCookie("darkMode") === 'false'))c = true
-      else c = false
+    toggleDarkMode() {
+      var c = this.getCookie("darkMode");
+      if (this.getCookie("darkMode") === "false") c = true;
+      else c = false;
       this.$store.dispatch("setDarkMode", c);
     },
     getCookie(cname) {
       var name = cname + "=";
-      var ca = document.cookie.split(';');
-      for(var i = 0; i < ca.length; i++) {
+      var ca = document.cookie.split(";");
+      for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
-        while (c.charAt(0) == ' ') {
+        while (c.charAt(0) == " ") {
           c = c.substring(1);
         }
         if (c.indexOf(name) == 0) {
@@ -79,27 +92,27 @@ export default {
       return false;
     },
   },
-  mounted(){
-    this.$store.dispatch("getConfig")
-    this.darkMode = (this.getCookie("darkMode") === 'true')
+  mounted() {
+    this.$store.dispatch("getConfig");
+    this.darkMode = this.getCookie("darkMode") === "true";
   },
   data() {
     return {
-      showConfirmationModal:false,
-      darkMode:false,
+      showConfirmationModal: false,
+      darkMode: false,
     };
   },
-  computed: mapState(['config'])
-}
+  computed: mapState(["config"]),
+};
 </script>
 <style scoped>
-.settings{
-  display:flex;
+.settings {
+  display: flex;
   flex-direction: column;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
 }
-.btn{
+.btn {
   margin-bottom: 10px;
 }
 .profile {
@@ -116,11 +129,11 @@ export default {
   font-size: 1.8rem;
   color: #2090ea;
 }
-.about{
-  margin-top:20px;
-  padding-top:20px;
+.about {
+  margin-top: 20px;
+  padding-top: 20px;
   border-top: 1px solid #bbb;
-  text-align:center;
+  text-align: center;
 }
 .warning-box {
   margin-top: 0.5rem;
