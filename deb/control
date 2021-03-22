@@ -1,0 +1,13 @@
+Source: axolotl
+Section: net
+Priority: optional
+Maintainer: Arno Nuehm <arno_nuehm@riseup.net>
+Build-Depends: debhelper-compat (= 12)
+Standards-Version: 4.5.0
+Homepage: https://github.com/nanu-c/axolotl
+
+Package: axolotl
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: This program is a complete cross-platform Signal client.
+ It is built upon go textsecure and a Vue frontend that runs via electron.
