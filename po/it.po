@@ -17,11 +17,11 @@ msgid "1. Open Signal Desktop"
 msgstr "1. Apri Signal Desktop"
 
 #: src/components/AddDeviceModal.vue:13
-msgid "2. Scan the qr-Code with a qr-Code scanner"
+msgid "2. Scan the QR code with a QR code scanner"
 msgstr "2. Scansiona il qr-code con uno scanner qr-Code"
 
 #: src/components/AddDeviceModal.vue:14
-msgid "3. Paste the Qr-Code here:"
+msgid "3. Paste the QR code here:"
 msgstr "3. Incolla qui il Qr-Code:"
 
 #: src/pages/Register.vue:6
@@ -46,7 +46,7 @@ msgid "Add a new device"
 msgstr "Aggiungi un nuovo dispositivo"
 
 #: src/components/AddGroupMembersModal.vue:56
-msgid "Add Contacts first"
+msgid "Add contacts first"
 msgstr "Aggiungi prima i contatti"
 
 #: src/components/AddGroupMembersModal.vue:5
@@ -106,11 +106,11 @@ msgid "Create group"
 msgstr "Crea gruppo"
 
 #: src/pages/NewGroup.vue:31
-msgid "Creating Group"
+msgid "Creating group"
 msgstr "Creazione di un gruppo"
 
 #: src/pages/SetPassword.vue:23
-msgid "Current Password"
+msgid "Current password"
 msgstr "Password Attuale"
 
 #: src/pages/SetPassword.vue:13
@@ -287,7 +287,7 @@ msgid "No linked devices"
 msgstr "Nessun dispositivo collegato"
 
 #: src/pages/MessageList.vue:34
-msgid "No Messages available."
+msgid "No messages available."
 msgstr "Nessun messaggio disponibile."
 
 #: src/components/Message.vue:52 src/components/Message.vue:86
@@ -330,7 +330,7 @@ msgid "Photo"
 msgstr "Foto"
 
 #: src/components/AddDeviceModal.vue:17
-msgid "QR-Code"
+msgid "QR code"
 msgstr "Codice-QR"
 
 #: src/pages/Settings.vue:4
@@ -358,7 +358,7 @@ msgid "Save"
 msgstr "Salva"
 
 #: src/components/AttachmentBar.vue:5
-msgid "Send Attachments"
+msgid "Send attachments"
 msgstr "Invia Allegati"
 
 #: src/pages/Verification.vue:12
@@ -435,7 +435,7 @@ msgid "Unsupported message type: sticker"
 msgstr "Tipo di messaggio non supportato: sticker"
 
 #: src/pages/EditGroup.vue:41
-msgid "Updating Group"
+msgid "Updating group"
 msgstr "Aggiornamento del Gruppo"
 
 #: src/components/IdentityModal.vue:5
@@ -463,7 +463,7 @@ msgid "You"
 msgstr "Tu"
 
 #: src/pages/About.vue:9
-msgid "You can support the development of axolotl either by filling"
+msgid "You can support the development of Axolotl either by filling"
 msgstr "Puoi supportare lo sviluppo di axolotl sia riempiendo"
 
 #: src/components/Message.vue:38 src/components/Message.vue:47

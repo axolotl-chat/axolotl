@@ -17,11 +17,11 @@ msgid "1. Open Signal Desktop"
 msgstr ""
 
 #: src/components/AddDeviceModal.vue:13
-msgid "2. Scan the qr-Code with a qr-Code scanner"
+msgid "2. Scan the QR code with a QR code scanner"
 msgstr ""
 
 #: src/components/AddDeviceModal.vue:14
-msgid "3. Paste the Qr-Code here:"
+msgid "3. Paste the QR code here:"
 msgstr ""
 
 #: src/pages/Register.vue:6
@@ -48,7 +48,7 @@ msgid "Add a new device"
 msgstr "Dispositivos conetados"
 
 #: src/components/AddGroupMembersModal.vue:56
-msgid "Add Contacts first"
+msgid "Add contacts first"
 msgstr "Adicionar contatos primeiro"
 
 #: src/components/AddGroupMembersModal.vue:5
@@ -108,11 +108,11 @@ msgid "Create group"
 msgstr "Deixar o grupo"
 
 #: src/pages/NewGroup.vue:31
-msgid "Creating Group"
+msgid "Creating group"
 msgstr "Criar grupo"
 
 #: src/pages/SetPassword.vue:23
-msgid "Current Password"
+msgid "Current password"
 msgstr "Password atual"
 
 #: src/pages/SetPassword.vue:13
@@ -280,7 +280,7 @@ msgid "No linked devices"
 msgstr "Dispositivos conetados"
 
 #: src/pages/MessageList.vue:34
-msgid "No Messages available."
+msgid "No messages available."
 msgstr "Sem mensagens disponiveis"
 
 #: src/components/Message.vue:52 src/components/Message.vue:86
@@ -323,7 +323,7 @@ msgid "Photo"
 msgstr "Fotografia"
 
 #: src/components/AddDeviceModal.vue:17
-msgid "QR-Code"
+msgid "QR code"
 msgstr ""
 
 #: src/pages/Settings.vue:4
@@ -351,7 +351,7 @@ msgid "Save"
 msgstr "Guardar"
 
 #: src/components/AttachmentBar.vue:5
-msgid "Send Attachments"
+msgid "Send attachments"
 msgstr "Enviar Anexos"
 
 #: src/pages/Verification.vue:12
@@ -431,7 +431,7 @@ msgid "Unsupported message type: sticker"
 msgstr "Mime type não suportado"
 
 #: src/pages/EditGroup.vue:41
-msgid "Updating Group"
+msgid "Updating group"
 msgstr "Atualizar grupo"
 
 #: src/components/IdentityModal.vue:5
@@ -458,7 +458,7 @@ msgstr ""
 
 #: src/pages/About.vue:9
 #, fuzzy
-msgid "You can support the development of axolotl either by filling"
+msgid "You can support the development of Axolotl either by filling"
 msgstr ""
 "Este é um cliente de sinal gratuito e de código aberto escrito em golang e "
 "vuejs.\n"
