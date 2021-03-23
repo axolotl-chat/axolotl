@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-07 09:22+0200\n"
-"PO-Revision-Date: 2021-03-02 16:36+0100\n"
+"PO-Revision-Date: 2021-03-21 14:36+0100\n"
 "Last-Translator: Albano Battistella <albano_battistella@hotmail.com\n"
 "Language-Team: IT\n"
 "Language: it\n"
@@ -70,6 +70,8 @@ msgid ""
 "Be careful, if you add too many numbers which aren't Signal\n"
 "            accounts, you won't be able to add contacts anymore."
 msgstr ""
+"Fai attenzione, se aggiungi troppi numeri che non sono account Signal, "
+"non sarà più in grado di aggiungere contatti."
 
 #: src/pages/Contacts.vue:2
 msgid "Can't change contact list: {{ error }}"
@@ -201,6 +203,10 @@ msgid ""
 "              messages</strong>\n"
 "            if you choose to do that."
 msgstr ""
+"Se pensi che qualcosa non va dalla tua parte, puoi <a href =\"#\" "
+"@clicca su=\"unregister\">cancella registrazione</a> e registrati di nuovo.\n"
+"Fai attenzione, <strong>la tua chiave di crittografia cambierà e "
+"perderai tutti i tuoi messaggi</strong> se scegli di farlo."
 
 #: src/components/ErrorModal.vue:17
 msgid ""
@@ -211,6 +217,11 @@ msgid ""
 "            <a href=\"https://github.com/nanu-c/axolotl/issues\" target="
 "\"_blank\">opening an issue</a>."
 msgstr ""
+"Se visualizzi questo errore più volte, controlla <a href =\"https://"
+"status.signal.org/\"target=\"_ blank\"> stato dei server Signal</a>.\n"
+"            Per favore, comunicaci che c'è un problema con <ahref="
+"\"https://github.com/nanu-c/axolotl/issues\"target =\" _ blank\"> apertura di un "
+"problema</a>."
 
 #: src/components/Header.vue:177
 msgid "Import contacts"
@@ -406,13 +417,11 @@ msgid "Starting new chats is currently broken in Axolotl."
 msgstr "L'avvio di nuove chat è attualmente interrotto in Axolotl."
 
 #: src/pages/About.vue:6
-#, fuzzy
 msgid ""
 "This is a free and open source Signal client written in golang and\n"
 "        vuejs."
 msgstr ""
-"Questo è un client di signal gratuito e open source scritto in golang e "
-"vuejs."
+"Questo è un client Signal gratuito e open source scritto in golang e vuejs."
 
 #: src/components/Header.vue:32 src/pages/ChatList.vue:30
 msgid "Unknown group"
@@ -635,9 +644,8 @@ msgstr "Il tuo browser non supporta l'elemento video."
 #~ msgid "Group members"
 #~ msgstr "Membri del gruppo"
 
-#, fuzzy
 #~ msgid "Forward message to %1?"
-#~ msgstr "Inoltra messaggio"
+#~ msgstr "Inoltrare il messaggio a %1?"
 
 #~ msgid "Advanced"
 #~ msgstr "Avanzate"
