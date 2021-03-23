@@ -255,10 +255,10 @@ export default createStore({
       state.socket.heartBeatTimer = setInterval(() => {
         const message = "ping";
         state.socket.isConnected &&
-          app.config.globalProperties.$socket.sendObj({
+          app.config.globalProperties.$socket.send(JSON.stringify({
             code: 200,
             msg: message
-          });
+          }));
       }, state.socket.heartBeatInterval);
     },
     SOCKET_ONCLOSE(state) {

@@ -1,6 +1,6 @@
 {
   "name": "axolotl-web",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "description": "This is the frontend half of the axolotl project. Axolotl is a complete cross-platform Signal client.",
   "author": {
@@ -30,15 +30,13 @@
     "linkifyjs": "^3.0.0-beta.3",
     "long-press-event": "^2.4.2",
     "moment": "^2.29.1",
-    "ofcold-security-code": "git+https://github.com/ofcold/security-code.git",
     "qrcode": "^1.4.4",
     "vue": "^3.0.7",
     "vue-loader": "^16.1.2",
-    "vue-long-click": "0.0.4",
     "vue-native-websocket-vue3": "^3.1.0",
     "vue-password-strength-meter": "^1.7.2",
-    "vue-phone-number-input": "^1.1.10",
     "vue-router": "^4.0.5",
+    "vue3-tel-input": "^1.0.4",
     "vuex": "^4.0.0",
     "zxcvbn": "^4.4.2"
   },

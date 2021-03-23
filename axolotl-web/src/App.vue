@@ -32,25 +32,33 @@ import { router } from "./router/router";
 import HeaderComp from "@/components/Header.vue";
 import ErrorModal from "@/components/ErrorModal.vue";
 export default {
-  name: "axolotl-web",
+  name: "AxolotlWeb",
+  components: {
+    HeaderComp,
+    ErrorModal,
+  },
   data() {
     return {
       lastTappedForDebug: new Date(),
       nbTappedForDebug: 0,
     };
   },
-  components: {
-    HeaderComp,
-    ErrorModal,
-  },
-  mounted() {
-    var userLang = navigator.language || navigator.userLanguage;
-    this.$language.current = userLang;
-  },
   computed: {
     error() {
       return this.$store.state.error;
     },
+  },
+
+  watch: {
+    nbTappedForDebug() {
+      if (this.nbTappedForDebug >= 9) {
+        router.push("/debug");
+      }
+    },
+  },
+  mounted() {
+    var userLang = navigator.language || navigator.userLanguage;
+    this.$language.current = userLang;
   },
   methods: {
     checkDebug() {
@@ -60,13 +68,6 @@ export default {
         this.nbTappedForDebug = 1;
       }
       this.lastTappedForDebug = new Date();
-    },
-  },
-  watch: {
-    nbTappedForDebug() {
-      if (this.nbTappedForDebug >= 9) {
-        router.push("/debug");
-      }
     },
   },
 };
