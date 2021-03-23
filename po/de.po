@@ -18,11 +18,11 @@ msgid "1. Open Signal Desktop"
 msgstr ""
 
 #: src/components/AddDeviceModal.vue:13
-msgid "2. Scan the qr-Code with a qr-Code scanner"
+msgid "2. Scan the QR code with a QR code scanner"
 msgstr ""
 
 #: src/components/AddDeviceModal.vue:14
-msgid "3. Paste the Qr-Code here:"
+msgid "3. Paste the QR code here:"
 msgstr ""
 
 #: src/pages/Register.vue:6
@@ -49,7 +49,7 @@ msgid "Add a new device"
 msgstr "Gerät hinzufügen"
 
 #: src/components/AddGroupMembersModal.vue:56
-msgid "Add Contacts first"
+msgid "Add contacts first"
 msgstr "Zuerst Kontakte hinzufügen"
 
 #: src/components/AddGroupMembersModal.vue:5
@@ -114,11 +114,11 @@ msgid "Create group"
 msgstr "Gruppe erstellen"
 
 #: src/pages/NewGroup.vue:31
-msgid "Creating Group"
+msgid "Creating group"
 msgstr "Erstelle Gruppe"
 
 #: src/pages/SetPassword.vue:23
-msgid "Current Password"
+msgid "Current password"
 msgstr "Aktuelles Passwort"
 
 #: src/pages/SetPassword.vue:13
@@ -311,7 +311,7 @@ msgid "No linked devices"
 msgstr "Keine verknüpften Geräte"
 
 #: src/pages/MessageList.vue:34
-msgid "No Messages available."
+msgid "No messages available."
 msgstr "Keine Nachrichten vorhanden."
 
 #: src/components/Message.vue:52 src/components/Message.vue:86
@@ -357,7 +357,7 @@ msgstr "Foto"
 
 #: src/components/AddDeviceModal.vue:17
 #, fuzzy
-msgid "QR-Code"
+msgid "QR code"
 msgstr "Code"
 
 #: src/pages/Settings.vue:4
@@ -385,7 +385,7 @@ msgid "Save"
 msgstr "Speichern"
 
 #: src/components/AttachmentBar.vue:5
-msgid "Send Attachments"
+msgid "Send attachments"
 msgstr "Anhang senden"
 
 #: src/pages/Verification.vue:12
@@ -464,7 +464,7 @@ msgid "Unsupported message type: sticker"
 msgstr "Nicht unterstützter Nachrichtentyp: Sticker"
 
 #: src/pages/EditGroup.vue:41
-msgid "Updating Group"
+msgid "Updating group"
 msgstr "Gruppe aktualisieren"
 
 #: src/components/IdentityModal.vue:5
@@ -493,7 +493,7 @@ msgid "You"
 msgstr "Du"
 
 #: src/pages/About.vue:9
-msgid "You can support the development of axolotl either by filling"
+msgid "You can support the development of Axolotl either by filling"
 msgstr ""
 "Du kannst die Entwicklung von Axolotl unterstützen durch das Erstellen von"
 

@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" v-translate>Send Attachments</h5>
+          <h5 class="modal-title" v-translate>Send attachments</h5>
           <button type="button" class="close" @click="close">
             <span aria-hidden="true">&times;</span>
           </button>

@@ -11,11 +11,11 @@
         <div class="modal-body">
           <ul>
             <li v-translate>1. Open Signal Desktop</li>
-            <li v-translate>2. Scan the qr-Code with a qr-Code scanner</li>
-            <li v-translate>3. Paste the Qr-Code here:</li>
+            <li v-translate>2. Scan the QR code with a QR code scanner</li>
+            <li v-translate>3. Paste the QR code here:</li>
           </ul>
           <div class="form-group">
-            <label for="inputQRCode" v-translate>QR-Code</label>
+            <label for="inputQRCode" v-translate>QR code</label>
             <input
               v-model="qrCode"
               type="text"

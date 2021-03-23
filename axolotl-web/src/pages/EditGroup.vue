@@ -51,7 +51,7 @@
         </div>
       </div>
     </div>
-    <div v-else class="" v-translate>Updating Group</div>
+    <div v-else class="" v-translate>Updating group</div>
   </div>
 </template>
 

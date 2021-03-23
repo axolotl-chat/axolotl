@@ -61,7 +61,7 @@
         </message>
       </div>
       <div v-else class="no-entries">
-        <span v-translate>No Messages available.</span>
+        <span v-translate>No messages available.</span>
       </div>
       <div id="chat-bottom"></div>
     </div>

@@ -10,7 +10,7 @@
       >
       <br />
       <translate class="mr-1">
-        You can support the development of axolotl either by filling
+        You can support the development of Axolotl either by filling
       </translate>
       <a
         href="https://github.com/nanu-c/axolotl/issues"

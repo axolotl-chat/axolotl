@@ -72,7 +72,7 @@
               </div>
             </div>
             <div v-else>
-              <span v-translate>Add Contacts first</span>
+              <span v-translate>Add contacts first</span>
             </div>
           </div>
         </div>

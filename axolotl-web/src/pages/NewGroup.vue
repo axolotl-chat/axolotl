@@ -41,7 +41,7 @@
         </div>
       </div>
     </div>
-    <div v-else class="" v-translate>Creating Group</div>
+    <div v-else class="" v-translate>Creating group</div>
   </div>
 </template>
 
