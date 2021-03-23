@@ -76,7 +76,6 @@ export default {
   mounted() {
     var userLang = navigator.language || navigator.userLanguage;
     this.$language.current = userLang;
-    document.getElementsByClassName("vti__input")[0].focus();
     if (this.captchaToken != null && !this.captchaTokenSent) {
       this.$store.dispatch("sendCaptchaToken");
     }

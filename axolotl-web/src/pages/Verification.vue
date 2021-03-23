@@ -56,7 +56,6 @@ export default {
   },
   computed: mapState(["verificationError", "requestPin", "registrationStatus"]),
   mounted() {
-    // document.getElementsByClassName("form-control")[0].focus();
   },
   methods: {
     updateCode(code){
