@@ -12,7 +12,7 @@
       </button>
     </div>
     <div v-if="!requestPin" class="verify">
-      <VueOtpBox v-on:inputValue="updateCode($event)" class="codeInput" />
+      <VerificationPinInput v-on:inputValue="updateCode($event)" class="codeInput" />
       <button
         v-translate
         :disabled="inProgress"
@@ -38,11 +38,11 @@
 
 <script>
 import { mapState } from "vuex";
-import VueOtpBox from "@/components/VueOtpBox";
+import VerificationPinInput from "@/components/VerificationPinInput";
 export default {
   name: "Verification",
   components: {
-    VueOtpBox,
+    VerificationPinInput,
   },
   props: {
     msg: String,

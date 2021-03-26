@@ -57,7 +57,7 @@ export default {
     },
   },
   mounted() {
-    var userLang = navigator.language || navigator.userLanguage;
+    const userLang = navigator.language || navigator.userLanguage;
     this.$language.current = userLang;
   },
   methods: {

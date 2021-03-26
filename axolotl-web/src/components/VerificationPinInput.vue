@@ -28,9 +28,9 @@ export default {
 
   data() {
     return {
-      arraySize: undefined,
-      boxLength: undefined,
-      direction: undefined,
+      arraySize: null,
+      boxLength: null,
+      direction: null,
       boxColor: "#2090ea",
       clearFlag: false,
     };
@@ -65,7 +65,6 @@ export default {
       switch (this.position) {
         case "left":
           this.direction = "flex-start";
-
           break;
         case "right":
           this.direction = "flex-end";
