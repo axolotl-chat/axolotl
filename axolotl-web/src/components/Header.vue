@@ -2,18 +2,18 @@
   <div :class="route() + ' header '">
     <div class="container-fluid">
       <div
-        class="overlay"
         v-if="showSettingsMenu"
+        class="overlay"
         @click="showSettingsMenu = false"
       />
       <div class="header-row">
-        <div v-if="route() == 'chat'" class="message-list-container row">
-          <div v-if="errorConnection != null" class="connection-error"></div>
+        <div v-if="route() === 'chat'" class="message-list-container row">
+          <div v-if="errorConnection != null" class="connection-error" />
           <div class="col-10 chat-header">
             <button class="btn" @click="back()">
               <font-awesome-icon icon="arrow-left" />
             </button>
-            <div class="row w-100" v-if="currentChat != null">
+            <div v-if="currentChat != null" class="row w-100">
               <div class="col-2 badge-container">
                 <div
                   v-if="currentChat != null && currentChat.IsGroup"
@@ -25,7 +25,7 @@
                       'http://localhost:9080/avatars?file=' + currentChat.Tel
                     "
                     @error="onImageError($event)"
-                  />
+                  >
                   <font-awesome-icon icon="user-friends" />
                 </div>
                 <div v-else class="group-badge">{{ currentChat.Name[0] }}</div>
@@ -34,12 +34,12 @@
                 <div class="row">
                   <div class="col-12">
                     <div
-                      class="header-text-chat"
                       v-if="
                         currentChat != null &&
-                        currentChat.IsGroup &&
-                        currentChat.Name == currentChat.Tel
+                          currentChat.IsGroup &&
+                          currentChat.Name === currentChat.Tel
                       "
+                      class="header-text-chat"
                     >
                       <div
                         v-if="currentChat != null && !currentChat.Notification"
@@ -49,7 +49,7 @@
                       </div>
                       <div v-translate>Unknown group</div>
                     </div>
-                    <div class="header-text-chat" v-else>
+                    <div v-else class="header-text-chat">
                       <div
                         v-if="currentChat != null && !currentChat.Notification"
                         class="mute-badge"
@@ -59,7 +59,7 @@
                       <div
                         v-if="
                           currentChat != null &&
-                          currentChat.Name != currentChat.Tel
+                            currentChat.Name !== currentChat.Tel
                         "
                         class=""
                       >
@@ -69,38 +69,38 @@
                   </div>
                   <div class="col-12">
                     <div
-                      class="number-text"
                       v-if="
                         currentChat != null &&
-                        currentChat.IsGroup &&
-                        currentGroup != null &&
-                        typeof currentGroup != 'undefined'
+                          currentChat.IsGroup &&
+                          currentGroup != null &&
+                          typeof currentGroup != 'undefined'
                       "
+                      class="number-text"
                     >
-                      <div v-for="e in currentGroup.Members" v-bind:key="e">
+                      <div v-for="e in currentGroup.Members" :key="e">
                         {{ getNameForTel(e) }}
                       </div>
                     </div>
                     <div
-                      class="number-text"
                       v-if="
                         currentChat != null &&
-                        currentChat.IsGroup &&
-                        currentGroup != null &&
-                        typeof currentGroup != 'undefined'
+                          currentChat.IsGroup &&
+                          currentGroup != null &&
+                          typeof currentGroup != 'undefined'
                       "
+                      class="number-text"
                     >
-                      <div class="name" v-for="(n, i) in names" v-bind:key="i">
+                      <div v-for="(n, i) in names" :key="i" class="name">
                         {{ n }}<span v-if="i < names.length - 1">,</span>
                       </div>
                     </div>
                     <div
-                      class="number-text"
                       v-if="
                         currentChat != null &&
-                        !currentChat.IsGroup &&
-                        currentChat.Name == currentChat.Tel
+                          !currentChat.IsGroup &&
+                          currentChat.Name === currentChat.Tel
                       "
+                      class="number-text"
                     >
                       {{ currentChat.Tel }}
                     </div>
@@ -112,27 +112,27 @@
           <div class="col-2 text-right">
             <div class="dropdown">
               <button
+                id="dropdownMenuButton"
                 class="btn"
                 type="button"
-                @click="toggleSettings"
-                id="dropdownMenuButton"
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
+                @click="toggleSettings"
               >
                 <font-awesome-icon icon="ellipsis-v" />
               </button>
               <div
                 v-if="showSettingsMenu"
-                class="dropdown-menu"
                 id="settings-dropdown"
+                class="dropdown-menu"
                 aria-labelledby="dropdownMenuButton"
               >
                 <button
                   v-if="
                     currentChat != null &&
-                    !currentChat.IsGroup &&
-                    currentChat.Name != currentChat.Tel
+                      !currentChat.IsGroup &&
+                      currentChat.Name !== currentChat.Tel
                   "
                   class="dropdown-item"
                   @click="callNumber(currentChat.Tel)"
@@ -141,44 +141,45 @@
                 </button>
                 <button
                   v-if="currentChat != null && currentChat.Notification"
+                  v-translate
                   class="dropdown-item"
                   @click="toggleNotifications"
-                  v-translate
                 >
                   Mute
                 </button>
                 <button
                   v-else
+                  v-translate
                   class="dropdown-item"
                   @click="toggleNotifications"
-                  v-translate
                 >
                   Unmute
                 </button>
                 <!-- <button v-if="currentChat!=null&&currentChat.IsGroup" class="dropdown-item" @click="editGroup">Edit group</button> -->
                 <button
                   v-if="currentChat != null && !currentChat.IsGroup"
+                  v-translate
                   class="dropdown-item"
                   @click="verifyIdentity"
-                  v-translate
                 >
                   Show identity
                 </button>
                 <button
                   v-if="currentChat != null && !currentChat.IsGroup"
+                  v-translate
                   class="dropdown-item"
                   @click="resetEncryptionModal"
-                  v-translate
                 >
                   Reset encryption
                 </button>
                 <router-link
                   v-if="currentChat != null && currentChat.IsGroup"
+                  v-translate
                   :to="'/editGroup/' + currentChat.Tel"
                   class="dropdown-item"
-                  v-translate
-                  >Edit group</router-link
                 >
+                  Edit group
+                </router-link>
               </div>
               <identity-modal
                 v-if="showIdentityModal"
@@ -187,23 +188,23 @@
               />
               <confirmation-modal
                 v-if="showConfirmationModal"
-                @close="showConfirmationModal = false"
-                @confirm="confirm"
                 :title="cMTitle"
                 :text="cMText"
+                @close="showConfirmationModal = false"
+                @confirm="confirm"
               />
             </div>
           </div>
         </div>
-        <div v-else-if="route() == 'register'">
+        <div v-else-if="route() === 'register'">
           <div class="header-text">
             <span v-translate>Connect with Signal</span>
           </div>
         </div>
-        <div v-else-if="route() == 'password'">
+        <div v-else-if="route() === 'password'">
           <div class="header-text"><span v-translate>Enter password</span></div>
         </div>
-        <div v-else-if="route() == 'setPassword'" class="list-header-container">
+        <div v-else-if="route() === 'setPassword'" class="list-header-container">
           <router-link class="btn" :to="'/settings'">
             <font-awesome-icon icon="arrow-left" />
           </router-link>
@@ -211,35 +212,35 @@
             <span v-translate>Set encryption password</span>
           </div>
         </div>
-        <div v-else-if="route() == 'about'" class="list-header-container">
+        <div v-else-if="route() === 'about'" class="list-header-container">
           <router-link class="btn" :to="'/settings'">
             <font-awesome-icon icon="arrow-left" />
           </router-link>
         </div>
-        <div v-else-if="route() == 'settings'" class="list-header-container">
+        <div v-else-if="route() === 'settings'" class="list-header-container">
           <router-link class="btn" :to="'/chatList'">
             <font-awesome-icon icon="arrow-left" />
           </router-link>
           <div class="header-text"><span v-translate>Settings</span></div>
         </div>
-        <div v-else-if="route() == 'newGroup'" class="list-header-container">
+        <div v-else-if="route() === 'newGroup'" class="list-header-container">
           <router-link class="btn" :to="'/chatList'">
             <font-awesome-icon icon="arrow-left" />
           </router-link>
           <div class="header-text"><span v-translate>New group</span></div>
         </div>
-        <div v-else-if="route() == 'editGroup'" class="list-header-container">
+        <div v-else-if="route() === 'editGroup'" class="list-header-container">
           <router-link class="btn" :to="'/chatList'">
             <font-awesome-icon icon="arrow-left" />
           </router-link>
           <div class="header-text"><span v-translate>Edit group</span></div>
         </div>
-        <div v-else-if="route() == 'devices'">
+        <div v-else-if="route() === 'devices'">
           <button class="back btn" @click="back()">
             <font-awesome-icon icon="arrow-left" />
           </button>
         </div>
-        <div v-else-if="route() == 'contacts'" class="row">
+        <div v-else-if="route() === 'contacts'" class="row">
           <div class="col-2">
             <button class="back btn" @click="back()">
               <font-awesome-icon icon="arrow-left" />
@@ -249,71 +250,71 @@
             <div class="input-container">
               <input
                 v-if="toggleSearch"
+                v-model="contactsFilter"
                 type="text"
                 class="form-control"
-                v-model="contactsFilter"
                 @change="filterContacts()"
                 @keyup="filterContacts()"
-              />
+              >
             </div>
             <button
+              v-if="toggleSearch"
+              id="dropdownMenuButton"
               class="btn"
               type="button"
-              v-if="toggleSearch"
-              @click="showSearch()"
-              id="dropdownMenuButton"
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
+              @click="showSearch()"
             >
               <font-awesome-icon icon="times" />
             </button>
             <button
+              v-if="!toggleSearch"
+              id="dropdownMenuButton"
               class="btn"
               type="button"
-              v-if="!toggleSearch"
-              @click="showSearch()"
-              id="dropdownMenuButton"
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
+              @click="showSearch()"
             >
               <font-awesome-icon icon="search" />
             </button>
             <div class="dropdown">
               <button
+                id="dropdownMenuButton"
                 class="btn"
                 type="button"
-                @click="toggleSettings"
-                id="dropdownMenuButton"
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
+                @click="toggleSettings"
               >
                 <font-awesome-icon icon="ellipsis-v" />
               </button>
               <div
                 v-if="showSettingsMenu"
-                class="dropdown-menu"
                 id="settings-dropdown"
+                class="dropdown-menu"
                 aria-labelledby="dropdownMenuButton"
               >
                 <button
+                  v-translate
                   class="dropdown-item"
                   @click="
                     showSettingsMenu = false;
                     refreshContacts();
                   "
-                  v-translate
                 >
                   Import contacts
                 </button>
                 <input
                   id="addVcf"
                   type="file"
-                  @change="readVcf"
                   style="position: fixed; top: -100em"
-                />
+                  @change="readVcf"
+                >
               </div>
             </div>
           </div>
@@ -322,47 +323,47 @@
             @close="showImportUnavailableModal = false"
           />
         </div>
-        <div v-else-if="route() == 'chatList'" class="settings-container row">
-          <div v-if="errorConnection != null" class="connection-error"></div>
+        <div v-else-if="route() === 'chatList'" class="settings-container row">
+          <div v-if="errorConnection != null" class="connection-error" />
           <div class="dropdown">
             <button
+              id="dropdownMenuButton"
               class="btn"
               type="button"
-              @click="toggleSettings"
-              id="dropdownMenuButton"
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
+              @click="toggleSettings"
             >
               <font-awesome-icon icon="ellipsis-v" />
             </button>
             <div
               v-if="showSettingsMenu"
-              class="dropdown-menu"
               id="settings-dropdown"
+              class="dropdown-menu"
               aria-labelledby="dropdownMenuButton"
             >
               <router-link
+                v-translate
                 class="dropdown-item"
                 :to="'/contacts'"
                 @click="showSettingsMenu = false"
-                v-translate
               >
                 Contacts
               </router-link>
               <router-link
+                v-translate
                 class="dropdown-item"
                 :to="'/newGroup'"
                 @click="showSettingsMenu = false"
-                v-translate
               >
                 New group
               </router-link>
               <router-link
+                v-translate
                 class="dropdown-item"
                 :to="'/settings/'"
                 @click="showSettingsMenu = false"
-                v-translate
               >
                 Settings
               </router-link>
@@ -414,7 +415,7 @@ export default {
     back() {
       this.$router.go(-1);
       this.showSettingsMenu = false;
-      this.contactsFilter != "";
+      this.contactsFilter = "";
       this.toggleSearch = false;
       this.names = [];
     },
@@ -423,7 +424,7 @@ export default {
     },
     toggleNotifications() {
       this.showSettingsMenu = false;
-      this.$store.dispatch("toggleNotifcations");
+      this.$store.dispatch("toggleNotifications");
     },
     resetEncryptionModal() {
       this.showSettingsMenu = false;
@@ -439,7 +440,7 @@ export default {
       this.showIdentityModal = true;
     },
     confirm() {
-      if (this.cMType == "resetEncryption")
+      if (this.cMType === "resetEncryption")
         this.$store.dispatch("resetEncryption");
       this.showConfirmationModal = false;
       this.showIdentityModal = false;
@@ -454,14 +455,14 @@ export default {
       event.target.style.display = "none";
     },
     filterContacts() {
-      if (this.contactsFilter != "")
+      if (this.contactsFilter !== "")
         this.$store.dispatch("filterContacts", this.contactsFilter);
       else this.$store.dispatch("clearFilterContacts");
     },
     getNameForTel(tel) {
       this.contacts.forEach((c) => {
-        if (c.Tel == tel) {
-          if (this.names.length <= 3 && this.names.indexOf(c.Name) == -1)
+        if (c.Tel === tel) {
+          if (this.names.length <= 3 && this.names.indexOf(c.Name) === -1)
             this.names.push(c.Name);
           return c;
         } else return tel;
@@ -471,9 +472,9 @@ export default {
       this.$store.state.importingContacts = true;
       // console.log("Import contacts for gui " + this.gui)
       this.showSettingsMenu = false;
-      if (this.gui == "ut") {
-        var result = window.prompt("refreshContacts");
-        if (result != "canceld")
+      if (this.gui === "ut") {
+        const result = window.prompt("refreshContacts");
+        if (result !== "canceled")
           this.$store.dispatch("refreshContacts", result);
       } else {
         this.showSettingsMenu = false;
@@ -481,7 +482,7 @@ export default {
       }
     },
     callNumber(n) {
-      if (this.gui == "ut") {
+      if (this.gui === "ut") {
         window.prompt("call" + n);
         this.showSettingsMenu = false;
       } else {
@@ -490,12 +491,12 @@ export default {
     },
     createGroup() {},
     readVcf(evt) {
-      var f = evt.target.files[0];
+      const f = evt.target.files[0];
       if (f) {
-        var r = new FileReader();
-        var that = this;
+        const r = new FileReader();
+        const that = this;
         r.onload = function (e) {
-          var vcf = e.target.result;
+          const vcf = e.target.result;
           that.$store.dispatch("uploadVcf", vcf);
         };
         r.readAsText(f);
@@ -514,14 +515,14 @@ export default {
     "gui",
     "identity",
   ]),
-  mounted() {
-    this.names = [];
-  },
   watch: {
     $route() {
       this.names = [];
       this.showSettingsMenu = false;
     },
+  },
+  mounted() {
+    this.names = [];
   },
 };
 </script>

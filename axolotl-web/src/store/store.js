@@ -461,10 +461,10 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    toggleNotifcations: function () {
+    toggleNotifications: function () {
       if (this.state.socket.isConnected) {
         var message = {
-          "request": "toggleNotifcations",
+          "request": "toggleNotifications",
           "chat": this.state.currentChat.ID
         }
         app.config.globalProperties.$socket.send(JSON.stringify(message))
