@@ -408,6 +408,15 @@ export default {
       contactsFilter: "",
     };
   },
+  watch: {
+    $route() {
+      this.names = [];
+      this.showSettingsMenu = false;
+    },
+  },
+  mounted() {
+    this.names = [];
+  },
   methods: {
     route() {
       return this.$route.name;
@@ -515,15 +524,6 @@ export default {
     "gui",
     "identity",
   ]),
-  watch: {
-    $route() {
-      this.names = [];
-      this.showSettingsMenu = false;
-    },
-  },
-  mounted() {
-    this.names = [];
-  },
 };
 </script>
 
