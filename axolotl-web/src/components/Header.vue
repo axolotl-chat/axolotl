@@ -408,6 +408,16 @@ export default {
       contactsFilter: "",
     };
   },
+  computed: mapState([
+    "messageList",
+    "currentChat",
+    "currentGroup",
+    "contacts",
+    "errorConnection",
+    "currentContact",
+    "gui",
+    "identity",
+  ]),
   watch: {
     $route() {
       this.names = [];
@@ -514,16 +524,6 @@ export default {
       }
     },
   },
-  computed: mapState([
-    "messageList",
-    "currentChat",
-    "currentGroup",
-    "contacts",
-    "errorConnection",
-    "currentContact",
-    "gui",
-    "identity",
-  ]),
 };
 </script>
 
