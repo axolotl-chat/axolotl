@@ -26,11 +26,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 library.add(faArrowLeft, faEllipsisV, faPencilAlt, faPlus, faTrash, faPaperPlane,
   faUserFriends, faTimes, faCheck, faVolumeMute, faHeart, faSearch, faArrowDown)
 
-import { longClickDirective } from 'vue-long-click'
-
 const app = createApp(App)
-const longClickInstance = longClickDirective({ delay: 800, interval: 0 })
-app.directive('longclick', longClickInstance)
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.mixin({
   methods: {

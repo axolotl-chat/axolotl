@@ -12,7 +12,7 @@
       </button>
     </div>
     <div v-if="!requestPin" class="verify">
-      <sms v-model="code" class="codeInput" />
+      <VerificationPinInput v-on:inputValue="updateCode($event)" class="codeInput" />
       <button
         v-translate
         :disabled="inProgress"
@@ -37,13 +37,12 @@
 </template>
 
 <script>
-import Sms from "ofcold-security-code";
 import { mapState } from "vuex";
-
+import VerificationPinInput from "@/components/VerificationPinInput";
 export default {
   name: "Verification",
   components: {
-    Sms,
+    VerificationPinInput,
   },
   props: {
     msg: String,
@@ -57,9 +56,11 @@ export default {
   },
   computed: mapState(["verificationError", "requestPin", "registrationStatus"]),
   mounted() {
-    document.getElementsByClassName("form-control")[0].focus();
   },
   methods: {
+    updateCode(code){
+      this.code = code
+    },
     sendCode() {
       if (this.code.length == 6) {
         this.$store.dispatch("sendCode", this.code);

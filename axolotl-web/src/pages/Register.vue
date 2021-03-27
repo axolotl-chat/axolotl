@@ -30,11 +30,12 @@
       </div>
     </div>
     <div v-else class="registration">
-      <VuePhoneNumberInput
+      <VueTelInput
         v-model="phone"
-        @update="updatePhone"
-        :callingCode="cc"
+        @input="updatePhone"
+        mode="international"
         class="phoneInput"
+        id="phoneInput"
       />
       <button class="btn btn-primary" @click="requestCode()" v-translate>
         Request code
@@ -44,15 +45,15 @@
 </template>
 
 <script>
-import VuePhoneNumberInput from "vue-phone-number-input";
+import { VueTelInput } from "vue3-tel-input";
+import "vue3-tel-input/dist/vue3-tel-input.css";
 import WarningMessage from "@/components/WarningMessage";
-import "vue-phone-number-input/dist/vue-phone-number-input.css";
 import { mapState } from "vuex";
 
 export default {
   name: "register",
   components: {
-    VuePhoneNumberInput,
+    VueTelInput,
     WarningMessage,
   },
   props: {
@@ -60,11 +61,10 @@ export default {
   },
   methods: {
     requestCode() {
-      if (typeof this.cc != "undefined")
-        this.$store.dispatch("requestCode", this.cc);
+      this.$store.dispatch("requestCode", this.phone.replace(/\s/g, ""));
     },
     updatePhone(e) {
-      this.cc = e.formattedNumber;
+      this.phone = e;
     },
     openExtern(e, url) {
       if (this.gui == "ut") {
@@ -76,7 +76,6 @@ export default {
   mounted() {
     var userLang = navigator.language || navigator.userLanguage;
     this.$language.current = userLang;
-    document.getElementById("VuePhoneNumberInput_phone_number").focus();
     if (this.captchaToken != null && !this.captchaTokenSent) {
       this.$store.dispatch("sendCaptchaToken");
     }
@@ -84,7 +83,6 @@ export default {
   data() {
     return {
       phone: "",
-      cc: "",
       infoPage: true,
     };
   },
@@ -95,11 +93,7 @@ export default {
     "captchaToken",
     "captchaTokenSent",
   ]),
-  watch: {
-    cc() {
-      document.getElementById("VuePhoneNumberInput_phone_number").focus();
-    },
-  },
+  watch: {},
 };
 </script>
 <style scoped>
