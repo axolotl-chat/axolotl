@@ -49,11 +49,11 @@ update-version:
 ifeq ($(NEW_VERSION),)
 	@echo Please specify the new version to use! Example: "make prepare-release NEW_VERSION=0.9.10"
 else
-		@echo Replacing current version $(AXOLOTL_VERSION) with new version $(NEW_VERSION)
-		@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' manifest.json
-		@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' app/config/config.go
-		@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' snap/snapcraft.yaml
-		@sed -i "32i $$APPDATA_TEXT" appimage/AppDir/axolotl.appdata.xml
-		@sed -i "32i $$APPDATA_TEXT" flatpak/org.nanuc.Axolotl.appdata.xml
-		@echo Update complete
+	@echo Replacing current version $(AXOLOTL_VERSION) with new version $(NEW_VERSION)
+	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' manifest.json
+	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' app/config/config.go
+	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' snap/snapcraft.yaml
+	@sed -i "32i $$APPDATA_TEXT" appimage/AppDir/axolotl.appdata.xml
+	@sed -i "32i $$APPDATA_TEXT" flatpak/org.nanuc.Axolotl.appdata.xml
+	@echo Update complete
 endif
