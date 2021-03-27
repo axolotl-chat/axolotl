@@ -1,14 +1,10 @@
-import Vue from "vue";
-import Router from "vue-router";
+import { createRouter, createWebHistory } from 'vue-router'
 import store from '../store/store'
 
-Vue.use(Router);
 
-const base = "/";
 
-export const router = new Router({
-  mode: "history",
-  base,
+export const router = new createRouter({
+  history: createWebHistory(),
   routes: [
     {
       path: "/",
@@ -102,9 +98,9 @@ export const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  if(to.query.token){
+  if (to.query.token) {
     store.dispatch("setCaptchaToken",
-    to.query.token)
+      to.query.token)
   }
   if (to.path === "/debug") {
     return next();
@@ -112,7 +108,7 @@ router.beforeEach((to, from, next) => {
 
   if (store.state.registrationStatus == null) {
     store.dispatch("getRegistrationStatus");
-    store.watch((state) => state.registrationStatus, function() {
+    store.watch((state) => state.registrationStatus, function () {
       proceed(to, next);
     });
   } else {
@@ -129,13 +125,13 @@ function proceed(to, next) {
     return next('/register');
   } else if (registrationStatus == "verificationCode" && to.path != '/verify') {
     return next('/verify');
-  } else if (registrationStatus == "pin" && to.path != '/pin'){
+  } else if (registrationStatus == "pin" && to.path != '/pin') {
     return next('/pin');
-  } else if (registrationStatus == "password" && to.path != '/password'){
+  } else if (registrationStatus == "password" && to.path != '/password') {
     return next('/password');
-  } else if (registrationStatus == "registered" && registrationPages.includes(to.path)){
+  } else if (registrationStatus == "registered" && registrationPages.includes(to.path)) {
     // We are registered. And are trying to access a registration page, redirect to home
-      return next('/');
+    return next('/');
   } else {
     next();
     // The screen can be displayed ;)

@@ -6,83 +6,83 @@
           <h5 class="modal-title" v-translate>Add members</h5>
           <div class="actions" v-if="!searchActive">
             <button
-            type="button"
-            class="btn search"
-            @click="searchActive = true"
+              type="button"
+              class="btn search"
+              @click="searchActive = true"
             >
-            <font-awesome-icon icon="search" />
-          </button>
-          <button type="button" class="btn" @click="$emit('close')">
-            <font-awesome-icon icon="times" />
-          </button>
-        </div>
-        <div class="actions" v-if="searchActive">
-          <div class="input-container">
-            <input
-            type="text"
-            class="form-control"
-            v-model="contactsFilter"
-            @change="filterContacts()"
-            @keyup="filterContacts()"
-            />
+              <font-awesome-icon icon="search" />
+            </button>
+            <button type="button" class="btn" @click="$emit('close')">
+              <font-awesome-icon icon="times" />
+            </button>
           </div>
-          <button type="button" class="btn" @click="searchActive = false">
-            <font-awesome-icon icon="times" />
-          </button>
+          <div class="actions" v-if="searchActive">
+            <div class="input-container">
+              <input
+                type="text"
+                class="form-control"
+                v-model="contactsFilter"
+                @change="filterContacts()"
+                @keyup="filterContacts()"
+              />
+            </div>
+            <button type="button" class="btn" @click="searchActive = false">
+              <font-awesome-icon icon="times" />
+            </button>
+          </div>
         </div>
-      </div>
-      <div class="modal-body">
-        <div class="contact-list">
-          <div v-if="contacts.length > 0 && contactsFilter == ''">
-            <div
-            v-for="contact in contacts"
-            v-bind:key="contact.UUID"
-            class="btn col-12 chat"
-            >
-            <div class="row chat-entry">
-              <div class="avatar col-3" @click="contactClick(contact)">
-                <div class="badge-name" v-if="contact.Name">
-                  {{ contact.Name[0] + contact.Name[1] }}
+        <div class="modal-body">
+          <div class="contact-list">
+            <div v-if="contacts.length > 0 && contactsFilter == ''">
+              <div
+                v-for="contact in contacts"
+                v-bind:key="contact.UUID"
+                class="btn col-12 chat"
+              >
+                <div class="row chat-entry">
+                  <div class="avatar col-3" @click="contactClick(contact)">
+                    <div class="badge-name" v-if="contact.Name">
+                      {{ contact.Name[0] + contact.Name[1] }}
+                    </div>
+                  </div>
+                  <div class="meta col-7" @click="$emit('add', contact)">
+                    <p class="name">{{ contact.Name }}</p>
+                    <p class="number">{{ contact.Tel }}</p>
+                  </div>
                 </div>
               </div>
-              <div class="meta col-7" @click="$emit('add', contact)">
-                <p class="name">{{ contact.Name }}</p>
-                <p class="number">{{ contact.Tel }}</p>
+            </div>
+            <div v-else-if="contactsFilter != ''">
+              <div
+                v-for="contact in contactsFilterd"
+                v-bind:key="'filter_' + contact.UUID"
+                class="btn col-12 chat"
+              >
+                <div class="row chat-entry">
+                  <div class="avatar col-3" @click="contactClick(contact)">
+                    <div class="badge-name">
+                      {{ contact.Name[0] + contact.Name[1] }}
+                    </div>
+                  </div>
+                  <div class="meta col-7" @click="$emit('add', contact)">
+                    <p class="name">{{ contact.Name }}</p>
+                    <p class="number">{{ contact.Tel }}</p>
+                  </div>
+                </div>
               </div>
+            </div>
+            <div v-else>
+              <span v-translate>Add contacts first</span>
             </div>
           </div>
         </div>
-        <div v-else-if="contactsFilter != ''">
-          <div
-          v-for="contact in contactsFilterd"
-          v-bind:key="'filter_' + contact.UUID"
-          class="btn col-12 chat"
-          >
-          <div class="row chat-entry">
-            <div class="avatar col-3" @click="contactClick(contact)">
-              <div class="badge-name">
-                {{ contact.Name[0] + contact.Name[1] }}
-              </div>
-            </div>
-            <div class="meta col-7" @click="$emit('add', contact)">
-              <p class="name">{{ contact.Name }}</p>
-              <p class="number">{{ contact.Tel }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div v-else>
-        <span v-translate>Add Contacts first</span>
       </div>
     </div>
   </div>
-</div>
-</div>
-</div>
 </template>
 
 <script>
-import {validateUUID} from '@/helpers/uuidCheck'
+import { validateUUID } from "@/helpers/uuidCheck";
 
 export default {
   name: "AddGroupMembersModal",
@@ -108,16 +108,15 @@ export default {
       this.$store.dispatch("addNewGroupMember", contact);
     },
     filterContacts() {
-      if (this.contactsFilter != ""){
+      if (this.contactsFilter != "") {
         this.$store.dispatch("filterContactsForGroup", this.contactsFilter);
-      }
-      else{
+      } else {
         this.$store.dispatch("clearFilterContacts");
       }
     },
     filterForOnlyContactsWithUUID(contacts) {
       return contacts.filter((c) => {
-        var isValid = this.validateUUID(c.UUID)
+        var isValid = this.validateUUID(c.UUID);
 
         if (isValid) return false;
         var found = this.allreadyAdded.find(function (element) {

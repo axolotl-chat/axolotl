@@ -7,6 +7,8 @@ sdk-extensions:
   - org.freedesktop.Sdk.Extension.golang
   - org.freedesktop.Sdk.Extension.node14
 command: axolotl
+base: io.atom.electron.BaseApp
+base-version: '20.08'
 tags:
   - latest
 finish-args:
