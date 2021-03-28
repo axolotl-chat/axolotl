@@ -220,6 +220,10 @@ msgid ""
 "            <a href=\"https://github.com/nanu-c/axolotl/issues\" target="
 "\"_blank\">opening an issue</a>."
 msgstr ""
+"Om ett problem förekommer flera gånger, kolla <a href=\"https://status."
+"signal.org/\" target=\"_blank\">Signal servrarnas status</a>.\n"
+"Om statusen är felfri, skapa en <a href=\"https://"
+"github.com/nanu-c/axolotl/issues\" target=\"_blank\">felrapport</a>."
 
 #: src/components/Header.vue:177
 #, fuzzy
