@@ -49,7 +49,7 @@ msgstr "Lägg till en ny enhet"
 #: src/components/AddGroupMembersModal.vue:56
 #, fuzzy
 msgid "Add contacts first"
-msgstr "Lägg till kontakt först"
+msgstr "Lägg till kontakter först"
 
 #: src/components/AddGroupMembersModal.vue:5
 #, fuzzy
@@ -226,7 +226,7 @@ msgstr "Information"
 
 #: src/pages/About.vue:12
 msgid "issues at the bug tracker"
-msgstr ""
+msgstr "felrapporter"
 
 #: src/pages/DeviceList.vue:7
 msgid "Last seen:"
@@ -259,7 +259,9 @@ msgid ""
 "New conversations are temporarily disabled. You can create a new\n"
 "            chat from the linked Desktop Client. Alternatively, your\n"
 "            counterparty could start the discussion."
-msgstr ""
+msgstr "Nya konversationer är för tillfället inaktiverat. Du kan starta en "
+"ny chat med en länkad Signal-Desktop klient eller be din samtalspartner"
+"att starta konversationen."
 
 #: src/components/Header.vue:143 src/components/Header.vue:199
 msgid "New group"
@@ -384,7 +386,8 @@ msgstr "Sätt en timer för själv-förstörande meddelanden"
 msgid ""
 "Setting a password is not adviced on devices short in memory. Restart is\n"
 "      required!"
-msgstr ""
+msgstr "Ett lösenord är inte rekommenderat för enheter med lite minne. En"
+"nystart är nödvändig!"
 
 #: src/components/Header.vue:137 src/components/Header.vue:202
 msgid "Settings"
@@ -401,13 +404,14 @@ msgstr "sponsra på Patreon."
 
 #: src/components/StartChatModal.vue:5
 msgid "Starting new chats is currently broken in Axolotl."
-msgstr "Att starta nya chattar är för tillfället inte möjligt med Axolotl."
+msgstr "Att starta nya chattar med Axolotl är för tillfället inte möjligt."
 
 #: src/pages/About.vue:6
 msgid ""
 "This is a free and open source Signal client written in golang and\n"
 "        vuejs."
-msgstr ""
+msgstr "Detta är en fri och öppen-källkod Signal klient, utvecklad med "
+"Golang och Vuejs."
 
 #: src/components/Header.vue:32 src/pages/ChatList.vue:30
 #, fuzzy
@@ -448,7 +452,8 @@ msgstr "Video"
 msgid ""
 "We are sorry, but due to a change in the Signal protocol, automatic\n"
 "            import of contacts is currently unavailble."
-msgstr ""
+msgstr "På grund av ändringar i protokollet som Signal använder "
+"är det för närvarande inte mögligt att importera kontakter."
 
 #: src/pages/Verification.vue:22
 msgid "Wrong code entered. Restart for another try."
