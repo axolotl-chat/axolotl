@@ -65,8 +65,8 @@ msgid ""
 "Axolotl encountered an error communicating with Signal servers.\n"
 "            Please try again."
 msgstr ""
-"Axolotl har problem med att kommunicera med Signals servrar"
-"försök igen senare."
+"Axolotl har problem med att kommunicera med Signals servrar."
+"Försök igen senare."
 
 #: src/components/ImportUnavailableModal.vue:23
 msgid ""
@@ -153,6 +153,8 @@ msgid ""
 "Due to upstream changes in Signal, some features are currently broken.\n"
 "      We're working as fast as we can to bring them back."
 msgstr ""
+"På grund av källkodsändringar från Signal är för närvarande några funktioner"
+"inte tillgängliga. Vi jobbar så snabbt vi kan med att återinföra dom."
 
 #: src/components/EditContactModal.vue:6
 msgid "Edit"
@@ -190,6 +192,8 @@ msgid ""
 "that\n"
 "            page."
 msgstr ""
+"Om du är helt säker att dina samtalspartner har Signal, kan du lägga till "
+"dom manuellt med hjälp av plus-symbolen."
 
 #: src/components/ErrorModal.vue:22
 msgid ""
@@ -202,6 +206,10 @@ msgid ""
 "              messages</strong>\n"
 "            if you choose to do that."
 msgstr ""
+"Om du tror att något inte stämmer på din setup kan du <a "
+"href=\"#\" @click=\"unregister\">Ta bort din registrering</a> och registrera "
+"dig igen. Men tänk på att då <strong>ändrar sig din Signal-Nyckel och du blir "
+"av med dina Signal meddelanden.</strong>"
 
 #: src/components/ErrorModal.vue:17
 msgid ""
