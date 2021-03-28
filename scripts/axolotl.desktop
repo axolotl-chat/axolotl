@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Axolotl
+GenericName=Signal Chat Client
+Exec=/usr/bin/axolotl %U
+Type=Application
+Icon=axolotl
+Comment=A signal client
+Categories=Network;InstantMessaging;Chat;
+Terminal=false
