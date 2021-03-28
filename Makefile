@@ -30,6 +30,14 @@ build-axolotl:
 build-translation:
 	$(NPM) run translate --prefix axolotl-web
 
+check: check-axolotl check-axolotl-web
+
+check-axolotl-web:
+	$(NPM) run test --prefix axolotl-web
+
+check-axolotl:
+	$(GO) test -race ./...
+
 run: build
 	$(GO) run .
 

@@ -11,6 +11,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "test": "echo 'No tests available' && exit 0",
     "depcheck": "depcheck",
     "translate": "npm run translate-extract && npm run translate-update && npm run translate-compile",
     "translate-compile": "npm run translate-remove-tmp&&node ./node_modules/easygettext/src/compile-cli.js --output ./translations/translations.json $(find ../po/ -type f -name '*.po')",
