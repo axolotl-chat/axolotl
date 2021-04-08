@@ -70,10 +70,16 @@ func runElectron() {
 	if len(electronPath) == 0 {
 		electronPath = config.ConfigDir + "/electron"
 	}
-	var a, err = astilectron.New(l, astilectron.Options{
+
+	path, err := os.Getwd()
+	if err != nil {
+		log.Errorln("[axolotl] couldn't get current running dir", err)
+	}
+
+	a, err := astilectron.New(l, astilectron.Options{
 		AppName:            "axolotl",
-		AppIconDefaultPath: "axolotl-web/public/axolotl.png", // If path is relative, it must be relative to the data directory
-		AppIconDarwinPath:  "axolotl-web/public/axolotl.png", // Same here
+		AppIconDefaultPath: path + "/axolotl-web/public/axolotl.png", // If path is relative, it must be relative to the data directory
+		AppIconDarwinPath:  path + "/axolotl-web/public/axolotl.png", // Same here
 		BaseDirectoryPath:  electronPath,
 		VersionElectron:    "12.0.0",
 		VersionAstilectron: "0.45.0",
@@ -81,8 +87,8 @@ func runElectron() {
 		ElectronSwitches:   []string{"--disable-dev-shm-usage", "--no-sandbox"}})
 
 	if err != nil {
-	  log.Errorln(errors.Wrap(err, "[axolotl-electron]: creating astilectron failed"))
-  }
+		log.Errorln(errors.Wrap(err, "[axolotl-electron]: creating astilectron failed"))
+	}
 
 	defer a.Close()
 
@@ -116,7 +122,7 @@ func runElectron() {
 	})
 	w.On(astilectron.EventNameWindowEventDidFinishLoad, func(e astilectron.Event) (deleteListener bool) {
 		log.Infoln("[axolotl-electron] Electron App load")
-		w.ExecuteJavaScript("window.onToken = function(token){window.location='http://"+config.ServerHost+":"+config.ServerPort+"/?token='+token;};")
+		w.ExecuteJavaScript("window.onToken = function(token){window.location='http://" + config.ServerHost + ":" + config.ServerPort + "/?token='+token;};")
 		return
 	})
 	w.On(astilectron.EventNameWindowEventWillNavigate, func(e astilectron.Event) (deleteListener bool) {
