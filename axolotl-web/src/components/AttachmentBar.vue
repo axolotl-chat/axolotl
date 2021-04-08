@@ -3,16 +3,40 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" v-translate>Send Attachments</h5>
+          <h5 class="modal-title" v-translate>Send attachments</h5>
           <button type="button" class="close" @click="close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <button class="btn btn-primary" @click="$emit('send','photo')" v-translate>Photo</button>
-          <button class="btn btn-primary" @click="$emit('send','video')" v-translate>Video</button>
-          <button class="btn btn-primary" @click="$emit('send','audio')" v-translate>Audio</button>
-          <button class="btn btn-primary" @click="$emit('send','document')" v-translate>Document</button>
+          <button
+            class="btn btn-primary"
+            @click="$emit('send', 'photo')"
+            v-translate
+          >
+            Photo
+          </button>
+          <button
+            class="btn btn-primary"
+            @click="$emit('send', 'video')"
+            v-translate
+          >
+            Video
+          </button>
+          <button
+            class="btn btn-primary"
+            @click="$emit('send', 'audio')"
+            v-translate
+          >
+            Audio
+          </button>
+          <button
+            class="btn btn-primary"
+            @click="$emit('send', 'document')"
+            v-translate
+          >
+            Document
+          </button>
         </div>
       </div>
     </div>
@@ -20,49 +44,48 @@
 </template>
 
 <script>
-  export default {
-    name: 'AddContact',
-    methods: {
-
-      close() {
-        this.$emit('close');
-      }
+export default {
+  name: "AddContact",
+  methods: {
+    close() {
+      this.$emit("close");
     },
-    computed: {
-      gui() {
-        return this.$store.state.gui
-      },
-    }
-  }
+  },
+  computed: {
+    gui() {
+      return this.$store.state.gui;
+    },
+  },
+};
 </script>
 <style scoped>
-  .modal {
-    display: block;
-    border: none;
-  }
+.modal {
+  display: block;
+  border: none;
+}
 
-  .modal-content {
-    border-radius: 0px;
-  }
+.modal-content {
+  border-radius: 0px;
+}
 
-  .modal-header {
-    border-bottom: none;
-  }
+.modal-header {
+  border-bottom: none;
+}
 
-  .modal-title {
-    display: flex;
-  }
+.modal-title {
+  display: flex;
+}
 
-  .modal-title > div {
-    margin-left: 10px;
-  }
-  .modal-body{
-    color: red;
-    display: flex;
-    justify-content: space-between;
-  }
+.modal-title > div {
+  margin-left: 10px;
+}
+.modal-body {
+  color: red;
+  display: flex;
+  justify-content: space-between;
+}
 
-  .modal-footer {
-    border-top: 0px;
-  }
+.modal-footer {
+  border-top: 0px;
+}
 </style>

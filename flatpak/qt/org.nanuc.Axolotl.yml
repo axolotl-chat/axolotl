@@ -8,7 +8,9 @@ sdk-extensions:
   - org.freedesktop.Sdk.Extension.node14
 command: axolotl
 base: io.qt.qtwebengine.BaseApp
-base-version: "5.15"
+base-version: '5.15'
+tags:
+  - latest
 finish-args:
   # See https://docs.flatpak.org/en/latest/sandbox-permissions-reference.html
   # Write access for the user download folder (to save media)

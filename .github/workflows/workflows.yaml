@@ -1,6 +1,12 @@
 name: Axolotl pipeline
 
-on: [ push, pull_request ]
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - v
+  pull_request:
 
 jobs:
   build-axolotl:
@@ -54,6 +60,9 @@ jobs:
       - name: Lint application
         run: npm --prefix ./axolotl-web run lint
 
+      - name: Analyze npm dependencies
+        run: npm --prefix ./axolotl-web run depcheck
+
       - name: Build
         run: npm --prefix ./axolotl-web run build
 
@@ -65,7 +74,7 @@ jobs:
           retention-days: 1
 
   package-appimage:
-    name: Package as an AppImage
+    name: Package as AppImage
     # This ensures that this job only runs on git tags
     if: startsWith(github.ref, 'refs/tags/v')
     needs: [build-axolotl, build-axolotl-web]
@@ -116,8 +125,6 @@ jobs:
 
   package-clickable:
     name: Package as clickables
-    # This ensures that this job only runs on git tags
-    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
 
     steps:
@@ -160,11 +167,30 @@ jobs:
           path: build/arm-linux-gnueabihf/app/textsecure.nanuc_*.click
           retention-days: 1
 
+  package-flatpak:
+    name: Package as Flatpak bundle
+    runs-on: ubuntu-latest
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:freedesktop-20.08
+      options: --privileged
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - uses: bilelmoussaoui/flatpak-github-actions@v2
+        with:
+          bundle: "axolotl.flatpak"
+          manifest-path: "flatpak/web/org.nanuc.Axolotl.yml"
+          branch: "main"
+
   release:
     name: Create release
     # This ensures that this job only runs on git tags
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [package-appimage, package-clickable]
+    needs:
+      - package-appimage
+      - package-clickable
     runs-on: ubuntu-latest
 
     steps:

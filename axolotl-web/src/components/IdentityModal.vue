@@ -12,14 +12,28 @@
           <div class="qr-code-container">
             <canvas id="qrcode"></canvas>
           </div>
-          <b><span v-translate>Safety numbers of you and</span> {{currentChat.Name}}:</b>
+          <b
+            ><span v-translate>Safety numbers of you and</span>
+            {{ currentChat.Name }}:</b
+          >
           <div class="row fingerprint">
-            <div class="col-3" v-for="(part,i) in fingerprint.numbers" v-bind:key="'fingerprint_'+i">
-                {{ part }}
+            <div
+              class="col-3"
+              v-for="(part, i) in fingerprint.numbers"
+              v-bind:key="'fingerprint_' + i"
+            >
+              {{ part }}
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" @click="$emit('confirm')" v-translate>Close</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              @click="$emit('confirm')"
+              v-translate
+            >
+              Close
+            </button>
           </div>
         </div>
       </div>
@@ -28,62 +42,68 @@
 </template>
 
 <script>
-  import QRCode from 'qrcode'
-  import { mapState } from 'vuex';
-  export default {
-    name: 'IdentityModal',
-    methods: {
+import QRCode from "qrcode";
+import { mapState } from "vuex";
+export default {
+  name: "IdentityModal",
+  methods: {},
+  data() {
+    return {
+      errorMessage: null,
+    };
+  },
+  watch: {
+    fingerprint() {
+      QRCode.toCanvas(
+        document.getElementById("qrcode"),
+        [
+          {
+            data: this.fingerprint.qrCode,
+            mode: "byte",
+          },
+        ],
+        { errorCorrectionLevel: "L" }
+      );
     },
-    data() {
-      return {
-        errorMessage:null
-      }
+  },
+  computed: {
+    ...mapState(["fingerprint"]),
+    currentChat() {
+      return this.$store.state.currentChat;
     },
-    watch:{
-      fingerprint(){
-        QRCode.toCanvas(document.getElementById('qrcode'),[{
-          data:this.fingerprint.qrCode,
-          mode: 'byte' }],{errorCorrectionLevel: 'L'} )
-      }
-    },
-    computed: {
-      ...mapState(['fingerprint']),
-      currentChat() {
-        return this.$store.state.currentChat
-      },
-    },
-  }
+  },
+};
 </script>
 <style scoped>
-  .modal {
-    display: block;
-    border: none;
-  }
+.modal {
+  display: block;
+  border: none;
+}
 
-  .modal-content {
-    border-radius: 0px;
-  }
-  .modal-body{
-    text-align: left;
-  }
-  .modal-header {
-    border-bottom: none;
-  }
+.modal-content {
+  border-radius: 0px;
+}
+.modal-body {
+  text-align: left;
+}
+.modal-header {
+  border-bottom: none;
+}
 
-  .modal-title {
-    display: flex;
-  }
+.modal-title {
+  display: flex;
+}
 
-  .modal-title>div {
-    margin-left: 10px;
-  }
+.modal-title > div {
+  margin-left: 10px;
+}
 
-  .modal-footer {
-    border-top: 0px;
-  }
-  .qr-code-container{
-    width:100%;
-    justify-content: center;
-    display: flex;
-  }
+.modal-footer {
+  border-top: 0px;
+}
+.qr-code-container {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+}
 </style>

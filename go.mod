@@ -9,7 +9,6 @@ require (
 	github.com/emersion/go-vcard v0.0.0-20200508080525-dd3110a24ec2
 	github.com/gen2brain/beeep v0.0.0-20200526185328-e9c15c258e28
 	github.com/go-sql-driver/mysql v1.5.0 // indirect
-	github.com/go-yaml/yaml v2.1.0+incompatible
 	github.com/google/go-cmp v0.5.1 // indirect
 	github.com/gopherjs/gopherjs v0.0.0-20200217142428-fce0ec30dd00 // indirect
 	github.com/gorilla/websocket v1.4.2

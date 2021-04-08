@@ -1,19 +1,19 @@
-# Axolotl is a crossplattform [Signal](https://www.signal.org) client
+# Axolotl 
 
-## For the Ubuntu Phone and more
+Axolotl is a complete cross-platform [Signal](https://www.signal.org) client, compatible with the Ubuntu Phone and more.
+Unlike the desktop Signal client, **Axolotl is completely autonomous** and doesn't require you to have created an
+account with the official Signal application.
 
-Axolotl is a complete Signal client, it allows you to create a Signal account and have discussions with your contacts.
-Unlike the desktop Signal client, **Axolotl is completely autonomous** and doesn't require you to have created an account with the official Signal application.
-
-It is built upon the [Go textsecure package](https://github.com/nanu-c/textsecure/) and a vuejs app that runs in a electron/qml WebEngineView container.
+It is built upon the go [textsecure package](https://github.com/nanu-c/textsecure/) and a Vue frontend that runs in an
+electron/qml WebEngineView container.
 
 <p align="center">
   <kbd>
-    <img src="https://github.com/nanu-c/axolotl/blob/main/screenshot.png" alt="Screenshot of axolotl" width="300px"/>
+    <img src="https://raw.githubusercontent.com/nanu-c/axolotl/main/screenshot.png" alt="Screenshot of axolotl" width="300px"/>
   </kbd>
 </p>
 
-## What works
+## Features
 
  * Phone registration
  * Contact discovery
@@ -25,7 +25,7 @@ It is built upon the [Go textsecure package](https://github.com/nanu-c/textsecur
  * Encrypted message store
  * Desktop client provisioning/syncing *partially*
 
-## What is missing
+### Planned
 
  * Push notifications
  * Most settings that are available in the Android app
@@ -35,15 +35,16 @@ There are still bugs and UI/UX quirks.
 
 ## Installation
 
-Axolotl can be built and installed in different ways.
+Axolotl can be installed through different means.
 
-To use it from your Ubuntu Touch device, simply install it from the open store:  
-[![OpenStore](https://open-store.io/badges/en_US.png)](https://open-store.io/app/textsecure.nanuc)
+| Package | Maintainer | Comment |
+| ------- | ---------- | -------- |
+| <a href='https://open-store.io/app/textsecure.nanuc'><img width='130' alt="Get it from the OpenStore" src="https://open-store.io/badges/en_US.png"></a> | nanu-c | For Ubuntu Touch |
+| <a href='https://snapcraft.io/axolotl'><img width='130' alt="Get it from the Snap Store" src="https://snapcraft.io/static/images/badges/en/snap-store-black.svg"></a> | nanu-c | For Ubuntu desktop |
+| Flathub (work in progress) | olof-nord | [Pull Request](https://github.com/flathub/flathub/pull/2149) |
+| <a href='https://github.com/nuehm-arno/axolotl-mobian-package'><img alt="mobian version" src="https://img.shields.io/badge/axolotl-deb-%23A80030"></a> | nuehm-arno | https://github.com/nuehm-arno/axolotl-mobian-package |
 
-Axolotl is also available as a snap package, to install it on Ubuntu desktop:  
-[![Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/axolotl)
-
-To find out how to build and install, please see below:
+To find out how to build from source and install yourself, please see below:
 
 * with Clickable: see [here](docs/INSTALL.md#clickable).
 * with Snap: see [here](docs/INSTALL.md#snap).
