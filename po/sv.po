@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-07 09:22+0200\n"
-"PO-Revision-Date: 2021-03-12 22:15+0200\n"
+"PO-Revision-Date: 2021-03-28 21:15+0200\n"
 "Last-Translator: olof-nord\n"
 "Language-Team: \n"
 "Language: sv\n"
@@ -49,7 +49,7 @@ msgstr "Lägg till en ny enhet"
 #: src/components/AddGroupMembersModal.vue:56
 #, fuzzy
 msgid "Add contacts first"
-msgstr "Lägg till kontakt först"
+msgstr "Lägg till kontakter först"
 
 #: src/components/AddGroupMembersModal.vue:5
 #, fuzzy
@@ -65,12 +65,16 @@ msgid ""
 "Axolotl encountered an error communicating with Signal servers.\n"
 "            Please try again."
 msgstr ""
+"Axolotl har problem med att kommunicera med Signals servrar."
+"Försök igen senare."
 
 #: src/components/ImportUnavailableModal.vue:23
 msgid ""
 "Be careful, if you add too many numbers which aren't Signal\n"
 "            accounts, you won't be able to add contacts anymore."
 msgstr ""
+"Var försiktig, om du lägger till för många kontakter som "
+"inte är Signal-konton. Då kan du inte lägga till fler kontakter mer."
 
 #: src/pages/Contacts.vue:2
 msgid "Can't change contact list: {{ error }}"
@@ -140,12 +144,17 @@ msgid ""
 "        Touch, use UT Tweak Tool to set Axolotl on \"Prevent app suspension"
 "\"."
 msgstr ""
+"På grund av tekniska begränsningar stödjer Axolotl inte push-meddelanden."
+"Behåll appen öppen för att få meddelanden i realtid. För Ubuntu Touch, använd"
+"UT Tweak Tool och aktivera Prevent app suspension för Axolotl."
 
 #: src/components/WarningMessage.vue:3
 msgid ""
 "Due to upstream changes in Signal, some features are currently broken.\n"
 "      We're working as fast as we can to bring them back."
 msgstr ""
+"På grund av källkodsändringar från Signal är för närvarande några funktioner"
+"inte tillgängliga. Vi jobbar så snabbt vi kan med att återinföra dom."
 
 #: src/components/EditContactModal.vue:6
 msgid "Edit"
@@ -183,6 +192,8 @@ msgid ""
 "that\n"
 "            page."
 msgstr ""
+"Om du är helt säker att dina samtalspartner har Signal, kan du lägga till "
+"dom manuellt med hjälp av plus-symbolen."
 
 #: src/components/ErrorModal.vue:22
 msgid ""
@@ -195,6 +206,10 @@ msgid ""
 "              messages</strong>\n"
 "            if you choose to do that."
 msgstr ""
+"Om du tror att något inte stämmer på din setup kan du <a "
+"href=\"#\" @click=\"unregister\">Ta bort din registrering</a> och registrera "
+"dig igen. Men tänk på att då <strong>ändrar sig din Signal-Nyckel och du blir "
+"av med dina Signal meddelanden.</strong>"
 
 #: src/components/ErrorModal.vue:17
 msgid ""
@@ -205,6 +220,10 @@ msgid ""
 "            <a href=\"https://github.com/nanu-c/axolotl/issues\" target="
 "\"_blank\">opening an issue</a>."
 msgstr ""
+"Om ett problem förekommer flera gånger, kolla <a href=\"https://status."
+"signal.org/\" target=\"_blank\">Signal servrarnas status</a>.\n"
+"Om statusen är felfri, skapa en <a href=\"https://"
+"github.com/nanu-c/axolotl/issues\" target=\"_blank\">felrapport</a>."
 
 #: src/components/Header.vue:177
 #, fuzzy
@@ -226,7 +245,7 @@ msgstr "Information"
 
 #: src/pages/About.vue:12
 msgid "issues at the bug tracker"
-msgstr ""
+msgstr "felrapporter"
 
 #: src/pages/DeviceList.vue:7
 msgid "Last seen:"
@@ -260,6 +279,9 @@ msgid ""
 "            chat from the linked Desktop Client. Alternatively, your\n"
 "            counterparty could start the discussion."
 msgstr ""
+"Nya konversationer är för tillfället inaktiverat. Du kan starta en "
+"ny chat med en länkad Signal-Desktop klient eller be din samtalspartner"
+"att starta konversationen."
 
 #: src/components/Header.vue:143 src/components/Header.vue:199
 msgid "New group"
@@ -385,6 +407,8 @@ msgid ""
 "Setting a password is not adviced on devices short in memory. Restart is\n"
 "      required!"
 msgstr ""
+"Ett lösenord är inte rekommenderat för enheter med lite minne. En"
+"nystart är nödvändig!"
 
 #: src/components/Header.vue:137 src/components/Header.vue:202
 msgid "Settings"
@@ -401,13 +425,15 @@ msgstr "sponsra på Patreon."
 
 #: src/components/StartChatModal.vue:5
 msgid "Starting new chats is currently broken in Axolotl."
-msgstr "Att starta nya chattar är för tillfället inte möjligt med Axolotl."
+msgstr "Att starta nya chattar med Axolotl är för tillfället inte möjligt."
 
 #: src/pages/About.vue:6
 msgid ""
 "This is a free and open source Signal client written in golang and\n"
 "        vuejs."
 msgstr ""
+"Detta är en fri och öppen-källkod Signal klient, utvecklad med "
+"Golang och Vuejs."
 
 #: src/components/Header.vue:32 src/pages/ChatList.vue:30
 #, fuzzy
@@ -449,6 +475,8 @@ msgid ""
 "We are sorry, but due to a change in the Signal protocol, automatic\n"
 "            import of contacts is currently unavailble."
 msgstr ""
+"På grund av ändringar i protokollet som Signal använder "
+"är det för närvarande inte mögligt att importera kontakter."
 
 #: src/pages/Verification.vue:22
 msgid "Wrong code entered. Restart for another try."
