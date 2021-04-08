@@ -6,6 +6,7 @@ NODE_VERSION := $(shell node --version 2>/dev/null)
 GO_VERSION := $(shell go version 2>/dev/null)
 AXOLOTL_GIT_VERSION := $(shell git tag | tail --lines=1)
 AXOLOTL_VERSION := $(subst v,,$(AXOLOTL_GIT_VERSION))
+CURRENT_DIR = $(shell pwd)
 
 define APPDATA_TEXT=
 \\t\t\t<release version="$(NEW_VERSION)" date="$(shell date --rfc-3339='date')">\n\
@@ -22,6 +23,13 @@ FLATPAK_BUILDER=$(shell which flatpak-builder)
 all: clean build run
 
 build: build-axolotl-web build-axolotl
+
+install: install-axolotl-web install-axolotl
+	@sudo install -D -m 644 $(CURRENT_DIR)/scripts/axolotl.desktop /usr/share/applications/axolotl.desktop
+	@sudo install -D -m 644 $(CURRENT_DIR)/snap/gui/axolotl.png /usr/share/icons/hicolor/128x128/apps/axolotl.png
+
+uninstall:
+	@sudo rm -rf /usr/bin/axolotl
 
 build-axolotl-web:
 	$(NPM) run build --prefix axolotl-web
@@ -50,6 +58,12 @@ build-dependencies-axolotl-web:
 
 build-dependencies-axolotl:
 	$(GO) mod download
+
+install-axolotl-web: build-axolotl-web
+	@sudo cp -r $(CURRENT_DIR)/axolotl-web/dist /usr/bin/axolotl/axolotl-web/dist
+
+install-axolotl: build-axolotl
+	@sudo install -D -m 755 $(CURRENT_DIR)/axolotl /usr/bin/axolotl
 
 clean:
 	rm -f axolotl

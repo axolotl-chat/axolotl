@@ -231,3 +231,16 @@ sh mobian_installer.sh
 ```
 
 To check out, what the script does exactly or to execute commands separately, visit the [Mobian wiki page for Axolotl](https://wiki.mobian-project.org/doku.php?id=axolotl) - section Manual Installation.
+
+## Bare
+
+**Tooling**
+
+This requires `make`, `go`, `nodejs` and `npm` to be installed locally.
+For the required versions, see [go.mod](../go.mod) and [package.json](../axolotl-web/package.json)
+
+**Build and Install**
+
+To install, simply use the makefile target `install`.
+
+`make install`
