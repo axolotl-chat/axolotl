@@ -10,14 +10,14 @@
 
 <script>
 window.getCookie = function (cname) {
-  let name = cname + "=";
-  let ca = document.cookie.split(";");
+  const name = cname + "=";
+  const ca = document.cookie.split(";");
   for (let i = 0; i < ca.length; i++) {
-    var c = ca[i];
+    let c = ca[i];
     while (c.charAt(0) === " ") {
       c = c.substring(1);
     }
-    if (c.indexOf(name) == 0) {
+    if (c.indexOf(name) === 0) {
       return c.substring(name.length, c.length);
     }
   }
@@ -28,9 +28,10 @@ if (window.getCookie("darkMode") === "true") {
 } else {
   import("./assets/light.scss");
 }
-import { router } from "./router/router";
+import {router} from "./router/router";
 import HeaderComp from "@/components/Header.vue";
 import ErrorModal from "@/components/ErrorModal.vue";
+
 export default {
   name: "AxolotlWeb",
   components: {
@@ -57,8 +58,7 @@ export default {
     },
   },
   mounted() {
-    const userLang = navigator.language || navigator.userLanguage;
-    this.$language.current = userLang;
+    this.$language.current = navigator.language || navigator.userLanguage;
   },
   methods: {
     checkDebug() {
