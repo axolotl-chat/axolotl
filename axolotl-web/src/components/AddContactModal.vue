@@ -18,7 +18,7 @@
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label v-translate for="inputPhone">Name</label>
+            <label v-translate for="nameInput">Name</label>
             <input
               id="nameInput"
               v-model="name"
@@ -27,7 +27,7 @@
             >
           </div>
           <div class="form-group">
-            <label v-translate for="inputPhone">Phone</label>
+            <label v-translate for="phoneInput">Phone</label>
             <input
               id="phoneInput"
               v-model="phone"
