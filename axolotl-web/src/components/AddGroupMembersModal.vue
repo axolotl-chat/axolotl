@@ -3,8 +3,8 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" v-translate>Add members</h5>
-          <div class="actions" v-if="!searchActive">
+          <h5 v-translate class="modal-title">Add members</h5>
+          <div v-if="!searchActive" class="actions">
             <button
               type="button"
               class="btn search"
@@ -16,15 +16,15 @@
               <font-awesome-icon icon="times" />
             </button>
           </div>
-          <div class="actions" v-if="searchActive">
+          <div v-if="searchActive" class="actions">
             <div class="input-container">
               <input
+                v-model="contactsFilter"
                 type="text"
                 class="form-control"
-                v-model="contactsFilter"
                 @change="filterContacts()"
                 @keyup="filterContacts()"
-              />
+              >
             </div>
             <button type="button" class="btn" @click="searchActive = false">
               <font-awesome-icon icon="times" />
@@ -33,15 +33,15 @@
         </div>
         <div class="modal-body">
           <div class="contact-list">
-            <div v-if="contacts.length > 0 && contactsFilter == ''">
+            <div v-if="contacts.length > 0 && contactsFilter === ''">
               <div
                 v-for="contact in contacts"
-                v-bind:key="contact.UUID"
+                :key="contact.UUID"
                 class="btn col-12 chat"
               >
                 <div class="row chat-entry">
                   <div class="avatar col-3" @click="contactClick(contact)">
-                    <div class="badge-name" v-if="contact.Name">
+                    <div v-if="contact.Name" class="badge-name">
                       {{ contact.Name[0] + contact.Name[1] }}
                     </div>
                   </div>
@@ -52,10 +52,10 @@
                 </div>
               </div>
             </div>
-            <div v-else-if="contactsFilter != ''">
+            <div v-else-if="contactsFilter !== ''">
               <div
                 v-for="contact in contactsFilterd"
-                v-bind:key="'filter_' + contact.UUID"
+                :key="'filter_' + contact.UUID"
                 class="btn col-12 chat"
               >
                 <div class="row chat-entry">
@@ -86,45 +86,16 @@ import { validateUUID } from "@/helpers/uuidCheck";
 
 export default {
   name: "AddGroupMembersModal",
+  components: {},
   props: {
     allreadyAdded: Array,
   },
-  components: {},
   data() {
     return {
       contacts: [],
       searchActive: false,
       contactsFilter: "",
     };
-  },
-  mounted() {
-    this.contacts = this.filterForOnlyContactsWithUUID(
-      this.$store.state.contacts
-    );
-  },
-  methods: {
-    validateUUID,
-    contactClick(contact) {
-      this.$store.dispatch("addNewGroupMember", contact);
-    },
-    filterContacts() {
-      if (this.contactsFilter != "") {
-        this.$store.dispatch("filterContactsForGroup", this.contactsFilter);
-      } else {
-        this.$store.dispatch("clearFilterContacts");
-      }
-    },
-    filterForOnlyContactsWithUUID(contacts) {
-      return contacts.filter((c) => {
-        var isValid = this.validateUUID(c.UUID);
-
-        if (isValid) return false;
-        var found = this.allreadyAdded.find(function (element) {
-          return element.Tel == c.Tel;
-        });
-        return found === undefined;
-      });
-    },
   },
   computed: {
     contactsFilterd() {
@@ -138,6 +109,35 @@ export default {
       this.contacts = this.filterForOnlyContactsWithUUID(
         this.$store.state.contacts
       );
+    },
+  },
+  mounted() {
+    this.contacts = this.filterForOnlyContactsWithUUID(
+      this.$store.state.contacts
+    );
+  },
+  methods: {
+    validateUUID,
+    contactClick(contact) {
+      this.$store.dispatch("addNewGroupMember", contact);
+    },
+    filterContacts() {
+      if (this.contactsFilter !== "") {
+        this.$store.dispatch("filterContactsForGroup", this.contactsFilter);
+      } else {
+        this.$store.dispatch("clearFilterContacts");
+      }
+    },
+    filterForOnlyContactsWithUUID(contacts) {
+      return contacts.filter((c) => {
+        var isValid = this.validateUUID(c.UUID);
+
+        if (isValid) return false;
+        var found = this.allreadyAdded.find(function (element) {
+          return element.Tel === c.Tel;
+        });
+        return found === undefined;
+      });
     },
   },
 };
