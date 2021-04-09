@@ -130,10 +130,10 @@ export default {
     },
     filterForOnlyContactsWithUUID(contacts) {
       return contacts.filter((c) => {
-        var isValid = this.validateUUID(c.UUID);
+        const isValid = this.validateUUID(c.UUID);
 
         if (isValid) return false;
-        var found = this.alreadyAdded.find(function (element) {
+        const found = this.alreadyAdded.find(function (element) {
           return element.Tel === c.Tel;
         });
         return found === undefined;
