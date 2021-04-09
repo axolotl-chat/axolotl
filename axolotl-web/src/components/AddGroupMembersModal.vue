@@ -88,7 +88,7 @@ export default {
   name: "AddGroupMembersModal",
   components: {},
   props: {
-    allreadyAdded: Array,
+    alreadyAdded: Array,
   },
   data() {
     return {
@@ -105,7 +105,7 @@ export default {
     },
   },
   watch: {
-    allreadyAdded() {
+    alreadyAdded() {
       this.contacts = this.filterForOnlyContactsWithUUID(
         this.$store.state.contacts
       );
@@ -133,7 +133,7 @@ export default {
         var isValid = this.validateUUID(c.UUID);
 
         if (isValid) return false;
-        var found = this.allreadyAdded.find(function (element) {
+        var found = this.alreadyAdded.find(function (element) {
           return element.Tel === c.Tel;
         });
         return found === undefined;
