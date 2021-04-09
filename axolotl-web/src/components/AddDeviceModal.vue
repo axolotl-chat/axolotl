@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" v-translate>Add a new device</h5>
+          <h5 v-translate class="modal-title">Add a new device</h5>
           <button type="button" class="close" @click="$emit('close')">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -15,21 +15,21 @@
             <li v-translate>3. Paste the QR code here:</li>
           </ul>
           <div class="form-group">
-            <label for="inputQRCode" v-translate>QR code</label>
+            <label v-translate for="inputQRCode">QR code</label>
             <input
+              id="inputQRCode"
               v-model="qrCode"
               type="text"
               class="form-control"
-              id="inputQRCode"
-            />
+            >
           </div>
         </div>
         <div class="modal-footer">
           <button
+            v-translate
             type="button"
             class="btn btn-primary"
             @click="$emit('add', qrCode)"
-            v-translate
           >
             Add
           </button>
