@@ -19,6 +19,8 @@ NPM=$(shell which npm)
 GO=$(shell which go)
 FLATPAK=$(shell which flatpak)
 FLATPAK_BUILDER=$(shell which flatpak-builder)
+SNAPCRAFT=$(shell which snapcraft)
+SNAP=$(shell which snap)
 
 all: clean build run
 
@@ -82,6 +84,7 @@ else
 	@echo Update complete
 endif
 
+## Flatpak
 build-dependencies-flatpak:
 	$(FLATPAK) install org.freedesktop.Sdk.Extension.golang//20.08
 	$(FLATPAK) install org.freedesktop.Sdk.Extension.node14//20.08
@@ -101,3 +104,10 @@ install-flatpak-web:
 
 install-flatpak-qt:
 	$(FLATPAK_BUILDER) --user --install build flatpak/qt/org.nanuc.Axolotl.yml
+
+## Snap
+build-snap:
+	@sudo $(SNAPCRAFT)
+
+install-snap:
+	@sudo $(SNAP) install axolotl_$(AXOLOTL_VERSION)_amd64.snap --dangerous
