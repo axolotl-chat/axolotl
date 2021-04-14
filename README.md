@@ -37,14 +37,16 @@ There are still bugs and UI/UX quirks.
 
 Axolotl can be installed through different means.
 
-| Package | Maintainer | Comment |
+| Package | Maintainer | Comment  |
 | ------- | ---------- | -------- |
 | <a href='https://open-store.io/app/textsecure.nanuc'><img width='130' alt="Get it from the OpenStore" src="https://open-store.io/badges/en_US.png"></a> | nanu-c | For Ubuntu Touch |
 | <a href='https://snapcraft.io/axolotl'><img width='130' alt="Get it from the Snap Store" src="https://snapcraft.io/static/images/badges/en/snap-store-black.svg"></a> | nanu-c | For Ubuntu desktop |
-| Flathub (work in progress) | olof-nord | [Pull Request](https://github.com/flathub/flathub/pull/2149) |
+| <a href='https://flathub.org/apps/details/org.nanuc.Axolotl'><img width='130' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/></a> | olof-nord | https://github.com/flathub/org.nanuc.Axolotl |
 | <a href='https://github.com/nuehm-arno/axolotl-mobian-package'><img alt="mobian version" src="https://img.shields.io/badge/axolotl-deb-%23A80030"></a> | nuehm-arno | https://github.com/nuehm-arno/axolotl-mobian-package |
 
-To find out how to build from source and install yourself, please see below:
+## Building
+
+To find out how to build from source and install yourself, please see below.
 
 * with Clickable: see [here](docs/INSTALL.md#clickable).
 * with Snap: see [here](docs/INSTALL.md#snap).
@@ -52,33 +54,35 @@ To find out how to build from source and install yourself, please see below:
 * with AppImage: see [here](docs/INSTALL.md#appimage).
 * for Mobian: see [here](docs/INSTALL.md#mobian).
 
-## Installation of development environment
+### Manually
 
-* Install [Golang](https://golang.org/doc/install)
-* Install node js (see the [.nvmrc](axolotl-web/.nvmrc)) file for the supported version
-* Add gopath to ~/.bashrc https://github.com/golang/go/wiki/SettingGOPATH
-* install dependencies `sudo apt install mercurial gettext`
-* Check out this git `go get -d github.com/nanu-c/axolotl`
-* `cd $(go env GOPATH)/src/github.com/nanu-c/axolotl`
-* get go dependencies `go mod download`
-* install axolotl-web dependencies: `cd axolotl-web && npm install`
+Requires Go, and node/npm.
+
+If running Ubuntu, these steps should get you started.
+
+First, install build dependencies.
+
+```shell
+sudo add-apt-repository ppa:longsleep/golang-backports
+sudo apt update
+sudo apt install golang-go nodejs npm build-essential
+```
+
+Then, install axolotl go and npm dependencies.
+
+```shell
+make build-dependencies
+```
+
+Now we are good to go. To start, simply use the following:
+
+```shell
+make run
+```
 
 When setting up for the first time and maybe occasionally later you need to update the browser list with your installed browsers. Change into the axolotl-web subfolder and run the following command:
 
 `npx browserslist@latest --update-db`
-
-## Run development
-
-* `cd $(go env GOPATH)/src/github.com/nanu-c/axolotl`
-* `go run .`
-* in a new terminal `cd axolotl-web && npm run serve`
-* point a browser to the link printed in the terminal  like `http://localhost:9080`
-
-## Run frontend and connect to phone ip
-
-That way running the backend is avoided, instead your current registration on ubuntu touch is used
-* `cd axolotl-web`
-* `VUE_APP_WS_ADDRESS=10.0.0.2 npm run serve` replace 10.0.0.2 with the ip of your phone
 
 ## Run flags
 

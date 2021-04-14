@@ -21,7 +21,7 @@
       </button>
       <add-group-members-modal
         v-if="addMembersModal"
-        :allreadyAdded="newGroupMembers"
+        :alreadyAdded="newGroupMembers"
         @add="addGroupMemeber"
         @close="addMembersModal = false"
       />

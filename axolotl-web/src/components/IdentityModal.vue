@@ -3,34 +3,32 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" v-translate>Verify identity</h5>
+          <h5 v-translate class="modal-title">Verify identity</h5>
           <button type="button" class="close" @click="$emit('close')">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <div class="qr-code-container">
-            <canvas id="qrcode"></canvas>
+            <canvas id="qrcode" />
           </div>
-          <b
-            ><span v-translate>Safety numbers of you and</span>
-            {{ currentChat.Name }}:</b
-          >
+          <b><span v-translate>Safety numbers of you and</span>
+            {{ currentChat.Name }}:</b>
           <div class="row fingerprint">
             <div
-              class="col-3"
               v-for="(part, i) in fingerprint.numbers"
-              v-bind:key="'fingerprint_' + i"
+              :key="'fingerprint_' + i"
+              class="col-3"
             >
               {{ part }}
             </div>
           </div>
           <div class="modal-footer">
             <button
+              v-translate
               type="button"
               class="btn btn-primary"
               @click="$emit('confirm')"
-              v-translate
             >
               Close
             </button>
@@ -46,11 +44,16 @@ import QRCode from "qrcode";
 import { mapState } from "vuex";
 export default {
   name: "IdentityModal",
-  methods: {},
   data() {
     return {
       errorMessage: null,
     };
+  },
+  computed: {
+    ...mapState(["fingerprint"]),
+    currentChat() {
+      return this.$store.state.currentChat;
+    },
   },
   watch: {
     fingerprint() {
@@ -66,12 +69,7 @@ export default {
       );
     },
   },
-  computed: {
-    ...mapState(["fingerprint"]),
-    currentChat() {
-      return this.$store.state.currentChat;
-    },
-  },
+  methods: {},
 };
 </script>
 <style scoped>

@@ -10,6 +10,7 @@ AXOLOTL_GIT_VERSION := $(shell git tag | tail --lines=1)
 AXOLOTL_VERSION := $(subst v,,$(AXOLOTL_GIT_VERSION))
 UNAME_S := $(shell uname -s)
 UNAME_HARDWARE_PLATTFORM := $(shell uname --hardware-platform)
+CURRENT_DIR = $(shell pwd)
 
 
 define APPDATA_TEXT=
@@ -21,10 +22,21 @@ export APPDATA_TEXT
 
 NPM=$(shell which npm)
 GO=$(shell which go)
+FLATPAK=$(shell which flatpak)
+FLATPAK_BUILDER=$(shell which flatpak-builder)
+SNAPCRAFT=$(shell which snapcraft)
+SNAP=$(shell which snap)
 
 all: clean build run
 
 build: build-axolotl-web build-axolotl
+
+install: install-axolotl install-axolotl-web
+	@sudo install -D -m 644 $(CURRENT_DIR)/scripts/axolotl.desktop /usr/share/applications/axolotl.desktop
+	@sudo install -D -m 644 $(CURRENT_DIR)/snap/gui/axolotl.png /usr/share/icons/hicolor/128x128/apps/axolotl.png
+
+uninstall:
+	@sudo rm -rf /usr/bin/axolotl
 
 build-axolotl-web:
 	$(NPM) run build --prefix axolotl-web
@@ -34,6 +46,14 @@ build-axolotl:
 
 build-translation:
 	$(NPM) run translate --prefix axolotl-web
+
+check: check-axolotl check-axolotl-web
+
+check-axolotl-web:
+	$(NPM) run test --prefix axolotl-web
+
+check-axolotl:
+	$(GO) test -race ./...
 
 run: build
 		@echo "Found go with version $(GO_VERSION)"
@@ -47,13 +67,19 @@ build-dependencies-axolotl-web:
 build-dependencies-axolotl:
 	$(GO) mod download
 
+install-axolotl-web: build-axolotl-web
+	@sudo cp -r $(CURRENT_DIR)/axolotl-web/dist /usr/bin/axolotl/axolotl-web/dist
+
+install-axolotl: build-axolotl
+	@sudo install -D -m 755 $(CURRENT_DIR)/axolotl /usr/bin/axolotl
+
 clean:
 	rm -f axolotl
 	rm -rf axolotl-web/dist
 
 update-version:
 ifeq ($(NEW_VERSION),)
-	@echo Please specify the new version to use! Example: "make prepare-release NEW_VERSION=0.9.10"
+	@echo Please specify the new version to use! Example: "make update-version NEW_VERSION=0.9.10"
 else
 	@echo Replacing current version $(AXOLOTL_VERSION) with new version $(NEW_VERSION)
 	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' manifest.json
@@ -64,6 +90,7 @@ else
 	@echo Update complete
 endif
 
+## zkgroup
 build-zkgroup:
 	@echo "Found cargo with version $(CARGO_VERSION)"
 	@echo "Found go with version $(GO_VERSION)"
@@ -132,3 +159,31 @@ else
 	@echo "platform not supported $(UNAME_S)"
 	exit 1
 endif
+
+## Flatpak
+build-dependencies-flatpak:
+	$(FLATPAK) install org.freedesktop.Sdk.Extension.golang//20.08
+	$(FLATPAK) install org.freedesktop.Sdk.Extension.node14//20.08
+
+build-dependencies-flatpak-web: build-dependencies-flatpak
+	$(FLATPAK) install org.freedesktop.Platform//20.08
+	$(FLATPAK) install org.freedesktop.Sdk//20.08
+	$(FLATPAK) install io.atom.electron.BaseApp//20.08
+
+build-dependencies-flatpak-qt: build-dependencies-flatpak
+	$(FLATPAK) install org.kde.Platform//5.15
+	$(FLATPAK) install org.kde.Sdk//5.15
+	$(FLATPAK) install io.qt.qtwebengine.BaseApp//5.15
+
+install-flatpak-web:
+	$(FLATPAK_BUILDER) --user --install build flatpak/web/org.nanuc.Axolotl.yml
+
+install-flatpak-qt:
+	$(FLATPAK_BUILDER) --user --install build flatpak/qt/org.nanuc.Axolotl.yml
+
+## Snap
+build-snap:
+	@sudo $(SNAPCRAFT)
+
+install-snap:
+	@sudo $(SNAP) install axolotl_$(AXOLOTL_VERSION)_amd64.snap --dangerous
