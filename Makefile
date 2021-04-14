@@ -24,7 +24,7 @@ all: clean build run
 
 build: build-axolotl-web build-axolotl
 
-install: install-axolotl-web install-axolotl
+install: install-axolotl install-axolotl-web
 	@sudo install -D -m 644 $(CURRENT_DIR)/scripts/axolotl.desktop /usr/share/applications/axolotl.desktop
 	@sudo install -D -m 644 $(CURRENT_DIR)/snap/gui/axolotl.png /usr/share/icons/hicolor/128x128/apps/axolotl.png
 
