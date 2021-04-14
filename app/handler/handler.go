@@ -102,15 +102,14 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 	//GroupV2 Message
 	grV2 := msg.GroupV2()
 	if grV2 != nil {
-		log.Debugln(grV2)
 		group := store.Groups[grV2.Hexid]
 		if group != nil {
-			group.Name = grV2.Name
+			group.Name = string(grV2.DecryptedGroup.Title)
 			store.UpdateGroup(group)
 		} else {
 			store.Groups[grV2.Hexid] = &store.GroupRecord{
 				GroupID: grV2.Hexid,
-				Name:    grV2.Name,
+				Name:    string(grV2.GroupContext.Title),
 			}
 			_, err = store.SaveGroup(store.Groups[grV2.Hexid])
 			if err != nil {

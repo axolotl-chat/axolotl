@@ -178,6 +178,8 @@ github.com/mutecomm/go-sqlcipher v0.0.0-20190227152316-55dbde17881f/go.mod h1:My
 github.com/nanu-c/zkgroup v0.0.0-20210220173654-12660e919918/go.mod h1:6c1LFh8Neuzl2qF51yPsH4sdvXFeEdfucfITI4Jbu7o=
 github.com/nanu-c/zkgroup v0.7.16 h1:BRozu0uP2VzHW5cXhSreEfdK1g6wsMqwB2JOmSdbHgk=
 github.com/nanu-c/zkgroup v0.7.16/go.mod h1:6c1LFh8Neuzl2qF51yPsH4sdvXFeEdfucfITI4Jbu7o=
+github.com/nanu-c/zkgroup v0.7.17 h1:phyQDldLT9Fett9VQkTGOU7Lb+OJk3EPQNWS0X89Y7Y=
+github.com/nanu-c/zkgroup v0.7.17/go.mod h1:6c1LFh8Neuzl2qF51yPsH4sdvXFeEdfucfITI4Jbu7o=
 github.com/nbutton23/zxcvbn-go v0.0.0-20180912185939-ae427f1e4c1d/go.mod h1:o96djdrsSGy3AWPyBgZMAGfxZNfgntdJG+11KU4QvbU=
 github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e/go.mod h1:zD1mROLANZcx1PVRCS0qkT7pwLkGfwJo4zjcN/Tysno=
 github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d h1:VhgPp6v9qf9Agr/56bj7Y/xa04UccTW04VP0Qed4vnQ=
@@ -222,6 +224,8 @@ github.com/signal-golang/textsecure v1.2.14 h1:CrX1M1rxs7mc4VKVIVk1tUpM2DN43OjFI
 github.com/signal-golang/textsecure v1.2.14/go.mod h1:cd48dGnBVDos8iaB+DO0V4pVTYnNwYqAbcmJAcTLTgc=
 github.com/signal-golang/textsecure v1.2.15-0.20210311233800-66e88d3d661a h1:yHxGPiKolGBNztcnKoWjdOhhtNEGWMVQO8tNJJvI8hQ=
 github.com/signal-golang/textsecure v1.2.15-0.20210311233800-66e88d3d661a/go.mod h1:SGLo2Rjv8gmcHiJhBJWl32lzgVamo2mV0fxBgM3geqw=
+github.com/signal-golang/textsecure v1.2.15-0.20210414194823-8484ad3638e1 h1:Sz41sOxGaANs5fJ6I4sDg9JnMHYjBW9dsKdsIbwWu90=
+github.com/signal-golang/textsecure v1.2.15-0.20210414194823-8484ad3638e1/go.mod h1:lpnT0Bm6oksXZjSsmID8Z6ZGkWS4/Zp9kqPcpvbNURg=
 github.com/sirupsen/logrus v1.6.0/go.mod h1:7uNnSEd1DgxDLC74fIahvMZmmYsHGZGEOFrfsX/uA88=
 github.com/sirupsen/logrus v1.7.0 h1:ShrD1U9pZB12TX0cVy0DtePoCH97K8EtX+mg7ZARUtM=
 github.com/sirupsen/logrus v1.7.0/go.mod h1:yWOB1SBYBC5VeMP7gHvWumXLIWorT60ONWic61uBYv0=
@@ -234,13 +238,18 @@ github.com/stretchr/testify v1.6.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/
 github.com/stripe/safesql v0.2.0/go.mod h1:q7b2n0JmzM1mVGfcYpanfVb2j23cXZeWFxcILPn3JV4=
 github.com/tadvi/systray v0.0.0-20190226123456-11a2b8fa57af/go.mod h1:4F09kP5F+am0jAwlQLddpoMDM+iewkxxt6nxUQ5nq5o=
 github.com/tsenart/deadcode v0.0.0-20160724212837-210d2dc333e9/go.mod h1:q+QjxYvZ+fpjMXqs+XEriussHjSYqeXVnAdSV1tkMYk=
+github.com/ttacon/builder v0.0.0-20170518171403-c099f663e1c2 h1:5u+EJUQiosu3JFX0XS0qTf5FznsMOzTjGqavBGuCbo0=
 github.com/ttacon/builder v0.0.0-20170518171403-c099f663e1c2/go.mod h1:4kyMkleCiLkgY6z8gK5BkI01ChBtxR0ro3I1ZDcGM3w=
+github.com/ttacon/libphonenumber v1.1.0 h1:tC6kE4t8UI4OqQVQjW5q8gSWhG2wnY5moEpSEORdYm4=
 github.com/ttacon/libphonenumber v1.1.0/go.mod h1:E0TpmdVMq5dyVlQ7oenAkhsLu86OkUl+yR4OAxyEg/M=
+github.com/vincent-petithory/dataurl v0.0.0-20191104211930-d1553a71de50 h1:uxE3GYdXIOfhMv3unJKETJEhw78gvzuQqRX/rVirc2A=
 github.com/vincent-petithory/dataurl v0.0.0-20191104211930-d1553a71de50/go.mod h1:FHafX5vmDzyP+1CQATJn7WFKc9CvnvxyvZy6I1MrG/U=
 github.com/walle/lll v1.0.1/go.mod h1:lYxcXzoPhiAHR9eaq+Yv7RYg1nIipLloBCIfPUzfaWQ=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.2.1/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
+github.com/z3ntu/go-dbus v0.0.0-20170220120108-c022b8b2e127 h1:5uM5CyMgvx0a/ctLJ3ThGt2fghWoX6cPniYNgGeCuJI=
 github.com/z3ntu/go-dbus v0.0.0-20170220120108-c022b8b2e127/go.mod h1:bUTQ2+DQ82yitPELjqsyPbSZGg05fEKaC3eHCGkCiV4=
+github.com/zserge/lorca v0.1.9 h1:vbDdkqdp2/rmeg8GlyCewY2X8Z+b0s7BqWyIQL/gakc=
 github.com/zserge/lorca v0.1.9/go.mod h1:bVmnIbIRlOcoV285KIRSe4bUABKi7R7384Ycuum6e4A=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550/go.mod h1:yigFU9vqHzYiE8UmvKecakEJjdnWj3jj499lnFckfCI=
