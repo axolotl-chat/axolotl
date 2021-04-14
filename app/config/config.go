@@ -31,7 +31,6 @@ var (
 	PrintVersion           bool
 	HomeDir                string
 	ConfigDir              string
-	CacheDir               string
 	ConfigFile             string
 	ContactsFile           string
 	RegisteredContactsFile string
@@ -112,7 +111,6 @@ func SetupConfig() {
 			}
 		}
 	}
-	CacheDir = filepath.Join(HomeDir, ".cache/", AppName)
 	LogFileName := []string{"application-click-", AppName, "_textsecure_", AppVersion, ".log"}
 	ConfigDir = filepath.Join(HomeDir, ".config/", AppName)
 	ContactsFile = filepath.Join(ConfigDir, "contacts.yml")
@@ -164,10 +162,6 @@ func Unregister() {
 		log.Error(err)
 	}
 	err = os.RemoveAll(DataDir + AppName)
-	if err != nil {
-		log.Error(err)
-	}
-	err = os.RemoveAll(CacheDir + AppName)
 	if err != nil {
 		log.Error(err)
 	}
