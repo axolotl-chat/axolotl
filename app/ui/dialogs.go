@@ -26,10 +26,10 @@ func GetTextFromDialog(fun, obj, signal string) string {
 func GetTextFromWs(fun string) string {
 	defer func() {
 		if r := recover(); r != nil {
-			log.Errorln("[axoltol] Error: GetTextFromDialog: ", r)
+			log.Errorln("[axolotl] Error: GetTextFromDialog: ", r)
 		}
 	}()
-	log.Debugf("[axoltol] Opening Dialog: " + fun)
+	log.Debugf("[axolotl] Opening Dialog: " + fun)
 	text := webserver.RequestInput(fun)
 	return text
 }

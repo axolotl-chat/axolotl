@@ -386,6 +386,7 @@ func (s *Sessions) CreateSessionForGroup(group *textsecure.Group) *Session {
 
 // CreateSessionForGroupV2 creates a session for a group
 func (s *Sessions) CreateSessionForGroupV2(group *groupsv2.GroupV2) *Session {
+	log.Debugln("title ", string(group.GroupContext.Title))
 	ses := &Session{Tel: group.Hexid, // for legacy reasons add group id also as Tel number
 		Name:         string(group.GroupContext.Title),
 		Active:       true,
@@ -424,7 +425,7 @@ func (s *Sessions) GetByUUID(UUID string) (*Session, error) {
 
 // UpdateSessionNames updates the non groups with the name from the phone book
 func (s *Sessions) UpdateSessionNames() {
-	log.Debugln("[axoltl] update session names + uuids")
+	log.Debugln("[axolotl] update session names + uuids")
 	for _, ses := range s.Sess {
 		if ses.IsGroup == false {
 			ses.Name = TelToName(ses.Tel)

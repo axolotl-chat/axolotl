@@ -10,7 +10,13 @@ type GroupRecord struct {
 	Members string
 	Avatar  []byte
 	Active  bool
+	Type    int
 }
+
+const (
+	GroupRecordTypeGroupv1 = 0
+	GroupRecordTypeGroupv2 = 1
+)
 
 var AllGroups []*GroupRecord
 var Groups = map[string]*GroupRecord{}

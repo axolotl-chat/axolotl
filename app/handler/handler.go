@@ -110,6 +110,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 			store.Groups[grV2.Hexid] = &store.GroupRecord{
 				GroupID: grV2.Hexid,
 				Name:    string(grV2.GroupContext.Title),
+				Type:    store.GroupRecordTypeGroupv2,
 			}
 			_, err = store.SaveGroup(store.Groups[grV2.Hexid])
 			if err != nil {
