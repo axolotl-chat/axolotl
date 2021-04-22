@@ -54,7 +54,7 @@
 
 <script>
 export default {
-  name: "AddContact",
+  name: "AddContactModal",
   data() {
     return {
       phone: "",
