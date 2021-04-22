@@ -31,8 +31,7 @@
     </div>
     <div v-else class="registration">
       <VueTelInput
-        v-model="phone"
-        @input="updatePhone"
+        @validate="updatePhone"
         mode="international"
         class="phoneInput"
         id="phoneInput"
@@ -56,15 +55,12 @@ export default {
     VueTelInput,
     WarningMessage,
   },
-  props: {
-    msg: String,
-  },
   methods: {
     requestCode() {
       this.$store.dispatch("requestCode", this.phone.replace(/\s/g, ""));
     },
     updatePhone(e) {
-      this.phone = e;
+      this.phone = e.number;
     },
     openExtern(e, url) {
       if (this.gui == "ut") {
