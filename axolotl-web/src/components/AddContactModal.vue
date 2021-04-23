@@ -5,7 +5,7 @@
         <div class="modal-header">
           <h5 class="modal-title">
             <span v-translate>Add</span>
-            <div v-if="name != ''">{{ name }}</div>
+            <div v-if="name !== ''">{{ name }}</div>
             <div v-else v-translate>Contact</div>
           </h5>
           <button type="button" class="close" @click="$emit('close')">
@@ -13,40 +13,36 @@
           </button>
         </div>
         <div class="modal-body">
-          <span
-            ><strong v-translate
-              >Only add numbers that you are sure are registered Signal
-              accounts!</strong
-            ></span
-          >
+          <span><strong v-translate>Only add numbers that you are sure are registered Signal
+            accounts!</strong></span>
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label for="inputPhone" v-translate>Name</label>
+            <label v-translate for="nameInput">Name</label>
             <input
+              id="nameInput"
               v-model="name"
               type="text"
               class="form-control"
-              id="nameInput"
-            />
+            >
           </div>
           <div class="form-group">
-            <label for="inputPhone" v-translate>Phone</label>
+            <label v-translate for="phoneInput">Phone</label>
             <input
+              id="phoneInput"
               v-model="phone"
               type="text"
               class="form-control"
-              id="phoneInput"
               placeholder="+44..."
-            />
+            >
           </div>
         </div>
         <div class="modal-footer">
           <button
+            v-translate
             type="button"
             class="btn btn-primary"
             @click="$emit('add', { name: name, phone: phone })"
-            v-translate
           >
             Add
           </button>
@@ -58,7 +54,7 @@
 
 <script>
 export default {
-  name: "AddContact",
+  name: "AddContactModal",
   data() {
     return {
       phone: "",
