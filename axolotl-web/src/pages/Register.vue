@@ -35,7 +35,7 @@
         id="phoneInput"
         mode="international"
         class="phoneInput"
-        @validate="updatePhone"
+        @input="updatePhone"
       />
       <button v-translate class="btn btn-primary" @click="requestCode()">
         Request code
@@ -81,7 +81,8 @@ export default {
       this.$store.dispatch("requestCode", this.phone.replace(/\s/g, ""));
     },
     updatePhone(e) {
-      this.phone = e.number;
+      if(typeof e =="string")
+      this.phone = e;
     },
     openExtern(e, url) {
       if (this.gui == "ut") {
