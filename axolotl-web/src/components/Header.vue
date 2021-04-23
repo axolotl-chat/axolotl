@@ -346,8 +346,7 @@
               <router-link
                 v-translate
                 class="dropdown-item"
-                :to="'/contacts'"
-                @click="showSettingsMenu = false"
+                :to="'/contacts/'"
               >
                 Contacts
               </router-link>
@@ -355,7 +354,6 @@
                 v-translate
                 class="dropdown-item"
                 :to="'/newGroup'"
-                @click="showSettingsMenu = false"
               >
                 New group
               </router-link>
@@ -363,7 +361,6 @@
                 v-translate
                 class="dropdown-item"
                 :to="'/settings/'"
-                @click="showSettingsMenu = false"
               >
                 Settings
               </router-link>
