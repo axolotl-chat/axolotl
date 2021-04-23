@@ -386,9 +386,8 @@ func (s *Sessions) CreateSessionForGroup(group *textsecure.Group) *Session {
 
 // CreateSessionForGroupV2 creates a session for a group
 func (s *Sessions) CreateSessionForGroupV2(group *groupsv2.GroupV2) *Session {
-	log.Debugln("title ", string(group.GroupContext.Title))
 	ses := &Session{Tel: group.Hexid, // for legacy reasons add group id also as Tel number
-		Name:         string(group.GroupContext.Title),
+		Name:         string(group.DecryptedGroup.Title),
 		Active:       true,
 		IsGroup:      true,
 		Notification: true,
@@ -404,7 +403,7 @@ func (s *Sessions) CreateSessionForGroupV2(group *groupsv2.GroupV2) *Session {
 	}
 	Groups[group.Hexid] = &GroupRecord{
 		GroupID: group.Hexid,
-		Name:    string(group.GroupContext.Title),
+		Name:    string(group.DecryptedGroup.Title),
 	}
 	SaveGroup(Groups[group.Hexid])
 	return ses
