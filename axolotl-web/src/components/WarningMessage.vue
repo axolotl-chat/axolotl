@@ -36,6 +36,7 @@ export default {
   methods: {
     disableWarning(){
       localStorage.setItem("upstreamWarning", true)
+      this.mainWarningMessage = false; 
     },
     openExtern(e, url) {
       if (this.gui === "ut") {
