@@ -25,6 +25,7 @@ var (
 	MsgFlagQuote                 = 14
 	MsgFlagHiddenQuote           = 15
 	MsgFlagChatCreated           = 16
+	MsgFlagGroupV2Change         = 17
 )
 
 func HumanizeTimestamp(ts uint64) string {

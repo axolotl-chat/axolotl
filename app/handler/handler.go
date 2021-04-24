@@ -3,6 +3,7 @@ package handler
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"strings"
 	"time"
@@ -115,9 +116,13 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 			_, err = store.SaveGroup(store.Groups[grV2.Hexid])
 			if err != nil {
 				log.Errorln("[axolotl] save groupV2 ", err)
-
 			}
-
+		}
+		if grV2.GroupAction != nil && len(msg.Message()) == 0 {
+			group.Name = string(grV2.DecryptedGroup.Title)
+			store.UpdateGroup(group)
+			text = "Group was changed to revision " + fmt.Sprint(grV2.DecryptedGroup.Revision)
+			msgFlags = helpers.MsgFlagGroupV2Change
 		}
 		// handle groupv2 updates etc
 	}
