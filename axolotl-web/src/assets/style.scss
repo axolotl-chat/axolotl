@@ -97,3 +97,12 @@ $link-color: $primary;
 .modal {
   background: #000e;
 }
+
+@font-face {
+  font-family: 'ubuntu';
+  src: url('fonts/ubuntu-r-webfont.woff2') format('woff2'),
+       url('fonts/ubuntu-r-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
