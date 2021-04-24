@@ -79,6 +79,10 @@ type SendPasswordMessage struct {
 	Type string `json:"request"`
 	Pw   string `json:"pw"`
 }
+type SendUsernameMessage struct {
+	Type     string `json:"request"`
+	Username string `json:"username"`
+}
 type SetPasswordMessage struct {
 	Type      string `json:"request"`
 	Pw        string `json:"pw"`

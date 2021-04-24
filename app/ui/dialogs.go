@@ -62,6 +62,9 @@ func GetCaptchaToken() string {
 func GetEncryptionPw() string {
 	return GetTextFromWs("getEncryptionPw")
 }
+func GetUsername() string {
+	return GetTextFromWs("getUsername")
+}
 func ShowError(err error) {
 	webserver.ShowError(err.Error())
 	log.Errorln("[axolotl] error: ", err.Error())

@@ -21,11 +21,11 @@ import (
 )
 
 var (
-	mu sync.Mutex
-  registered = false
-  requestPassword = false
+	mu                         sync.Mutex
+	registered                 = false
+	requestPassword            = false
 	requestSmsVerificationCode = false
-
+	requestUsername            = false
 )
 
 type MessageRecieved struct {
@@ -153,6 +153,8 @@ func requestEnterChat(chat int64) {
 func RequestInput(request string) string {
 	if request == "getEncryptionPw" {
 		requestPassword = true
+	} else if request == "getUsername" {
+		requestUsername = true
 	}
 	sendRequest(request)
 	requestChannel = make(chan string)

@@ -165,6 +165,7 @@ func RunBackend() {
 		TypingMessageHandler:  handler.TypingMessageHandler,
 		SyncSentHandler:       handler.SyncSentHandler,
 		RegistrationDone:      ui.RegistrationDone,
+		GetUsername:           ui.GetUsername,
 	}
 
 	if config.IsPhone {

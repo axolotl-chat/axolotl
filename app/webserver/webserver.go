@@ -246,6 +246,13 @@ func wsReader(conn *websocket.Conn) {
 
 				requestChannel <- sendCaptchaTokenMessage.Token
 			}
+		case "sendUsername":
+			if requestChannel != nil {
+				sendUsernameMessage := SendUsernameMessage{}
+				json.Unmarshal([]byte(p), &sendUsernameMessage)
+				requestChannel <- sendUsernameMessage.Username
+				requestUsername = false
+			}
 		case "sendPassword":
 			if requestChannel != nil {
 				sendPasswordMessage := SendPasswordMessage{}
