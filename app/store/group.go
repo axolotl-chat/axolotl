@@ -45,12 +45,10 @@ func SaveGroup(g *GroupRecord) (*GroupRecord, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	id, err := res.LastInsertId()
 	if err != nil {
 		return nil, err
 	}
-
 	g.ID = id
 	return g, nil
 }

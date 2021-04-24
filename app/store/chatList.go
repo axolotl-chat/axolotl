@@ -401,11 +401,6 @@ func (s *Sessions) CreateSessionForGroupV2(group *groupsv2.GroupV2) *Session {
 		log.Errorln("[axolotl] CreateSessionForGroup failed:", err)
 		return nil
 	}
-	Groups[group.Hexid] = &GroupRecord{
-		GroupID: group.Hexid,
-		Name:    string(group.DecryptedGroup.Title),
-	}
-	SaveGroup(Groups[group.Hexid])
 	return ses
 }
 

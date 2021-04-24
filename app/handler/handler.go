@@ -109,12 +109,12 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		} else {
 			store.Groups[grV2.Hexid] = &store.GroupRecord{
 				GroupID: grV2.Hexid,
-				Name:    string(grV2.GroupContext.Title),
+				Name:    string(grV2.DecryptedGroup.Title),
 				Type:    store.GroupRecordTypeGroupv2,
 			}
 			_, err = store.SaveGroup(store.Groups[grV2.Hexid])
 			if err != nil {
-				log.Println("[axolotl] save groupV2", err)
+				log.Errorln("[axolotl] save groupV2 ", err)
 
 			}
 

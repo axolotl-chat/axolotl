@@ -229,19 +229,6 @@ func startSession() {
 		store.RefreshContacts()
 	}
 	Api.UUID = config.Config.UUID
-	if !config.Config.AccountCapabilities.UUID {
-		log.Debugln("[axolotl] uuid not set, start uuid migration")
-
-		// config.Config.AccountCapabilities = textsecure.AccountCapabilities{
-		// 	UUID:    true,
-		// 	Gv2:     false,
-		// 	Storage: false,
-		// }
-		// err := textsecure.WriteConfig(config.ConfigFile, config.Config)
-		// if err != nil {
-		// 	log.Debugln("[axoltol] uuid migration: ", err)
-		// }
-	}
 	if !config.Config.AccountCapabilities.Gv2 {
 		log.Debugln("[axolotl] gv2 not set, start gv2 migration")
 		// enable gv2 capabilities
