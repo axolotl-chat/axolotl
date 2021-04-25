@@ -5,7 +5,7 @@
         <div class="modal-header">
           <h5 class="modal-title">
             <span v-translate>Edit</span>
-            <div v-if="contact.Name != ''">{{ contact.Name }}</div>
+            <div v-if="contact.Name !== ''">{{ contact.Name }}</div>
             <div v-else v-translate>Contact</div>
           </h5>
           <button type="button" class="close" @click="$emit('close')">
@@ -15,30 +15,30 @@
         <div class="modal-body">
           <div class="form-group">
             <input
+              id="nameInput"
               v-model="contact.Name"
               type="text"
               class="form-control"
-              id="nameInput"
               placeholder="Enter name"
-            />
+            >
           </div>
           <div class="form-group">
-            <label for="inputPhone" v-translate>Phone</label>
+            <label v-translate for="nameInput">Phone</label>
             <input
+              id="phoneInput"
               v-model="contact.Tel"
               type="text"
               class="form-control"
-              id="phoneInput"
               placeholder="+44..."
-            />
+            >
           </div>
         </div>
         <div class="modal-footer">
           <button
+            v-translate
             type="button"
             class="btn btn-primary"
             @click="$emit('save', { id: id, contact: contact })"
-            v-translate
           >
             Save
           </button>
