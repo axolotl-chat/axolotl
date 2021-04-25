@@ -12,10 +12,10 @@
           {{ text }}
           <div class="modal-footer">
             <button
+              v-translate
               type="button"
               class="btn btn-primary"
               @click="$emit('confirm')"
-              v-translate
             >
               Confirm
             </button>

@@ -2,6 +2,7 @@ ignores:
   - "core-js"
   - "node-sass"
   - "sass-loader"
+  - "bootstrap"
   - "@vue/cli-plugin-eslint"
   - "babel-eslint"
   - "@vue/cli-plugin-babel"
