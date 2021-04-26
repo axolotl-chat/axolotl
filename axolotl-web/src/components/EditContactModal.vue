@@ -50,7 +50,7 @@
 
 <script>
 export default {
-  name: "AddContact",
+  name: "EditContactModal",
   props: {
     contact: Object,
     id: String,
