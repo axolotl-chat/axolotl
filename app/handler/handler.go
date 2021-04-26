@@ -104,13 +104,17 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 	grV2 := msg.GroupV2()
 	if grV2 != nil {
 		group := store.Groups[grV2.Hexid]
-		if group != nil {
+		if group != nil && grV2.DecryptedGroup != nil {
 			group.Name = string(grV2.DecryptedGroup.Title)
 			store.UpdateGroup(group)
 		} else {
+			title := "Unknown group"
+			if grV2.DecryptedGroup != nil{
+			title = string(grV2.DecryptedGroup.Title),	
+			}
 			store.Groups[grV2.Hexid] = &store.GroupRecord{
 				GroupID: grV2.Hexid,
-				Name:    string(grV2.DecryptedGroup.Title),
+				Name:    title,
 				Type:    store.GroupRecordTypeGroupv2,
 			}
 			_, err = store.SaveGroup(store.Groups[grV2.Hexid])
@@ -119,9 +123,13 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 			}
 		}
 		if grV2.GroupAction != nil && len(msg.Message()) == 0 {
-			group.Name = string(grV2.DecryptedGroup.Title)
-			store.UpdateGroup(group)
-			text = "Group was changed to revision " + fmt.Sprint(grV2.DecryptedGroup.Revision)
+
+			// update group only, when group was decrypted
+			if grV2.DecryptedGroup != nil {
+				group.Name = string(grV2.DecryptedGroup.Title)
+				store.UpdateGroup(group)
+			}
+			text = "Group was changed to revision " + fmt.Sprint(grV2.GroupContext.Revision)
 			msgFlags = helpers.MsgFlagGroupV2Change
 		}
 		// handle groupv2 updates etc
