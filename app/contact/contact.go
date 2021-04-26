@@ -52,6 +52,9 @@ func GetDesktopContacts() ([]textsecureContacts.Contact, error) {
 }
 
 func AddContact(name string, phone string) error {
+	if phone[0] == '0' && phone[1] == '0' {
+		phone = "+" + phone[2:]
+	}
 	contacts, err := textsecureContacts.ReadContacts(config.ContactsFile)
 	if err != nil {
 		os.Create(config.ContactsFile)

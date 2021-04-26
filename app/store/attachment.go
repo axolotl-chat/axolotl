@@ -2,13 +2,13 @@ package store
 
 import (
 	"crypto/rand"
+	"encoding/json"
 	"io"
 	"io/ioutil"
 	"mime"
 	"os"
 	"path/filepath"
 	"time"
-	"encoding/json"
 
 	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/helpers"
@@ -80,19 +80,19 @@ func CopyAttachment(src string) (string, error) {
 	}
 	return dest, nil
 }
-func deleteAttachmentForMessage(id int64)error{
+func deleteAttachmentForMessage(id int64) error {
 	m, err := GetMessageById(id)
 	if err != nil {
 		return err
 	}
-	if m.Attachment != "null"{
+	if m.Attachment != "null" {
 		attachments := []Attachment{}
-	  json.Unmarshal([]byte(m.Attachment), &attachments)
+		json.Unmarshal([]byte(m.Attachment), &attachments)
 		log.Debugln("[axolotl] Delete attachment for message", id)
 		for _, attachment := range attachments {
 			e := os.Remove(attachment.File)
 			if e != nil {
-					return e
+				return e
 			}
 		}
 

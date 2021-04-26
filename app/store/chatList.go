@@ -20,7 +20,7 @@ type Session struct {
 	UUID         string `db:"uuid"`
 	Name         string
 	Tel          string
-	IsGroup      bool
+	IsGroup      bool  `db:"isgroup"`
 	Type         int32 //describes the type of the session, wether it's a private conversation or groupv1 or groupv2
 	Last         string
 	Timestamp    uint64
