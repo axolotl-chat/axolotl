@@ -3,37 +3,37 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" v-translate>Send attachments</h5>
+          <h5 v-translate class="modal-title">Send attachments</h5>
           <button type="button" class="close" @click="close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <button
+            v-translate
             class="btn btn-primary"
             @click="$emit('send', 'photo')"
-            v-translate
           >
             Photo
           </button>
           <button
+            v-translate
             class="btn btn-primary"
             @click="$emit('send', 'video')"
-            v-translate
           >
             Video
           </button>
           <button
+            v-translate
             class="btn btn-primary"
             @click="$emit('send', 'audio')"
-            v-translate
           >
             Audio
           </button>
           <button
+            v-translate
             class="btn btn-primary"
             @click="$emit('send', 'document')"
-            v-translate
           >
             Document
           </button>
@@ -46,14 +46,14 @@
 <script>
 export default {
   name: "AddContact",
-  methods: {
-    close() {
-      this.$emit("close");
-    },
-  },
   computed: {
     gui() {
       return this.$store.state.gui;
+    },
+  },
+  methods: {
+    close() {
+      this.$emit("close");
     },
   },
 };
