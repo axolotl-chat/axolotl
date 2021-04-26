@@ -1,0 +1,727 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-07 09:22+0200\n"
+"PO-Revision-Date: 2016-02-29 11:36+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: nb\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/components/AddDeviceModal.vue:12
+msgid "1. Open Signal Desktop"
+msgstr "1. Åpne Signal Desktop"
+
+#: src/components/AddDeviceModal.vue:13
+msgid "2. Scan the QR code with a QR code scanner"
+msgstr "2. Skann QR koden med en QR kode skanner"
+
+#: src/components/AddDeviceModal.vue:14
+msgid "3. Paste the QR code here:"
+msgstr "3. Lim inn QR koden her:"
+
+#: src/pages/Register.vue:6
+msgid "A cross-plattform signal client"
+msgstr "En kryssplattform Signalklient"
+
+#: src/pages/About.vue:4
+#, fuzzy
+msgid "A cross-plattform Signal client"
+msgstr "En kryssplattform Signalklient"
+
+#: src/pages/Settings.vue:25
+msgid "About Axolotl"
+msgstr "Om Axolotl"
+
+#: src/components/AddContactModal.vue:6 src/components/AddContactModal.vue:29
+#: src/components/AddDeviceModal.vue:22
+msgid "Add"
+msgstr "Legg til"
+
+#: src/components/AddDeviceModal.vue:5
+#, fuzzy
+msgid "Add a new device"
+msgstr "Legg til en ny enhet"
+
+#: src/components/AddGroupMembersModal.vue:56
+msgid "Add contacts first"
+msgstr "Legg til kontakter først"
+
+#: src/components/AddGroupMembersModal.vue:5
+msgid "Add members"
+msgstr "Legg til gruppemedlemmer"
+
+#: src/components/AttachmentBar.vue:17
+msgid "Audio"
+msgstr "Lyd"
+
+#: src/components/ErrorModal.vue:13
+msgid ""
+"Axolotl encountered an error communicating with Signal servers.\n"
+"            Please try again."
+msgstr ""
+
+#: src/components/ImportUnavailableModal.vue:23
+msgid ""
+"Be careful, if you add too many numbers which aren't Signal\n"
+"            accounts, you won't be able to add contacts anymore."
+msgstr ""
+"Vær forsiktig, hvis du legger til for mange tall som ikke er Signal\n"
+"            kontoer, vil du ikke kunne legge til kontakter lenger."
+
+#: src/pages/Contacts.vue:2
+#, fuzzy
+msgid "Can't change contact list: {{ error }}"
+msgstr "Kan ikke endre kontaktlisten: {{error}}"
+
+#: src/components/ErrorModal.vue:31 src/components/IdentityModal.vue:22
+#: src/components/ImportUnavailableModal.vue:29
+#: src/components/StartChatModal.vue:19
+msgid "Close"
+msgstr "Lukk"
+
+#: src/components/ConfirmationModal.vue:13
+msgid "Confirm"
+msgstr "Bekreft"
+
+#: src/components/Header.vue:114
+msgid "Connect with Signal"
+msgstr "Kontakt med Signal"
+
+#: src/components/AddContactModal.vue:8 src/components/EditContactModal.vue:8
+msgid "Contact"
+msgstr "Kontakt"
+
+#: src/pages/Contacts.vue:19
+msgid "Contact list is empty..."
+msgstr "Kontaktlisten er tom..."
+
+#: src/components/Header.vue:196
+#, fuzzy
+msgid "Contacts"
+msgstr "Kontakter"
+
+#: src/pages/NewGroup.vue:12
+msgid "Create group"
+msgstr "Opprett gruppe"
+
+#: src/pages/NewGroup.vue:31
+msgid "Creating group"
+msgstr "Oppretter gruppe"
+
+#: src/pages/SetPassword.vue:23
+msgid "Current password"
+msgstr "Nåværende passord"
+
+#: src/pages/SetPassword.vue:13
+msgid "Current password is wrong"
+msgstr "Nåværende passord er feil"
+
+#: src/pages/Settings.vue:21
+msgid "Dark mode"
+msgstr "Mørk modus"
+
+#: src/pages/Password.vue:6
+msgid "Decrypt"
+msgstr "Dekryptér"
+
+#: src/components/AttachmentBar.vue:20
+msgid "Document"
+msgstr "Dokument"
+
+#: src/pages/Settings.vue:30
+msgid ""
+"Due to technical limitations, Axolotl doesn't support push\n"
+"        notifications. Keep the app open to be notified in real time. In "
+"Ubuntu\n"
+"        Touch, use UT Tweak Tool to set Axolotl on \"Prevent app suspension"
+"\"."
+msgstr ""
+"På grunn av tekniske begrensninger støtter ikke Axolotl push\n"
+"        varsler. Hold appen åpen for å bli varslet i sanntid. I "
+"Ubuntu\n"
+"        Touch, bruk UT Tweak Tool for å sette Axolotl på \" Forhindre suspensjon av apper "
+"\". "
+
+#: src/components/WarningMessage.vue:3
+msgid ""
+"Due to upstream changes in Signal, some features are currently broken.\n"
+"      We're working as fast as we can to bring them back."
+msgstr ""
+"På grunn av oppstrøms endringer i Signal er noen funksjoner for øyeblikket ødelagte.\n"
+"      Vi jobber så fort vi kan for å få de tilbake."
+
+#: src/components/EditContactModal.vue:6
+msgid "Edit"
+msgstr "Redigér"
+
+#: src/components/Header.vue:105 src/components/Header.vue:149
+#, fuzzy
+msgid "Edit group"
+msgstr "Oppdatér gruppe"
+
+#: src/components/Header.vue:118
+msgid "Enter password"
+msgstr "Tast inn passord"
+
+#: src/pages/Verification.vue:2
+msgid "Enter your registration pin"
+msgstr "Tast inn pinkode for registrering"
+
+#: src/components/ErrorModal.vue:5
+msgid "Error communicating with Signal servers"
+msgstr "Feil ved kommunikasjon med Signal-tjenere"
+
+#: src/components/WarningMessage.vue:8
+msgid "Follow the progress or join us to help with development on"
+msgstr "Følg fremdriften eller bli med oss for å hjelpe deg med utvikling"
+
+#: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
+msgid "Group name"
+msgstr "Gruppenavn"
+
+#: src/components/ImportUnavailableModal.vue:16
+msgid ""
+"If you are really sure that the persons you want to text with have\n"
+"            Signal, you can manually add them using the \"plus\" action on "
+"that\n"
+"            page."
+msgstr ""
+"Hvis du er veldig sikker på at personene du vil sende en tekstmelding til har\n"
+"            Signal, kan du legge dem til manuelt ved hjelp av \"pluss\" handlingen på"
+"den\n"
+"            siden."
+
+#: src/components/ErrorModal.vue:22
+msgid ""
+"If you think that something is wrong on your side, you can\n"
+"            <a href=\"#\" @click=\"unregister\">unregister</a> and register "
+"again.\n"
+"            Be careful,\n"
+"            <strong>your encryption key will change and you will lose all "
+"your\n"
+"              messages</strong>\n"
+"            if you choose to do that."
+msgstr ""
+"Hvis du tror at noe er galt på din side, kan du\n"
+"            <a href=\"#\" @click=\"unregister\">avregistrer</a> og registrer "
+"igjen.\n"
+"            Vær forsiktig,\n"
+"            <strong>Krypteringsnøkkelen din endres og du mister alle "
+"dine\n"
+"             meldinger</strong>\n"
+"            hvis du velger å gjøre det."
+
+#: src/components/ErrorModal.vue:17
+msgid ""
+"If you're seeing that error multiple times, check the\n"
+"            <a href=\"https://status.signal.org/\" target=\"_blank\">status "
+"of Signal servers</a>. If it's fine, then please tell us there is a problem "
+"by\n"
+"            <a href=\"https://github.com/nanu-c/axolotl/issues\" target="
+"\"_blank\">opening an issue</a>."
+msgstr ""
+"Hvis du ser denne feilen flere ganger, sjekk\n"
+"            <a href=\"https://status.signal.org/\" target=\"_blank\">status "
+"på Signal-tjenere</a>. Hvis de er ok, så fortell oss at det er et problem"
+"ved\n"
+"            <a href=\"https://github.com/nanu-c/axolotl/issues\" target="
+"\"_blank\"> å åpne et problem</a>."
+
+#: src/components/Header.vue:177
+#, fuzzy
+msgid "Import contacts"
+msgstr "Importer kontakter"
+
+#: src/components/ImportUnavailableModal.vue:5
+#, fuzzy
+msgid "Import contacts feature unavailable"
+msgstr "Importer kontakter er ikke tilgjengelig"
+
+#: src/pages/Contacts.vue:5
+msgid "Importing contacts, head back later"
+msgstr "Importerer kontakter, gå tilbake senere"
+
+#: src/pages/SetPassword.vue:2
+msgid "Info"
+msgstr "Info"
+
+#: src/pages/About.vue:12
+msgid "issues at the bug tracker"
+msgstr "forhold i feiloversikten"
+
+#: src/pages/DeviceList.vue:7
+msgid "Last seen:"
+msgstr "Sist sett:"
+
+#: src/pages/Settings.vue:9
+msgid "Linked devices"
+msgstr "Koblede enheter"
+
+#: src/pages/Verification.vue:18
+msgid "Loading..."
+msgstr "Laster..."
+
+#: src/pages/NewGroup.vue:9
+msgid "Members"
+msgstr "Medlemmer"
+
+#: src/components/Header.vue:92
+msgid "Mute"
+msgstr "Lydløs"
+
+#: src/components/AddContactModal.vue:20
+msgid "Name"
+msgstr "Navn"
+
+#: src/components/StartChatModal.vue:13
+msgid ""
+"New conversations are temporarily disabled. You can create a new\n"
+"            chat from the linked Desktop Client. Alternatively, your\n"
+"            counterparty could start the discussion."
+msgstr ""
+"Nye samtaler er midlertidig deaktivert. Du kan opprette en ny\n"
+"            chat fra den koblede Desktop-klienten. Alternativt kan\n"
+"            din motpart starte diskusjonen."
+
+#: src/components/Header.vue:143 src/components/Header.vue:199
+msgid "New group"
+msgstr "Ny gruppe"
+
+#: src/pages/SetPassword.vue:16
+#, fuzzy
+msgid "New password"
+msgstr "Nytt passord"
+
+#: src/pages/Register.vue:18
+msgid "Next"
+msgstr "Neste"
+
+#: src/pages/ChatList.vue:62
+msgid "No chats available"
+msgstr "Ingen samtaler tilgjengelige."
+
+#: src/pages/DeviceList.vue:17
+#, fuzzy
+msgid "No linked devices"
+msgstr "Ingen koblede enheter"
+
+#: src/pages/MessageList.vue:34
+msgid "No messages available."
+msgstr "Ingen meldinger tilgjengelige."
+
+#: src/components/Message.vue:52 src/components/Message.vue:86
+msgid "Not supported mime type:"
+msgstr "MIME-type ikke støttet:"
+
+#: src/pages/EditGroup.vue:7 src/pages/NewGroup.vue:7
+msgid "Note, you can't add yourself to a group."
+msgstr "Merk: Du kan ikke legge deg selv til i en gruppe."
+
+#: src/components/AddContactModal.vue:15
+msgid ""
+"Only add numbers that you are sure are registered Signal\n"
+"              accounts!"
+msgstr ""
+"Bare legg til tall som du er sikker på at er registrerte Signal\n"
+"              kontoer!"
+
+#: src/pages/About.vue:14
+#, fuzzy
+msgid "or by becoming a"
+msgstr "ved å bli en"
+
+#: src/pages/Verification.vue:4
+msgid "or disable it on Android/IOs"
+msgstr "eller deaktivér i Android/IOs"
+
+#: src/pages/Password.vue:2
+msgid "Password is wrong"
+msgstr "Passord er feil"
+
+#: src/pages/SetPassword.vue:7
+msgid "Passwords don't match"
+msgstr "Passordene samsvarer ikke"
+
+#: src/components/AddContactModal.vue:24 src/components/EditContactModal.vue:19
+msgid "Phone"
+msgstr "Telefon"
+
+#: src/components/AttachmentBar.vue:11
+msgid "Photo"
+msgstr "Bilde"
+
+#: src/components/AddDeviceModal.vue:17
+msgid "QR code"
+msgstr "QR kode"
+
+#: src/pages/Settings.vue:4
+msgid "Registered number"
+msgstr "Registrert nummer"
+
+#: src/pages/SetPassword.vue:19
+msgid "Repeat password"
+msgstr "Gjenta passord"
+
+#: src/pages/Register.vue:29
+msgid "Request code"
+msgstr "Forespørselskode"
+
+#: src/components/Header.vue:102
+msgid "Reset encryption"
+msgstr "Tilbakestill kryptering"
+
+#: src/components/IdentityModal.vue:14
+msgid "Safety numbers of you and"
+msgstr "Dine sikkerhetsnummer og"
+
+#: src/components/EditContactModal.vue:24
+msgid "Save"
+msgstr "Lagre"
+
+#: src/components/AttachmentBar.vue:5
+msgid "Send attachments"
+msgstr "Send vedlegg"
+
+#: src/pages/Verification.vue:12
+msgid "Send code"
+msgstr "Send kode"
+
+#: src/pages/Verification.vue:6
+msgid "Send pin"
+msgstr "Send PIN"
+
+#: src/components/Header.vue:125
+msgid "Set encryption password"
+msgstr "Angi krypteringspassord"
+
+#: src/pages/SetPassword.vue:26 src/pages/Settings.vue:12
+msgid "Set password"
+msgstr "Angi passord"
+
+#: src/components/Message.vue:96
+msgid "Set timer for self-destructing messages"
+msgstr "Angi tidsinnstilling for selvdestruerende meldinger"
+
+#: src/pages/SetPassword.vue:3
+#, fuzzy
+msgid ""
+"Setting a password is not adviced on devices short in memory. Restart is\n"
+"      required!"
+msgstr ""
+"Det er ikke anbefalt å angi et passord på enheter med lite minne. Omstart er\n"
+"      påkrevd!"
+
+#: src/components/Header.vue:137 src/components/Header.vue:202
+msgid "Settings"
+msgstr "Innstillinger"
+
+#: src/components/Header.vue:99
+msgid "Show identity"
+msgstr "Vis identitet"
+
+#: src/pages/About.vue:17
+msgid "sponsor on patreon."
+msgstr "sponsor på patreon."
+
+#: src/components/StartChatModal.vue:5
+msgid "Starting new chats is currently broken in Axolotl."
+msgstr "Å starte nye samtaler er for tiden ødelagt i Axolotl."
+
+#: src/pages/About.vue:6
+#, fuzzy
+msgid ""
+"This is a free and open source Signal client written in golang and\n"
+"        vuejs."
+msgstr ""
+"Dette er en gratis og åpen kildekode signal klient skrevet i golang og "
+"vuejs.\n"
+"    Du kan støtte utviklingen av axolotl enten ved å fylle ut"
+
+#: src/components/Header.vue:32 src/pages/ChatList.vue:30
+msgid "Unknown group"
+msgstr "Ukjent gruppe"
+
+#: src/components/Header.vue:95
+msgid "Unmute"
+msgstr "Opphev lydløs"
+
+#: src/pages/Password.vue:9 src/pages/Settings.vue:16
+msgid "Unregister"
+msgstr "Avregistrér"
+
+#: src/pages/SetPassword.vue:10
+msgid "Unsafe password"
+msgstr "Usikkert passord"
+
+#: src/components/Message.vue:99
+#, fuzzy
+msgid "Unsupported message type: sticker"
+msgstr "MIME-type ikke støttet:"
+
+#: src/pages/EditGroup.vue:41
+msgid "Updating group"
+msgstr "Oppdatér gruppe"
+
+#: src/components/IdentityModal.vue:5
+msgid "Verify identity"
+msgstr "Bekreft identitet"
+
+#: src/components/AttachmentBar.vue:14
+msgid "Video"
+msgstr "Video"
+
+#: src/components/ImportUnavailableModal.vue:10
+msgid ""
+"We are sorry, but due to a change in the Signal protocol, automatic\n"
+"            import of contacts is currently unavailble."
+msgstr ""
+"Vi beklager, men på grunn av en endring i Signalprotokollen, er automatisk\n"
+"            import av kontakter foreløpig utilgjengelig."
+
+#: src/pages/Verification.vue:22
+msgid "Wrong code entered. Restart for another try."
+msgstr "Feil kode angitt. Gjør omstart for nytt forsøk."
+
+#: src/components/Message.vue:25
+msgid "You"
+msgstr "Deg"
+
+#: src/pages/About.vue:9
+#, fuzzy
+msgid "You can support the development of Axolotl either by filling"
+msgstr "Du kan støtte utviklingen av Axolotl enten ved å fylle ut"
+
+#: src/components/Message.vue:38 src/components/Message.vue:47
+#: src/components/Message.vue:67 src/pages/MessageList.vue:21
+msgid "Your browser does not support the audio element."
+msgstr "Nettleseren støtter ikke lydelementet."
+
+#: src/components/Message.vue:81
+msgid "Your browser does not support the video element."
+msgstr "Nettleseren støtter ikke videoelementet."
+
+#~ msgid "Edit Group"
+#~ msgstr "Rediger gruppe"
+
+#~ msgid "Add Contacts"
+#~ msgstr "Legg til kontakter"
+
+#~ msgid "Error"
+#~ msgstr "Feil"
+
+#~ msgid "Password"
+#~ msgstr "Passord"
+
+#~ msgid "or"
+#~ msgstr "eller"
+
+#, fuzzy
+#~ msgid "written in golang and vuejs."
+#~ msgstr "skrevet i golang og vuejs."
+
+#~ msgid "No devices available"
+#~ msgstr "Ingen enheter tilgjengelige."
+
+#~ msgid "'s key"
+#~ msgstr "'s nøkkel"
+
+#, fuzzy
+#~ msgid "<b>Group name</b>"
+#~ msgstr "<b>Gruppenavn<b>"
+
+#, fuzzy
+#~ msgid "Forwarded from "
+#~ msgstr "Videresendt fra"
+
+#~ msgid "Image"
+#~ msgstr "Bilde"
+
+#~ msgid "Cancel"
+#~ msgstr "Avbryt"
+
+#~ msgid "Search"
+#~ msgstr "Søk"
+
+#~ msgid "Mark all read"
+#~ msgstr "Markér alle som lest"
+
+#~ msgid "Help"
+#~ msgstr "Hjelp"
+
+#, fuzzy
+#~ msgid "New passphrase"
+#~ msgstr "Ny passordfrase"
+
+#, fuzzy
+#~ msgid "New passphrase too short(6)!"
+#~ msgstr "Ny passordfrase er for kort(6)!"
+
+#~ msgid "Disable Signal messages and calls?"
+#~ msgstr "Deaktivere Signal meldinger og anrop?"
+
+#~ msgid ""
+#~ "Disable Signal messages and calls by unregistering from the server. You "
+#~ "will need to re-register your phone number to use them again in the "
+#~ "future."
+#~ msgstr ""
+#~ "Dette vil deaktivere Signal meldinger og anrop ved å avregistrere deg fra "
+#~ "serveren. Om du vil benytte Signal for meldinger og anrop igjen i "
+#~ "fremtiden må du registrere telefonnummeret ditt på nytt."
+
+#~ msgid "Enter key sends"
+#~ msgstr "Enter sender"
+
+#, fuzzy
+#~ msgid "Activate Debuglog"
+#~ msgstr "Aktivér feilregistreringslogg"
+
+#~ msgid "YOUR COUNTRY"
+#~ msgstr "DITT LAND"
+
+#~ msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
+#~ msgstr "DIN LANDSKODE OG TELEFONNUMMER"
+
+#~ msgid "Verify your phone number to connect with Signal."
+#~ msgstr "Verifisér telefonnummeret ditt for å koble til Signal."
+
+#~ msgid ""
+#~ "Registration transmits some contact information to the server. It is not "
+#~ "stored."
+#~ msgstr ""
+#~ "Registrering sender noe kontaktinformasjon til serveren. Det blir ikke "
+#~ "lagret."
+
+#~ msgid ""
+#~ "Double-check that this is your number! We're about to verify it with an "
+#~ "SMS."
+#~ msgstr ""
+#~ "Dobbelsjekk at dette er nummeret ditt! Vi sender en SMS for å verifisere "
+#~ "det."
+
+#, fuzzy
+#~ msgid "Delete selected Device?"
+#~ msgstr "Slette angitt enhet?"
+
+#, fuzzy
+#~ msgid "This will permanently delete the selected Device."
+#~ msgstr "Dette vil slette den angitte enheten permanent."
+
+#, fuzzy
+#~ msgid "This will permanently delete all messages!"
+#~ msgstr "Dette vil slette alle meldinger permanent!"
+
+#~ msgid "Refresh"
+#~ msgstr "Oppfrisk"
+
+#, fuzzy
+#~ msgid "Add contact"
+#~ msgstr "Legg til kontakt"
+
+#~ msgid "Verifying number"
+#~ msgstr "Verifiserer nummer"
+
+#~ msgid ""
+#~ "Signal will now automatically verify your number with a confirmation SMS "
+#~ "message."
+#~ msgstr ""
+#~ "Signal vil nå automatisk verifisere nummeret ditt ved å sende en "
+#~ "bekreftelse via SMS."
+
+#~ msgid "Waiting for SMS verification..."
+#~ msgstr "Venter på SMS bekreftelse..."
+
+#~ msgid "Call"
+#~ msgstr "Ring"
+
+#~ msgid "Reset secure session?"
+#~ msgstr "Nullstille sikker sesjon?"
+
+#~ msgid ""
+#~ "This may help if you're having encryption problems in this conversation. "
+#~ "Your messages will be kept."
+#~ msgstr ""
+#~ "Dette kan hjelpe dersom du har krypteringsproblemer i denne samtalen. "
+#~ "Meldingene dine vil bli lagret."
+
+#~ msgid "Recipients list"
+#~ msgstr "Mottakerliste"
+
+#~ msgid "Leave group?"
+#~ msgstr "Forlate gruppen?"
+
+#~ msgid "Are you sure you want to leave this group?"
+#~ msgstr "Er du sikker på at du ønsker å forlate denne gruppen?"
+
+#~ msgid "Delete conversation"
+#~ msgstr "Slett samtale"
+
+#~ msgid "Delete conversation?"
+#~ msgstr "Slette samtale?"
+
+#~ msgid "This will permanently delete all messages in this conversation."
+#~ msgstr "Dette vil slette alle meldingene i denne samtalen."
+
+#~ msgid "Select all"
+#~ msgstr "Merk alt"
+
+#~ msgid "Message details"
+#~ msgstr "Meldingsdetaljer"
+
+#~ msgid "Copy text"
+#~ msgstr "Kopiér tekst"
+
+#~ msgid "Forward message"
+#~ msgstr "Videresend melding"
+
+#~ msgid "Delete message"
+#~ msgstr "Slett melding"
+
+#~ msgid "Send Signal message"
+#~ msgstr "Send Signal melding"
+
+#~ msgid "Delete"
+#~ msgstr "Slett"
+
+#, fuzzy
+#~ msgid "Delete selected message?"
+#~ msgstr "Slette valgt melding?"
+
+#, fuzzy
+#~ msgid "This will permanently delete the selected message."
+#~ msgstr "Dette vil slette meldingen permanent."
+
+#~ msgid "Group members"
+#~ msgstr "Gruppemedlemmer"
+
+#, fuzzy
+#~ msgid "Forward message to %1?"
+#~ msgstr "Videresende meldingen til %1?"
+
+#~ msgid "Advanced"
+#~ msgstr "Avansert"
+
+#~ msgid "Success!"
+#~ msgstr "Suksess!"
+
+#~ msgid "Sent"
+#~ msgstr "Sendt"
+
+#~ msgid "Received"
+#~ msgstr "Mottatt"
+
+#~ msgid "Secure session reset."
+#~ msgstr "Sikker sesjon nullstilt."
+
+#~ msgid "You have left the group."
+#~ msgstr "Du har forlatt gruppen."
+
+#~ msgid "Their identity (they read):"
+#~ msgstr "Deres identitet (de leser):"
+
+#~ msgid "Your identity (you read):"
+#~ msgstr "Din identitet (du leser):"
