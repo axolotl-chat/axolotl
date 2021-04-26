@@ -109,8 +109,8 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 			store.UpdateGroup(group)
 		} else {
 			title := "Unknown group"
-			if grV2.DecryptedGroup != nil{
-			title = string(grV2.DecryptedGroup.Title),	
+			if grV2.DecryptedGroup != nil {
+				title = string(grV2.DecryptedGroup.Title)
 			}
 			store.Groups[grV2.Hexid] = &store.GroupRecord{
 				GroupID: grV2.Hexid,
