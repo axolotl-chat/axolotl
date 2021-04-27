@@ -70,9 +70,9 @@ export default {
     "captchaTokenSent",
   ]),
   mounted() {
-    var userLang = navigator.language || navigator.userLanguage;
+    const userLang = navigator.language || navigator.userLanguage;
     this.$language.current = userLang;
-    if (this.captchaToken != null && !this.captchaTokenSent) {
+    if (this.captchaToken !== null && !this.captchaTokenSent) {
       this.$store.dispatch("sendCaptchaToken");
     }
   },
@@ -81,11 +81,11 @@ export default {
       this.$store.dispatch("requestCode", this.phone.replace(/\s/g, ""));
     },
     updatePhone(e) {
-      if(typeof e =="string")
+      if(typeof e === "string")
       this.phone = e;
     },
     openExtern(e, url) {
-      if (this.gui == "ut") {
+      if (this.gui === "ut") {
         e.preventDefault();
         alert(url);
       }
