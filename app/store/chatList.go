@@ -47,11 +47,12 @@ type Sessions struct {
 
 // SessionTypes
 const (
-	invalidSession               = -1
-	invalidQuote                 = -1
-	SessionTypePrivateChat int32 = 0
-	SessionTypeGroupV1     int32 = 1
-	SessionTypeGroupV2     int32 = 2
+	invalidSession                  = -1
+	invalidQuote                    = -1
+	SessionTypePrivateChat    int32 = 0
+	SessionTypeGroupV1        int32 = 1
+	SessionTypeGroupV2        int32 = 2
+	SessionTypeGroupV2Invited int32 = 3
 )
 
 //TODO that hasn't to  be in the db controller
