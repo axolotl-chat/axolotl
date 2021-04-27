@@ -2,42 +2,42 @@
   <div class="register">
     <WarningMessage />
     <div v-if="infoPage" class="page1 info">
-      <img class="logo" src="/axolotl.png" />
+      <img class="logo" src="/axolotl.png">
       <h1 class="title">Axolotl Beta</h1>
-      <h2 class="subtitle" v-translate>A cross-plattform signal client</h2>
+      <h2 v-translate class="subtitle">A cross-plattform signal client</h2>
       <div class="description">
         Hey! Mr. Tambourine Man, play a song for me,
-        <br />
+        <br>
         In the jingle jangle morning I'll come following you.
-        <br />
+        <br>
         It's beta, expect lot's of things not working.
-        <br />
+        <br>
         <a
           href="https://axolotl.chat"
           @click="openExtern($event, 'https://axolotl.chat')"
-          >https://axolotl.chat</a
         >
-        <br />
+          https://axolotl.chat
+        </a>
+        <br>
         <font-awesome-icon id="heart" icon="heart" />
       </div>
-      <button class="btn btn-primary" @click="infoPage = false" v-translate>
+      <button v-translate class="btn btn-primary" @click="infoPage = false">
         Next
       </button>
     </div>
-    <div class="rateLimit-error" v-if="ratelimitError != null">
+    <div v-if="ratelimitError != null" class="rateLimit-error">
       <div class="error">
         {{ ratelimitError }}
       </div>
     </div>
     <div v-else class="registration">
       <VueTelInput
-        v-model="phone"
-        @input="updatePhone"
+        id="phoneInput"
         mode="international"
         class="phoneInput"
-        id="phoneInput"
+        @input="updatePhone"
       />
-      <button class="btn btn-primary" @click="requestCode()" v-translate>
+      <button v-translate class="btn btn-primary" @click="requestCode()">
         Request code
       </button>
     </div>
@@ -51,34 +51,10 @@ import WarningMessage from "@/components/WarningMessage";
 import { mapState } from "vuex";
 
 export default {
-  name: "register",
+  name: "RegisterPage",
   components: {
     VueTelInput,
     WarningMessage,
-  },
-  props: {
-    msg: String,
-  },
-  methods: {
-    requestCode() {
-      this.$store.dispatch("requestCode", this.phone.replace(/\s/g, ""));
-    },
-    updatePhone(e) {
-      this.phone = e;
-    },
-    openExtern(e, url) {
-      if (this.gui == "ut") {
-        e.preventDefault();
-        alert(url);
-      }
-    },
-  },
-  mounted() {
-    var userLang = navigator.language || navigator.userLanguage;
-    this.$language.current = userLang;
-    if (this.captchaToken != null && !this.captchaTokenSent) {
-      this.$store.dispatch("sendCaptchaToken");
-    }
   },
   data() {
     return {
@@ -93,7 +69,28 @@ export default {
     "captchaToken",
     "captchaTokenSent",
   ]),
-  watch: {},
+  mounted() {
+    const userLang = navigator.language || navigator.userLanguage;
+    this.$language.current = userLang;
+    if (this.captchaToken !== null && !this.captchaTokenSent) {
+      this.$store.dispatch("sendCaptchaToken");
+    }
+  },
+  methods: {
+    requestCode() {
+      this.$store.dispatch("requestCode", this.phone.replace(/\s/g, ""));
+    },
+    updatePhone(e) {
+      if(typeof e === "string")
+      this.phone = e;
+    },
+    openExtern(e, url) {
+      if (this.gui === "ut") {
+        e.preventDefault();
+        alert(url);
+      }
+    },
+  },
 };
 </script>
 <style scoped>
