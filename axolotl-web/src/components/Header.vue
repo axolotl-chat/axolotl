@@ -173,7 +173,7 @@
                   Reset encryption
                 </button>
                 <router-link
-                  v-if="currentChat != null && currentChat.IsGroup"
+                  v-if="currentChat != null && currentChat.Type === 1"
                   v-translate
                   :to="'/editGroup/' + currentChat.Tel"
                   class="dropdown-item"
@@ -387,9 +387,6 @@ export default {
     ConfirmationModal,
     IdentityModal,
     ImportUnavailableModal,
-  },
-  props: {
-    msg: String,
   },
   data() {
     return {
