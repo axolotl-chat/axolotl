@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" v-translate>
+          <h5 v-translate class="modal-title">
             Error communicating with Signal servers
           </h5>
           <button type="button" class="close" @click="close">
@@ -17,29 +17,23 @@
           </p>
           <p v-translate>
             If you're seeing that error multiple times, check the
-            <a href="https://status.signal.org/" target="_blank"
-              >status of Signal servers</a
-            >. If it's fine, then please tell us there is a problem by
-            <a href="https://github.com/nanu-c/axolotl/issues" target="_blank"
-              >opening an issue</a
-            >.
+            <a href="https://status.signal.org/" target="_blank">status of Signal servers</a>. If it's fine, then please tell us there is a problem by
+            <a href="https://github.com/nanu-c/axolotl/issues" target="_blank">opening an issue</a>.
           </p>
           <p v-translate>
             If you think that something is wrong on your side, you can
             <a href="#" @click="unregister">unregister</a> and register again.
             Be careful,
-            <strong
-              >your encryption key will change and you will lose all your
-              messages</strong
-            >
+            <strong>your encryption key will change and you will lose all your
+              messages</strong>
             if you choose to do that.
           </p>
           <div class="modal-footer">
             <button
+              v-translate
               type="button"
               class="btn btn-primary"
               @click="close"
-              v-translate
             >
               Close
             </button>
@@ -52,7 +46,12 @@
 
 <script>
 export default {
-  name: "AddContact",
+  name: "ErrorModal",
+  computed: {
+    error() {
+      return this.$store.state.error;
+    },
+  },
   methods: {
     unregister() {
       if (
@@ -66,11 +65,6 @@ export default {
     },
     close() {
       this.$store.state.error = null;
-    },
-  },
-  computed: {
-    error() {
-      return this.$store.state.error;
     },
   },
 };
