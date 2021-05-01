@@ -16,22 +16,23 @@ import (
 
 // Session defines how a session looks like
 type Session struct {
-	ID           int64
-	UUID         string `db:"uuid"`
-	Name         string
-	Tel          string
-	IsGroup      bool  `db:"isgroup"`
-	Type         int32 //describes the type of the session, wether it's a private conversation or groupv1 or groupv2
-	Last         string
-	Timestamp    uint64
-	When         string
-	CType        int
-	Messages     []*Message
-	Unread       int
-	Active       bool
-	Len          int
-	Notification bool
-	ExpireTimer  uint32 `db:"expireTimer"`
+	ID              int64
+	UUID            string `db:"uuid"`
+	Name            string
+	Tel             string
+	IsGroup         bool  `db:"isgroup"`
+	Type            int32 //describes the type of the session, wether it's a private conversation or groupv1 or groupv2
+	Last            string
+	Timestamp       uint64
+	When            string
+	CType           int
+	Messages        []*Message
+	Unread          int
+	Active          bool
+	Len             int
+	Notification    bool
+	ExpireTimer     uint32 `db:"expireTimer"`
+	GroupJoinStatus int    `db:"groupJoinStatus"`
 }
 type MessageList struct {
 	ID       int64
@@ -368,12 +369,13 @@ func (s *Sessions) CreateSessionForUUID(UUID string) *Session {
 // CreateSessionForGroup creates a session for a group
 func (s *Sessions) CreateSessionForGroup(group *textsecure.Group) *Session {
 	ses := &Session{Tel: group.Hexid, // for legacy reasons add group id also as Tel number
-		Name:         group.Name,
-		Active:       true,
-		IsGroup:      true,
-		Notification: true,
-		UUID:         group.Hexid,
-		Type:         SessionTypeGroupV1,
+		Name:            group.Name,
+		Active:          true,
+		IsGroup:         true,
+		Notification:    true,
+		UUID:            group.Hexid,
+		Type:            SessionTypeGroupV1,
+		GroupJoinStatus: 0,
 	}
 	s.Sess = append(s.Sess, ses)
 	s.Len++
@@ -388,12 +390,13 @@ func (s *Sessions) CreateSessionForGroup(group *textsecure.Group) *Session {
 // CreateSessionForGroupV2 creates a session for a group
 func (s *Sessions) CreateSessionForGroupV2(group *groupsv2.GroupV2) *Session {
 	ses := &Session{Tel: group.Hexid, // for legacy reasons add group id also as Tel number
-		Name:         string(group.DecryptedGroup.Title),
-		Active:       true,
-		IsGroup:      true,
-		Notification: true,
-		UUID:         group.Hexid,
-		Type:         SessionTypeGroupV2,
+		Name:            string(group.DecryptedGroup.Title),
+		Active:          true,
+		IsGroup:         true,
+		Notification:    true,
+		UUID:            group.Hexid,
+		Type:            SessionTypeGroupV2,
+		GroupJoinStatus: group.JoinStatus,
 	}
 	s.Sess = append(s.Sess, ses)
 	s.Len++
