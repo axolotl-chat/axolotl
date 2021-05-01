@@ -254,7 +254,10 @@ export default {
       const duration = moment.duration(r.diff(moment.now()));
       const percentage =
         1 - (m.ExpireTimer + duration.asSeconds()) / m.ExpireTimer;
-      if (percentage < 1) return 179 * percentage;
+      if (percentage < 1) {
+        const fullCircle = 179;
+        return fullCircle * percentage;
+      }
       else return 0;
     },
     verifySelfDestruction(m) {
