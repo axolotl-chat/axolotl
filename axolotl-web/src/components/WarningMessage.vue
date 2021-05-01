@@ -1,5 +1,5 @@
 <template>
-  <div class="warning-box mb-2" v-if="mainWarningMessage">
+  <div v-if="mainWarningMessage" class="warning-box mb-2">
     <span class="close-warning-box" @click="mainWarningMessage = false">x</span>
     <p v-translate class="pb-0 mb-0">
       Due to upstream changes in Signal, some features are currently broken.
@@ -13,8 +13,7 @@
         href="https://t.me/axolotl_dev"
         target="_blank"
         @click="openExtern($event, 'https://t.me/axolotl_dev')"
-        >telegram</a
-      >.
+      >telegram</a>.
     </div>
   </div>
 </template>
@@ -29,7 +28,7 @@ export default {
   },
   methods: {
     openExtern(e, url) {
-      if (this.gui == "ut") {
+      if (this.gui === "ut") {
         e.preventDefault();
         alert(url);
       }
