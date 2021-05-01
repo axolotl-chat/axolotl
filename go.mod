@@ -17,7 +17,7 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.0 // indirect
 	github.com/mutecomm/go-sqlcipher v0.0.0-20190227152316-55dbde17881f
 	github.com/pkg/errors v0.9.1
-	github.com/signal-golang/textsecure v1.2.15-0.20210427212956-460529d13aa9
+	github.com/signal-golang/textsecure v1.2.15-0.20210501203028-977d1a891ef6
 	github.com/sirupsen/logrus v1.7.0
 	github.com/ttacon/builder v0.0.0-20170518171403-c099f663e1c2 // indirect
 	github.com/ttacon/libphonenumber v1.1.0
@@ -29,5 +29,3 @@ require (
 	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776 // indirect
 	launchpad.net/gocheck v0.0.0-20140225173054-000000000087 // indirect
 )
-
-replace github.com/signal-golang/textsecure v1.2.15-0.20210424213237-a2ce32f2959d => /home/nanu/go/src/github.com/signal-golang/textsecure

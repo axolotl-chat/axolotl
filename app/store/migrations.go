@@ -187,3 +187,21 @@ func updateGroupTable_v_0_9_10() error {
 	}
 	return nil
 }
+
+func updateSessionTable_joinStatus_v_0_9_10() error {
+	statement, err := DS.Dbx.Prepare("SELECT * FROM sessions limit 1")
+	res, err := statement.Query()
+	if err != nil {
+		return err
+	}
+
+	col, err := res.Columns()
+	if len(col) == 12 {
+		log.Infof("[axolotl] Update sessions schema join status v_0_9_10")
+		_, err := DS.Dbx.Exec("ALTER TABLE sessions ADD COLUMN groupJoinStatus integer NOT NULL DEFAULT 0")
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}

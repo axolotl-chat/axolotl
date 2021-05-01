@@ -65,6 +65,16 @@
       </div>
       <div id="chat-bottom"></div>
     </div>
+    <div
+      v-translate
+      v-if="chat.IsGroup && chat.GroupJoinStatus !== 0"
+      class="messageInputBoxDisabled w-100"
+    >
+      You have been invited to this group. Accepting invitations is not yet
+      supported. In order to join please send private a message to the other
+      side to exchange the profile key. After that he/she has to remove and add
+      you again.
+    </div>
     <div class="messageInputBox">
       <!-- <div v-if="chat&&chat.IsGroup&&chat.Name==chat.Tel" class="alert alert-warning">Group has to be updated by a member.</div>
       <div v-else class=""> -->
@@ -108,7 +118,6 @@ import { mapState } from "vuex";
 import Message from "@/components/Message";
 import AttachmentBar from "@/components/AttachmentBar";
 import { saveAs } from "file-saver";
-import longPressEvent from "long-press-event/dist/long-press-event.min.js";
 export default {
   name: "Chat",
   props: {
@@ -425,5 +434,8 @@ input:focus {
   padding: 10px;
   background-color: #ffffff;
   color: black;
+}
+.messageInputBoxDisabled {
+  color: red;
 }
 </style>
