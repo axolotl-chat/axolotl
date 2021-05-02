@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" v-translate>
+          <h5 v-translate class="modal-title">
             Starting new chats is currently broken in Axolotl.
           </h5>
           <button type="button" class="close" @click="$emit('close')">
@@ -18,10 +18,10 @@
           </p>
           <div class="modal-footer">
             <button
+              v-translate
               type="button"
               class="btn btn-primary"
               @click="$emit('close')"
-              v-translate
             >
               Close
             </button>
@@ -34,8 +34,7 @@
 
 <script>
 export default {
-  name: "StartChat",
-  methods: {},
+  name: "StartChatModal"
 };
 </script>
 <style scoped>
