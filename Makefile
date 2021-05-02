@@ -65,7 +65,7 @@ install-axolotl-web: build-axolotl-web
 	@sudo cp -r $(CURRENT_DIR)/axolotl-web/dist /usr/bin/axolotl/axolotl-web/dist
 
 install-axolotl: build-axolotl
-	@sudo install -D -m 755 $(CURRENT_DIR)/axolotl /usr/bin/axolotl
+	@sudo install -D -m 755 $(CURRENT_DIR)/axolotl /usr/bin/axolotl/axolotl
 
 clean:
 	rm -f axolotl
