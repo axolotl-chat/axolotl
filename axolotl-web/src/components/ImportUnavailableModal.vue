@@ -3,14 +3,14 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" v-translate>
+          <h5 v-translate class="modal-title">
             Import contacts feature unavailable
           </h5>
         </div>
         <div class="modal-body">
           <span v-translate>
             We are sorry, but due to a change in the Signal protocol, automatic
-            import of contacts is currently unavailble.
+            import of contacts is currently unavailable.
           </span>
         </div>
         <div class="modal-body">
@@ -28,10 +28,10 @@
         </div>
         <div class="modal-footer">
           <button
+            v-translate
             type="button"
             class="btn btn-primary"
             @click="$emit('close')"
-            v-translate
           >
             Close
           </button>
