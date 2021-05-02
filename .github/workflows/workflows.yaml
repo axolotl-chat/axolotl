@@ -73,6 +73,25 @@ jobs:
           path: axolotl-web/dist/
           retention-days: 1
 
+  build-zkgroup:
+    name: Build zkgroup
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup Go 1.16
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.16
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: build zkgroup
+        run: make build-zkgroup
+
+      - name: Upload build artifacts
+        run: ls -la
+
   package-appimage:
     name: Package as AppImage
     # This ensures that this job only runs on git tags
