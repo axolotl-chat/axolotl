@@ -1,30 +1,31 @@
 <template>
   <div id="wrapper" :style="{ justifyContent: direction }">
-    <div v-for="(char, index) in arraySize" v-bind:key="'otp_' + index">
+    <div v-for="(char, index) in arraySize" :key="'otp_' + index">
       <input
+        :key="index"
+        :ref="`otp${index}`"
+        v-model="arraySize[index]"
         class="inputBox"
         type="tel"
-        :key="index"
         maxlength="1"
-        v-model="arraySize[index]"
+        :autofocus="index === 0"
         @keydown="
           handleEnterKey($event);
           handleKeyDown($event, index);
         "
         @input="handleInput($event, index)"
         @paste="onPaste"
-        :autofocus="index === 0"
-        :ref="`otp${index}`"
         @focus="newColor(index)"
         @blur="defaultColor(index)"
-      />
+      >
     </div>
   </div>
 </template>
 <script>
 export default {
-  name: "VueOtp",
+  name: "VerificationPinInput",
   props: ["numberOfBoxes", "position", "color", "clearInput"],
+  emits:['inputValue','enter','clearValue'],
 
   data() {
     return {
@@ -35,7 +36,7 @@ export default {
       clearFlag: false,
     };
   },
-  emits:['inputValue','enter','clearValue'],
+  computed: {},
   mounted() {
     this.handleBoxes();
 
@@ -172,7 +173,6 @@ export default {
       }, 0);
     },
   },
-  computed: {},
 };
 </script>
 <style>

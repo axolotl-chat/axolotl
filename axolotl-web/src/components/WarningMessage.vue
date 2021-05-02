@@ -13,9 +13,7 @@
         href="https://t.me/axolotl_dev"
         target="_blank"
         @click="openExtern($event, 'https://t.me/axolotl_dev')"
-      >
-        telegram
-      </a>.
+      >telegram</a>.
     </div>
   </div>
 </template>
@@ -30,13 +28,13 @@ export default {
   },
   mounted(){
     if(localStorage.getItem("upstreamWarning")){
-      this.mainWarningMessage = false; 
+      this.mainWarningMessage = false;
     }
   },
   methods: {
     disableWarning(){
       localStorage.setItem("upstreamWarning", true)
-      this.mainWarningMessage = false; 
+      this.mainWarningMessage = false;
     },
     openExtern(e, url) {
       if (this.gui === "ut") {
