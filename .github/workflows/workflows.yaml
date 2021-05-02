@@ -142,12 +142,12 @@ jobs:
       - name: Build clickable (amd64)
         uses: docker://clickable/ci-16.04-amd64:6.24.1
         with:
-          args: mkdir /github/workspace/go && GOPATH=/github/workspace/go clickable --verbose clean build
+          args: mkdir /github/workspace/go; GOPATH=/github/workspace/go clickable --verbose clean build
 
       - name: Build clickable (armhf)
         uses: docker://clickable/ci-16.04-armhf:6.24.1
         with:
-          args: mkdir /github/workspace/go &&GOPATH=/github/workspace/go clickable --verbose clean build
+          args: mkdir /github/workspace/go; GOPATH=/github/workspace/go clickable --verbose clean build
 
       - name: Upload the built clickable artifact (amd64)
         uses: actions/upload-artifact@v2
