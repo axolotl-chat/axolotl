@@ -1,6 +1,6 @@
 
 <template>
-  <div class="chatList" v-if="chatList">
+  <div v-if="chatList" class="chatList">
     <warning-message />
     <div v-if="editActive" class="actions-header">
       <button class="btn hide-actions" @click="delChat($event)">
@@ -10,7 +10,7 @@
         <font-awesome-icon icon="times" />
       </button>
     </div>
-    <div class="row" v-for="chat in chats" v-bind:key="chat.id">
+    <div v-for="chat in chats" :key="chat.id" class="row">
       <div
         :id="chat.id"
         :class="
@@ -18,8 +18,8 @@
             ? 'selected col-12 chat-container'
             : 'col-12 chat-container '
         "
-        @click="enterChat(chat)"
         data-long-press-delay="500"
+        @click="enterChat(chat)"
         @long-press="editChat(chat.ID)"
       >
         <div class="row chat-entry">
@@ -29,7 +29,8 @@
                 class="avatar-img"
                 :src="'http://localhost:9080/avatars?file=' + chat.Tel"
                 @error="onImageError($event)"
-              />
+                alt="Avatar image"
+              >
               <font-awesome-icon icon="user-friends" />
             </div>
             <div v-else class="badge-name">{{ chat.Name[0] }}</div>
@@ -39,11 +40,11 @@
               <div class="col-9">
                 <div class="name">
                   <font-awesome-icon
-                    class="mute"
                     v-if="!chat.Notification"
+                    class="mute"
                     icon="volume-mute"
                   />
-                  <div v-if="chat.IsGroup && chat.Name == chat.Tel" v-translate>
+                  <div v-if="chat.IsGroup && chat.Name === chat.Tel" v-translate>
                     Unknown group
                   </div>
                   <div v-else>{{ chat.Name }}</div>
@@ -59,8 +60,8 @@
                 <p
                   v-if="
                     chat.Messages &&
-                    chat.Messages != null &&
-                    chat.Messages[chat.Messages.length - 1].SentAt != 0
+                      chat.Messages != null &&
+                      chat.Messages[chat.Messages.length - 1].SentAt !== 0
                   "
                   class="time"
                 >
@@ -73,8 +74,8 @@
             <div class="row">
               <div class="col-12">
                 <p
-                  class="preview"
                   v-if="chat.Messages && chat.Messages != null"
+                  class="preview"
                 >
                   {{ chat.Messages[chat.Messages.length - 1].Message }}
                 </p>
@@ -84,20 +85,20 @@
         </div>
       </div>
     </div>
-    <div v-if="chats.length == 0" class="no-entries" v-translate>
+    <div v-if="chats.length === 0" v-translate class="no-entries">
       No chats available
     </div>
     <!-- {{chats}} -->
-    <router-link :to="'/contacts/'" class="btn start-chat"
-      ><font-awesome-icon icon="pencil-alt"
-    /></router-link>
+    <router-link :to="'/contacts/'" class="btn start-chat">
+      <font-awesome-icon icon="pencil-alt" />
+    </router-link>
   </div>
 </template>
 
 <script>
 import moment from "moment";
 import { mapState } from "vuex";
-import { router } from "../router/router";
+import { router } from "@/router/router";
 import WarningMessage from "@/components/WarningMessage";
 import longPressEvent from "long-press-event/dist/long-press-event.min.js";
 
@@ -109,20 +110,6 @@ export default {
   props: {
     msg: String,
   },
-  created() {},
-  mounted() {
-    this.$store.dispatch("getChatList");
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-    this.sortChats();
-    var userLang = navigator.language || navigator.userLanguage;
-    this.$language.current = userLang;
-    this.$store.dispatch("leaveChat");
-    this.$store.dispatch("clearMessageList");
-    this.$store.dispatch("clearFilterContacts");
-    this.$store.dispatch("getConfig");
-    this.$store.dispatch("getContacts");
-  },
   data() {
     return {
       editActive: false,
@@ -131,16 +118,36 @@ export default {
       chats: [],
     };
   },
+  computed: mapState(["chatList"]),
+  watch: {
+    chatList() {
+      this.sortChats();
+    },
+  },
+  created() {},
+  mounted() {
+    this.$store.dispatch("getChatList");
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+    this.sortChats();
+    const userLang = navigator.language || navigator.userLanguage;
+    this.$language.current = userLang;
+    this.$store.dispatch("leaveChat");
+    this.$store.dispatch("clearMessageList");
+    this.$store.dispatch("clearFilterContacts");
+    this.$store.dispatch("getConfig");
+    this.$store.dispatch("getContacts");
+  },
   methods: {
     humanifyDate(inputDate) {
       moment.locale(this.$language.current);
-      var date = new moment(inputDate);
-      var min = moment().diff(date, "minutes");
+      const date = new moment(inputDate);
+      const min = moment().diff(date, "minutes");
       if (min < 60) {
-        if (min == 0) return "now";
+        if (min === 0) return "now";
         return moment().diff(date, "minutes") + " min";
       }
-      var hours = moment().diff(date, "hours");
+      const hours = moment().diff(date, "hours");
       if (hours < 24) return hours + " h";
       return date.format("DD. MMM");
     },
@@ -187,12 +194,6 @@ export default {
             a.Messages[a.Messages.length - 1].SentAt
           );
         });
-    },
-  },
-  computed: mapState(["chatList"]),
-  watch: {
-    chatList() {
-      this.sortChats();
     },
   },
 };
