@@ -144,14 +144,14 @@ jobs:
         env:
           GOPATH: $HOME/go
         with:
-          args: printenv && clickable --verbose clean build
+          args: clickable --verbose clean build
 
       - name: Build clickable (armhf)
         uses: docker://clickable/ci-16.04-armhf:6.24.1
         env:
           GOPATH: $HOME/go
         with:
-          args: printenv && clickable --verbose clean build
+          args: clickable --verbose clean build
 
       - name: Upload the built clickable artifact (amd64)
         uses: actions/upload-artifact@v2
