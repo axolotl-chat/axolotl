@@ -142,14 +142,14 @@ jobs:
       - name: Build clickable (amd64)
         uses: docker://clickable/ci-16.04-amd64:6.24.1
         env:
-          GOPATH: $GITHUB_WORKSPACE/go
+          GOPATH: /github/workspace/go
         with:
           args: clickable --verbose clean build
 
       - name: Build clickable (armhf)
         uses: docker://clickable/ci-16.04-armhf:6.24.1
         env:
-          GOPATH: $GITHUB_WORKSPACE/go
+          GOPATH: /github/workspace/go
         with:
           args: clickable --verbose clean build
 
