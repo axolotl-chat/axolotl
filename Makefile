@@ -22,12 +22,14 @@ export APPDATA_TEXT
 
 NPM=$(shell which npm)
 GO=$(shell which go)
+GIT=$(shell which git)
+CARGO=$(shell which cargo)
 FLATPAK=$(shell which flatpak)
 FLATPAK_BUILDER=$(shell which flatpak-builder)
 SNAPCRAFT=$(shell which snapcraft)
 SNAP=$(shell which snap)
 
-all: clean build run
+all: clean build
 
 build: build-axolotl-web build-axolotl
 
@@ -94,28 +96,17 @@ endif
 build-zkgroup:
 	@echo "Found cargo with version $(CARGO_VERSION)"
 	@echo "Found go with version $(GO_VERSION)"
-	@echo "Found go with version $(GIT_VERSION)"
+	@echo "Found git with version $(GIT_VERSION)"
 ifeq ($(UNAME_S), Linux)
-ifeq ($(UNAME_HARDWARE_PLATTFORM), x86_64)
 	@echo "get zkgroup $(PLATFORM)"
-	go get -d github.com/nanu-c/zkgroup
-	&& git submodule update \
-	&& cd lib/zkgroup \
-	&& cargo build --release --verbose
-	mv libzkgroup.so libzkgroup_linux_amd64.so
-else ifeq ($(UNAME_HARDWARE_PLATTFORM), aarch64)
-	@echo "get zkgroup $(PLATFORM)"
-	go get -d github.com/nanu-c/zkgroup
-	&& git submodule update \
-	&& cd lib/zkgroup \
-	&& cargo build --release --verbose
-	mv libzkgroup.so libzkgroup_linux_arm64.so
+	$(GO) get -d github.com/nanu-c/zkgroup \
+	&& cd $(GOPATH)/src/github.com/nanu-c/zkgroup \
+	&& $(GIT) submodule update \
+	&& cd $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/zkgroup \
+	&& $(CARGO) build --release --verbose \
+	&& mv -f $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release/libzkgroup.so $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_$(UNAME_HARDWARE_PLATTFORM).so
 else
-	@echo architecture not supported
-	exit 1
-endif
-else
-	@echo "platform not supported $(UNAME_S)"
+	@echo architecture not (yet) supported $(UNAME_HARDWARE_PLATTFORM)
 	exit 1
 endif
 
@@ -129,12 +120,12 @@ endif
 ifeq ($(UNAME_S), Linux)
 ifeq ($(UNAME_HARDWARE_PLATTFORM), x86_64)
 	@echo "get zkgroup $(PLATFORM)"
-	go get -d github.com/nanu-c/zkgroup
+	$(GO) get -d github.com/nanu-c/zkgroup
 else ifeq ($(UNAME_HARDWARE_PLATTFORM), aarch64)
 	@echo "get zkgroup $(PLATFORM)"
-	go get -d github.com/nanu-c/zkgroup
+	$(GO) get -d github.com/nanu-c/zkgroup
 else
-	@echo architecture not supported
+	@echo architecture not (yet) supported $(UNAME_HARDWARE_PLATTFORM)
 	exit 1
 endif
 else
@@ -146,13 +137,12 @@ install-zkgroup:
 ifeq ($(UNAME_S), Linux)
 ifeq ($(UNAME_HARDWARE_PLATTFORM), x86_64)
 	@echo "install libzkgroup to /usr/lib"
-	cp ./libzkgroup_linux_amd64.so /usr/lib/
+	sudo cp $(CURRENT_DIR)/libzkgroup_linux_amd64.so /usr/lib/
 else ifeq ($(UNAME_HARDWARE_PLATTFORM), aarch64)
 	@echo "install libzkgroup to /usr/lib"
-	cp ./libzkgroup_linux_arm64.so  /usr/lib/
-
+	sudo cp $(CURRENT_DIR)/libzkgroup_linux_arm64.so  /usr/lib/
 else
-	@echo architecture not supported
+	@echo architecture not  supported $(UNAME_HARDWARE_PLATTFORM)
 	exit 1
 endif
 else
