@@ -1,5 +1,6 @@
- <template>
+<template>
   <div
+    :key="message.ID"
     :class="{
       'col-12': true,
       outgoing: message.Outgoing,
@@ -9,17 +10,16 @@
       incoming: !message.Outgoing,
       status:
         (message.Flags > 0 &&
-          message.Flags != 11 &&
-          message.Flags != 13 &&
-          message.Flags != 14) ||
+          message.Flags !== 11 &&
+          message.Flags !== 13 &&
+          message.Flags !== 14) ||
         message.StatusMessage ||
-        (message.Attachment.includes('null') && message.Message == ''),
-      error: message.SentAt == 0 || message.SendingError,
+        (message.Attachment.includes('null') && message.Message === ''),
+      error: message.SentAt === 0 || message.SendingError,
     }"
-    v-bind:key="message.ID"
   >
-    <div class="message" v-if="verifySelfDestruction(message)">
-      <div class="sender" v-if="isSenderNameDisplayed">
+    <div v-if="verifySelfDestruction(message)" class="message">
+      <div v-if="isSenderNameDisplayed" class="sender">
         <div v-if="names[message.Source]">
           {{ names[message.Source] }}
         </div>
@@ -30,83 +30,78 @@
         <cite v-else>{{ getName(message.QuotedMessage.Source) }}</cite>
         <p>{{ message.QuotedMessage.Message }}</p>
       </blockquote>
-      <div v-if="message.Attachment != ''" class="attachment">
-        <div class="gallery" v-if="isAttachmentArray(message.Attachment)">
+      <div v-if="message.Attachment !== ''" class="attachment">
+        <div v-if="isAttachmentArray(message.Attachment)" class="gallery">
           <div
             v-for="m in isAttachmentArray(message.Attachment)"
-            v-bind:key="m.File"
+            :key="m.File"
           >
-            <div v-if="m.CType == 2" class="attachment-img">
+            <div v-if="m.CType === 2" class="attachment-img">
               <img
                 :src="'http://localhost:9080/attachments?file=' + m.File"
+                alt="Fullscreen image"
                 @click="$emit('showFullscreenImg', m.File)"
-              />
+              >
             </div>
-            <div v-else-if="m.CType == 3" class="attachment-audio">
+            <div v-else-if="m.CType === 3" class="attachment-audio">
               <audio controls>
                 <source
                   :src="'http://localhost:9080/attachments?file=' + m.File"
                   type="audio/mpeg"
-                />
-                <span v-translate
-                  >Your browser does not support the audio element.</span
                 >
+                <span v-translate>Your browser does not support the audio element.</span>
               </audio>
             </div>
             <div
-              v-else-if="m.File != '' && m.CType == 0"
+              v-else-if="m.File !== '' && m.CType === 0"
               class="attachment-file"
             >
               <a
-                @click="shareAttachment(m.File, $event)"
                 :href="'http://localhost:9080/attachments?file=' + m.File"
-                >{{ m.FileName ? m.FileName : m.File }}</a
-              >
+                @click="shareAttachment(m.File, $event)"
+              >{{ m.FileName ? m.FileName : m.File }}</a>
             </div>
             <div
-              v-else-if="m.CType == 5"
+              v-else-if="m.CType === 5"
               class="attachment-video"
               @click="$emit('showFullscreenVideo', m.File)"
             >
               <video>
                 <source
                   :src="'http://localhost:9080/attachments?file=' + m.File"
-                />
-                <span v-translate
-                  >Your browser does not support the audio element.</span
                 >
+                <span v-translate>Your browser does not support the audio element.</span>
               </video>
-              <img class="play-button" src="../assets/images/play.svg" />
+              <img class="play-button" src="../assets/images/play.svg" alt="Play image">
             </div>
-            <div v-else-if="m.File != ''" class="attachment">
+            <div v-else-if="m.File !== ''" class="attachment">
               <span v-translate>Not supported mime type:</span> {{ m.CType }}
             </div>
           </div>
         </div>
         <!-- this is legacy code -->
-        <div v-else-if="message.CType == 2" class="attachment-img">
+        <div v-else-if="message.CType === 2" class="attachment-img">
           <img
             :src="
               'http://localhost:9080/attachments?file=' + message.Attachment
             "
+            alt="Fullscreen image"
             @click="$emit('showFullscreenImg', message.Attachment)"
-          />
+          >
         </div>
-        <div v-else-if="message.CType == 3" class="attachment-audio">
+        <div v-else-if="message.CType === 3" class="attachment-audio">
           <audio controls>
             <source
               :src="
                 'http://localhost:9080/attachments?file=' + message.Attachment
               "
               type="audio/mpeg"
-            />
-            <span v-translate
-              >Your browser does not support the audio element.</span
             >
+            <span v-translate>Your browser does not support the audio element.</span>
           </audio>
         </div>
         <div
-          v-else-if="message.Attachment != 'null' && message.CType == 0"
+          v-else-if="message.Attachment !== 'null' && message.CType === 0"
           class="attachment-file"
         >
           {{ message.Attachment }}
@@ -114,11 +109,10 @@
             :href="
               'http://localhost:9080/attachments?file=' + message.Attachment
             "
-            >File</a
-          >
+          >File</a>
         </div>
         <div
-          v-else-if="message.CType == 5"
+          v-else-if="message.CType === 5"
           class="attachment-video"
           @click="$emit('showFullscreenVideo', message.Attachment)"
         >
@@ -127,14 +121,12 @@
               :src="
                 'http://localhost:9080/attachments?file=' + message.Attachment
               "
-            />
-            <span v-translate
-              >Your browser does not support the video element.</span
             >
+            <span v-translate>Your browser does not support the video element.</span>
           </video>
         </div>
 
-        <div v-else-if="message.Attachment != 'null'" class="attachment">
+        <div v-else-if="message.Attachment !== 'null'" class="attachment">
           <span v-translate>Not supported mime type:</span> {{ message.CType }}
         </div>
       </div>
@@ -142,28 +134,28 @@
         <div
           class="message-text-content"
           v-html="linkify(sanitize(message.Message))"
-        ></div>
+        />
         <div
-          class="status-message"
           v-if="
             message.Attachment.includes('null') &&
-            message.Message == '' &&
-            message.Flags == 0
+              message.Message === '' &&
+              message.Flags === 0
           "
+          class="status-message"
         >
           <span v-translate>Set timer for self-destructing messages </span>
           <div>{{ humanifyTimePeriod(message.ExpireTimer) }}</div>
         </div>
-        <div v-if="message.Flags == 10" v-translate>
+        <div v-if="message.Flags === 10" v-translate>
           Unsupported message type: sticker
         </div>
       </div>
-      <div class="meta" v-if="message.SentAt != 0">
+      <div v-if="message.SentAt !== 0" class="meta">
         <div class="time">
           <span @click="showDate = !showDate">{{
             humanifyDateFromNow(message.SentAt)
           }}</span>
-          <span class="fullDate" v-if="showDate">{{
+          <span v-if="showDate" class="fullDate">{{
             humanifyDate(message.SentAt)
           }}</span>
         </div>
@@ -181,7 +173,7 @@
                   :style="
                     'transform: rotate(' + timerPercentage(message) + 'deg)'
                   "
-                ></div>
+                />
               </div>
               <div class="mask half">
                 <div
@@ -189,13 +181,13 @@
                   :style="
                     'transform: rotate(' + timerPercentage(message) + 'deg)'
                   "
-                ></div>
+                />
               </div>
-              <div class="inside-circle"></div>
+              <div class="inside-circle" />
             </div>
           </div>
         </div>
-        <div v-if="message.Outgoing" class="transfer-indicator"></div>
+        <div v-if="message.Outgoing" class="transfer-indicator" />
       </div>
       <div v-else class="col-12 meta">Error</div>
     </div>
@@ -209,19 +201,19 @@ let decoder;
 
 export default {
   name: "Message",
+  props: ["message", "isGroup", "names"],
   data() {
     return {
       showDate: false,
     };
   },
-  props: ["message", "isGroup", "names"],
   computed: {
     ...mapState(["contacts"]),
     isSenderNameDisplayed() {
       return (
         !this.message.Outgoing &&
         this.isGroup &&
-        (this.message.Flags == 0 || this.message.Flags == 14)
+        (this.message.Flags === 0 || this.message.Flags === 14)
       ); // 14 is quoting messages
     },
   },
@@ -233,12 +225,12 @@ export default {
       return decoder.textContent;
     },
     getName(tel) {
-      if (this.contacts != null) {
-        if (typeof this.names[tel] == "undefined") {
-          var contact = this.contacts.find(function (element) {
-            return element.Tel == tel;
+      if (this.contacts !== null) {
+        if (typeof this.names[tel] === "undefined") {
+          const contact = this.contacts.find(function (element) {
+            return element.Tel === tel;
           });
-          if (typeof contact != "undefined") {
+          if (typeof contact !== "undefined") {
             this.names[tel] = contact.Name;
             return contact.Name;
           } else {
@@ -251,36 +243,38 @@ export default {
     },
     isAttachmentArray(input) {
       try {
-        var attachments = JSON.parse(input);
-        return attachments;
+        return JSON.parse(input);
       } catch (e) {
         return false;
       }
       // JSON.parse(input)
     },
     timerPercentage(m) {
-      var r = moment(m.ReceivedAt);
-      var duration = moment.duration(r.diff(moment.now()));
-      var percentage =
+      const r = moment(m.ReceivedAt);
+      const duration = moment.duration(r.diff(moment.now()));
+      const percentage =
         1 - (m.ExpireTimer + duration.asSeconds()) / m.ExpireTimer;
-      if (percentage < 1) return 179 * percentage;
+      if (percentage < 1) {
+        const fullCircle = 179;
+        return fullCircle * percentage;
+      }
       else return 0;
     },
     verifySelfDestruction(m) {
-      if (m.ExpireTimer != 0) {
+      if (m.ExpireTimer !== 0) {
         // console.log(m.ExpireTimer,m.SentAt, m.ReceivedAt, Date.now())
-        if (m.ReceivedAt != 0) {
+        if (m.ReceivedAt !== 0) {
           // hide destructed messages but not timer settings
-          var r = moment(m.ReceivedAt);
-          var duration = moment.duration(r.diff(moment.now()));
+          const r = moment(m.ReceivedAt);
+          const duration = moment.duration(r.diff(moment.now()));
           if (duration.asSeconds() + m.ExpireTimer < 0) {
             this.$store.dispatch("deleteSelfDestructingMessage", m);
             return false;
           }
-        } else if (m.SentAt != 0) {
-          var rS = moment(m.SentAt);
-          var durationS = moment.duration(rS.diff(moment.now()));
-          if (durationS.asSeconds() + m.ExpireTimer < 0 && m.Message != "") {
+        } else if (m.SentAt !== 0) {
+          const rS = moment(m.SentAt);
+          const durationS = moment.duration(rS.diff(moment.now()));
+          if (durationS.asSeconds() + m.ExpireTimer < 0 && m.Message !== "") {
             this.$store.dispatch("deleteSelfDestructingMessage", m);
             return false;
           }
