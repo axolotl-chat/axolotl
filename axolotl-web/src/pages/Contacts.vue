@@ -1,9 +1,9 @@
 <template>
   <div class="contact-list">
-    <div v-if="error != null" class="alert alert-danger" v-translate>
+    <div v-if="error != null" v-translate class="alert alert-danger">
       Can't change contact list: {{ error }}
     </div>
-    <div v-if="importing" class="alert alert-warning" v-translate>
+    <div v-if="importing" v-translate class="alert alert-warning">
       Importing contacts, head back later
     </div>
     <div v-if="showActions" class="actions-header">
@@ -17,15 +17,15 @@
         <font-awesome-icon icon="times" @click="closeActionMode" />
       </button>
     </div>
-    <div v-if="contacts.length == 0" class="empty" v-translate>
+    <div v-if="contacts.length === 0" v-translate class="empty">
       Contact list is empty...
     </div>
     <div v-if="contactsFilterActive">
       <div
-        v-for="contact in contactsFilterd"
-        v-bind:key="contact.Tel"
+        v-for="contact in contactsFiltered"
+        :key="contact.Tel"
         :class="
-          contact.Tel == editContactId
+          contact.Tel === editContactId
             ? 'selected btn col-12 chat'
             : 'btn col-12 chat'
         "
@@ -41,8 +41,8 @@
           </div>
           <div
             class="meta col-9"
-            @click="contactClick(contact)"
             data-long-press-delay="500"
+            @click="contactClick(contact)"
             @long-press="showContactAction(contact)"
           >
             <p class="name">{{ contact.Name }}</p>
@@ -52,11 +52,11 @@
       </div>
     </div>
     <div
-      v-else
       v-for="contact in contacts"
-      v-bind:key="contact.Tel"
+      v-else
+      :key="contact.Tel"
       :class="
-        contact.Tel == editContactId
+        contact.Tel === editContactId
           ? 'selected btn col-12 chat'
           : 'btn col-12 chat'
       "
@@ -70,8 +70,8 @@
         </div>
         <div
           class="meta col-9"
-          @click="contactClick(contact)"
           data-long-press-delay="500"
+          @click="contactClick(contact)"
           @long-press="showContactAction(contact)"
         >
           <p class="name">{{ contact.Name }}</p>
@@ -88,8 +88,8 @@
     </div>
     <div v-if="editContactModal" class="editContactModal">
       <edit-contact-modal
-        :contact="contact"
         :id="contactId"
+        :contact="contact"
         @close="editContactModal = false"
         @save="saveContact($event)"
       />
@@ -112,13 +112,13 @@ import longPressEvent from "long-press-event/dist/long-press-event.min.js";
 
 export default {
   name: "Contacts",
-  props: {
-    msg: String,
-  },
   components: {
     AddContactModal,
     EditContactModal,
     StartChatModal,
+  },
+  props: {
+    msg: String,
   },
   data() {
     return {
@@ -131,6 +131,23 @@ export default {
       editContactId: "",
       i: null,
     };
+  },
+  computed: {
+    contacts() {
+      return this.$store.state.contacts;
+    },
+    contactsFiltered() {
+      return this.$store.state.contactsFiltered;
+    },
+    contactsFilterActive() {
+      return this.$store.state.contactsFilterActive;
+    },
+    error() {
+      return this.$store.state.ratelimitError;
+    },
+    importing() {
+      return this.$store.state.importingContacts;
+    },
   },
   mounted() {
     this.$store.dispatch("getContacts");
@@ -188,23 +205,6 @@ export default {
       if (!this.showActions) {
         this.startChatModal = true;
       }
-    },
-  },
-  computed: {
-    contacts() {
-      return this.$store.state.contacts;
-    },
-    contactsFilterd() {
-      return this.$store.state.contactsFilterd;
-    },
-    contactsFilterActive() {
-      return this.$store.state.contactsFilterActive;
-    },
-    error() {
-      return this.$store.state.ratelimitError;
-    },
-    importing() {
-      return this.$store.state.importingContacts;
     },
   },
 };

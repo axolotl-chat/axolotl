@@ -9,7 +9,7 @@ export default createStore({
     messageList: {},
     request: '',
     contacts: [],
-    contactsFilterd: [],
+    contactsFiltered: [],
     contactsFilterActive: false,
     devices: [],
     gui: null,
@@ -218,7 +218,7 @@ export default createStore({
     SET_CONTACTS_FILTER(state, filter) {
       filter = filter.toLowerCase()
       var f = state.contacts.filter(c => c.Name.toLowerCase().includes(filter));
-      state.contactsFilterd = f;
+      state.contactsFiltered = f;
       state.contactsFilterActive = true;
     },
     SET_CONTACTS_FOR_GROUP_FILTER(state, filter) {
@@ -230,11 +230,11 @@ export default createStore({
       });
       if (state.currentGroup != null)
         f = f.filter(c => state.currentGroup.Members.indexOf(c.UUID) == -1);
-      state.contactsFilterd = f;
+      state.contactsFiltered = f;
       state.contactsFilterActive = true;
     },
     SET_CLEAR_CONTACTS_FILTER(state) {
-      state.contactsFilterd = [];
+      state.contactsFiltered = [];
       state.contactsFilterActive = false;
     },
     LEAVE_CHAT(state) {

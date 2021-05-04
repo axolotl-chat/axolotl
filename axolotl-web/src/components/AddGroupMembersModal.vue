@@ -54,7 +54,7 @@
             </div>
             <div v-else-if="contactsFilter !== ''">
               <div
-                v-for="contact in contactsFilterd"
+                v-for="contact in contactsFiltered"
                 :key="'filter_' + contact.UUID"
                 class="btn col-12 chat"
               >
@@ -98,9 +98,9 @@ export default {
     };
   },
   computed: {
-    contactsFilterd() {
+    contactsFiltered() {
       return this.filterForOnlyContactsWithUUID(
-        this.$store.state.contactsFilterd
+        this.$store.state.contactsFiltered
       );
     },
   },
