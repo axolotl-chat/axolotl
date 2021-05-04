@@ -27,6 +27,5 @@
     ".idea",
     "flatpak"
   ],
-  "postbuild": "$ROOT/scripts/postbuild.sh $INSTALL_DIR; printenv; cp ${GOPATH}/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_${ARCH}.so ${INSTALL_DIR}/lib/libzkgroup_linux_${ARCH}.so "
-
+  "postbuild": "$ROOT/scripts/postbuild.sh $INSTALL_DIR"
 }
