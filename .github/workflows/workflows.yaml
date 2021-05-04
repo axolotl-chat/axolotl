@@ -141,10 +141,13 @@ jobs:
 
       - name: Download built zkgroup library
         run: |
-          wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux-aarch64-v0.8.0.so
-          wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux-armv7-v0.8.0.so
+          # wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux-aarch64-v0.8.0.so
+          # wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux-armv7-v0.8.0.so
           wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux_x86_64-v0.8.0.so
-          mv *.so $GITHUB_WORKSPACE/go/src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release/
+
+          # install -D libzkgroup-linux-aarch64-v0.8.0.so $GITHUB_WORKSPACE/go/src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release
+          # install -D libzkgroup-linux-armv7-v0.8.0.so $GITHUB_WORKSPACE/go/src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release
+          install -D libzkgroup-linux_x86_64-v0.8.0.so $GITHUB_WORKSPACE/go/src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release
 
       - name: Build clickable (amd64)
         uses: docker://clickable/ci-16.04-amd64:6.24.1
