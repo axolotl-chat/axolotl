@@ -73,25 +73,6 @@ jobs:
           path: axolotl-web/dist/
           retention-days: 1
 
-  build-zkgroup:
-    name: Build zkgroup
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Setup Go 1.16
-        uses: actions/setup-go@v2
-        with:
-          go-version: 1.16
-
-      - name: Check out code
-        uses: actions/checkout@v2
-
-      - name: build zkgroup
-        run: make build-zkgroup
-
-      - name: Upload build artifacts
-        run: ls -la
-
   package-appimage:
     name: Package as AppImage
     # This ensures that this job only runs on git tags
@@ -158,17 +139,24 @@ jobs:
       - name: Download npm dependencies
         run: npm --prefix ./axolotl-web ci
 
+      - name: Download built zkgroup library
+        run: |
+          wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux-aarch64-v0.8.0.so
+          wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux-armv7-v0.8.0.so
+          wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux_x86_64-v0.8.0.so
+          mv *.so $HOME/go
+
       - name: Build clickable (amd64)
         uses: docker://clickable/ci-16.04-amd64:6.24.1
         env:
-          GOPATH: $GITHUB_WORKSPACE/go
+          GOPATH: $HOME/go
         with:
           args: clickable --verbose clean build
 
       - name: Build clickable (armhf)
         uses: docker://clickable/ci-16.04-armhf:6.24.1
         env:
-          GOPATH: $GITHUB_WORKSPACE/go
+          GOPATH: $HOME/go
         with:
           args: clickable --verbose clean build
 
