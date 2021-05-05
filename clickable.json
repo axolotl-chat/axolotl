@@ -25,7 +25,8 @@
     "dist",
     ".flatpak-builder",
     ".idea",
-    "flatpak"
+    "flatpak",
+    "*.so"
   ],
   "postbuild": "$ROOT/scripts/postbuild.sh $INSTALL_DIR"
 }
