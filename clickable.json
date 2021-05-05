@@ -26,7 +26,7 @@
     ".flatpak-builder",
     ".idea",
     "flatpak",
-    "*.so"
+    "libzkgroup*.so"
   ],
   "postbuild": "$ROOT/scripts/postbuild.sh $INSTALL_DIR"
 }
