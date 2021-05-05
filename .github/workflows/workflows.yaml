@@ -141,13 +141,13 @@ jobs:
 
       - name: Download built zkgroup library
         run: |
-          # wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux-aarch64-v0.8.0.so
+          wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux-aarch64-v0.8.0.so
           # wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux-armv7-v0.8.0.so
-          wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux_x86_64-v0.8.0.so
-
-          # install -D libzkgroup-linux-aarch64-v0.8.0.so $GITHUB_WORKSPACE/go/src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release
+          # wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux_x86_64-v0.8.0.so
+          mkdir $GITHUB_WORKSPACE/lib/
+          install -D libzkgroup-linux-aarch64-v0.8.0.so $GITHUB_WORKSPACE/lib/zkgroup-linux-aarch64.so
           # install -D libzkgroup-linux-armv7-v0.8.0.so $GITHUB_WORKSPACE/go/src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release
-          install -D libzkgroup-linux_x86_64-v0.8.0.so $GITHUB_WORKSPACE/go/src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release
+          # install -D libzkgroup-linux_x86_64-v0.8.0.so $GITHUB_WORKSPACE/go/src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release
 
       - name: Build clickable (amd64)
         uses: docker://clickable/ci-16.04-amd64:6.24.1
@@ -156,6 +156,16 @@ jobs:
         with:
           args: clickable --verbose clean build
 
+      - name: Download built zkgroup library
+        run: |
+          # wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux-aarch64-v0.8.0.so
+          wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux-armv7-v0.8.0.so
+          # wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux_x86_64-v0.8.0.so
+          rm $GITHUB_WORKSPACE/lib/*
+          # install -D libzkgroup-linux-aarch64-v0.8.0.so $GITHUB_WORKSPACE/lib/zkgroup-linux-aarch64.so
+          install -D libzkgroup-linux-armv7-v0.8.0.so $GITHUB_WORKSPACE/lib/libzkgroup-linux-armv7.so
+          # install -D libzkgroup-linux_x86_64-v0.8.0.so $GITHUB_WORKSPACE/go/src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release
+          
       - name: Build clickable (armhf)
         uses: docker://clickable/ci-16.04-armhf:6.24.1
         env:
