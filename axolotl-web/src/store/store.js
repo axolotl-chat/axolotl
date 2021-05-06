@@ -22,7 +22,7 @@ export default createStore({
     },
     config: {},
     loginError: null,
-    ratelimitError: null,
+    rateLimitError: null,
     newGroupName: null,
     currentChat: null,
     currentGroup: null,
@@ -55,13 +55,13 @@ export default createStore({
     SET_ERROR(state, error) {
       if (error == "") {
         state.loginError = null;
-        // state.ratelimitError = null;
+        // state.rateLimitError = null;
         state.errorConnection = null;
       }
       else if (error == "wrong password") {
         state.loginError = error;
       } else if (error.includes("Rate")) {
-        state.ratelimitError = error + ". Try again later!";
+        state.rateLimitError = error + ". Try again later!";
       } else if (error.includes("no such host") || error.includes("timeout")) {
         state.errorConnection = error;
       } else if (error.includes("Your registration is faulty")) {
@@ -498,7 +498,7 @@ export default createStore({
       }
     },
     addContact: function (state, contact) {
-      state.ratelimitError = null;
+      state.rateLimitError = null;
       if (this.state.socket.isConnected
         && contact.name != "" && contact.phone != "") {
         var message = {
@@ -519,7 +519,7 @@ export default createStore({
       this.commit("SET_CLEAR_CONTACTS_FILTER");
     },
     uploadVcf: function (state, vcf) {
-      state.ratelimitError = null;
+      state.rateLimitError = null;
       state.importingContacts = true;
       if (this.state.socket.isConnected) {
         var message = {
@@ -550,7 +550,7 @@ export default createStore({
       }
     },
     delContact: function (state, id) {
-      state.ratelimitError = null;
+      state.rateLimitError = null;
       if (this.state.socket.isConnected) {
         var message = {
           "request": "delContact",
@@ -569,7 +569,7 @@ export default createStore({
       }
     },
     editContact: function (state, data) {
-      state.ratelimitError = null;
+      state.rateLimitError = null;
       if (this.state.socket.isConnected) {
         var message = {
           "request": "editContact",
