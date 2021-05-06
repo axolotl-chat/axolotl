@@ -1,47 +1,45 @@
 <template>
   <div class="settings">
     <div class="profile">
-      <div class="avatar"></div>
-      <div class="name" v-translate>Registered number</div>
+      <div class="avatar" />
+      <div v-translate class="name">Registered number</div>
       <div class="number">
         {{ config.RegisteredNumber }}
       </div>
     </div>
-    <router-link class="btn btn-primary" :to="'/devices/'" v-translate>
+    <router-link v-translate class="btn btn-primary" :to="'/devices/'">
       Linked devices
     </router-link>
-    <router-link class="btn btn-primary" :to="'/setPassword/'" v-translate>
+    <router-link v-translate class="btn btn-primary" :to="'/setPassword/'">
       Set password
     </router-link>
 
     <button
+      v-translate
       class="btn btn-danger"
       @click="showConfirmationModal = true"
-      v-translate
     >
       Unregister
     </button>
     <div class="custom-control custom-switch darkmode-switch">
       <input
-        type="checkbox"
-        v-model="darkMode"
-        class="custom-control-input"
         id="darkmode-switch"
+        v-model="darkMode"
+        type="checkbox"
+        class="custom-control-input"
         @change="toggleDarkMode()"
-      />
-      <label class="custom-control-label" for="darkmode-switch" v-translate
-        >Dark mode</label
       >
+      <label v-translate class="custom-control-label" for="darkmode-switch">Dark mode</label>
     </div>
     <confirmation-modal
       v-if="showConfirmationModal"
-      @close="showConfirmationModal = false"
-      @confirm="unregister"
       title="Unregister"
       text="Do you really want to unregister? Everything will be deleted!"
+      @close="showConfirmationModal = false"
+      @confirm="unregister"
     />
     <div class="about w-100">
-      <router-link class="btn btn-primary" :to="'/about'" v-translate>
+      <router-link v-translate class="btn btn-primary" :to="'/about'">
         About Axolotl
       </router-link>
     </div>
@@ -59,42 +57,12 @@
 import ConfirmationModal from "@/components/ConfirmationModal.vue";
 import { mapState } from "vuex";
 export default {
-  name: "settings",
+  name: "Settings",
   components: {
     ConfirmationModal,
   },
   props: {
     msg: String,
-  },
-  methods: {
-    unregister() {
-      this.$store.dispatch("unregister");
-      localStorage.removeItem("registrationStatus");
-    },
-    toggleDarkMode() {
-      var c = this.getCookie("darkMode");
-      if (this.getCookie("darkMode") === "false") c = true;
-      else c = false;
-      this.$store.dispatch("setDarkMode", c);
-    },
-    getCookie(cname) {
-      var name = cname + "=";
-      var ca = document.cookie.split(";");
-      for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == " ") {
-          c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-          return c.substring(name.length, c.length);
-        }
-      }
-      return false;
-    },
-  },
-  mounted() {
-    this.$store.dispatch("getConfig");
-    this.darkMode = this.getCookie("darkMode") === "true";
   },
   data() {
     return {
@@ -103,6 +71,36 @@ export default {
     };
   },
   computed: mapState(["config"]),
+  mounted() {
+    this.$store.dispatch("getConfig");
+    this.darkMode = this.getCookie("darkMode") === "true";
+  },
+  methods: {
+    unregister() {
+      this.$store.dispatch("unregister");
+      localStorage.removeItem("registrationStatus");
+    },
+    toggleDarkMode() {
+      let c = this.getCookie("darkMode");
+      if (this.getCookie("darkMode") === "false") c = true;
+      else c = false;
+      this.$store.dispatch("setDarkMode", c);
+    },
+    getCookie(cname) {
+      const name = cname + "=";
+      const ca = document.cookie.split(";");
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === " ") {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) === 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return false;
+    },
+  },
 };
 </script>
 <style scoped>
