@@ -1,19 +1,19 @@
 <template>
   <div class="password">
-    <div v-if="error" class="alert alert-danger" v-translate>
+    <div v-if="error" v-translate class="alert alert-danger">
       Password is wrong
     </div>
     <input
+      id="passwordInput"
       v-model="pw"
       type="password"
       class="codeInput form-control"
-      id="passwordInput"
       @keydown="checkEnter($event)"
-    />
-    <button class="btn btn-primary" @click="sendPassword" v-translate>
+    >
+    <button v-translate class="btn btn-primary" @click="sendPassword">
       Decrypt
     </button>
-    <button v-if="error" class="btn btn-danger" @click="unregister" v-translate>
+    <button v-if="error" v-translate class="btn btn-danger" @click="unregister">
       Unregister
     </button>
   </div>
@@ -23,31 +23,31 @@
 import { mapState } from "vuex";
 
 export default {
-  name: "password",
+  name: "Password",
+  data() {
+    return {
+      pw: "",
+    };
+  },
+  computed: {
+    ...mapState(["registrationStatus"]),
+    error() {
+      return this.$store.state.loginError;
+    },
+  },
+  mounted() {
+    document.getElementById("passwordInput").focus();
+  },
   methods: {
     sendPassword() {
       this.$store.dispatch("sendPassword", this.pw);
       this.pw = null;
     },
     checkEnter(e) {
-      if (e.keyCode == 13) this.sendPassword();
+      if (e.keyCode === 13) this.sendPassword();
     },
     unregister() {
       this.$store.dispatch("unregister");
-    },
-  },
-  data() {
-    return {
-      pw: "",
-    };
-  },
-  mounted() {
-    document.getElementById("passwordInput").focus();
-  },
-  computed: {
-    ...mapState(["registrationStatus"]),
-    error() {
-      return this.$store.state.loginError;
     },
   },
 };
