@@ -1,22 +1,20 @@
-
 <template>
   <div class="chat">
     <div
-      class="messageList-container"
       id="messageList-container"
+      class="messageList-container"
       @scroll="handleScroll($event)"
     >
       <div
+        v-if="messages && messages.length > 0"
         id="messageList"
         class="messageList row"
-        v-if="messages && messages.length > 0"
       >
-        <div v-if="showFullscreenImgSrc != ''" class="fullscreenImage">
+        <div v-if="showFullscreenImgSrc !== ''" class="fullscreenImage">
           <img
-            :src="
-              'http://localhost:9080/attachments?file=' + showFullscreenImgSrc
-            "
-          />
+            :src="'http://localhost:9080/attachments?file=' + showFullscreenImgSrc"
+            alt="Fullscreen image"
+          >
           <button class="btn btn-secondary save" @click="saveImg($event)">
             <font-awesome-icon icon="arrow-down" />
           </button>
@@ -27,17 +25,15 @@
             X
           </button>
         </div>
-        <div v-if="showFullscreenVideoSrc != ''" class="fullscreenImage">
+        <div v-if="showFullscreenVideoSrc !== ''" class="fullscreenImage">
           <video controls>
             <source
               :src="
                 'http://localhost:9080/attachments?file=' +
-                showFullscreenVideoSrc
+                  showFullscreenVideoSrc
               "
-            />
-            <span v-translate
-              >Your browser does not support the audio element.</span
             >
+            <span v-translate>Your browser does not support the audio element.</span>
           </video>
           <button
             class="btn btn-secondary close"
@@ -53,17 +49,16 @@
           v-for="message in messageList.Messages.slice().reverse()"
           :key="message.ID"
           :message="message"
-          :isGroup="isGroup"
+          :is-group="isGroup"
           :names="names"
           @showFullscreenImg="showFullscreenImg($event)"
           @showFullscreenVideo="showFullscreenVideo($event)"
-        >
-        </message>
+        />
       </div>
       <div v-else class="no-entries">
         <span v-translate>No messages available.</span>
       </div>
-      <div id="chat-bottom"></div>
+      <div id="chat-bottom" />
     </div>
     <div class="messageInputBox">
       <!-- <div v-if="chat&&chat.IsGroup&&chat.Name==chat.Tel" class="alert alert-warning">Group has to be updated by a member.</div>
@@ -71,19 +66,19 @@
       <div class="messageInput-container">
         <textarea
           id="messageInput"
-          type="textarea"
           v-model="messageInput"
+          type="textarea"
           contenteditable="true"
           data-long-press-delay="500"
           @long-press="paste"
         />
       </div>
-      <div class="messageInput-btn-container" v-if="messageInput != ''">
+      <div v-if="messageInput !== ''" class="messageInput-btn-container">
         <button class="btn send" @click="sendMessage">
           <font-awesome-icon icon="paper-plane" />
         </button>
       </div>
-      <div class="messageInput-btn-container" v-else>
+      <div v-else class="messageInput-btn-container">
         <button class="btn send" @click="loadAttachmentDialog">
           <font-awesome-icon icon="plus" />
         </button>
@@ -97,9 +92,9 @@
     <input
       id="attachment"
       type="file"
-      @change="sendDesktopAttachment"
       style="position: fixed; top: -100em"
-    />
+      @change="sendDesktopAttachment"
+    >
   </div>
 </template>
 
@@ -110,13 +105,13 @@ import AttachmentBar from "@/components/AttachmentBar";
 import { saveAs } from "file-saver";
 import longPressEvent from "long-press-event/dist/long-press-event.min.js";
 export default {
-  name: "Chat",
-  props: {
-    chatId: Number,
-  },
+  name: "MessageList",
   components: {
     AttachmentBar,
     Message,
+  },
+  props: {
+    chatId: Number,
   },
   data() {
     return {
@@ -131,16 +126,83 @@ export default {
       scrollLocked: false,
     };
   },
+  computed: {
+    chat() {
+      return this.$store.state.currentChat;
+    },
+    messages() {
+      return this.$store.state.messageList.Messages;
+    },
+    isGroup() {
+      return this.$store.state.messageList.Session.IsGroup;
+    },
+    ...mapState(["contacts", "config", "messageList"]),
+  },
+  watch: {
+    messageInput() {
+      // Adapt height of the textarea when its content changed
+      let textarea = document.getElementById("messageInput");
+      if (this.messageInput === "") {
+        textarea.style.height = "35px";
+      } else {
+        textarea.style.height = 0; // Set height to 0 to reset scrollHeight to its minimum
+        textarea.style.height = textarea.scrollHeight + 5 + "px";
+      }
+    },
+    contacts() {
+      if (this.contacts != null) {
+        Object.keys(this.names).forEach((i) => {
+          const contact = this.contacts.find(function (element) {
+            return element.Tel === i;
+          });
+          if (typeof contact != "undefined") {
+            this.names[i] = contact.Name;
+          }
+        });
+      }
+    },
+    messages: {
+      // This will let Vue know to look inside the array
+      deep: true,
+      handler() {
+        if (!this.$data.scrollLocked) setTimeout(this.scrollDown, 600);
+        this.$data.scrollLocked = false;
+        // this.scrollDown();
+      },
+    },
+  },
+  mounted() {
+    this.$store.dispatch("openChat", this.getId());
+    this.$store.dispatch("getMessageList", this.getId());
+    document.getElementById("messageInput").focus();
+    setTimeout(this.scrollDown, 600);
+    const that = this;
+    document.addEventListener(
+      "click",
+      function (event) {
+        // If the clicked element doesn't have the right selector, bail
+        if (!event.target.matches(".linkified")) return;
+        if (typeof that.config.Gui != "undefined" && that.config.Gui === "ut") {
+          // Don't follow the link
+          event.preventDefault();
+          alert(event.target.href);
+        }
+        // else
+        // console.log(that.config.Gui)
+      },
+      false
+    );
+  },
   methods: {
     getId: function () {
       return this.chatId;
     },
     callContentHub(type) {
       this.showAttachmentsBar = false;
-      if (typeof this.config.Gui != "undefined" && this.config.Gui == "ut") {
-        var result = window.prompt(type);
+      if (typeof this.config.Gui != "undefined" && this.config.Gui === "ut") {
+        const result = window.prompt(type);
         this.showSettingsMenu = false;
-        if (result != "canceld")
+        if (result !== "canceld")
           this.$store.dispatch("sendAttachment", {
             type: type,
             path: result,
@@ -153,14 +215,14 @@ export default {
       }
     },
     loadAttachmentDialog() {
-      if (typeof this.config.Gui != "undefined" && this.config.Gui == "ut") {
+      if (typeof this.config.Gui != "undefined" && this.config.Gui === "ut") {
         this.showAttachmentsBar = true;
       } else {
         document.getElementById("attachment").click();
       }
     },
     shareAttachment(file, e) {
-      if (typeof this.config.Gui != "undefined" && this.config.Gui == "ut") {
+      if (typeof this.config.Gui != "undefined" && this.config.Gui === "ut") {
         e.preventDefault();
         alert("[oD]" + file);
         // this.showAttachmentsBar=true
@@ -170,12 +232,12 @@ export default {
       }
     },
     sendDesktopAttachment(evt) {
-      var f = evt.target.files[0];
+      const f = evt.target.files[0];
       if (f) {
-        var r = new FileReader();
-        var that = this;
+        const r = new FileReader();
+        const that = this;
         r.onload = function (e) {
-          var attachment = e.target.result;
+          const attachment = e.target.result;
           that.$store.dispatch("uploadAttachment", {
             attachment: attachment,
             to: that.chatId,
@@ -194,7 +256,7 @@ export default {
       this.showFullscreenVideoSrc = video;
     },
     saveImg(e) {
-      if (typeof this.config.Gui != "undefined" && this.config.Gui == "ut") {
+      if (typeof this.config.Gui != "undefined" && this.config.Gui === "ut") {
         e.preventDefault();
         alert("[oP]" + this.showFullscreenImgSrc);
       } else
@@ -203,7 +265,7 @@ export default {
         );
     },
     saveVideo(e) {
-      if (typeof this.config.Gui != "undefined" && this.config.Gui == "ut") {
+      if (typeof this.config.Gui != "undefined" && this.config.Gui === "ut") {
         e.preventDefault();
         alert("[oV]" + this.showFullscreenVideoSrc);
       } else
@@ -213,7 +275,7 @@ export default {
         );
     },
     sendMessage() {
-      if (this.messageInput != "") {
+      if (this.messageInput !== "") {
         this.$store.dispatch("sendMessage", {
           to: this.chatId,
           message: this.messageInput,
@@ -240,82 +302,15 @@ export default {
       this.$router.go(-1);
     },
     paste() {
-      if (typeof this.config.Gui != "undefined" && this.config.Gui == "ut") {
+      if (typeof this.config.Gui != "undefined" && this.config.Gui === "ut") {
         // Don't follow the link
-        var result = window.prompt("paste");
+        const result = window.prompt("paste");
         this.messageInput = this.messageInput + result;
       }
     },
     scrollDown() {
       document.getElementById("chat-bottom").scrollIntoView();
     },
-  },
-  mounted() {
-    this.$store.dispatch("openChat", this.getId());
-    this.$store.dispatch("getMessageList", this.getId());
-    document.getElementById("messageInput").focus();
-    setTimeout(this.scrollDown, 600);
-    var that = this;
-    document.addEventListener(
-      "click",
-      function (event) {
-        // If the clicked element doesn't have the right selector, bail
-        if (!event.target.matches(".linkified")) return;
-        if (typeof that.config.Gui != "undefined" && that.config.Gui == "ut") {
-          // Don't follow the link
-          event.preventDefault();
-          alert(event.target.href);
-        }
-        // else
-        // console.log(that.config.Gui)
-      },
-      false
-    );
-  },
-  watch: {
-    messageInput() {
-      // Adapt height of the textarea when its content changed
-      let textarea = document.getElementById("messageInput");
-      if (this.messageInput == "") {
-        textarea.style.height = "35px";
-      } else {
-        textarea.style.height = 0; // Set height to 0 to reset scrollHeight to its minimum
-        textarea.style.height = textarea.scrollHeight + 5 + "px";
-      }
-    },
-    contacts() {
-      if (this.contacts != null) {
-        Object.keys(this.names).forEach((i) => {
-          var contact = this.contacts.find(function (element) {
-            return element.Tel == i;
-          });
-          if (typeof contact != "undefined") {
-            this.names[i] = contact.Name;
-          }
-        });
-      }
-    },
-    messages: {
-      // This will let Vue know to look inside the array
-      deep: true,
-      handler() {
-        if (!this.$data.scrollLocked) setTimeout(this.scrollDown, 600);
-        this.$data.scrollLocked = false;
-        // this.scrollDown();
-      },
-    },
-  },
-  computed: {
-    chat() {
-      return this.$store.state.currentChat;
-    },
-    messages() {
-      return this.$store.state.messageList.Messages;
-    },
-    isGroup() {
-      return this.$store.state.messageList.Session.IsGroup;
-    },
-    ...mapState(["contacts", "config", "messageList"]),
   },
 };
 </script>
