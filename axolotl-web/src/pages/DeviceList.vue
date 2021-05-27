@@ -1,30 +1,35 @@
 <template>
   <div class="deviceList">
     <!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->
-    <div
-      v-for="device in devices"
-      v-if="device.id !== 1"
-      :key="device.id"
-      class="row device"
-    >
-      <div class="col-10">
-        <div class="device-name">{{ device.name }}</div>
-        <div class="meta">
-          <span class="lastSeen"><span v-translate>Last seen:</span>
-            {{ humanifyDate(device.lastSeen) }}</span>
+    <div v-if="devices && devices.length>1">
+      <div
+        class="row device"
+        v-for="device in devices"
+        v-if="device.id != 1 && false"
+        v-bind:key="device.id"
+      >
+        <div class="col-10">
+          <div class="device-name">{{ device.name }}</div>
+          <div class="meta">
+            <span class="lastSeen"
+              ><span v-translate>Last seen:</span>
+              {{ humanifyDate(device.lastSeen) }}</span
+            >
+          </div>
+        </div>
+        <div class="col-2 actions">
+          <button class="btn" @click="delDevice(device.id)">
+            <font-awesome-icon icon="trash" />
+          </button>
         </div>
       </div>
-      <div class="col-2 actions">
-        <button class="btn" @click="delDevice(device.id)">
-          <font-awesome-icon icon="trash" />
-        </button>
-      </div>
     </div>
-    <div v-if="devices.length === 0" v-translate class="no-entries">
+    <div v-else class="no-entries" v-translate>
       No linked devices
     </div>
     <!-- eslint-enable -->
-    <button class="btn start-chat" @click="linkDevice">
+
+    <button @click="linkDevice" class="btn start-chat">
       <font-awesome-icon icon="plus" />
     </button>
     <add-device-modal
