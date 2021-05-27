@@ -118,16 +118,8 @@ else
 	exit 1
 endif
 ifeq ($(UNAME_S), Linux)
-ifeq ($(UNAME_HARDWARE_PLATTFORM), x86_64)
-	@echo "get zkgroup $(PLATFORM)"
 	$(GO) get -d github.com/nanu-c/zkgroup
-else ifeq ($(UNAME_HARDWARE_PLATTFORM), aarch64)
-	@echo "get zkgroup $(PLATFORM)"
-	$(GO) get -d github.com/nanu-c/zkgroup
-else
-	@echo architecture not (yet) supported $(UNAME_HARDWARE_PLATTFORM)
-	exit 1
-endif
+	cp $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_$(UNAME_HARDWARE_PLATTFORM).so $(CURRENT_DIR)/
 else
 	@echo "platform not supported $(UNAME_S)"
 	exit 1
@@ -149,6 +141,11 @@ else
 	@echo "platform not supported $(UNAME_S)"
 	exit 1
 endif
+
+install-clickable-zkgroup:
+	rm $(CURRENT_DIR)/lib/*.so |true
+	$(GO) get -d github.com/nanu-c/zkgroup
+	cp $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_$(UNAME_HARDWARE_PLATTFORM).so $(CURRENT_DIR)/lib/
 
 ## Flatpak
 build-dependencies-flatpak:
