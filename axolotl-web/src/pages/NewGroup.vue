@@ -4,13 +4,13 @@
       <div class="form-group">
         <label for="group-name"><b v-translate>Group name</b></label>
         <input
-          type="text"
-          v-model="newGroupName"
-          @change="setGroupName"
-          class="form-control"
           id="group-name"
+          v-model="newGroupName"
+          type="text"
+          class="form-control"
           placeholder="Enter group name"
-        />
+          @change="setGroupName"
+        >
       </div>
       <p v-translate>Note, you can't add yourself to a group.</p>
       <button class="btn add-group-members" @click="addMembersModal = true">
@@ -21,11 +21,11 @@
       </button>
       <add-group-members-modal
         v-if="addMembersModal"
-        :alreadyAdded="newGroupMembers"
-        @add="addGroupMemeber"
+        :already-added="newGroupMembers"
+        @add="addGroupMember"
         @close="addMembersModal = false"
       />
-      <div class="member row" v-for="(m, i) in newGroupMembers" v-bind:key="m">
+      <div v-for="(m, i) in newGroupMembers" :key="m" class="member row">
         <div class="row col-10">
           <div class="name col-12">
             {{ m.Name }}
@@ -41,7 +41,7 @@
         </div>
       </div>
     </div>
-    <div v-else class="" v-translate>Creating group</div>
+    <div v-else v-translate class="">Creating group</div>
   </div>
 </template>
 
@@ -50,48 +50,12 @@ import AddGroupMembersModal from "@/components/AddGroupMembersModal.vue";
 import { mapState } from "vuex";
 
 export default {
-  name: "newGroup",
+  name: "NewGroup",
   components: {
     AddGroupMembersModal,
   },
   props: {
     msg: String,
-  },
-  mounted() {
-    this.$store.dispatch("getConfig");
-    this.$store.dispatch("getContacts");
-  },
-  methods: {
-    setGroupName() {},
-    addGroupMemeber(groupMember) {
-      var found = this.newGroupMembers.find(function (element) {
-        return element.Tel == groupMember.Tel;
-      });
-      if (
-        typeof found == "undefined" &&
-        groupMember.Tel != this.config.RegisteredNumber
-      )
-        this.newGroupMembers.push(groupMember);
-    },
-    removeMember(i) {
-      if (this.newGroupMembers.length > 1)
-        this.newGroupMembers = this.newGroupMembers.filter((item, j) => j != i);
-      else this.newGroupMembers = [];
-    },
-    createGroup() {
-      if (this.newGroupName != null && this.newGroupMembers.length > 0) {
-        this.creatingGroup = true;
-        var members = [];
-        this.newGroupMembers.forEach((m) => {
-          if (m.Tel != this.config.RegisteredNumber) members.push(m.Tel);
-        });
-        if (members.length > 0)
-          this.$store.dispatch("createNewGroup", {
-            name: this.newGroupName,
-            members: members,
-          });
-      }
-    },
   },
   data() {
     return {
@@ -102,6 +66,42 @@ export default {
     };
   },
   computed: mapState(["config"]),
+  mounted() {
+    this.$store.dispatch("getConfig");
+    this.$store.dispatch("getContacts");
+  },
+  methods: {
+    setGroupName() {},
+    addGroupMember(groupMember) {
+      const found = this.newGroupMembers.find(function (element) {
+        return element.Tel === groupMember.Tel;
+      });
+      if (
+        typeof found == "undefined" &&
+        groupMember.Tel !== this.config.RegisteredNumber
+      )
+        this.newGroupMembers.push(groupMember);
+    },
+    removeMember(i) {
+      if (this.newGroupMembers.length > 1)
+        this.newGroupMembers = this.newGroupMembers.filter((item, j) => j !== i);
+      else this.newGroupMembers = [];
+    },
+    createGroup() {
+      if (this.newGroupName != null && this.newGroupMembers.length > 0) {
+        this.creatingGroup = true;
+        const members = [];
+        this.newGroupMembers.forEach((m) => {
+          if (m.Tel !== this.config.RegisteredNumber) members.push(m.Tel);
+        });
+        if (members.length > 0)
+          this.$store.dispatch("createNewGroup", {
+            name: this.newGroupName,
+            members: members,
+          });
+      }
+    },
+  },
 };
 </script>
 <style scoped>
