@@ -1,3 +1,15 @@
+1.0.0 (Mai 28 2021) (76 merge request were merged)
+------------------------------------
+* Basic GroupsV2 support, a huge thanks go to blackoverflow and olof and all the testers. (nanu-c)
+* Update axolotl-web to vue3 (nanu-c)
+* fix hundreds of new linter-warnings with vue3 (olof-nord)
+* improve the ci (olof-nord)
+* add a makefile (olof-nord)
+* update translations English, French, Italian, Norge, Swedish (Anne017, RedXXIII, JanConGitHub, olof-nord, albanobattistella, sc0w)
+* upgrade electron and nodejs (olof-nord)
+* improve documentation a lot (olof-nord sc0w)
+
+
 0.9.9 (Feb 27 2021)
 ------------------------------------
 * Add github actions to automagically build fltapak and clicks and appimages on release(olof nord)
