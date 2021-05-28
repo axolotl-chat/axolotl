@@ -2,9 +2,9 @@
   <div class="register">
     <WarningMessage />
     <div v-if="infoPage" class="page1 info">
-      <img class="logo" src="/axolotl.png">
+      <img class="logo" src="/axolotl.png" alt="Axolotl logo">
       <h1 class="title">Axolotl Beta</h1>
-      <h2 v-translate class="subtitle">A cross-plattform signal client</h2>
+      <h2 v-translate class="subtitle">A cross-platform signal client</h2>
       <div class="description">
         Hey! Mr. Tambourine Man, play a song for me,
         <br>
@@ -25,9 +25,9 @@
         Next
       </button>
     </div>
-    <div v-if="ratelimitError != null" class="rateLimit-error">
+    <div v-if="rateLimitError != null" class="rateLimit-error">
       <div class="error">
-        {{ ratelimitError }}
+        {{ rateLimitError }}
       </div>
     </div>
     <div v-else class="registration">
@@ -51,7 +51,7 @@ import WarningMessage from "@/components/WarningMessage";
 import { mapState } from "vuex";
 
 export default {
-  name: "RegisterPage",
+  name: "Register",
   components: {
     VueTelInput,
     WarningMessage,
@@ -64,7 +64,7 @@ export default {
   },
   computed: mapState([
     "gui",
-    "ratelimitError",
+    "rateLimitError",
     "registrationStatus",
     "captchaToken",
     "captchaTokenSent",

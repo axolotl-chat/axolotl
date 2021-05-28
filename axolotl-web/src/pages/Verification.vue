@@ -2,17 +2,17 @@
   <div class="verify">
     <h3 v-translate>Enter your registration pin</h3>
     <div
-      v-if="verificationError == 'RegistrationLockFailure' || requestPin"
+      v-if="verificationError === 'RegistrationLockFailure' || requestPin"
       class="verify"
     >
       <p v-translate>or disable it on Android/IOs</p>
-      <input v-model="pin" type="text" />
+      <input v-model="pin" type="text">
       <button v-translate class="btn btn-primary" @click="sendPin()">
         Send pin
       </button>
     </div>
     <div v-if="!requestPin" class="verify">
-      <VerificationPinInput v-on:inputValue="updateCode($event)" class="codeInput" />
+      <VerificationPinInput class="codeInput" @inputValue="updateCode($event)" />
       <button
         v-translate
         :disabled="inProgress"
@@ -30,7 +30,7 @@
         <span v-translate class="sr-only">Loading...</span>
       </div>
     </div>
-    <div v-if="verificationError == 404">
+    <div v-if="verificationError === 404">
       <div v-translate>Wrong code entered. Restart for another try.</div>
     </div>
   </div>
@@ -62,13 +62,13 @@ export default {
       this.code = code
     },
     sendCode() {
-      if (this.code.length == 6) {
+      if (this.code.length === 6) {
         this.$store.dispatch("sendCode", this.code);
         this.inProgress = true;
       }
     },
     sendPin() {
-      if (this.code.length == 6) {
+      if (this.code.length === 6) {
         this.$store.dispatch("sendPin", this.pin);
         this.inProgress = true;
       }

@@ -2,70 +2,64 @@
   <div class="set-password">
     <h5 v-translate>Info</h5>
     <p v-translate>
-      Setting a password is not adviced on devices short in memory. Restart is
+      Setting a password is not advised on devices short in memory. Restart is
       required!
     </p>
     <div
       v-if="passwordError"
+      v-translate
       class="alert alert-danger"
       role="alert"
-      v-translate
     >
       Passwords don't match
     </div>
     <div
       v-if="passwordUnsafe"
+      v-translate
       class="alert alert-danger"
       role="alert"
-      v-translate
     >
       Unsafe password
     </div>
     <div
       v-if="currentPasswordWrong"
+      v-translate
       class="alert alert-danger"
       role="alert"
-      v-translate
     >
       Current password is wrong
     </div>
-    <label for="passwordRepeat" class="text-primary" v-translate
-      >New password</label
-    >
+    <label v-translate for="passwordRepeat" class="text-primary">New password</label>
     <password
+      id="setPassword"
       v-model="password"
       type="password"
       name="password"
-      id="setPassword"
-      :secureLength="7"
+      :secure-length="7"
     />
     <div class="form-group">
-      <label for="passwordRepeat" class="text-primary" v-translate
-        >Repeat password</label
-      >
+      <label v-translate for="passwordRepeat" class="text-primary">Repeat password</label>
       <input
-        required
+        id="passwordRepeat"
         v-model="passwordRepeat"
+        required
         type="password"
         name="passwordRepeat"
-        id="passwordRepeat"
         class="form-control"
-      />
+      >
     </div>
     <div class="form-group">
-      <label for="passwordCurrent" class="text-primary" v-translate
-        >Current password</label
-      >
+      <label v-translate for="passwordCurrent" class="text-primary">Current password</label>
       <input
-        required
+        id="passwordCurrent"
         v-model="passwordCurrent"
+        required
         type="password"
         name="passwordCurrent"
-        id="passwordCurrent"
         class="form-control"
-      />
+      >
     </div>
-    <button class="btn btn-primary" @click="setPassword()" v-translate>
+    <button v-translate class="btn btn-primary" @click="setPassword()">
       Set password
     </button>
   </div>
@@ -74,24 +68,9 @@
 <script>
 import Password from "vue-password-strength-meter";
 export default {
-  name: "setPasword",
+  name: "SetPassword",
   components: {
     Password,
-  },
-  methods: {
-    setPassword() {
-      const { password, passwordRepeat } = this;
-      if (password.localeCompare(passwordRepeat) != 0) {
-        this.passwordError = true;
-      } else if (password.length < 7 && password.length > 0) {
-        this.passwordUnsafe = true;
-      } else {
-        this.$store.dispatch("setPassword", {
-          pw: this.password,
-          cPw: this.passwordCurrent,
-        });
-      }
-    },
   },
   data() {
     return {
@@ -103,6 +82,21 @@ export default {
       passwordUnsafe: false,
       currentPasswordWrong: false,
     };
+  },
+  methods: {
+    setPassword() {
+      const { password, passwordRepeat } = this;
+      if (password.localeCompare(passwordRepeat) !== 0) {
+        this.passwordError = true;
+      } else if (password.length < 7 && password.length > 0) {
+        this.passwordUnsafe = true;
+      } else {
+        this.$store.dispatch("setPassword", {
+          pw: this.password,
+          cPw: this.passwordCurrent,
+        });
+      }
+    },
   },
 };
 </script>

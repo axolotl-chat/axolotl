@@ -28,8 +28,8 @@
               <img
                 class="avatar-img"
                 :src="'http://localhost:9080/avatars?file=' + chat.Tel"
-                @error="onImageError($event)"
                 alt="Avatar image"
+                @error="onImageError($event)"
               >
               <font-awesome-icon icon="user-friends" />
             </div>
@@ -100,7 +100,6 @@ import moment from "moment";
 import { mapState } from "vuex";
 import { router } from "@/router/router";
 import WarningMessage from "@/components/WarningMessage";
-import longPressEvent from "long-press-event/dist/long-press-event.min.js";
 
 export default {
   name: "ChatList",
@@ -108,7 +107,10 @@ export default {
     WarningMessage,
   },
   props: {
-    msg: String,
+    msg: {
+      type: String,
+      default: ""
+    },
   },
   data() {
     return {
@@ -130,8 +132,7 @@ export default {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
     this.sortChats();
-    const userLang = navigator.language || navigator.userLanguage;
-    this.$language.current = userLang;
+    this.$language.current = navigator.language || navigator.userLanguage;
     this.$store.dispatch("leaveChat");
     this.$store.dispatch("clearMessageList");
     this.$store.dispatch("clearFilterContacts");

@@ -143,7 +143,7 @@ export default {
       return this.$store.state.contactsFilterActive;
     },
     error() {
-      return this.$store.state.ratelimitError;
+      return this.$store.state.rateLimitError;
     },
     importing() {
       return this.$store.state.importingContacts;
