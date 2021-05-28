@@ -51,6 +51,11 @@ export const router = new createRouter({
       component: () => import("@/pages/SetPassword.vue")
     },
     {
+      path: "/setUsername",
+      name: "setUsername",
+      component: () => import("@/pages/SetUsername.vue")
+    },
+    {
       path: "/contacts",
       name: "contacts",
       component: () => import("@/pages/Contacts.vue")
@@ -117,7 +122,7 @@ router.beforeEach((to, from, next) => {
 });
 
 function proceed(to, next) {
-  const registrationPages = ['/register', '/verify', '/password', '/pin'];
+  const registrationPages = ['/register', '/verify', '/password', '/pin', '/setUsername'];
   const registrationStatus = store.state.registrationStatus;
 
   //disable routes when registration is not finished yet
@@ -129,6 +134,8 @@ function proceed(to, next) {
     return next('/pin');
   } else if (registrationStatus == "password" && to.path != '/password') {
     return next('/password');
+  } else if (registrationStatus == "getUsername" && to.path != '/setUsername') {
+    return next('/setUsername');
   } else if (registrationStatus == "registered" && registrationPages.includes(to.path)) {
     // We are registered. And are trying to access a registration page, redirect to home
     return next('/');

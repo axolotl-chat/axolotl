@@ -40,8 +40,11 @@ func SendMessageHelper(ID int64, message, file string, updateMessageChannel chan
 		}
 		// sessions fix bug in 1.9.4 could be deleted later
 		if !session.IsGroup && len(session.Tel) > 0 && session.Tel[0] != '+' {
-			session.IsGroup = true
-			store.UpdateSession(session)
+			// check for 00 international countries
+			if session.Tel[0] != '0' && session.Tel[1] != '0' {
+				session.IsGroup = true
+				store.UpdateSession(session)
+			}
 		}
 		if !session.IsGroup && strings.Index(session.UUID, "-") == -1 {
 			contact := store.GetContactForTel(session.Tel)
@@ -65,7 +68,7 @@ func SendMessageHelper(ID int64, message, file string, updateMessageChannel chan
 		}
 		if session.IsGroup {
 			// deduplicate sessions fix bug in 1.9.4 could be deleted later
-			log.Println("[axolotl] MessageHandler1 update group session uuid")
+			log.Println("[axolotl] MessageHandler update group session uuid", session.IsGroup)
 
 			sessions := store.SessionsModel.GetAllSessionsByE164(session.Tel)
 			if len(sessions) > 1 {

@@ -14,6 +14,7 @@ import (
 	"github.com/nanu-c/axolotl/app/settings"
 	"github.com/nanu-c/axolotl/app/store"
 	"github.com/signal-golang/textsecure"
+	textsecureContacts "github.com/signal-golang/textsecure/contacts"
 )
 
 func websocketSender() {
@@ -29,14 +30,15 @@ func websocketSender() {
 }
 func sendRegistrationStatus() {
 	log.Debugln("[axolotl-ws] getRegistrationStatus")
-	if registered {
+	if requestUsername {
+		sendRequest("getUsername")
+	} else if registered {
 		sendRequest("registrationDone")
 	} else if requestPassword {
 		sendRequest("getEncryptionPw")
-	} else if requestSmsVerificationCode{
-
+	} else if requestSmsVerificationCode {
 		sendRequest("getVerificationCode")
-		}else{
+	} else {
 		sendRequest("getPhoneNumber")
 	}
 }
@@ -80,7 +82,7 @@ func updateCurrentChat(s *store.Session) {
 	var (
 		err error
 		gr  *textsecure.Group
-		c   *textsecure.Contact
+		c   *textsecureContacts.Contact
 	)
 	if s.IsGroup {
 		gr, err = textsecure.GetGroupById(s.Tel)
@@ -150,7 +152,7 @@ func sendDeviceList() {
 	broadcast <- *message
 }
 func createChat(uuid string) *store.Session {
-	if uuid == "0"{
+	if uuid == "0" {
 		return nil
 	}
 	session, err := store.SessionsModel.GetByUUID(uuid)

@@ -24,8 +24,10 @@
     "*.go",
     "dist",
     ".flatpak-builder",
-    ".idea"
+    ".idea",
+    "flatpak",
+    "libzkgroup*.so",
+    "\\$GITHUB_WORKSPACE"
   ],
-  "postbuild": "$ROOT/scripts/postbuild.sh $INSTALL_DIR",
-  "dependencies_target": ["qml-module-qtcontacts"]
+  "postbuild": "$ROOT/scripts/postbuild.sh $INSTALL_DIR; cp ${GOPATH}/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_${ARCH}.so ${INSTALL_DIR}/lib/libzkgroup_linux_${ARCH}.so"
 }

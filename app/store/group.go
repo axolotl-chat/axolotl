@@ -3,14 +3,21 @@ package store
 import log "github.com/sirupsen/logrus"
 
 type GroupRecord struct {
-	ID      int64
-	Uuid    string
-	GroupID string
-	Name    string
-	Members string
-	Avatar  []byte
-	Active  bool
+	ID         int64
+	Uuid       string
+	GroupID    string
+	Name       string
+	Members    string
+	Avatar     []byte
+	Active     bool
+	Type       int
+	JoinStatus int
 }
+
+const (
+	GroupRecordTypeGroupv1 = 0
+	GroupRecordTypeGroupv2 = 1
+)
 
 var AllGroups []*GroupRecord
 var Groups = map[string]*GroupRecord{}
@@ -39,12 +46,10 @@ func SaveGroup(g *GroupRecord) (*GroupRecord, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	id, err := res.LastInsertId()
 	if err != nil {
 		return nil, err
 	}
-
 	g.ID = id
 	return g, nil
 }

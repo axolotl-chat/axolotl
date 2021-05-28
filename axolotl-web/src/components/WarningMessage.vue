@@ -1,6 +1,6 @@
 <template>
   <div v-if="mainWarningMessage" class="warning-box mb-2">
-    <span class="close-warning-box" @click="mainWarningMessage = false">x</span>
+    <span class="close-warning-box" @click="disableWarning">x</span>
     <p v-translate class="pb-0 mb-0">
       Due to upstream changes in Signal, some features are currently broken.
       We're working as fast as we can to bring them back.
@@ -26,7 +26,16 @@ export default {
       mainWarningMessage: true,
     };
   },
+  mounted(){
+    if(localStorage.getItem("upstreamWarning")){
+      this.mainWarningMessage = false;
+    }
+  },
   methods: {
+    disableWarning(){
+      localStorage.setItem("upstreamWarning", true)
+      this.mainWarningMessage = false;
+    },
     openExtern(e, url) {
       if (this.gui === "ut") {
         e.preventDefault();
@@ -36,3 +45,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+  .close-warning-box{
+    cursor: pointer;
+  }
+</style>

@@ -3,6 +3,7 @@ package handler
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"strings"
 	"time"
@@ -31,7 +32,7 @@ func MessageHandler(msg *textsecure.Message) {
 func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 	var err error
 	var attachments []store.Attachment //should be array
-	mt := ""                 //
+	mt := ""                           //
 	if len(msg.Attachments()) > 0 {
 		for i, a := range msg.Attachments() {
 			mt = msg.Attachments()[i].MimeType
@@ -72,7 +73,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		if gr.Avatar != nil {
 			av, err = ioutil.ReadAll(bytes.NewReader(gr.Avatar))
 			if err != nil {
-				log.Println("[axolotl]", err)
+				log.Println("[axolotl] avatar", err)
 				return
 			}
 		}
@@ -99,11 +100,49 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 			msgFlags = helpers.MsgFlagGroupLeave
 		}
 	}
+	//GroupV2 Message
+	grV2 := msg.GroupV2()
+	if grV2 != nil {
+		group := store.Groups[grV2.Hexid]
+		if group != nil && grV2.DecryptedGroup != nil {
+			group.Name = string(grV2.DecryptedGroup.Title)
+			store.UpdateGroup(group)
+		} else {
+			title := "Unknown group"
+			if grV2.DecryptedGroup != nil {
+				title = string(grV2.DecryptedGroup.Title)
+			}
+			store.Groups[grV2.Hexid] = &store.GroupRecord{
+				GroupID: grV2.Hexid,
+				Name:    title,
+				Type:    store.GroupRecordTypeGroupv2,
+			}
+			_, err = store.SaveGroup(store.Groups[grV2.Hexid])
+			if err != nil {
+				log.Errorln("[axolotl] save groupV2 ", err)
+			}
+		}
+		if grV2.GroupAction != nil && len(msg.Message()) == 0 {
+
+			// update group only, when group was decrypted
+			if grV2.DecryptedGroup != nil {
+				group.Name = string(grV2.DecryptedGroup.Title)
+				store.UpdateGroup(group)
+			}
+			text = "Group was changed to revision " + fmt.Sprint(grV2.GroupContext.Revision)
+			msgFlags = helpers.MsgFlagGroupV2Change
+		}
+		// handle groupv2 updates etc
+	}
 
 	msgSource := msg.SourceUUID()
 	if gr != nil {
 		msgSource = gr.Hexid
 	}
+	if grV2 != nil {
+		msgSource = grV2.Hexid
+	}
+
 	if msg.Sticker() != nil {
 		msgFlags = helpers.MsgFlagSticker
 		text = "Unsupported Message: sticker"
@@ -141,7 +180,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		session, err = store.SessionsModel.GetByUUID(msgSource)
 		webserver.UpdateChatList()
 	}
-	if err != nil && gr == nil {
+	if err != nil && gr == nil && grV2 == nil {
 		// Session could not be found, lets try to find it by E164 aka phone number
 		log.Println("[axolotl] MessageHandler: ", err)
 		session = store.SessionsModel.GetByE164(msg.Source())
@@ -157,9 +196,13 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 			// create a new session
 			session = store.SessionsModel.CreateSessionForE164(msg.Source(), msg.SourceUUID())
 		}
-	} else if err != nil {
+	} else if err != nil && gr != nil {
 		log.Infoln("[axolotl] MessageHandler group Error ", err)
 		session = store.SessionsModel.CreateSessionForGroup(gr)
+		// TODO create group
+	} else if err != nil && grV2 != nil {
+		log.Infoln("[axolotl] MessageHandler group2 not found, lets create it ", err)
+		session = store.SessionsModel.CreateSessionForGroupV2(grV2)
 		// TODO create group
 	}
 	var m *store.Message

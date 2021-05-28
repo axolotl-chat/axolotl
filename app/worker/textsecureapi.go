@@ -18,6 +18,9 @@ import (
 	"github.com/nanu-c/axolotl/app/store"
 	"github.com/nanu-c/axolotl/app/ui"
 	"github.com/signal-golang/textsecure"
+	textsecureConfig "github.com/signal-golang/textsecure/config"
+	textsecureContacts "github.com/signal-golang/textsecure/contacts"
+
 	log "github.com/sirupsen/logrus"
 )
 
@@ -162,6 +165,7 @@ func RunBackend() {
 		TypingMessageHandler:  handler.TypingMessageHandler,
 		SyncSentHandler:       handler.SyncSentHandler,
 		RegistrationDone:      ui.RegistrationDone,
+		GetUsername:           ui.GetUsername,
 	}
 
 	if config.IsPhone {
@@ -225,18 +229,22 @@ func startSession() {
 		store.RefreshContacts()
 	}
 	Api.UUID = config.Config.UUID
-	if !config.Config.AccountCapabilities.UUID {
-		log.Debugln("[axoltol] uuid not set, start uuid migration")
-
-		config.Config.AccountCapabilities = textsecure.AccountCapabilities{
-			UUID:         true,
-			Gv2:          false,
+	if !config.Config.AccountCapabilities.Gv2 {
+		log.Debugln("[axolotl] gv2 not set, start gv2 migration")
+		// enable gv2 capabilities
+		config.Config.AccountCapabilities = textsecureConfig.AccountCapabilities{
+			UUID:         false,
+			Gv2:          true,
 			Storage:      false,
 			Gv1Migration: false,
 		}
 		err := textsecure.WriteConfig(config.ConfigFile, config.Config)
 		if err != nil {
-			log.Debugln("[axoltol] uuid migration: ", err)
+			log.Debugln("[axolotl] gv2 migration save config: ", err)
+		}
+		textsecure.SetAccountCapabilities(config.Config.AccountCapabilities)
+		if err != nil {
+			log.Debugln("[axolotl] gv2 migration: ", err)
 		}
 	}
 	for _, s := range store.SessionsModel.Sess {
@@ -249,7 +257,7 @@ func startSession() {
 func (Api *TextsecureAPI) FilterContacts(sub string) {
 	sub = strings.ToUpper(sub)
 
-	fc := []textsecure.Contact{}
+	fc := []textsecureContacts.Contact{}
 	for _, c := range store.ContactsModel.Contacts {
 		if strings.Contains(strings.ToUpper(store.TelToName(c.Tel)), sub) {
 			fc = append(fc, c)

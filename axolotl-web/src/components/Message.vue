@@ -134,7 +134,8 @@
         <div
           class="message-text-content"
           v-html="linkify(sanitize(message.Message))"
-        />
+        ></div>
+        <div v-translate v-if="message.Flags===17">Group changed.</div>
         <div
           v-if="
             message.Attachment.includes('null') &&

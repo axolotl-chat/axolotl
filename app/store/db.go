@@ -23,8 +23,8 @@ var (
 	dbFile   string
 	saltFile string
 
-	sessionsSchema = "CREATE TABLE IF NOT EXISTS sessions (id INTEGER PRIMARY KEY, name text, tel text, isgroup boolean, last string, timestamp integer, ctype integer, unread integer default 0, notification boolean default 1, expireTimer integer default 0, type integer NOT NULL DEFAULT 0, uuid string  NOT NULL DEFAULT 0)"
-	sessionsInsert = "INSERT OR REPLACE INTO sessions (name, tel, isgroup, last, ctype, timestamp, notification, expireTimer, type, uuid ) VALUES ( :name, :tel, :isgroup, :last, :ctype, :timestamp, :notification, :expireTimer, :type, :uuid)"
+	sessionsSchema = "CREATE TABLE IF NOT EXISTS sessions (id INTEGER PRIMARY KEY, name text, tel text, isgroup boolean, last string, timestamp integer, ctype integer, unread integer default 0, notification boolean default 1, expireTimer integer default 0, type integer NOT NULL DEFAULT 0, uuid string  NOT NULL DEFAULT 0, groupJoinStatus integer NOT NULL DEFAULT 0)"
+	sessionsInsert = "INSERT OR REPLACE INTO sessions (name, tel, isgroup, last, ctype, timestamp, notification, expireTimer, type, uuid, groupJoinStatus ) VALUES ( :name, :tel, :isgroup, :last, :ctype, :timestamp, :notification, :expireTimer, :type, :uuid, :groupJoinStatus)"
 	sessionsSelect = "SELECT * FROM sessions ORDER BY timestamp DESC"
 
 	messagesSchema                 = "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, sid integer, source text, srcUUID string NOT NULL DEFAULT 0, message text, outgoing boolean, sentat integer, receivedat integer, ctype integer, attachment string, issent boolean, isread boolean, flags integer default 0, sendingError boolean, expireTimer integer default 0, receipt boolean default 0, statusMessage boolean default 0, quoteId integer NOT NULL default -1)"
@@ -36,9 +36,9 @@ var (
 	messagesReceiptRead            = "UPDATE messages SET isRead=1 WHERE sentat = ?"
 	messagesReceiptSent            = "UPDATE messages SET isSent=1 WHERE sentat = ?"
 
-	groupsSchema = "CREATE TABLE IF NOT EXISTS groups (id INTEGER PRIMARY KEY, groupid TEXT, name TEXT, members TEXT, avatar BLOB, avatarid INTEGER, avatar_key BLOB, avatar_content_type TEXT, relay TEXT, active INTEGER DEFAULT 1)"
-	groupsInsert = "INSERT OR REPLACE INTO groups (groupid, name, members, avatar) VALUES (:groupid, :name, :members, :avatar)"
-	groupsUpdate = "UPDATE groups SET members = :members, name = :name, avatar = :avatar, active = :active WHERE groupid = :groupid"
+	groupsSchema = "CREATE TABLE IF NOT EXISTS groups (id INTEGER PRIMARY KEY, groupid TEXT, name TEXT, members TEXT, avatar BLOB, avatarid INTEGER, avatar_key BLOB, avatar_content_type TEXT, relay TEXT, active INTEGER DEFAULT 1, type INTEGER DEFAULT 1, joinStatus INTEGER DEFAULT 1)"
+	groupsInsert = "INSERT OR REPLACE INTO groups (groupid, name, members, avatar, type) VALUES (:groupid, :name, :members, :avatar, :type)"
+	groupsUpdate = "UPDATE groups SET members = :members, name = :name, avatar = :avatar, active = :active,  type = :type WHERE groupid = :groupid"
 	groupsSelect = "SELECT groupid, name, members, avatar, active FROM groups"
 	groupsDelete = "DELETE FROM groups WHERE groupid = ?"
 )
@@ -47,7 +47,7 @@ var (
 
 // Decrypt database and closes connection
 func (ds *DataStore) Decrypt(dbPath string) error {
-	log.Debugf("[axoltol] Decrypt Db")
+	log.Debugf("[axolotl] Decrypt Db")
 	query := fmt.Sprintf("ATTACH DATABASE '%s' AS plaintext KEY '';", dbPath)
 	if DS.Dbx == nil {
 		log.Errorf("Dbx is nil")
@@ -93,6 +93,8 @@ func (ds *DataStore) SetupDb(password string) bool {
 	UpdateSessionTable_v_0_7_8()
 	UpdateSessionTable_v_0_9_0()
 	UpdateSessionTable_v_0_9_5()
+	updateGroupTable_v_0_9_10()
+	updateSessionTable_joinStatus_v_0_9_10()
 
 	err = LoadChats()
 	if err != nil {

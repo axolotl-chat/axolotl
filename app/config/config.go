@@ -6,13 +6,14 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
-	"strings"
 	"runtime"
+	"strings"
 
 	log "github.com/sirupsen/logrus"
 
 	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/signal-golang/textsecure"
+	textsecureConfig "github.com/signal-golang/textsecure/config"
 )
 
 const AppName = "textsecure.nanuc"
@@ -47,9 +48,9 @@ var (
 	AxolotlWebDir          string
 )
 
-var Config *textsecure.Config
+var Config *textsecureConfig.Config
 
-func GetConfig() (*textsecure.Config, error) {
+func GetConfig() (*textsecureConfig.Config, error) {
 	ConfigFile = filepath.Join(ConfigDir, "config.yml")
 	cf := ConfigFile
 	if IsPhone {
@@ -62,7 +63,7 @@ func GetConfig() (*textsecure.Config, error) {
 	if helpers.Exists(cf) {
 		Config, err = textsecure.ReadConfig(cf)
 	} else {
-		Config = &textsecure.Config{}
+		Config = &textsecureConfig.Config{}
 	}
 	Config.StorageDir = StorageDir
 	log.Debugln("[axolotl] config path: ", ConfigDir)
@@ -87,12 +88,12 @@ func SetupConfig() {
 	}
 
 	if PrintVersion {
-        fmt.Printf("%s %s %s %s %s\n",
-                    AppName, AppVersion, runtime.GOOS, runtime.GOARCH, runtime.Version())
-        os.Exit(0)
-    }
+		fmt.Printf("%s %s %s %s %s\n",
+			AppName, AppVersion, runtime.GOOS, runtime.GOARCH, runtime.Version())
+		os.Exit(0)
+	}
 
-	if IsPushHelper || IsPhone{
+	if IsPushHelper || IsPhone {
 		log.Printf("[axolotl] use push helper")
 		HomeDir = "/home/phablet"
 	} else {
@@ -121,7 +122,7 @@ func SetupConfig() {
 	}
 	os.MkdirAll(ConfigDir, 0700)
 	DataDir = filepath.Join(HomeDir, ".local", "share", AppName)
-	if IsPushHelper || IsPhone{
+	if IsPushHelper || IsPhone {
 		LogFile = filepath.Join(HomeDir, ".cache/", "upstart/", strings.Join(LogFileName, ""))
 	} else {
 		LogFile = filepath.Join(DataDir, strings.Join(LogFileName, ""))

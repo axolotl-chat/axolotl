@@ -18,11 +18,11 @@ msgid "3. Paste the QR code here:"
 msgstr ""
 
 #: src/pages/Register.vue:6
-msgid "A cross-plattform signal client"
+msgid "A cross-platform signal client"
 msgstr ""
 
 #: src/pages/About.vue:4
-msgid "A cross-plattform Signal client"
+msgid "A cross-platform Signal client"
 msgstr ""
 
 #: src/pages/Settings.vue:25
@@ -76,7 +76,7 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
-#: src/components/Header.vue:114
+#: src/components/Header.vue:116
 msgid "Connect with Signal"
 msgstr ""
 
@@ -88,7 +88,7 @@ msgstr ""
 msgid "Contact list is empty..."
 msgstr ""
 
-#: src/components/Header.vue:196
+#: src/components/Header.vue:198
 msgid "Contacts"
 msgstr ""
 
@@ -139,11 +139,11 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: src/components/Header.vue:105 src/components/Header.vue:149
+#: src/components/Header.vue:105 src/components/Header.vue:151
 msgid "Edit group"
 msgstr ""
 
-#: src/components/Header.vue:118
+#: src/components/Header.vue:120
 msgid "Enter password"
 msgstr ""
 
@@ -157,6 +157,10 @@ msgstr ""
 
 #: src/components/WarningMessage.vue:8
 msgid "Follow the progress or join us to help with development on"
+msgstr ""
+
+#: src/components/Message.vue:91
+msgid "Group changed."
 msgstr ""
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
@@ -193,7 +197,7 @@ msgid ""
 "\"_blank\">opening an issue</a>."
 msgstr ""
 
-#: src/components/Header.vue:177
+#: src/components/Header.vue:179
 msgid "Import contacts"
 msgstr ""
 
@@ -205,15 +209,15 @@ msgstr ""
 msgid "Importing contacts, head back later"
 msgstr ""
 
-#: src/pages/SetPassword.vue:2
+#: src/pages/SetPassword.vue:2 src/pages/SetUsername.vue:2
 msgid "Info"
 msgstr ""
 
-#: src/pages/About.vue:12
+#: src/pages/About.vue:14
 msgid "issues at the bug tracker"
 msgstr ""
 
-#: src/pages/DeviceList.vue:7
+#: src/pages/DeviceList.vue:8
 msgid "Last seen:"
 msgstr ""
 
@@ -244,7 +248,7 @@ msgid ""
 "            counterparty could start the discussion."
 msgstr ""
 
-#: src/components/Header.vue:143 src/components/Header.vue:199
+#: src/components/Header.vue:145 src/components/Header.vue:201
 msgid "New group"
 msgstr ""
 
@@ -252,7 +256,7 @@ msgstr ""
 msgid "New password"
 msgstr ""
 
-#: src/pages/Register.vue:18
+#: src/pages/Register.vue:20
 msgid "Next"
 msgstr ""
 
@@ -260,11 +264,11 @@ msgstr ""
 msgid "No chats available"
 msgstr ""
 
-#: src/pages/DeviceList.vue:17
+#: src/pages/DeviceList.vue:19
 msgid "No linked devices"
 msgstr ""
 
-#: src/pages/MessageList.vue:34
+#: src/pages/MessageList.vue:31
 msgid "No messages available."
 msgstr ""
 
@@ -279,10 +283,10 @@ msgstr ""
 #: src/components/AddContactModal.vue:15
 msgid ""
 "Only add numbers that you are sure are registered Signal\n"
-"              accounts!"
+"            accounts!"
 msgstr ""
 
-#: src/pages/About.vue:14
+#: src/pages/About.vue:16
 msgid "or by becoming a"
 msgstr ""
 
@@ -318,7 +322,7 @@ msgstr ""
 msgid "Repeat password"
 msgstr ""
 
-#: src/pages/Register.vue:29
+#: src/pages/Register.vue:31
 msgid "Request code"
 msgstr ""
 
@@ -346,7 +350,7 @@ msgstr ""
 msgid "Send pin"
 msgstr ""
 
-#: src/components/Header.vue:125
+#: src/components/Header.vue:127
 msgid "Set encryption password"
 msgstr ""
 
@@ -354,17 +358,25 @@ msgstr ""
 msgid "Set password"
 msgstr ""
 
-#: src/components/Message.vue:96
+#: src/components/Message.vue:97
 msgid "Set timer for self-destructing messages"
+msgstr ""
+
+#: src/pages/SetUsername.vue:12
+msgid "Set username"
 msgstr ""
 
 #: src/pages/SetPassword.vue:3
 msgid ""
-"Setting a password is not adviced on devices short in memory. Restart is\n"
+"Setting a password is not advised on devices short in memory. Restart is\n"
 "      required!"
 msgstr ""
 
-#: src/components/Header.vue:137 src/components/Header.vue:202
+#: src/pages/SetUsername.vue:3
+msgid "Setting a username is required. Please choose one."
+msgstr ""
+
+#: src/components/Header.vue:139 src/components/Header.vue:204
 msgid "Settings"
 msgstr ""
 
@@ -372,7 +384,7 @@ msgstr ""
 msgid "Show identity"
 msgstr ""
 
-#: src/pages/About.vue:17
+#: src/pages/About.vue:19
 msgid "sponsor on patreon."
 msgstr ""
 
@@ -402,12 +414,16 @@ msgstr ""
 msgid "Unsafe password"
 msgstr ""
 
-#: src/components/Message.vue:99
+#: src/components/Message.vue:100
 msgid "Unsupported message type: sticker"
 msgstr ""
 
 #: src/pages/EditGroup.vue:41
 msgid "Updating group"
+msgstr ""
+
+#: src/pages/SetUsername.vue:7
+msgid "Username"
 msgstr ""
 
 #: src/components/IdentityModal.vue:5
@@ -421,7 +437,7 @@ msgstr ""
 #: src/components/ImportUnavailableModal.vue:10
 msgid ""
 "We are sorry, but due to a change in the Signal protocol, automatic\n"
-"            import of contacts is currently unavailble."
+"            import of contacts is currently unavailable."
 msgstr ""
 
 #: src/pages/Verification.vue:22
@@ -432,12 +448,22 @@ msgstr ""
 msgid "You"
 msgstr ""
 
-#: src/pages/About.vue:9
+#: src/pages/About.vue:11
 msgid "You can support the development of Axolotl either by filling"
 msgstr ""
 
+#: src/pages/MessageList.vue:35
+msgid ""
+"You have been invited to this group. Accepting invitations is not yet\n"
+"      supported. In order to join please send private a message to the "
+"other\n"
+"      side to exchange the profile key. After that he/she has to remove and "
+"add\n"
+"      you again."
+msgstr ""
+
 #: src/components/Message.vue:38 src/components/Message.vue:47
-#: src/components/Message.vue:67 src/pages/MessageList.vue:21
+#: src/components/Message.vue:67 src/pages/MessageList.vue:19
 msgid "Your browser does not support the audio element."
 msgstr ""
 

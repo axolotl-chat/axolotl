@@ -149,6 +149,9 @@ export default createStore({
         this.dispatch("getChatList")
       } else if (type == "config") {
         this.commit("SET_CONFIG", request)
+      } else if (type == "getUsername") {
+        this.commit("SET_REGISTRATION_STATUS", "getUsername");
+        router.push("/setUsername")
       } else if (type == "Error") {
         this.commit("SET_ERROR", request.Error)
       }
@@ -599,6 +602,17 @@ export default createStore({
         }
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
+    },
+    setUsername: function (state, username) {
+      if (this.state.socket.isConnected) {
+        var message = {
+          "request": "sendUsername",
+          "username": username,
+        }
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
+      }
+      this.commit("SET_REGISTRATION_STATUS", "");
+      router.push("/")
     },
     sendPin: function (state, pin) {
       if (this.state.socket.isConnected) {

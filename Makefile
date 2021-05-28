@@ -4,9 +4,14 @@
 NPM_VERSION := $(shell npm --version 2>/dev/null)
 NODE_VERSION := $(shell node --version 2>/dev/null)
 GO_VERSION := $(shell go version 2>/dev/null)
+CARGO_VERSION := $(shell cargo --version 2>/dev/null)
+GIT_VERSION := $(shell git --version 2>/dev/null)
 AXOLOTL_GIT_VERSION := $(shell git tag | tail --lines=1)
 AXOLOTL_VERSION := $(subst v,,$(AXOLOTL_GIT_VERSION))
+UNAME_S := $(shell uname -s)
+UNAME_HARDWARE_PLATTFORM := $(shell uname --hardware-platform)
 CURRENT_DIR = $(shell pwd)
+
 
 define APPDATA_TEXT=
 \\t\t\t<release version="$(NEW_VERSION)" date="$(shell date --rfc-3339='date')">\n\
@@ -17,12 +22,14 @@ export APPDATA_TEXT
 
 NPM=$(shell which npm)
 GO=$(shell which go)
+GIT=$(shell which git)
+CARGO=$(shell which cargo)
 FLATPAK=$(shell which flatpak)
 FLATPAK_BUILDER=$(shell which flatpak-builder)
 SNAPCRAFT=$(shell which snapcraft)
 SNAP=$(shell which snap)
 
-all: clean build run
+all: clean build
 
 build: build-axolotl-web build-axolotl
 
@@ -51,7 +58,8 @@ check-axolotl:
 	$(GO) test -race ./...
 
 run: build
-	$(GO) run .
+		@echo "Found go with version $(GO_VERSION)"
+		LD_LIBRARY_PATH=$(PWD) $(GO)  run .
 
 build-dependencies: build-dependencies-axolotl-web build-dependencies-axolotl
 
@@ -83,6 +91,61 @@ else
 	@sed -i "32i $$APPDATA_TEXT" flatpak/org.nanuc.Axolotl.appdata.xml
 	@echo Update complete
 endif
+
+## zkgroup
+build-zkgroup:
+	@echo "Found cargo with version $(CARGO_VERSION)"
+	@echo "Found go with version $(GO_VERSION)"
+	@echo "Found git with version $(GIT_VERSION)"
+ifeq ($(UNAME_S), Linux)
+	@echo "get zkgroup $(PLATFORM)"
+	$(GO) get -d github.com/nanu-c/zkgroup \
+	&& cd $(GOPATH)/src/github.com/nanu-c/zkgroup \
+	&& $(GIT) submodule update \
+	&& cd $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/zkgroup \
+	&& $(CARGO) build --release --verbose \
+	&& mv -f $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release/libzkgroup.so $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_$(UNAME_HARDWARE_PLATTFORM).so
+else
+	@echo architecture not (yet) supported $(UNAME_HARDWARE_PLATTFORM)
+	exit 1
+endif
+
+copy-zkgroup:
+ifdef GO_VERSION
+	@echo "Found go with version $(GO_VERSION)"
+else
+	@echo go not found, please install go
+	exit 1
+endif
+ifeq ($(UNAME_S), Linux)
+	$(GO) get -d github.com/nanu-c/zkgroup
+	cp $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_$(UNAME_HARDWARE_PLATTFORM).so $(CURRENT_DIR)/
+else
+	@echo "platform not supported $(UNAME_S)"
+	exit 1
+endif
+
+install-zkgroup:
+ifeq ($(UNAME_S), Linux)
+ifeq ($(UNAME_HARDWARE_PLATTFORM), x86_64)
+	@echo "install libzkgroup to /usr/lib"
+	sudo cp $(CURRENT_DIR)/libzkgroup_linux_amd64.so /usr/lib/
+else ifeq ($(UNAME_HARDWARE_PLATTFORM), aarch64)
+	@echo "install libzkgroup to /usr/lib"
+	sudo cp $(CURRENT_DIR)/libzkgroup_linux_arm64.so  /usr/lib/
+else
+	@echo architecture not  supported $(UNAME_HARDWARE_PLATTFORM)
+	exit 1
+endif
+else
+	@echo "platform not supported $(UNAME_S)"
+	exit 1
+endif
+
+install-clickable-zkgroup:
+	rm $(CURRENT_DIR)/lib/*.so |true
+	$(GO) get -d github.com/nanu-c/zkgroup
+	cp $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_$(UNAME_HARDWARE_PLATTFORM).so $(CURRENT_DIR)/lib/
 
 ## Flatpak
 build-dependencies-flatpak:

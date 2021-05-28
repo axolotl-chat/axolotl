@@ -21,3 +21,4 @@ dist
 .idea
 axolotl.code-workspace
 libzkgroup.so
+libzkgroup*.so
