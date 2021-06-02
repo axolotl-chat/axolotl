@@ -28,12 +28,17 @@
 
 <script>
 export default {
-  name: "ConfirmModal",
+  name: "ConfirmationModal",
   props: {
-    title: String,
-    text: String,
+    title: {
+      type: String,
+      default: ""
+    },
+    text: {
+      type: String,
+      default: ""
+    },
   },
-  methods: {},
 };
 </script>
 <style scoped>
@@ -43,7 +48,7 @@ export default {
 }
 
 .modal-content {
-  border-radius: 0px;
+  border-radius: 0;
 }
 .modal-body {
   text-align: left;
@@ -61,6 +66,6 @@ export default {
 }
 
 .modal-footer {
-  border-top: 0px;
+  border-top: 0;
 }
 </style>
