@@ -52,8 +52,14 @@
 export default {
   name: "EditContactModal",
   props: {
-    contact: Object,
-    id: String,
+    contact: {
+      type: Object,
+      default: () => {}
+    },
+    id: {
+      type: String,
+      default: ""
+    },
   },
   data() {
     return {
@@ -69,7 +75,7 @@ export default {
   border: none;
 }
 .modal-content {
-  border-radius: 0px;
+  border-radius: 0;
 }
 .modal-header {
   border-bottom: none;
@@ -81,6 +87,6 @@ export default {
   margin-left: 10px;
 }
 .modal-footer {
-  border-top: 0px;
+  border-top: 0;
 }
 </style>
