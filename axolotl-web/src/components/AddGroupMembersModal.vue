@@ -86,9 +86,11 @@ import { validateUUID } from "@/helpers/uuidCheck";
 
 export default {
   name: "AddGroupMembersModal",
-  components: {},
   props: {
-    alreadyAdded: Array,
+    alreadyAdded: {
+      type: Array,
+      default: () => []
+    },
   },
   data() {
     return {
@@ -132,8 +134,10 @@ export default {
       return contacts.filter((c) => {
         const isValid = this.validateUUID(c.UUID);
 
-        if (isValid) return false;
-        const found = this.alreadyAdded.find(function (element) {
+        if (isValid) {
+          return false;
+        }
+        const found = this.alreadyAdded.find((element) => {
           return element.Tel === c.Tel;
         });
         return found === undefined;
@@ -160,7 +164,7 @@ export default {
   align-items: center;
 }
 .chat {
-  padding: 0px;
+  padding: 0;
 }
 .number {
   font-size: 14px;
@@ -182,7 +186,7 @@ export default {
 .col-2.actions {
   position: absolute;
   display: flex;
-  right: 0px;
+  right: 0;
   justify-content: center;
   align-items: center;
 }
@@ -195,7 +199,7 @@ export default {
   border: none;
 }
 .modal-content {
-  border-radius: 0px;
+  border-radius: 0;
 }
 .modal-body {
   max-height: 80vh;
@@ -204,7 +208,7 @@ export default {
 .modal-header {
   border-bottom: none;
   background-color: #2090ea;
-  border-radius: 0px;
+  border-radius: 0;
   color: #fff;
 }
 .modal-title {
