@@ -10,6 +10,7 @@ version: "1.0.0"
 architectures:
   - build-on: amd64
   - build-on: arm64
+  - build-on: armhf
 parts:
   axolotl:
     # https://github.com/snapcore/snapcraft/blob/master/snapcraft/plugins/v1/go.py
