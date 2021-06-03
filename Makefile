@@ -182,7 +182,7 @@ install-snap:
 ##  go get -d -u github.com/nanu-c/axolotl/
 check-platform-deb-arm64:
 	@echo "Building Axolotl for Debian arm64/aarch64"
-  ifneq ($(shell uname),Linux)
+  ifneq ($(UNAME_S),Linux)
 	@echo "Platform unsupported - only available for Linux" && exit 1
   endif
   ifneq ($(shell uname -m),aarch64)
@@ -195,7 +195,7 @@ check-platform-deb-arm64:
 dependencies-deb-arm64: check-platform-deb-arm64
 	@echo "Installing dependencies for building Axolotl..."
 	@sudo apt update
-	@sudo apt install git golang nodejs npm python
+	@sudo apt install nano git golang nodejs npm python
 
 build-deb-arm64: check-platform-deb-arm64 dependencies-deb-arm64
 	@echo "Downloading (go)..."
@@ -248,7 +248,7 @@ build-package-deb-arm64:
 
 install-deb-arm64: uninstall-deb-arm64
 # Use for testing purposes only after prebuild-package-arm64
-	@echo "Installing Axololt"
+	@echo "Installing Axolotl"
 # Copy libzkgroup
 	@sudo wget https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_arm64.so -P /usr/lib
 	@sudo mkdir -p /usr/share/axolotl
