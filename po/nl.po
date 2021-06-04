@@ -1,39 +1,38 @@
+# Heimen Stoffels <vistausss@fastmail.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2021-02-09 14:20+0100\n"
-"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2021-06-04 13:46+0200\n"
+"Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
+"Language-Team: Dutch <>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 2.4.3\n"
 
 #: src/components/AddDeviceModal.vue:12
 msgid "1. Open Signal Desktop"
-msgstr ""
+msgstr "1. Open Signal Desktop"
 
 #: src/components/AddDeviceModal.vue:13
 msgid "2. Scan the QR code with a QR code scanner"
-msgstr ""
+msgstr "2. Scan de qr-code met een qr-codescanner"
 
 #: src/components/AddDeviceModal.vue:14
 msgid "3. Paste the QR code here:"
-msgstr ""
+msgstr "3. Plak de qr-code hier:"
 
 #: src/pages/Register.vue:6
-#, fuzzy
 msgid "A cross-platform signal client"
-msgstr "Een Signal-client voor meerdere platformen"
+msgstr "Een platform-onafhankelijke Signal-client"
 
 #: src/pages/About.vue:4
-#, fuzzy
 msgid "A cross-platform Signal client"
-msgstr "Een Signal-client voor meerdere platformen"
+msgstr "Een platform-onafhankelijke Signal-client"
 
 #: src/pages/Settings.vue:25
 msgid "About Axolotl"
@@ -45,9 +44,8 @@ msgid "Add"
 msgstr "Toevoegen"
 
 #: src/components/AddDeviceModal.vue:5
-#, fuzzy
 msgid "Add a new device"
-msgstr "Geen gekoppelde apparaten"
+msgstr "Apparaat toevoegen"
 
 #: src/components/AddGroupMembersModal.vue:56
 msgid "Add contacts first"
@@ -62,24 +60,24 @@ msgid "Audio"
 msgstr "Audio"
 
 #: src/components/ErrorModal.vue:13
-#, fuzzy
 msgid ""
 "Axolotl encountered an error communicating with Signal servers.\n"
 "            Please try again."
 msgstr ""
-"Er is een fout opgetreden tijdens het communiceren met de Signal-servers. "
-"Probeer het opnieuw."
+"Er is een fout opgetreden tijdens het communiceren met de Signal-servers.\n"
+"            Probeer het opnieuw."
 
 #: src/components/ImportUnavailableModal.vue:23
 msgid ""
 "Be careful, if you add too many numbers which aren't Signal\n"
 "            accounts, you won't be able to add contacts anymore."
 msgstr ""
+"Pas op: als je teveel nummers toevoegt die niet gekoppeld zijn aan Signal-\n"
+"            accounts, dan kun je geen contactpersonen meer toevoegen."
 
 #: src/pages/Contacts.vue:2
-#, fuzzy
 msgid "Can't change contact list: {{ error }}"
-msgstr "Kan de contactpersonenlijst niet aanpassen: {{error}}"
+msgstr "Kan de contactpersonenlijst niet aanpassen: {{ error }}"
 
 #: src/components/ErrorModal.vue:31 src/components/IdentityModal.vue:22
 #: src/components/ImportUnavailableModal.vue:29
@@ -101,7 +99,7 @@ msgstr "Contactpersoon"
 
 #: src/pages/Contacts.vue:19
 msgid "Contact list is empty..."
-msgstr "Je contactpersonenlijst is leeg..."
+msgstr "Je contactpersonenlijst is leeg…"
 
 #: src/components/Header.vue:198
 msgid "Contacts"
@@ -143,9 +141,13 @@ msgid ""
 "        Touch, use UT Tweak Tool to set Axolotl on \"Prevent app suspension"
 "\"."
 msgstr ""
+"Wegens technische beperkingen ondersteunt Axolotl geen\n"
+"        pushmeldingen. Houd de app geopend om meldingen te ontvangen. Op "
+"Ubuntu\n"
+"        Touch kun je in UT Tweak Tool instellen dat Axolotl niet onderbroken "
+"mag worden."
 
 #: src/components/WarningMessage.vue:3
-#, fuzzy
 msgid ""
 "Due to upstream changes in Signal, some features are currently broken.\n"
 "      We're working as fast as we can to bring them back."
@@ -178,9 +180,8 @@ msgid "Follow the progress or join us to help with development on"
 msgstr "Volg de voortgang of help ons op"
 
 #: src/components/Message.vue:91
-#, fuzzy
 msgid "Group changed."
-msgstr "Groepsnaam"
+msgstr "De groep is aangepast."
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
@@ -193,9 +194,12 @@ msgid ""
 "that\n"
 "            page."
 msgstr ""
+"Als je er zeker van bent dat de personen met wie je contact zoekt Signal\n"
+"            gebruiken, dan kun je ze handmatig toevoegen middels de plusknop "
+"op\n"
+"            die pagina."
 
 #: src/components/ErrorModal.vue:22
-#, fuzzy
 msgid ""
 "If you think that something is wrong on your side, you can\n"
 "            <a href=\"#\" @click=\"unregister\">unregister</a> and register "
@@ -206,11 +210,15 @@ msgid ""
 "              messages</strong>\n"
 "            if you choose to do that."
 msgstr ""
-"Als je van mening bent dat er iets mis gaan aan jouw kant, dan kun je <a "
-"href=\"#\" @click=\"unregister\">deregistreren</a> en opnieuw registreren."
+"Als je van mening bent dat er iets misgaat aan jouw kant, dan kun je\n"
+"            <ahref=\"#\" @click=\"unregister\">deregistreren</a> en opnieuw "
+"registreren.\n"
+"            Let op:\n"
+"            <strong>je toegangssleutel wijzigt hierdoor waardoor je ook als "
+"je\n"
+"            berichten kwijtraakt</strong>."
 
 #: src/components/ErrorModal.vue:17
-#, fuzzy
 msgid ""
 "If you're seeing that error multiple times, check the\n"
 "            <a href=\"https://status.signal.org/\" target=\"_blank\">status "
@@ -221,22 +229,21 @@ msgid ""
 msgstr ""
 "Als je de foutmelding meermaals ziet, controleer dan de <a href=\"https://"
 "status.signal.org/\" target=\"_blank\">status van de Signal-servers</a>.\n"
-"           Als daar niks aan de hand is, meld het probleem dan aan ons door "
-"<a href=\"https://github.com/nanu-c/axolotl/issues\" target=\"_blank\">een "
-"'issue' te openen</a>."
+"           Als daar niks aan de hand is, meld het probleem dan aan ons door\n"
+"            <a href=\"https://github.com/nanu-c/axolotl/issues\" target="
+"\"_blank\">een ‘issue’ te openen</a>."
 
 #: src/components/Header.vue:179
 msgid "Import contacts"
 msgstr "Contactpersonen importeren"
 
 #: src/components/ImportUnavailableModal.vue:5
-#, fuzzy
 msgid "Import contacts feature unavailable"
-msgstr "Bezig met importeren van contactpersonen..."
+msgstr "Contactpersoonimport is niet beschikbaar"
 
 #: src/pages/Contacts.vue:5
 msgid "Importing contacts, head back later"
-msgstr "Bezig met importeren van contactpersonen..."
+msgstr "Bezig met importeren van contactpersonen…"
 
 #: src/pages/SetPassword.vue:2 src/pages/SetUsername.vue:2
 msgid "Info"
@@ -256,7 +263,7 @@ msgstr "Gekoppelde apparaten"
 
 #: src/pages/Verification.vue:18
 msgid "Loading..."
-msgstr "Bezig met laden..."
+msgstr "Bezig met laden…"
 
 #: src/pages/NewGroup.vue:9
 msgid "Members"
@@ -271,15 +278,14 @@ msgid "Name"
 msgstr "Naam"
 
 #: src/components/StartChatModal.vue:13
-#, fuzzy
 msgid ""
 "New conversations are temporarily disabled. You can create a new\n"
 "            chat from the linked Desktop Client. Alternatively, your\n"
 "            counterparty could start the discussion."
 msgstr ""
-"Nieuwe gesprekken zijn tijdelijk uitgeschakeld. Je kunt een nieuw gesprek "
-"starten middels de gekoppelde computerclient. Of laat de ander het voor je "
-"doen."
+"Nieuwe gesprekken zijn tijdelijk uitgeschakeld. Je kunt een nieuw\n"
+"            gesprek starten middels de gekoppelde computerclient, of\n"
+"            laat de ander het voor je doen."
 
 #: src/components/Header.vue:145 src/components/Header.vue:201
 msgid "New group"
@@ -318,6 +324,8 @@ msgid ""
 "Only add numbers that you are sure are registered Signal\n"
 "            accounts!"
 msgstr ""
+"Voeg alleen nummers toe waarvan je 100% zeker bent dat ze gekoppeld\n"
+"            zijn aan Signal-accounts!"
 
 #: src/pages/About.vue:16
 msgid "or by becoming a"
@@ -345,7 +353,7 @@ msgstr "Foto"
 
 #: src/components/AddDeviceModal.vue:17
 msgid "QR code"
-msgstr ""
+msgstr "QR-code"
 
 #: src/pages/Settings.vue:4
 msgid "Registered number"
@@ -397,20 +405,20 @@ msgstr "Tijdklok instellen voor zelfvernietigende berichten"
 
 #: src/pages/SetUsername.vue:12
 msgid "Set username"
-msgstr ""
+msgstr "Gebruikersnaam instellen"
 
 #: src/pages/SetPassword.vue:3
-#, fuzzy
 msgid ""
 "Setting a password is not advised on devices short in memory. Restart is\n"
 "      required!"
 msgstr ""
 "Het instellen van een wachtwoord wordt afgeraden op apparaten met weinig "
-"geheugen. Herstart vereist!"
+"geheugen.\n"
+"            Herstart vereist!"
 
 #: src/pages/SetUsername.vue:3
 msgid "Setting a username is required. Please choose one."
-msgstr ""
+msgstr "Het instellen van een gebruikersnaam is vereist."
 
 #: src/components/Header.vue:139 src/components/Header.vue:204
 msgid "Settings"
@@ -430,14 +438,12 @@ msgstr ""
 "Het starten van nieuwe gesprekken is momenteel niet mogelijk middels Axolotl."
 
 #: src/pages/About.vue:6
-#, fuzzy
 msgid ""
 "This is a free and open source Signal client written in golang and\n"
 "        vuejs."
 msgstr ""
-"Dit is een gratis, open source Signal-client, geschreven in golang en "
-"vuejs.\n"
-"    Je kunt de ontwikkeling van Axolotl ondersteunen door"
+"Dit is een gratis, open source Signal-client, geschreven in golang en\n"
+"            vuejs."
 
 #: src/components/Header.vue:32 src/pages/ChatList.vue:30
 msgid "Unknown group"
@@ -465,7 +471,7 @@ msgstr "Groep bijwerken"
 
 #: src/pages/SetUsername.vue:7
 msgid "Username"
-msgstr ""
+msgstr "Gebruikersnaam"
 
 #: src/components/IdentityModal.vue:5
 msgid "Verify identity"
@@ -480,6 +486,8 @@ msgid ""
 "We are sorry, but due to a change in the Signal protocol, automatic\n"
 "            import of contacts is currently unavailable."
 msgstr ""
+"Door aanpassingen aan het Signal-protocol kunnen contactpersonen\n"
+"            momenteel niet automatisch worden geïmporteerd."
 
 #: src/pages/Verification.vue:22
 msgid "Wrong code entered. Restart for another try."
@@ -505,6 +513,12 @@ msgid ""
 "add\n"
 "      you again."
 msgstr ""
+"Je bent uitgenodigd voor deze groep. Er is nog geen ondersteuning voor het\n"
+"      accepteren van uitnodigingen. Als je lid wilt worden, stuur dan een "
+"privébericht\n"
+"      naar ze en wissel de profielsleutel uit. Nadien kan hij/zij je "
+"verwijderen en opnieuw\n"
+"      toevoegen."
 
 #: src/components/Message.vue:38 src/components/Message.vue:47
 #: src/components/Message.vue:67 src/pages/MessageList.vue:19
