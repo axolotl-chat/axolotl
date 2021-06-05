@@ -96,7 +96,7 @@ flatpak install org.freedesktop.Platform//20.08
 flatpak install org.freedesktop.Sdk//20.08
 flatpak install org.freedesktop.Sdk.Extension.golang//20.08
 flatpak install org.freedesktop.Sdk.Extension.node14//20.08
-flatpak install io.atom.electron.BaseApp//20.08
+flatpak install org.electronjs.Electron2.BaseApp//20.08
 ```
 
 **Build and Install**

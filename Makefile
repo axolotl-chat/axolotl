@@ -157,7 +157,7 @@ build-dependencies-flatpak:
 build-dependencies-flatpak-web: build-dependencies-flatpak
 	$(FLATPAK) install org.freedesktop.Platform//20.08
 	$(FLATPAK) install org.freedesktop.Sdk//20.08
-	$(FLATPAK) install io.atom.electron.BaseApp//20.08
+	$(FLATPAK) install org.electronjs.Electron2.BaseApp//20.08
 
 build-dependencies-flatpak-qt: build-dependencies-flatpak
 	$(FLATPAK) install org.kde.Platform//5.15
@@ -165,10 +165,10 @@ build-dependencies-flatpak-qt: build-dependencies-flatpak
 	$(FLATPAK) install io.qt.qtwebengine.BaseApp//5.15
 
 install-flatpak-web:
-	$(FLATPAK_BUILDER) --user --install build flatpak/web/org.nanuc.Axolotl.yml
+	$(FLATPAK_BUILDER) --user --install --force-clean build flatpak/web/org.nanuc.Axolotl.yml
 
 install-flatpak-qt:
-	$(FLATPAK_BUILDER) --user --install build flatpak/qt/org.nanuc.Axolotl.yml
+	$(FLATPAK_BUILDER) --user --install --force-clean build flatpak/qt/org.nanuc.Axolotl.yml
 
 ## Snap
 build-snap:
