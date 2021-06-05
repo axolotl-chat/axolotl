@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-07 09:22+0200\n"
-"PO-Revision-Date: 2021-03-21 14:36+0100\n"
+"PO-Revision-Date: 2021-06-05 17:36+0100\n"
 "Last-Translator: Albano Battistella <albano_battistella@hotmail.com\n"
 "Language-Team: IT\n"
 "Language: it\n"
@@ -25,14 +25,12 @@ msgid "3. Paste the QR code here:"
 msgstr "3. Incolla qui il Qr-Code:"
 
 #: src/pages/Register.vue:6
-#, fuzzy
 msgid "A cross-platform signal client"
-msgstr "Un client di signal multipiattaforma"
+msgstr "Un client Signal multipiattaforma"
 
 #: src/pages/About.vue:4
-#, fuzzy
 msgid "A cross-platform Signal client"
-msgstr "Un client di signal multipiattaforma"
+msgstr "Un client Signal multipiattaforma"
 
 #: src/pages/Settings.vue:25
 msgid "About Axolotl"
@@ -180,9 +178,8 @@ msgid "Follow the progress or join us to help with development on"
 msgstr "Segui i progressi o unisciti a noi per aiutare con lo sviluppo"
 
 #: src/components/Message.vue:91
-#, fuzzy
 msgid "Group changed."
-msgstr "Nome del gruppo"
+msgstr "Gruppo cambiato."
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
@@ -317,12 +314,12 @@ msgid "Note, you can't add yourself to a group."
 msgstr "Nota: non puoi aggiungerti a un gruppo."
 
 #: src/components/AddContactModal.vue:15
-#, fuzzy
 msgid ""
 "Only add numbers that you are sure are registered Signal\n"
 "            accounts!"
 msgstr ""
-"Aggiungi solo numeri di cui sei sicuro siano account Signal registrati!"
+"Aggiungi solo numeri che sei sicuro siano registrati su account\n"
+"Signal!"
 
 #: src/pages/About.vue:16
 msgid "or by becoming a"
@@ -402,20 +399,19 @@ msgstr "Imposta il timer per i messaggi che si autodistruggono"
 
 #: src/pages/SetUsername.vue:12
 msgid "Set username"
-msgstr ""
+msgstr "Imposta nome utente"
 
 #: src/pages/SetPassword.vue:3
-#, fuzzy
 msgid ""
 "Setting a password is not advised on devices short in memory. Restart is\n"
 "      required!"
 msgstr ""
-"L'impostazione di una password non è consigliata sui dispositivi con poca "
-"memoria. Il riavvio è necessario!"
+"L'impostazione di una password non è consigliata sui dispositivi con poca memoria. Il riavvio è\n"
+"      necessario!"
 
 #: src/pages/SetUsername.vue:3
 msgid "Setting a username is required. Please choose one."
-msgstr ""
+msgstr "È necessario impostare un nome utente. Per favore scegline uno."
 
 #: src/components/Header.vue:139 src/components/Header.vue:204
 msgid "Settings"
@@ -466,7 +462,7 @@ msgstr "Aggiornamento del Gruppo"
 
 #: src/pages/SetUsername.vue:7
 msgid "Username"
-msgstr ""
+msgstr "Nome utente"
 
 #: src/components/IdentityModal.vue:5
 msgid "Verify identity"
@@ -477,13 +473,12 @@ msgid "Video"
 msgstr "Video"
 
 #: src/components/ImportUnavailableModal.vue:10
-#, fuzzy
 msgid ""
 "We are sorry, but due to a change in the Signal protocol, automatic\n"
 "            import of contacts is currently unavailable."
 msgstr ""
-"Siamo spiacenti, ma a causa di un cambiamento nel protocollo Signal, "
-"l'importazione automatica dei contatti non è attualmente disponibile."
+"Siamo spiacenti, ma a causa di un cambiamento nel protocollo automatico di Signal\n"
+"l'importazione dei contatti non è attualmente disponibile."
 
 #: src/pages/Verification.vue:22
 msgid "Wrong code entered. Restart for another try."
@@ -506,6 +501,12 @@ msgid ""
 "add\n"
 "      you again."
 msgstr ""
+"Sei stato invitato a questo gruppo. L'accettazione degli inviti non è ancora\n"
+"supportata. Per partecipare inviare un messaggio privato all' "
+"altro\n"
+"lato per scambiare la chiave del profilo. Dopodiché lui/lei deve rimuoverti e "
+"aggiungerti\n"
+"      di nuovo."
 
 #: src/components/Message.vue:38 src/components/Message.vue:47
 #: src/components/Message.vue:67 src/pages/MessageList.vue:19
