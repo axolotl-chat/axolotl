@@ -14,7 +14,7 @@
         </div>
         <div class="modal-body">
           <span><strong v-translate>Only add numbers that you are sure are registered Signal
-            accounts!</strong></span>
+            accounts, following this syntax +441234567890.</strong></span>
         </div>
         <div class="modal-body">
           <div class="form-group">
