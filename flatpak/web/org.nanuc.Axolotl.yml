@@ -7,8 +7,9 @@ sdk-extensions:
   - org.freedesktop.Sdk.Extension.golang
   - org.freedesktop.Sdk.Extension.node14
 command: axolotl
-base: io.atom.electron.BaseApp
+base: org.electronjs.Electron2.BaseApp
 base-version: '20.08'
+separate-locales: false
 tags:
   - latest
 finish-args:
@@ -37,6 +38,42 @@ finish-args:
   - --env=AXOLOTL_WEB_DIR=/app/bin/axolotl-web/dist
 
 modules:
+  - name: zkgroup-x86_64
+    buildsystem: simple
+    only-arches:
+      - x86_64
+    build-commands:
+      - "install -Dm 755 src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_amd64.so ${FLATPAK_DEST}/usr/lib"
+    sources:
+      - type: git
+        url: https://github.com/nanu-c/zkgroup
+        tag: main
+        dest: src/github.com/nanu-c/zkgroup
+
+  - name: zkgroup-arm64
+    buildsystem: simple
+    only-arches:
+      - arm64
+    build-commands:
+      - "install -Dm 755 src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_arm64.so ${FLATPAK_DEST}/usr/lib"
+    sources:
+      - type: git
+        url: https://github.com/nanu-c/zkgroup
+        tag: main
+        dest: src/github.com/nanu-c/zkgroup
+
+  - name: zkgroup-armhf
+    buildsystem: simple
+    only-arches:
+      - armhf
+    build-commands:
+      - "install -Dm 755 src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_armhf.so ${FLATPAK_DEST}/usr/lib"
+    sources:
+      - type: git
+        url: https://github.com/nanu-c/zkgroup
+        tag: main
+        dest: src/github.com/nanu-c/zkgroup
+
   - name: axolotl
     buildsystem: simple
     build-options:
@@ -51,7 +88,7 @@ modules:
       - "install -Dm 755 src/github.com/nanu-c/axolotl/axolotl ${FLATPAK_DEST}/bin/axolotl"
     sources:
       - type: git
-        url: "https://github.com/nanu-c/axolotl"
+        url: https://github.com/nanu-c/axolotl
         tag: main
         dest: src/github.com/nanu-c/axolotl
 
@@ -68,11 +105,11 @@ modules:
          npm run build"
       - "mkdir -p ${FLATPAK_DEST}/bin/axolotl-web"
       - "cp -r src/github.com/nanu-c/axolotl/axolotl-web/dist ${FLATPAK_DEST}/bin/axolotl-web"
-      - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.png ${FLATPAK_DEST}/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png"
+      - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.png ${FLATPAK_DEST}/usr/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png"
       - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.appdata.xml ${FLATPAK_DEST}/share/appdata/${FLATPAK_ID}.appdata.xml"
       - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/web/org.nanuc.Axolotl.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop"
     sources:
       - type: git
-        url: "https://github.com/nanu-c/axolotl"
+        url: https://github.com/nanu-c/axolotl
         tag: main
         dest: src/github.com/nanu-c/axolotl
