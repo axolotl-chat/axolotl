@@ -1,6 +1,8 @@
 # This is the Makefile for axolotl.
 # For more info about the syntax, see https://makefiletutorial.com/
 
+.PHONY: build clean build-axolotl-web build-axolotl install install-axolotl install-axolotl-web uninstall build-translation run check check-axolotl check-axolotl-web build-dependencies build-dependencies-axolotl-web build-dependencies-axolotl update-version build-zkgroup copy-zkgroup install-zkgroup install-clickable-zkgroup build-dependencies-flatpak build-dependencies-flatpak-web build-dependencies-flatpak-qt install-flatpak-web install-flatpak-qt build-snap install-snap check-platform-deb-arm64 dependencies-deb-arm64 build-deb-arm64 prebuild-package-deb-arm64 build-package-deb-arm64 install-deb-arm64 uninstall-deb-arm64 clean-deb-arm64 package-clean-deb-arm64
+
 NPM_VERSION := $(shell npm --version 2>/dev/null)
 NODE_VERSION := $(shell node --version 2>/dev/null)
 GO_VERSION := $(shell go version 2>/dev/null)
@@ -174,3 +176,101 @@ build-snap:
 
 install-snap:
 	@sudo $(SNAP) install axolotl_$(AXOLOTL_VERSION)_amd64.snap --dangerous
+
+## Debian arm64 building and packaging
+## Please get the source via
+##  go get -d -u github.com/nanu-c/axolotl/
+check-platform-deb-arm64:
+	@echo "Building Axolotl for Debian arm64/aarch64"
+  ifneq ($(UNAME_S),Linux)
+	@echo "Platform unsupported - only available for Linux" && exit 1
+  endif
+  ifneq ($(shell uname -m),aarch64)
+	@echo "Machine unsupported - only available for arm64/aarch64" && exit 1
+  endif
+  ifneq ($(shell which apt),/usr/bin/apt)
+	@echo "OS unsupported - apt not found" && exit 1
+  endif
+
+dependencies-deb-arm64: check-platform-deb-arm64
+	@echo "Installing dependencies for building Axolotl..."
+	@sudo apt update
+	@sudo apt install nano git golang nodejs npm python
+
+build-deb-arm64: check-platform-deb-arm64 dependencies-deb-arm64
+	@echo "Downloading (go)..."
+	@cd $(CURRENT_DIR) && go mod download
+	@echo "Installing (npm)..."
+	@cd $(CURRENT_DIR)/axolotl-web && npm ci
+	@echo "Building (npm)..."
+	@cd $(CURRENT_DIR)/axolotl-web && npm run build
+	@mkdir -p $(CURRENT_DIR)/build/linux-arm64/axolotl-web
+	@echo "Building (go)..."
+	@cd $(CURRENT_DIR) && env GOOS=linux GOARCH=arm64 go build -o build/linux-arm64/axolotl .
+	@cp -r axolotl-web/dist build/linux-arm64/axolotl-web
+	@cp -r guis build/linux-arm64
+	@echo "Building complete."
+
+prebuild-package-deb-arm64: package-clean-deb-arm64
+	@echo "Prebuilding Debian package..."
+# Get the source tarball
+	@wget https://github.com/nanu-c/axolotl/archive/v$(AXOLOTL_VERSION).tar.gz -O $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION).tar.gz
+# Prepare packaging folder
+	@mkdir -p $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl
+	@cp -r $(CURRENT_DIR)/build/linux-arm64/* $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl
+	@cp $(CURRENT_DIR)/deb/LICENSE $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/LICENSE
+# Run debmake
+	@cd $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION) && debmake -e arno_nuehm@riseup.net -f "Arno Nuehm" -m
+# Create target folders and copy additional files into package folder
+	@mkdir -p $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/icons/hicolor/128x128/apps
+	@mkdir -p $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/applications
+	@mkdir -p $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin
+	@mkdir -p $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/etc/profile.d
+	@cp $(CURRENT_DIR)/README.md $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/README.Debian
+	@cp $(CURRENT_DIR)/deb/axolotl.png $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/icons/hicolor/128x128/apps/axolotl.png
+	@cp $(CURRENT_DIR)/deb/axolotl.desktop $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/applications
+	@cp $(CURRENT_DIR)/deb/axolotl.sh $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/etc/profile.d
+	@cp $(CURRENT_DIR)/deb/axolotl.install $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian
+	@cp $(CURRENT_DIR)/deb/postinst $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian
+	@cp $(CURRENT_DIR)/deb/control $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/control
+	@wget https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_arm64.so -P  $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/lib
+	@mv $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl/axolotl $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin
+	@echo "Prebuilding Debian package complete"
+
+build-package-deb-arm64:
+	@echo "Building Debian package..."
+# Prompt to edit changelog file
+	@nano $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+# Prompt to edit copyright file
+	@nano $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
+# Build Debian package
+	@cd $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION) && debuild -i -us -uc -b
+
+install-deb-arm64: uninstall-deb-arm64
+# Use for testing purposes only after prebuild-package-arm64
+	@echo "Installing Axolotl"
+# Copy libzkgroup
+	@sudo wget https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_arm64.so -P /usr/lib
+	@sudo mkdir -p /usr/share/axolotl
+	@sudo cp -r $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl/* /usr/share/axolotl
+	@sudo mv /usr/share/axolotl/axolotl /usr/bin/
+	@sudo cp $(CURRENT_DIR)/deb/axolotl.desktop /usr/share/applications
+	@sudo cp $(CURRENT_DIR)/deb/axolotl.png /usr/share/icons/hicolor/128x128/apps
+	@sudo cp $(CURRENT_DIR)/deb/axolotl.sh /etc/profile.d
+	@bash -c "source /etc/profile.d/axolotl.sh"
+	@echo "Installation complete"
+
+uninstall-deb-arm64:
+	@sudo rm -rf /usr/share/axolotl
+	@sudo rm -f /usr/bin/axolotl
+	@sudo rm -f /usr/share/applications/axolotl.desktop
+	@sudo rm -f /usr/share/icons/hicolor/128x128/apps/axolotl.png
+	@sudo rm -f /etc/profile.d/axolotl.sh
+	@sudo rm -f /usr/lib/libzkgroup_linux_arm64.so
+	@echo "Removing complete"
+
+clean-deb-arm64:
+	@rm -rf $(CURRENT_DIR)/build
+
+package-clean-deb-arm64:
+	@rm -rf $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)
