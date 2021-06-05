@@ -163,10 +163,10 @@ build-dependencies-flatpak-qt: build-dependencies-flatpak
 	$(FLATPAK) install io.qt.qtwebengine.BaseApp//5.15
 
 install-flatpak-web:
-	$(FLATPAK_BUILDER) --user --install build flatpak/web/org.nanuc.Axolotl.yml
+	$(FLATPAK_BUILDER) --user --install --force-clean build flatpak/web/org.nanuc.Axolotl.yml
 
 install-flatpak-qt:
-	$(FLATPAK_BUILDER) --user --install build flatpak/qt/org.nanuc.Axolotl.yml
+	$(FLATPAK_BUILDER) --user --install --force-clean build flatpak/qt/org.nanuc.Axolotl.yml
 
 ## Snap
 build-snap:

@@ -43,7 +43,7 @@ modules:
     only-arches:
       - x86_64
     build-commands:
-      - "install -Dm 755 src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_amd64.so ${FLATPAK_DEST}/usr/lib"
+      - "install -Dm 755 src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_amd64.so ${FLATPAK_DEST}/lib"
     sources:
       - type: git
         url: https://github.com/nanu-c/zkgroup
@@ -55,7 +55,7 @@ modules:
     only-arches:
       - arm64
     build-commands:
-      - "install -Dm 755 src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_arm64.so ${FLATPAK_DEST}/usr/lib"
+      - "install -Dm 755 src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_arm64.so ${FLATPAK_DEST}/lib"
     sources:
       - type: git
         url: https://github.com/nanu-c/zkgroup
@@ -67,7 +67,7 @@ modules:
     only-arches:
       - armhf
     build-commands:
-      - "install -Dm 755 src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_armhf.so ${FLATPAK_DEST}/usr/lib"
+      - "install -Dm 755 src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_armhf.so ${FLATPAK_DEST}/lib"
     sources:
       - type: git
         url: https://github.com/nanu-c/zkgroup
