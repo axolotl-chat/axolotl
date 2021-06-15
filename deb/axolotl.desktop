@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Axolotl
+GenericName=Signal Chat Client
+Path=/usr/share/axolotl/
+Exec=axolotl
+#Exec=axolotl -e qt
+Icon=axolotl.png
+Terminal=false
+Categories=Network;Chat;InstantMessaging
+StartupWMClass=axolotl
