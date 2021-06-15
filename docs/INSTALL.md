@@ -223,14 +223,30 @@ see [build.sh](../scripts/build.sh)
 
 ## Mobian
 
-If you want to run Axolotl on Mobian, you can download the installer, which is a simple script with all neccessary commands included. It can be found [here](../scripts/mobian_installer.sh) - right click "Safe Link As...".
-Execute it from your Download folder with
+**Build and Install**
+
+Building Axolotl for Mobian (or other Debian arm64 systems) can be done by getting the source via
 
 ```
-sh mobian_installer.sh
+go get -d -u github.com/nanu-c/axolotl/
+```
+and executing this Makefile command in the source folder on a Debian arm64 machine.
+```
+make build-deb-arm64
 ```
 
-To check out, what the script does exactly or to execute commands separately, visit the [Mobian wiki page for Axolotl](https://wiki.mobian-project.org/doku.php?id=axolotl) - section Manual Installation.
+Installation can be done via
+```
+make prebuild-package-deb-arm64 install-deb-arm64
+```
+
+**Debian packaging**
+
+The Debian arm64 package uploaded [here](https://github.com/nuehm-arno/axolotl-mobian-package) was created using
+```
+make prebuild-package-deb-arm64 build-package-deb-arm64
+```
+Packaging is still under improvement to comply with official Debian packaging rules.
 
 ## Bare
 
