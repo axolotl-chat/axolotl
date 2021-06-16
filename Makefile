@@ -60,8 +60,8 @@ check-axolotl:
 	$(GO) test -race ./...
 
 run: build
-		@echo "Found go with version $(GO_VERSION)"
-		LD_LIBRARY_PATH=$(PWD) $(GO)  run .
+	@echo "Found go with version $(GO_VERSION)"
+	LD_LIBRARY_PATH=$(PWD) $(GO)  run .
 
 build-dependencies: build-dependencies-axolotl-web build-dependencies-axolotl
 
