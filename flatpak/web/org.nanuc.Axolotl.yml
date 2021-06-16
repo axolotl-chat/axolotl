@@ -38,40 +38,14 @@ finish-args:
   - --env=AXOLOTL_WEB_DIR=/app/bin/axolotl-web/dist
 
 modules:
-  - name: zkgroup-x86_64
+  - name: zkgroup
     buildsystem: simple
-    only-arches:
-      - x86_64
     build-commands:
-      - "install -Dm 755 src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_amd64.so ${FLATPAK_DEST}/lib"
+      - "install -Dm 755 src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_${FLATPAK_ARCH}.so ${FLATPAK_DEST}/lib"
     sources:
       - type: git
         url: https://github.com/nanu-c/zkgroup
-        tag: main
-        dest: src/github.com/nanu-c/zkgroup
-
-  - name: zkgroup-arm64
-    buildsystem: simple
-    only-arches:
-      - arm64
-    build-commands:
-      - "install -Dm 755 src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_arm64.so ${FLATPAK_DEST}/lib"
-    sources:
-      - type: git
-        url: https://github.com/nanu-c/zkgroup
-        tag: main
-        dest: src/github.com/nanu-c/zkgroup
-
-  - name: zkgroup-armhf
-    buildsystem: simple
-    only-arches:
-      - armhf
-    build-commands:
-      - "install -Dm 755 src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_armhf.so ${FLATPAK_DEST}/lib"
-    sources:
-      - type: git
-        url: https://github.com/nanu-c/zkgroup
-        tag: main
+        tag: rename-built-x86_64-library # should be changed to main
         dest: src/github.com/nanu-c/zkgroup
 
   - name: axolotl

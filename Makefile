@@ -1,7 +1,7 @@
 # This is the Makefile for axolotl.
 # For more info about the syntax, see https://makefiletutorial.com/
 
-.PHONY: build clean build-axolotl-web build-axolotl install install-axolotl install-axolotl-web uninstall build-translation run check check-axolotl check-axolotl-web build-dependencies build-dependencies-axolotl-web build-dependencies-axolotl update-version build-zkgroup copy-zkgroup install-zkgroup install-clickable-zkgroup build-dependencies-flatpak build-dependencies-flatpak-web build-dependencies-flatpak-qt install-flatpak-web install-flatpak-qt build-snap install-snap check-platform-deb-arm64 dependencies-deb-arm64 build-deb-arm64 prebuild-package-deb-arm64 build-package-deb-arm64 install-deb-arm64 uninstall-deb-arm64 clean-deb-arm64 package-clean-deb-arm64
+.PHONY: build clean build-axolotl-web build-axolotl install install-axolotl install-axolotl-web uninstall build-translation run check check-axolotl check-axolotl-web build-dependencies build-dependencies-axolotl-web build-dependencies-axolotl update-version build-zkgroup copy-zkgroup install-zkgroup uninstall-zkgroup install-clickable-zkgroup uninstall-clickable-zkgroup build-dependencies-flatpak build-dependencies-flatpak-web build-dependencies-flatpak-qt install-flatpak-web install-flatpak-qt build-snap install-snap check-platform-deb-arm64 dependencies-deb-arm64 build-deb-arm64 prebuild-package-deb-arm64 build-package-deb-arm64 install-deb-arm64 uninstall-deb-arm64 clean-deb-arm64 package-clean-deb-arm64
 
 NPM_VERSION := $(shell npm --version 2>/dev/null)
 NODE_VERSION := $(shell node --version 2>/dev/null)
@@ -11,7 +11,7 @@ GIT_VERSION := $(shell git --version 2>/dev/null)
 AXOLOTL_GIT_VERSION := $(shell git tag | tail --lines=1)
 AXOLOTL_VERSION := $(subst v,,$(AXOLOTL_GIT_VERSION))
 UNAME_S := $(shell uname -s)
-UNAME_HARDWARE_PLATTFORM := $(shell uname --hardware-platform)
+HARDWARE_PLATFORM := $(shell uname --machine)
 CURRENT_DIR = $(shell pwd)
 
 
@@ -106,48 +106,28 @@ ifeq ($(UNAME_S), Linux)
 	&& $(GIT) submodule update \
 	&& cd $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/zkgroup \
 	&& $(CARGO) build --release --verbose \
-	&& mv -f $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release/libzkgroup.so $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_$(UNAME_HARDWARE_PLATTFORM).so
+	&& mv -f $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release/libzkgroup.so $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_$(HARDWARE_PLATFORM).so
 else
-	@echo architecture not (yet) supported $(UNAME_HARDWARE_PLATTFORM)
+	@echo architecture not (yet) supported $(HARDWARE_PLATFORM)
 	exit 1
 endif
 
 copy-zkgroup:
-ifdef GO_VERSION
-	@echo "Found go with version $(GO_VERSION)"
-else
-	@echo go not found, please install go
-	exit 1
-endif
-ifeq ($(UNAME_S), Linux)
 	$(GO) get -d github.com/nanu-c/zkgroup
-	cp $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_$(UNAME_HARDWARE_PLATTFORM).so $(CURRENT_DIR)/
-else
-	@echo "platform not supported $(UNAME_S)"
-	exit 1
-endif
+	cp $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_$(HARDWARE_PLATFORM).so $(CURRENT_DIR)/
 
 install-zkgroup:
-ifeq ($(UNAME_S), Linux)
-ifeq ($(UNAME_HARDWARE_PLATTFORM), x86_64)
-	@echo "install libzkgroup to /usr/lib"
-	sudo cp $(CURRENT_DIR)/libzkgroup_linux_amd64.so /usr/lib/
-else ifeq ($(UNAME_HARDWARE_PLATTFORM), aarch64)
-	@echo "install libzkgroup to /usr/lib"
-	sudo cp $(CURRENT_DIR)/libzkgroup_linux_arm64.so  /usr/lib/
-else
-	@echo architecture not  supported $(UNAME_HARDWARE_PLATTFORM)
-	exit 1
-endif
-else
-	@echo "platform not supported $(UNAME_S)"
-	exit 1
-endif
+	sudo cp $(CURRENT_DIR)/libzkgroup_linux_$(HARDWARE_PLATFORM).so /usr/lib/
+
+uninstall-zkgroup:
+	sudo rm -f /usr/lib/libzkgroup_linux_$(HARDWARE_PLATFORM).so
 
 install-clickable-zkgroup:
-	rm $(CURRENT_DIR)/lib/*.so |true
 	$(GO) get -d github.com/nanu-c/zkgroup
-	cp $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_$(UNAME_HARDWARE_PLATTFORM).so $(CURRENT_DIR)/lib/
+	cp $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_$(HARDWARE_PLATFORM).so $(CURRENT_DIR)/lib/
+
+uninstall-clickable-zkgroup:
+	rm -f $(CURRENT_DIR)/lib/libzkgroup_linux_$(HARDWARE_PLATFORM).so
 
 ## Flatpak
 build-dependencies-flatpak:
