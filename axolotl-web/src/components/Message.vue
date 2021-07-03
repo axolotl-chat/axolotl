@@ -15,6 +15,7 @@
           message.Flags !== 14) ||
         message.StatusMessage ||
         (message.Attachment.includes('null') && message.Message === ''),
+      hidden: message.Flags === 18,
       error: message.SentAt === 0 || message.SendingError,
     }"
   >
@@ -135,7 +136,7 @@
           class="message-text-content"
           v-html="linkify(sanitize(message.Message))"
         ></div>
-        <div v-translate v-if="message.Flags===17">Group changed.</div>
+        <div v-if="message.Flags===17" v-translate>Group changed.</div>
         <div
           v-if="
             message.Attachment.includes('null') &&
@@ -467,5 +468,8 @@ blockquote {
 .fullDate {
   font-style: italic;
   margin-left: 2px;
+}
+.hidden{
+  display: none;
 }
 </style>

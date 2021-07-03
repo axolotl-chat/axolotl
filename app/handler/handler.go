@@ -55,6 +55,9 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		text = "Message timer update."
 		msgFlags = helpers.MsgFlagExpirationTimerUpdate
 	}
+	if msg.Flags() == uint32(textsecure.ProfileKeyUpdatedFlag) {
+		msgFlags = helpers.MsgFlagProfileKeyUpdated
+	}
 	//Group Message
 	gr := msg.Group()
 
