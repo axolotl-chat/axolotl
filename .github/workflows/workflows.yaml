@@ -159,7 +159,7 @@ jobs:
         run: |
           rm $GITHUB_WORKSPACE/lib/*
           wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux-armv7-v0.8.3.so
-          install -D libzkgroup-linux-armv7-v0.8.0.so $GITHUB_WORKSPACE/lib/libzkgroup-linux-armhf.so
+          install -D libzkgroup-linux-armv7-v0.8.3.so $GITHUB_WORKSPACE/lib/libzkgroup-linux-armhf.so
           rm $GITHUB_WORKSPACE/libzkgroup-linux-armv7-v0.8.3.so
 
       - name: Build clickable (armhf)
