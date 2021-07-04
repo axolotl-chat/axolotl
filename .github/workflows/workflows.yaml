@@ -46,7 +46,7 @@ jobs:
       - name: Setup Node 14
         uses: actions/setup-node@v1
         with:
-          node-version: '14.x'
+          node-version: "14.x"
 
       - name: Check out code
         uses: actions/checkout@v2
@@ -123,8 +123,8 @@ jobs:
           path: Axolotl-x86_64.AppImage
           retention-days: 1
 
-  package-clickable:
-    name: Package as clickables
+  package-clickable-armhf:
+    name: Package as clickable armhf
     runs-on: ubuntu-latest
 
     steps:
@@ -134,32 +134,15 @@ jobs:
       - name: Setup Node 14
         uses: actions/setup-node@v1
         with:
-          node-version: '14.x'
+          node-version: "14.x"
 
       - name: Download npm dependencies
         run: npm --prefix ./axolotl-web ci
 
-      - name: Download built zkgroup library (amd64)
-        run: |
-          # wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux-arm-v0.8.0.so
-          # wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux-armv7-v0.8.0.so
-          wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.3/libzkgroup-linux-aarch64-v0.8.3.so
-          mkdir $GITHUB_WORKSPACE/lib/
-          install -D libzkgroup-linux-aarch64-v0.8.3.so $GITHUB_WORKSPACE/lib/zkgroup-linux-x86_64.so
-          rm $GITHUB_WORKSPACE/libzkgroup-linux-aarch64-v0.8.3.so
-
-      - name: Build clickable (arm64)
-        uses: docker://clickable/ci-16.04-arm64:16.04.5
-        env:
-          GOPATH: $GITHUB_WORKSPACE/go
-        with:
-          args: clickable --verbose clean build
-
       - name: Download built zkgroup library (armhf)
         run: |
-          rm $GITHUB_WORKSPACE/lib/*
-          wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux-armv7-v0.8.3.so
-          install -D libzkgroup-linux-armv7-v0.8.0.so $GITHUB_WORKSPACE/lib/libzkgroup-linux-armhf.so
+          wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.3/libzkgroup-linux-armv7-v0.8.3.so
+          install -D libzkgroup-linux-armv7-v0.8.3.so $GITHUB_WORKSPACE/lib/libzkgroup-linux-armv7.so
           rm $GITHUB_WORKSPACE/libzkgroup-linux-armv7-v0.8.3.so
 
       - name: Build clickable (armhf)
@@ -169,18 +152,50 @@ jobs:
         with:
           args: clickable --verbose clean build
 
-      - name: Upload the built clickable artifact (amd64)
-        uses: actions/upload-artifact@v2
-        with:
-          name: Axolotl-Clickable
-          path: build/x86_64-linux-gnu/app/textsecure.nanuc_*.click
-          retention-days: 1
-
       - name: Upload the built clickable artifact (armhf)
         uses: actions/upload-artifact@v2
         with:
           name: Axolotl-Clickable
           path: build/arm-linux-gnueabihf/app/textsecure.nanuc_*.click
+          retention-days: 1
+
+  package-clickable-arm64:
+    name: Package as clickable arm64
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Setup Node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+
+      - name: Download npm dependencies
+        run: npm --prefix ./axolotl-web ci
+
+      - name: Download built zkgroup library (amd64)
+        run: |
+            # wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux-arm-v0.8.0.so
+            # wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux-armv7-v0.8.0.so
+            wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.3/libzkgroup-linux-aarch64-v0.8.3.so
+            mkdir $GITHUB_WORKSPACE/lib/
+            install -D libzkgroup-linux-aarch64-v0.8.3.so $GITHUB_WORKSPACE/lib/zkgroup-linux-aarch64.so
+            rm $GITHUB_WORKSPACE/libzkgroup-linux-aarch64-v0.8.3.so
+
+      - name: Build clickable (arm64)
+        uses: docker://clickable/ci-16.04-arm64:16.04.5
+        env:
+          GOPATH: $GITHUB_WORKSPACE/go
+        with:
+          args: clickable --verbose clean build
+
+      - name: Upload the built clickable artifact (amd64)
+        uses: actions/upload-artifact@v2
+        with:
+          name: Axolotl-Clickable
+          path: build/aarch64-linux-gnu/app/textsecure.nanuc_*.click
           retention-days: 1
 
   package-flatpak:
@@ -206,7 +221,8 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     needs:
       - package-appimage
-      - package-clickable
+      - package-clickable-armhf
+      - package-clickable-arm64
     runs-on: ubuntu-latest
 
     steps:
