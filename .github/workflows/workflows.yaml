@@ -139,14 +139,14 @@ jobs:
       - name: Download npm dependencies
         run: npm --prefix ./axolotl-web ci
 
-      - name: Download built zkgroup library (amd64)
-        run: |
-          # wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux-arm-v0.8.0.so
-          # wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux-armv7-v0.8.0.so
-          wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.3/libzkgroup-linux-aarch64-v0.8.3.so
-          mkdir $GITHUB_WORKSPACE/lib/
-          install -D libzkgroup-linux-aarch64-v0.8.3.so $GITHUB_WORKSPACE/lib/zkgroup-linux-x86_64.so
-          rm $GITHUB_WORKSPACE/libzkgroup-linux-aarch64-v0.8.3.so
+      # - name: Download built zkgroup library (amd64)
+      #   run: |
+      #     # wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux-arm-v0.8.0.so
+      #     # wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux-armv7-v0.8.0.so
+      #     wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.3/libzkgroup-linux-aarch64-v0.8.3.so
+      #     mkdir $GITHUB_WORKSPACE/lib/
+      #     install -D libzkgroup-linux-aarch64-v0.8.3.so $GITHUB_WORKSPACE/lib/zkgroup-linux-x86_64.so
+      #     rm $GITHUB_WORKSPACE/libzkgroup-linux-aarch64-v0.8.3.so
 
       - name: Build clickable (arm64)
         uses: docker://clickable/ci-16.04-arm64:16.04.5
