@@ -141,9 +141,9 @@ jobs:
 
       - name: Download built zkgroup library (armhf)
         run: |
-          wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.3/libzkgroup-linux-armv7-v0.8.3.so
-          install -D libzkgroup-linux-armv7-v0.8.3.so $GITHUB_WORKSPACE/lib/libzkgroup-linux-armv7.so
-          rm $GITHUB_WORKSPACE/libzkgroup-linux-armv7-v0.8.3.so
+          wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.5/libzkgroup_linux_armv7_v0.8.5.so
+          install -D libzkgroup_linux_armv7_v0.8.5.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_armv7.so
+          rm $GITHUB_WORKSPACE/libzkgroup_linux_armv7_v0.8.5.so
 
       - name: Build clickable (armhf)
         uses: docker://clickable/ci-16.04-armhf:16.04.5
@@ -177,12 +177,10 @@ jobs:
 
       - name: Download built zkgroup library (amd64)
         run: |
-            # wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux-arm-v0.8.0.so
-            # wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.0/libzkgroup-linux-armv7-v0.8.0.so
-            wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.3/libzkgroup-linux-aarch64-v0.8.3.so
+            wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.5/libzkgroup_linux_aarch64_v0.8.5.so
             mkdir $GITHUB_WORKSPACE/lib/
-            install -D libzkgroup-linux-aarch64-v0.8.3.so $GITHUB_WORKSPACE/lib/libzkgroup-linux-aarch64.so
-            rm $GITHUB_WORKSPACE/libzkgroup-linux-aarch64-v0.8.3.so
+            install -D libzkgroup_linux_aarch64_v0.8.5.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_aarch64.so
+            rm $GITHUB_WORKSPACE/libzkgroup_linux_aarch64_v0.8.5.so
 
       - name: Build clickable (arm64)
         uses: docker://clickable/ci-16.04-arm64:16.04.5

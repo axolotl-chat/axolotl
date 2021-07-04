@@ -17,7 +17,7 @@ then
 fi
 if [ $ARCH == "armhf" ]
 then
-    [ -z '$GOPATH' ] && cp /github/workspace/go/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_armhf.so $@/lib/libzkgroup_linux_armhf.so; 
-    cp $GOPATH/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_armhf.so $@/lib/libzkgroup_linux_armhf.so ||true; 
+    [ -z '$GOPATH' ] && cp /github/workspace/go/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_armv7.so $@/lib/libzkgroup_linux_armv7.so; 
+    cp $GOPATH/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_armv7.so $@/lib/libzkgroup_linux_armv7.so ||true; 
     rm ${INSTALL_DIR}/\\$GITHUB_WORKSPACE||true
 fi
