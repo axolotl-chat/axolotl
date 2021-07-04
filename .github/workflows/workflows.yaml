@@ -173,7 +173,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Axolotl-Clickable
-          path: build/x86_64-linux-gnu/app/textsecure.nanuc_*.click
+          path: build/aarch64-linux-gnu/app/textsecure.nanuc_*.click
           retention-days: 1
 
       - name: Upload the built clickable artifact (armhf)
