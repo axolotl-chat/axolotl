@@ -88,8 +88,8 @@ github.com/mattn/go-sqlite3 v1.14.0 h1:mLyGNKR8+Vv9CAU7PphKa2hkEqxxhn8i32J6FPj1/
 github.com/mattn/go-sqlite3 v1.14.0/go.mod h1:JIl7NbARA7phWnGvh0LKTyg7S9BA+6gx71ShQilpsus=
 github.com/mutecomm/go-sqlcipher v0.0.0-20190227152316-55dbde17881f h1:hd3r+uv9DNLScbOrnlj82rBldHQf3XWmCeXAWbw8euQ=
 github.com/mutecomm/go-sqlcipher v0.0.0-20190227152316-55dbde17881f/go.mod h1:MyUWrZlB1aI5bs7j9/pJ8ckLLZ4QcCYcNiSbsAW32D4=
-github.com/nanu-c/zkgroup v0.8.6 h1:z7vNB9hOGJEt/OLHen1HVhFSAX5a1x1RqkszrnNjbMo=
-github.com/nanu-c/zkgroup v0.8.6/go.mod h1:6c1LFh8Neuzl2qF51yPsH4sdvXFeEdfucfITI4Jbu7o=
+github.com/nanu-c/zkgroup v0.8.7 h1:kwrd2UDYhLTVyWQQE1DDbkJDR2oWtwG4r9kKXURnc4I=
+github.com/nanu-c/zkgroup v0.8.7/go.mod h1:6c1LFh8Neuzl2qF51yPsH4sdvXFeEdfucfITI4Jbu7o=
 github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e h1:fD57ERR4JtEqsWbfPhv4DMiApHyliiK5xCTNVSPiaAs=
 github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e/go.mod h1:zD1mROLANZcx1PVRCS0qkT7pwLkGfwJo4zjcN/Tysno=
 github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d h1:VhgPp6v9qf9Agr/56bj7Y/xa04UccTW04VP0Qed4vnQ=
@@ -114,8 +114,8 @@ github.com/signal-golang/ed25519 v0.0.0-20200301051623-f19b832d0d2e h1:XLsRkdVt2
 github.com/signal-golang/ed25519 v0.0.0-20200301051623-f19b832d0d2e/go.mod h1:2Ad7iWk5/yN+AiUcyx6EteImlJBcxBM0Q2R/bmXoCA0=
 github.com/signal-golang/mimemagic v0.0.0-20200821045537-3f613cf2cd3f h1:S17lCk5rcobvgcaLf7XSAoLuNkRPgFyhvgRA9JwDzHc=
 github.com/signal-golang/mimemagic v0.0.0-20200821045537-3f613cf2cd3f/go.mod h1:tU6SWwv50oGkZNPlvTFvmqZvEBp0vWWCC+LCEVlTE5A=
-github.com/signal-golang/textsecure v1.3.6 h1:Vke7sluewwflcBIVGtLScmkYWHTH+WAS+632/YLs//A=
-github.com/signal-golang/textsecure v1.3.6/go.mod h1:mzBblDy3kB5K3fpg82VwlUDSxSz4NwKfk+pWRswjEk8=
+github.com/signal-golang/textsecure v1.3.7 h1:jHvTx/aAzKk036+lTeU0wTmbjM2FqZUKCRsoigkHYcM=
+github.com/signal-golang/textsecure v1.3.7/go.mod h1:0pPhfw4Rc5Me6CpHyMfjcjV7Fk5fN7g/ApaaVEYfarI=
 github.com/sirupsen/logrus v1.6.0/go.mod h1:7uNnSEd1DgxDLC74fIahvMZmmYsHGZGEOFrfsX/uA88=
 github.com/sirupsen/logrus v1.7.0 h1:ShrD1U9pZB12TX0cVy0DtePoCH97K8EtX+mg7ZARUtM=
 github.com/sirupsen/logrus v1.7.0/go.mod h1:yWOB1SBYBC5VeMP7gHvWumXLIWorT60ONWic61uBYv0=
