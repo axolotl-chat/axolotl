@@ -16,6 +16,7 @@ require (
 	github.com/lib/pq v1.8.0 // indirect
 	github.com/mattn/go-sqlite3 v1.14.0 // indirect
 	github.com/mutecomm/go-sqlcipher v0.0.0-20190227152316-55dbde17881f
+	github.com/nanu-c/zkgroup v0.8.3 // indirect
 	github.com/pkg/errors v0.9.1
 	github.com/signal-golang/textsecure v1.3.3
 	github.com/sirupsen/logrus v1.7.0
