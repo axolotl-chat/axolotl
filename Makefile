@@ -31,6 +31,10 @@ FLATPAK_BUILDER=$(shell which flatpak-builder)
 SNAPCRAFT=$(shell which snapcraft)
 SNAP=$(shell which snap)
 
+DESTDIR = /
+INSTALL_PREFIX = usr/bin
+LIBRARY_PREFIX = usr/lib
+
 all: clean build
 
 build: build-axolotl-web build-axolotl
@@ -40,7 +44,7 @@ install: install-axolotl install-axolotl-web
 	@sudo install -D -m 644 $(CURRENT_DIR)/snap/gui/axolotl.png /usr/share/icons/hicolor/128x128/apps/axolotl.png
 
 uninstall:
-	@sudo rm -rf /usr/bin/axolotl
+	@sudo rm -rf $(DESTDIR)$(INSTALL_PREFIX)/axolotl
 
 build-axolotl-web:
 	$(NPM) run build --prefix axolotl-web
@@ -72,10 +76,11 @@ build-dependencies-axolotl:
 	$(GO) mod download
 
 install-axolotl-web: build-axolotl-web
-	@sudo cp -r $(CURRENT_DIR)/axolotl-web/dist /usr/bin/axolotl/axolotl-web/dist
+	@sudo mkdir -p $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/
+	@sudo cp -r $(CURRENT_DIR)/axolotl-web/dist $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/dist
 
 install-axolotl: build-axolotl
-	@sudo install -D -m 755 $(CURRENT_DIR)/axolotl /usr/bin/axolotl/axolotl
+	@sudo install -D -m 755 $(CURRENT_DIR)/axolotl $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl
 
 clean:
 	rm -f axolotl
@@ -117,10 +122,10 @@ copy-zkgroup:
 	cp $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_$(HARDWARE_PLATFORM).so $(CURRENT_DIR)/
 
 install-zkgroup:
-	sudo cp $(CURRENT_DIR)/libzkgroup_linux_$(HARDWARE_PLATFORM).so /usr/lib/
+	sudo cp $(CURRENT_DIR)/libzkgroup_linux_$(HARDWARE_PLATFORM).so $(DESTDIR)$(LIBRARY_PREFIX)/
 
 uninstall-zkgroup:
-	sudo rm -f /usr/lib/libzkgroup_linux_$(HARDWARE_PLATFORM).so
+	sudo rm -f $(DESTDIR)$(LIBRARY_PREFIX)/libzkgroup_linux_$(HARDWARE_PLATFORM).so
 
 install-clickable-zkgroup:
 	$(GO) get -d github.com/nanu-c/zkgroup
