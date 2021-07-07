@@ -134,8 +134,8 @@
         <div
           class="message-text-content"
           v-html="linkify(sanitize(message.Message))"
-        ></div>
-        <div v-translate v-if="message.Flags===17">Group changed.</div>
+        />
+        <div v-if="message.Flags===17" v-translate>Group changed.</div>
         <div
           v-if="
             message.Attachment.includes('null') &&
@@ -202,7 +202,20 @@ let decoder;
 
 export default {
   name: "Message",
-  props: ["message", "isGroup", "names"],
+  props: {
+    message: {
+      type: Object,
+      default: () => {}
+    },
+    isGroup: {
+      type: Boolean,
+      default: false,
+    },
+    names: {
+      type: Array,
+      default: () => []
+    }
+  },
   data() {
     return {
       showDate: false,
