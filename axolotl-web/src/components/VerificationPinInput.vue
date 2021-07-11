@@ -24,7 +24,24 @@
 <script>
 export default {
   name: "VerificationPinInput",
-  props: ["numberOfBoxes", "position", "color", "clearInput"],
+  props: {
+    numberOfBoxes: {
+      type: Number,
+      default: 0
+    },
+    position: {
+      type: String,
+      default: ""
+    },
+    color: {
+      type: String,
+      default: ""
+    },
+    clearInput: {
+      type: Boolean,
+      default: false,
+    },
+  },
   emits:['inputValue','enter','clearValue'],
 
   data() {
