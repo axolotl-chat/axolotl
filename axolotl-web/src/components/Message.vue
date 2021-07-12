@@ -228,7 +228,8 @@ export default {
         !this.message.Outgoing &&
         this.isGroup &&
         (this.message.Flags === 0 || this.message.Flags === 14)
-      ); // 14 is quoting messages
+      ); // #14 is the flag for quoting messages
+	    // see this list for all message types: https://github.com/nanu-c/axolotl/blob/main/app/helpers/models.go#L15
     },
   },
   methods: {
