@@ -143,8 +143,7 @@ jobs:
         run: |
           wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.6/libzkgroup_linux_armv7_v0.8.6.so
           mkdir $GITHUB_WORKSPACE/lib/
-          install -D libzkgroup_linux_armv7_v0.8.6.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_armv7.so
-          rm $GITHUB_WORKSPACE/libzkgroup_linux_armv7_v0.8.6.so
+          mv libzkgroup_linux_armv7_v0.8.6.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_armv7.so
 
       - name: Build clickable (armhf)
         uses: docker://clickable/ci-16.04-armhf:16.04.5
@@ -180,8 +179,7 @@ jobs:
         run: |
             wget --quiet https://github.com/nanu-c/zkgroup/releases/download/v0.8.6/libzkgroup_linux_aarch64_v0.8.6.so
             mkdir $GITHUB_WORKSPACE/lib/
-            install -D libzkgroup_linux_aarch64_v0.8.6.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_aarch64.so
-            rm $GITHUB_WORKSPACE/libzkgroup_linux_aarch64_v0.8.6.so
+            mv libzkgroup_linux_aarch64_v0.8.6.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_aarch64.so
 
       - name: Build clickable (arm64)
         uses: docker://clickable/ci-16.04-arm64:16.04.5
