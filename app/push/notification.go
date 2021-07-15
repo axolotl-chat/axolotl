@@ -77,11 +77,12 @@ func (n *NotificationHandler) Clear(tag string) error {
 	return err
 }
 
+// Send sends a push notification to the system after running some checks
 func (n *NotificationHandler) Send(m *PushMessage) error {
 	if useNotifications {
 		var pushMessage string
 		// check if there was a notification in the same chat less than 10s and
-		//if yes just replace the notification but don't tripper a popup
+		//if yes just replace the notification but don't trigger a popup
 		if timestamp, found := lastNotifications[m.Notification.Tag]; found {
 
 			if m.Notification.Card.Timestamp-timestamp < 10 {
