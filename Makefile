@@ -31,16 +31,21 @@ FLATPAK_BUILDER=$(shell which flatpak-builder)
 SNAPCRAFT=$(shell which snapcraft)
 SNAP=$(shell which snap)
 
+DESTDIR = /
+INSTALL_PREFIX = usr/bin
+LIBRARY_PREFIX = usr/lib
+SHARE_PREFIX = usr/share
+
 all: clean build
 
 build: build-axolotl-web build-axolotl
 
 install: install-axolotl install-axolotl-web
-	@sudo install -D -m 644 $(CURRENT_DIR)/scripts/axolotl.desktop /usr/share/applications/axolotl.desktop
-	@sudo install -D -m 644 $(CURRENT_DIR)/snap/gui/axolotl.png /usr/share/icons/hicolor/128x128/apps/axolotl.png
+	@sudo install -D -m 644 $(CURRENT_DIR)/scripts/axolotl.desktop $(DESTDIR)$(SHARE_PREFIX)/applications/axolotl.desktop
+	@sudo install -D -m 644 $(CURRENT_DIR)/snap/gui/axolotl.png $(DESTDIR)$(SHARE_PREFIX)/icons/hicolor/128x128/apps/axolotl.png
 
 uninstall:
-	@sudo rm -rf /usr/bin/axolotl
+	@sudo rm -rf $(DESTDIR)$(INSTALL_PREFIX)/axolotl
 
 build-axolotl-web:
 	$(NPM) run build --prefix axolotl-web
@@ -72,10 +77,11 @@ build-dependencies-axolotl:
 	$(GO) mod download
 
 install-axolotl-web: build-axolotl-web
-	@sudo cp -r $(CURRENT_DIR)/axolotl-web/dist /usr/bin/axolotl/axolotl-web/dist
+	@sudo mkdir -p $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/
+	@sudo cp -r $(CURRENT_DIR)/axolotl-web/dist $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/dist
 
 install-axolotl: build-axolotl
-	@sudo install -D -m 755 $(CURRENT_DIR)/axolotl /usr/bin/axolotl/axolotl
+	@sudo install -D -m 755 $(CURRENT_DIR)/axolotl $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl
 
 clean:
 	rm -f axolotl
@@ -117,10 +123,10 @@ copy-zkgroup:
 	cp $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_$(HARDWARE_PLATFORM).so $(CURRENT_DIR)/
 
 install-zkgroup:
-	sudo cp $(CURRENT_DIR)/libzkgroup_linux_$(HARDWARE_PLATFORM).so /usr/lib/
+	sudo cp $(CURRENT_DIR)/libzkgroup_linux_$(HARDWARE_PLATFORM).so $(DESTDIR)$(LIBRARY_PREFIX)/
 
 uninstall-zkgroup:
-	sudo rm -f /usr/lib/libzkgroup_linux_$(HARDWARE_PLATFORM).so
+	sudo rm -f $(DESTDIR)$(LIBRARY_PREFIX)/libzkgroup_linux_$(HARDWARE_PLATFORM).so
 
 install-clickable-zkgroup:
 	$(GO) get -d github.com/nanu-c/zkgroup
@@ -231,22 +237,22 @@ install-deb-arm64: uninstall-deb-arm64
 	@echo "Installing Axolotl"
 # Copy libzkgroup
 	@sudo wget https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_aarch64.so -P /usr/lib
-	@sudo mkdir -p /usr/share/axolotl
-	@sudo cp -r $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl/* /usr/share/axolotl
-	@sudo mv /usr/share/axolotl/axolotl /usr/bin/
-	@sudo cp $(CURRENT_DIR)/deb/axolotl.desktop /usr/share/applications
-	@sudo cp $(CURRENT_DIR)/deb/axolotl.png /usr/share/icons/hicolor/128x128/apps
+	@sudo mkdir -p $(DESTDIR)$(SHARE_PREFIX)/axolotl
+	@sudo cp -r $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl/* $(DESTDIR)$(SHARE_PREFIX)/axolotl
+	@sudo mv $(DESTDIR)$(SHARE_PREFIX)/axolotl/axolotl $(DESTDIR)$(INSTALL_PREFIX)/
+	@sudo cp $(CURRENT_DIR)/deb/axolotl.desktop $(DESTDIR)$(SHARE_PREFIX)/applications
+	@sudo cp $(CURRENT_DIR)/deb/axolotl.png $(DESTDIR)$(SHARE_PREFIX)/icons/hicolor/128x128/apps
 	@sudo cp $(CURRENT_DIR)/deb/axolotl.sh /etc/profile.d
 	@bash -c "source /etc/profile.d/axolotl.sh"
 	@echo "Installation complete"
 
 uninstall-deb-arm64:
-	@sudo rm -rf /usr/share/axolotl
-	@sudo rm -f /usr/bin/axolotl
-	@sudo rm -f /usr/share/applications/axolotl.desktop
-	@sudo rm -f /usr/share/icons/hicolor/128x128/apps/axolotl.png
+	@sudo rm -rf $(DESTDIR)$(SHARE_PREFIX)/axolotl
+	@sudo rm -f $(DESTDIR)$(INSTALL_PREFIX)/axolotl
+	@sudo rm -f $(DESTDIR)$(SHARE_PREFIX)/applications/axolotl.desktop
+	@sudo rm -f $(DESTDIR)$(SHARE_PREFIX)/icons/hicolor/128x128/apps/axolotl.png
 	@sudo rm -f /etc/profile.d/axolotl.sh
-	@sudo rm -f /usr/lib/libzkgroup_linux_aarch64.so
+	@sudo rm -f $(DESTDIR)$(LIBRARY_PREFIX)/libzkgroup_linux_aarch64.so
 	@echo "Removing complete"
 
 clean-deb-arm64:

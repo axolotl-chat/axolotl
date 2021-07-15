@@ -135,7 +135,7 @@
         <div
           class="message-text-content"
           v-html="linkify(sanitize(message.Message))"
-        ></div>
+        />
         <div v-if="message.Flags===17" v-translate>Group changed.</div>
         <div
           v-if="
@@ -203,7 +203,20 @@ let decoder;
 
 export default {
   name: "Message",
-  props: ["message", "isGroup", "names"],
+  props: {
+    message: {
+      type: Object,
+      default: () => {}
+    },
+    isGroup: {
+      type: Boolean,
+      default: false,
+    },
+    names: {
+      type: Array,
+      default: () => []
+    }
+  },
   data() {
     return {
       showDate: false,
@@ -216,7 +229,8 @@ export default {
         !this.message.Outgoing &&
         this.isGroup &&
         (this.message.Flags === 0 || this.message.Flags === 14)
-      ); // 14 is quoting messages
+      ); // #14 is the flag for quoting messages
+	    // see this list for all message types: https://github.com/nanu-c/axolotl/blob/main/app/helpers/models.go#L15
     },
   },
   methods: {
