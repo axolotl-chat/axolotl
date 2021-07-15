@@ -55,6 +55,9 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		text = "Message timer update."
 		msgFlags = helpers.MsgFlagExpirationTimerUpdate
 	}
+	if msg.Flags() == uint32(textsecure.ProfileKeyUpdatedFlag) {
+		msgFlags = helpers.MsgFlagProfileKeyUpdated
+	}
 	//Group Message
 	gr := msg.Group()
 
@@ -243,9 +246,10 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 	if msgFlags != 0 {
 		m.Flags = msgFlags
 	}
-	//TODO: have only one message per chat
-
-	if session.Notification && !syncMessage {
+	if msgFlags == helpers.MsgFlagProfileKeyUpdated {
+		m.IsRead = true
+	}
+	if session.Notification && !syncMessage && msgFlags != helpers.MsgFlagProfileKeyUpdated {
 		if settings.SettingsModel.EncryptDatabase {
 			text = "Encrypted message"
 		}

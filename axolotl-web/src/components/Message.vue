@@ -15,6 +15,7 @@
           message.Flags !== 14) ||
         message.StatusMessage ||
         (message.Attachment.includes('null') && message.Message === ''),
+      hidden: message.Flags === 18,
       error: message.SentAt === 0 || message.SendingError,
     }"
   >
@@ -481,5 +482,8 @@ blockquote {
 .fullDate {
   font-style: italic;
   margin-left: 2px;
+}
+.hidden{
+  display: none;
 }
 </style>

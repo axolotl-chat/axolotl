@@ -219,7 +219,7 @@ prebuild-package-deb-arm64: package-clean-deb-arm64
 	@cp $(CURRENT_DIR)/deb/axolotl.install $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian
 	@cp $(CURRENT_DIR)/deb/postinst $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian
 	@cp $(CURRENT_DIR)/deb/control $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/control
-	@wget https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_arm64.so -P  $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/lib
+	@wget https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_aarch64.so -P  $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/lib
 	@mv $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl/axolotl $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin
 	@echo "Prebuilding Debian package complete"
 
@@ -236,7 +236,7 @@ install-deb-arm64: uninstall-deb-arm64
 # Use for testing purposes only after prebuild-package-arm64
 	@echo "Installing Axolotl"
 # Copy libzkgroup
-	@sudo wget https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_arm64.so -P /usr/lib
+	@sudo wget https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_aarch64.so -P /usr/lib
 	@sudo mkdir -p $(DESTDIR)$(SHARE_PREFIX)/axolotl
 	@sudo cp -r $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl/* $(DESTDIR)$(SHARE_PREFIX)/axolotl
 	@sudo mv $(DESTDIR)$(SHARE_PREFIX)/axolotl/axolotl $(DESTDIR)$(INSTALL_PREFIX)/
@@ -252,7 +252,7 @@ uninstall-deb-arm64:
 	@sudo rm -f $(DESTDIR)$(SHARE_PREFIX)/applications/axolotl.desktop
 	@sudo rm -f $(DESTDIR)$(SHARE_PREFIX)/icons/hicolor/128x128/apps/axolotl.png
 	@sudo rm -f /etc/profile.d/axolotl.sh
-	@sudo rm -f $(DESTDIR)$(LIBRARY_PREFIX)/libzkgroup_linux_arm64.so
+	@sudo rm -f $(DESTDIR)$(LIBRARY_PREFIX)/libzkgroup_linux_aarch64.so
 	@echo "Removing complete"
 
 clean-deb-arm64:
