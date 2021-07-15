@@ -29,11 +29,12 @@ import (
 )
 
 var (
-	sessionBus       *dbus.Connection
-	err              error
-	Nh               *NotificationHandler
-	useNotifications bool
-	mu               sync.Mutex
+	sessionBus        *dbus.Connection
+	err               error
+	Nh                *NotificationHandler
+	useNotifications  bool
+	mu                sync.Mutex
+	lastNotifications map[string]int64
 )
 
 func NotificationInit() {
@@ -43,6 +44,7 @@ func NotificationInit() {
 	} else {
 		useNotifications = true
 		Nh = NewLegacyHandler(sessionBus, "textsecure.nanuc_textsecure")
+		lastNotifications = make(map[string]int64)
 	}
 
 }
@@ -71,23 +73,32 @@ func NewLegacyHandler(conn *dbus.Connection, application string) *NotificationHa
 	}
 }
 func (n *NotificationHandler) Clear(tag string) error {
-	// mu.Lock()
-	// defer mu.Unlock()
 	_, err := n.dbusObject.Call(dbusInterface, dbusClearMethod, "textsecure.nanuc_textsecure", tag)
 	return err
 }
 
+// Send sends a push notification to the system after running some checks
 func (n *NotificationHandler) Send(m *PushMessage) error {
 	if useNotifications {
 		var pushMessage string
+		// check if there was a notification in the same chat less than 10s and
+		//if yes just replace the notification but don't trigger a popup
+		if timestamp, found := lastNotifications[m.Notification.Tag]; found {
+
+			if m.Notification.Card.Timestamp-timestamp < 10 {
+				m.Notification.Card.Popup = false
+				m.Notification.RawSound = json.RawMessage(`false`)
+				m.Notification.RawVibration = json.RawMessage(`false`)
+			}
+			lastNotifications[m.Notification.Tag] = m.Notification.Card.Timestamp
+		} else {
+			lastNotifications[m.Notification.Tag] = m.Notification.Card.Timestamp
+		}
 		if out, err := json.Marshal(m); err == nil {
 			pushMessage = string(out)
 		} else {
 			return err
 		}
-		// mu.Lock()
-		// defer mu.Unlock()
-		// clearTag := "[" + m.Notification.Card.Summary + "]"
 		_, err := n.dbusObject.Call(dbusInterface, dbusClearMethod, "textsecure.nanuc_textsecure", m.Notification.Tag)
 		_, err = n.dbusObject.Call(dbusInterface, dbusPostMethod, "textsecure.nanuc_textsecure", pushMessage)
 
