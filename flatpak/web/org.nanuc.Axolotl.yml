@@ -45,7 +45,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/nanu-c/zkgroup
-        tag: rename-built-x86_64-library # should be changed to main
+        tag: main
         dest: src/github.com/nanu-c/zkgroup
 
   - name: axolotl
