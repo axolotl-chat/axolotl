@@ -246,8 +246,9 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 	if msgFlags != 0 {
 		m.Flags = msgFlags
 	}
-	//TODO: have only one message per chat
-
+	if msgFlags == helpers.MsgFlagProfileKeyUpdated {
+		m.IsRead = true
+	}
 	if session.Notification && !syncMessage && msgFlags != helpers.MsgFlagProfileKeyUpdated {
 		if settings.SettingsModel.EncryptDatabase {
 			text = "Encrypted message"
