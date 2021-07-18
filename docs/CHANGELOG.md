@@ -1,3 +1,7 @@
+1.0.1.1 (Jul 18 2021)
+------------------------------------
+* Hotfix: Verification Input fix
+
 1.0.1 (Jul 18 2021)
 ------------------------------------
 * Handle profile key changes (nanu-c)
