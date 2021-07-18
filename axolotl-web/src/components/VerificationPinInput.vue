@@ -27,11 +27,11 @@ export default {
   props: {
     numberOfBoxes: {
       type: Number,
-      default: 0
+      default: 6
     },
     position: {
       type: String,
-      default: ""
+      default: "center"
     },
     color: {
       type: String,
