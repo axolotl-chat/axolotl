@@ -29,6 +29,9 @@
         </screenshot>
     </screenshots>
     <releases>
+          <release version="1.0.1.1" date="2021-06-18">
+          <url>https://github.com/nanu-c/axolotl/releases/tag/v1.0.1.1</url>
+      </release>
       <release version="1.0.1" date="2021-06-18">
           <url>https://github.com/nanu-c/axolotl/releases/tag/v1.0.1</url>
       </release>
