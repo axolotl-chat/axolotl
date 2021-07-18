@@ -1,20 +1,14 @@
 <template>
   <div class="deviceList">
-    <!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->
-    <div v-if="devices && devices.length>1">
-      <div
-        class="row device"
-        v-for="device in devices"
-        v-if="device.id != 1 && false"
-        v-bind:key="device.id"
-      >
-        <div class="col-10">
+    <div v-if="devices && devices.length > 1">
+      <div v-for="device in devices" :key="device.id" class="row device">
+        <div v-if="device.id != 0" class="col-10">
           <div class="device-name">{{ device.name }}</div>
           <div class="meta">
-            <span class="lastSeen"
-              ><span v-translate>Last seen:</span>
-              {{ humanifyDate(device.lastSeen) }}</span
-            >
+            <span class="lastSeen">
+              <span v-translate>Last seen:</span>
+              {{ humanifyDate(device.lastSeen) }}
+            </span>
           </div>
         </div>
         <div class="col-2 actions">
@@ -24,12 +18,10 @@
         </div>
       </div>
     </div>
-    <div v-else class="no-entries" v-translate>
-      No linked devices
-    </div>
+    <div v-else v-translate class="no-entries">No linked devices</div>
     <!-- eslint-enable -->
 
-    <button @click="linkDevice" class="btn start-chat">
+    <button class="btn start-chat" @click="linkDevice">
       <font-awesome-icon icon="plus" />
     </button>
     <add-device-modal
@@ -47,9 +39,6 @@ export default {
   name: "DeviceList",
   components: {
     AddDeviceModal,
-  },
-  props: {
-    msg: String,
   },
   data() {
     return {
@@ -124,5 +113,6 @@ export default {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  max-width: 35ch;
 }
 </style>
