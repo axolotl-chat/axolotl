@@ -54,9 +54,6 @@ export default {
   components: {
     AddGroupMembersModal,
   },
-  props: {
-    msg: String,
-  },
   data() {
     return {
       newGroupName: null,

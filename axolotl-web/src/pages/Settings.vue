@@ -61,9 +61,6 @@ export default {
   components: {
     ConfirmationModal,
   },
-  props: {
-    msg: String,
-  },
   data() {
     return {
       showConfirmationModal: false,
