@@ -177,7 +177,7 @@ msgstr "Errore di comunicazione con i server Signal"
 msgid "Follow the progress or join us to help with development on"
 msgstr "Segui i progressi o unisciti a noi per aiutare con lo sviluppo"
 
-#: src/components/Message.vue:91
+#: src/components/Message.vue:92
 msgid "Group changed."
 msgstr "Gruppo cambiato."
 
@@ -305,7 +305,7 @@ msgstr "Nessun dispositivo collegato"
 msgid "No messages available."
 msgstr "Nessun messaggio disponibile."
 
-#: src/components/Message.vue:52 src/components/Message.vue:86
+#: src/components/Message.vue:53 src/components/Message.vue:87
 msgid "Not supported mime type:"
 msgstr "Tipo MIME non supportato:"
 
@@ -393,7 +393,7 @@ msgstr "Imposta password crittografata"
 msgid "Set password"
 msgstr "Imposta password"
 
-#: src/components/Message.vue:97
+#: src/components/Message.vue:98
 msgid "Set timer for self-destructing messages"
 msgstr "Imposta il timer per i messaggi che si autodistruggono"
 
@@ -406,7 +406,8 @@ msgid ""
 "Setting a password is not advised on devices short in memory. Restart is\n"
 "      required!"
 msgstr ""
-"L'impostazione di una password non è consigliata sui dispositivi con poca memoria. Il riavvio è\n"
+"L'impostazione di una password non è consigliata sui dispositivi con poca "
+"memoria. Il riavvio è\n"
 "      necessario!"
 
 #: src/pages/SetUsername.vue:3
@@ -452,7 +453,7 @@ msgstr "Annulla registrazione"
 msgid "Unsafe password"
 msgstr "Password non sicura"
 
-#: src/components/Message.vue:100
+#: src/components/Message.vue:101
 msgid "Unsupported message type: sticker"
 msgstr "Tipo di messaggio non supportato: sticker"
 
@@ -477,14 +478,15 @@ msgid ""
 "We are sorry, but due to a change in the Signal protocol, automatic\n"
 "            import of contacts is currently unavailable."
 msgstr ""
-"Siamo spiacenti, ma a causa di un cambiamento nel protocollo automatico di Signal\n"
+"Siamo spiacenti, ma a causa di un cambiamento nel protocollo automatico di "
+"Signal\n"
 "l'importazione dei contatti non è attualmente disponibile."
 
 #: src/pages/Verification.vue:22
 msgid "Wrong code entered. Restart for another try."
 msgstr "È stato inserito un codice errato. Riavvia per un altro tentativo."
 
-#: src/components/Message.vue:25
+#: src/components/Message.vue:26
 msgid "You"
 msgstr "Tu"
 
@@ -501,19 +503,19 @@ msgid ""
 "add\n"
 "      you again."
 msgstr ""
-"Sei stato invitato a questo gruppo. L'accettazione degli inviti non è ancora\n"
-"supportata. Per partecipare inviare un messaggio privato all' "
-"altro\n"
-"lato per scambiare la chiave del profilo. Dopodiché lui/lei deve rimuoverti e "
-"aggiungerti\n"
+"Sei stato invitato a questo gruppo. L'accettazione degli inviti non è "
+"ancora\n"
+"supportata. Per partecipare inviare un messaggio privato all' altro\n"
+"lato per scambiare la chiave del profilo. Dopodiché lui/lei deve rimuoverti "
+"e aggiungerti\n"
 "      di nuovo."
 
-#: src/components/Message.vue:38 src/components/Message.vue:47
-#: src/components/Message.vue:67 src/pages/MessageList.vue:19
+#: src/components/Message.vue:39 src/components/Message.vue:48
+#: src/components/Message.vue:68 src/pages/MessageList.vue:19
 msgid "Your browser does not support the audio element."
 msgstr "Il tuo browser non supporta l'elemento audio."
 
-#: src/components/Message.vue:81
+#: src/components/Message.vue:82
 msgid "Your browser does not support the video element."
 msgstr "Il tuo browser non supporta l'elemento video."
 

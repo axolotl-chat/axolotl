@@ -37,10 +37,10 @@ First, make sure to pull all the git tags.
 git fetch --all --tags
 ```
 
-Then check out the published tag. In our case, `v1.0.0`
+Then check out the published tag. In our case, `v1.0.1`
 
 ```
-git checkout tags/v1.0.0
+git checkout tags/v1.0.1
 ```
 
 Change to the axolotl-web directory, and make sure to use the npm version specified in the .nvmrc file.
@@ -61,7 +61,7 @@ npm ci
 Lastly, create the archive we want, naming it after the tag we checked out before.
 
 ```
-tar cfvJ ../flatpak/archives/axolotl-web-dependencies-x86_64-v1.0.0.tar.xz node_modules
+tar cfvJ ../flatpak/archives/axolotl-web-dependencies-x86_64-v1.0.1.tar.xz node_modules
 ```
 
-To verify, the archive can be extracted by using `tar xvJf axolotl-web-dependencies-x86_64-v1.0.0.tar.xz`.
+To verify, the archive can be extracted by using `tar xvJf axolotl-web-dependencies-x86_64-v1.0.1.tar.xz`.

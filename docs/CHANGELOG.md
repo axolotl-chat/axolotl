@@ -1,3 +1,16 @@
+1.0.1 (Jul 18 2021)
+------------------------------------
+* Handle profile key changes (nanu-c)
+* Only trigger a notification once per 10s per chat (nanu-c)
+* axolotl-web: Revise lots of linter messages (olof-nord)
+* Update italian translation (albanobattistella)
+* Update dutch translation (vistaus)
+* More modular Makefile (olof-nord)
+* Improve debian packaging (nuehm-arno)
+* Fix the ci (nanu-c)
+
+
+
 1.0.0 (Mai 28 2021) (76 merge request were merged)
 ------------------------------------
 * Basic GroupsV2 support, a huge thanks go to blackoverflow and olof and all the testers. (nanu-c)

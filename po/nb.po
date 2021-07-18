@@ -181,7 +181,7 @@ msgstr "Feil ved kommunikasjon med Signal-tjenere"
 msgid "Follow the progress or join us to help with development on"
 msgstr "Følg fremdriften eller bli med oss for å hjelpe deg med utvikling"
 
-#: src/components/Message.vue:91
+#: src/components/Message.vue:92
 #, fuzzy
 msgid "Group changed."
 msgstr "Gruppenavn"
@@ -320,7 +320,7 @@ msgstr "Ingen koblede enheter"
 msgid "No messages available."
 msgstr "Ingen meldinger tilgjengelige."
 
-#: src/components/Message.vue:52 src/components/Message.vue:86
+#: src/components/Message.vue:53 src/components/Message.vue:87
 msgid "Not supported mime type:"
 msgstr "MIME-type ikke støttet:"
 
@@ -410,7 +410,7 @@ msgstr "Angi krypteringspassord"
 msgid "Set password"
 msgstr "Angi passord"
 
-#: src/components/Message.vue:97
+#: src/components/Message.vue:98
 msgid "Set timer for self-destructing messages"
 msgstr "Angi tidsinnstilling for selvdestruerende meldinger"
 
@@ -474,7 +474,7 @@ msgstr "Avregistrér"
 msgid "Unsafe password"
 msgstr "Usikkert passord"
 
-#: src/components/Message.vue:100
+#: src/components/Message.vue:101
 #, fuzzy
 msgid "Unsupported message type: sticker"
 msgstr "MIME-type ikke støttet:"
@@ -508,7 +508,7 @@ msgstr ""
 msgid "Wrong code entered. Restart for another try."
 msgstr "Feil kode angitt. Gjør omstart for nytt forsøk."
 
-#: src/components/Message.vue:25
+#: src/components/Message.vue:26
 msgid "You"
 msgstr "Deg"
 
@@ -527,12 +527,12 @@ msgid ""
 "      you again."
 msgstr ""
 
-#: src/components/Message.vue:38 src/components/Message.vue:47
-#: src/components/Message.vue:67 src/pages/MessageList.vue:19
+#: src/components/Message.vue:39 src/components/Message.vue:48
+#: src/components/Message.vue:68 src/pages/MessageList.vue:19
 msgid "Your browser does not support the audio element."
 msgstr "Nettleseren støtter ikke lydelementet."
 
-#: src/components/Message.vue:81
+#: src/components/Message.vue:82
 msgid "Your browser does not support the video element."
 msgstr "Nettleseren støtter ikke videoelementet."
 
