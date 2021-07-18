@@ -179,7 +179,7 @@ msgstr "Fout tijdens communiceren met Signal-servers"
 msgid "Follow the progress or join us to help with development on"
 msgstr "Volg de voortgang of help ons op"
 
-#: src/components/Message.vue:91
+#: src/components/Message.vue:92
 msgid "Group changed."
 msgstr "De groep is aangepast."
 
@@ -311,7 +311,7 @@ msgstr "Geen gekoppelde apparaten"
 msgid "No messages available."
 msgstr "Geen beschikbare berichten."
 
-#: src/components/Message.vue:52 src/components/Message.vue:86
+#: src/components/Message.vue:53 src/components/Message.vue:87
 msgid "Not supported mime type:"
 msgstr "Niet-ondersteund mimetype:"
 
@@ -399,7 +399,7 @@ msgstr "Versleutelwachtwoord instellen"
 msgid "Set password"
 msgstr "Wachtwoord instellen"
 
-#: src/components/Message.vue:97
+#: src/components/Message.vue:98
 msgid "Set timer for self-destructing messages"
 msgstr "Tijdklok instellen voor zelfvernietigende berichten"
 
@@ -461,7 +461,7 @@ msgstr "Loskoppelen"
 msgid "Unsafe password"
 msgstr "Onveilig wachtwoord"
 
-#: src/components/Message.vue:100
+#: src/components/Message.vue:101
 msgid "Unsupported message type: sticker"
 msgstr "Niet-ondersteunde berichtsoort: sticker"
 
@@ -493,7 +493,7 @@ msgstr ""
 msgid "Wrong code entered. Restart for another try."
 msgstr "De ingevoerde code is onjuist. Herstart en probeer het opnieuw."
 
-#: src/components/Message.vue:25
+#: src/components/Message.vue:26
 msgid "You"
 msgstr "Ik"
 
@@ -520,12 +520,12 @@ msgstr ""
 "verwijderen en opnieuw\n"
 "      toevoegen."
 
-#: src/components/Message.vue:38 src/components/Message.vue:47
-#: src/components/Message.vue:67 src/pages/MessageList.vue:19
+#: src/components/Message.vue:39 src/components/Message.vue:48
+#: src/components/Message.vue:68 src/pages/MessageList.vue:19
 msgid "Your browser does not support the audio element."
 msgstr "Je browser heeft geen ondersteuning voor het audio-element."
 
-#: src/components/Message.vue:81
+#: src/components/Message.vue:82
 msgid "Your browser does not support the video element."
 msgstr "Je browser heeft geen ondersteuning voor het video-element."
 

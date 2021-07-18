@@ -172,7 +172,7 @@ msgstr "Erro ao se comunicar com os servidores do Signal"
 msgid "Follow the progress or join us to help with development on"
 msgstr ""
 
-#: src/components/Message.vue:91
+#: src/components/Message.vue:92
 #, fuzzy
 msgid "Group changed."
 msgstr "Nome do grupo"
@@ -298,7 +298,7 @@ msgstr "Nenhum dispositivo conectado"
 msgid "No messages available."
 msgstr "Nenhuma mensagem disponível"
 
-#: src/components/Message.vue:52 src/components/Message.vue:86
+#: src/components/Message.vue:53 src/components/Message.vue:87
 msgid "Not supported mime type:"
 msgstr "Mime type não suportado"
 
@@ -384,7 +384,7 @@ msgstr "Definir senha de criptografia"
 msgid "Set password"
 msgstr "Definir senha"
 
-#: src/components/Message.vue:97
+#: src/components/Message.vue:98
 msgid "Set timer for self-destructing messages"
 msgstr "Definir tempo para mensagens auto-destrutivas"
 
@@ -446,7 +446,7 @@ msgstr "Descadastrar"
 msgid "Unsafe password"
 msgstr "Senha insegura"
 
-#: src/components/Message.vue:100
+#: src/components/Message.vue:101
 msgid "Unsupported message type: sticker"
 msgstr "Tipo de mensagem não suportado: sticker"
 
@@ -476,7 +476,7 @@ msgstr ""
 msgid "Wrong code entered. Restart for another try."
 msgstr "Código inserido incorreto. Reinicie para tentar novamente."
 
-#: src/components/Message.vue:25
+#: src/components/Message.vue:26
 msgid "You"
 msgstr "Você"
 
@@ -494,12 +494,12 @@ msgid ""
 "      you again."
 msgstr ""
 
-#: src/components/Message.vue:38 src/components/Message.vue:47
-#: src/components/Message.vue:67 src/pages/MessageList.vue:19
+#: src/components/Message.vue:39 src/components/Message.vue:48
+#: src/components/Message.vue:68 src/pages/MessageList.vue:19
 msgid "Your browser does not support the audio element."
 msgstr "Seu navegador não suporta o elemento audio."
 
-#: src/components/Message.vue:81
+#: src/components/Message.vue:82
 msgid "Your browser does not support the video element."
 msgstr "Seu navegador não suporta o elemento video"
 

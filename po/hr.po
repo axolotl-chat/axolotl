@@ -173,7 +173,7 @@ msgstr ""
 msgid "Follow the progress or join us to help with development on"
 msgstr ""
 
-#: src/components/Message.vue:91
+#: src/components/Message.vue:92
 #, fuzzy
 msgid "Group changed."
 msgstr "Naziv grupe"
@@ -293,7 +293,7 @@ msgstr "Osvježi"
 msgid "No messages available."
 msgstr ""
 
-#: src/components/Message.vue:52 src/components/Message.vue:86
+#: src/components/Message.vue:53 src/components/Message.vue:87
 msgid "Not supported mime type:"
 msgstr ""
 
@@ -382,7 +382,7 @@ msgstr "Resetiraj sigurnu sesiju"
 msgid "Set password"
 msgstr ""
 
-#: src/components/Message.vue:97
+#: src/components/Message.vue:98
 msgid "Set timer for self-destructing messages"
 msgstr ""
 
@@ -441,7 +441,7 @@ msgstr "Uklanjanje registracije"
 msgid "Unsafe password"
 msgstr ""
 
-#: src/components/Message.vue:100
+#: src/components/Message.vue:101
 msgid "Unsupported message type: sticker"
 msgstr ""
 
@@ -472,7 +472,7 @@ msgstr ""
 msgid "Wrong code entered. Restart for another try."
 msgstr ""
 
-#: src/components/Message.vue:25
+#: src/components/Message.vue:26
 msgid "You"
 msgstr ""
 
@@ -490,12 +490,12 @@ msgid ""
 "      you again."
 msgstr ""
 
-#: src/components/Message.vue:38 src/components/Message.vue:47
-#: src/components/Message.vue:67 src/pages/MessageList.vue:19
+#: src/components/Message.vue:39 src/components/Message.vue:48
+#: src/components/Message.vue:68 src/pages/MessageList.vue:19
 msgid "Your browser does not support the audio element."
 msgstr ""
 
-#: src/components/Message.vue:81
+#: src/components/Message.vue:82
 msgid "Your browser does not support the video element."
 msgstr ""
 
