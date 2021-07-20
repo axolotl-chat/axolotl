@@ -106,12 +106,6 @@ export default {
   components: {
     WarningMessage,
   },
-  props: {
-    msg: {
-      type: String,
-      default: ""
-    },
-  },
   data() {
     return {
       editActive: false,

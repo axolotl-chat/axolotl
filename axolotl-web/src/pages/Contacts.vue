@@ -117,9 +117,6 @@ export default {
     EditContactModal,
     StartChatModal,
   },
-  props: {
-    msg: String,
-  },
   data() {
     return {
       addContactModal: false,

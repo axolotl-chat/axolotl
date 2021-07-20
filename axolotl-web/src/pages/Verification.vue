@@ -44,9 +44,6 @@ export default {
   components: {
     VerificationPinInput,
   },
-  props: {
-    msg: String,
-  },
   data() {
     return {
       code: "",

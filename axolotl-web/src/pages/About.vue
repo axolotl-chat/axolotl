@@ -41,9 +41,6 @@ import { mapState } from "vuex";
 export default {
   name: "About",
   components: {},
-  props: {
-    msg: String,
-  },
   data() {
     return {
       showConfirmationModal: false,
