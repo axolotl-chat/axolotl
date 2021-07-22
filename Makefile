@@ -14,7 +14,6 @@ UNAME_S := $(shell uname -s)
 HARDWARE_PLATFORM := $(shell uname --machine)
 CURRENT_DIR = $(shell pwd)
 
-
 define APPDATA_TEXT=
 \\t\t\t<release version="$(NEW_VERSION)" date="$(shell date --rfc-3339='date')">\n\
 \t\t\t\t\t<url>https://github.com/nanu-c/axolotl/releases/tag/v$(NEW_VERSION)</url>\n\
@@ -30,6 +29,8 @@ FLATPAK=$(shell which flatpak)
 FLATPAK_BUILDER=$(shell which flatpak-builder)
 SNAPCRAFT=$(shell which snapcraft)
 SNAP=$(shell which snap)
+APT=$(shell which apt)
+WGET=$(shell which wget)
 
 DESTDIR = /
 INSTALL_PREFIX = usr/bin
@@ -171,17 +172,17 @@ check-platform-deb-arm64:
   ifneq ($(UNAME_S),Linux)
 	@echo "Platform unsupported - only available for Linux" && exit 1
   endif
-  ifneq ($(shell uname -m),aarch64)
+  ifneq ($(HARDWARE_PLATFORM),aarch64)
 	@echo "Machine unsupported - only available for arm64/aarch64" && exit 1
   endif
-  ifneq ($(shell which apt),/usr/bin/apt)
+  ifneq ($(APT),/usr/bin/apt)
 	@echo "OS unsupported - apt not found" && exit 1
   endif
 
 dependencies-deb-arm64: check-platform-deb-arm64
 	@echo "Installing dependencies for building Axolotl..."
-	@sudo apt update
-	@sudo apt install nano git golang nodejs npm python
+	@sudo $(APT) update
+	@sudo $(APT) install nano git golang nodejs npm python
 
 build-deb-arm64: check-platform-deb-arm64 dependencies-deb-arm64
 	@echo "Downloading (go)..."
@@ -200,7 +201,7 @@ build-deb-arm64: check-platform-deb-arm64 dependencies-deb-arm64
 prebuild-package-deb-arm64: package-clean-deb-arm64
 	@echo "Prebuilding Debian package..."
 # Get the source tarball
-	@wget https://github.com/nanu-c/axolotl/archive/v$(AXOLOTL_VERSION).tar.gz -O $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION).tar.gz
+	@$(WGET) https://github.com/nanu-c/axolotl/archive/v$(AXOLOTL_VERSION).tar.gz -O $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION).tar.gz
 # Prepare packaging folder
 	@mkdir -p $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl
 	@cp -r $(CURRENT_DIR)/build/linux-arm64/* $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl
@@ -219,7 +220,7 @@ prebuild-package-deb-arm64: package-clean-deb-arm64
 	@cp $(CURRENT_DIR)/deb/axolotl.install $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian
 	@cp $(CURRENT_DIR)/deb/postinst $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian
 	@cp $(CURRENT_DIR)/deb/control $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/control
-	@wget https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_aarch64.so -P  $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/lib
+	@$(WGET) https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_aarch64.so -P  $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/lib
 	@mv $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl/axolotl $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin
 	@echo "Prebuilding Debian package complete"
 
@@ -236,7 +237,7 @@ install-deb-arm64: uninstall-deb-arm64
 # Use for testing purposes only after prebuild-package-arm64
 	@echo "Installing Axolotl"
 # Copy libzkgroup
-	@sudo wget https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_aarch64.so -P /usr/lib
+	@sudo $(WGET) https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_aarch64.so -P /usr/lib
 	@sudo mkdir -p $(DESTDIR)$(SHARE_PREFIX)/axolotl
 	@sudo cp -r $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl/* $(DESTDIR)$(SHARE_PREFIX)/axolotl
 	@sudo mv $(DESTDIR)$(SHARE_PREFIX)/axolotl/axolotl $(DESTDIR)$(INSTALL_PREFIX)/
