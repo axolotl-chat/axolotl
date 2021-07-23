@@ -172,6 +172,14 @@
                 >
                   Reset encryption
                 </button>
+                <button
+                  v-if="currentChat != null && !currentChat.IsGroup"
+                  v-translate
+                  class="dropdown-item"
+                  @click="delChatModal"
+                >
+                  Delete chat
+                </button>
                 <router-link
                   v-if="currentChat != null && currentChat.Type === 1"
                   v-translate
@@ -381,6 +389,7 @@ import IdentityModal from "@/components/IdentityModal.vue";
 import ConfirmationModal from "@/components/ConfirmationModal.vue";
 import ImportUnavailableModal from "@/components/ImportUnavailableModal.vue";
 import { mapState } from "vuex";
+import { router } from "@/router/router";
 export default {
   name: "Header",
   components: {
@@ -452,9 +461,20 @@ export default {
       this.showSettingsMenu = false;
       this.showIdentityModal = true;
     },
+    delChatModal() {
+      this.showSettingsMenu = false;
+      this.showConfirmationModal = true;
+      this.cMType = "delChat";
+      this.cMTitle = "Delete this chat?";
+      this.cMText =
+        "This chat will be permanently deleted - but only from your device.";
+    },
     confirm() {
       if (this.cMType === "resetEncryption")
         this.$store.dispatch("resetEncryption");
+      else if (this.cMType === "delChat")
+        this.$store.dispatch("delChat", this.currentChat.ID);
+        this.$router.push("/chatList");
       this.showConfirmationModal = false;
       this.showIdentityModal = false;
     },
