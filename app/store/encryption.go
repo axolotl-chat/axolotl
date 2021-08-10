@@ -103,7 +103,7 @@ func (ds *DataStore) Convert(password string) error {
 	tmp := filepath.Join(dbDir, "tmp.db")
 
 	//create tmp file
-	os.OpenFile(tmp, os.O_RDONLY|os.O_CREATE, 0700)
+	os.OpenFile(tmp, os.O_RDONLY|os.O_CREATE, 0600)
 	saltFile = filepath.Join(dbDir, "salt")
 
 	encrypted := settings.SettingsModel.EncryptDatabase

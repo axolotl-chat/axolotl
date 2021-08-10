@@ -62,6 +62,10 @@ func sendCurrentChat(s *store.Session) {
 	)
 	if s.IsGroup {
 		gr, err = textsecure.GetGroupById(s.Tel)
+		if err != nil {
+			log.Errorln("[axolotl] sendCurrentChat: groups", err)
+			return
+		}
 	}
 	currentChatEnvelope := &CurrentChatEnvelope{
 		OpenChat: &OpenChat{
@@ -73,7 +77,7 @@ func sendCurrentChat(s *store.Session) {
 	message := &[]byte{}
 	*message, err = json.Marshal(currentChatEnvelope)
 	if err != nil {
-		log.Errorln("[axolotl] sendRegistrationStatus", err)
+		log.Errorln("[axolotl] sendCurrentChat: sendRegistrationStatus", err)
 		return
 	}
 	broadcast <- *message
@@ -86,6 +90,10 @@ func updateCurrentChat(s *store.Session) {
 	)
 	if s.IsGroup {
 		gr, err = textsecure.GetGroupById(s.Tel)
+		if err != nil {
+			log.Errorln("[axolotl] updateCurrentChat", err)
+			return
+		}
 	} else {
 		c = store.GetContactForTel(s.Tel)
 	}
@@ -140,6 +148,10 @@ func sendContactList() {
 func sendDeviceList() {
 	var err error
 	devices, err := textsecure.LinkedDevices()
+	if err != nil {
+		log.Errorln("[axolotl] sendDeviceList", err)
+		return
+	}
 	deviceListEnvelope := &DeviceListEnvelope{
 		DeviceList: devices,
 	}
@@ -265,8 +277,6 @@ func sendIdentityInfo(fingerprintNumbers []string, fingerprintQRCode []byte) {
 	}
 	broadcast <- *message
 }
-
-var test = false
 
 // UpdateChatList updates the chatlist if not entered a chat + registered
 func UpdateChatList() {

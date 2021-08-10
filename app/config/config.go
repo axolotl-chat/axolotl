@@ -118,7 +118,7 @@ func SetupConfig() {
 	RegisteredContactsFile = filepath.Join(ConfigDir, "registeredContacts.yml")
 	SettingsFile = filepath.Join(ConfigDir, "settings.yml")
 	if _, err := os.Stat(SettingsFile); os.IsNotExist(err) {
-		os.OpenFile(SettingsFile, os.O_RDONLY|os.O_CREATE, 0700)
+		os.OpenFile(SettingsFile, os.O_RDONLY|os.O_CREATE, 0600)
 	}
 	os.MkdirAll(ConfigDir, 0700)
 	DataDir = filepath.Join(HomeDir, ".local", "share", AppName)

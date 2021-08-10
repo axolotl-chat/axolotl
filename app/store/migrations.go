@@ -123,9 +123,15 @@ func UpdateSessionTable_v_0_9_5() error {
 	}
 
 	col, err := res.Columns()
+	if err != nil {
+		return err
+	}
 	if len(col) == 10 {
 		log.Infof("[axolotl] Update sessions schema v_0_9_5")
 		_, err := DS.Dbx.Exec("ALTER TABLE sessions ADD COLUMN 	type integer NOT NULL DEFAULT 0")
+		if err != nil {
+			return err
+		}
 		_, err = DS.Dbx.Exec("ALTER TABLE sessions ADD COLUMN 	uuid string NOT NULL DEFAULT 0")
 		if err != nil {
 			return err
@@ -172,12 +178,18 @@ func MigrateMessagesFromSessionToAnotherSession(oldSession int64, newSession int
 }
 func updateGroupTable_v_0_9_10() error {
 	statement, err := DS.Dbx.Prepare("SELECT * FROM groups limit 1")
+	if err != nil {
+		return err
+	}
 	res, err := statement.Query()
 	if err != nil {
 		return err
 	}
 
 	col, err := res.Columns()
+	if err != nil {
+		return err
+	}
 	if len(col) == 10 {
 		log.Infof("[axolotl] Update groups schema v_0_9_10")
 		_, err := DS.Dbx.Exec("ALTER TABLE groups ADD COLUMN 	type integer NOT NULL DEFAULT 0")
@@ -190,12 +202,18 @@ func updateGroupTable_v_0_9_10() error {
 
 func updateSessionTable_joinStatus_v_0_9_10() error {
 	statement, err := DS.Dbx.Prepare("SELECT * FROM sessions limit 1")
+	if err != nil {
+		return err
+	}
 	res, err := statement.Query()
 	if err != nil {
 		return err
 	}
 
 	col, err := res.Columns()
+	if err != nil {
+		return err
+	}
 	if len(col) == 12 {
 		log.Infof("[axolotl] Update sessions schema join status v_0_9_10")
 		_, err := DS.Dbx.Exec("ALTER TABLE sessions ADD COLUMN groupJoinStatus integer NOT NULL DEFAULT 0")
