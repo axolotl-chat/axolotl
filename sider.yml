@@ -1,0 +1,83 @@
+# This is a configuration file to customize code analysis by Sider.
+#
+# For more information, see the documentation:
+# https://help.sider.review/getting-started/custom-configuration
+
+# Customize each tool. If analyses fail, try adjusting each option referencing the following example.
+linter:
+
+#   # ESLint example. See https://help.sider.review/tools/javascript/eslint
+#   eslint:
+#     root_dir: project/
+#     dependencies:
+#       - my-eslint-plugin@2
+#     npm_install: false
+#     target:
+#       - src/
+#       - lib/
+#     ext: [.js, .jsx]
+#     config: config/.eslintrc.js
+#     ignore-path: config/.eslintignore
+#     ignore-pattern: "vendor/**"
+#     no-ignore: true
+#     global: ["require", "exports:true"]
+#     quiet: true
+
+#   # GolangCI-Lint example. See https://help.sider.review/tools/go/golangci-lint
+#   golangci_lint:
+#     root_dir: project/
+#     target: "src/..."
+#     config: config/.golangci.yml
+#     disable:
+#       - govet
+#       - unused
+#     disable-all: true
+#     enable:
+#       - golint
+#       - gosec
+#     fast: true
+#     no-config: true
+#     presets: [bugs, performance]
+#     skip-dirs:
+#       - src/external_libs/
+#     skip-dirs-use-default: false
+#     skip-files:
+#       - ".*\\.my\\.go$"
+#       - lib/bad.go
+#     tests: false
+#     uniq-by-line: false
+
+#   # Misspell example. See https://help.sider.review/tools/others/misspell
+#   misspell:
+#     root_dir: project/
+#     target: [src/, test/]
+#     exclude: ["**/*.min.*"]
+#     locale: UK
+#     ignore: [center, behavior]
+
+#   # ShellCheck example. See https://help.sider.review/tools/shellscript/shellcheck
+#   shellcheck:
+#     root_dir: project/
+#     target:
+#       - "**/*.{sh,bash}"
+#       - shebang: true
+#     include: [SC2104, SC2105]
+#     exclude: [SC1000, SC1118]
+#     enable: all
+#     shell: bash
+#     severity: error
+#     norc: true
+
+# Ignore specific files. Example:
+# ignore:
+#   - "*.pdf"
+#   - "*.mp4"
+#   - "*.min.*"
+#   - "images/**"
+
+# Exclude specific branches. Example:
+# branches:
+#   exclude:
+#     - master
+#     - development
+#     - /^release-.*$/
