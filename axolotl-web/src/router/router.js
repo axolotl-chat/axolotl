@@ -143,7 +143,7 @@ function proceed(to, next) {
     next();
     // The screen can be displayed ;)
     let loader = document.getElementById('initial-loader');
-    if (loader !== undefined) {
+    if (typeof loader !== "undefined") {
       loader.remove();
     }
   }
