@@ -119,7 +119,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 				log.Errorln("[axolotl] save groupV2 ", err)
 			}
 		}
-		if grV2.GroupAction != nil && len(msg.Message()) == 0 {
+		if grV2.GroupAction != nil && msg.Message() == "" {
 
 			// update group only, when group was decrypted
 			if grV2.DecryptedGroup != nil {
