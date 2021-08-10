@@ -8,15 +8,15 @@
       />
       <div class="header-row">
         <div v-if="route() === 'chat'" class="message-list-container row">
-          <div v-if="errorConnection != null" class="connection-error" />
+          <div v-if="errorConnection !== null" class="connection-error" />
           <div class="col-10 chat-header">
             <button class="btn" @click="back()">
               <font-awesome-icon icon="arrow-left" />
             </button>
-            <div v-if="currentChat != null" class="row w-100">
+            <div v-if="currentChat !== null" class="row w-100">
               <div class="col-2 badge-container">
                 <div
-                  v-if="currentChat != null && currentChat.IsGroup"
+                  v-if="currentChat !== null && currentChat.IsGroup"
                   class="badge-name"
                 >
                   <img
@@ -35,14 +35,14 @@
                   <div class="col-12">
                     <div
                       v-if="
-                        currentChat != null &&
+                        currentChat !== null &&
                           currentChat.IsGroup &&
                           currentChat.Name === currentChat.Tel
                       "
                       class="header-text-chat"
                     >
                       <div
-                        v-if="currentChat != null && !currentChat.Notification"
+                        v-if="currentChat !== null && !currentChat.Notification"
                         class="mute-badge"
                       >
                         <font-awesome-icon class="mute" icon="volume-mute" />
@@ -51,14 +51,14 @@
                     </div>
                     <div v-else class="header-text-chat">
                       <div
-                        v-if="currentChat != null && !currentChat.Notification"
+                        v-if="currentChat !== null && !currentChat.Notification"
                         class="mute-badge"
                       >
                         <font-awesome-icon class="mute" icon="volume-mute" />
                       </div>
                       <div
                         v-if="
-                          currentChat != null &&
+                          currentChat !== null &&
                             currentChat.Name !== currentChat.Tel
                         "
                         class=""
@@ -70,10 +70,10 @@
                   <div class="col-12">
                     <div
                       v-if="
-                        currentChat != null &&
+                        currentChat !== null &&
                           currentChat.IsGroup &&
-                          currentGroup != null &&
-                          typeof currentGroup != 'undefined'
+                          currentGroup !== null &&
+                          typeof currentGroup !== 'undefined'
                       "
                       class="number-text"
                     >
@@ -83,10 +83,10 @@
                     </div>
                     <div
                       v-if="
-                        currentChat != null &&
+                        currentChat !== null &&
                           currentChat.IsGroup &&
-                          currentGroup != null &&
-                          typeof currentGroup != 'undefined'
+                          currentGroup !== null &&
+                          typeof currentGroup !== 'undefined'
                       "
                       class="number-text"
                     >
@@ -96,7 +96,7 @@
                     </div>
                     <div
                       v-if="
-                        currentChat != null &&
+                        currentChat !== null &&
                           !currentChat.IsGroup &&
                           currentChat.Name === currentChat.Tel
                       "
@@ -130,7 +130,7 @@
               >
                 <button
                   v-if="
-                    currentChat != null &&
+                    currentChat !== null &&
                       !currentChat.IsGroup &&
                       currentChat.Name !== currentChat.Tel
                   "
@@ -140,7 +140,7 @@
                   {{ currentChat.Tel }}
                 </button>
                 <button
-                  v-if="currentChat != null && currentChat.Notification"
+                  v-if="currentChat !== null && currentChat.Notification"
                   v-translate
                   class="dropdown-item"
                   @click="toggleNotifications"
@@ -157,7 +157,7 @@
                 </button>
                 <!-- <button v-if="currentChat!=null&&currentChat.IsGroup" class="dropdown-item" @click="editGroup">Edit group</button> -->
                 <button
-                  v-if="currentChat != null && !currentChat.IsGroup"
+                  v-if="currentChat !== null && !currentChat.IsGroup"
                   v-translate
                   class="dropdown-item"
                   @click="verifyIdentity"
@@ -165,7 +165,7 @@
                   Show identity
                 </button>
                 <button
-                  v-if="currentChat != null && !currentChat.IsGroup"
+                  v-if="currentChat !== null && !currentChat.IsGroup"
                   v-translate
                   class="dropdown-item"
                   @click="resetEncryptionModal"
@@ -173,7 +173,7 @@
                   Reset encryption
                 </button>
                 <router-link
-                  v-if="currentChat != null && currentChat.Type === 1"
+                  v-if="currentChat !== null && currentChat.Type === 1"
                   v-translate
                   :to="'/editGroup/' + currentChat.Tel"
                   class="dropdown-item"
@@ -324,7 +324,7 @@
           />
         </div>
         <div v-else-if="route() === 'chatList'" class="settings-container row">
-          <div v-if="errorConnection != null" class="connection-error" />
+          <div v-if="errorConnection !== null" class="connection-error" />
           <div class="dropdown">
             <button
               id="dropdownMenuButton"

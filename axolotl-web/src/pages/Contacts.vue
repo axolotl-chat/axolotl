@@ -1,6 +1,6 @@
 <template>
   <div class="contact-list">
-    <div v-if="error != null" v-translate class="alert alert-danger">
+    <div v-if="error !== null" v-translate class="alert alert-danger">
       Can't change contact list: {{ error }}
     </div>
     <div v-if="importing" v-translate class="alert alert-warning">

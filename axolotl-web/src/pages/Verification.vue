@@ -23,7 +23,7 @@
       </button>
     </div>
     <div
-      v-if="inProgress && verificationError == null && !requestPin"
+      v-if="inProgress && verificationError === null && !requestPin"
       class="spinner"
     >
       <div class="spinner-border" role="status">
