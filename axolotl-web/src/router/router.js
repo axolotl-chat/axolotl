@@ -111,7 +111,7 @@ router.beforeEach((to, from, next) => {
     return next();
   }
 
-  if (store.state.registrationStatus == null) {
+  if (store.state.registrationStatus === null) {
     store.dispatch("getRegistrationStatus");
     store.watch((state) => state.registrationStatus, function () {
       proceed(to, next);
@@ -126,24 +126,24 @@ function proceed(to, next) {
   const registrationStatus = store.state.registrationStatus;
 
   //disable routes when registration is not finished yet
-  if ((registrationStatus == null || registrationStatus == "phoneNumber") && to.path != '/register') {
+  if ((registrationStatus === null || registrationStatus === "phoneNumber") && to.path !== '/register') {
     return next('/register');
-  } else if (registrationStatus == "verificationCode" && to.path != '/verify') {
+  } else if (registrationStatus === "verificationCode" && to.path !== '/verify') {
     return next('/verify');
-  } else if (registrationStatus == "pin" && to.path != '/pin') {
+  } else if (registrationStatus === "pin" && to.path !== '/pin') {
     return next('/pin');
-  } else if (registrationStatus == "password" && to.path != '/password') {
+  } else if (registrationStatus === "password" && to.path !== '/password') {
     return next('/password');
-  } else if (registrationStatus == "getUsername" && to.path != '/setUsername') {
+  } else if (registrationStatus === "getUsername" && to.path !== '/setUsername') {
     return next('/setUsername');
-  } else if (registrationStatus == "registered" && registrationPages.includes(to.path)) {
+  } else if (registrationStatus === "registered" && registrationPages.includes(to.path)) {
     // We are registered. And are trying to access a registration page, redirect to home
     return next('/');
   } else {
     next();
     // The screen can be displayed ;)
     let loader = document.getElementById('initial-loader');
-    if (loader != undefined) {
+    if (typeof loader !== "undefined") {
       loader.remove();
     }
   }

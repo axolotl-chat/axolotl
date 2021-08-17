@@ -33,7 +33,6 @@ var (
 	messagesSelectWhereMore        = "SELECT * FROM messages WHERE sid = ? AND id< ? ORDER BY sentat DESC LIMIT 20"
 	messagesSelectWhereLastMessage = "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT 1"
 	messagesDelete                 = "DELETE FROM messages WHERE id = ?"
-	messagesReceiptRead            = "UPDATE messages SET isRead=1 WHERE sentat = ?"
 	messagesReceiptSent            = "UPDATE messages SET isSent=1 WHERE sentat = ?"
 
 	groupsSchema = "CREATE TABLE IF NOT EXISTS groups (id INTEGER PRIMARY KEY, groupid TEXT, name TEXT, members TEXT, avatar BLOB, avatarid INTEGER, avatar_key BLOB, avatar_content_type TEXT, relay TEXT, active INTEGER DEFAULT 1, type INTEGER DEFAULT 1, joinStatus INTEGER DEFAULT 1)"
@@ -83,6 +82,10 @@ func (ds *DataStore) SetupDb(password string) bool {
 	log.Debugln("[axolotl] openDb: " + dbDir)
 
 	err = os.MkdirAll(dbDir, 0700)
+	if err != nil {
+		log.Debugln("[axolotl] setupDb: Couldn't make dir: " + err.Error())
+		return false
+	}
 	DS, err = NewStorage(password)
 	if err != nil {
 		log.Debugln("[axolotl] setupDb: Couldn't open db: " + err.Error())

@@ -53,12 +53,12 @@ export default createStore({
 
   mutations: {
     SET_ERROR(state, error) {
-      if (error == "") {
+      if (error === "") {
         state.loginError = null;
         // state.rateLimitError = null;
         state.errorConnection = null;
       }
-      else if (error == "wrong password") {
+      else if (error === "wrong password") {
         state.loginError = error;
       } else if (error.includes("Rate")) {
         state.rateLimitError = error + ". Try again later!";
@@ -92,11 +92,11 @@ export default createStore({
     },
     UPDATE_CURRENT_CHAT(state, data) {
       state.currentChat = data.CurrentChat;
-      if (state.messageList.Messages == undefined) {
+      if (typeof state.messageList.Messages === "undefined") {
         state.messageList.Messages = []
       }
       var prepare = state.messageList.Messages.map(function (e) { return e.ID; })
-      if (data.CurrentChat.Messages != null) {
+      if (data.CurrentChat.Messages !== null) {
         data.CurrentChat.Messages.forEach(m => {
           state.messageList.Messages[prepare.indexOf(m.ID)] = m;
         });
@@ -126,33 +126,33 @@ export default createStore({
     SET_REQUEST(state, request) {
       var type = request["Type"]
       state.request = request;
-      if (type == "getPhoneNumber") {
+      if (type === "getPhoneNumber") {
         this.commit("SET_REGISTRATION_STATUS", "phoneNumber");
-      } else if (type == "getVerificationCode") {
+      } else if (type === "getVerificationCode") {
         this.commit("SET_REGISTRATION_STATUS", "verificationCode");
         state.verificationInProgress = true;
         router.push("/verify")
-      } else if (type == "getPin") {
+      } else if (type === "getPin") {
         this.commit("SET_REGISTRATION_STATUS", "pin");
         router.push("/pin")
         state.requestPin = true;
-      } else if (type == "getCaptchaToken") {
+      } else if (type === "getCaptchaToken") {
         window.location = "https://signalcaptchas.org/registration/generate.html";
-      } else if (type == "getEncryptionPw") {
+      } else if (type === "getEncryptionPw") {
         this.commit("SET_REGISTRATION_STATUS", "password");
         router.push("/password")
-      } else if (type == "registrationDone") {
+      } else if (type === "registrationDone") {
         this.commit("SET_REGISTRATION_STATUS", "registered");
         router.push("/")
-      } else if (type == "requestEnterChat") {
+      } else if (type === "requestEnterChat") {
         router.push("/chat/" + request["Chat"])
         this.dispatch("getChatList")
-      } else if (type == "config") {
+      } else if (type === "config") {
         this.commit("SET_CONFIG", request)
-      } else if (type == "getUsername") {
+      } else if (type === "getUsername") {
         this.commit("SET_REGISTRATION_STATUS", "getUsername");
         router.push("/setUsername")
-      } else if (type == "Error") {
+      } else if (type === "Error") {
         this.commit("SET_ERROR", request.Error)
       }
       // this.dispatch("requestCode", "+123456")
@@ -161,12 +161,12 @@ export default createStore({
       state.messageList = messageList;
     },
     SET_MORE_MESSAGELIST(state, messageList) {
-      if (messageList.Messages != null) {
+      if (messageList.Messages !== null) {
         state.messageList.Messages = state.messageList.Messages.concat(messageList.Messages);
       }
     },
     SET_MESSAGE_RECIEVED(state, message) {
-      if (state.messageList.ID == message.SID) {
+      if (state.messageList.ID === message.SID) {
         var tmpList = state.messageList.Messages;
         tmpList.push(message);
         tmpList.sort(function (a, b) {
@@ -175,18 +175,18 @@ export default createStore({
         state.messageList.Messages = tmpList;
       }
       state.chatList.forEach((chat, i) => {
-        if (chat.Tel == message.ChatID) {
+        if (chat.Tel === message.ChatID) {
           state.chatList[i].Messages = [message]
         }
       })
     },
     SET_MESSAGE_UPDATE(state, message) {
-      if (state.messageList.ID == message.SID) {
+      if (state.messageList.ID === message.SID) {
         var index = state.messageList.Messages.findIndex(m => {
           return m.ID === message.ID;
         });
         // check if message exists
-        if (index != -1) {
+        if (index !== -1) {
           var tmpList = JSON.parse(JSON.stringify(state.messageList.Messages));
           tmpList[index] = message;
           tmpList.sort(function (a, b) {
@@ -212,7 +212,7 @@ export default createStore({
       state.messageList = {};
     },
     SET_CONTACTS(state, contacts) {
-      if (contacts != null) {
+      if (contacts !== null) {
         contacts = contacts.sort((a, b) => a.Name.localeCompare(b.Name));
         state.importingContacts = false;
         state.contacts = contacts;
@@ -231,8 +231,8 @@ export default createStore({
         if (c.Name.toLowerCase().includes(filter))
           return true;
       });
-      if (state.currentGroup != null)
-        f = f.filter(c => state.currentGroup.Members.indexOf(c.UUID) == -1);
+      if (state.currentGroup !== null)
+        f = f.filter(c => state.currentGroup.Members.indexOf(c.UUID) === -1);
       state.contactsFiltered = f;
       state.contactsFilterActive = true;
     },
@@ -278,55 +278,55 @@ export default createStore({
     // default handler called for all methods
     SOCKET_ONMESSAGE(state, message) {
       state.socket.message = message;
-      if (message.data != "Hi Client!") {
+      if (message.data !== "Hi Client!") {
         var messageData = JSON.parse(message.data);
-        if (typeof messageData.Error != "undefined") {
+        if (typeof messageData.Error !== "undefined") {
           this.commit("SET_ERROR", messageData["Error"]);
         }
-        if (Object.keys(messageData)[0] == "ChatList") {
+        if (Object.keys(messageData)[0] === "ChatList") {
           this.commit("SET_CHATLIST", messageData["ChatList"]);
         }
-        else if (Object.keys(messageData)[0] == "MessageList") {
+        else if (Object.keys(messageData)[0] === "MessageList") {
           this.commit("SET_MESSAGELIST", messageData["MessageList"]);
         }
 
-        else if (Object.keys(messageData)[0] == "ContactList") {
+        else if (Object.keys(messageData)[0] === "ContactList") {
           this.commit("SET_CONTACTS", messageData["ContactList"]);
         }
-        else if (Object.keys(messageData)[0] == "MoreMessageList") {
+        else if (Object.keys(messageData)[0] === "MoreMessageList") {
           this.commit("SET_MORE_MESSAGELIST", messageData["MoreMessageList"]);
         }
-        else if (Object.keys(messageData)[0] == "DeviceList") {
+        else if (Object.keys(messageData)[0] === "DeviceList") {
           this.commit("SET_DEVICELIST", messageData["DeviceList"]);
         }
-        else if (Object.keys(messageData)[0] == "MessageRecieved") {
+        else if (Object.keys(messageData)[0] === "MessageRecieved") {
           this.commit("SET_MESSAGE_RECIEVED", messageData["MessageRecieved"]);
         }
-        else if (Object.keys(messageData)[0] == "UpdateMessage") {
+        else if (Object.keys(messageData)[0] === "UpdateMessage") {
           this.commit("SET_MESSAGE_UPDATE", messageData["UpdateMessage"]);
         }
-        else if (Object.keys(messageData)[0] == "Gui") {
+        else if (Object.keys(messageData)[0] === "Gui") {
           this.commit("SET_CONFIG_GUI", messageData["Gui"]);
         }
-        else if (Object.keys(messageData)[0] == "DarkMode") {
+        else if (Object.keys(messageData)[0] === "DarkMode") {
           this.commit("SET_CONFIG_DARK_MODE", messageData["DarkMode"]);
         }
-        else if (Object.keys(messageData)[0] == "CurrentChat") {
+        else if (Object.keys(messageData)[0] === "CurrentChat") {
           this.commit("SET_CURRENT_CHAT", messageData["CurrentChat"]);
         }
-        else if (Object.keys(messageData)[0] == "Type") {
+        else if (Object.keys(messageData)[0] === "Type") {
           this.commit("SET_REQUEST", messageData);
         }
-        else if (Object.keys(messageData)[0] == "FingerprintNumbers") {
+        else if (Object.keys(messageData)[0] === "FingerprintNumbers") {
           this.commit("SET_FINGERPRINT", messageData);
         }
-        else if (Object.keys(messageData)[0] == "Error") {
+        else if (Object.keys(messageData)[0] === "Error") {
           this.commit("SET_ERROR", messageData.Errorx);
         }
-        else if (Object.keys(messageData)[0] == "OpenChat") {
+        else if (Object.keys(messageData)[0] === "OpenChat") {
           this.commit("OPEN_CHAT", messageData["OpenChat"]);
         }
-        else if (Object.keys(messageData)[0] == "UpdateCurrentChat") {
+        else if (Object.keys(messageData)[0] === "UpdateCurrentChat") {
           this.commit("UPDATE_CURRENT_CHAT", messageData["UpdateCurrentChat"]);
         }
         else {
@@ -343,7 +343,7 @@ export default createStore({
       state.gui = gui;
     },
     SET_CONFIG_DARK_MODE(state, darkMode) {
-      if (window.getCookie("darkMode") != String(darkMode)) {
+      if (window.getCookie("darkMode") !== String(darkMode)) {
         var d = new Date();
         d.setTime(d.getTime() + (300 * 24 * 60 * 60 * 1000));
         var expires = "expires=" + d.toUTCString();
@@ -419,8 +419,8 @@ export default createStore({
       }
     },
     getMoreMessages: function () {
-      if (this.state.socket.isConnected && typeof this.state.messageList.Messages != "undefined"
-        && this.state.messageList.Messages != null
+      if (this.state.socket.isConnected && typeof this.state.messageList.Messages !== "undefined"
+        && this.state.messageList.Messages !== null
         && this.state.messageList.Messages.length > 19 && this.state.messageList.Messages.slice(-1)[0].ID > 1) {
         var message = {
           "request": "getMoreMessages",
@@ -503,7 +503,7 @@ export default createStore({
     addContact: function (state, contact) {
       state.rateLimitError = null;
       if (this.state.socket.isConnected
-        && contact.name != "" && contact.phone != "") {
+        && contact.name !== "" && contact.phone !== "") {
         var message = {
           "request": "addContact",
           "name": contact.name,

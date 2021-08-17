@@ -6,7 +6,6 @@ import (
 	"math/rand"
 	"os"
 	"strings"
-	"sync"
 	"time"
 	"unsafe"
 
@@ -21,7 +20,6 @@ import (
 )
 
 var (
-	mu                         sync.Mutex
 	registered                 = false
 	requestPassword            = false
 	requestSmsVerificationCode = false

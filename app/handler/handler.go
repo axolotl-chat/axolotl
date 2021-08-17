@@ -2,7 +2,6 @@ package handler
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"strings"
@@ -19,11 +18,6 @@ import (
 	"github.com/nanu-c/axolotl/app/webserver"
 	"github.com/signal-golang/textsecure"
 )
-
-func prettyPrint(i interface{}) string {
-	s, _ := json.MarshalIndent(i, "", "\t")
-	return string(s)
-}
 
 //messageHandler is used on incoming message
 func MessageHandler(msg *textsecure.Message) {
@@ -125,7 +119,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 				log.Errorln("[axolotl] save groupV2 ", err)
 			}
 		}
-		if grV2.GroupAction != nil && len(msg.Message()) == 0 {
+		if grV2.GroupAction != nil && msg.Message() == "" {
 
 			// update group only, when group was decrypted
 			if grV2.DecryptedGroup != nil {

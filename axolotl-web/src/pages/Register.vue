@@ -25,7 +25,7 @@
         Next
       </button>
     </div>
-    <div v-if="rateLimitError != null" class="rateLimit-error">
+    <div v-if="rateLimitError !== null" class="rateLimit-error">
       <div class="error">
         {{ rateLimitError }}
       </div>

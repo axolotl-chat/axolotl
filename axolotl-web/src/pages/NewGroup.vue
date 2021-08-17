@@ -74,7 +74,7 @@ export default {
         return element.Tel === groupMember.Tel;
       });
       if (
-        typeof found == "undefined" &&
+        typeof found === "undefined" &&
         groupMember.Tel !== this.config.RegisteredNumber
       )
         this.newGroupMembers.push(groupMember);
@@ -85,7 +85,7 @@ export default {
       else this.newGroupMembers = [];
     },
     createGroup() {
-      if (this.newGroupName != null && this.newGroupMembers.length > 0) {
+      if (this.newGroupName !== null && this.newGroupMembers.length > 0) {
         this.creatingGroup = true;
         const members = [];
         this.newGroupMembers.forEach((m) => {

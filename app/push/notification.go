@@ -22,7 +22,6 @@ package push
 
 import (
 	"encoding/json"
-	"sync"
 	"time"
 
 	dbus "github.com/z3ntu/go-dbus"
@@ -33,7 +32,6 @@ var (
 	err               error
 	Nh                *NotificationHandler
 	useNotifications  bool
-	mu                sync.Mutex
 	lastNotifications map[string]int64
 )
 
@@ -100,6 +98,9 @@ func (n *NotificationHandler) Send(m *PushMessage) error {
 			return err
 		}
 		_, err := n.dbusObject.Call(dbusInterface, dbusClearMethod, "textsecure.nanuc_textsecure", m.Notification.Tag)
+		if err != nil {
+			return err
+		}
 		_, err = n.dbusObject.Call(dbusInterface, dbusPostMethod, "textsecure.nanuc_textsecure", pushMessage)
 
 		return err

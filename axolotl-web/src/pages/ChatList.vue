@@ -60,7 +60,7 @@
                 <p
                   v-if="
                     chat.Messages &&
-                      chat.Messages != null &&
+                      chat.Messages !== null &&
                       chat.Messages[chat.Messages.length - 1].SentAt !== 0
                   "
                   class="time"
@@ -74,7 +74,7 @@
             <div class="row">
               <div class="col-12">
                 <p
-                  v-if="chat.Messages && chat.Messages != null"
+                  v-if="chat.Messages && chat.Messages !== null"
                   class="preview"
                 >
                   {{ chat.Messages[chat.Messages.length - 1].Message }}
@@ -182,7 +182,7 @@ export default {
     },
     sortChats() {
       this.chats = this.$store.state.chatList
-        .filter((e) => e.Messages != null)
+        .filter((e) => e.Messages !== null)
         .sort(function (a, b) {
           return (
             b.Messages[b.Messages.length - 1].SentAt -

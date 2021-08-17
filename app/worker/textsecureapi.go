@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/nanu-c/axolotl/app/config"
@@ -19,7 +18,6 @@ import (
 	"github.com/nanu-c/axolotl/app/ui"
 	"github.com/signal-golang/textsecure"
 	textsecureConfig "github.com/signal-golang/textsecure/config"
-	textsecureContacts "github.com/signal-golang/textsecure/contacts"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -254,19 +252,7 @@ func startSession() {
 	// //qml.Changed(store.SessionsModel, &store.SessionsModel.Len)
 
 }
-func (Api *TextsecureAPI) FilterContacts(sub string) {
-	sub = strings.ToUpper(sub)
 
-	fc := []textsecureContacts.Contact{}
-	for _, c := range store.ContactsModel.Contacts {
-		if strings.Contains(strings.ToUpper(store.TelToName(c.Tel)), sub) {
-			fc = append(fc, c)
-		}
-	}
-
-	// cm := &store.Contacts{fc, len(fc)}
-	// ui.Engine.Context().SetVar("contactsModel", cm)
-}
 func (Api *TextsecureAPI) SaveSettings() error {
 	return settings.SaveSettings(settings.SettingsModel)
 }

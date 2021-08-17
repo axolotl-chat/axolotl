@@ -50,7 +50,7 @@ if (window.location.protocol === "https:") {
 websocketAdress += window.location.host;
 websocketAdress += "/ws";
 
-if (process.env.NODE_ENV == "development") {
+if (process.env.NODE_ENV === "development") {
   if (process.env.VUE_APP_WS_ADDRESS) {
     websocketAdress = 'ws://' + process.env.VUE_APP_WS_ADDRESS + ':9080/ws';
   } else {

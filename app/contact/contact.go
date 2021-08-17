@@ -124,6 +124,9 @@ func GetAddressBookContactsFromContentHub() ([]textsecureContacts.Contact, error
 		return nil, err
 	}
 	contacts, err := textsecureContacts.ReadContacts(config.ContactsFile)
+	if err != nil {
+		return nil, err
+	}
 	//check for duplicates in the old contact list
 	for _, c := range newContacts {
 		found := false

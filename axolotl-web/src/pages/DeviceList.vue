@@ -3,7 +3,7 @@
     <!-- The first device is the main device and should not be shown -->
     <div v-if="devices && devices.length > 1">
       <div v-for="device in devices" :key="device.id" class="row device">
-        <div v-if="device.id != 0" class="col-10">
+        <div v-if="device.id !== 0" class="col-10">
           <div class="device-name">{{ device.name }}</div>
           <div class="meta">
             <span class="lastSeen">

@@ -84,7 +84,7 @@ export default {
         return element.Tel === groupMember.Tel;
       });
       if (
-        typeof found == "undefined" &&
+        typeof found === "undefined" &&
         groupMember.Tel !== this.config.RegisteredNumber
       )
         this.newGroupMembers.push(groupMember);

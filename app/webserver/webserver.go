@@ -1,10 +1,8 @@
 package webserver
 
 import (
-	"bufio"
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"os"
 	"strings"
@@ -92,7 +90,7 @@ func wsReader(conn *websocket.Conn) {
 		defer func() {
 			if err := recover(); err != nil {
 				log.Errorln("[axolotl-ws] wsReader panic occurred:", err)
-				conn.Close()
+				recoverFromWsPanic(conn)
 			}
 		}()
 		// read in a message
@@ -146,11 +144,11 @@ func wsReader(conn *websocket.Conn) {
 				log.Errorln("[axolotl] Open chat with id: ", openChatMessage.Id, "failed", err)
 			} else {
 				activeChat = openChatMessage.Id
-				if !s.IsGroup {
-					// TODO: Avatar and profile handling for private chats, decryption is not yet done on the textsecure part
-					// p, _ := textsecure.GetProfile(s.Tel)
-					// profile = p
-				}
+				// TODO: Avatar and profile handling for private chats, decryption is not yet done on the textsecure part
+				// if !s.IsGroup {
+				// p, _ := textsecure.GetProfile(s.Tel)
+				// profile = p
+				// }
 				store.ActiveSessionID = activeChat
 				sendCurrentChat(s)
 			}
@@ -263,11 +261,12 @@ func wsReader(conn *websocket.Conn) {
 			setPasswordMessage := SetPasswordMessage{}
 			json.Unmarshal([]byte(p), &setPasswordMessage)
 			log.Infoln("[axolotl] set password")
-			if settings.SettingsModel.EncryptDatabase {
-				if !store.DS.DecryptDb(setPasswordMessage.CurrentPw) {
-					// setError(i18n.tr("Incorrect old passphrase!"))
-				}
-			}
+			// TODO: proof current password is correct
+			// if settings.SettingsModel.EncryptDatabase {
+			// 	if !store.DS.DecryptDb(setPasswordMessage.CurrentPw) {
+			// 		// setError(i18n.tr("Incorrect old passphrase!"))
+			// 	}
+			// }
 			if setPasswordMessage.Pw != "" {
 				store.DS.EncryptDb(setPasswordMessage.Pw)
 				settings.SettingsModel.EncryptDatabase = true
@@ -451,12 +450,4 @@ func webserver() {
 		log.Error("[axolotl] webserver error", http.ListenAndServe(config.ServerHost+":"+config.ServerPort, nil))
 	}
 
-}
-func print(stdout io.ReadCloser) {
-	scanner := bufio.NewScanner(stdout)
-	scanner.Split(bufio.ScanWords)
-	for scanner.Scan() {
-		m := scanner.Text()
-		log.Infoln("[axolotl] print ", m)
-	}
 }

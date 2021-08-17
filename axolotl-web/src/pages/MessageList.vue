@@ -159,12 +159,12 @@ export default {
       }
     },
     contacts() {
-      if (this.contacts != null) {
+      if (this.contacts !== null) {
         Object.keys(this.names).forEach((i) => {
           const contact = this.contacts.find(function (element) {
             return element.Tel === i;
           });
-          if (typeof contact != "undefined") {
+          if (typeof contact !== "undefined") {
             this.names[i] = contact.Name;
           }
         });
@@ -191,7 +191,7 @@ export default {
       function (event) {
         // If the clicked element doesn't have the right selector, bail
         if (!event.target.matches(".linkified")) return;
-        if (typeof that.config.Gui != "undefined" && that.config.Gui === "ut") {
+        if (typeof that.config.Gui !== "undefined" && that.config.Gui === "ut") {
           // Don't follow the link
           event.preventDefault();
           alert(event.target.href);
@@ -208,7 +208,7 @@ export default {
     },
     callContentHub(type) {
       this.showAttachmentsBar = false;
-      if (typeof this.config.Gui != "undefined" && this.config.Gui === "ut") {
+      if (typeof this.config.Gui !== "undefined" && this.config.Gui === "ut") {
         const result = window.prompt(type);
         this.showSettingsMenu = false;
         if (result !== "canceld")
@@ -224,14 +224,14 @@ export default {
       }
     },
     loadAttachmentDialog() {
-      if (typeof this.config.Gui != "undefined" && this.config.Gui === "ut") {
+      if (typeof this.config.Gui !== "undefined" && this.config.Gui === "ut") {
         this.showAttachmentsBar = true;
       } else {
         document.getElementById("attachment").click();
       }
     },
     shareAttachment(file, e) {
-      if (typeof this.config.Gui != "undefined" && this.config.Gui === "ut") {
+      if (typeof this.config.Gui !== "undefined" && this.config.Gui === "ut") {
         e.preventDefault();
         alert("[oD]" + file);
         // this.showAttachmentsBar=true
@@ -265,7 +265,7 @@ export default {
       this.showFullscreenVideoSrc = video;
     },
     saveImg(e) {
-      if (typeof this.config.Gui != "undefined" && this.config.Gui === "ut") {
+      if (typeof this.config.Gui !== "undefined" && this.config.Gui === "ut") {
         e.preventDefault();
         alert("[oP]" + this.showFullscreenImgSrc);
       } else
@@ -274,7 +274,7 @@ export default {
         );
     },
     saveVideo(e) {
-      if (typeof this.config.Gui != "undefined" && this.config.Gui === "ut") {
+      if (typeof this.config.Gui !== "undefined" && this.config.Gui === "ut") {
         e.preventDefault();
         alert("[oV]" + this.showFullscreenVideoSrc);
       } else
@@ -289,7 +289,7 @@ export default {
           to: this.chatId,
           message: this.messageInput,
         });
-        if (this.$store.state.messageList.Messages == null) {
+        if (this.$store.state.messageList.Messages === null) {
           this.$store.dispatch("getMessageList", this.getId());
         }
         this.messageInput = "";
@@ -300,7 +300,7 @@ export default {
       if (
         !this.$data.scrollLocked &&
         event.target.scrollTop < 80 &&
-        this.$store.state.messageList.Messages != null &&
+        this.$store.state.messageList.Messages !== null &&
         this.$store.state.messageList.Messages.length > 19
       ) {
         this.$data.scrollLocked = true;
@@ -311,7 +311,7 @@ export default {
       this.$router.go(-1);
     },
     paste() {
-      if (typeof this.config.Gui != "undefined" && this.config.Gui === "ut") {
+      if (typeof this.config.Gui !== "undefined" && this.config.Gui === "ut") {
         // Don't follow the link
         const result = window.prompt("paste");
         this.messageInput = this.messageInput + result;

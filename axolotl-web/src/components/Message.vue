@@ -26,7 +26,7 @@
         </div>
         <div v-else>{{ getName(message.Source) }}</div>
       </div>
-      <blockquote v-if="message.QuotedMessage != null">
+      <blockquote v-if="message.QuotedMessage !== null">
         <cite v-if="message.QuotedMessage.Outgoing" v-translate>You</cite>
         <cite v-else>{{ getName(message.QuotedMessage.Source) }}</cite>
         <p>{{ message.QuotedMessage.Message }}</p>

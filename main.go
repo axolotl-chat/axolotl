@@ -1,11 +1,9 @@
 package main
 
 import (
-	"bufio"
 	"flag"
 	_ "image/jpeg"
 	_ "image/png"
-	"io"
 	"os"
 	"sync"
 
@@ -21,8 +19,6 @@ import (
 	"github.com/nanu-c/axolotl/app/worker"
 )
 
-var e string
-
 func init() {
 	flag.StringVar(&config.MainQml, "qml", "qml/phoneui/main.qml", "The qml file to load.")
 	flag.StringVar(&config.Gui, "e", "", "Specify runtime environment. Use either electron, ut, lorca, qt or server")
@@ -31,14 +27,6 @@ func init() {
 	flag.BoolVar(&config.PrintVersion, "version", false, "Print version info")
 	flag.StringVar(&config.ServerHost, "host", "127.0.0.1", "Host to serve UI from.")
 	flag.StringVar(&config.ServerPort, "port", "9080", "Port to serve UI from.")
-}
-func print(stdout io.ReadCloser) {
-	scanner := bufio.NewScanner(stdout)
-	scanner.Split(bufio.ScanWords)
-	for scanner.Scan() {
-		m := scanner.Text()
-		log.Println("[axolotl] ", m)
-	}
 }
 func setup() {
 	helpers.SetupLogging()
@@ -81,8 +69,8 @@ func runElectron() {
 		ElectronSwitches:   []string{"--disable-dev-shm-usage", "--no-sandbox"}})
 
 	if err != nil {
-	  log.Errorln(errors.Wrap(err, "[axolotl-electron]: creating astilectron failed"))
-  }
+		log.Errorln(errors.Wrap(err, "[axolotl-electron]: creating astilectron failed"))
+	}
 
 	defer a.Close()
 
@@ -116,7 +104,7 @@ func runElectron() {
 	})
 	w.On(astilectron.EventNameWindowEventDidFinishLoad, func(e astilectron.Event) (deleteListener bool) {
 		log.Infoln("[axolotl-electron] Electron App load")
-		w.ExecuteJavaScript("window.onToken = function(token){window.location='http://"+config.ServerHost+":"+config.ServerPort+"/?token='+token;};")
+		w.ExecuteJavaScript("window.onToken = function(token){window.location='http://" + config.ServerHost + ":" + config.ServerPort + "/?token='+token;};")
 		return
 	})
 	w.On(astilectron.EventNameWindowEventWillNavigate, func(e astilectron.Event) (deleteListener bool) {
