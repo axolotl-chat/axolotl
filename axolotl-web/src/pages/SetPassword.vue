@@ -30,9 +30,9 @@
       Current password is wrong
     </div>
     <div class="form-group">
-      <label v-translate for="passwordRepeat" class="text-primary"
-        >New password</label
-      >
+      <label v-translate for="passwordRepeat" class="text-primary">
+        New password
+      </label>
       <input
         id="setPassword"
         v-model="password"
@@ -40,12 +40,12 @@
         name="password"
         class="form-control"
         :secure-length="7"
-      />
+      >
     </div>
     <div class="form-group">
-      <label v-translate for="passwordRepeat" class="text-primary"
-        >Repeat password</label
-      >
+      <label v-translate for="passwordRepeat" class="text-primary">
+        Repeat password
+      </label>
       <input
         id="passwordRepeat"
         v-model="passwordRepeat"
@@ -53,12 +53,12 @@
         type="password"
         name="passwordRepeat"
         class="form-control"
-      />
+      >
     </div>
     <div class="form-group">
-      <label v-translate for="passwordCurrent" class="text-primary"
-        >Current password</label
-      >
+      <label v-translate for="passwordCurrent" class="text-primary">
+        Current password
+      </label>
       <input
         id="passwordCurrent"
         v-model="passwordCurrent"
@@ -66,7 +66,7 @@
         type="password"
         name="passwordCurrent"
         class="form-control"
-      />
+      >
     </div>
     <button v-translate class="btn btn-primary" @click="setPassword()">
       Set password
@@ -77,8 +77,7 @@
 <script>
 export default {
   name: "SetPassword",
-  components: {
-  },
+  components: {},
   data() {
     return {
       password: "",
