@@ -37,8 +37,7 @@
     "vue-native-websocket-vue3": "^3.1.4",
     "vue-router": "^4.0.11",
     "vue3-tel-input": "^1.0.4",
-    "vuex": "^4.0.2",
-    "zxcvbn": "^4.4.2"
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.11",
