@@ -2,9 +2,9 @@
   <div class="set-password">
     <h5 v-translate>Info</h5>
     <p v-translate>
-      Setting a password is not advised on devices short in memory. Restart is
-      required!
+      Setting a password is not advised on devices short in memory.
     </p>
+    <p v-translate>Restart is required!</p>
     <div
       v-if="passwordError"
       v-translate
@@ -29,16 +29,23 @@
     >
       Current password is wrong
     </div>
-    <label v-translate for="passwordRepeat" class="text-primary">New password</label>
-    <password
-      id="setPassword"
-      v-model="password"
-      type="password"
-      name="password"
-      :secure-length="7"
-    />
     <div class="form-group">
-      <label v-translate for="passwordRepeat" class="text-primary">Repeat password</label>
+      <label v-translate for="passwordRepeat" class="text-primary"
+        >New password</label
+      >
+      <input
+        id="setPassword"
+        v-model="password"
+        type="password"
+        name="password"
+        class="form-control"
+        :secure-length="7"
+      />
+    </div>
+    <div class="form-group">
+      <label v-translate for="passwordRepeat" class="text-primary"
+        >Repeat password</label
+      >
       <input
         id="passwordRepeat"
         v-model="passwordRepeat"
@@ -46,10 +53,12 @@
         type="password"
         name="passwordRepeat"
         class="form-control"
-      >
+      />
     </div>
     <div class="form-group">
-      <label v-translate for="passwordCurrent" class="text-primary">Current password</label>
+      <label v-translate for="passwordCurrent" class="text-primary"
+        >Current password</label
+      >
       <input
         id="passwordCurrent"
         v-model="passwordCurrent"
@@ -57,7 +66,7 @@
         type="password"
         name="passwordCurrent"
         class="form-control"
-      >
+      />
     </div>
     <button v-translate class="btn btn-primary" @click="setPassword()">
       Set password
@@ -66,11 +75,11 @@
 </template>
 
 <script>
-import Password from "vue-password-strength-meter";
+// import Password from "vue-password-strength-meter";
 export default {
   name: "SetPassword",
   components: {
-    Password,
+    // Password,
   },
   data() {
     return {
