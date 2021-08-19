@@ -75,11 +75,9 @@
 </template>
 
 <script>
-// import Password from "vue-password-strength-meter";
 export default {
   name: "SetPassword",
   components: {
-    // Password,
   },
   data() {
     return {
