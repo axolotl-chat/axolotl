@@ -61,8 +61,8 @@
       <div id="chat-bottom" />
     </div>
     <div
-      v-translate
       v-if="chat.IsGroup && chat.GroupJoinStatus !== 0"
+      v-translate
       class="messageInputBoxDisabled w-100"
     >
       You have been invited to this group. Accepting invitations is not yet
