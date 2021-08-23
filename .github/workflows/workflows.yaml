@@ -167,10 +167,10 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Setup Node 16
+      - name: Setup Node 14
         uses: actions/setup-node@v1
         with:
-          node-version: "16.x"
+          node-version: "14.x"
 
       - name: Download npm dependencies
         run: npm --prefix ./axolotl-web ci --loglevel verbose
