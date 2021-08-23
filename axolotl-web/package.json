@@ -11,8 +11,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "test": "echo 'No tests available' && exit 0",
     "depcheck": "depcheck",
+    "test": "echo 'No tests available' && exit 0",
     "translate": "npm run translate-extract && npm run translate-update && npm run translate-compile",
     "translate-compile": "npm run translate-remove-tmp&&node ./node_modules/easygettext/src/compile-cli.js --output ./translations/translations.json $(find ../po/ -type f -name '*.po')",
     "translate-extract": "node ./node_modules/easygettext/src/extract-cli.js --attribute v-translate --output ../po/textsecure.nanuc.pot $(find src -type f -name '*.vue')",
@@ -40,25 +40,24 @@
     "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.11",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-service": "^4.5.3",
+    "@vue/cli-plugin-babel": "~5.0.0-beta.3",
+    "@vue/cli-plugin-eslint": "~5.0.0-beta.3",
+    "@vue/cli-service": "~5.0.0-beta.3",
     "@vue/compiler-sfc": "^3.2.4",
     "@vue/eslint-config-airbnb": "^5.0.2",
     "babel-eslint": "^10.1.0",
     "browserslist": "^4.16.3",
     "depcheck": "^1.4.0",
     "easygettext": "^2.16.1",
-    "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-prettier-vue": "^2.1.1",
     "eslint-plugin-vue": "^7.7.0",
+    "eslint-webpack-plugin": "^3.0.1",
     "prettier": "^1.19.1",
     "sass": "^1.38.0",
-    "sass-loader": "^10.2.0",
-    "webpack": "^4.45.0"
+    "sass-loader": "^12.1.0"
   },
   "postcss": {
     "plugins": {
