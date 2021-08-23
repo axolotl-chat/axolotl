@@ -111,7 +111,7 @@ msgstr "Crea gruppo"
 msgid "Creating group"
 msgstr "Creazione di un gruppo"
 
-#: src/pages/SetPassword.vue:23
+#: src/pages/SetPassword.vue:29
 msgid "Current password"
 msgstr "Password Attuale"
 
@@ -247,7 +247,7 @@ msgstr "Info"
 msgid "issues at the bug tracker"
 msgstr "problemi al bug tracker"
 
-#: src/pages/DeviceList.vue:8
+#: src/pages/DeviceList.vue:9
 msgid "Last seen:"
 msgstr "Ultima visualizzazione:"
 
@@ -285,7 +285,7 @@ msgstr ""
 msgid "New group"
 msgstr "Nuovo gruppo"
 
-#: src/pages/SetPassword.vue:16
+#: src/pages/SetPassword.vue:17
 msgid "New password"
 msgstr "Nuovo password"
 
@@ -297,7 +297,7 @@ msgstr "Prossimo"
 msgid "No chats available"
 msgstr "Nessuna chat disponibile"
 
-#: src/pages/DeviceList.vue:19
+#: src/pages/DeviceList.vue:21
 msgid "No linked devices"
 msgstr "Nessun dispositivo collegato"
 
@@ -353,7 +353,7 @@ msgstr "Codice-QR"
 msgid "Registered number"
 msgstr "Numero registrato"
 
-#: src/pages/SetPassword.vue:19
+#: src/pages/SetPassword.vue:23
 msgid "Repeat password"
 msgstr "Ripeti password"
 
@@ -364,6 +364,10 @@ msgstr "Richiedi codice"
 #: src/components/Header.vue:102
 msgid "Reset encryption"
 msgstr "Ripristina crittografia"
+
+#: src/pages/SetPassword.vue:6
+msgid "Restart is required!"
+msgstr ""
 
 #: src/components/IdentityModal.vue:14
 msgid "Safety numbers of you and"
@@ -389,7 +393,7 @@ msgstr "Invia pin"
 msgid "Set encryption password"
 msgstr "Imposta password crittografata"
 
-#: src/pages/SetPassword.vue:26 src/pages/Settings.vue:12
+#: src/pages/SetPassword.vue:34 src/pages/Settings.vue:12
 msgid "Set password"
 msgstr "Imposta password"
 
@@ -402,9 +406,8 @@ msgid "Set username"
 msgstr "Imposta nome utente"
 
 #: src/pages/SetPassword.vue:3
-msgid ""
-"Setting a password is not advised on devices short in memory. Restart is\n"
-"      required!"
+#, fuzzy
+msgid "Setting a password is not advised on devices short in memory."
 msgstr ""
 "L'impostazione di una password non è consigliata sui dispositivi con poca "
 "memoria. Il riavvio è\n"

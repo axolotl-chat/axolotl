@@ -111,7 +111,7 @@ msgstr "مرخص شدن از گروه"
 msgid "Creating group"
 msgstr ""
 
-#: src/pages/SetPassword.vue:23
+#: src/pages/SetPassword.vue:29
 msgid "Current password"
 msgstr ""
 
@@ -232,7 +232,7 @@ msgstr ""
 msgid "issues at the bug tracker"
 msgstr ""
 
-#: src/pages/DeviceList.vue:8
+#: src/pages/DeviceList.vue:9
 msgid "Last seen:"
 msgstr ""
 
@@ -269,7 +269,7 @@ msgstr ""
 msgid "New group"
 msgstr "گروه جدید"
 
-#: src/pages/SetPassword.vue:16
+#: src/pages/SetPassword.vue:17
 #, fuzzy
 msgid "New password"
 msgstr "پیام جدید"
@@ -282,7 +282,7 @@ msgstr ""
 msgid "No chats available"
 msgstr ""
 
-#: src/pages/DeviceList.vue:19
+#: src/pages/DeviceList.vue:21
 #, fuzzy
 msgid "No linked devices"
 msgstr "تازه کردن"
@@ -338,7 +338,7 @@ msgstr ""
 msgid "Registered number"
 msgstr "ثبت نام"
 
-#: src/pages/SetPassword.vue:19
+#: src/pages/SetPassword.vue:23
 msgid "Repeat password"
 msgstr ""
 
@@ -350,6 +350,10 @@ msgstr ""
 #, fuzzy
 msgid "Reset encryption"
 msgstr "تنظیم مجدد جلسه امن"
+
+#: src/pages/SetPassword.vue:6
+msgid "Restart is required!"
+msgstr ""
 
 #: src/components/IdentityModal.vue:14
 msgid "Safety numbers of you and"
@@ -376,7 +380,7 @@ msgstr ""
 msgid "Set encryption password"
 msgstr "تنظیم مجدد جلسه امن"
 
-#: src/pages/SetPassword.vue:26 src/pages/Settings.vue:12
+#: src/pages/SetPassword.vue:34 src/pages/Settings.vue:12
 msgid "Set password"
 msgstr ""
 
@@ -389,9 +393,7 @@ msgid "Set username"
 msgstr ""
 
 #: src/pages/SetPassword.vue:3
-msgid ""
-"Setting a password is not advised on devices short in memory. Restart is\n"
-"      required!"
+msgid "Setting a password is not advised on devices short in memory."
 msgstr ""
 
 #: src/pages/SetUsername.vue:3

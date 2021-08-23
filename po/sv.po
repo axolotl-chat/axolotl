@@ -118,7 +118,7 @@ msgstr "Skapa grupp"
 msgid "Creating group"
 msgstr "Skapar grupp"
 
-#: src/pages/SetPassword.vue:23
+#: src/pages/SetPassword.vue:29
 msgid "Current password"
 msgstr "Nuvarande lösenord"
 
@@ -255,7 +255,7 @@ msgstr "Information"
 msgid "issues at the bug tracker"
 msgstr "felrapporter"
 
-#: src/pages/DeviceList.vue:8
+#: src/pages/DeviceList.vue:9
 msgid "Last seen:"
 msgstr "Senast sedd:"
 
@@ -295,7 +295,7 @@ msgstr ""
 msgid "New group"
 msgstr "Ny grupp"
 
-#: src/pages/SetPassword.vue:16
+#: src/pages/SetPassword.vue:17
 #, fuzzy
 msgid "New password"
 msgstr "Nytt meddelande"
@@ -308,7 +308,7 @@ msgstr "Nästa"
 msgid "No chats available"
 msgstr "Inga chattar tillgängliga"
 
-#: src/pages/DeviceList.vue:19
+#: src/pages/DeviceList.vue:21
 #, fuzzy
 msgid "No linked devices"
 msgstr "Inga länkade enheter"
@@ -365,7 +365,7 @@ msgstr "QR-kod"
 msgid "Registered number"
 msgstr "Registrerat nummer"
 
-#: src/pages/SetPassword.vue:19
+#: src/pages/SetPassword.vue:23
 msgid "Repeat password"
 msgstr "Upprepa lösenord"
 
@@ -377,6 +377,10 @@ msgstr "Begär kod"
 #, fuzzy
 msgid "Reset encryption"
 msgstr "Starta om säker session"
+
+#: src/pages/SetPassword.vue:6
+msgid "Restart is required!"
+msgstr ""
 
 #: src/components/IdentityModal.vue:14
 msgid "Safety numbers of you and"
@@ -403,7 +407,7 @@ msgstr "Skicka pin"
 msgid "Set encryption password"
 msgstr "Starta om säker session"
 
-#: src/pages/SetPassword.vue:26 src/pages/Settings.vue:12
+#: src/pages/SetPassword.vue:34 src/pages/Settings.vue:12
 msgid "Set password"
 msgstr "Ange lösenord"
 
@@ -417,9 +421,7 @@ msgstr ""
 
 #: src/pages/SetPassword.vue:3
 #, fuzzy
-msgid ""
-"Setting a password is not advised on devices short in memory. Restart is\n"
-"      required!"
+msgid "Setting a password is not advised on devices short in memory."
 msgstr ""
 "Ett lösenord är inte rekommenderat för enheter med lite minne. Ennystart är "
 "nödvändig!"
