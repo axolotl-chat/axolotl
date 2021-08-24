@@ -112,7 +112,7 @@ msgstr "Créer un groupe"
 msgid "Creating group"
 msgstr "Création du groupe"
 
-#: src/pages/SetPassword.vue:23
+#: src/pages/SetPassword.vue:29
 msgid "Current password"
 msgstr "Mot de passe actuel"
 
@@ -257,7 +257,7 @@ msgstr "Informations"
 msgid "issues at the bug tracker"
 msgstr "problèmes dans le système de suivi"
 
-#: src/pages/DeviceList.vue:8
+#: src/pages/DeviceList.vue:9
 msgid "Last seen:"
 msgstr "Vu(e) pour la dernière fois :"
 
@@ -296,7 +296,7 @@ msgstr ""
 msgid "New group"
 msgstr "Nouveau groupe"
 
-#: src/pages/SetPassword.vue:16
+#: src/pages/SetPassword.vue:17
 msgid "New password"
 msgstr "Nouveau mot de passe"
 
@@ -308,7 +308,7 @@ msgstr "Suivant"
 msgid "No chats available"
 msgstr "Aucune discussion disponible"
 
-#: src/pages/DeviceList.vue:19
+#: src/pages/DeviceList.vue:21
 msgid "No linked devices"
 msgstr "Aucun appareil lié"
 
@@ -364,7 +364,7 @@ msgstr "Code QR"
 msgid "Registered number"
 msgstr "Numéro d'enregistrement"
 
-#: src/pages/SetPassword.vue:19
+#: src/pages/SetPassword.vue:23
 msgid "Repeat password"
 msgstr "Répétez le nouveau mot de passe"
 
@@ -375,6 +375,10 @@ msgstr "Demander un code"
 #: src/components/Header.vue:102
 msgid "Reset encryption"
 msgstr "Réinitialiser le chiffrement"
+
+#: src/pages/SetPassword.vue:6
+msgid "Restart is required!"
+msgstr ""
 
 #: src/components/IdentityModal.vue:14
 msgid "Safety numbers of you and"
@@ -400,7 +404,7 @@ msgstr "Envoyer un code PIN"
 msgid "Set encryption password"
 msgstr "Définir un mot de passe de chiffrement"
 
-#: src/pages/SetPassword.vue:26 src/pages/Settings.vue:12
+#: src/pages/SetPassword.vue:34 src/pages/Settings.vue:12
 msgid "Set password"
 msgstr "Définir un mot de passe"
 
@@ -413,9 +417,8 @@ msgid "Set username"
 msgstr "Définir un identifiant"
 
 #: src/pages/SetPassword.vue:3
-msgid ""
-"Setting a password is not advised on devices short in memory. Restart is\n"
-"      required!"
+#, fuzzy
+msgid "Setting a password is not advised on devices short in memory."
 msgstr ""
 "Il n'est pas conseillé de définir un mot de passe sur les appareils ayant "
 "une mémoire limitée. Un redémarrage\n"

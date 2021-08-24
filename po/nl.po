@@ -113,7 +113,7 @@ msgstr "Groep aanmaken"
 msgid "Creating group"
 msgstr "Groep aanmaken"
 
-#: src/pages/SetPassword.vue:23
+#: src/pages/SetPassword.vue:29
 msgid "Current password"
 msgstr "Huidig wachtwoord"
 
@@ -253,7 +253,7 @@ msgstr "Informatie"
 msgid "issues at the bug tracker"
 msgstr "problemen op de bugtracker"
 
-#: src/pages/DeviceList.vue:8
+#: src/pages/DeviceList.vue:9
 msgid "Last seen:"
 msgstr "Laatst gezien:"
 
@@ -291,7 +291,7 @@ msgstr ""
 msgid "New group"
 msgstr "Nieuwe groep"
 
-#: src/pages/SetPassword.vue:16
+#: src/pages/SetPassword.vue:17
 msgid "New password"
 msgstr "Nieuw wachtwoord"
 
@@ -303,7 +303,7 @@ msgstr "Volgende"
 msgid "No chats available"
 msgstr "Geen beschikbare chats"
 
-#: src/pages/DeviceList.vue:19
+#: src/pages/DeviceList.vue:21
 msgid "No linked devices"
 msgstr "Geen gekoppelde apparaten"
 
@@ -359,7 +359,7 @@ msgstr "QR-code"
 msgid "Registered number"
 msgstr "Geregistreerd nummer"
 
-#: src/pages/SetPassword.vue:19
+#: src/pages/SetPassword.vue:23
 msgid "Repeat password"
 msgstr "Wachtwoord herhalen"
 
@@ -370,6 +370,10 @@ msgstr "Code aanvragen"
 #: src/components/Header.vue:102
 msgid "Reset encryption"
 msgstr "Versleuteling herstellen"
+
+#: src/pages/SetPassword.vue:6
+msgid "Restart is required!"
+msgstr ""
 
 #: src/components/IdentityModal.vue:14
 msgid "Safety numbers of you and"
@@ -395,7 +399,7 @@ msgstr "Pincode versturen"
 msgid "Set encryption password"
 msgstr "Versleutelwachtwoord instellen"
 
-#: src/pages/SetPassword.vue:26 src/pages/Settings.vue:12
+#: src/pages/SetPassword.vue:34 src/pages/Settings.vue:12
 msgid "Set password"
 msgstr "Wachtwoord instellen"
 
@@ -408,9 +412,8 @@ msgid "Set username"
 msgstr "Gebruikersnaam instellen"
 
 #: src/pages/SetPassword.vue:3
-msgid ""
-"Setting a password is not advised on devices short in memory. Restart is\n"
-"      required!"
+#, fuzzy
+msgid "Setting a password is not advised on devices short in memory."
 msgstr ""
 "Het instellen van een wachtwoord wordt afgeraden op apparaten met weinig "
 "geheugen.\n"

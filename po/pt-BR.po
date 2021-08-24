@@ -113,7 +113,7 @@ msgstr "Criar grupo"
 msgid "Creating group"
 msgstr "Criando Grupo"
 
-#: src/pages/SetPassword.vue:23
+#: src/pages/SetPassword.vue:29
 msgid "Current password"
 msgstr "Senha Atual"
 
@@ -243,7 +243,7 @@ msgstr "Info"
 msgid "issues at the bug tracker"
 msgstr "Issues no bug tracker"
 
-#: src/pages/DeviceList.vue:8
+#: src/pages/DeviceList.vue:9
 msgid "Last seen:"
 msgstr "Última vez visto:"
 
@@ -278,7 +278,7 @@ msgstr ""
 msgid "New group"
 msgstr "Novo grupo"
 
-#: src/pages/SetPassword.vue:16
+#: src/pages/SetPassword.vue:17
 msgid "New password"
 msgstr "Nova senha"
 
@@ -290,7 +290,7 @@ msgstr "Próximo"
 msgid "No chats available"
 msgstr "Nenhuma conversa disponível"
 
-#: src/pages/DeviceList.vue:19
+#: src/pages/DeviceList.vue:21
 msgid "No linked devices"
 msgstr "Nenhum dispositivo conectado"
 
@@ -344,7 +344,7 @@ msgstr ""
 msgid "Registered number"
 msgstr "Número cadastrado"
 
-#: src/pages/SetPassword.vue:19
+#: src/pages/SetPassword.vue:23
 msgid "Repeat password"
 msgstr "Repetir senha"
 
@@ -355,6 +355,10 @@ msgstr "Pedir código"
 #: src/components/Header.vue:102
 msgid "Reset encryption"
 msgstr "Resetar criptografia"
+
+#: src/pages/SetPassword.vue:6
+msgid "Restart is required!"
+msgstr ""
 
 #: src/components/IdentityModal.vue:14
 msgid "Safety numbers of you and"
@@ -380,7 +384,7 @@ msgstr "Enviar pin"
 msgid "Set encryption password"
 msgstr "Definir senha de criptografia"
 
-#: src/pages/SetPassword.vue:26 src/pages/Settings.vue:12
+#: src/pages/SetPassword.vue:34 src/pages/Settings.vue:12
 msgid "Set password"
 msgstr "Definir senha"
 
@@ -394,9 +398,7 @@ msgstr ""
 
 #: src/pages/SetPassword.vue:3
 #, fuzzy
-msgid ""
-"Setting a password is not advised on devices short in memory. Restart is\n"
-"      required!"
+msgid "Setting a password is not advised on devices short in memory."
 msgstr ""
 "Definir uma senha não é recomendado em dispositivos com pouca memória. É "
 "necessário reiniciar!"

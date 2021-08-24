@@ -27,7 +27,7 @@ library.add(faArrowLeft, faEllipsisV, faPencilAlt, faPlus, faTrash, faPaperPlane
   faUserFriends, faTimes, faCheck, faVolumeMute, faHeart, faSearch, faArrowDown)
 
 const app = createApp(App)
-app.component('font-awesome-icon', FontAwesomeIcon)
+app.component('FontAwesomeIcon', FontAwesomeIcon)
 app.mixin({
   methods: {
     linkify: function (content) {
