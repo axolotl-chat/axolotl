@@ -1,7 +1,7 @@
 1.0.2 (Aug 23 2021)
 ------------------------------------
 * Updated Finnish translation (orenomfi)
-* Improve Makefiel (olof-nord)
+* Improve Makefile (olof-nord)
 * Fix Linking signal desktop (nanu-c)
 * Fix setting a password (nanu-c)
 * Lot's of code quality and improvements (nanu-c)
