@@ -506,7 +506,7 @@ export default createStore({
       state.rateLimitError = null;
       if (this.state.socket.isConnected
         && contact.name !== "" && contact.phone !== "") {
-          if(this.state.currentChat.Tel == contact.phone){
+          if(this.state.currentChat.Tel === contact.phone){
             this.commit("SET_CURRENT_CHAT_NAME", contact.name);
           }
         var message = {
