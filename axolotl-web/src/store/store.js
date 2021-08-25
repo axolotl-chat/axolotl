@@ -89,7 +89,6 @@ export default createStore({
     },
     OPEN_CHAT(state, data) {
       state.currentChat = data.CurrentChat;
-      // console.log(data);
       state.currentGroup = data.Group;
       state.currentContact = data.Contact;
     },
@@ -581,8 +580,7 @@ export default createStore({
     editContact: function (state, data) {
       state.rateLimitError = null;
       if (this.state.socket.isConnected) {
-        console.log(data);
-        if(this.state.currentChat.Tel == data.contact.Tel){
+        if(this.state.currentChat.Tel === data.contact.Tel){
           this.commit("SET_CURRENT_CHAT_NAME", data.contact.Name);
         }
         var message = {
