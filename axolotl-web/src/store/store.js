@@ -84,6 +84,9 @@ export default createStore({
     SET_CURRENT_CHAT(state, chat) {
       state.currentChat = chat;
     },
+    SET_CURRENT_CHAT_NAME(state, chatName) {
+      state.currentChat.Name = chatName;
+    },
     OPEN_CHAT(state, data) {
       state.currentChat = data.CurrentChat;
       // console.log(data);
@@ -504,6 +507,9 @@ export default createStore({
       state.rateLimitError = null;
       if (this.state.socket.isConnected
         && contact.name !== "" && contact.phone !== "") {
+          if(this.state.currentChat.Tel == contact.phone){
+            this.commit("SET_CURRENT_CHAT_NAME", contact.name);
+          }
         var message = {
           "request": "addContact",
           "name": contact.name,
@@ -511,6 +517,7 @@ export default createStore({
         }
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
+
     },
     filterContacts: function (state, filter) {
       this.commit("SET_CONTACTS_FILTER", filter);
@@ -574,6 +581,10 @@ export default createStore({
     editContact: function (state, data) {
       state.rateLimitError = null;
       if (this.state.socket.isConnected) {
+        console.log(data);
+        if(this.state.currentChat.Tel == data.contact.Tel){
+          this.commit("SET_CURRENT_CHAT_NAME", data.contact.Name);
+        }
         var message = {
           "request": "editContact",
           "phone": data.contact.Tel,

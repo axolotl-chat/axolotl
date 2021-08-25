@@ -8,7 +8,7 @@
             <div v-if="name !== ''">{{ name }}</div>
             <div v-else v-translate>Contact</div>
           </h5>
-          <button type="button" class="close" @click="$emit('close')">
+          <button type="button" class="close btn" @click="$emit('close')">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -55,11 +55,24 @@
 <script>
 export default {
   name: "AddContactModal",
+  props: {
+    number: {
+      type: String,
+      required: false,
+      default: null
+    },
+  },
   data() {
     return {
       phone: "",
       name: "",
     };
+  },
+  mounted() {
+    if (this.number) {
+      this.phone = this.number;
+      this.name = "";
+    } 
   },
 };
 </script>

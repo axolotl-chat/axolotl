@@ -21,8 +21,18 @@ module.exports = {
     'implicit-arrow-linebreak': 'off',
     'import/prefer-default-export': 'off',
     "vue/no-mutating-props": "off",
-    "vue/singleline-html-element-content-newline":"off",
-    "vue/max-attributes-per-line":"off",
-    "vue/component-name-in-template-casing": "off"
+    "vue/singleline-html-element-content-newline": "off",
+    "vue/max-attributes-per-line": "off",
+    "vue/component-name-in-template-casing": "off",
+    "vue/html-self-closing": ["error", {
+      "html": {
+        "void": "any",
+        "normal": "always",
+        "component": "always"
+      },
+      "svg": "always",
+      "math": "always"
+    }]
+
   },
 };

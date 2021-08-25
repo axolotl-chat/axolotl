@@ -6,6 +6,7 @@
         class="overlay"
         @click="showSettingsMenu = false"
       />
+      <!-- chat page start -->
       <div class="header-row">
         <div v-if="route() === 'chat'" class="message-list-container row">
           <div v-if="errorConnection !== null" class="connection-error" />
@@ -25,7 +26,7 @@
                       'http://localhost:9080/avatars?file=' + currentChat.Tel
                     "
                     @error="onImageError($event)"
-                  >
+                  />
                   <font-awesome-icon icon="user-friends" />
                 </div>
                 <div v-else class="group-badge">{{ currentChat.Name[0] }}</div>
@@ -36,8 +37,8 @@
                     <div
                       v-if="
                         currentChat !== null &&
-                          currentChat.IsGroup &&
-                          currentChat.Name === currentChat.Tel
+                        currentChat.IsGroup &&
+                        currentChat.Name === currentChat.Tel
                       "
                       class="header-text-chat"
                     >
@@ -59,7 +60,7 @@
                       <div
                         v-if="
                           currentChat !== null &&
-                            currentChat.Name !== currentChat.Tel
+                          currentChat.Name !== currentChat.Tel
                         "
                         class=""
                       >
@@ -71,9 +72,9 @@
                     <div
                       v-if="
                         currentChat !== null &&
-                          currentChat.IsGroup &&
-                          currentGroup !== null &&
-                          typeof currentGroup !== 'undefined'
+                        currentChat.IsGroup &&
+                        currentGroup !== null &&
+                        typeof currentGroup !== 'undefined'
                       "
                       class="number-text"
                     >
@@ -84,9 +85,9 @@
                     <div
                       v-if="
                         currentChat !== null &&
-                          currentChat.IsGroup &&
-                          currentGroup !== null &&
-                          typeof currentGroup !== 'undefined'
+                        currentChat.IsGroup &&
+                        currentGroup !== null &&
+                        typeof currentGroup !== 'undefined'
                       "
                       class="number-text"
                     >
@@ -97,8 +98,8 @@
                     <div
                       v-if="
                         currentChat !== null &&
-                          !currentChat.IsGroup &&
-                          currentChat.Name === currentChat.Tel
+                        !currentChat.IsGroup &&
+                        currentChat.Name === currentChat.Tel
                       "
                       class="number-text"
                     >
@@ -131,8 +132,8 @@
                 <button
                   v-if="
                     currentChat !== null &&
-                      !currentChat.IsGroup &&
-                      currentChat.Name !== currentChat.Tel
+                    !currentChat.IsGroup &&
+                    currentChat.Name !== currentChat.Tel
                   "
                   class="dropdown-item"
                   @click="callNumber(currentChat.Tel)"
@@ -155,7 +156,30 @@
                 >
                   Unmute
                 </button>
-                <!-- <button v-if="currentChat!=null&&currentChat.IsGroup" class="dropdown-item" @click="editGroup">Edit group</button> -->
+                <button
+                  v-if="
+                    currentChat !== null &&
+                    !currentChat.IsGroup &&
+                    currentChat.Name === currentChat.Tel
+                  "
+                  v-translate
+                  class="dropdown-item"
+                  @click="addContactModal = true"
+                >
+                  Add contact
+                </button>
+                <button
+                  v-if="
+                    currentChat !== null &&
+                    !currentChat.IsGroup &&
+                    currentChat.Name !== currentChat.Tel
+                  "
+                  v-translate
+                  class="dropdown-item"
+                  @click="openEditContactModal()"
+                >
+                  Edit contact
+                </button>
                 <button
                   v-if="currentChat !== null && !currentChat.IsGroup"
                   v-translate
@@ -196,15 +220,21 @@
             </div>
           </div>
         </div>
+        <!-- chat page end -->
+        <!-- register page start -->
         <div v-else-if="route() === 'register'">
           <div class="header-text">
             <span v-translate>Connect with Signal</span>
           </div>
         </div>
+        <!-- register page end -->
         <div v-else-if="route() === 'password'">
           <div class="header-text"><span v-translate>Enter password</span></div>
         </div>
-        <div v-else-if="route() === 'setPassword'" class="list-header-container">
+        <div
+          v-else-if="route() === 'setPassword'"
+          class="list-header-container"
+        >
           <router-link class="btn" :to="'/settings'">
             <font-awesome-icon icon="arrow-left" />
           </router-link>
@@ -255,7 +285,7 @@
                 class="form-control"
                 @change="filterContacts()"
                 @keyup="filterContacts()"
-              >
+              />
             </div>
             <button
               v-if="toggleSearch"
@@ -314,7 +344,7 @@
                   type="file"
                   style="position: fixed; top: -100em"
                   @change="readVcf"
-                >
+                />
               </div>
             </div>
           </div>
@@ -343,25 +373,13 @@
               class="dropdown-menu"
               aria-labelledby="dropdownMenuButton"
             >
-              <router-link
-                v-translate
-                class="dropdown-item"
-                :to="'/contacts/'"
-              >
+              <router-link v-translate class="dropdown-item" :to="'/contacts/'">
                 Contacts
               </router-link>
-              <router-link
-                v-translate
-                class="dropdown-item"
-                :to="'/newGroup'"
-              >
+              <router-link v-translate class="dropdown-item" :to="'/newGroup'">
                 New group
               </router-link>
-              <router-link
-                v-translate
-                class="dropdown-item"
-                :to="'/settings/'"
-              >
+              <router-link v-translate class="dropdown-item" :to="'/settings/'">
                 Settings
               </router-link>
             </div>
@@ -373,6 +391,24 @@
         </div>
       </div>
     </div>
+    <div v-if="addContactModal" class="addContactModal">
+      <add-contact-modal
+        :number="currentChat.Tel"
+        @close="addContactModal = false"
+        @add="addContact($event)"
+      />
+    </div>
+    <div
+      v-if="editContactModal && editContactId !== -1"
+      class="editContactModal"
+    >
+      <edit-contact-modal
+        :id="editContactId.toString()"
+        :contact="contacts[editContactId]"
+        @close="editContactModal = false"
+        @save="saveContact($event)"
+      />
+    </div>
   </div>
 </template>
 
@@ -380,6 +416,9 @@
 import IdentityModal from "@/components/IdentityModal.vue";
 import ConfirmationModal from "@/components/ConfirmationModal.vue";
 import ImportUnavailableModal from "@/components/ImportUnavailableModal.vue";
+import AddContactModal from "@/components/AddContactModal.vue";
+import EditContactModal from "@/components/EditContactModal.vue";
+
 import { mapState } from "vuex";
 export default {
   name: "Header",
@@ -387,6 +426,8 @@ export default {
     ConfirmationModal,
     IdentityModal,
     ImportUnavailableModal,
+    AddContactModal,
+    EditContactModal,
   },
   data() {
     return {
@@ -400,6 +441,9 @@ export default {
       names: [],
       toggleSearch: false,
       contactsFilter: "",
+      addContactModal: false,
+      editContactModal: false,
+      editContactId: -1,
     };
   },
   computed: mapState([
@@ -416,6 +460,9 @@ export default {
     $route() {
       this.names = [];
       this.showSettingsMenu = false;
+    },
+    currentChat: {
+      deep: true,
     },
   },
   mounted() {
@@ -516,6 +563,23 @@ export default {
       } else {
         alert("Failed to load file");
       }
+    },
+    openEditContactModal() {
+      const id = this.contacts.findIndex((c) => c.Tel === this.currentChat.Tel);
+      this.editContactId = id;
+      if (id !== -1) {
+        this.editContactModal = true;
+      }
+    },
+    addContact(data) {
+      this.$store.dispatch("addContact", data);
+      this.addContactModal = false;
+    },
+    saveContact(data) {
+      this.editContactModal = false;
+      this.showActions = false;
+      this.editContactId = "";
+      this.$store.dispatch("editContact", data);
     },
   },
 };
