@@ -357,7 +357,7 @@ export default createStore({
   },
 
   actions: {
-    addDevice: function (state, url) {
+    addDevice(state, url) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "addDevice",
@@ -366,7 +366,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    delDevice: function (state, id) {
+    delDevice(state, id) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "delDevice",
@@ -375,7 +375,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    getDevices: function () {
+    getDevices() {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "getDevices",
@@ -383,7 +383,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    getChatList: function () {
+    getChatList() {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "getChatList",
@@ -391,7 +391,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    delChat: function (state, id) {
+    delChat(id) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "delChat",
@@ -400,7 +400,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    getMessageList: function (state, chatId) {
+    getMessageList(state, chatId) {
       this.commit("CLEAR_MESSAGELIST");
       if (this.state.socket.isConnected) {
         var message = {
@@ -410,7 +410,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    openChat: function (state, chatId) {
+    openChat(state, chatId) {
       this.commit("CLEAR_MESSAGELIST");
       if (this.state.socket.isConnected) {
         var message = {
@@ -420,7 +420,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    getMoreMessages: function () {
+    getMoreMessages() {
       if (this.state.socket.isConnected && typeof this.state.messageList.Messages !== "undefined"
         && this.state.messageList.Messages !== null
         && this.state.messageList.Messages.length > 19 && this.state.messageList.Messages.slice(-1)[0].ID > 1) {
@@ -431,13 +431,13 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    clearMessageList: function () {
+    clearMessageList() {
       this.commit("CLEAR_MESSAGELIST");
     },
-    setCurrentChat: function (state, chat) {
+    setCurrentChat(state, chat) {
       this.commit("SET_CURRENT_CHAT", chat);
     },
-    leaveChat: function () {
+    leaveChat() {
       this.commit("LEAVE_CHAT");
       if (this.state.socket.isConnected) {
         var message = {
@@ -446,7 +446,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    createChat: function (state, uuid) {
+    createChat(state, uuid) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "createChat",
@@ -456,7 +456,7 @@ export default createStore({
       }
       this.commit("CREATE_CHAT", uuid);
     },
-    sendMessage: function (state, messageContainer) {
+    sendMessage(state, messageContainer) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "sendMessage",
@@ -466,7 +466,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    toggleNotifications: function () {
+    toggleNotifications() {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "toggleNotifications",
@@ -475,7 +475,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    resetEncryption: function () {
+    resetEncryption() {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "resetEncryption",
@@ -484,7 +484,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    verifyIdentity: function () {
+    verifyIdentity() {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "verifyIdentity",
@@ -493,7 +493,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    getContacts: function (state) {
+    getContacts(state) {
       if (this.state.socket.isConnected) {
         state.importingContacts = false;
         var message = {
@@ -502,7 +502,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    addContact: function (state, contact) {
+    addContact(state, contact) {
       state.rateLimitError = null;
       if (this.state.socket.isConnected
         && contact.name !== "" && contact.phone !== "") {
@@ -518,16 +518,16 @@ export default createStore({
       }
 
     },
-    filterContacts: function (state, filter) {
+    filterContacts(state, filter) {
       this.commit("SET_CONTACTS_FILTER", filter);
     },
-    filterContactsForGroup: function (state, filter) {
+    filterContactsForGroup(state, filter) {
       this.commit("SET_CONTACTS_FOR_GROUP_FILTER", filter);
     },
-    clearFilterContacts: function () {
+    clearFilterContacts() {
       this.commit("SET_CLEAR_CONTACTS_FILTER");
     },
-    uploadVcf: function (state, vcf) {
+    uploadVcf(state, vcf) {
       state.rateLimitError = null;
       state.importingContacts = true;
       if (this.state.socket.isConnected) {
@@ -538,7 +538,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    uploadAttachment: function (state, attachment) {
+    uploadAttachment(state, attachment) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "uploadAttachment",
@@ -548,7 +548,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    refreshContacts: function (state, chUrl) {
+    refreshContacts(state, chUrl) {
       state.importingContacts = true;
       if (this.state.socket.isConnected) {
         var message = {
@@ -558,7 +558,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    delContact: function (state, id) {
+    delContact(state, id) {
       state.rateLimitError = null;
       if (this.state.socket.isConnected) {
         var message = {
@@ -568,7 +568,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    deleteSelfDestructingMessage: function (state, m) {
+    deleteSelfDestructingMessage(state, m) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "delMessage",
@@ -577,7 +577,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    editContact: function (state, data) {
+    editContact(state, data) {
       state.rateLimitError = null;
       if (this.state.socket.isConnected) {
         if(this.state.currentChat.Tel === data.contact.Tel){
@@ -593,7 +593,7 @@ export default createStore({
       }
     },
     // registration functions
-    requestCode: function (state, tel) {
+    requestCode(state, tel) {
       this.state.verificationError = null
       if (this.state.socket.isConnected) {
         var message = {
@@ -603,7 +603,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    sendCode: function (state, code) {
+    sendCode(state, code) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "sendCode",
@@ -612,7 +612,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    setUsername: function (state, username) {
+    setUsername(state, username) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "sendUsername",
@@ -623,7 +623,7 @@ export default createStore({
       this.commit("SET_REGISTRATION_STATUS", "");
       router.push("/")
     },
-    sendPin: function (state, pin) {
+    sendPin(state, pin) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "sendPin",
@@ -632,7 +632,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    sendPassword: function (state, password) {
+    sendPassword(state, password) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "sendPassword",
@@ -641,7 +641,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    setPassword: function (state, password) {
+    setPassword(state, password) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "setPassword",
@@ -652,7 +652,7 @@ export default createStore({
         router.push("/chatList")
       }
     },
-    getRegistrationStatus: function () {
+    getRegistrationStatus() {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "getRegistrationStatus",
@@ -660,7 +660,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    unregister: function () {
+    unregister() {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "unregister",
@@ -669,7 +669,7 @@ export default createStore({
 
       }
     },
-    getConfig: function () {
+    getConfig() {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "getConfig",
@@ -677,7 +677,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    createNewGroup: function (state, data) {
+    createNewGroup(state, data) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "createGroup",
@@ -688,7 +688,7 @@ export default createStore({
 
       }
     },
-    updateGroup: function (state, data) {
+    updateGroup(state, data) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "updateGroup",
@@ -700,7 +700,7 @@ export default createStore({
 
       }
     },
-    sendAttachment: function (state, data) {
+    sendAttachment(state, data) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "sendAttachment",
@@ -713,7 +713,7 @@ export default createStore({
 
       }
     },
-    setDarkMode: function (state, darkMode) {
+    setDarkMode(state, darkMode) {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "setDarkMode",
@@ -723,7 +723,7 @@ export default createStore({
         this.state.DarkMode = darkMode;
       }
     },
-    sendCaptchaToken: function () {
+    sendCaptchaToken() {
       if (this.state.socket.isConnected) {
         var message = {
           "request": "sendCaptchaToken",
@@ -734,7 +734,7 @@ export default createStore({
 
       }
     },
-    setCaptchaToken: function (state, token) {
+    setCaptchaToken(state, token) {
       this.commit("SET_CAPTCHA_TOKEN", token);
     }
   }
