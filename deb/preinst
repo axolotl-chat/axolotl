@@ -1,0 +1,7 @@
+#!/bin/sh
+# preinst script for axolotl
+
+set -e
+
+pkill axolotl
+exit 0
