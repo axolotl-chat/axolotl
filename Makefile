@@ -90,15 +90,15 @@ clean:
 
 update-version:
 ifeq ($(NEW_VERSION),)
-	@echo Please specify the new version to use! Example: "make update-version NEW_VERSION=0.9.10"
+	@echo 'Please specify the new version to use! Example: "make update-version NEW_VERSION=0.9.10"'
 else
-	@echo Replacing current version $(AXOLOTL_VERSION) with new version $(NEW_VERSION)
+	@echo "Replacing current version $(AXOLOTL_VERSION) with new version $(NEW_VERSION)"
 	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' manifest.json
 	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' app/config/config.go
 	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' snap/snapcraft.yaml
 	@sed -i "32i $$APPDATA_TEXT" appimage/AppDir/axolotl.appdata.xml
 	@sed -i "32i $$APPDATA_TEXT" flatpak/org.nanuc.Axolotl.appdata.xml
-	@echo Update complete
+	@echo "Update complete"
 endif
 
 ## zkgroup
@@ -115,7 +115,7 @@ ifeq ($(UNAME_S), Linux)
 	&& $(CARGO) build --release --verbose \
 	&& mv -f $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release/libzkgroup.so $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_$(HARDWARE_PLATFORM).so
 else
-	@echo architecture not (yet) supported $(HARDWARE_PLATFORM)
+	@echo "Architecture not (yet) supported $(HARDWARE_PLATFORM)"
 	exit 1
 endif
 
@@ -182,7 +182,7 @@ check-platform-deb-arm64:
 dependencies-deb-arm64: check-platform-deb-arm64
 	@echo "Installing dependencies for building Axolotl..."
 	@sudo $(APT) update
-	@sudo $(APT) install nano git golang nodejs npm python
+	@sudo $(APT) install nano git golang nodejs npm
 
 build-deb-arm64: check-platform-deb-arm64 dependencies-deb-arm64
 	@echo "Downloading (go)..."
@@ -194,25 +194,25 @@ build-deb-arm64: check-platform-deb-arm64 dependencies-deb-arm64
 	@mkdir -p $(CURRENT_DIR)/build/linux-arm64/axolotl-web
 	@echo "Building (go)..."
 	@cd $(CURRENT_DIR) && env GOOS=linux GOARCH=arm64 go build -o build/linux-arm64/axolotl .
-	@cp -r axolotl-web/dist build/linux-arm64/axolotl-web
-	@cp -r guis build/linux-arm64
+	@cp --recursive axolotl-web/dist build/linux-arm64/axolotl-web
+	@cp --recursive guis build/linux-arm64
 	@echo "Building complete."
 
 prebuild-package-deb-arm64: package-clean-deb-arm64
 	@echo "Prebuilding Debian package..."
 # Get the source tarball
-	@$(WGET) https://github.com/nanu-c/axolotl/archive/v$(AXOLOTL_VERSION).tar.gz -O $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION).tar.gz
+	@$(WGET) https://github.com/nanu-c/axolotl/archive/v$(AXOLOTL_VERSION).tar.gz --output-document=$(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION).tar.gz
 # Prepare packaging folder
-	@mkdir -p $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl
-	@cp -r $(CURRENT_DIR)/build/linux-arm64/* $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl
+	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl
+	@cp --recursive $(CURRENT_DIR)/build/linux-arm64/* $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl
 	@cp $(CURRENT_DIR)/deb/LICENSE $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/LICENSE
 # Run debmake
-	@cd $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION) && debmake -e arno_nuehm@riseup.net -f "Arno Nuehm" -m
+	@cd $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION) && debmake --email arno_nuehm@riseup.net --fullname "Arno Nuehm" --monoarch
 # Create target folders and copy additional files into package folder
-	@mkdir -p $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/icons/hicolor/128x128/apps
-	@mkdir -p $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/applications
-	@mkdir -p $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin
-	@mkdir -p $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/etc/profile.d
+	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/icons/hicolor/128x128/apps
+	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/applications
+	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin
+	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/etc/profile.d
 	@cp $(CURRENT_DIR)/README.md $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/README.Debian
 	@cp $(CURRENT_DIR)/deb/axolotl.png $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/icons/hicolor/128x128/apps/axolotl.png
 	@cp $(CURRENT_DIR)/deb/axolotl.desktop $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/applications
@@ -222,7 +222,7 @@ prebuild-package-deb-arm64: package-clean-deb-arm64
   @cp $(CURRENT_DIR)/deb/preinst $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian
   @cp $(CURRENT_DIR)/deb/prerm $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian
 	@cp $(CURRENT_DIR)/deb/control $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/control
-	@$(WGET) https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_aarch64.so -P  $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/lib
+	@$(WGET) https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_aarch64.so --directory-prefix=$(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/lib
 	@mv $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl/axolotl $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin
 	@echo "Prebuilding Debian package complete"
 
@@ -239,9 +239,9 @@ install-deb-arm64: uninstall-deb-arm64
 # Use for testing purposes only after prebuild-package-arm64
 	@echo "Installing Axolotl"
 # Copy libzkgroup
-	@sudo $(WGET) https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_aarch64.so -P /usr/lib
-	@sudo mkdir -p $(DESTDIR)$(SHARE_PREFIX)/axolotl
-	@sudo cp -r $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl/* $(DESTDIR)$(SHARE_PREFIX)/axolotl
+	@sudo $(WGET) https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_aarch64.so --directory-prefix=/usr/lib
+	@sudo mkdir --parents $(DESTDIR)$(SHARE_PREFIX)/axolotl
+	@sudo cp --recursive $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl/* $(DESTDIR)$(SHARE_PREFIX)/axolotl
 	@sudo mv $(DESTDIR)$(SHARE_PREFIX)/axolotl/axolotl $(DESTDIR)$(INSTALL_PREFIX)/
 	@sudo cp $(CURRENT_DIR)/deb/axolotl.desktop $(DESTDIR)$(SHARE_PREFIX)/applications
 	@sudo cp $(CURRENT_DIR)/deb/axolotl.png $(DESTDIR)$(SHARE_PREFIX)/icons/hicolor/128x128/apps
@@ -250,16 +250,16 @@ install-deb-arm64: uninstall-deb-arm64
 	@echo "Installation complete"
 
 uninstall-deb-arm64:
-	@sudo rm -rf $(DESTDIR)$(SHARE_PREFIX)/axolotl
-	@sudo rm -f $(DESTDIR)$(INSTALL_PREFIX)/axolotl
-	@sudo rm -f $(DESTDIR)$(SHARE_PREFIX)/applications/axolotl.desktop
-	@sudo rm -f $(DESTDIR)$(SHARE_PREFIX)/icons/hicolor/128x128/apps/axolotl.png
-	@sudo rm -f /etc/profile.d/axolotl.sh
-	@sudo rm -f $(DESTDIR)$(LIBRARY_PREFIX)/libzkgroup_linux_aarch64.so
+	@sudo rm --force --recursive $(DESTDIR)$(SHARE_PREFIX)/axolotl
+	@sudo rm --force $(DESTDIR)$(INSTALL_PREFIX)/axolotl
+	@sudo rm --force $(DESTDIR)$(SHARE_PREFIX)/applications/axolotl.desktop
+	@sudo rm --force $(DESTDIR)$(SHARE_PREFIX)/icons/hicolor/128x128/apps/axolotl.png
+	@sudo rm --force /etc/profile.d/axolotl.sh
+	@sudo rm --force $(DESTDIR)$(LIBRARY_PREFIX)/libzkgroup_linux_aarch64.so
 	@echo "Removing complete"
 
 clean-deb-arm64:
-	@rm -rf $(CURRENT_DIR)/build
+	@rm --force --recursive $(CURRENT_DIR)/build
 
 package-clean-deb-arm64:
-	@rm -rf $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)
+	@rm --force --recursive $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)
