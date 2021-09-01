@@ -250,7 +250,7 @@ install-deb-arm64: uninstall-deb-arm64
 
 uninstall-deb-arm64:
 	@pkill axolotl
-  @sudo rm -rf $(DESTDIR)$(SHARE_PREFIX)/axolotl/
+	@sudo rm -rf $(DESTDIR)$(SHARE_PREFIX)/axolotl/
 	@sudo rm -f $(DESTDIR)$(INSTALL_PREFIX)/axolotl
 	@sudo rm -f $(DESTDIR)$(SHARE_PREFIX)/applications/axolotl.desktop
 	@sudo rm -f $(DESTDIR)$(SHARE_PREFIX)/icons/hicolor/128x128/apps/axolotl.png
