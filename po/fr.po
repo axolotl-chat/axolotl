@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2021-07-18 18:16+0200\n"
+"PO-Revision-Date: 2021-09-03 21:20+0200\n"
 "Last-Translator: Anne017\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -378,7 +378,7 @@ msgstr "Réinitialiser le chiffrement"
 
 #: src/pages/SetPassword.vue:6
 msgid "Restart is required!"
-msgstr ""
+msgstr "Un redémarrage est nécessaire !"
 
 #: src/components/IdentityModal.vue:14
 msgid "Safety numbers of you and"
@@ -417,12 +417,10 @@ msgid "Set username"
 msgstr "Définir un identifiant"
 
 #: src/pages/SetPassword.vue:3
-#, fuzzy
 msgid "Setting a password is not advised on devices short in memory."
 msgstr ""
 "Il n'est pas conseillé de définir un mot de passe sur les appareils ayant "
-"une mémoire limitée. Un redémarrage\n"
-"      est nécessaire !"
+"une mémoire limitée."
 
 #: src/pages/SetUsername.vue:3
 msgid "Setting a username is required. Please choose one."
