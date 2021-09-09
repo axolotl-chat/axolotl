@@ -219,8 +219,6 @@ prebuild-package-deb-arm64: package-clean-deb-arm64
 	@cp $(CURRENT_DIR)/deb/axolotl.sh $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/etc/profile.d
 	@cp $(CURRENT_DIR)/deb/axolotl.install $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian
 	@cp $(CURRENT_DIR)/deb/postinst $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian
-	@cp $(CURRENT_DIR)/deb/preinst $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian
-	@cp $(CURRENT_DIR)/deb/prerm $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian
 	@cp $(CURRENT_DIR)/deb/control $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/control
 	@$(WGET) https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_aarch64.so --directory-prefix=$(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/lib
 	@mv $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl/axolotl $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin
