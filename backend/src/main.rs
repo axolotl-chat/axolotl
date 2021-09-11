@@ -1,19 +1,22 @@
 mod registration;
 mod requests;
+mod service;
 
 use std::str::FromStr;
 
 use libsignal_service::provisioning::VerificationCodeResponse;
 use phonenumber::PhoneNumber;
 
+use crate::service::start_websocket;
+
 #[tokio::main]
 async fn main() {
-    println!("Going to register a user");
-
     test_registration().await;
+    start_websocket().await;
 }
 
 async fn test_registration() {
+    println!("Going to register a user");
     let phonenumber = PhoneNumber::from_str("+4917612345678").expect("Invalid phone number");
     let password = "password";
     let captcha = None;
