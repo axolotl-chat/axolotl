@@ -35,4 +35,4 @@ env_logger = "0.8"
 image = { version = "0.23", default-features = false, features = ["png"] }
 opener = "0.4"
 qrcode = "0.12"
-tokio = { version = "1", features=["macros"] }
+tokio = { version = "1", features=["macros", "rt-multi-thread"] }
