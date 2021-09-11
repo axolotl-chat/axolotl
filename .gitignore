@@ -1,7 +1,8 @@
 textsecure.nanuc_*click
 axolotl
-builddir
-build
+builddir/
+build/
+target/
 gopath/*
 .clickable/*
 *po~

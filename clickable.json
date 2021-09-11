@@ -1,4 +1,5 @@
 {
+  "clickable_minimum_required": "7",
   "builder": "go",
   "kill": "textsecure",
   "ignore":[
@@ -9,6 +10,7 @@
     ".gitignore",
     ".gitmodules",
     "click",
+    "backend",
     "docker",
     "main.go",
     "po",
@@ -29,4 +31,13 @@
     "\\$GITHUB_WORKSPACE/*"
   ],
   "postbuild": "${ROOT}/scripts/postbuild.sh ${INSTALL_DIR};",
+  "install_bin": [
+    "${BACKEND_LIB_INSTALL_DIR}/bin/backend"
+  ],
+  "libraries": {
+    "backend": {
+      "src_dir": "backend",
+      "builder": "rust"
+    }
+  }
 }
