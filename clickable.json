@@ -18,7 +18,6 @@
     "output",
     "*.snap",
     "main",
-    "output",
     "bind*.go",
     "*.syso",
     "*.go",
@@ -29,5 +28,5 @@
     "libzkgroup*.so",
     "\\$GITHUB_WORKSPACE/*"
   ],
-  "postbuild": "$ROOT/scripts/postbuild.sh $INSTALL_DIR;"
+  "postbuild": "${ROOT}/scripts/postbuild.sh ${INSTALL_DIR};",
 }
