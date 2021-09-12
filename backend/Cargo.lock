@@ -317,11 +317,14 @@ dependencies = [
 name = "backend"
 version = "0.1.0"
 dependencies = [
+ "actix-rt",
  "futures",
  "libsignal-service",
  "libsignal-service-actix",
  "phonenumber",
  "rand 0.7.3",
+ "serde",
+ "serde_json",
  "tokio",
  "warp",
 ]
