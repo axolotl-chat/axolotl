@@ -324,6 +324,7 @@ dependencies = [
  "phonenumber",
  "rand 0.7.3",
  "serde",
+ "serde-big-array",
  "serde_json",
  "tokio",
  "warp",
@@ -2102,6 +2103,16 @@ version = "1.0.130"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f12d06de37cf59146fbdecab66aa99f9fe4f78722e3607577a5375d66bd0c913"
 dependencies = [
+ "serde_derive",
+]
+
+[[package]]
+name = "serde-big-array"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "18b20e7752957bbe9661cff4e0bb04d183d0948cdab2ea58cdb9df36a61dfe62"
+dependencies = [
+ "serde",
  "serde_derive",
 ]
 
