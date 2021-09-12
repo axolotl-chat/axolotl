@@ -13,9 +13,9 @@ func RunRustBackend() {
 	var cmd *exec.Cmd
 	log.Infoln("[axolotl] Starting crayfish-backend")
 	if _, err := os.Stat("./crayfish"); err == nil {
-		cmd = exec.Command("./backend")
+		cmd = exec.Command("./crayfish")
 	} else {
-		cmd = exec.Command("./backend/target/debug/backend")
+		cmd = exec.Command("./backend/target/debug/crayfish")
 	}
 	var stdout, stderr []byte
 	var errStdout, errStderr error
@@ -66,4 +66,8 @@ func copyAndCapture(w io.Writer, r io.Reader) ([]byte, error) {
 			return out, err
 		}
 	}
+}
+
+func StartWebsocket() {
+
 }
