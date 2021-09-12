@@ -40,6 +40,10 @@ func runBackend() {
 		push.PushHelperProcess()
 	}
 }
+func runRustBackend() {
+	go worker.RunRustBackend()
+
+}
 func runUI() error {
 	defer wg.Done()
 	if config.Gui != "ut" && config.Gui != "lorca" && config.Gui != "qt" {
@@ -140,6 +144,7 @@ var wg sync.WaitGroup
 func main() {
 	setup()
 	runBackend()
+	runRustBackend()
 	log.Println("[axolotl] Setup completed")
 	wg.Add(1)
 	go runWebserver()
