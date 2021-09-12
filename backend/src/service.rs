@@ -9,7 +9,7 @@ use crate::requests::RequestSender;
 pub mod ws;
 
 pub async fn start_websocket() {
-    let port = 9080;
+    let port = 9081;
     let path = "libsignal";
     let ip = [127, 0, 0, 1];
     let request_queue_size = 10;
