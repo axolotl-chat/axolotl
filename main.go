@@ -42,6 +42,7 @@ func runBackend() {
 }
 func runRustBackend() {
 	go worker.RunRustBackend()
+	go worker.BackendStartListening()
 
 }
 func runUI() error {
