@@ -9,10 +9,14 @@ import (
 	"net/url"
 	"os"
 	"os/exec"
+	"strconv"
 	"sync"
 	"time"
 
 	"github.com/gorilla/websocket"
+	"github.com/nanu-c/axolotl/app/settings"
+	"github.com/nanu-c/axolotl/app/ui"
+	"github.com/signal-golang/textsecure"
 	"github.com/signal-golang/textsecure/rootCa"
 	log "github.com/sirupsen/logrus"
 )
@@ -53,7 +57,7 @@ func RunRustBackend() {
 		log.Fatal("[axolotl] failed to capture stdout or stderr\n")
 	}
 	outStr, errStr := string(stdout), string(stderr)
-	log.Infof("[axolotl] crayfish out:\n%s\nerr:\n%s\n", outStr, errStr)
+	log.Infof("[axolotl-crayfish-ws] out:\n%s\nerr:\n%s\n", outStr, errStr)
 	log.Infof("[axolotl] Crayfish-backend finished with error: %v", err)
 
 }
@@ -96,9 +100,9 @@ type CrayfishWebSocketMessage struct {
 type CrayfishWebSocketRequestMessageType int32
 
 const (
-	CrayfishWebSocketRequestMessageTyp_UNKNOWN              CrayfishWebSocketRequestMessageType = 0
-	CrayfishWebSocketRequestMessageTyp_START_REGISTRATION   CrayfishWebSocketRequestMessageType = 1
-	CrayfishWebSocketRequestMessageTyp_CONFIRM_REGISTRATION CrayfishWebSocketRequestMessageType = 2
+	CrayfishWebSocketRequestMessageTyp_UNKNOWN             CrayfishWebSocketRequestMessageType = 0
+	CrayfishWebSocketRequestMessageTyp_START_REGISTRATION  CrayfishWebSocketRequestMessageType = 1
+	CrayfishWebSocketRequestMessageTyp_VERIFY_REGISTRATION CrayfishWebSocketRequestMessageType = 2
 )
 
 type CrayfishWebSocketRequestMessage struct {
@@ -109,9 +113,9 @@ type CrayfishWebSocketRequestMessage struct {
 type CrayfishWebSocketResponseMessageType int32
 
 const (
-	CrayfishWebSocketResponseMessageTyp_UNKNOWN              CrayfishWebSocketResponseMessageType = 0
-	CrayfishWebSocketResponseMessageTyp_ACK                  CrayfishWebSocketResponseMessageType = 1
-	CrayfishWebSocketResponseMessageTyp_CONFIRM_REGISTRATION CrayfishWebSocketResponseMessageType = 2
+	CrayfishWebSocketResponseMessageTyp_UNKNOWN             CrayfishWebSocketResponseMessageType = 0
+	CrayfishWebSocketResponseMessageTyp_ACK                 CrayfishWebSocketResponseMessageType = 1
+	CrayfishWebSocketResponseMessageTyp_VERIFY_REGISTRATION CrayfishWebSocketResponseMessageType = 2
 )
 
 type CrayfishWebSocketResponseMessage struct {
@@ -149,7 +153,7 @@ var wsconn *Conn
 func (c *Conn) connect(originURL string) error {
 	u, _ := url.Parse(originURL)
 
-	log.Debugf("[axolotl] crayfish websocket connecting to crayfish-server")
+	log.Debugf("[axolotl-crayfish-ws] websocket connecting to crayfish-server")
 
 	var err error
 	d := &websocket.Dialer{
@@ -166,7 +170,7 @@ func (c *Conn) connect(originURL string) error {
 		return err
 	}
 
-	log.Debugf("[axolotl] crayfish websocket Connected successfully")
+	log.Debugf("[axolotl-crayfish-ws] websocket Connected successfully")
 
 	return nil
 }
@@ -194,7 +198,7 @@ func (c *Conn) sendAck(id uint64) error {
 	if err != nil {
 		return err
 	}
-	log.Debugln("[axolotl] crayfish websocket sending ack response ", string(b))
+	log.Debugln("[axolotl-crayfish-ws] websocket sending ack response ", string(b))
 
 	c.send <- b
 	return nil
@@ -210,32 +214,33 @@ func (c *Conn) write(mt int, payload []byte) error {
 func (c *Conn) writeWorker() {
 	ticker := time.NewTicker(pingPeriod)
 	defer func() {
-		log.Debugf("[axolotl] crayfish closing writeWorker")
+		log.Debugf("[axolotl-crayfish-ws] closing writeWorker")
 		ticker.Stop()
 		c.ws.Close()
 	}()
 	for {
 		select {
 		case message, ok := <-c.send:
+			log.Debugln("[axolotl-crayfish-ws] incoming websocket message")
 			if !ok {
-				log.Errorf("[axolotl] crayfish failed to read message from channel")
+				log.Errorf("[axolotl-crayfish-ws] failed to read message from channel")
 				c.write(websocket.CloseMessage, []byte{})
 				return
 			}
 
-			log.Debugf("[axolotl] crayfish websocket sending message")
+			log.Debugf("[axolotl-crayfish-ws] websocket sending message")
 			if err := c.write(websocket.TextMessage, message); err != nil {
 				log.WithFields(log.Fields{
 					"error": err,
-				}).Error("[axolotl] crayfish Failed to send websocket message")
+				}).Error("[axolotl-crayfish-ws] Failed to send websocket message")
 				return
 			}
 		case <-ticker.C:
-			log.Debugf("[axolotl] crayfish Sending websocket ping message")
+			log.Debugf("[axolotl-crayfish-ws] Sending websocket ping message")
 			if err := c.write(websocket.PingMessage, nil); err != nil {
 				log.WithFields(log.Fields{
 					"error": err,
-				}).Error("[axolotl] crayfish Failed to send websocket ping message")
+				}).Error("[axolotl-crayfish-ws] Failed to send websocket ping message")
 				return
 			}
 		}
@@ -248,11 +253,11 @@ func BackendStartListening() error {
 			if err != nil {
 				log.WithFields(log.Fields{
 					"error": err,
-				}).Error("[axolotl] crayfish Failed to start listening")
+				}).Error("[axolotl-crayfish-ws] Failed to start listening")
 				time.Sleep(time.Second * 5)
 			}
 
-			log.Debugf("[axolotl] crayfish BackendStartListening")
+			log.Debugf("[axolotl-crayfish-ws] BackendStartListening")
 		}
 	}()
 	return nil
@@ -277,9 +282,8 @@ func BackendStartWebsocket() error {
 
 	wsconn.ws.SetReadDeadline(time.Now().Add(pongWait))
 	wsconn.ws.SetPongHandler(func(string) error {
-		log.Debugf("[axolotl] crayfish Received websocket pong message")
+		log.Debugf("[axolotl-crayfish-ws] Received websocket pong message")
 		wsconn.ws.SetReadDeadline(time.Now().Add(pongWait))
-		// CrayfishRegister() enable for testing purposes
 		return nil
 	})
 
@@ -287,7 +291,7 @@ func BackendStartWebsocket() error {
 		_, bmsg, err := wsconn.ws.ReadMessage()
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
-				log.Debugf("[axolotl] crayfish Websocket UnexpectedCloseError: %s", err)
+				log.Debugf("[axolotl-crayfish-ws] Websocket UnexpectedCloseError: %s", err)
 			}
 			return err
 		}
@@ -297,35 +301,35 @@ func BackendStartWebsocket() error {
 		if err != nil {
 			log.WithFields(log.Fields{
 				"error": err,
-			}).Error("[axolotl] crayfish Failed to unmarshal websocket message")
+			}).Error("[axolotl-crayfish-ws] Failed to unmarshal websocket message")
 			return err
 		}
 		if csm.Type == nil {
-			log.Errorf("[axolotl] crayfish Websocket message type is nil", string(bmsg))
+			log.Errorf("[axolotl-crayfish-ws] Websocket message type is nil", string(bmsg))
 		} else if *csm.Type == CrayfishWebSocketMessage_REQUEST {
 			err = handleCrayfishRequestMessage(csm.Request)
 			if err != nil {
 				log.WithFields(log.Fields{
 					"error": err,
-				}).Error("[axolotl] crayfish Failed to handle received request message")
+				}).Error("[axolotl-crayfish-ws] Failed to handle received request message")
 			}
 		} else if *csm.Type == CrayfishWebSocketMessage_RESPONSE {
 			err = handleCrayfishResponseMessage(csm.Response)
 			if err != nil {
 				log.WithFields(log.Fields{
 					"error": err,
-				}).Error("[axolotl] crayfish Failed to handle received request message")
+				}).Error("[axolotl-crayfish-ws] Failed to handle received request message")
 			}
 
 		} else {
-			log.Errorln("[axolotl] crayfish failed to handle incoming websocket message")
+			log.Errorln("[axolotl-crayfish-ws] failed to handle incoming websocket message")
 		}
 		if csm.Type != nil {
 			err = wsconn.sendAck(200)
 			if err != nil {
 				log.WithFields(log.Fields{
 					"error": err,
-				}).Error("[axolotl] crayfish Failed to send ack")
+				}).Error("[axolotl-crayfish-ws] Failed to send ack")
 				return err
 			}
 		}
@@ -336,7 +340,7 @@ func BackendStartWebsocket() error {
 
 // ErrNotListening is returned when trying to stop listening when there's no
 // valid listening connection set up
-var ErrNotListening = errors.New("[axolotl] crayfish there is no listening connection to stop")
+var ErrNotListening = errors.New("[axolotl-crayfish-ws] there is no listening connection to stop")
 
 // StopListening disables the receiving of messages.
 func StopListening() error {
@@ -352,11 +356,18 @@ func StopListening() error {
 }
 
 func handleCrayfishRequestMessage(request *CrayfishWebSocketRequestMessage) error {
+	log.Debugf("[axolotl-crayfish-ws] Received websocket request message %v", request)
 	return nil
 
 }
 
+var receiveChannel chan *CrayfishWebSocketResponseMessage
+
 func handleCrayfishResponseMessage(response *CrayfishWebSocketResponseMessage) error {
+	log.Debugf("[axolotl-crayfish-ws] Received websocket request message %v", response)
+	if receiveChannel != nil {
+		receiveChannel <- response
+	}
 	return nil
 }
 
@@ -367,27 +378,82 @@ type CrayfishWebSocketRequest_REGISTER_MESSAGE struct {
 	UseVoice bool   `json:"use_voice"`
 }
 
-func CrayfishRegister() error {
-	message := &CrayfishWebSocketRequest_REGISTER_MESSAGE{
-		Number:   "",
-		Password: "",
-		Captcha:  "",
+type CrayfishWebSocketRequest_VERIFY_REGISTER_MESSAGE struct {
+	Number       string `json:"number"`
+	Code         uint64 `json:"confirm_code"`
+	SignalingKey []byte `json:"signaling_key"`
+}
+type CrayfishWebSocketResponse_VERIFY_REGISTER_MESSAGE struct {
+	UUID string `json:"uuid"`
+}
+
+func CrayfishRegister(registrationInfo *textsecure.RegistrationInfo) (*textsecure.CrayfishRegistration, error) {
+	log.Debugf("[axolotl-crayfish-ws] Registering via crayfish ask for phone")
+	var phoneNumber string
+	if !settings.SettingsModel.Registered {
+		phoneNumber = ui.GetPhoneNumber()
+	}
+	log.Debugf("[axolotl-crayfish-ws] Registering via crayfish ask for captcha")
+	captcha := ui.GetCaptchaToken()
+	log.Debugf("[axolotl-crayfish-ws] Registering via crayfish build message")
+	registerMessage := &CrayfishWebSocketRequest_REGISTER_MESSAGE{
+		Number:   phoneNumber,
+		Password: registrationInfo.Password(),
+		Captcha:  captcha,
 		UseVoice: false,
 	}
 	messageType := CrayfishWebSocketMessage_REQUEST
 	requestType := CrayfishWebSocketRequestMessageTyp_START_REGISTRATION
 	request := &CrayfishWebSocketRequestMessage{
 		Type:    &requestType,
-		Message: message,
+		Message: registerMessage,
 	}
-	registerMessage := &CrayfishWebSocketMessage{
+	registerRequestMessage := &CrayfishWebSocketMessage{
 		Type:    &messageType,
 		Request: request,
 	}
-	m, err := json.Marshal(registerMessage)
+	m, err := json.Marshal(registerRequestMessage)
 	if err != nil {
-		return err
+		return nil, err
 	}
+	log.Debugf("[axolotl-crayfish-ws] Registering via crayfish send")
 	wsconn.send <- m
-	return nil
+
+	code := ui.GetVerificationCode()
+	codeInt, err := strconv.ParseUint(code, 10, 32)
+	if err != nil {
+		return nil, err
+	}
+	requestType = CrayfishWebSocketRequestMessageTyp_VERIFY_REGISTRATION
+	verificationMessage := &CrayfishWebSocketRequest_VERIFY_REGISTER_MESSAGE{
+		Number:       phoneNumber,
+		Code:         codeInt,
+		SignalingKey: registrationInfo.SignalingKey(),
+	}
+	requestVerifyType := CrayfishWebSocketRequestMessageTyp_VERIFY_REGISTRATION
+	verificationRequest := &CrayfishWebSocketRequestMessage{
+		Type:    &requestVerifyType,
+		Message: verificationMessage,
+	}
+	verificationRequestMessage := &CrayfishWebSocketMessage{
+		Type:    &messageType,
+		Request: verificationRequest,
+	}
+	mv, err := json.Marshal(verificationRequestMessage)
+	if err != nil {
+		return nil, err
+	}
+	log.Debugf("[axolotl-crayfish-ws] Registering via crayfish send verification")
+	wsconn.send <- mv
+	receiveChannel = make(chan *CrayfishWebSocketResponseMessage, 1)
+	response := <-receiveChannel
+	message, ok := response.Message.(CrayfishWebSocketResponse_VERIFY_REGISTER_MESSAGE)
+	if ok {
+		return &textsecure.CrayfishRegistration{
+			UUID: message.UUID,
+		}, nil
+	} else {
+		return nil, errors.New("[axolotl-crayfish-ws] Failed to parse response")
+	}
+
 }

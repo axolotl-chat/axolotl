@@ -88,8 +88,11 @@ func (Api *TextsecureAPI) SetLogLevel() {
 	textsecure.WriteConfig(config.ConfigFile, config.Config)
 }
 func RegisterWithCrayfish(regisrationInfo *textsecure.RegistrationInfo) (*textsecure.CrayfishRegistration, error) {
-	CrayfishRegister()
-	return nil, errors.New("[axolotl] crayfish registration not implemented")
+	registration, err := CrayfishRegister(regisrationInfo)
+	if err != nil {
+		return nil, err
+	}
+	return registration, nil
 
 }
 func RunBackend() {

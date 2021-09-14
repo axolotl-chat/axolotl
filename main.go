@@ -144,6 +144,7 @@ var wg sync.WaitGroup
 
 func main() {
 	setup()
+	wg.Add(1)
 	go runRustBackend()
 	wg.Add(1)
 	runBackend()
