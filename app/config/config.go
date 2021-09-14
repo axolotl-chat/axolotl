@@ -71,6 +71,7 @@ func GetConfig() (*textsecureConfig.Config, error) {
 	Config.UnencryptedStorage = true
 
 	Config.LogLevel = "debug"
+	Config.CrayfishSupport = true
 	Config.AlwaysTrustPeerID = true
 	rootCA := filepath.Join(ConfigDir, "rootCA.crt")
 	if helpers.Exists(rootCA) {

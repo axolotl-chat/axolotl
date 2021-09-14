@@ -41,8 +41,8 @@ func runBackend() {
 	}
 }
 func runRustBackend() {
-	go worker.RunRustBackend()
-	go worker.BackendStartListening()
+	defer wg.Done()
+	worker.RunRustBackend()
 
 }
 func runUI() error {
@@ -144,8 +144,9 @@ var wg sync.WaitGroup
 
 func main() {
 	setup()
+	go runRustBackend()
+	wg.Add(1)
 	runBackend()
-	runRustBackend()
 	log.Println("[axolotl] Setup completed")
 	wg.Add(1)
 	go runWebserver()
@@ -155,5 +156,6 @@ func main() {
 	} else {
 		log.Printf("[axolotl] Axolotl frontend is at http://" + config.ServerHost + ":" + config.ServerPort + "/")
 	}
+
 	wg.Wait()
 }

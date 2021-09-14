@@ -5,8 +5,8 @@ import (
 
 	"github.com/nanu-c/axolotl/app/config"
 
-	yaml "gopkg.in/yaml.v2"
 	log "github.com/sirupsen/logrus"
+	yaml "gopkg.in/yaml.v2"
 )
 
 // Model for application settings

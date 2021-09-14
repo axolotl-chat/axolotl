@@ -18,6 +18,7 @@ import (
 )
 
 func RunRustBackend() {
+	defer func() {}()
 	var cmd *exec.Cmd
 	log.Infoln("[axolotl] Starting crayfish-backend")
 	if _, err := os.Stat("./crayfish"); err == nil {
@@ -33,23 +34,26 @@ func RunRustBackend() {
 	if err != nil {
 		log.Fatalf("[axolotl] Starting crayfish-backend cmd.Start() failed with '%s'\n", err)
 	}
+
+	go BackendStartListening()
 	var wg sync.WaitGroup
 	wg.Add(1)
 	go func() {
 		stdout, errStdout = copyAndCapture(os.Stdout, stdoutIn)
 		wg.Done()
 	}()
-
 	stderr, errStderr = copyAndCapture(os.Stderr, stderrIn)
-
 	wg.Wait()
 
 	err = cmd.Wait()
+	if err != nil {
+		log.Fatalf("[axolotl] Starting crayfish-backend cmd.Wait() failed with '%s'\n", err)
+	}
 	if errStdout != nil || errStderr != nil {
 		log.Fatal("[axolotl] failed to capture stdout or stderr\n")
 	}
 	outStr, errStr := string(stdout), string(stderr)
-	log.Infof("\nout:\n%s\nerr:\n%s\n", outStr, errStr)
+	log.Infof("[axolotl] crayfish out:\n%s\nerr:\n%s\n", outStr, errStr)
 	log.Infof("[axolotl] Crayfish-backend finished with error: %v", err)
 
 }
@@ -76,43 +80,43 @@ func copyAndCapture(w io.Writer, r io.Reader) ([]byte, error) {
 	}
 }
 
-type CryfishWebSocketMessageType int32
+type CrayfishWebSocketMessageType int32
 
 const (
-	CryfishWebSocketMessage_UNKNOWN  CryfishWebSocketMessageType = 0
-	CryfishWebSocketMessage_REQUEST  CryfishWebSocketMessageType = 1
-	CryfishWebSocketMessage_RESPONSE CryfishWebSocketMessageType = 2
+	CrayfishWebSocketMessage_UNKNOWN  CrayfishWebSocketMessageType = 0
+	CrayfishWebSocketMessage_REQUEST  CrayfishWebSocketMessageType = 1
+	CrayfishWebSocketMessage_RESPONSE CrayfishWebSocketMessageType = 2
 )
 
-type CryfishWebSocketMessage struct {
-	Type     *CryfishWebSocketMessageType     `json:"type,omitempty"`
-	Request  *CryfishWebSocketRequestMessage  `json:"request,omitempty"`
-	Response *CryfishWebSocketResponseMessage `json:"response,omitempty"`
+type CrayfishWebSocketMessage struct {
+	Type     *CrayfishWebSocketMessageType     `json:"type,omitempty"`
+	Request  *CrayfishWebSocketRequestMessage  `json:"request,omitempty"`
+	Response *CrayfishWebSocketResponseMessage `json:"response,omitempty"`
 }
-type CryfishWebSocketRequestMessageType int32
+type CrayfishWebSocketRequestMessageType int32
 
 const (
-	CryfishWebSocketRequestMessageTyp_UNKNOWN              CryfishWebSocketRequestMessageType = 0
-	CryfishWebSocketRequestMessageTyp_START_REGISTRATION   CryfishWebSocketRequestMessageType = 1
-	CryfishWebSocketRequestMessageTyp_CONFIRM_REGISTRATION CryfishWebSocketRequestMessageType = 2
+	CrayfishWebSocketRequestMessageTyp_UNKNOWN              CrayfishWebSocketRequestMessageType = 0
+	CrayfishWebSocketRequestMessageTyp_START_REGISTRATION   CrayfishWebSocketRequestMessageType = 1
+	CrayfishWebSocketRequestMessageTyp_CONFIRM_REGISTRATION CrayfishWebSocketRequestMessageType = 2
 )
 
-type CryfishWebSocketRequestMessage struct {
-	Type    *CryfishWebSocketRequestMessageType `json:"type,omitempty"`
-	Message *string                             `json:"message,omitempty"`
+type CrayfishWebSocketRequestMessage struct {
+	Type    *CrayfishWebSocketRequestMessageType `json:"type,omitempty"`
+	Message interface{}                          `json:"message,omitempty"`
 }
 
-type CryfishWebSocketResponseMessageType int32
+type CrayfishWebSocketResponseMessageType int32
 
 const (
-	CryfishWebSocketResponseMessageTyp_UNKNOWN              CryfishWebSocketResponseMessageType = 0
-	CryfishWebSocketResponseMessageTyp_ACK                  CryfishWebSocketResponseMessageType = 1
-	CryfishWebSocketResponseMessageTyp_CONFIRM_REGISTRATION CryfishWebSocketResponseMessageType = 2
+	CrayfishWebSocketResponseMessageTyp_UNKNOWN              CrayfishWebSocketResponseMessageType = 0
+	CrayfishWebSocketResponseMessageTyp_ACK                  CrayfishWebSocketResponseMessageType = 1
+	CrayfishWebSocketResponseMessageTyp_CONFIRM_REGISTRATION CrayfishWebSocketResponseMessageType = 2
 )
 
-type CryfishWebSocketResponseMessage struct {
-	Type    *CryfishWebSocketResponseMessageType `json:"type,omitempty"`
-	Message *string                              `json:"message,omitempty"`
+type CrayfishWebSocketResponseMessage struct {
+	Type    *CrayfishWebSocketResponseMessageType `json:"type,omitempty"`
+	Message interface{}                           `json:"message,omitempty"`
 }
 
 const (
@@ -145,7 +149,7 @@ var wsconn *Conn
 func (c *Conn) connect(originURL string) error {
 	u, _ := url.Parse(originURL)
 
-	log.Debugf("[axolotl] cryfish websocket Connecting to signal-server")
+	log.Debugf("[axolotl] cryfish websocket connecting to cryfish-server")
 
 	var err error
 	d := &websocket.Dialer{
@@ -167,14 +171,21 @@ func (c *Conn) connect(originURL string) error {
 	return nil
 }
 
+type ACKMessage struct {
+	Status string `json:"status"`
+}
+
 // Send ack response message
 func (c *Conn) sendAck(id uint64) error {
-	typ := CryfishWebSocketMessage_RESPONSE
-	message := "OK"
-
-	csm := &CryfishWebSocketMessage{
+	typ := CrayfishWebSocketMessage_RESPONSE
+	message := ACKMessage{
+		Status: "ok",
+	}
+	responseType := CrayfishWebSocketResponseMessageTyp_ACK
+	csm := &CrayfishWebSocketMessage{
 		Type: &typ,
-		Response: &CryfishWebSocketResponseMessage{
+		Response: &CrayfishWebSocketResponseMessage{
+			Type:    &responseType,
 			Message: &message,
 		},
 	}
@@ -183,6 +194,7 @@ func (c *Conn) sendAck(id uint64) error {
 	if err != nil {
 		return err
 	}
+	log.Debugln("[axolotl] cryfish websocket sending ack response ", string(b))
 
 	c.send <- b
 	return nil
@@ -212,7 +224,7 @@ func (c *Conn) writeWorker() {
 			}
 
 			log.Debugf("[axolotl] cryfish websocket sending message")
-			if err := c.write(websocket.BinaryMessage, message); err != nil {
+			if err := c.write(websocket.TextMessage, message); err != nil {
 				log.WithFields(log.Fields{
 					"error": err,
 				}).Error("[axolotl] cryfish Failed to send websocket message")
@@ -229,9 +241,26 @@ func (c *Conn) writeWorker() {
 		}
 	}
 }
-
-// StartListening connects to the server and handles incoming websocket messages.
 func BackendStartListening() error {
+	defer func() {
+		for {
+			err := BackendStartWebsocket()
+			if err != nil {
+				log.WithFields(log.Fields{
+					"error": err,
+				}).Error("[axolotl] cryfish Failed to start listening")
+				time.Sleep(time.Second * 5)
+			}
+
+			log.Debugf("[axolotl] cryfish BackendStartListening")
+		}
+	}()
+	return nil
+
+}
+
+// BackendStartWebsocket connects to the server and handles incoming websocket messages.
+func BackendStartWebsocket() error {
 	var err error
 
 	wsconn = &Conn{send: make(chan []byte, 256)}
@@ -250,6 +279,7 @@ func BackendStartListening() error {
 	wsconn.ws.SetPongHandler(func(string) error {
 		log.Debugf("[axolotl] cryfish Received websocket pong message")
 		wsconn.ws.SetReadDeadline(time.Now().Add(pongWait))
+		// CrayfishRegister() enable for testing purposes
 		return nil
 	})
 
@@ -262,7 +292,7 @@ func BackendStartListening() error {
 			return err
 		}
 
-		csm := &CryfishWebSocketMessage{}
+		csm := &CrayfishWebSocketMessage{}
 		err = json.Unmarshal(bmsg, csm)
 		if err != nil {
 			log.WithFields(log.Fields{
@@ -270,15 +300,17 @@ func BackendStartListening() error {
 			}).Error("[axolotl] cryfish Failed to unmarshal websocket message")
 			return err
 		}
-		if *csm.Type == CryfishWebSocketMessage_REQUEST {
-			err = handleCryfishRequestMessage(csm.Request)
+		if csm.Type == nil {
+			log.Errorf("[axolotl] cryfish Websocket message type is nil", string(bmsg))
+		} else if *csm.Type == CrayfishWebSocketMessage_REQUEST {
+			err = handleCrayfishRequestMessage(csm.Request)
 			if err != nil {
 				log.WithFields(log.Fields{
 					"error": err,
 				}).Error("[axolotl] cryfish Failed to handle received request message")
 			}
-		} else if *csm.Type == CryfishWebSocketMessage_RESPONSE {
-			err = handleCryfishResponseMessage(csm.Response)
+		} else if *csm.Type == CrayfishWebSocketMessage_RESPONSE {
+			err = handleCrayfishResponseMessage(csm.Response)
 			if err != nil {
 				log.WithFields(log.Fields{
 					"error": err,
@@ -288,12 +320,14 @@ func BackendStartListening() error {
 		} else {
 			log.Errorln("[axolotl] cryfish failed to handle incoming websocket message")
 		}
-		err = wsconn.sendAck(200)
-		if err != nil {
-			log.WithFields(log.Fields{
-				"error": err,
-			}).Error("[axolotl] cryfish Failed to send ack")
-			return err
+		if csm.Type != nil {
+			err = wsconn.sendAck(200)
+			if err != nil {
+				log.WithFields(log.Fields{
+					"error": err,
+				}).Error("[axolotl] cryfish Failed to send ack")
+				return err
+			}
 		}
 
 	}
@@ -317,11 +351,43 @@ func StopListening() error {
 	return nil
 }
 
-func handleCryfishRequestMessage(request *CryfishWebSocketRequestMessage) error {
+func handleCrayfishRequestMessage(request *CrayfishWebSocketRequestMessage) error {
 	return nil
 
 }
 
-func handleCryfishResponseMessage(response *CryfishWebSocketResponseMessage) error {
+func handleCrayfishResponseMessage(response *CrayfishWebSocketResponseMessage) error {
+	return nil
+}
+
+type CrayfishWebSocketRequest_REGISTER_MESSAGE struct {
+	Number   string `json:"number"`
+	Password string `json:"password"`
+	Captcha  string `json:"captcha"`
+	UseVoice bool   `json:"use_voice"`
+}
+
+func CrayfishRegister() error {
+	message := &CrayfishWebSocketRequest_REGISTER_MESSAGE{
+		Number:   "",
+		Password: "",
+		Captcha:  "",
+		UseVoice: false,
+	}
+	messageType := CrayfishWebSocketMessage_REQUEST
+	requestType := CrayfishWebSocketRequestMessageTyp_START_REGISTRATION
+	request := &CrayfishWebSocketRequestMessage{
+		Type:    &requestType,
+		Message: message,
+	}
+	registerMessage := &CrayfishWebSocketMessage{
+		Type:    &messageType,
+		Request: request,
+	}
+	m, err := json.Marshal(registerMessage)
+	if err != nil {
+		return err
+	}
+	wsconn.send <- m
 	return nil
 }
