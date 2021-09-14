@@ -89,7 +89,7 @@ func (Api *TextsecureAPI) SetLogLevel() {
 }
 func RegisterWithCrayfish(regisrationInfo *textsecure.RegistrationInfo) (*textsecure.CrayfishRegistration, error) {
 	CrayfishRegister()
-	return nil, errors.New("[axolotl] cryfish registration not implemented")
+	return nil, errors.New("[axolotl] crayfish registration not implemented")
 
 }
 func RunBackend() {

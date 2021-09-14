@@ -149,7 +149,7 @@ var wsconn *Conn
 func (c *Conn) connect(originURL string) error {
 	u, _ := url.Parse(originURL)
 
-	log.Debugf("[axolotl] cryfish websocket connecting to cryfish-server")
+	log.Debugf("[axolotl] crayfish websocket connecting to crayfish-server")
 
 	var err error
 	d := &websocket.Dialer{
@@ -166,7 +166,7 @@ func (c *Conn) connect(originURL string) error {
 		return err
 	}
 
-	log.Debugf("[axolotl] cryfish websocket Connected successfully")
+	log.Debugf("[axolotl] crayfish websocket Connected successfully")
 
 	return nil
 }
@@ -194,7 +194,7 @@ func (c *Conn) sendAck(id uint64) error {
 	if err != nil {
 		return err
 	}
-	log.Debugln("[axolotl] cryfish websocket sending ack response ", string(b))
+	log.Debugln("[axolotl] crayfish websocket sending ack response ", string(b))
 
 	c.send <- b
 	return nil
@@ -210,7 +210,7 @@ func (c *Conn) write(mt int, payload []byte) error {
 func (c *Conn) writeWorker() {
 	ticker := time.NewTicker(pingPeriod)
 	defer func() {
-		log.Debugf("[axolotl] cryfish closing writeWorker")
+		log.Debugf("[axolotl] crayfish closing writeWorker")
 		ticker.Stop()
 		c.ws.Close()
 	}()
@@ -218,24 +218,24 @@ func (c *Conn) writeWorker() {
 		select {
 		case message, ok := <-c.send:
 			if !ok {
-				log.Errorf("[axolotl] cryfish failed to read message from channel")
+				log.Errorf("[axolotl] crayfish failed to read message from channel")
 				c.write(websocket.CloseMessage, []byte{})
 				return
 			}
 
-			log.Debugf("[axolotl] cryfish websocket sending message")
+			log.Debugf("[axolotl] crayfish websocket sending message")
 			if err := c.write(websocket.TextMessage, message); err != nil {
 				log.WithFields(log.Fields{
 					"error": err,
-				}).Error("[axolotl] cryfish Failed to send websocket message")
+				}).Error("[axolotl] crayfish Failed to send websocket message")
 				return
 			}
 		case <-ticker.C:
-			log.Debugf("[axolotl] cryfish Sending websocket ping message")
+			log.Debugf("[axolotl] crayfish Sending websocket ping message")
 			if err := c.write(websocket.PingMessage, nil); err != nil {
 				log.WithFields(log.Fields{
 					"error": err,
-				}).Error("[axolotl] cryfish Failed to send websocket ping message")
+				}).Error("[axolotl] crayfish Failed to send websocket ping message")
 				return
 			}
 		}
@@ -248,11 +248,11 @@ func BackendStartListening() error {
 			if err != nil {
 				log.WithFields(log.Fields{
 					"error": err,
-				}).Error("[axolotl] cryfish Failed to start listening")
+				}).Error("[axolotl] crayfish Failed to start listening")
 				time.Sleep(time.Second * 5)
 			}
 
-			log.Debugf("[axolotl] cryfish BackendStartListening")
+			log.Debugf("[axolotl] crayfish BackendStartListening")
 		}
 	}()
 	return nil
@@ -277,7 +277,7 @@ func BackendStartWebsocket() error {
 
 	wsconn.ws.SetReadDeadline(time.Now().Add(pongWait))
 	wsconn.ws.SetPongHandler(func(string) error {
-		log.Debugf("[axolotl] cryfish Received websocket pong message")
+		log.Debugf("[axolotl] crayfish Received websocket pong message")
 		wsconn.ws.SetReadDeadline(time.Now().Add(pongWait))
 		// CrayfishRegister() enable for testing purposes
 		return nil
@@ -287,7 +287,7 @@ func BackendStartWebsocket() error {
 		_, bmsg, err := wsconn.ws.ReadMessage()
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
-				log.Debugf("[axolotl] cryfish Websocket UnexpectedCloseError: %s", err)
+				log.Debugf("[axolotl] crayfish Websocket UnexpectedCloseError: %s", err)
 			}
 			return err
 		}
@@ -297,35 +297,35 @@ func BackendStartWebsocket() error {
 		if err != nil {
 			log.WithFields(log.Fields{
 				"error": err,
-			}).Error("[axolotl] cryfish Failed to unmarshal websocket message")
+			}).Error("[axolotl] crayfish Failed to unmarshal websocket message")
 			return err
 		}
 		if csm.Type == nil {
-			log.Errorf("[axolotl] cryfish Websocket message type is nil", string(bmsg))
+			log.Errorf("[axolotl] crayfish Websocket message type is nil", string(bmsg))
 		} else if *csm.Type == CrayfishWebSocketMessage_REQUEST {
 			err = handleCrayfishRequestMessage(csm.Request)
 			if err != nil {
 				log.WithFields(log.Fields{
 					"error": err,
-				}).Error("[axolotl] cryfish Failed to handle received request message")
+				}).Error("[axolotl] crayfish Failed to handle received request message")
 			}
 		} else if *csm.Type == CrayfishWebSocketMessage_RESPONSE {
 			err = handleCrayfishResponseMessage(csm.Response)
 			if err != nil {
 				log.WithFields(log.Fields{
 					"error": err,
-				}).Error("[axolotl] cryfish Failed to handle received request message")
+				}).Error("[axolotl] crayfish Failed to handle received request message")
 			}
 
 		} else {
-			log.Errorln("[axolotl] cryfish failed to handle incoming websocket message")
+			log.Errorln("[axolotl] crayfish failed to handle incoming websocket message")
 		}
 		if csm.Type != nil {
 			err = wsconn.sendAck(200)
 			if err != nil {
 				log.WithFields(log.Fields{
 					"error": err,
-				}).Error("[axolotl] cryfish Failed to send ack")
+				}).Error("[axolotl] crayfish Failed to send ack")
 				return err
 			}
 		}
@@ -336,7 +336,7 @@ func BackendStartWebsocket() error {
 
 // ErrNotListening is returned when trying to stop listening when there's no
 // valid listening connection set up
-var ErrNotListening = errors.New("[axolotl] cryfish there is no listening connection to stop")
+var ErrNotListening = errors.New("[axolotl] crayfish there is no listening connection to stop")
 
 // StopListening disables the receiving of messages.
 func StopListening() error {
