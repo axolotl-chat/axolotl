@@ -1,3 +1,15 @@
+1.0.4 (Sep 12 2021)
+------------------------------------
+* Fix sending messages (nanu-c)
+* Makefile + Debian packaging improvements (nuehm-arno)
+* Update French translations (Anne017)
+
+1.0.3 (Sep 03 2021) Quick and dirty
+------------------------------------
+* Add support for unidentified sender, fixes sending messages partly (nanu-c)
+* Better group error handling (nanu-c)
+* Makefile + Debian packaging improvements (nuehm-arno) 
+
 1.0.2 (Aug 23 2021)
 ------------------------------------
 * Updated Finnish translation (orenomfi)
