@@ -38,5 +38,5 @@ pub async fn process_request(req: Request) {
 
 pub fn authenticated_service_with_credentials(credentials: ServiceCredentials) -> AwcPushService {
     // TODO switch to production when working
-    AwcPushService::new(SignalServers::Staging, Some(credentials), USER_AGENT.into())
+    AwcPushService::new(SignalServers::Production, Some(credentials), USER_AGENT.into())
 }

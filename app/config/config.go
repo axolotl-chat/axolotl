@@ -59,6 +59,13 @@ func GetConfig() (*textsecureConfig.Config, error) {
 			cf = filepath.Join(ConfigDir, "config.yml")
 		}
 	}
+	if _, err := os.Stat(ConfigFile); os.IsNotExist(err) {
+		log.Debugln("[axolotl] create config file")
+		_, err := os.OpenFile(ConfigFile, os.O_RDONLY|os.O_CREATE, 0600)
+		if err != nil {
+			log.Errorln("[axolotl] creating config file", err.Error())
+		}
+	}
 	var err error
 	if helpers.Exists(cf) {
 		Config, err = textsecure.ReadConfig(cf)
@@ -80,6 +87,7 @@ func GetConfig() (*textsecureConfig.Config, error) {
 	return Config, err
 }
 func SetupConfig() {
+	log.Debugln("[axolotl] setup config")
 
 	IsPhone = helpers.Exists("/home/phablet")
 	IsPushHelper = filepath.Base(os.Args[0]) == "pushHelper"

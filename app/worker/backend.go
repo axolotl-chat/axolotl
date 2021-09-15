@@ -16,6 +16,7 @@ import (
 	"github.com/gorilla/websocket"
 	"github.com/nanu-c/axolotl/app/settings"
 	"github.com/nanu-c/axolotl/app/ui"
+	uuid "github.com/satori/go.uuid"
 	"github.com/signal-golang/textsecure"
 	"github.com/signal-golang/textsecure/rootCa"
 	log "github.com/sirupsen/logrus"
@@ -221,7 +222,7 @@ func (c *Conn) writeWorker() {
 	for {
 		select {
 		case message, ok := <-c.send:
-			log.Debugln("[axolotl-crayfish-ws] incoming websocket message")
+			log.Debugln("[axolotl-crayfish-ws] incoming ws send message", string(message))
 			if !ok {
 				log.Errorf("[axolotl-crayfish-ws] failed to read message from channel")
 				c.write(websocket.CloseMessage, []byte{})
@@ -295,7 +296,7 @@ func BackendStartWebsocket() error {
 			}
 			return err
 		}
-
+		log.Debugln("[axolotl-crayfish-ws] incoming msg", string(bmsg))
 		csm := &CrayfishWebSocketMessage{}
 		err = json.Unmarshal(bmsg, csm)
 		if err != nil {
@@ -364,8 +365,8 @@ func handleCrayfishRequestMessage(request *CrayfishWebSocketRequestMessage) erro
 var receiveChannel chan *CrayfishWebSocketResponseMessage
 
 func handleCrayfishResponseMessage(response *CrayfishWebSocketResponseMessage) error {
-	log.Debugf("[axolotl-crayfish-ws] Received websocket request message %v", response)
-	if receiveChannel != nil {
+	log.Debugf("[axolotl-crayfish-ws] Received websocket response message %v", response)
+	if receiveChannel != nil && *response.Type > 1 {
 		receiveChannel <- response
 	}
 	return nil
@@ -379,12 +380,14 @@ type CrayfishWebSocketRequest_REGISTER_MESSAGE struct {
 }
 
 type CrayfishWebSocketRequest_VERIFY_REGISTER_MESSAGE struct {
-	Number       string `json:"number"`
-	Code         uint64 `json:"confirm_code"`
-	SignalingKey []byte `json:"signaling_key"`
+	Code         uint64   `json:"confirm_code"`
+	Number       string   `json:"number"`
+	Password     string   `json:"password"`
+	SignalingKey [52]byte `json:"signaling_key"`
 }
 type CrayfishWebSocketResponse_VERIFY_REGISTER_MESSAGE struct {
-	UUID string `json:"uuid"`
+	UUID           [16]byte `json:"uuid"`
+	StorageCapable bool     `json:"storage_capable"`
 }
 
 func CrayfishRegister(registrationInfo *textsecure.RegistrationInfo) (*textsecure.CrayfishRegistration, error) {
@@ -425,10 +428,13 @@ func CrayfishRegister(registrationInfo *textsecure.RegistrationInfo) (*textsecur
 		return nil, err
 	}
 	requestType = CrayfishWebSocketRequestMessageTyp_VERIFY_REGISTRATION
+	var signalingKey [52]byte
+	copy(signalingKey[:], registrationInfo.SignalingKey())
 	verificationMessage := &CrayfishWebSocketRequest_VERIFY_REGISTER_MESSAGE{
 		Number:       phoneNumber,
 		Code:         codeInt,
-		SignalingKey: registrationInfo.SignalingKey(),
+		SignalingKey: signalingKey,
+		Password:     registrationInfo.Password(),
 	}
 	requestVerifyType := CrayfishWebSocketRequestMessageTyp_VERIFY_REGISTRATION
 	verificationRequest := &CrayfishWebSocketRequestMessage{
@@ -447,13 +453,19 @@ func CrayfishRegister(registrationInfo *textsecure.RegistrationInfo) (*textsecur
 	wsconn.send <- mv
 	receiveChannel = make(chan *CrayfishWebSocketResponseMessage, 1)
 	response := <-receiveChannel
-	message, ok := response.Message.(CrayfishWebSocketResponse_VERIFY_REGISTER_MESSAGE)
-	if ok {
-		return &textsecure.CrayfishRegistration{
-			UUID: message.UUID,
-		}, nil
-	} else {
-		return nil, errors.New("[axolotl-crayfish-ws] Failed to parse response")
+	rm, err := json.Marshal(response.Message)
+	if err != nil {
+		return nil, err
 	}
-
+	var data CrayfishWebSocketResponse_VERIFY_REGISTER_MESSAGE
+	json.Unmarshal(rm, &data)
+	uuidString, err := uuid.FromBytes(data.UUID[:])
+	if err != nil {
+		return nil, err
+	}
+	log.Debugf("[axolotl-crayfish-ws] Registering via crayfish uuid %s", uuidString.String())
+	return &textsecure.CrayfishRegistration{
+		UUID: uuidString.String(),
+		Tel:  phoneNumber,
+	}, nil
 }

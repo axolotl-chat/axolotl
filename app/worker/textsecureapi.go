@@ -85,7 +85,7 @@ func (Api *TextsecureAPI) SetLogLevel() {
 		Api.LogLevel = false
 	}
 	Api.SaveSettings()
-	textsecure.WriteConfig(config.ConfigFile, config.Config)
+	// textsecure.WriteConfig(config.ConfigFile, config.Config)
 }
 func RegisterWithCrayfish(regisrationInfo *textsecure.RegistrationInfo) (*textsecure.CrayfishRegistration, error) {
 	registration, err := CrayfishRegister(regisrationInfo)
@@ -245,7 +245,7 @@ func startSession() {
 			Storage:      false,
 			Gv1Migration: false,
 		}
-		err := textsecure.WriteConfig(config.ConfigFile, config.Config)
+		// err := textsecure.WriteConfig(config.ConfigFile, config.Config)
 		if err != nil {
 			log.Debugln("[axolotl] gv2 migration save config: ", err)
 		}

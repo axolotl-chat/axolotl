@@ -125,7 +125,7 @@ async fn handle_register_confirm(content: &str, tx: &mpsc::Sender<Request>) -> R
     Ok(Message::text(
         serde_json::to_string(&NestedResponse::new(
             RegistrationData {
-                uuid: response_data.uuid.as_u128(),
+                uuid: *response_data.uuid.as_bytes(),
                 storage_capable: response_data.storage_capable,
             },
             CRYFISH_WEBSOCKET_MESSAGE_CONFIRM_REGISTRAION,
@@ -200,6 +200,6 @@ struct Success {
 
 #[derive(Serialize)]
 struct RegistrationData {
-    uuid: u128,
+    uuid: [u8; 16],
     storage_capable: bool,
 }

@@ -1,20 +1,19 @@
 package ui
 
 import (
-	"fmt"
-	"io"
-	"os"
-	"os/exec"
-	"os/signal"
-	"sync"
+  "fmt"
+  "io"
+  "os"
+  "os/exec"
+  "os/signal"
+  "sync"
 
-	"github.com/nanu-c/axolotl/app/config"
-	"github.com/nanu-c/axolotl/app/settings"
-	"github.com/nanu-c/axolotl/app/store"
-	"github.com/nanu-c/axolotl/app/webserver"
-	"github.com/signal-golang/textsecure"
-	log "github.com/sirupsen/logrus"
-	"github.com/zserge/lorca"
+  "github.com/nanu-c/axolotl/app/config"
+  "github.com/nanu-c/axolotl/app/settings"
+  "github.com/nanu-c/axolotl/app/store"
+  "github.com/nanu-c/axolotl/app/webserver"
+  log "github.com/sirupsen/logrus"
+  "github.com/zserge/lorca"
 )
 
 func GroupUpdateMsg(tels []string, title string) string {
@@ -30,7 +29,7 @@ func GroupUpdateMsg(tels []string, title string) string {
 }
 func RegistrationDone() {
 	log.Infoln("[axolotl] Registered")
-	textsecure.WriteConfig(config.ConfigFile, config.Config)
+	//textsecure.WriteConfig(config.ConfigFile, config.Config)
 	settings.SettingsModel.Registered = true
 	webserver.RegistrationDone()
 }
