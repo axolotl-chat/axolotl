@@ -316,7 +316,7 @@ func BackendStartWebsocket() error {
 			return err
 		}
 		if csm.Type == nil {
-			log.Errorf("[axolotl-crayfish-ws] Websocket message type is nil", string(bmsg))
+			log.Errorln("[axolotl-crayfish-ws] Websocket message type is nil", string(bmsg))
 		} else if *csm.Type == CrayfishWebSocketMessage_REQUEST {
 			err = handleCrayfishRequestMessage(csm.Request)
 			if err != nil {
