@@ -1,12 +1,16 @@
+mod handlers;
+mod types;
+
+use futures::{SinkExt, StreamExt};
 use std::convert::Infallible;
 use tokio::sync::mpsc;
+use warp::ws::WebSocket;
 use warp::Reply;
 use warp::{Filter, Rejection};
 
 use crate::requests::handle_requests;
 use crate::requests::RequestSender;
-
-pub mod ws;
+use types::ErrorMessage;
 
 pub async fn start_websocket() {
     let port = 9081;
@@ -37,5 +41,35 @@ fn with_channel(
 }
 
 async fn ws_handler(ws: warp::ws::Ws, tx: RequestSender) -> Result<impl Reply, Rejection> {
-    Ok(ws.on_upgrade(move |socket| ws::client_connection(socket, tx)))
+    Ok(ws.on_upgrade(move |socket| client_connection(socket, tx)))
+}
+
+pub async fn client_connection(mut ws: WebSocket, tx: RequestSender) {
+    println!("establishing client connection... {:?}", ws);
+
+    while let Some(result) = ws.next().await {
+        let msg = match result {
+            Ok(msg) => msg,
+            Err(e) => {
+                println!("error receiving message: {}", e);
+                continue;
+            }
+        };
+
+        if msg.is_close() {
+            break;
+        }
+
+        let response = match handlers::handle_message(msg, &tx).await {
+            Ok(response) => response,
+            Err(e) => ErrorMessage::new_msg(e),
+        };
+
+        let result = ws.send(response).await;
+        if let Err(e) = result {
+            println!("error sending message back: {}", e);
+        }
+    }
+
+    println!("client disconnected");
 }
