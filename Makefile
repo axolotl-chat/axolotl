@@ -239,9 +239,9 @@ install-deb-arm64: uninstall-deb-arm64
 # Copy libzkgroup
 	@sudo $(WGET) https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_aarch64.so --directory-prefix=$(DESTDIR)$(LIBRARY_PREFIX)/
 #	Copy binary and helpers
-  @sudo mkdir --parents $(DESTDIR)$(SHARE_PREFIX)/axolotl
+	@sudo mkdir --parents $(DESTDIR)$(SHARE_PREFIX)/axolotl
 	@sudo cp --recursive $(CURRENT_DIR)/build/linux-arm64/* $(DESTDIR)$(SHARE_PREFIX)/axolotl/
-  @sudo mv $(DESTDIR)$(SHARE_PREFIX)/axolotl/axolotl $(DESTDIR)$(INSTALL_PREFIX)/
+	@sudo mv $(DESTDIR)$(SHARE_PREFIX)/axolotl/axolotl $(DESTDIR)$(INSTALL_PREFIX)/
 	@sudo cp $(CURRENT_DIR)/deb/axolotl.desktop $(DESTDIR)$(SHARE_PREFIX)/applications/
 	@sudo cp $(CURRENT_DIR)/deb/axolotl.png $(DESTDIR)$(SHARE_PREFIX)/icons/hicolor/128x128/apps/
 	@sudo cp $(CURRENT_DIR)/deb/axolotl.sh /etc/profile.d
