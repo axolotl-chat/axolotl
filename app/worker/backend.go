@@ -28,8 +28,17 @@ func RunRustBackend() {
 	log.Infoln("[axolotl] Starting crayfish-backend")
 	if _, err := os.Stat("./crayfish"); err == nil {
 		cmd = exec.Command("./crayfish")
-	} else {
+	} else if _, err := os.Stat("./lib/aarch64-linux-gnu/bin/crayfish"); err == nil {
+		cmd = exec.Command("./lib/aarch64-linux-gnu/bin/crayfish")
+	} else if _, err := os.Stat("./lib/arm-linux-gnueabihf/bin/crayfish"); err == nil {
+		cmd = exec.Command("./lib/arm-linux-gnueabihf/bin/crayfish")
+	} else if _, err := os.Stat("./lib/x86_64-linux-gnu/bin/crayfish"); err == nil {
+		cmd = exec.Command("./lib/x86_64-linux-gnu/bin/crayfish")
+	} else if _, err := os.Stat("./backend/target/debug/crayfish"); err == nil {
 		cmd = exec.Command("./backend/target/debug/crayfish")
+	} else {
+		log.Errorln("[axolotl] crayfish not found")
+		cmd = exec.Command("pwd")
 	}
 	var stdout, stderr []byte
 	var errStdout, errStderr error
@@ -60,6 +69,7 @@ func RunRustBackend() {
 	outStr, errStr := string(stdout), string(stderr)
 	log.Infof("[axolotl-crayfish-ws] out:\n%s\nerr:\n%s\n", outStr, errStr)
 	log.Infof("[axolotl] Crayfish-backend finished with error: %v", err)
+	cmd.Process.Kill()
 
 }
 func copyAndCapture(w io.Writer, r io.Reader) ([]byte, error) {
