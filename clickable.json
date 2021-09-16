@@ -32,7 +32,7 @@
   ],
   "postbuild": "${ROOT}/scripts/postbuild.sh ${INSTALL_DIR};",
   "install_bin": [
-    "${BACKEND_LIB_INSTALL_DIR}/bin/backend"
+    "${BACKEND_LIB_INSTALL_DIR}/bin/crayfish"
   ],
   "libraries": {
     "backend": {
