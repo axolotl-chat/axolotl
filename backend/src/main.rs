@@ -1,9 +1,8 @@
+mod error;
 mod requests;
 mod service;
 
-use crate::service::start_websocket;
-
 #[actix_rt::main]
 async fn main() {
-    start_websocket().await;
+    service::start_websocket().await;
 }

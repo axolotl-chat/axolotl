@@ -1,16 +1,11 @@
-use crate::requests::registration;
-use crate::requests::Request;
-use crate::requests::Result;
+use crate::error::{Error, Result};
+use crate::requests::{registration, Request};
 use crate::service::RequestSender;
-use futures::SinkExt;
-use futures::StreamExt;
+use futures::{SinkExt, StreamExt};
 use libsignal_service::provisioning::VerificationCodeResponse;
-use serde::Deserialize;
-use serde::Serialize;
-use tokio::sync::mpsc;
-use tokio::sync::oneshot;
-use warp::ws::Message;
-use warp::ws::WebSocket;
+use serde::{Deserialize, Serialize};
+use tokio::sync::{mpsc, oneshot};
+use warp::ws::{Message, WebSocket};
 
 pub async fn client_connection(mut ws: WebSocket, tx: RequestSender) {
     println!("establishing client connection... {:?}", ws);
@@ -31,9 +26,9 @@ pub async fn client_connection(mut ws: WebSocket, tx: RequestSender) {
         let response = match handle_message(msg, &tx).await {
             Ok(response) => response,
             Err(e) => {
-                println!("error sending message back: {}", e);
+                println!("error sending message back: {}", e.msg);
                 Message::text(
-                    serde_json::to_string(&Error { error: e })
+                    serde_json::to_string(&ErrorMessage { error: e.msg })
                         .unwrap_or("{\"error\": \"Failed to generate response\"}".to_string()),
                 )
             }
@@ -51,19 +46,21 @@ pub async fn client_connection(mut ws: WebSocket, tx: RequestSender) {
 async fn handle_message(msg: Message, tx: &mpsc::Sender<Request>) -> Result<Message> {
     let content: &str = msg
         .to_str()
-        .map_err(|_| "Message is not text. Failed to parse.".to_string())?;
+        .map_err(|_| Error::new("Message is not text. Failed to parse."))?;
 
     let type_check: RequestMessage<TypeCheck> =
         serde_json::from_str(content).map_err(|e| e.to_string())?;
 
-    if type_check.type_t != CRYFISH_WEBSOCKET_TYPE_REQUEST {
-        return Err("Received Message is no valid request".to_string());
+    if type_check.type_t != CRAYFISH_WEBSOCKET_TYPE_REQUEST {
+        Error::is("Received Message is no valid request")?
     }
 
     match type_check.request.type_t {
-        CRYFISH_WEBSOCKET_MESSAGE_REGISTRATION => handle_register(content, tx).await,
-        CRYFISH_WEBSOCKET_MESSAGE_CONFIRM_REGISTRAION => handle_register_confirm(content, tx).await,
-        _ => Err("Received request type is invalid".to_string()),
+        CRAYFISH_WEBSOCKET_MESSAGE_REGISTRATION => handle_register(content, tx).await,
+        CRAYFISH_WEBSOCKET_MESSAGE_CONFIRM_REGISTRAION => {
+            handle_register_confirm(content, tx).await
+        }
+        _ => Error::is("Received request type is invalid"),
     }
 }
 
@@ -77,17 +74,13 @@ async fn handle_register(content: &str, tx: &mpsc::Sender<Request>) -> Result<Me
         .await
         .map_err(|e| e.to_string())?;
 
-    match cb_rx
-        .await
-        .map_err(|e| e.to_string())?
-        .map_err(|e| e.to_string())?
-    {
+    match cb_rx.await?? {
         VerificationCodeResponse::Issued => {
             println!("Registration request was sent");
             Ok(Message::text(
                 serde_json::to_string(&NestedResponse::new(
                     Success { success: true },
-                    CRYFISH_WEBSOCKET_MESSAGE_REGISTRATION,
+                    CRAYFISH_WEBSOCKET_MESSAGE_REGISTRATION,
                 ))
                 .map_err(|e| e.to_string())?,
             ))
@@ -96,10 +89,10 @@ async fn handle_register(content: &str, tx: &mpsc::Sender<Request>) -> Result<Me
             println!("Server requires a Captcha. Please generate one and try again!");
             Ok(Message::text(
                 serde_json::to_string(&NestedResponse::new(
-                    Error {
+                    ErrorMessage {
                         error: "Captcha required".to_string(),
                     },
-                    CRYFISH_WEBSOCKET_MESSAGE_REGISTRATION,
+                    CRAYFISH_WEBSOCKET_MESSAGE_REGISTRATION,
                 ))
                 .map_err(|e| e.to_string())?,
             ))
@@ -117,10 +110,7 @@ async fn handle_register_confirm(content: &str, tx: &mpsc::Sender<Request>) -> R
         .await
         .map_err(|e| e.to_string())?;
 
-    let response_data = cb_rx
-        .await
-        .map_err(|e| e.to_string())?
-        .map_err(|e| e.to_string())?;
+    let response_data = cb_rx.await??;
 
     Ok(Message::text(
         serde_json::to_string(&NestedResponse::new(
@@ -128,24 +118,24 @@ async fn handle_register_confirm(content: &str, tx: &mpsc::Sender<Request>) -> R
                 uuid: *response_data.uuid.as_bytes(),
                 storage_capable: response_data.storage_capable,
             },
-            CRYFISH_WEBSOCKET_MESSAGE_CONFIRM_REGISTRAION,
+            CRAYFISH_WEBSOCKET_MESSAGE_CONFIRM_REGISTRAION,
         ))
         .map_err(|e| e.to_string())?,
     ))
 }
 
-const CRYFISH_WEBSOCKET_TYPE_UNKNOWN: u32 = 0;
-const CRYFISH_WEBSOCKET_TYPE_REQUEST: u32 = 1;
-const CRYFISH_WEBSOCKET_TYPE_RESPONSE: u32 = 2;
+const _CRAYFISH_WEBSOCKET_TYPE_UNKNOWN: u32 = 0;
+const CRAYFISH_WEBSOCKET_TYPE_REQUEST: u32 = 1;
+const CRAYFISH_WEBSOCKET_TYPE_RESPONSE: u32 = 2;
 
-const CRYFISH_WEBSOCKET_MESSAGE_UNKNOWN: u32 = 0;
-const CRYFISH_WEBSOCKET_MESSAGE_REGISTRATION: u32 = 1;
-const CRYFISH_WEBSOCKET_MESSAGE_CONFIRM_REGISTRAION: u32 = 2;
+const _CRAYFISH_WEBSOCKET_MESSAGE_UNKNOWN: u32 = 0;
+const CRAYFISH_WEBSOCKET_MESSAGE_REGISTRATION: u32 = 1;
+const CRAYFISH_WEBSOCKET_MESSAGE_CONFIRM_REGISTRAION: u32 = 2;
 
 impl<T> NestedResponse<T> {
     fn new(message: T, type_t: u32) -> Self {
         NestedResponse {
-            type_t: CRYFISH_WEBSOCKET_TYPE_RESPONSE,
+            type_t: CRAYFISH_WEBSOCKET_TYPE_RESPONSE,
             response: ResponseBody { type_t, message },
         }
     }
@@ -169,8 +159,6 @@ struct TypeCheck {
 
 #[derive(Deserialize)]
 struct RequestBody<T> {
-    #[serde(rename = "type")]
-    type_t: u32,
     message: T,
 }
 
@@ -189,7 +177,7 @@ struct ResponseBody<T> {
 }
 
 #[derive(Serialize)]
-struct Error {
+struct ErrorMessage {
     error: String,
 }
 
