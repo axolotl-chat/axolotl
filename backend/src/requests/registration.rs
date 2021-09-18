@@ -20,6 +20,7 @@ pub struct Register {
 
 #[derive(Deserialize, Debug)]
 pub struct ConfirmRegistration {
+    #[serde(with = "serde_str")]
     pub number: PhoneNumber,
     pub password: String,
     pub confirm_code: u32,
