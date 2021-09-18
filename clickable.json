@@ -51,8 +51,8 @@
             "npm --prefix=${ROOT}/axolotl-web ci"
         ]
     },
-    "backend": {
-      "src_dir": "backend",
+    "crayfish": {
+      "src_dir": "crayfish",
       "builder": "rust"
     }
   }

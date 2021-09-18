@@ -19,21 +19,25 @@ In order to build axolotl you need to get its nodejs dependencies once:
 
 `clickable build --libs nodejs_deps`
 
-To build axolotls rust backend execute:
+To build crayfish execute:
 
-`clickable build --libs backend`
+`clickable build --libs crayfish`
 
 The app is built by running:
 
-`clickable`
+`clickable build`
 
-This also transfers the click package to the Ubuntu Touch Phone.
+The app is installed on device by running:
 
-Remember to add `--arch <arch_of_your_mobile>` (i.e. `--arch arm64`) to the above three commands when building for you mobile device.
+`clickable install`
+
+Remember to add `--arch <arch_of_your_mobile>` (i.e. `--arch arm64`) to the
+above three commands when building for you mobile device.
 
 **Run**
 
-`clickable launch` to run axolotl on your mobile device or `clickable desktop` to run it on your pc.
+`clickable launch` to run axolotl on your mobile device or `clickable desktop`
+to run it on your pc.
 
 Clickable supports a few different parameters.
 For example, `clickable launch logs` to start signal and get logging output.
@@ -60,11 +64,11 @@ rustup target add armv7-unknown-linux-gnueabihf
 Build the crayfish backend:
 
 ```bash
-cd backend
+cd crayfish
 cargo build --release
 ```
 
-Find the crayfish binary in `backend/target/release/crayfish` and ship it
+Find the crayfish binary in `crayfish/target/release/crayfish` and ship it
 such that it is found in `PATH` on runtime.
 
 ## Snap
