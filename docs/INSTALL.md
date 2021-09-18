@@ -13,39 +13,27 @@ Clickable.
 This requires `clickable` to be installed locally.
 Installation instructions can be found [here](https://clickable-ut.dev/en/latest/install.html#install).
 
-**Dependencies**
-
-The following build dependencies are required:
-* Docker
-* Go
-
-The following translation dependencies are required:
-```
-sudo apt-get install gettext
-```
-
-The following go-qml dependencies are required:
-```
-sudo add-apt-repository ppa:ubuntu-sdk-team/ppa
-sudo apt-get update
-sudo apt-get install qtdeclarative5-dev qtbase5-private-dev qtdeclarative5-private-dev libqt5opengl5-dev qtdeclarative5-qtquick2-plugin
-sudo ln -s /usr/include/x86_64-linux-gnu/qt5/QtCore/5.9.1/QtCore /usr/include/
-```
-
-To install all go dependencies, use `go mod download`.
-
 **Build and Install**
 
-To run the default set of sub-commands, simply run clickable in the root directory.
-Clickable will attempt to auto detect the build template and other configuration options.
+In order to build axolotl you need to get its nodejs dependencies once:
 
-This also transfers the click package to the Ubuntu Touch Phone.
+`clickable build --libs nodejs_deps`
+
+To build axolotls rust backend execute:
+
+`clickable build --libs backend`
+
+The app is built by running:
 
 `clickable`
 
+This also transfers the click package to the Ubuntu Touch Phone.
+
+Remember to add `--arch <arch_of_your_mobile>` (i.e. `--arch arm64`) to the above three commands when building for you mobile device.
+
 **Run**
 
-`clickable launch`
+`clickable launch` to run axolotl on your mobile device or `clickable desktop` to run it on your pc.
 
 Clickable supports a few different parameters.
 For example, `clickable launch logs` to start signal and get logging output.

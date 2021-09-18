@@ -30,11 +30,27 @@
     "libzkgroup*.so",
     "\\$GITHUB_WORKSPACE/*"
   ],
+  "dependencies_host": [
+      "gettext"
+  ],
   "postbuild": "${ROOT}/scripts/postbuild.sh ${INSTALL_DIR};",
   "install_bin": [
     "${BACKEND_LIB_INSTALL_DIR}/bin/crayfish"
   ],
   "libraries": {
+    "nodejs_deps": {
+        "image_setup": {
+            "run": [
+                "curl -fsSL https://deb.nodesource.com/setup_current.x | bash -",
+                "apt-get install -y nodejs"
+            ]
+        },
+        "builder": "custom",
+        "build": [
+            "npm --prefix=${ROOT}/axolotl-web install",
+            "npm --prefix=${ROOT}/axolotl-web ci"
+        ]
+    },
     "backend": {
       "src_dir": "backend",
       "builder": "rust"
