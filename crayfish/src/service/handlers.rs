@@ -1,14 +1,13 @@
 use super::types::*;
 use crate::error::{Error, Result};
-use crate::requests::{registration, Request};
+use crate::requests::registration::{self, register_user, verify_user};
 
 use libsignal_service::provisioning::VerificationCodeResponse;
-use tokio::sync::{mpsc, oneshot};
 use warp::ws::Message;
 
 use super::types::ErrorMessage;
 
-pub async fn handle_message(msg: Message, tx: &mpsc::Sender<Request>) -> Result<Message> {
+pub async fn handle_message(msg: Message) -> Result<Message> {
     let content: &str = msg
         .to_str()
         .map_err(|_| Error::new("Message is not text. Failed to parse."))?;
@@ -20,9 +19,9 @@ pub async fn handle_message(msg: Message, tx: &mpsc::Sender<Request>) -> Result<
     }
 
     let response = match type_check.request.message_type {
-        CRAYFISH_WEBSOCKET_MESSAGE_REGISTRATION => handle_registration(content, tx).await,
+        CRAYFISH_WEBSOCKET_MESSAGE_REGISTRATION => handle_registration(content).await,
         CRAYFISH_WEBSOCKET_MESSAGE_CONFIRM_REGISTRAION => {
-            handle_registration_confirm(content, tx).await
+            handle_registration_confirm(content).await
         }
         _ => Error::is("Received request type is unknown"),
     };
@@ -35,15 +34,11 @@ pub async fn handle_message(msg: Message, tx: &mpsc::Sender<Request>) -> Result<
     })
 }
 
-async fn handle_registration(content: &str, tx: &mpsc::Sender<Request>) -> Result<Message> {
+async fn handle_registration(content: &str) -> Result<Message> {
     println!("Handle registration message");
     let req: NestedRequest<registration::Register> = serde_json::from_str(content)?;
 
-    let (cb_tx, cb_rx) = oneshot::channel();
-    tx.send(Request::Register(req.request.message, cb_tx))
-        .await?;
-
-    match cb_rx.await?? {
+    match register_user(req.request.message).await? {
         VerificationCodeResponse::Issued => {
             println!("Registration request was sent");
             Ok(NestedResponse::new_msg(
@@ -58,15 +53,11 @@ async fn handle_registration(content: &str, tx: &mpsc::Sender<Request>) -> Resul
     }
 }
 
-async fn handle_registration_confirm(content: &str, tx: &mpsc::Sender<Request>) -> Result<Message> {
+async fn handle_registration_confirm(content: &str) -> Result<Message> {
     println!("Handle registration confirmation message");
     let req: NestedRequest<registration::ConfirmRegistration> = serde_json::from_str(content)?;
 
-    let (cb_tx, cb_rx) = oneshot::channel();
-    tx.send(Request::ConfirmRegistration(req.request.message, cb_tx))
-        .await?;
-
-    let response_data = cb_rx.await??;
+    let response_data = verify_user(req.request.message).await?;
 
     Ok(NestedResponse::new_msg(
         RegistrationData {
