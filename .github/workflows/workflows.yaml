@@ -150,7 +150,7 @@ jobs:
         env:
           GOPATH: $GITHUB_WORKSPACE/go
         with:
-          args: clickable --verbose clean build
+          args: clickable build --verbose --libs crayfish --app
 
       - name: Upload the built clickable artifact (armhf)
         uses: actions/upload-artifact@v2
@@ -186,7 +186,7 @@ jobs:
         env:
           GOPATH: $GITHUB_WORKSPACE/go
         with:
-          args: clickable --verbose clean build
+          args: clickable build --verbose --libs crayfish --app
 
       - name: Upload the built clickable artifact (amd64)
         uses: actions/upload-artifact@v2
