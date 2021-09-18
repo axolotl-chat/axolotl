@@ -1,0 +1,48 @@
+clickable_minimum_required: '7'
+builder: go
+postbuild: ${ROOT}/scripts/postbuild.sh ${INSTALL_DIR};
+install_bin:
+  - ${CRAYFISH_LIB_INSTALL_DIR}/bin/crayfish
+dependencies_host:
+  - gettext
+kill: textsecure
+ignore:
+  - .*
+  - .clickable
+  - .git
+  - .github
+  - .gitignore
+  - .gitmodules
+  - click
+  - backend
+  - docker
+  - main.go
+  - po
+  - scripts
+  - axolotl-web
+  - build
+  - output
+  - '*.snap'
+  - main
+  - bind*.go
+  - '*.syso'
+  - '*.go'
+  - dist
+  - .flatpak-builder
+  - .idea
+  - flatpak
+  - libzkgroup*.so
+  - \$GITHUB_WORKSPACE/*
+libraries:
+  crayfish:
+    builder: rust
+    src_dir: crayfish
+  nodejs_deps:
+    image_setup:
+      run:
+        - curl -fsSL https://deb.nodesource.com/setup_current.x | bash -
+        - apt-get install -y nodejs
+    builder: custom
+    build:
+      - npm --prefix=${ROOT}/axolotl-web install
+      - npm --prefix=${ROOT}/axolotl-web ci
