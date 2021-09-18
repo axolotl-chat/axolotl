@@ -60,6 +60,10 @@ pub async fn client_connection(mut ws: WebSocket, tx: RequestSender) {
             break;
         }
 
+        if msg.is_ping() {
+            continue;
+        }
+
         let response = match handlers::handle_message(msg, &tx).await {
             Ok(response) => response,
             Err(e) => ErrorMessage::new_msg(e),
