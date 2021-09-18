@@ -14,7 +14,7 @@ ignore:
   - .gitignore
   - .gitmodules
   - click
-  - backend
+  - crayfish
   - docker
   - main.go
   - po

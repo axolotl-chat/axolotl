@@ -34,8 +34,8 @@ func RunRustBackend() {
 		cmd = exec.Command("./lib/arm-linux-gnueabihf/bin/crayfish")
 	} else if _, err := os.Stat("./lib/x86_64-linux-gnu/bin/crayfish"); err == nil {
 		cmd = exec.Command("./lib/x86_64-linux-gnu/bin/crayfish")
-	} else if _, err := os.Stat("./backend/target/debug/crayfish"); err == nil {
-		cmd = exec.Command("./backend/target/debug/crayfish")
+	} else if _, err := os.Stat("./crayfish/target/debug/crayfish"); err == nil {
+		cmd = exec.Command("./crayfish/target/debug/crayfish")
 	} else {
 		log.Errorln("[axolotl] crayfish not found")
 		cmd = exec.Command("pwd")
