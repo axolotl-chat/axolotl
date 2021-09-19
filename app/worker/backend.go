@@ -28,8 +28,8 @@ func RunRustBackend() {
 	log.Infoln("[axolotl] Starting crayfish-backend")
 	path, err := exec.LookPath("crayfish")
 	if err != nil {
-		log.Fatal(err)
-		if _, err := os.Stat("./crayfish"); err == nil {
+		log.Debugln("[axoltol]", err)
+		if _, err := os.OpenFile("./crayfish", os.O_RDWR|os.O_CREATE|os.O_EXCL, 0666); err == nil {
 			cmd = exec.Command("./crayfish")
 		} else if _, err := os.Stat("./lib/aarch64-linux-gnu/bin/crayfish"); err == nil {
 			cmd = exec.Command("./lib/aarch64-linux-gnu/bin/crayfish")
@@ -50,7 +50,7 @@ func RunRustBackend() {
 	var errStdout, errStderr error
 	stdoutIn, _ := cmd.StdoutPipe()
 	stderrIn, _ := cmd.StderrPipe()
-	err := cmd.Start()
+	err = cmd.Start()
 	if err != nil {
 		log.Fatalf("[axolotl] Starting crayfish-backend cmd.Start() failed with '%s'\n", err)
 	}
