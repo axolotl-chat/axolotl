@@ -31,12 +31,6 @@ func RunRustBackend() {
 		log.Debugln("[axoltol]", err)
 		if _, err := os.OpenFile("./crayfish", os.O_RDWR|os.O_CREATE|os.O_EXCL, 0666); err == nil {
 			cmd = exec.Command("./crayfish")
-		} else if _, err := os.Stat("./lib/aarch64-linux-gnu/bin/crayfish"); err == nil {
-			cmd = exec.Command("./lib/aarch64-linux-gnu/bin/crayfish")
-		} else if _, err := os.Stat("./lib/arm-linux-gnueabihf/bin/crayfish"); err == nil {
-			cmd = exec.Command("./lib/arm-linux-gnueabihf/bin/crayfish")
-		} else if _, err := os.Stat("./lib/x86_64-linux-gnu/bin/crayfish"); err == nil {
-			cmd = exec.Command("./lib/x86_64-linux-gnu/bin/crayfish")
 		} else if _, err := os.Stat("./crayfish/target/debug/crayfish"); err == nil {
 			cmd = exec.Command("./crayfish/target/debug/crayfish")
 		} else {
