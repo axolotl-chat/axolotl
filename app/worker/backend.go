@@ -26,19 +26,25 @@ func RunRustBackend() {
 	defer func() {}()
 	var cmd *exec.Cmd
 	log.Infoln("[axolotl] Starting crayfish-backend")
-	if _, err := os.Stat("./crayfish"); err == nil {
-		cmd = exec.Command("./crayfish")
-	} else if _, err := os.Stat("./lib/aarch64-linux-gnu/bin/crayfish"); err == nil {
-		cmd = exec.Command("./lib/aarch64-linux-gnu/bin/crayfish")
-	} else if _, err := os.Stat("./lib/arm-linux-gnueabihf/bin/crayfish"); err == nil {
-		cmd = exec.Command("./lib/arm-linux-gnueabihf/bin/crayfish")
-	} else if _, err := os.Stat("./lib/x86_64-linux-gnu/bin/crayfish"); err == nil {
-		cmd = exec.Command("./lib/x86_64-linux-gnu/bin/crayfish")
-	} else if _, err := os.Stat("./crayfish/target/debug/crayfish"); err == nil {
-		cmd = exec.Command("./crayfish/target/debug/crayfish")
+	path, err := exec.LookPath("crayfish")
+	if err != nil {
+		log.Fatal(err)
+		if _, err := os.Stat("./crayfish"); err == nil {
+			cmd = exec.Command("./crayfish")
+		} else if _, err := os.Stat("./lib/aarch64-linux-gnu/bin/crayfish"); err == nil {
+			cmd = exec.Command("./lib/aarch64-linux-gnu/bin/crayfish")
+		} else if _, err := os.Stat("./lib/arm-linux-gnueabihf/bin/crayfish"); err == nil {
+			cmd = exec.Command("./lib/arm-linux-gnueabihf/bin/crayfish")
+		} else if _, err := os.Stat("./lib/x86_64-linux-gnu/bin/crayfish"); err == nil {
+			cmd = exec.Command("./lib/x86_64-linux-gnu/bin/crayfish")
+		} else if _, err := os.Stat("./crayfish/target/debug/crayfish"); err == nil {
+			cmd = exec.Command("./crayfish/target/debug/crayfish")
+		} else {
+			log.Errorln("[axolotl] crayfish not found")
+			cmd = exec.Command("pwd")
+		}
 	} else {
-		log.Errorln("[axolotl] crayfish not found")
-		cmd = exec.Command("pwd")
+		cmd = exec.Command(path)
 	}
 	var stdout, stderr []byte
 	var errStdout, errStderr error
