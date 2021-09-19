@@ -9,6 +9,7 @@ import (
 
 	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/contact"
+	"github.com/nanu-c/axolotl/app/crayfish"
 	"github.com/nanu-c/axolotl/app/handler"
 	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/nanu-c/axolotl/app/push"
@@ -88,7 +89,7 @@ func (Api *TextsecureAPI) SetLogLevel() {
 	// textsecure.WriteConfig(config.ConfigFile, config.Config)
 }
 func RegisterWithCrayfish(regisrationInfo *textsecure.RegistrationInfo) (*textsecure.CrayfishRegistration, error) {
-	registration, err := CrayfishRegister(regisrationInfo)
+	registration, err := crayfish.CrayfishRegister(regisrationInfo)
 	if err != nil {
 		return nil, err
 	}

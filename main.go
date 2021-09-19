@@ -12,6 +12,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/nanu-c/axolotl/app/config"
+	"github.com/nanu-c/axolotl/app/crayfish"
 	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/nanu-c/axolotl/app/push"
 	"github.com/nanu-c/axolotl/app/ui"
@@ -42,7 +43,7 @@ func runBackend() {
 }
 func runRustBackend() {
 	defer wg.Done()
-	worker.RunRustBackend()
+	crayfish.RunRustBackend()
 
 }
 func runUI() error {
@@ -53,11 +54,18 @@ func runUI() error {
 	} else {
 		ui.RunUi(config.Gui)
 	}
-	os.Exit(0)
 	return nil
 }
+func endAxolotlGracefully() {
+	log.Infoln("[axolotl] ending axolotl")
+	err := crayfish.Stop()
+	if err != nil {
+		log.Errorf("[axolotl] error stopping crayfish: %s", err)
+	}
+	os.Exit(0)
+}
 func runElectron() {
-	log.Infoln("[axolotl] Start electron")
+	defer endAxolotlGracefully()
 	l := log.New()
 	electronPath := os.Getenv("SNAP_USER_DATA")
 	if len(electronPath) == 0 {
@@ -107,6 +115,10 @@ func runElectron() {
 		log.Errorln("[axolotl-electron] Electron App has crashed")
 		return
 	})
+	w.On(astilectron.EventNameAppClose, func(e astilectron.Event) (deleteListener bool) {
+		log.Errorln("[axolotl-electron] Electron App was closed")
+		return
+	})
 	w.On(astilectron.EventNameWindowEventDidFinishLoad, func(e astilectron.Event) (deleteListener bool) {
 		log.Infoln("[axolotl-electron] Electron App load")
 		w.ExecuteJavaScript("window.onToken = function(token){window.location='http://" + config.ServerHost + ":" + config.ServerPort + "/?token='+token;};")
@@ -134,7 +146,7 @@ func runElectron() {
 	a.Wait()
 }
 func runWebserver() {
-	defer wg.Done()
+	defer endAxolotlGracefully()
 	log.Printf("[axolotl] Axolotl server started")
 	// Fetch the URL.
 	webserver.Run()
@@ -147,7 +159,7 @@ func main() {
 	wg.Add(1)
 	go runRustBackend()
 	wg.Add(1)
-	runBackend()
+	go runBackend()
 	log.Println("[axolotl] Setup completed")
 	wg.Add(1)
 	go runWebserver()
@@ -159,4 +171,5 @@ func main() {
 	}
 
 	wg.Wait()
+	log.Println("[axolotl] Axolotl stopped")
 }

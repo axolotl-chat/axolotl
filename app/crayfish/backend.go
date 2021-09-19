@@ -1,4 +1,4 @@
-package worker
+package crayfish
 
 import (
 	"crypto/tls"
@@ -22,9 +22,11 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+var cmd *exec.Cmd
+var stopping = false
+
 func RunRustBackend() {
-	defer func() {}()
-	var cmd *exec.Cmd
+
 	log.Infoln("[axolotl] Starting crayfish-backend")
 	path, err := exec.LookPath("crayfish")
 	if err != nil {
@@ -61,7 +63,9 @@ func RunRustBackend() {
 
 	err = cmd.Wait()
 	if err != nil {
-		log.Fatalf("[axolotl] Starting crayfish-backend cmd.Wait() failed with '%s'\n", err)
+		log.Errorf("[axolotl] Starting crayfish-backend cmd.Wait() failed with '%s'\n", err)
+		return
+
 	}
 	if errStdout != nil || errStderr != nil {
 		log.Fatal("[axolotl] failed to capture stdout or stderr\n")
@@ -259,16 +263,19 @@ func (c *Conn) writeWorker() {
 }
 func BackendStartListening() error {
 	defer func() {
+		log.Debugf("[axolotl-crayfish-ws] BackendStartListening")
 		for {
-			err := BackendStartWebsocket()
-			if err != nil {
-				log.WithFields(log.Fields{
-					"error": err,
-				}).Error("[axolotl-crayfish-ws] Failed to start listening")
-				time.Sleep(time.Second * 5)
+			if !stopping {
+				err := BackendStartWebsocket()
+				if err != nil && !stopping {
+					log.WithFields(log.Fields{
+						"error": err,
+					}).Error("[axolotl-crayfish-ws] Failed to start listening")
+					time.Sleep(time.Second * 5)
+				}
+			} else {
+				break
 			}
-
-			log.Debugf("[axolotl-crayfish-ws] BackendStartListening")
 		}
 	}()
 	return nil
@@ -478,4 +485,19 @@ func CrayfishRegister(registrationInfo *textsecure.RegistrationInfo) (*textsecur
 		UUID: uuidString.String(),
 		Tel:  phoneNumber,
 	}, nil
+}
+
+func Stop() error {
+	stopping = true
+	err := StopListening()
+	if err != nil {
+		return err
+	}
+	if cmd != nil {
+		err = cmd.Process.Signal(os.Interrupt)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
