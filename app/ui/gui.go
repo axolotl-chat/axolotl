@@ -127,9 +127,9 @@ func runUIUbuntuTouch(e string) {
 }
 func copyAndCapture(w io.Writer, r io.Reader) ([]byte, error) {
 	var out []byte
-	buf := make([]byte, 1024, 1024)
+	buf := make([]byte, 1024)
 	for {
-		n, err := r.Read(buf[:])
+		n, err := r.Read(buf)
 		if n > 0 {
 			d := buf[:n]
 			out = append(out, d...)

@@ -112,9 +112,8 @@ func RunBackend() {
 				log.Debugf("[axolotl] DB Encrypted, ready to start")
 				isEncrypted = false
 				break
-			} else {
-				ui.ShowError(errors.New("wrong password"))
 			}
+			ui.ShowError(errors.New("wrong password"))
 		}
 	}
 	sessionStarted = false

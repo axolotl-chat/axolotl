@@ -123,7 +123,7 @@ func Run() {
 	log.Infoln("[axolotl-crayfish] Starting crayfish-backend")
 	path, err := exec.LookPath("crayfish")
 	if err != nil {
-		if _, err := os.OpenFile("./crayfish", os.O_RDWR|os.O_CREATE|os.O_EXCL, 0666); err == nil {
+		if _, err := os.OpenFile("./crayfish", os.O_RDWR|os.O_CREATE|os.O_EXCL, 0600); err == nil {
 			cmd = exec.Command("./crayfish")
 		} else if _, err := os.Stat("./crayfish/target/debug/crayfish"); err == nil {
 			cmd = exec.Command("./crayfish/target/debug/crayfish")
@@ -175,7 +175,7 @@ func copyAndCapture(w io.Writer, r io.Reader) ([]byte, error) {
 	var out []byte
 	buf := make([]byte, 1024)
 	for {
-		n, err := r.Read(buf[:])
+		n, err := r.Read(buf)
 		if n > 0 {
 			d := buf[:n]
 			out = append(out, d...)
@@ -190,8 +190,6 @@ func copyAndCapture(w io.Writer, r io.Reader) ([]byte, error) {
 			if err == io.EOF {
 				err = nil
 			}
-			log.Debugln("copy and capture", out)
-
 			return out, err
 		}
 	}
@@ -224,7 +222,7 @@ func (c *Conn) connect(originURL string) error {
 }
 
 // Send ack response message
-func (c *Conn) sendAck(id uint64) error {
+func (c *Conn) sendAck() error {
 	typ := CrayfishWebSocketMessage_RESPONSE
 	message := ACKMessage{
 		Status: "ok",
@@ -372,7 +370,7 @@ func StartWebsocket() error {
 			log.Errorln("[axolotl-crayfish-ws] failed to handle incoming websocket message")
 		}
 		if csm.Type != nil {
-			err = wsconn.sendAck(200)
+			err = wsconn.sendAck()
 			if err != nil {
 				log.WithFields(log.Fields{
 					"error": err,
