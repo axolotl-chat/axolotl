@@ -31,7 +31,7 @@ func GetTextFromWs(fun string) string {
 	}()
 	log.Debugf("[axolotl] Opening Dialog: " + fun)
 	text := webserver.RequestInput(fun)
-	log.Debugln("[axolotl] Dialog closed", text)
+	log.Debugln("[axolotl] Dialog closed", fun)
 	return text
 }
 

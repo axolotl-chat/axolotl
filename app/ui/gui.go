@@ -1,19 +1,19 @@
 package ui
 
 import (
-  "fmt"
-  "io"
-  "os"
-  "os/exec"
-  "os/signal"
-  "sync"
+	"fmt"
+	"io"
+	"os"
+	"os/exec"
+	"os/signal"
+	"sync"
 
-  "github.com/nanu-c/axolotl/app/config"
-  "github.com/nanu-c/axolotl/app/settings"
-  "github.com/nanu-c/axolotl/app/store"
-  "github.com/nanu-c/axolotl/app/webserver"
-  log "github.com/sirupsen/logrus"
-  "github.com/zserge/lorca"
+	"github.com/nanu-c/axolotl/app/config"
+	"github.com/nanu-c/axolotl/app/settings"
+	"github.com/nanu-c/axolotl/app/store"
+	"github.com/nanu-c/axolotl/app/webserver"
+	log "github.com/sirupsen/logrus"
+	"github.com/zserge/lorca"
 )
 
 func GroupUpdateMsg(tels []string, title string) string {
@@ -129,7 +129,8 @@ func copyAndCapture(w io.Writer, r io.Reader) ([]byte, error) {
 		if n > 0 {
 			d := buf[:n]
 			out = append(out, d...)
-			_, err := w.Write(d)
+			log.Infoln("[axolotl-qml]", string(d))
+			// _, err := w.Write(d)
 			if err != nil {
 				return out, err
 			}

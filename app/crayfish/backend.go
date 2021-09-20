@@ -22,82 +22,30 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-var cmd *exec.Cmd
-var stopping = false
+var (
+	wsconn         *Conn
+	cmd            *exec.Cmd
+	stopping       = false
+	receiveChannel chan *CrayfishWebSocketResponseMessage
+	// ErrNotListening is returned when trying to stop listening when there's no
+	// valid listening connection set up
+	ErrNotListening = errors.New("[axolotl-crayfish-ws] there is no listening connection to stop")
+)
 
-func RunRustBackend() {
+const (
+	// Time allowed to write a message to the peer.
+	writeWait = 25 * time.Second
 
-	log.Infoln("[axolotl] Starting crayfish-backend")
-	path, err := exec.LookPath("crayfish")
-	if err != nil {
-		log.Debugln("[axoltol]", err)
-		if _, err := os.OpenFile("./crayfish", os.O_RDWR|os.O_CREATE|os.O_EXCL, 0666); err == nil {
-			cmd = exec.Command("./crayfish")
-		} else if _, err := os.Stat("./crayfish/target/debug/crayfish"); err == nil {
-			cmd = exec.Command("./crayfish/target/debug/crayfish")
-		} else {
-			log.Errorln("[axolotl] crayfish not found")
-			cmd = exec.Command("pwd")
-		}
-	} else {
-		cmd = exec.Command(path)
-	}
-	var stdout, stderr []byte
-	var errStdout, errStderr error
-	stdoutIn, _ := cmd.StdoutPipe()
-	stderrIn, _ := cmd.StderrPipe()
-	err = cmd.Start()
-	if err != nil {
-		log.Fatalf("[axolotl] Starting crayfish-backend cmd.Start() failed with '%s'\n", err)
-	}
+	// Time allowed to read the next pong message from the peer.
+	pongWait = 60 * time.Second
 
-	go BackendStartListening()
-	var wg sync.WaitGroup
-	wg.Add(1)
-	go func() {
-		stdout, errStdout = copyAndCapture(os.Stdout, stdoutIn)
-		wg.Done()
-	}()
-	stderr, errStderr = copyAndCapture(os.Stderr, stderrIn)
-	wg.Wait()
+	// Send pings to peer with this period. Must be less than pongWait.
+	pingPeriod = (pongWait * 9) / 10
 
-	err = cmd.Wait()
-	if err != nil {
-		log.Errorf("[axolotl] Starting crayfish-backend cmd.Wait() failed with '%s'\n", err)
-		return
-
-	}
-	if errStdout != nil || errStderr != nil {
-		log.Fatal("[axolotl] failed to capture stdout or stderr\n")
-	}
-	outStr, errStr := string(stdout), string(stderr)
-	log.Infof("[axolotl-crayfish-ws] out:\n%s\nerr:\n%s\n", outStr, errStr)
-	log.Infof("[axolotl] Crayfish-backend finished with error: %v", err)
-	cmd.Process.Kill()
-
-}
-func copyAndCapture(w io.Writer, r io.Reader) ([]byte, error) {
-	var out []byte
-	buf := make([]byte, 1024, 1024)
-	for {
-		n, err := r.Read(buf[:])
-		if n > 0 {
-			d := buf[:n]
-			out = append(out, d...)
-			_, err := w.Write(d)
-			if err != nil {
-				return out, err
-			}
-		}
-		if err != nil {
-			// Read returns io.EOF at the end of file, which is not an error for us
-			if err == io.EOF {
-				err = nil
-			}
-			return out, err
-		}
-	}
-}
+	// Signal websocket endpoint
+	websocketPath = "/libsignal"
+	serverAdress  = "ws://localhost:9081"
+)
 
 type CrayfishWebSocketMessageType int32
 
@@ -138,20 +86,9 @@ type CrayfishWebSocketResponseMessage struct {
 	Message interface{}                           `json:"message,omitempty"`
 }
 
-const (
-	// Time allowed to write a message to the peer.
-	writeWait = 25 * time.Second
-
-	// Time allowed to read the next pong message from the peer.
-	pongWait = 60 * time.Second
-
-	// Send pings to peer with this period. Must be less than pongWait.
-	pingPeriod = (pongWait * 9) / 10
-
-	// Signal websocket endpoint
-	websocketPath = "/libsignal"
-	serverAdress  = "ws://localhost:9081"
-)
+type ACKMessage struct {
+	Status string `json:"status"`
+}
 
 // Conn is a wrapper for the websocket connection
 type Conn struct {
@@ -162,7 +99,99 @@ type Conn struct {
 	send chan []byte
 }
 
-var wsconn *Conn
+type CrayfishWebSocketRequest_REGISTER_MESSAGE struct {
+	Number   string `json:"number"`
+	Password string `json:"password"`
+	Captcha  string `json:"captcha"`
+	UseVoice bool   `json:"use_voice"`
+}
+
+type CrayfishWebSocketRequest_VERIFY_REGISTER_MESSAGE struct {
+	Code         uint64   `json:"confirm_code"`
+	Number       string   `json:"number"`
+	Password     string   `json:"password"`
+	SignalingKey [52]byte `json:"signaling_key"`
+}
+type CrayfishWebSocketResponse_VERIFY_REGISTER_MESSAGE struct {
+	UUID           [16]byte `json:"uuid"`
+	StorageCapable bool     `json:"storage_capable"`
+}
+
+func Run() {
+
+	log.Infoln("[axolotl-crayfish] Starting crayfish-backend")
+	path, err := exec.LookPath("crayfish")
+	if err != nil {
+		if _, err := os.OpenFile("./crayfish", os.O_RDWR|os.O_CREATE|os.O_EXCL, 0666); err == nil {
+			cmd = exec.Command("./crayfish")
+		} else if _, err := os.Stat("./crayfish/target/debug/crayfish"); err == nil {
+			cmd = exec.Command("./crayfish/target/debug/crayfish")
+		} else {
+			log.Errorln("[axolotl-crayfish] crayfish not found")
+			cmd = exec.Command("pwd")
+		}
+	} else {
+		cmd = exec.Command(path)
+	}
+	var stdout, stderr []byte
+	var errStdout, errStderr error
+	stdoutIn, _ := cmd.StdoutPipe()
+	stderrIn, _ := cmd.StderrPipe()
+	err = cmd.Start()
+	if err != nil {
+		log.Fatalf("[axolotl-crayfish] Starting crayfish-backend cmd.Start() failed with '%s'\n", err)
+	}
+
+	go StartListening()
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		stdout, errStdout = copyAndCapture(os.Stdout, stdoutIn)
+		wg.Done()
+	}()
+	stderr, errStderr = copyAndCapture(os.Stderr, stderrIn)
+	wg.Wait()
+
+	err = cmd.Wait()
+	if err != nil {
+		log.Errorf("[axolotl-crayfish] Starting crayfish-backend cmd.Wait() failed with '%s'\n", err)
+		return
+	}
+	if errStdout != nil || errStderr != nil {
+		log.Fatal("[axolotl-crayfish] failed to capture stdout or stderr\n")
+	}
+	outStr, errStr := string(stdout), string(stderr)
+	log.Infof("[axolotl-crayfish-ws] out: %s\n", outStr)
+	log.Infof("[axolotl-crayfish-ws] err: %s\n", errStr)
+	log.Infof("[axolotl-crayfish] Crayfish-backend finished with error: %v", err)
+	cmd.Process.Kill()
+
+}
+func copyAndCapture(w io.Writer, r io.Reader) ([]byte, error) {
+	var out []byte
+	buf := make([]byte, 1024)
+	for {
+		n, err := r.Read(buf[:])
+		if n > 0 {
+			d := buf[:n]
+			out = append(out, d...)
+			log.Println("[crayfish]", string(d))
+			// _, err := w.Write(d)
+			if err != nil {
+				return out, err
+			}
+		}
+		if err != nil {
+			// Read returns io.EOF at the end of file, which is not an error for us
+			if err == io.EOF {
+				err = nil
+			}
+			log.Debugln("copy and capture", out)
+
+			return out, err
+		}
+	}
+}
 
 // Connect to Signal websocket API at originURL with user and pass credentials
 func (c *Conn) connect(originURL string) error {
@@ -190,10 +219,6 @@ func (c *Conn) connect(originURL string) error {
 	return nil
 }
 
-type ACKMessage struct {
-	Status string `json:"status"`
-}
-
 // Send ack response message
 func (c *Conn) sendAck(id uint64) error {
 	typ := CrayfishWebSocketMessage_RESPONSE
@@ -213,7 +238,7 @@ func (c *Conn) sendAck(id uint64) error {
 	if err != nil {
 		return err
 	}
-	log.Debugln("[axolotl-crayfish-ws] websocket sending ack response ", string(b))
+	log.Debugln("[axolotl-crayfish-ws] websocket sending ack response ")
 
 	c.send <- b
 	return nil
@@ -261,12 +286,12 @@ func (c *Conn) writeWorker() {
 		}
 	}
 }
-func BackendStartListening() error {
+func StartListening() error {
 	defer func() {
 		log.Debugf("[axolotl-crayfish-ws] BackendStartListening")
 		for {
 			if !stopping {
-				err := BackendStartWebsocket()
+				err := StartWebsocket()
 				if err != nil && !stopping {
 					log.WithFields(log.Fields{
 						"error": err,
@@ -283,7 +308,7 @@ func BackendStartListening() error {
 }
 
 // BackendStartWebsocket connects to the server and handles incoming websocket messages.
-func BackendStartWebsocket() error {
+func StartWebsocket() error {
 	var err error
 
 	wsconn = &Conn{send: make(chan []byte, 256)}
@@ -351,60 +376,31 @@ func BackendStartWebsocket() error {
 				return err
 			}
 		}
-
 	}
-
 }
-
-// ErrNotListening is returned when trying to stop listening when there's no
-// valid listening connection set up
-var ErrNotListening = errors.New("[axolotl-crayfish-ws] there is no listening connection to stop")
 
 // StopListening disables the receiving of messages.
 func StopListening() error {
 	if wsconn == nil {
 		return ErrNotListening
 	}
-
 	if wsconn.ws != nil {
 		wsconn.ws.Close()
 	}
-
 	return nil
 }
 
 func handleCrayfishRequestMessage(request *CrayfishWebSocketRequestMessage) error {
-	log.Debugf("[axolotl-crayfish-ws] Received websocket request message %v", request)
+	log.Debugln("[axolotl-crayfish-ws] Received websocket request message", *request.Type)
 	return nil
-
 }
 
-var receiveChannel chan *CrayfishWebSocketResponseMessage
-
 func handleCrayfishResponseMessage(response *CrayfishWebSocketResponseMessage) error {
-	log.Debugf("[axolotl-crayfish-ws] Received websocket response message %v", response)
+	log.Debugln("[axolotl-crayfish-ws] Received websocket response message", *response.Type)
 	if receiveChannel != nil && *response.Type > 1 {
 		receiveChannel <- response
 	}
 	return nil
-}
-
-type CrayfishWebSocketRequest_REGISTER_MESSAGE struct {
-	Number   string `json:"number"`
-	Password string `json:"password"`
-	Captcha  string `json:"captcha"`
-	UseVoice bool   `json:"use_voice"`
-}
-
-type CrayfishWebSocketRequest_VERIFY_REGISTER_MESSAGE struct {
-	Code         uint64   `json:"confirm_code"`
-	Number       string   `json:"number"`
-	Password     string   `json:"password"`
-	SignalingKey [52]byte `json:"signaling_key"`
-}
-type CrayfishWebSocketResponse_VERIFY_REGISTER_MESSAGE struct {
-	UUID           [16]byte `json:"uuid"`
-	StorageCapable bool     `json:"storage_capable"`
 }
 
 func CrayfishRegister(registrationInfo *textsecure.RegistrationInfo) (*textsecure.CrayfishRegistration, error) {
