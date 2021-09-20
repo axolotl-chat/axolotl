@@ -11,6 +11,7 @@ import (
 	"os/exec"
 	"strconv"
 	"sync"
+	"syscall"
 	"time"
 
 	"github.com/gorilla/websocket"
@@ -137,6 +138,9 @@ func Run() {
 	var errStdout, errStderr error
 	stdoutIn, _ := cmd.StdoutPipe()
 	stderrIn, _ := cmd.StderrPipe()
+	cmd.SysProcAttr = &syscall.SysProcAttr{
+		Pdeathsig: syscall.SIGTERM,
+	}
 	err = cmd.Start()
 	if err != nil {
 		log.Fatalf("[axolotl-crayfish] Starting crayfish-backend cmd.Start() failed with '%s'\n", err)
