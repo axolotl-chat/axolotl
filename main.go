@@ -12,6 +12,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/nanu-c/axolotl/app/config"
+	"github.com/nanu-c/axolotl/app/crayfish"
 	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/nanu-c/axolotl/app/push"
 	"github.com/nanu-c/axolotl/app/ui"
@@ -40,6 +41,11 @@ func runBackend() {
 		push.PushHelperProcess()
 	}
 }
+func runRustBackend() {
+	defer wg.Done()
+	crayfish.Run()
+
+}
 func runUI() error {
 	defer wg.Done()
 	if config.Gui != "ut" && config.Gui != "lorca" && config.Gui != "qt" {
@@ -48,11 +54,18 @@ func runUI() error {
 	} else {
 		ui.RunUi(config.Gui)
 	}
-	os.Exit(0)
 	return nil
 }
+func endAxolotlGracefully() {
+	log.Infoln("[axolotl] ending axolotl")
+	err := crayfish.Stop()
+	if err != nil {
+		log.Errorf("[axolotl] error stopping crayfish: %s", err)
+	}
+	os.Exit(0)
+}
 func runElectron() {
-	log.Infoln("[axolotl] Start electron")
+	defer endAxolotlGracefully()
 	l := log.New()
 	electronPath := os.Getenv("SNAP_USER_DATA")
 	if len(electronPath) == 0 {
@@ -102,6 +115,10 @@ func runElectron() {
 		log.Errorln("[axolotl-electron] Electron App has crashed")
 		return
 	})
+	w.On(astilectron.EventNameAppClose, func(e astilectron.Event) (deleteListener bool) {
+		log.Errorln("[axolotl-electron] Electron App was closed")
+		return
+	})
 	w.On(astilectron.EventNameWindowEventDidFinishLoad, func(e astilectron.Event) (deleteListener bool) {
 		log.Infoln("[axolotl-electron] Electron App load")
 		w.ExecuteJavaScript("window.onToken = function(token){window.location='http://" + config.ServerHost + ":" + config.ServerPort + "/?token='+token;};")
@@ -129,7 +146,7 @@ func runElectron() {
 	a.Wait()
 }
 func runWebserver() {
-	defer wg.Done()
+	defer endAxolotlGracefully()
 	log.Printf("[axolotl] Axolotl server started")
 	// Fetch the URL.
 	webserver.Run()
@@ -139,7 +156,10 @@ var wg sync.WaitGroup
 
 func main() {
 	setup()
-	runBackend()
+	wg.Add(1)
+	go runRustBackend()
+	wg.Add(1)
+	go runBackend()
 	log.Println("[axolotl] Setup completed")
 	wg.Add(1)
 	go runWebserver()
@@ -149,5 +169,7 @@ func main() {
 	} else {
 		log.Printf("[axolotl] Axolotl frontend is at http://" + config.ServerHost + ":" + config.ServerPort + "/")
 	}
+
 	wg.Wait()
+	log.Println("[axolotl] Axolotl stopped")
 }

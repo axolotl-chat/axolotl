@@ -9,6 +9,7 @@ import (
 
 	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/contact"
+	"github.com/nanu-c/axolotl/app/crayfish"
 	"github.com/nanu-c/axolotl/app/handler"
 	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/nanu-c/axolotl/app/push"
@@ -71,7 +72,7 @@ func (Api *TextsecureAPI) AddContact(name string, phone string) {
 }
 func (Api *TextsecureAPI) SetLogLevel() {
 	// Api.LogLevel = !Api.LogLevel
-	if Api.LogLevel == false {
+	if !Api.LogLevel {
 		config.Config.LogLevel = "debug"
 		log.SetLevel(log.DebugLevel)
 		settings.SettingsModel.DebugLog = true
@@ -85,7 +86,15 @@ func (Api *TextsecureAPI) SetLogLevel() {
 		Api.LogLevel = false
 	}
 	Api.SaveSettings()
-	textsecure.WriteConfig(config.ConfigFile, config.Config)
+	// textsecure.WriteConfig(config.ConfigFile, config.Config)
+}
+func RegisterWithCrayfish(regisrationInfo *textsecure.RegistrationInfo) (*textsecure.CrayfishRegistration, error) {
+	registration, err := crayfish.CrayfishRegister(regisrationInfo)
+	if err != nil {
+		return nil, err
+	}
+	return registration, nil
+
 }
 func RunBackend() {
 	log.Debugf("[axolotl] Run Backend")
@@ -103,9 +112,8 @@ func RunBackend() {
 				log.Debugf("[axolotl] DB Encrypted, ready to start")
 				isEncrypted = false
 				break
-			} else {
-				ui.ShowError(errors.New("wrong password"))
 			}
+			ui.ShowError(errors.New("wrong password"))
 		}
 	}
 	sessionStarted = false
@@ -164,6 +172,7 @@ func RunBackend() {
 		SyncSentHandler:       handler.SyncSentHandler,
 		RegistrationDone:      ui.RegistrationDone,
 		GetUsername:           ui.GetUsername,
+		RegisterWithCrayfish:  RegisterWithCrayfish,
 	}
 
 	if config.IsPhone {
@@ -212,7 +221,7 @@ func startSession() {
 	log.Debugf("[axolotl] starting Signal connection")
 	err := textsecure.Setup(client)
 	if _, ok := err.(*strconv.NumError); ok {
-		ui.ShowError(fmt.Errorf("[axolotl] Switching to unencrypted session store, removing %s\nThis will reset your sessions and reregister your phone.\n", config.StorageDir))
+		ui.ShowError(fmt.Errorf("[axolotl] switching to unencrypted session store, removing %s\nThis will reset your sessions and reregister your phone.\n", config.StorageDir))
 		os.RemoveAll(config.StorageDir)
 		os.Exit(1)
 	}
@@ -236,7 +245,7 @@ func startSession() {
 			Storage:      false,
 			Gv1Migration: false,
 		}
-		err := textsecure.WriteConfig(config.ConfigFile, config.Config)
+		// err := textsecure.WriteConfig(config.ConfigFile, config.Config)
 		if err != nil {
 			log.Debugln("[axolotl] gv2 migration save config: ", err)
 		}
@@ -249,7 +258,6 @@ func startSession() {
 		s.Name = store.TelToName(s.Tel)
 	}
 	sender.SendUnsentMessages()
-	// //qml.Changed(store.SessionsModel, &store.SessionsModel.Len)
 
 }
 

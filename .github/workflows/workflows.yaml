@@ -146,11 +146,11 @@ jobs:
           mv libzkgroup_linux_armv7_v0.8.8.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_armv7.so
 
       - name: Build clickable (armhf)
-        uses: docker://clickable/ci-16.04-armhf:16.04.5
+        uses: docker://clickable/ci-dev-16.04-armhf:16.04.5
         env:
           GOPATH: $GITHUB_WORKSPACE/go
         with:
-          args: clickable --verbose clean build
+          args: clickable build --verbose --libs crayfish --app
 
       - name: Upload the built clickable artifact (armhf)
         uses: actions/upload-artifact@v2
@@ -182,11 +182,11 @@ jobs:
             mv libzkgroup_linux_aarch64_v0.8.8.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_aarch64.so
 
       - name: Build clickable (arm64)
-        uses: docker://clickable/ci-16.04-arm64:16.04.5
+        uses: docker://clickable/ci-dev-16.04-arm64:16.04.5
         env:
           GOPATH: $GITHUB_WORKSPACE/go
         with:
-          args: clickable --verbose clean build
+          args: clickable build --verbose --libs crayfish --app
 
       - name: Upload the built clickable artifact (amd64)
         uses: actions/upload-artifact@v2
