@@ -12,9 +12,11 @@
       >
         <div v-if="showFullscreenImgSrc !== ''" class="fullscreenImage">
           <img
-            :src="'http://localhost:9080/attachments?file=' + showFullscreenImgSrc"
+            :src="
+              'http://localhost:9080/attachments?file=' + showFullscreenImgSrc
+            "
             alt="Fullscreen image"
-          >
+          />
           <button class="btn btn-secondary save" @click="saveImg($event)">
             <font-awesome-icon icon="arrow-down" />
           </button>
@@ -30,10 +32,12 @@
             <source
               :src="
                 'http://localhost:9080/attachments?file=' +
-                  showFullscreenVideoSrc
+                showFullscreenVideoSrc
               "
+            />
+            <span v-translate
+              >Your browser does not support the audio element.</span
             >
-            <span v-translate>Your browser does not support the audio element.</span>
           </video>
           <button
             class="btn btn-secondary close"
@@ -104,7 +108,7 @@
       type="file"
       style="position: fixed; top: -100em"
       @change="sendDesktopAttachment"
-    >
+    />
   </div>
 </template>
 
@@ -120,7 +124,7 @@ export default {
     Message,
   },
   props: {
-    chatId: Number,
+    chatId: { type: Number, default: -1 },
   },
   data() {
     return {
@@ -191,7 +195,10 @@ export default {
       function (event) {
         // If the clicked element doesn't have the right selector, bail
         if (!event.target.matches(".linkified")) return;
-        if (typeof that.config.Gui !== "undefined" && that.config.Gui === "ut") {
+        if (
+          typeof that.config.Gui !== "undefined" &&
+          that.config.Gui === "ut"
+        ) {
           // Don't follow the link
           event.preventDefault();
           alert(event.target.href);

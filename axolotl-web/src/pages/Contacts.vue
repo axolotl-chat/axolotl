@@ -22,51 +22,51 @@
     </div>
     <div v-if="contactsFilterActive">
       <div
-        v-for="contact in contactsFiltered"
-        :key="contact.Tel"
+        v-for="c in contactsFiltered"
+        :key="c.Tel"
         :class="
-          contact.Tel === editContactId
+          c.Tel === editContactId
             ? 'selected btn col-12 chat'
             : 'btn col-12 chat'
         "
       >
         <div class="row chat-entry">
           <div
-            :class="'avatar col-3 ' + checkForUUIDClass(contact)"
-            @click="contactClick(contact, i)"
+            :class="'avatar col-3 ' + checkForUUIDClass(c)"
+            @click="contactClick(c, i)"
           >
             <div class="badge-name">
-              {{ contact.Name[0] + contact.Name[1] }}
+              {{ c.Name[0] + c.Name[1] }}
             </div>
           </div>
           <div
             class="meta col-9"
             data-long-press-delay="500"
-            @click="contactClick(contact)"
-            @long-press="showContactAction(contact)"
+            @click="contactClick(c)"
+            @long-press="showContactAction(c)"
           >
-            <p class="name">{{ contact.Name }}</p>
-            <p class="number">{{ contact.Tel }}</p>
+            <p class="name">{{ c.Name }}</p>
+            <p class="number">{{ c.Tel }}</p>
           </div>
         </div>
       </div>
     </div>
     <div
-      v-for="contact in contacts"
+      v-for="c in contacts"
       v-else
-      :key="contact.Tel"
+      :key="c.Tel"
       :class="
-        contact.Tel === editContactId
+        c.Tel === editContactId
           ? 'selected btn col-12 chat'
           : 'btn col-12 chat'
       "
     >
       <div class="row chat-entry">
         <div
-          :class="'avatar col-3 avatar ' + checkForUUIDClass(contact)"
-          @click="contactClick(contact, i)"
+          :class="'avatar col-3 avatar ' + checkForUUIDClass(c)"
+          @click="contactClick(c, i)"
         >
-          <div class="badge-name">{{ contact.Name[0] + contact.Name[1] }}</div>
+          <div class="badge-name">{{ c.Name[0] + c.Name[1] }}</div>
         </div>
         <div
           class="meta col-9"
@@ -74,8 +74,8 @@
           @click="contactClick(contact)"
           @long-press="showContactAction(contact)"
         >
-          <p class="name">{{ contact.Name }}</p>
-          <p class="number">{{ contact.Tel }}</p>
+          <p class="name">{{ c.Name }}</p>
+          <p class="number">{{ c.Tel }}</p>
         </div>
       </div>
     </div>
@@ -119,8 +119,8 @@ export default {
   },
   data() {
     return {
-      addContactModal: false,
       showActions: false,
+      addContactModal: false,
       editContactModal: false,
       contact: null,
       contactId: null,
