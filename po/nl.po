@@ -47,6 +47,11 @@ msgstr "Toevoegen"
 msgid "Add a new device"
 msgstr "Apparaat toevoegen"
 
+#: src/components/Header.vue:99
+#, fuzzy
+msgid "Add contact"
+msgstr "Contactpersoon"
+
 #: src/components/AddGroupMembersModal.vue:56
 msgid "Add contacts first"
 msgstr "Voeg eerst contactpersonen toe"
@@ -89,7 +94,7 @@ msgstr "Sluiten"
 msgid "Confirm"
 msgstr "Bevestigen"
 
-#: src/components/Header.vue:116
+#: src/components/Header.vue:132
 msgid "Connect with Signal"
 msgstr "Verbinden met Signal"
 
@@ -101,7 +106,7 @@ msgstr "Contactpersoon"
 msgid "Contact list is empty..."
 msgstr "Je contactpersonenlijst is leeg…"
 
-#: src/components/Header.vue:198
+#: src/components/Header.vue:215
 msgid "Contacts"
 msgstr "Contactpersonen"
 
@@ -159,11 +164,16 @@ msgstr ""
 msgid "Edit"
 msgstr "Aanpassen"
 
-#: src/components/Header.vue:105 src/components/Header.vue:151
+#: src/components/Header.vue:106
+#, fuzzy
+msgid "Edit contact"
+msgstr "Contactpersoon"
+
+#: src/components/Header.vue:119 src/components/Header.vue:168
 msgid "Edit group"
 msgstr "Groep aanpassen"
 
-#: src/components/Header.vue:120
+#: src/components/Header.vue:137
 msgid "Enter password"
 msgstr "Voer je wachtwoord in"
 
@@ -233,7 +243,7 @@ msgstr ""
 "            <a href=\"https://github.com/nanu-c/axolotl/issues\" target="
 "\"_blank\">een ‘issue’ te openen</a>."
 
-#: src/components/Header.vue:179
+#: src/components/Header.vue:196
 msgid "Import contacts"
 msgstr "Contactpersonen importeren"
 
@@ -269,7 +279,7 @@ msgstr "Bezig met laden…"
 msgid "Members"
 msgstr "Leden"
 
-#: src/components/Header.vue:92
+#: src/components/Header.vue:93
 msgid "Mute"
 msgstr "Dempen"
 
@@ -287,7 +297,7 @@ msgstr ""
 "            gesprek starten middels de gekoppelde computerclient, of\n"
 "            laat de ander het voor je doen."
 
-#: src/components/Header.vue:145 src/components/Header.vue:201
+#: src/components/Header.vue:162 src/components/Header.vue:218
 msgid "New group"
 msgstr "Nieuwe groep"
 
@@ -307,7 +317,7 @@ msgstr "Geen beschikbare chats"
 msgid "No linked devices"
 msgstr "Geen gekoppelde apparaten"
 
-#: src/pages/MessageList.vue:31
+#: src/pages/MessageList.vue:33
 msgid "No messages available."
 msgstr "Geen beschikbare berichten."
 
@@ -367,7 +377,7 @@ msgstr "Wachtwoord herhalen"
 msgid "Request code"
 msgstr "Code aanvragen"
 
-#: src/components/Header.vue:102
+#: src/components/Header.vue:116
 msgid "Reset encryption"
 msgstr "Versleuteling herstellen"
 
@@ -395,7 +405,7 @@ msgstr "Code versturen"
 msgid "Send pin"
 msgstr "Pincode versturen"
 
-#: src/components/Header.vue:127
+#: src/components/Header.vue:144
 msgid "Set encryption password"
 msgstr "Versleutelwachtwoord instellen"
 
@@ -423,11 +433,11 @@ msgstr ""
 msgid "Setting a username is required. Please choose one."
 msgstr "Het instellen van een gebruikersnaam is vereist."
 
-#: src/components/Header.vue:139 src/components/Header.vue:204
+#: src/components/Header.vue:156 src/components/Header.vue:221
 msgid "Settings"
 msgstr "Instellingen"
 
-#: src/components/Header.vue:99
+#: src/components/Header.vue:113
 msgid "Show identity"
 msgstr "Identiteit tonen"
 
@@ -448,11 +458,11 @@ msgstr ""
 "Dit is een gratis, open source Signal-client, geschreven in golang en\n"
 "            vuejs."
 
-#: src/components/Header.vue:32 src/pages/ChatList.vue:30
+#: src/components/Header.vue:33 src/pages/ChatList.vue:30
 msgid "Unknown group"
 msgstr "Onbekende groep"
 
-#: src/components/Header.vue:95
+#: src/components/Header.vue:96
 msgid "Unmute"
 msgstr "Dempen opheffen"
 
@@ -507,7 +517,7 @@ msgstr ""
 "vuejs.\n"
 "    Je kunt de ontwikkeling van Axolotl ondersteunen door"
 
-#: src/pages/MessageList.vue:35
+#: src/pages/MessageList.vue:37
 msgid ""
 "You have been invited to this group. Accepting invitations is not yet\n"
 "      supported. In order to join please send private a message to the "
@@ -524,7 +534,7 @@ msgstr ""
 "      toevoegen."
 
 #: src/components/Message.vue:39 src/components/Message.vue:48
-#: src/components/Message.vue:68 src/pages/MessageList.vue:19
+#: src/components/Message.vue:68 src/pages/MessageList.vue:21
 msgid "Your browser does not support the audio element."
 msgstr "Je browser heeft geen ondersteuning voor het audio-element."
 
@@ -643,10 +653,6 @@ msgstr "Je browser heeft geen ondersteuning voor het video-element."
 
 #~ msgid "Refresh"
 #~ msgstr "Verversen"
-
-#, fuzzy
-#~ msgid "Add contact"
-#~ msgstr "Contactpersoon"
 
 #~ msgid "Verifying number"
 #~ msgstr "Nummer verifiëren"

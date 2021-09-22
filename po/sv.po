@@ -48,6 +48,11 @@ msgstr "Lägg till"
 msgid "Add a new device"
 msgstr "Lägg till en ny enhet"
 
+#: src/components/Header.vue:99
+#, fuzzy
+msgid "Add contact"
+msgstr "Kontakt"
+
 #: src/components/AddGroupMembersModal.vue:56
 #, fuzzy
 msgid "Add contacts first"
@@ -92,7 +97,7 @@ msgstr "Stäng"
 msgid "Confirm"
 msgstr "Bekräfta"
 
-#: src/components/Header.vue:116
+#: src/components/Header.vue:132
 msgid "Connect with Signal"
 msgstr "Anslut till Signal"
 
@@ -104,7 +109,7 @@ msgstr "Kontakt"
 msgid "Contact list is empty..."
 msgstr "Kontaktlistan är tom..."
 
-#: src/components/Header.vue:198
+#: src/components/Header.vue:215
 #, fuzzy
 msgid "Contacts"
 msgstr "Kontakter"
@@ -163,12 +168,17 @@ msgstr ""
 msgid "Edit"
 msgstr "Uppdatera"
 
-#: src/components/Header.vue:105 src/components/Header.vue:151
+#: src/components/Header.vue:106
+#, fuzzy
+msgid "Edit contact"
+msgstr "Kontakt"
+
+#: src/components/Header.vue:119 src/components/Header.vue:168
 #, fuzzy
 msgid "Edit group"
 msgstr "Uppdatera grupp"
 
-#: src/components/Header.vue:120
+#: src/components/Header.vue:137
 msgid "Enter password"
 msgstr "Ange lösenord"
 
@@ -233,7 +243,7 @@ msgstr ""
 "Om statusen är felfri, skapa en <a href=\"https://github.com/nanu-c/axolotl/"
 "issues\" target=\"_blank\">felrapport</a>."
 
-#: src/components/Header.vue:179
+#: src/components/Header.vue:196
 #, fuzzy
 msgid "Import contacts"
 msgstr "Importera kontakter"
@@ -273,7 +283,7 @@ msgstr "Läser in..."
 msgid "Members"
 msgstr "Gruppmedlemmar"
 
-#: src/components/Header.vue:92
+#: src/components/Header.vue:93
 msgid "Mute"
 msgstr "Tysta"
 
@@ -291,7 +301,7 @@ msgstr ""
 "med en länkad Signal-Desktop klient eller be din samtalspartneratt starta "
 "konversationen."
 
-#: src/components/Header.vue:145 src/components/Header.vue:201
+#: src/components/Header.vue:162 src/components/Header.vue:218
 msgid "New group"
 msgstr "Ny grupp"
 
@@ -313,7 +323,7 @@ msgstr "Inga chattar tillgängliga"
 msgid "No linked devices"
 msgstr "Inga länkade enheter"
 
-#: src/pages/MessageList.vue:31
+#: src/pages/MessageList.vue:33
 msgid "No messages available."
 msgstr "Inga meddelanden tillgängliga"
 
@@ -373,7 +383,7 @@ msgstr "Upprepa lösenord"
 msgid "Request code"
 msgstr "Begär kod"
 
-#: src/components/Header.vue:102
+#: src/components/Header.vue:116
 #, fuzzy
 msgid "Reset encryption"
 msgstr "Starta om säker session"
@@ -402,7 +412,7 @@ msgstr "Skicka kod"
 msgid "Send pin"
 msgstr "Skicka pin"
 
-#: src/components/Header.vue:127
+#: src/components/Header.vue:144
 #, fuzzy
 msgid "Set encryption password"
 msgstr "Starta om säker session"
@@ -430,11 +440,11 @@ msgstr ""
 msgid "Setting a username is required. Please choose one."
 msgstr ""
 
-#: src/components/Header.vue:139 src/components/Header.vue:204
+#: src/components/Header.vue:156 src/components/Header.vue:221
 msgid "Settings"
 msgstr "Inställningar"
 
-#: src/components/Header.vue:99
+#: src/components/Header.vue:113
 #, fuzzy
 msgid "Show identity"
 msgstr "Verifiera identiteten"
@@ -455,12 +465,12 @@ msgstr ""
 "Detta är en fri och öppen-källkod Signal klient, utvecklad med Golang och "
 "Vuejs."
 
-#: src/components/Header.vue:32 src/pages/ChatList.vue:30
+#: src/components/Header.vue:33 src/pages/ChatList.vue:30
 #, fuzzy
 msgid "Unknown group"
 msgstr "Okänd grupp"
 
-#: src/components/Header.vue:95
+#: src/components/Header.vue:96
 msgid "Unmute"
 msgstr "Ljud på"
 
@@ -515,7 +525,7 @@ msgstr "Du"
 msgid "You can support the development of Axolotl either by filling"
 msgstr "Du kan stötta utvecklingen av axolotl antingen genom att fylla"
 
-#: src/pages/MessageList.vue:35
+#: src/pages/MessageList.vue:37
 msgid ""
 "You have been invited to this group. Accepting invitations is not yet\n"
 "      supported. In order to join please send private a message to the "
@@ -526,7 +536,7 @@ msgid ""
 msgstr ""
 
 #: src/components/Message.vue:39 src/components/Message.vue:48
-#: src/components/Message.vue:68 src/pages/MessageList.vue:19
+#: src/components/Message.vue:68 src/pages/MessageList.vue:21
 msgid "Your browser does not support the audio element."
 msgstr "Din webbläsare stöder inte ljudelement."
 
@@ -623,10 +633,6 @@ msgstr "Din webbläsare stöder inte videoelement."
 
 #~ msgid "Refresh"
 #~ msgstr "Uppdatera"
-
-#, fuzzy
-#~ msgid "Add contact"
-#~ msgstr "Kontakt"
 
 #~ msgid "Verifying number"
 #~ msgstr "Verifierar nummer"

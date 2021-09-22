@@ -88,7 +88,6 @@ func runUIUbuntuTouch(e string) {
 	} else {
 		cmd = exec.Command("qmlscene", "--scaling", "guis/qml/Main.qml")
 	}
-	var stdout, stderr []byte
 	var errStdout, errStderr error
 	stdoutIn, _ := cmd.StdoutPipe()
 	stderrIn, _ := cmd.StderrPipe()
@@ -106,11 +105,11 @@ func runUIUbuntuTouch(e string) {
 	var wg sync.WaitGroup
 	wg.Add(1)
 	go func() {
-		stdout, errStdout = copyAndCapture(os.Stdout, stdoutIn)
+		_, errStdout = copyAndCapture(os.Stdout, stdoutIn)
 		wg.Done()
 	}()
 
-	stderr, errStderr = copyAndCapture(os.Stderr, stderrIn)
+	_, errStderr = copyAndCapture(os.Stderr, stderrIn)
 
 	wg.Wait()
 
@@ -121,8 +120,6 @@ func runUIUbuntuTouch(e string) {
 	if errStdout != nil || errStderr != nil {
 		log.Fatal("[axolotl] failed to capture stdout or stderr\n")
 	}
-	outStr, errStr := string(stdout), string(stderr)
-	log.Infof("\nout:\n%s\nerr:\n%s\n", outStr, errStr)
 	log.Infof("[axolotl] Axolotl-gui finished with error: %v", err)
 }
 func copyAndCapture(w io.Writer, r io.Reader) ([]byte, error) {

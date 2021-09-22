@@ -50,6 +50,11 @@ msgstr ""
 msgid "Add a new device"
 msgstr "Añadir dispositivo"
 
+#: src/components/Header.vue:99
+#, fuzzy
+msgid "Add contact"
+msgstr "Sin contactos"
+
 #: src/components/AddGroupMembersModal.vue:56
 #, fuzzy
 msgid "Add contacts first"
@@ -90,7 +95,7 @@ msgstr "Cerrar"
 msgid "Confirm"
 msgstr ""
 
-#: src/components/Header.vue:116
+#: src/components/Header.vue:132
 msgid "Connect with Signal"
 msgstr "Conectar con Signal"
 
@@ -102,7 +107,7 @@ msgstr "Contacto"
 msgid "Contact list is empty..."
 msgstr ""
 
-#: src/components/Header.vue:198
+#: src/components/Header.vue:215
 msgid "Contacts"
 msgstr "Contactos"
 
@@ -154,12 +159,17 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: src/components/Header.vue:105 src/components/Header.vue:151
+#: src/components/Header.vue:106
+#, fuzzy
+msgid "Edit contact"
+msgstr "Sin contactos"
+
+#: src/components/Header.vue:119 src/components/Header.vue:168
 #, fuzzy
 msgid "Edit group"
 msgstr "Actualizar grupo"
 
-#: src/components/Header.vue:120
+#: src/components/Header.vue:137
 #, fuzzy
 msgid "Enter password"
 msgstr "Introducir contraseña"
@@ -215,7 +225,7 @@ msgid ""
 "\"_blank\">opening an issue</a>."
 msgstr ""
 
-#: src/components/Header.vue:179
+#: src/components/Header.vue:196
 #, fuzzy
 msgid "Import contacts"
 msgstr "Sin contactos"
@@ -255,7 +265,7 @@ msgstr ""
 msgid "Members"
 msgstr "%1 miembros"
 
-#: src/components/Header.vue:92
+#: src/components/Header.vue:93
 msgid "Mute"
 msgstr ""
 
@@ -270,7 +280,7 @@ msgid ""
 "            counterparty could start the discussion."
 msgstr ""
 
-#: src/components/Header.vue:145 src/components/Header.vue:201
+#: src/components/Header.vue:162 src/components/Header.vue:218
 msgid "New group"
 msgstr "Nuevo grupo"
 
@@ -292,7 +302,7 @@ msgstr ""
 msgid "No linked devices"
 msgstr "Dispositivos vinculados"
 
-#: src/pages/MessageList.vue:31
+#: src/pages/MessageList.vue:33
 msgid "No messages available."
 msgstr ""
 
@@ -353,7 +363,7 @@ msgstr "Repetir nueva contraseña"
 msgid "Request code"
 msgstr ""
 
-#: src/components/Header.vue:102
+#: src/components/Header.vue:116
 #, fuzzy
 msgid "Reset encryption"
 msgstr "Reiniciar la sesión segura"
@@ -382,7 +392,7 @@ msgstr ""
 msgid "Send pin"
 msgstr ""
 
-#: src/components/Header.vue:127
+#: src/components/Header.vue:144
 #, fuzzy
 msgid "Set encryption password"
 msgstr "Reiniciar la sesión segura"
@@ -407,11 +417,11 @@ msgstr ""
 msgid "Setting a username is required. Please choose one."
 msgstr ""
 
-#: src/components/Header.vue:139 src/components/Header.vue:204
+#: src/components/Header.vue:156 src/components/Header.vue:221
 msgid "Settings"
 msgstr "Configuración"
 
-#: src/components/Header.vue:99
+#: src/components/Header.vue:113
 #, fuzzy
 msgid "Show identity"
 msgstr "Verificar la identidad"
@@ -430,12 +440,12 @@ msgid ""
 "        vuejs."
 msgstr ""
 
-#: src/components/Header.vue:32 src/pages/ChatList.vue:30
+#: src/components/Header.vue:33 src/pages/ChatList.vue:30
 #, fuzzy
 msgid "Unknown group"
 msgstr "Nuevo grupo"
 
-#: src/components/Header.vue:95
+#: src/components/Header.vue:96
 msgid "Unmute"
 msgstr ""
 
@@ -487,7 +497,7 @@ msgstr ""
 msgid "You can support the development of Axolotl either by filling"
 msgstr ""
 
-#: src/pages/MessageList.vue:35
+#: src/pages/MessageList.vue:37
 msgid ""
 "You have been invited to this group. Accepting invitations is not yet\n"
 "      supported. In order to join please send private a message to the "
@@ -498,7 +508,7 @@ msgid ""
 msgstr ""
 
 #: src/components/Message.vue:39 src/components/Message.vue:48
-#: src/components/Message.vue:68 src/pages/MessageList.vue:19
+#: src/components/Message.vue:68 src/pages/MessageList.vue:21
 msgid "Your browser does not support the audio element."
 msgstr ""
 
@@ -638,10 +648,6 @@ msgstr ""
 
 #~ msgid "Refresh"
 #~ msgstr "Recargar"
-
-#, fuzzy
-#~ msgid "Add contact"
-#~ msgstr "Sin contactos"
 
 #~ msgid "Content Picker"
 #~ msgstr "Selector de contenido"

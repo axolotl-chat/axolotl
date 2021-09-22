@@ -54,6 +54,7 @@ func runUI() error {
 	} else {
 		ui.RunUi(config.Gui)
 	}
+	endAxolotlGracefully()
 	return nil
 }
 func endAxolotlGracefully() {

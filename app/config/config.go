@@ -18,7 +18,7 @@ import (
 
 const AppName = "textsecure.nanuc"
 
-const AppVersion = "1.0.4"
+const AppVersion = "1.0.5"
 
 // Do not allow sending attachments larger than 100M for now
 var MaxAttachmentSize int64 = 100 * 1024 * 1024
@@ -54,7 +54,7 @@ func GetConfig() (*textsecureConfig.Config, error) {
 	ConfigFile = filepath.Join(ConfigDir, "config.yml")
 	cf := ConfigFile
 	if IsPhone {
-		ConfigDir = filepath.Join("/opt/click.ubuntu.com", AppName, "current")
+		ConfigDir = filepath.Join("/home/phablet/.config/textsecure.nanuc/")
 		if !helpers.Exists(ConfigFile) {
 			cf = filepath.Join(ConfigDir, "config.yml")
 		}

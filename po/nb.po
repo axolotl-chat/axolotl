@@ -48,6 +48,11 @@ msgstr "Legg til"
 msgid "Add a new device"
 msgstr "Legg til en ny enhet"
 
+#: src/components/Header.vue:99
+#, fuzzy
+msgid "Add contact"
+msgstr "Legg til kontakt"
+
 #: src/components/AddGroupMembersModal.vue:56
 msgid "Add contacts first"
 msgstr "Legg til kontakter først"
@@ -89,7 +94,7 @@ msgstr "Lukk"
 msgid "Confirm"
 msgstr "Bekreft"
 
-#: src/components/Header.vue:116
+#: src/components/Header.vue:132
 msgid "Connect with Signal"
 msgstr "Kontakt med Signal"
 
@@ -101,7 +106,7 @@ msgstr "Kontakt"
 msgid "Contact list is empty..."
 msgstr "Kontaktlisten er tom..."
 
-#: src/components/Header.vue:198
+#: src/components/Header.vue:215
 #, fuzzy
 msgid "Contacts"
 msgstr "Kontakter"
@@ -160,12 +165,17 @@ msgstr ""
 msgid "Edit"
 msgstr "Redigér"
 
-#: src/components/Header.vue:105 src/components/Header.vue:151
+#: src/components/Header.vue:106
+#, fuzzy
+msgid "Edit contact"
+msgstr "Legg til kontakt"
+
+#: src/components/Header.vue:119 src/components/Header.vue:168
 #, fuzzy
 msgid "Edit group"
 msgstr "Oppdatér gruppe"
 
-#: src/components/Header.vue:120
+#: src/components/Header.vue:137
 msgid "Enter password"
 msgstr "Tast inn passord"
 
@@ -238,7 +248,7 @@ msgstr ""
 "            <a href=\"https://github.com/nanu-c/axolotl/issues\" target="
 "\"_blank\"> å åpne et problem</a>."
 
-#: src/components/Header.vue:179
+#: src/components/Header.vue:196
 #, fuzzy
 msgid "Import contacts"
 msgstr "Importer kontakter"
@@ -276,7 +286,7 @@ msgstr "Laster..."
 msgid "Members"
 msgstr "Medlemmer"
 
-#: src/components/Header.vue:92
+#: src/components/Header.vue:93
 msgid "Mute"
 msgstr "Lydløs"
 
@@ -294,7 +304,7 @@ msgstr ""
 "            chat fra den koblede Desktop-klienten. Alternativt kan\n"
 "            din motpart starte diskusjonen."
 
-#: src/components/Header.vue:145 src/components/Header.vue:201
+#: src/components/Header.vue:162 src/components/Header.vue:218
 msgid "New group"
 msgstr "Ny gruppe"
 
@@ -316,7 +326,7 @@ msgstr "Ingen samtaler tilgjengelige."
 msgid "No linked devices"
 msgstr "Ingen koblede enheter"
 
-#: src/pages/MessageList.vue:31
+#: src/pages/MessageList.vue:33
 msgid "No messages available."
 msgstr "Ingen meldinger tilgjengelige."
 
@@ -378,7 +388,7 @@ msgstr "Gjenta passord"
 msgid "Request code"
 msgstr "Forespørselskode"
 
-#: src/components/Header.vue:102
+#: src/components/Header.vue:116
 msgid "Reset encryption"
 msgstr "Tilbakestill kryptering"
 
@@ -406,7 +416,7 @@ msgstr "Send kode"
 msgid "Send pin"
 msgstr "Send PIN"
 
-#: src/components/Header.vue:127
+#: src/components/Header.vue:144
 msgid "Set encryption password"
 msgstr "Angi krypteringspassord"
 
@@ -434,11 +444,11 @@ msgstr ""
 msgid "Setting a username is required. Please choose one."
 msgstr ""
 
-#: src/components/Header.vue:139 src/components/Header.vue:204
+#: src/components/Header.vue:156 src/components/Header.vue:221
 msgid "Settings"
 msgstr "Innstillinger"
 
-#: src/components/Header.vue:99
+#: src/components/Header.vue:113
 msgid "Show identity"
 msgstr "Vis identitet"
 
@@ -460,11 +470,11 @@ msgstr ""
 "vuejs.\n"
 "    Du kan støtte utviklingen av axolotl enten ved å fylle ut"
 
-#: src/components/Header.vue:32 src/pages/ChatList.vue:30
+#: src/components/Header.vue:33 src/pages/ChatList.vue:30
 msgid "Unknown group"
 msgstr "Ukjent gruppe"
 
-#: src/components/Header.vue:95
+#: src/components/Header.vue:96
 msgid "Unmute"
 msgstr "Opphev lydløs"
 
@@ -519,7 +529,7 @@ msgstr "Deg"
 msgid "You can support the development of Axolotl either by filling"
 msgstr "Du kan støtte utviklingen av Axolotl enten ved å fylle ut"
 
-#: src/pages/MessageList.vue:35
+#: src/pages/MessageList.vue:37
 msgid ""
 "You have been invited to this group. Accepting invitations is not yet\n"
 "      supported. In order to join please send private a message to the "
@@ -530,7 +540,7 @@ msgid ""
 msgstr ""
 
 #: src/components/Message.vue:39 src/components/Message.vue:48
-#: src/components/Message.vue:68 src/pages/MessageList.vue:19
+#: src/components/Message.vue:68 src/pages/MessageList.vue:21
 msgid "Your browser does not support the audio element."
 msgstr "Nettleseren støtter ikke lydelementet."
 
@@ -650,10 +660,6 @@ msgstr "Nettleseren støtter ikke videoelementet."
 
 #~ msgid "Refresh"
 #~ msgstr "Oppfrisk"
-
-#, fuzzy
-#~ msgid "Add contact"
-#~ msgstr "Legg til kontakt"
 
 #~ msgid "Verifying number"
 #~ msgstr "Verifiserer nummer"
