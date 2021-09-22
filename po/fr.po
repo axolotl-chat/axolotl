@@ -45,6 +45,11 @@ msgstr "Ajouter"
 msgid "Add a new device"
 msgstr "Ajouter un nouvel appareil"
 
+#: src/components/Header.vue:99
+#, fuzzy
+msgid "Add contact"
+msgstr "Aucun contact"
+
 #: src/components/AddGroupMembersModal.vue:56
 msgid "Add contacts first"
 msgstr "Veuillez d'abord ajouter des contacts"
@@ -88,7 +93,7 @@ msgstr "Fermer"
 msgid "Confirm"
 msgstr "Valider"
 
-#: src/components/Header.vue:116
+#: src/components/Header.vue:132
 msgid "Connect with Signal"
 msgstr "Se connecter avec Signal"
 
@@ -100,7 +105,7 @@ msgstr "Contact"
 msgid "Contact list is empty..."
 msgstr "La liste des contacts est vide..."
 
-#: src/components/Header.vue:198
+#: src/components/Header.vue:215
 msgid "Contacts"
 msgstr "Contacts"
 
@@ -159,11 +164,16 @@ msgstr ""
 msgid "Edit"
 msgstr "Modifier"
 
-#: src/components/Header.vue:105 src/components/Header.vue:151
+#: src/components/Header.vue:106
+#, fuzzy
+msgid "Edit contact"
+msgstr "Aucun contact"
+
+#: src/components/Header.vue:119 src/components/Header.vue:168
 msgid "Edit group"
 msgstr "Modifier le groupe"
 
-#: src/components/Header.vue:120
+#: src/components/Header.vue:137
 msgid "Enter password"
 msgstr "Saisissez votre mot de passe"
 
@@ -237,7 +247,7 @@ msgstr ""
 "            <a href=\"https://github.com/nanu-c/axolotl/issues\" target="
 "\"_blank\">ouvrant un problème</a>."
 
-#: src/components/Header.vue:179
+#: src/components/Header.vue:196
 msgid "Import contacts"
 msgstr "Importer des contacts"
 
@@ -273,7 +283,7 @@ msgstr "Chargement..."
 msgid "Members"
 msgstr "Membres"
 
-#: src/components/Header.vue:92
+#: src/components/Header.vue:93
 msgid "Mute"
 msgstr "Mettre en silencieux"
 
@@ -292,7 +302,7 @@ msgstr ""
 "            conversation à partir du client lié sur bureau. Sinon, votre\n"
 "            votre interlocuteur/trice peut lancer la discussion."
 
-#: src/components/Header.vue:145 src/components/Header.vue:201
+#: src/components/Header.vue:162 src/components/Header.vue:218
 msgid "New group"
 msgstr "Nouveau groupe"
 
@@ -312,7 +322,7 @@ msgstr "Aucune discussion disponible"
 msgid "No linked devices"
 msgstr "Aucun appareil lié"
 
-#: src/pages/MessageList.vue:31
+#: src/pages/MessageList.vue:33
 msgid "No messages available."
 msgstr "Aucun message disponible."
 
@@ -372,7 +382,7 @@ msgstr "Répétez le nouveau mot de passe"
 msgid "Request code"
 msgstr "Demander un code"
 
-#: src/components/Header.vue:102
+#: src/components/Header.vue:116
 msgid "Reset encryption"
 msgstr "Réinitialiser le chiffrement"
 
@@ -400,7 +410,7 @@ msgstr "Envoyer un code"
 msgid "Send pin"
 msgstr "Envoyer un code PIN"
 
-#: src/components/Header.vue:127
+#: src/components/Header.vue:144
 msgid "Set encryption password"
 msgstr "Définir un mot de passe de chiffrement"
 
@@ -426,11 +436,11 @@ msgstr ""
 msgid "Setting a username is required. Please choose one."
 msgstr "Vous devez définir un identifiant. Veuillez en choisir un."
 
-#: src/components/Header.vue:139 src/components/Header.vue:204
+#: src/components/Header.vue:156 src/components/Header.vue:221
 msgid "Settings"
 msgstr "Paramètres"
 
-#: src/components/Header.vue:99
+#: src/components/Header.vue:113
 msgid "Show identity"
 msgstr "Afficher l’identité"
 
@@ -452,11 +462,11 @@ msgstr ""
 "Ceci est un client Signal libre écrit en golang et\n"
 "        vuejs."
 
-#: src/components/Header.vue:32 src/pages/ChatList.vue:30
+#: src/components/Header.vue:33 src/pages/ChatList.vue:30
 msgid "Unknown group"
 msgstr "Groupe inconnu"
 
-#: src/components/Header.vue:95
+#: src/components/Header.vue:96
 msgid "Unmute"
 msgstr "Désactiver le silencieux"
 
@@ -509,7 +519,7 @@ msgstr "Vous"
 msgid "You can support the development of Axolotl either by filling"
 msgstr "Vous pouvez aider le développement d'Axolotl soit en remplissant"
 
-#: src/pages/MessageList.vue:35
+#: src/pages/MessageList.vue:37
 msgid ""
 "You have been invited to this group. Accepting invitations is not yet\n"
 "      supported. In order to join please send private a message to the "
@@ -527,7 +537,7 @@ msgstr ""
 "      de nouveau."
 
 #: src/components/Message.vue:39 src/components/Message.vue:48
-#: src/components/Message.vue:68 src/pages/MessageList.vue:19
+#: src/components/Message.vue:68 src/pages/MessageList.vue:21
 msgid "Your browser does not support the audio element."
 msgstr "Votre navigateur ne prend pas en charge l'élément audio."
 
@@ -698,10 +708,6 @@ msgstr "Votre navigateur ne prend pas en charge l'élément vidéo."
 
 #~ msgid "Refresh"
 #~ msgstr "Actualiser"
-
-#, fuzzy
-#~ msgid "Add contact"
-#~ msgstr "Aucun contact"
 
 #~ msgid "Content Picker"
 #~ msgstr "Sélecteur de contenu"

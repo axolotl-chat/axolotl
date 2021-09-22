@@ -48,6 +48,11 @@ msgstr "Adicionar"
 msgid "Add a new device"
 msgstr "Dispositivos conetados"
 
+#: src/components/Header.vue:99
+#, fuzzy
+msgid "Add contact"
+msgstr "Adicionar contato"
+
 #: src/components/AddGroupMembersModal.vue:56
 msgid "Add contacts first"
 msgstr "Adicionar contatos primeiro"
@@ -87,7 +92,7 @@ msgstr "Fechar"
 msgid "Confirm"
 msgstr "Confirmar"
 
-#: src/components/Header.vue:116
+#: src/components/Header.vue:132
 msgid "Connect with Signal"
 msgstr "Ligar com o Signal"
 
@@ -99,7 +104,7 @@ msgstr "Contato"
 msgid "Contact list is empty..."
 msgstr "Lista de contactos está vazia"
 
-#: src/components/Header.vue:198
+#: src/components/Header.vue:215
 #, fuzzy
 msgid "Contacts"
 msgstr "Contatos"
@@ -151,11 +156,16 @@ msgstr ""
 msgid "Edit"
 msgstr "Editar"
 
-#: src/components/Header.vue:105 src/components/Header.vue:151
+#: src/components/Header.vue:106
+#, fuzzy
+msgid "Edit contact"
+msgstr "Adicionar contato"
+
+#: src/components/Header.vue:119 src/components/Header.vue:168
 msgid "Edit group"
 msgstr "Atualizar grupo"
 
-#: src/components/Header.vue:120
+#: src/components/Header.vue:137
 msgid "Enter password"
 msgstr "Insira password"
 
@@ -210,7 +220,7 @@ msgid ""
 "\"_blank\">opening an issue</a>."
 msgstr ""
 
-#: src/components/Header.vue:179
+#: src/components/Header.vue:196
 #, fuzzy
 msgid "Import contacts"
 msgstr "Sem contatos"
@@ -248,7 +258,7 @@ msgstr "Carregar"
 msgid "Members"
 msgstr "Membros do grupo"
 
-#: src/components/Header.vue:92
+#: src/components/Header.vue:93
 msgid "Mute"
 msgstr "Silenciar"
 
@@ -263,7 +273,7 @@ msgid ""
 "            counterparty could start the discussion."
 msgstr ""
 
-#: src/components/Header.vue:145 src/components/Header.vue:201
+#: src/components/Header.vue:162 src/components/Header.vue:218
 msgid "New group"
 msgstr "Novo grupo"
 
@@ -285,7 +295,7 @@ msgstr "Sem conversas disponiveis"
 msgid "No linked devices"
 msgstr "Dispositivos conetados"
 
-#: src/pages/MessageList.vue:31
+#: src/pages/MessageList.vue:33
 msgid "No messages available."
 msgstr "Sem mensagens disponiveis"
 
@@ -344,7 +354,7 @@ msgstr "Repetir password"
 msgid "Request code"
 msgstr "Código de solicitação"
 
-#: src/components/Header.vue:102
+#: src/components/Header.vue:116
 msgid "Reset encryption"
 msgstr "Reiniciar a sessão segura"
 
@@ -372,7 +382,7 @@ msgstr "Enviar código"
 msgid "Send pin"
 msgstr "Enviar pin"
 
-#: src/components/Header.vue:127
+#: src/components/Header.vue:144
 msgid "Set encryption password"
 msgstr "Definir password de criptografia"
 
@@ -399,11 +409,11 @@ msgstr ""
 msgid "Setting a username is required. Please choose one."
 msgstr ""
 
-#: src/components/Header.vue:139 src/components/Header.vue:204
+#: src/components/Header.vue:156 src/components/Header.vue:221
 msgid "Settings"
 msgstr "Definições"
 
-#: src/components/Header.vue:99
+#: src/components/Header.vue:113
 msgid "Show identity"
 msgstr "Verificar a identidade"
 
@@ -425,11 +435,11 @@ msgstr ""
 "vuejs.\n"
 "    Você pode apoiar o desenvolvimento do axolotl preenchendo"
 
-#: src/components/Header.vue:32 src/pages/ChatList.vue:30
+#: src/components/Header.vue:33 src/pages/ChatList.vue:30
 msgid "Unknown group"
 msgstr "Grupo desconhecido"
 
-#: src/components/Header.vue:95
+#: src/components/Header.vue:96
 msgid "Unmute"
 msgstr "Ativar som"
 
@@ -484,7 +494,7 @@ msgstr ""
 "vuejs.\n"
 "    Você pode apoiar o desenvolvimento do axolotl preenchendo"
 
-#: src/pages/MessageList.vue:35
+#: src/pages/MessageList.vue:37
 msgid ""
 "You have been invited to this group. Accepting invitations is not yet\n"
 "      supported. In order to join please send private a message to the "
@@ -495,7 +505,7 @@ msgid ""
 msgstr ""
 
 #: src/components/Message.vue:39 src/components/Message.vue:48
-#: src/components/Message.vue:68 src/pages/MessageList.vue:19
+#: src/components/Message.vue:68 src/pages/MessageList.vue:21
 msgid "Your browser does not support the audio element."
 msgstr "Seu navegador não suporta o elemento de áudio."
 
@@ -618,10 +628,6 @@ msgstr "Seu navegador não suporta o elemento de vídeo."
 
 #~ msgid "Refresh"
 #~ msgstr "Recarregar"
-
-#, fuzzy
-#~ msgid "Add contact"
-#~ msgstr "Adicionar contato"
 
 #~ msgid "Verifying number"
 #~ msgstr "A verificar o número"

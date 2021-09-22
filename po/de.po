@@ -49,6 +49,11 @@ msgstr "Hinzufügen"
 msgid "Add a new device"
 msgstr "Gerät hinzufügen"
 
+#: src/components/Header.vue:99
+#, fuzzy
+msgid "Add contact"
+msgstr "Kontakt hinzufügen"
+
 #: src/components/AddGroupMembersModal.vue:56
 msgid "Add contacts first"
 msgstr "Zuerst Kontakte hinzufügen"
@@ -94,7 +99,7 @@ msgstr "Schließen"
 msgid "Confirm"
 msgstr "Bestätigen"
 
-#: src/components/Header.vue:116
+#: src/components/Header.vue:132
 msgid "Connect with Signal"
 msgstr "Mit Signal verbinden"
 
@@ -106,7 +111,7 @@ msgstr "Kontakt"
 msgid "Contact list is empty..."
 msgstr "Die Kontaktliste ist leer..."
 
-#: src/components/Header.vue:198
+#: src/components/Header.vue:215
 msgid "Contacts"
 msgstr "Kontakte"
 
@@ -166,11 +171,16 @@ msgstr ""
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: src/components/Header.vue:105 src/components/Header.vue:151
+#: src/components/Header.vue:106
+#, fuzzy
+msgid "Edit contact"
+msgstr "Kontakt hinzufügen"
+
+#: src/components/Header.vue:119 src/components/Header.vue:168
 msgid "Edit group"
 msgstr "Gruppe bearbeiten"
 
-#: src/components/Header.vue:120
+#: src/components/Header.vue:137
 msgid "Enter password"
 msgstr "Passwort eingeben"
 
@@ -241,7 +251,7 @@ msgstr ""
 "github.com/nanu-c/axolotl/issues\" target=\"_blank\">erstelle einen "
 "Fehlerbericht</a>."
 
-#: src/components/Header.vue:179
+#: src/components/Header.vue:196
 msgid "Import contacts"
 msgstr "Kontakte importieren"
 
@@ -277,7 +287,7 @@ msgstr "Laden..."
 msgid "Members"
 msgstr "Gruppenmitglieder"
 
-#: src/components/Header.vue:92
+#: src/components/Header.vue:93
 msgid "Mute"
 msgstr "Stumm"
 
@@ -296,7 +306,7 @@ msgstr ""
 "diese von einem verknüpften Destkop-Gerät oder bitte dein Gegenüber diese zu "
 "starten."
 
-#: src/components/Header.vue:145 src/components/Header.vue:201
+#: src/components/Header.vue:162 src/components/Header.vue:218
 msgid "New group"
 msgstr "Neue Gruppe"
 
@@ -316,7 +326,7 @@ msgstr "Keine Chats vorhanden"
 msgid "No linked devices"
 msgstr "Keine verknüpften Geräte"
 
-#: src/pages/MessageList.vue:31
+#: src/pages/MessageList.vue:33
 msgid "No messages available."
 msgstr "Keine Nachrichten vorhanden."
 
@@ -378,7 +388,7 @@ msgstr "Passwort hier wiederholen"
 msgid "Request code"
 msgstr "Code anfordern"
 
-#: src/components/Header.vue:102
+#: src/components/Header.vue:116
 msgid "Reset encryption"
 msgstr "Verschlüsselung neu starten"
 
@@ -406,7 +416,7 @@ msgstr "Code senden"
 msgid "Send pin"
 msgstr "Pin senden"
 
-#: src/components/Header.vue:127
+#: src/components/Header.vue:144
 msgid "Set encryption password"
 msgstr "Verschlüsselungs-Passwort setzen"
 
@@ -433,11 +443,11 @@ msgstr ""
 msgid "Setting a username is required. Please choose one."
 msgstr ""
 
-#: src/components/Header.vue:139 src/components/Header.vue:204
+#: src/components/Header.vue:156 src/components/Header.vue:221
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: src/components/Header.vue:99
+#: src/components/Header.vue:113
 msgid "Show identity"
 msgstr "Kontakt überprüfen"
 
@@ -459,11 +469,11 @@ msgstr ""
 "Dies ist ein freier Open Source Signal-Client, geschrieben mit Golang und "
 "Vuejs."
 
-#: src/components/Header.vue:32 src/pages/ChatList.vue:30
+#: src/components/Header.vue:33 src/pages/ChatList.vue:30
 msgid "Unknown group"
 msgstr "Unbekannte Gruppe"
 
-#: src/components/Header.vue:95
+#: src/components/Header.vue:96
 msgid "Unmute"
 msgstr "Benachrichtigungen ein"
 
@@ -517,7 +527,7 @@ msgid "You can support the development of Axolotl either by filling"
 msgstr ""
 "Du kannst die Entwicklung von Axolotl unterstützen durch das Erstellen von"
 
-#: src/pages/MessageList.vue:35
+#: src/pages/MessageList.vue:37
 msgid ""
 "You have been invited to this group. Accepting invitations is not yet\n"
 "      supported. In order to join please send private a message to the "
@@ -528,7 +538,7 @@ msgid ""
 msgstr ""
 
 #: src/components/Message.vue:39 src/components/Message.vue:48
-#: src/components/Message.vue:68 src/pages/MessageList.vue:19
+#: src/components/Message.vue:68 src/pages/MessageList.vue:21
 msgid "Your browser does not support the audio element."
 msgstr "Dein Browser unterstützt dieses Audio-Element nicht."
 
@@ -693,10 +703,6 @@ msgstr "Dein Browser unterstützt dieses Video-Element nicht."
 
 #~ msgid "Refresh"
 #~ msgstr "Aktualisieren"
-
-#, fuzzy
-#~ msgid "Add contact"
-#~ msgstr "Kontakt hinzufügen"
 
 #~ msgid "Content Picker"
 #~ msgstr "Datenauswahl"
