@@ -54,7 +54,7 @@ func GetConfig() (*textsecureConfig.Config, error) {
 	ConfigFile = filepath.Join(ConfigDir, "config.yml")
 	cf := ConfigFile
 	if IsPhone {
-		ConfigDir = filepath.Join("/opt/click.ubuntu.com", AppName, "current")
+		ConfigDir = filepath.Join("/home/phablet/.config/textsecure.nanuc/")
 		if !helpers.Exists(ConfigFile) {
 			cf = filepath.Join(ConfigDir, "config.yml")
 		}
