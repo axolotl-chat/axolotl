@@ -1,6 +1,6 @@
 {
     "name": "textsecure.nanuc",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "A Signal compatible messaging client for Ubuntu phones",
     "title": "Axolotl",
     "architecture": "@CLICK_ARCH@",

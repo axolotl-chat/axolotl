@@ -1,3 +1,8 @@
+1.0.5 (Sep 23 2021) 
+------------------------------------
+* Fix registration by adding a new backend and use the signal upstream libraries for that ♡ ♥ ❤ 💓 💔 (jonnius, Johannes Renkl, nanu-c)
+* Basic editing contacts support, (could be improved) (nanu-c)
+
 1.0.4 (Sep 12 2021)
 ------------------------------------
 * Fix sending messages (nanu-c)
