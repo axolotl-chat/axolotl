@@ -250,16 +250,16 @@ see [build.sh](../scripts/build.sh)
 Building Axolotl for Mobian (or other Debian arm64 systems) can be done by getting the source via
 
 ```
-go get -d -u github.com/nanu-c/axolotl/
+env GO111MODULE=off go get -d -u github.com/nanu-c/axolotl/
 ```
 and executing this Makefile command in the source folder on a Debian arm64 machine.
 ```
 make build-deb-arm64
 ```
 
-Installation can be done via
+Installation can be done afterwards via
 ```
-make prebuild-package-deb-arm64 install-deb-arm64
+make install-deb-arm64
 ```
 
 **Debian packaging**
