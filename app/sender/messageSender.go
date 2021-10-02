@@ -118,27 +118,23 @@ func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
 	}
 	var recipient string
 	// check if user uuid exists and if yes send it to the uuid instead of the phone number
-	if s.UUID != emptyUUID && s.UUID != "" && !s.IsGroup {
+	if s.UUID != emptyUUID && s.UUID != "" {
 		recipient = s.UUID
+		// If it's not a group session, check that recipient does not contain '-'
+		// If it does, convert recipient value to a valid UUID
 		index := strings.Index(recipient, "-")
-		if index == -1 {
+		if !s.IsGroup && index == -1 {
 			recipient = helpers.HexToUUID(recipient)
 		}
 	} else {
-		recipient = s.Tel
-		if recipient[0] != '+' && !s.IsGroup {
-			log.Debugln("[axolotl] send message: empty uuid")
-			index := strings.Index(recipient, "-")
-			if index == -1 {
-				recipient = helpers.HexToUUID(recipient)
-			}
-		}
-	}
-	if s.UUID != emptyUUID && s.UUID != "" {
-		recipient = s.UUID
-	} else {
 		log.Debugln("[axolotl] send message: empty uuid")
 		recipient = s.Tel
+		// If it's not a group session, check that recipient does not begin with '+' or contain '-'
+		// If it does, convert it to a valid UUID
+		index := strings.Index(recipient, "-")
+		if recipient[0] != '+' && !s.IsGroup && index == -1 {
+			recipient = helpers.HexToUUID(recipient)
+		}
 	}
 	ts := SendMessageLoop(recipient, m.Message, s.IsGroup, att, m.Flags, s.ExpireTimer)
 	log.Debugln("[axolotl] SendMessage", recipient, ts)
