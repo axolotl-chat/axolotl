@@ -121,7 +121,7 @@ func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
 	if s.UUID != emptyUUID && s.UUID != "" {
 		recipient = s.UUID
 		// If it's not a group session, check that recipient does not contain '-'
-		// If it does, convert recipient value to a valid UUID
+		// If it does not, convert recipient value to a valid UUID
 		index := strings.Index(recipient, "-")
 		if !s.IsGroup && index == -1 {
 			recipient = helpers.HexToUUID(recipient)
@@ -130,7 +130,7 @@ func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
 		log.Debugln("[axolotl] send message: empty uuid")
 		recipient = s.Tel
 		// If it's not a group session, check that recipient does not begin with '+' or contain '-'
-		// If it does, convert it to a valid UUID
+		// If it does not, convert it to a valid UUID
 		index := strings.Index(recipient, "-")
 		if recipient[0] != '+' && !s.IsGroup && index == -1 {
 			recipient = helpers.HexToUUID(recipient)
