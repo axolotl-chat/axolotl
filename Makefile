@@ -31,6 +31,7 @@ SNAPCRAFT=$(shell which snapcraft)
 SNAP=$(shell which snap)
 APT=$(shell which apt)
 WGET=$(shell which wget)
+RUST=$(shell which rustup)
 
 DESTDIR = /
 INSTALL_PREFIX = usr/bin
@@ -182,9 +183,14 @@ check-platform-deb-arm64:
 dependencies-deb-arm64: check-platform-deb-arm64
 	@echo "Installing dependencies for building Axolotl..."
 	@sudo $(APT) update
-	@sudo $(APT) install nano git golang nodejs npm
+	@sudo $(APT) install nano curl git golang nodejs npm
+  ifneq ($(RUST),${HOME}/.cargo/bin/rustup)
+	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+	@source ${HOME}/.cargo/env
+  endif
+	@rustup update
 
-build-deb-arm64: check-platform-deb-arm64 dependencies-deb-arm64
+build-deb-arm64: dependencies-deb-arm64
 	@echo "Downloading (go)..."
 	@cd $(CURRENT_DIR) && go mod download
 	@echo "Installing (npm)..."
@@ -196,6 +202,8 @@ build-deb-arm64: check-platform-deb-arm64 dependencies-deb-arm64
 	@cd $(CURRENT_DIR) && env GOOS=linux GOARCH=arm64 go build -o build/linux-arm64/axolotl .
 	@cp --recursive $(CURRENT_DIR)/axolotl-web/dist $(CURRENT_DIR)/build/linux-arm64/axolotl-web/
 	@cp --recursive $(CURRENT_DIR)/guis $(CURRENT_DIR)/build/linux-arm64/
+	@echo "Building (rust)..."
+	@cd $(CURRENT_DIR)/crayfish && cargo build --release
 	@echo "Building complete."
 
 prebuild-package-deb-arm64: package-clean-deb-arm64
@@ -222,6 +230,7 @@ prebuild-package-deb-arm64: package-clean-deb-arm64
 	@cp $(CURRENT_DIR)/deb/control $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/control
 	@$(WGET) https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_aarch64.so --directory-prefix=$(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/lib/
 	@mv $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl/axolotl $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin/
+	@cp $(CURRENT_DIR)/crayfish/target/release/crayfish $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin/
 	@echo "Prebuilding Debian package complete"
 
 build-package-deb-arm64:
@@ -244,18 +253,21 @@ install-deb-arm64: uninstall-deb-arm64
 	@sudo mv $(DESTDIR)$(SHARE_PREFIX)/axolotl/axolotl $(DESTDIR)$(INSTALL_PREFIX)/
 	@sudo cp $(CURRENT_DIR)/deb/axolotl.desktop $(DESTDIR)$(SHARE_PREFIX)/applications/
 	@sudo cp $(CURRENT_DIR)/deb/axolotl.png $(DESTDIR)$(SHARE_PREFIX)/icons/hicolor/128x128/apps/
+	@sudo gtk-update-icon-cache
 	@sudo cp $(CURRENT_DIR)/deb/axolotl.sh /etc/profile.d
 	@bash -c "source /etc/profile.d/axolotl.sh"
+	@sudo cp $(CURRENT_DIR)/crayfish/target/release/crayfish $(DESTDIR)$(INSTALL_PREFIX)/
 	@echo "Installation complete"
 
 uninstall-deb-arm64:
-	@pkill axolotl
 	@sudo rm --recursive --force $(DESTDIR)$(SHARE_PREFIX)/axolotl/
 	@sudo rm --force $(DESTDIR)$(INSTALL_PREFIX)/axolotl
 	@sudo rm --force $(DESTDIR)$(SHARE_PREFIX)/applications/axolotl.desktop
 	@sudo rm --force $(DESTDIR)$(SHARE_PREFIX)/icons/hicolor/128x128/apps/axolotl.png
+	@sudo gtk-update-icon-cache
 	@sudo rm --force /etc/profile.d/axolotl.sh
 	@sudo rm --force $(DESTDIR)$(LIBRARY_PREFIX)/libzkgroup_linux_aarch64.so
+	@sudo rm --force $(DESTDIR)$(INSTALL_PREFIX)/crayfish
 	@echo "Removing complete"
 
 clean-deb-arm64:
