@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2021-09-03 21:20+0200\n"
+"PO-Revision-Date: 2021-10-03 13:29+0200\n"
 "Last-Translator: Anne017\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -46,9 +46,8 @@ msgid "Add a new device"
 msgstr "Ajouter un nouvel appareil"
 
 #: src/components/Header.vue:99
-#, fuzzy
 msgid "Add contact"
-msgstr "Aucun contact"
+msgstr "Ajouter un contact"
 
 #: src/components/AddGroupMembersModal.vue:56
 msgid "Add contacts first"
@@ -165,9 +164,8 @@ msgid "Edit"
 msgstr "Modifier"
 
 #: src/components/Header.vue:106
-#, fuzzy
 msgid "Edit contact"
-msgstr "Aucun contact"
+msgstr "Modifier le contact"
 
 #: src/components/Header.vue:119 src/components/Header.vue:168
 msgid "Edit group"
