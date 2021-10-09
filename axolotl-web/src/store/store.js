@@ -506,8 +506,8 @@ export default createStore({
       state.rateLimitError = null;
       if (this.state.socket.isConnected
         && contact.name !== "" && contact.phone !== "") {
-          if(typeof state.currentChat !== "undefined" &&
-            this.state.currentChat.Tel === contact.phone){
+          if(this.state.currentChat !== null
+            && this.state.currentChat.Tel === contact.phone){
             this.commit("SET_CURRENT_CHAT_NAME", contact.name);
           }
         const message = {
@@ -581,8 +581,8 @@ export default createStore({
     editContact(state, data) {
       state.rateLimitError = null;
       if (this.state.socket.isConnected) {
-        if(typeof state.currentChat !== "undefined" &&
-          this.state.currentChat.Tel === data.contact.Tel){
+        if(this.state.currentChat !== null
+          && this.state.currentChat.Tel === data.contact.Tel){
           this.commit("SET_CURRENT_CHAT_NAME", data.contact.Name);
         }
         const message = {
