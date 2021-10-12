@@ -44,6 +44,7 @@
 <script>
 export default {
   name: "ImportUnavailableModal",
+  emits: ["close"],
 };
 </script>
 

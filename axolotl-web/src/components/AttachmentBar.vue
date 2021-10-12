@@ -46,6 +46,7 @@
 <script>
 export default {
   name: "AddContact",
+  emits: ["send", "close"],
   computed: {
     gui() {
       return this.$store.state.gui;

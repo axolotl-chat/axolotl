@@ -44,6 +44,7 @@ import QRCode from "qrcode";
 import { mapState } from "vuex";
 export default {
   name: "IdentityModal",
+  emits: ["close", "confirm"],
   data() {
     return {
       errorMessage: null,

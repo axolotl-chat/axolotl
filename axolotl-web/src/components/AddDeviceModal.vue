@@ -42,6 +42,7 @@
 <script>
 export default {
   name: "AddDeviceModal",
+  emits: ["close", "add"],
   data() {
     return {
       qrCode: "",

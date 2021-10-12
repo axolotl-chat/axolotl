@@ -39,6 +39,7 @@ export default {
       default: ""
     },
   },
+  emits: ["close", "confirm"],
 };
 </script>
 <style scoped>
