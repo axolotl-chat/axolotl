@@ -67,18 +67,46 @@ Building should work using both `stable` and `nightly` toolchains.
 Find the crayfish binary in `crayfish/target/release/crayfish` and ship it
 such that it is found in `PATH` on runtime.
 
+### Cross compile build
+
+#### cross
+
 To cross-compile for other targets, one approach is to use `cross` and specify the target flag.
 [Cross](https://github.com/rust-embedded/cross) provides an environment, cross toolchain and cross
 compiled libraries for building, without needing to install them separately.
 
 To install, use `cargo install cross`.
 
-```bash
-cross build --release --target aarch64-unknown-linux-gnu
-```
+To do a cross-compile build, use the following:
 
 ```bash
+cross build --release --target aarch64-unknown-linux-gnu
 cross build --release --target armv7-unknown-linux-gnueabihf
+```
+
+#### Natively
+
+Another approach of cross-compiling is to set up the dependencies yourself.
+
+For that two things are required. First install the required dependencies.
+For Ubuntu, the following packages are required.
+
+```bash
+sudo apt install gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf
+```
+
+Then install the rust targets, e.g.:
+
+```bash
+rustup target add aarch64-unknown-linux-gnu
+rustup target add armv7-unknown-linux-gnueabihf
+```
+
+To do a cross-compile build, use the following:
+
+```bash
+cargo build --release --target aarch64-unknown-linux-gnu
+cargo build --release --target armv7-unknown-linux-gnueabihf
 ```
 
 ## Snap
