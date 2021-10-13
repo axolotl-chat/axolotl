@@ -37,8 +37,8 @@
                     <div
                       v-if="
                         currentChat !== null &&
-                        currentChat.IsGroup &&
-                        currentChat.Name === currentChat.Tel
+                          currentChat.IsGroup &&
+                          currentChat.Name === currentChat.Tel
                       "
                       class="header-text-chat"
                     >
@@ -60,7 +60,7 @@
                       <div
                         v-if="
                           currentChat !== null &&
-                          currentChat.Name !== currentChat.Tel
+                            currentChat.Name !== currentChat.Tel
                         "
                         class=""
                       >
@@ -72,9 +72,9 @@
                     <div
                       v-if="
                         currentChat !== null &&
-                        currentChat.IsGroup &&
-                        currentGroup !== null &&
-                        typeof currentGroup !== 'undefined'
+                          currentChat.IsGroup &&
+                          currentGroup !== null &&
+                          typeof currentGroup !== 'undefined'
                       "
                       class="number-text"
                     >
@@ -85,9 +85,9 @@
                     <div
                       v-if="
                         currentChat !== null &&
-                        currentChat.IsGroup &&
-                        currentGroup !== null &&
-                        typeof currentGroup !== 'undefined'
+                          currentChat.IsGroup &&
+                          currentGroup !== null &&
+                          typeof currentGroup !== 'undefined'
                       "
                       class="number-text"
                     >
@@ -98,8 +98,8 @@
                     <div
                       v-if="
                         currentChat !== null &&
-                        !currentChat.IsGroup &&
-                        currentChat.Name === currentChat.Tel
+                          !currentChat.IsGroup &&
+                          currentChat.Name === currentChat.Tel
                       "
                       class="number-text"
                     >
@@ -132,8 +132,8 @@
                 <button
                   v-if="
                     currentChat !== null &&
-                    !currentChat.IsGroup &&
-                    currentChat.Name !== currentChat.Tel
+                      !currentChat.IsGroup &&
+                      currentChat.Name !== currentChat.Tel
                   "
                   class="dropdown-item"
                   @click="callNumber(currentChat.Tel)"
@@ -159,8 +159,8 @@
                 <button
                   v-if="
                     currentChat !== null &&
-                    !currentChat.IsGroup &&
-                    currentChat.Name === currentChat.Tel
+                      !currentChat.IsGroup &&
+                      currentChat.Name === currentChat.Tel
                   "
                   v-translate
                   class="dropdown-item"
@@ -171,8 +171,8 @@
                 <button
                   v-if="
                     currentChat !== null &&
-                    !currentChat.IsGroup &&
-                    currentChat.Name !== currentChat.Tel
+                      !currentChat.IsGroup &&
+                      currentChat.Name !== currentChat.Tel
                   "
                   v-translate
                   class="dropdown-item"
