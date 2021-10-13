@@ -76,10 +76,10 @@ impl<T: Serialize> NestedResponse<T> {
         }
     }
 
-    fn to_msg(self) -> Message {
+    fn to_msg(&self) -> Message {
         Message::text(
             serde_json::to_string(&self)
-                .unwrap_or(ErrorMessage::failure_response(self.response.message_type)),
+                .unwrap_or_else(|_| ErrorMessage::failure_response(self.response.message_type)),
         )
     }
 }
@@ -92,7 +92,7 @@ impl ErrorMessage {
     pub fn new_msg(error: Error) -> Message {
         Message::text(
             serde_json::to_string(&ErrorMessage::from(error))
-                .unwrap_or(Self::failure_response(CRAYFISH_WEBSOCKET_MESSAGE_UNKNOWN)),
+                .unwrap_or_else(|_| Self::failure_response(CRAYFISH_WEBSOCKET_MESSAGE_UNKNOWN)),
         )
     }
 

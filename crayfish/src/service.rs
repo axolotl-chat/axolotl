@@ -23,7 +23,7 @@ pub async fn start_websocket() {
 }
 
 async fn ws_handler(ws: warp::ws::Ws) -> Result<impl Reply, Rejection> {
-    Ok(ws.on_upgrade(move |socket| client_connection(socket)))
+    Ok(ws.on_upgrade(client_connection))
 }
 
 pub async fn client_connection(mut ws: WebSocket) {
