@@ -34,7 +34,8 @@
 
 <script>
 export default {
-  name: "StartChatModal"
+  name: "StartChatModal",
+  emits: ["close"]
 };
 </script>
 <style scoped>

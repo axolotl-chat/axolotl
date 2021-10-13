@@ -92,6 +92,7 @@ export default {
       default: () => []
     },
   },
+  emits: ["add", "close"],
   data() {
     return {
       contacts: [],

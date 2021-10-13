@@ -62,6 +62,7 @@ export default {
       default: null
     },
   },
+  emits: ["close", "add"],
   data() {
     return {
       phone: "",

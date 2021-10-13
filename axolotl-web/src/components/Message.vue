@@ -217,6 +217,7 @@ export default {
       default: () => []
     }
   },
+  emits: ["showFullscreenImg", "showFullscreenVideo"],
   data() {
     return {
       showDate: false,
