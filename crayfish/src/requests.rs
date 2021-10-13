@@ -1,4 +1,5 @@
 pub mod registration;
+pub mod sealedsender;
 
 use crate::error::Result;
 

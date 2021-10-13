@@ -1,8 +1,11 @@
 use super::types::*;
 use crate::error::{Error, Result};
 use crate::requests::registration::{self, register_user, verify_user};
+use crate::requests::sealedsender;
+// , decryptSealedMessage};
 
 use libsignal_service::provisioning::VerificationCodeResponse;
+
 use warp::ws::Message;
 
 use super::types::ErrorMessage;
@@ -22,7 +25,10 @@ pub async fn handle_message(msg: Message) -> Result<Message> {
         CRAYFISH_WEBSOCKET_MESSAGE_REGISTRATION => handle_registration(content).await,
         CRAYFISH_WEBSOCKET_MESSAGE_CONFIRM_REGISTRAION => {
             handle_registration_confirm(content).await
-        }
+        },
+        CRAYFISH_WEBSOCKET_MESSAGE_SEALED_SENDER_DECRYPT => {
+            handle_sealed_sender_decrypt(content).await
+        },
         _ => Error::is("Received request type is unknown"),
     };
 
@@ -65,5 +71,19 @@ async fn handle_registration_confirm(content: &str) -> Result<Message> {
             storage_capable: response_data.storage_capable,
         },
         CRAYFISH_WEBSOCKET_MESSAGE_CONFIRM_REGISTRAION,
+    ))
+}
+
+async fn handle_sealed_sender_decrypt(content: &str) -> Result<Message> {
+    println!("Handle sealed sender decrypt message");
+    let req: NestedRequest<sealedsender::SealedSenderMessage> = serde_json::from_str(content)?;
+
+    let response_data = sealedsender::decryptSealedMessage(req.request.message).await?;
+
+    Ok(NestedResponse::new_msg(
+        SealedSenderDecryptResponse {
+            message: response_data.message,
+        },
+        CRAYFISH_WEBSOCKET_MESSAGE_SEALED_SENDER_DECRYPT,
     ))
 }

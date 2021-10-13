@@ -9,7 +9,6 @@ import (
 
 	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/contact"
-	"github.com/nanu-c/axolotl/app/crayfish"
 	"github.com/nanu-c/axolotl/app/handler"
 	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/nanu-c/axolotl/app/push"
@@ -19,6 +18,7 @@ import (
 	"github.com/nanu-c/axolotl/app/ui"
 	"github.com/signal-golang/textsecure"
 	textsecureConfig "github.com/signal-golang/textsecure/config"
+	"github.com/signal-golang/textsecure/crayfish"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -89,7 +89,7 @@ func (Api *TextsecureAPI) SetLogLevel() {
 	// textsecure.WriteConfig(config.ConfigFile, config.Config)
 }
 func RegisterWithCrayfish(regisrationInfo *textsecure.RegistrationInfo) (*textsecure.CrayfishRegistration, error) {
-	registration, err := crayfish.CrayfishRegister(regisrationInfo)
+	registration, err := crayfish.Instance.CrayfishRegister(regisrationInfo)
 	if err != nil {
 		return nil, err
 	}

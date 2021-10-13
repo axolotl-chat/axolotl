@@ -12,12 +12,12 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/nanu-c/axolotl/app/config"
-	"github.com/nanu-c/axolotl/app/crayfish"
 	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/nanu-c/axolotl/app/push"
 	"github.com/nanu-c/axolotl/app/ui"
 	"github.com/nanu-c/axolotl/app/webserver"
 	"github.com/nanu-c/axolotl/app/worker"
+	"github.com/signal-golang/textsecure/crayfish"
 )
 
 func init() {
@@ -59,7 +59,7 @@ func runUI() error {
 }
 func endAxolotlGracefully() {
 	log.Infoln("[axolotl] ending axolotl")
-	err := crayfish.Stop()
+	err := crayfish.Instance.Stop()
 	if err != nil {
 		log.Errorf("[axolotl] error stopping crayfish: %s", err)
 	}
