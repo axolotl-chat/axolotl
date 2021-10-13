@@ -8,8 +8,7 @@ module.exports = {
     sourceType: 'module',
   },
   extends: [
-    'plugin:vue/vue3-essential',
-    'plugin:vue/recommended',
+    'plugin:vue/vue3-recommended',
   ],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
