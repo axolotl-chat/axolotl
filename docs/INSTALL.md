@@ -49,15 +49,9 @@ For a full list of available clickable commands, see [here](https://clickable-ut
 Note: Clickable handles all aspects from this section for you. Just follow the
 instructions for all other build methods.
 
-### Rust Tool Chain
+### Rust
 
-Install the [Rust tool chain](https://www.rust-lang.org/tools/install). Install
-the cross compiling tool chains, e.g.:
-
-```bash
-rustup target add aarch64-unknown-linux-gnu
-rustup target add armv7-unknown-linux-gnueabihf
-```
+Install Rust using [rustup](https://www.rust-lang.org/tools/install).
 
 ### Build Instructions
 
@@ -68,8 +62,22 @@ cd crayfish
 cargo build --release
 ```
 
+Building should work using both `stable` and `nightly` toolchains.
+
 Find the crayfish binary in `crayfish/target/release/crayfish` and ship it
 such that it is found in `PATH` on runtime.
+
+To cross-compile for other targets, one approach is to use `cross` and specify the target flag.
+[Cross](https://github.com/rust-embedded/cross) provides an environment, cross toolchain and cross
+compiled libraries for building, without needing to install them separately.
+
+```bash
+cross build --release --target aarch64-unknown-linux-gnu
+```
+
+```bash
+cross build --release --target armv7-unknown-linux-gnueabihf
+```
 
 ## Snap
 
