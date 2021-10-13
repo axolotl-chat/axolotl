@@ -71,6 +71,8 @@ To cross-compile for other targets, one approach is to use `cross` and specify t
 [Cross](https://github.com/rust-embedded/cross) provides an environment, cross toolchain and cross
 compiled libraries for building, without needing to install them separately.
 
+To install, use `cargo install cross`.
+
 ```bash
 cross build --release --target aarch64-unknown-linux-gnu
 ```
