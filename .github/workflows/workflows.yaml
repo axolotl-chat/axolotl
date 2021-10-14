@@ -176,14 +176,14 @@ jobs:
         env:
           GOPATH: $GITHUB_WORKSPACE/go
         with:
-          args: clickable --verbose clean build-libs crayfish
+          args: clickable --config clickable.yaml --verbose clean build-libs crayfish
 
       - name: Build clickable (armhf)
         uses: docker://clickable/ci-16.04-armhf:16.04.5
         env:
           GOPATH: $GITHUB_WORKSPACE/go
         with:
-          args: clickable --verbose clean build
+          args: clickable --config clickable.yaml --verbose clean build
 
       - name: Upload the built clickable artifact (armhf)
         uses: actions/upload-artifact@v2
@@ -219,14 +219,14 @@ jobs:
         env:
           GOPATH: $GITHUB_WORKSPACE/go
         with:
-          args: clickable --verbose clean build-libs crayfish
+          args: clickable --config clickable.yaml --verbose clean build-libs crayfish
 
       - name: Build clickable (arm64)
         uses: docker://clickable/ci-16.04-arm64:16.04.5
         env:
           GOPATH: $GITHUB_WORKSPACE/go
         with:
-          args: clickable --verbose clean build
+          args: clickable --config clickable.yaml --verbose clean build
 
       - name: Upload the built clickable artifact (amd64)
         uses: actions/upload-artifact@v2
