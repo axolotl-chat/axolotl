@@ -15,29 +15,16 @@ Installation instructions can be found [here](https://clickable-ut.dev/en/latest
 
 **Build and Install**
 
-In order to build axolotl you need to get its nodejs dependencies once:
-
-`clickable build --libs nodejs_deps`
-
-To build crayfish execute:
-
-`clickable build --libs crayfish`
-
 The app is built by running:
 
-`clickable build`
+`clickable`
 
-The app is installed on device by running:
-
-`clickable install`
+This will build the app, install it onto a device connected via usb and run the app on the device.
 
 Remember to add `--arch <arch_of_your_mobile>` (i.e. `--arch arm64`) to the
 above three commands when building for you mobile device.
 
-**Run**
-
-`clickable launch` to run axolotl on your mobile device or `clickable desktop`
-to run it on your pc.
+All steps can be done with individual clickable commands `clickable build`, `clickable install` and `clickable launch`. To build and run Axolotl on your pc run `clickable desktop`.
 
 Clickable supports a few different parameters.
 For example, `clickable launch logs` to start signal and get logging output.

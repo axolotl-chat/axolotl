@@ -1,4 +1,4 @@
-# Axolotl 
+# Axolotl
 
 Axolotl is a complete cross-platform [Signal](https://www.signal.org) client, compatible with the Ubuntu Phone and more.
 Unlike the desktop Signal client, **Axolotl is completely autonomous** and doesn't require you to have created an
@@ -80,9 +80,10 @@ Now we are good to go. To start, simply use the following:
 make run
 ```
 
-When setting up for the first time and maybe occasionally later you need to update the browser list with your installed browsers. Change into the axolotl-web subfolder and run the following command:
+When setting up for the first time and maybe occasionally later you need to update the browser list with your installed browsers.
 
-`npx browserslist@latest --update-db`
+- change into the `axolotl-web` subfolder
+- run the following command: `npx browserslist@latest --update-db`
 
 ## Run flags
 
