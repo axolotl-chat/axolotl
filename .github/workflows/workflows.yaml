@@ -171,12 +171,19 @@ jobs:
           mkdir $GITHUB_WORKSPACE/lib/
           mv libzkgroup_linux_armv7_v0.8.8.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_armv7.so
 
-      - name: Build clickable (armhf)
-        uses: docker://clickable/ci-dev-16.04-armhf:16.04.5
+      - name: Build clickable crayfish library (armhf)
+        uses: docker://clickable/ci-16.04-armhf:16.04.5
         env:
           GOPATH: $GITHUB_WORKSPACE/go
         with:
-          args: clickable build --verbose --libs crayfish --app
+          args: clickable --verbose clean build-libs crayfish
+
+      - name: Build clickable (armhf)
+        uses: docker://clickable/ci-16.04-armhf:16.04.5
+        env:
+          GOPATH: $GITHUB_WORKSPACE/go
+        with:
+          args: clickable --verbose clean build
 
       - name: Upload the built clickable artifact (armhf)
         uses: actions/upload-artifact@v2
@@ -207,12 +214,19 @@ jobs:
             mkdir $GITHUB_WORKSPACE/lib/
             mv libzkgroup_linux_aarch64_v0.8.8.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_aarch64.so
 
-      - name: Build clickable (arm64)
-        uses: docker://clickable/ci-dev-16.04-arm64:16.04.5
+      - name: Build clickable crayfish library (arm64)
+        uses: docker://clickable/ci-16.04-arm64:16.04.5
         env:
           GOPATH: $GITHUB_WORKSPACE/go
         with:
-          args: clickable build --verbose --libs crayfish --app
+          args: clickable --verbose clean build-libs crayfish
+
+      - name: Build clickable (arm64)
+        uses: docker://clickable/ci-16.04-arm64:16.04.5
+        env:
+          GOPATH: $GITHUB_WORKSPACE/go
+        with:
+          args: clickable --verbose clean build
 
       - name: Upload the built clickable artifact (amd64)
         uses: actions/upload-artifact@v2
