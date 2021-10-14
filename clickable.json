@@ -1,0 +1,28 @@
+{
+  "builder": "go",
+  "kill": "textsecure",
+  "ignore":[
+    ".*",
+    ".clickable",
+    ".git",
+    ".github",
+    ".gitignore",
+    ".gitmodules",
+    ".deepsource.toml",
+    ".editorconfig",
+    "config.textsecure.nanuc",
+    "click",
+    "po",
+    "scripts",
+    "axolotl-web",
+    "build",
+    "*.snap",
+    "main.go",
+    "*.syso",
+    "go.*",
+    "dist",
+    "flatpak"
+  ],
+  "postbuild": "$ROOT/scripts/postbuild.sh $INSTALL_DIR",
+  "dependencies_target": ["qml-module-qtcontacts"]
+}
