@@ -15,7 +15,7 @@ import (
 	"github.com/emersion/go-vcard"
 	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/helpers"
-	"github.com/signal-golang/textsecure"
+	textsecureContacts "github.com/signal-golang/textsecure/contacts"
 	"github.com/ttacon/libphonenumber"
 )
 
@@ -47,53 +47,56 @@ func FormatE164(tel string, country string) string {
 	}
 	return libphonenumber.Format(num, libphonenumber.E164)
 }
-func GetDesktopContacts() ([]textsecure.Contact, error) {
-	return textsecure.ReadContacts(filepath.Join(config.ConfigDir, "contacts.yml"))
+func GetDesktopContacts() ([]textsecureContacts.Contact, error) {
+	return textsecureContacts.ReadContacts(filepath.Join(config.ConfigDir, "contacts.yml"))
 }
 
 func AddContact(name string, phone string) error {
-	contacts, err := textsecure.ReadContacts(config.ContactsFile)
+	if phone[0] == '0' && phone[1] == '0' {
+		phone = "+" + phone[2:]
+	}
+	contacts, err := textsecureContacts.ReadContacts(config.ContactsFile)
 	if err != nil {
 		os.Create(config.ContactsFile)
 	}
-	contact := &textsecure.Contact{
+	contact := &textsecureContacts.Contact{
 		Name: name,
 		Tel:  phone,
 	}
 	contacts = append(contacts, *contact)
 	sort.Slice(contacts, func(i, j int) bool { return contacts[i].Name < contacts[j].Name })
-	err = textsecure.WriteContacts(config.ContactsFile, contacts)
+	err = textsecureContacts.WriteContacts(config.ContactsFile, contacts)
 	if err != nil {
 		return err
 	}
 	return nil
 }
-func DelContact(c textsecure.Contact) error {
-	contacts, err := textsecure.ReadContacts(config.ContactsFile)
+func DelContact(c textsecureContacts.Contact) error {
+	contacts, err := textsecureContacts.ReadContacts(config.ContactsFile)
 	log.Debugln("[axolotl] delete contact ", c)
 	if err != nil {
 		os.Create(config.ContactsFile)
 	}
-	newContactList := []textsecure.Contact{}
+	newContactList := []textsecureContacts.Contact{}
 	for i := range contacts {
 		if contacts[i].Tel != c.Tel {
 			newContactList = append(newContactList, contacts[i])
 		}
 	}
-	err = textsecure.WriteContacts(config.ContactsFile, newContactList)
-	// cs, err := textsecure.ReadContacts(config.ContactsFile)
+	err = textsecureContacts.WriteContacts(config.ContactsFile, newContactList)
+	// cs, err := textsecureContacts.ReadContacts(config.ContactsFile)
 	if err != nil {
 		return err
 	}
 	return nil
 }
-func EditContact(cContact textsecure.Contact, editContact textsecure.Contact) error {
-	contacts, err := textsecure.ReadContacts(config.ContactsFile)
+func EditContact(cContact textsecureContacts.Contact, editContact textsecureContacts.Contact) error {
+	contacts, err := textsecureContacts.ReadContacts(config.ContactsFile)
 
 	if err != nil {
 		os.Create(config.ContactsFile)
 	}
-	newContactList := []textsecure.Contact{}
+	newContactList := []textsecureContacts.Contact{}
 
 	for i := range contacts {
 		if contacts[i].Tel == cContact.Tel {
@@ -103,7 +106,7 @@ func EditContact(cContact textsecure.Contact, editContact textsecure.Contact) er
 		}
 	}
 	sort.Slice(newContactList, func(i, j int) bool { return newContactList[i].Name < newContactList[j].Name })
-	err = textsecure.WriteContacts(config.ContactsFile, newContactList)
+	err = textsecureContacts.WriteContacts(config.ContactsFile, newContactList)
 	if err != nil {
 		return err
 	}
@@ -111,16 +114,19 @@ func EditContact(cContact textsecure.Contact, editContact textsecure.Contact) er
 }
 
 // getAddgetAddressBookContactsFromContentHub gets the phone contacts via the content hub
-func GetAddressBookContactsFromContentHub() ([]textsecure.Contact, error) {
+func GetAddressBookContactsFromContentHub() ([]textsecureContacts.Contact, error) {
 	if helpers.Exists(config.ContactsFile) && config.VcardPath == "" {
-		return textsecure.ReadContacts(config.ContactsFile)
+		return textsecureContacts.ReadContacts(config.ContactsFile)
 	}
 	config.VcardPath = strings.TrimPrefix(config.VcardPath, "file://")
 	newContacts, err := getContactsFromVCardFile(config.VcardPath)
 	if err != nil {
 		return nil, err
 	}
-	contacts, err := textsecure.ReadContacts(config.ContactsFile)
+	contacts, err := textsecureContacts.ReadContacts(config.ContactsFile)
+	if err != nil {
+		return nil, err
+	}
 	//check for duplicates in the old contact list
 	for _, c := range newContacts {
 		found := false
@@ -136,7 +142,7 @@ func GetAddressBookContactsFromContentHub() ([]textsecure.Contact, error) {
 	}
 	//sort by name
 	sort.Slice(contacts, func(i, j int) bool { return contacts[i].Name < contacts[j].Name })
-	err = textsecure.WriteContacts(config.ContactsFile, contacts)
+	err = textsecureContacts.WriteContacts(config.ContactsFile, contacts)
 	if err != nil {
 		return nil, err
 	}
@@ -147,7 +153,7 @@ func GetAddressBookContactsFromContentHub() ([]textsecure.Contact, error) {
 }
 
 // getContactsFromVCardFile reads contacts from a VCF file
-func getContactsFromVCardFile(path string) ([]textsecure.Contact, error) {
+func getContactsFromVCardFile(path string) ([]textsecureContacts.Contact, error) {
 	// vcardContacts, err := vcard.GetVCards(path)
 	f, err := os.Open(path)
 	if err != nil {
@@ -156,7 +162,7 @@ func getContactsFromVCardFile(path string) ([]textsecure.Contact, error) {
 	defer f.Close()
 
 	dec := vcard.NewDecoder(f)
-	var contacts []textsecure.Contact
+	var contacts []textsecureContacts.Contact
 	country := defaultCountry()
 	for {
 		card, err := dec.Decode()
@@ -169,7 +175,7 @@ func getContactsFromVCardFile(path string) ([]textsecure.Contact, error) {
 		log.Debugln("[axolotl] Import contact: " + name)
 		telNums := card.Values(vcard.FieldTelephone)
 		for index, tel := range telNums {
-			tmp := textsecure.Contact{}
+			tmp := textsecureContacts.Contact{}
 			tmp.Name = name
 			if index > 0 {
 				tmp.Name = name + " " + strconv.Itoa(index)

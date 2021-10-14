@@ -2,6 +2,7 @@ package store
 
 import (
 	"crypto/rand"
+	"encoding/json"
 	"io"
 	"io/ioutil"
 	"mime"
@@ -62,7 +63,7 @@ func SaveAttachment(a *textsecure.Attachment) (Attachment, error) {
 	return Attachment{File: fn, FileName: a.FileName}, nil
 }
 
-// copyAttachment makes a copy of a file that is in the volatile content hub cache
+// CopyAttachment makes a copy of a file that is in the volatile content hub cache
 func CopyAttachment(src string) (string, error) {
 	_, b := filepath.Split(src)
 	dest := filepath.Join(config.AttachDir, b)
@@ -78,4 +79,23 @@ func CopyAttachment(src string) (string, error) {
 		return "", err
 	}
 	return dest, nil
+}
+func deleteAttachmentForMessage(id int64) error {
+	m, err := GetMessageById(id)
+	if err != nil {
+		return err
+	}
+	if m.Attachment != "null" {
+		attachments := []Attachment{}
+		json.Unmarshal([]byte(m.Attachment), &attachments)
+		log.Debugln("[axolotl] Delete attachment for message", id)
+		for _, attachment := range attachments {
+			e := os.Remove(attachment.File)
+			if e != nil {
+				return e
+			}
+		}
+
+	}
+	return nil
 }

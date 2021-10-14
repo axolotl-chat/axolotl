@@ -1,25 +1,50 @@
 #!/bin/bash
 
-# Translations
-# generate pot file
-echo "update translations $@"
-# find ../../../po/* -exec msgmerge --update {} ../../../po/textsecure.nanuc.pot \;
-# # rm ../../../po/*~~
-# # cp -a ../lib ../build/tmp
-# # if [ $mode = "dev" ];then
-# # 	#copy config.yml or rootCA.pem
-# # 	cp -a dev/* build/
-# # fi
-#gettext-compile --output ../../../axolotl-web/translations/translations.json ../../../po/*
-# # Build and include translations
-# cp ../../../po/textsecure.nanuc.pot $@
-# for po in ../../../po/*.po; do
-# 	loc=$(echo $(basename $po)|cut -d'.' -f1)
-# 	dir=$@/share/locale/$loc/LC_MESSAGES
-# 	mkdir -p $dir
-# 	msgfmt $po -o $dir/textsecure.nanuc.mo
-# done
+# make sure the script fails on errors
+set -Eeuo pipefail
+
 # copy click files
+echo "copy click files $@"
+
 cp -a ../../../click/* $@
 # Build axolotl-web
+echo "update translations and build axolotl-web $@"
 cd ../../../axolotl-web&&npm run translate &&npm run build && mkdir $@/axolotl-web&&cp dist $@/axolotl-web/ -r
+
+case $ARCH in
+	amd64)
+		ARCH_NAME=x86_64
+		;;
+	arm64)
+		ARCH_NAME=aarch64
+		;;
+	armhf)
+		ARCH_NAME=armv7
+		;;
+esac
+
+readonly FILENAME=libzkgroup_linux_$ARCH_NAME.so
+
+if [ -v $GOPATH ]
+then
+	# Github
+	readonly ZKGROUP_GITHUB=/github/workspace/go/src/github.com/nanu-c/zkgroup/lib/$FILENAME
+
+	cp $ZKGROUP_GITHUB $@/lib/;
+	rm -f ${INSTALL_DIR}/\\${GITHUB_WORKSPACE}
+else
+	# Clickable
+	readonly ZKGROUP_OPTION1=$GOPATH/pkg/mod/github.com/nanu-c/zkgroup@v0.8.8/lib/$FILENAME
+	readonly ZKGROUP_OPTION2=$GOPATH/src/github.com/nanu-c/zkgroup/lib/$FILENAME
+
+	mkdir -p $CLICK_LD_LIBRARY_PATH
+
+	[ -f $ZKGROUP_OPTION1 ] && cp $ZKGROUP_OPTION1 $CLICK_LD_LIBRARY_PATH/;
+	[ -f $ZKGROUP_OPTION2 ] && cp $ZKGROUP_OPTION2 $CLICK_LD_LIBRARY_PATH/;
+
+	if [ ! -f $CLICK_LD_LIBRARY_PATH/$FILENAME ]
+	then
+		echo "Didn't find $FILENAME which is required"
+		exit 1
+	fi
+fi

@@ -3,24 +3,49 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" ><span v-translate>Add</span> <div v-if="name!=''">{{name}}</div><div v-else v-translate>Contact</div></h5>
-          <button type="button" class="close" @click="$emit('close')">
+          <h5 class="modal-title">
+            <span v-translate>Add</span>
+            <div v-if="name !== ''">{{ name }}</div>
+            <div v-else v-translate>Contact</div>
+          </h5>
+          <button type="button" class="close btn" @click="$emit('close')">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <p><strong>Only add numbers that you are sure are registered Signal accounts.</strong></p>
+          <span><strong v-translate>Only add numbers that you are sure are registered Signal
+            accounts!</strong></span>
+        </div>
+        <div class="modal-body">
           <div class="form-group">
-            <label for="inputPhone" v-translate>Name</label>
-            <input v-model="name" type="text" class="form-control" id="nameInput">
+            <label v-translate for="nameInput">Name</label>
+            <input
+              id="nameInput"
+              v-model="name"
+              type="text"
+              class="form-control"
+            >
           </div>
           <div class="form-group">
-            <label for="inputPhone" v-translate>Phone</label>
-            <input v-model="phone" type="text" class="form-control" id="phoneInput" placeholder="+44...">
+            <label v-translate for="phoneInput">Phone</label>
+            <input
+              id="phoneInput"
+              v-model="phone"
+              type="text"
+              class="form-control"
+              placeholder="+44..."
+            >
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" @click="$emit('add',{'name':name, 'phone':phone})" v-translate>Add</button>
+          <button
+            v-translate
+            type="button"
+            class="btn btn-primary"
+            @click="$emit('add', { name: name, phone: phone })"
+          >
+            Add
+          </button>
         </div>
       </div>
     </div>
@@ -29,33 +54,47 @@
 
 <script>
 export default {
-  name: 'AddContact',
+  name: "AddContactModal",
+  props: {
+    number: {
+      type: String,
+      required: false,
+      default: null
+    },
+  },
+  emits: ["close", "add"],
   data() {
     return {
       phone: "",
-      name: ""
-    }
+      name: "",
+    };
   },
-}
+  mounted() {
+    if (this.number) {
+      this.phone = this.number;
+      this.name = "";
+    } 
+  },
+};
 </script>
 <style scoped>
 .modal {
-    display: block;
-    border:none;
+  display: block;
+  border: none;
 }
 .modal-content {
-  border-radius:0px;
+  border-radius: 0px;
 }
 .modal-header {
-  border-bottom:none;
+  border-bottom: none;
 }
-.modal-title{
-  display:flex;
+.modal-title {
+  display: flex;
 }
-.modal-title > div{
-  margin-left:10px;
+.modal-title > div {
+  margin-left: 10px;
 }
-.modal-footer{
-  border-top:0px;
+.modal-footer {
+  border-top: 0px;
 }
 </style>

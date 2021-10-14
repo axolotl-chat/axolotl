@@ -4,15 +4,17 @@ description: |
   Axolotl is a cross-platform Signal client
 grade: stable
 confinement: strict
-base: core18
+base: core20
 icon: snap/gui/axolotl.png
-version: "0.9.7"
-
+version: "1.0.5"
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+  - build-on: armhf
 parts:
   axolotl:
     # https://github.com/snapcore/snapcraft/blob/master/snapcraft/plugins/v1/go.py
     plugin: go
-    go-importpath: github.com/nanu-c/axolotl
     source: .
     build-packages:
       - gcc
@@ -25,16 +27,19 @@ parts:
       - libx11-xcb1
       - libxss1
       - libxtst6
+    override-build: |
+      snapcraftctl build
+      mkdir --parents $SNAPCRAFT_PART_INSTALL/usr/lib
+      cp /root/go/pkg/mod/github.com/nanu-c/zkgroup*/lib/libzkgroup_linux_$(dpkg --print-architecture).so $SNAPCRAFT_PART_INSTALL/usr/lib
+
 
   axolotl-web:
     # https://github.com/snapcore/snapcraft/blob/master/snapcraft/plugins/v1/nodejs.py
-    plugin: nodejs
+    plugin: npm
     source: ./axolotl-web
-    nodejs-version: 12.18.4
-    nodejs-package-manager: npm
+    npm-node-version: 14.16.0
     build-packages:
-      - git
-      - python #needed for rebuilding node sass on all arch except
+      - npm
     override-build: |
       # Add npm to path
       export PATH=$PWD/../npm/bin:$PATH
@@ -58,7 +63,7 @@ apps:
     environment:
       TMPDIR: $XDG_RUNTIME_DIR
     # This is required for Electron
-    extensions: [gnome-3-28]
+    extensions: [gnome-3-38]
     plugs:
       - desktop
       - desktop-legacy

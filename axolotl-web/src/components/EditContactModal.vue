@@ -3,23 +3,45 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title"><span v-translate>Edit</span> <div v-if="contact.Name!=''">{{contact.Name}}</div><div v-else v-translate>Contact</div></h5>
-          <button type="button" class="close" @click="$emit('close')">
+          <h5 class="modal-title">
+            <span v-translate>Edit</span>
+            <div v-if="contact.Name !== ''">{{ contact.Name }}</div>
+            <div v-else v-translate>Contact</div>
+          </h5>
+          <button type="button" class="close btn" @click="$emit('close')">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <input v-model="contact.Name" type="text" class="form-control" id="nameInput" placeholder="Enter name">
+            <input
+              id="nameInput"
+              v-model="contact.Name"
+              type="text"
+              class="form-control"
+              placeholder="Enter name"
+            >
           </div>
           <div class="form-group">
-            <label for="inputPhone" v-translate>Phone</label>
-            <input v-model="contact.Tel" type="text" class="form-control" id="phoneInput" placeholder="+44...">
+            <label v-translate for="nameInput">Phone</label>
+            <input
+              id="phoneInput"
+              v-model="contact.Tel"
+              type="text"
+              class="form-control"
+              placeholder="+44..."
+            >
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" @click="$emit('save',{id:id,contact:contact})"
-            v-translate>Save</button>
+          <button
+            v-translate
+            type="button"
+            class="btn btn-primary"
+            @click="$emit('save', { id: id, contact: contact })"
+          >
+            Save
+          </button>
         </div>
       </div>
     </div>
@@ -28,37 +50,44 @@
 
 <script>
 export default {
-  name: 'AddContact',
-  props:{
-    contact:Object,
-    id: String
+  name: "EditContactModal",
+  props: {
+    contact: {
+      type: Object,
+      default: () => {}
+    },
+    id: {
+      type: String,
+      default: ""
+    },
   },
+  emits: ["close", "save"],
   data() {
     return {
       phone: "",
-      name: ""
-    }
+      name: "",
+    };
   },
-}
+};
 </script>
 <style scoped>
 .modal {
-    display: block;
-    border:none;
+  display: block;
+  border: none;
 }
 .modal-content {
-  border-radius:0px;
+  border-radius: 0;
 }
 .modal-header {
-  border-bottom:none;
+  border-bottom: none;
 }
-.modal-title{
-  display:flex;
+.modal-title {
+  display: flex;
 }
-.modal-title > div{
-  margin-left:10px;
+.modal-title > div {
+  margin-left: 10px;
 }
-.modal-footer{
-  border-top:0px;
+.modal-footer {
+  border-top: 0;
 }
 </style>

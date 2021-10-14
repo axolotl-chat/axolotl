@@ -5,10 +5,12 @@ runtime-version: '5.15'
 sdk: org.kde.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.golang
-  - org.freedesktop.Sdk.Extension.node12
+  - org.freedesktop.Sdk.Extension.node14
 command: axolotl
 base: io.qt.qtwebengine.BaseApp
-base-version: "5.15"
+base-version: '5.15'
+tags:
+  - latest
 finish-args:
   # See https://docs.flatpak.org/en/latest/sandbox-permissions-reference.html
   # Write access for the user download folder (to save media)
@@ -36,6 +38,16 @@ finish-args:
   - --env=AXOLOTL_GUI_DIR=/app/share/axolotl/
 
 modules:
+  - name: zkgroup
+    buildsystem: simple
+    build-commands:
+      - "install -Dm 755 src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_${FLATPAK_ARCH}.so ${FLATPAK_DEST}/lib"
+    sources:
+      - type: git
+        url: https://github.com/nanu-c/zkgroup
+        tag: main
+        dest: src/github.com/nanu-c/zkgroup
+
   - name: axolotl
     buildsystem: simple
     build-options:
@@ -51,15 +63,15 @@ modules:
       - "install -Dm 755 $(which qmlscene) ${FLATPAK_DEST}/bin"
     sources:
       - type: git
-        url: "https://github.com/nanu-c/axolotl"
+        url: https://github.com/nanu-c/axolotl
         tag: main
         dest: src/github.com/nanu-c/axolotl
 
   - name: axolotl-web
     buildsystem: simple
     build-options:
-      prefix: /usr/lib/sdk/node12
-      prepend-path: /usr/lib/sdk/node12/bin
+      prefix: /usr/lib/sdk/node14
+      prepend-path: /usr/lib/sdk/node14/bin
       build-args:
         - --share=network
     build-commands:
@@ -69,12 +81,12 @@ modules:
       - "mkdir -p ${FLATPAK_DEST}/bin/axolotl-web"
       - "mkdir -p ${FLATPAK_DEST}/share/axolotl"
       - "cp -r src/github.com/nanu-c/axolotl/axolotl-web/dist ${FLATPAK_DEST}/bin/axolotl-web"
-      - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.png ${FLATPAK_DEST}/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png"
+      - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.png ${FLATPAK_DEST}/usr/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png"
       - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.appdata.xml ${FLATPAK_DEST}/share/appdata/${FLATPAK_ID}.appdata.xml"
       - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/qt/org.nanuc.Axolotl.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop"
       - "cp -r src/github.com/nanu-c/axolotl/guis ${FLATPAK_DEST}/share/axolotl/"
     sources:
       - type: git
-        url: "https://github.com/nanu-c/axolotl"
+        url: https://github.com/nanu-c/axolotl
         tag: main
         dest: src/github.com/nanu-c/axolotl

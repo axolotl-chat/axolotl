@@ -7,12 +7,12 @@ import (
 	"os/exec"
 	"os/signal"
 	"sync"
+	"syscall"
 
 	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/settings"
 	"github.com/nanu-c/axolotl/app/store"
 	"github.com/nanu-c/axolotl/app/webserver"
-	"github.com/signal-golang/textsecure"
 	log "github.com/sirupsen/logrus"
 	"github.com/zserge/lorca"
 )
@@ -30,7 +30,7 @@ func GroupUpdateMsg(tels []string, title string) string {
 }
 func RegistrationDone() {
 	log.Infoln("[axolotl] Registered")
-	textsecure.WriteConfig(config.ConfigFile, config.Config)
+	//textsecure.WriteConfig(config.ConfigFile, config.Config)
 	settings.SettingsModel.Registered = true
 	webserver.RegistrationDone()
 }
@@ -88,10 +88,12 @@ func runUIUbuntuTouch(e string) {
 	} else {
 		cmd = exec.Command("qmlscene", "--scaling", "guis/qml/Main.qml")
 	}
-	var stdout, stderr []byte
 	var errStdout, errStderr error
 	stdoutIn, _ := cmd.StdoutPipe()
 	stderrIn, _ := cmd.StderrPipe()
+	cmd.SysProcAttr = &syscall.SysProcAttr{
+		Pdeathsig: syscall.SIGTERM,
+	}
 	err := cmd.Start()
 	if err != nil {
 		log.Fatalf("cmd.Start() failed with '%s'\n", err)
@@ -103,11 +105,11 @@ func runUIUbuntuTouch(e string) {
 	var wg sync.WaitGroup
 	wg.Add(1)
 	go func() {
-		stdout, errStdout = copyAndCapture(os.Stdout, stdoutIn)
+		_, errStdout = copyAndCapture(os.Stdout, stdoutIn)
 		wg.Done()
 	}()
 
-	stderr, errStderr = copyAndCapture(os.Stderr, stderrIn)
+	_, errStderr = copyAndCapture(os.Stderr, stderrIn)
 
 	wg.Wait()
 
@@ -118,19 +120,18 @@ func runUIUbuntuTouch(e string) {
 	if errStdout != nil || errStderr != nil {
 		log.Fatal("[axolotl] failed to capture stdout or stderr\n")
 	}
-	outStr, errStr := string(stdout), string(stderr)
-	log.Infof("\nout:\n%s\nerr:\n%s\n", outStr, errStr)
 	log.Infof("[axolotl] Axolotl-gui finished with error: %v", err)
 }
 func copyAndCapture(w io.Writer, r io.Reader) ([]byte, error) {
 	var out []byte
-	buf := make([]byte, 1024, 1024)
+	buf := make([]byte, 1024)
 	for {
-		n, err := r.Read(buf[:])
+		n, err := r.Read(buf)
 		if n > 0 {
 			d := buf[:n]
 			out = append(out, d...)
-			_, err := w.Write(d)
+			log.Infoln("[axolotl-qml]", string(d))
+			// _, err := w.Write(d)
 			if err != nil {
 				return out, err
 			}

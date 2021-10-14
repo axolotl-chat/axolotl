@@ -3,6 +3,9 @@
 `axolotl` has a few different installation options in place.
 Below is a list describing the tooling and dependencies required to use them.
 
+**Note**: Be aware of the Crayfish Backend section if you are not using
+Clickable.
+
 ## Clickable
 
 **Tooling**
@@ -10,44 +13,101 @@ Below is a list describing the tooling and dependencies required to use them.
 This requires `clickable` to be installed locally.
 Installation instructions can be found [here](https://clickable-ut.dev/en/latest/install.html#install).
 
-**Dependencies**
-
-The following build dependencies are required:
-* Docker
-* Go
-
-The following translation dependencies are required:
-```
-sudo apt-get install gettext
-```
-
-The following go-qml dependencies are required:
-```
-sudo add-apt-repository ppa:ubuntu-sdk-team/ppa
-sudo apt-get update
-sudo apt-get install qtdeclarative5-dev qtbase5-private-dev qtdeclarative5-private-dev libqt5opengl5-dev qtdeclarative5-qtquick2-plugin
-sudo ln -s /usr/include/x86_64-linux-gnu/qt5/QtCore/5.9.1/QtCore /usr/include/
-```
-
-To install all go dependencies, use `go mod download`.
-
 **Build and Install**
 
-To run the default set of sub-commands, simply run clickable in the root directory.
-Clickable will attempt to auto detect the build template and other configuration options.
+In order to build axolotl you need to get its nodejs dependencies once:
 
-This also transfers the click package to the Ubuntu Touch Phone.
+`clickable build --libs nodejs_deps`
 
-`clickable`
+To build crayfish execute:
+
+`clickable build --libs crayfish`
+
+The app is built by running:
+
+`clickable build`
+
+The app is installed on device by running:
+
+`clickable install`
+
+Remember to add `--arch <arch_of_your_mobile>` (i.e. `--arch arm64`) to the
+above three commands when building for you mobile device.
 
 **Run**
 
-`clickable launch`
+`clickable launch` to run axolotl on your mobile device or `clickable desktop`
+to run it on your pc.
 
 Clickable supports a few different parameters.
 For example, `clickable launch logs` to start signal and get logging output.
 
 For a full list of available clickable commands, see [here](https://clickable-ut.dev/en/latest/commands.html).
+
+## Crayfish backend
+
+Note: Clickable handles all aspects from this section for you. Just follow the
+instructions for all other build methods.
+
+### Rust
+
+Install Rust using [rustup](https://www.rust-lang.org/tools/install).
+
+### Build Instructions
+
+Build the crayfish backend:
+
+```bash
+cd crayfish
+cargo build --release
+```
+
+Building should work using both `stable` and `nightly` toolchains.
+
+Find the crayfish binary in `crayfish/target/release/crayfish` and ship it
+such that it is found in `PATH` on runtime.
+
+### Cross compile build
+
+#### cross
+
+To cross-compile for other targets, one approach is to use `cross` and specify the target flag.
+[Cross](https://github.com/rust-embedded/cross) provides an environment, cross toolchain and cross
+compiled libraries for building, without needing to install them separately.
+
+To install, use `cargo install cross`.
+
+To do a cross-compile build, use the following:
+
+```bash
+cross build --release --target aarch64-unknown-linux-gnu
+cross build --release --target armv7-unknown-linux-gnueabihf
+```
+
+#### Natively
+
+Another approach of cross-compiling is to set up the dependencies yourself.
+
+For that two things are required. First install the required dependencies.
+For Ubuntu, the following packages are required.
+
+```bash
+sudo apt install gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf
+```
+
+Then install the rust targets, e.g.:
+
+```bash
+rustup target add aarch64-unknown-linux-gnu
+rustup target add armv7-unknown-linux-gnueabihf
+```
+
+To do a cross-compile build, use the following:
+
+```bash
+cargo build --release --target aarch64-unknown-linux-gnu
+cargo build --release --target armv7-unknown-linux-gnueabihf
+```
 
 ## Snap
 
@@ -71,7 +131,7 @@ To build the application, use the following command from the root of this reposi
 
 To install the built snap, use snap:
 
-`sudo snap install axolotl_0.9.7_amd64.snap --dangerous`
+`sudo snap install axolotl_1.0.5_amd64.snap --dangerous`
 
 **Run**
 
@@ -95,7 +155,8 @@ The following Flatpak SDKs are required:
 flatpak install org.freedesktop.Platform//20.08
 flatpak install org.freedesktop.Sdk//20.08
 flatpak install org.freedesktop.Sdk.Extension.golang//20.08
-flatpak install org.freedesktop.Sdk.Extension.node12//20.08
+flatpak install org.freedesktop.Sdk.Extension.node14//20.08
+flatpak install org.electronjs.Electron2.BaseApp//20.08
 ```
 
 **Build and Install**
@@ -131,7 +192,7 @@ The following Flatpak SDKs are required:
 flatpak install org.kde.Platform//5.15
 flatpak install org.kde.Sdk//5.15
 flatpak install org.freedesktop.Sdk.Extension.golang//20.08
-flatpak install org.freedesktop.Sdk.Extension.node12//20.08
+flatpak install org.freedesktop.Sdk.Extension.node14//20.08
 flatpak install io.qt.qtwebengine.BaseApp//5.15
 ```
 
@@ -219,3 +280,43 @@ If needed, set the file as executable with `chmod +x Axolotl-x86_64.AppImage` fi
 This requires clickable and snapcraft to be installed.
 It also requires the axolotl-web bundle to already be built.
 see [build.sh](../scripts/build.sh)
+
+## Mobian
+
+**Build and Install**
+
+Building Axolotl for Mobian (or other Debian arm64 systems) can be done by getting the source via
+
+```
+env GO111MODULE=off go get -d -u github.com/nanu-c/axolotl/
+```
+and executing this Makefile command in the source folder on a Debian arm64 machine.
+```
+make build-deb-arm64
+```
+
+Installation can be done afterwards via
+```
+make install-deb-arm64
+```
+
+**Debian packaging**
+
+The Debian arm64 package uploaded [here](https://github.com/nuehm-arno/axolotl-mobian-package) was created using
+```
+make prebuild-package-deb-arm64 build-package-deb-arm64
+```
+Packaging is still under improvement to comply with official Debian packaging rules.
+
+## Bare
+
+**Tooling**
+
+This requires `make`, `go`, `nodejs` and `npm` to be installed locally.
+For the required versions, see [go.mod](../go.mod) and [package.json](../axolotl-web/package.json)
+
+**Build and Install**
+
+To install, simply use the makefile target `install`.
+
+`make install`

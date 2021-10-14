@@ -1,0 +1,22 @@
+ignores:
+  - "core-js"
+  - "node-sass"
+  - "sass-loader"
+  - "bootstrap"
+  - "@vue/cli-plugin-eslint"
+  - "babel-eslint"
+  - "@vue/cli-plugin-babel"
+  - "browserslist"
+  - "vue-loader"
+  - "@vue/eslint-config-airbnb"
+  - "eslint-config-prettier"
+  - "eslint-plugin-import"
+  - "eslint-plugin-prettier"
+  - "eslint-plugin-prettier-vue"
+  - "prettier"
+  - "sass"
+  - "webpack"
+specials:
+  - "bin"
+  - "eslint"
+skip-missing: true

@@ -1,15 +1,12 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
-import VueNativeSock from 'vue-native-websocket'
+import VueNativeSock from 'vue-native-websocket-vue3'
 import store from './store/store'
-import {router} from "./router/router";
-import BootstrapVue from 'bootstrap-vue'
-import VueChatScroll from 'vue-chat-scroll'
-import GetTextPlugin from 'vue-gettext'
+import { router } from "./router/router";
+import { createGettext } from "@jshmrtn/vue3-gettext";
 import translations from '../translations/translations.json'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import LinkifyHtml from 'linkifyjs/html'
-import VueSanitize from "vue-sanitize";
 import {
   faArrowLeft,
   faEllipsisV,
@@ -29,28 +26,23 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 library.add(faArrowLeft, faEllipsisV, faPencilAlt, faPlus, faTrash, faPaperPlane,
   faUserFriends, faTimes, faCheck, faVolumeMute, faHeart, faSearch, faArrowDown)
 
-import { longClickDirective } from 'vue-long-click'
-
-const longClickInstance = longClickDirective({ delay: 800, interval: 0 })
-Vue.directive('longclick', longClickInstance)
-Vue.component('font-awesome-icon', FontAwesomeIcon)
-Vue.use(VueChatScroll)
-Vue.use(BootstrapVue)
-Vue.mixin({
+const app = createApp(App)
+app.component('FontAwesomeIcon', FontAwesomeIcon)
+app.mixin({
   methods: {
     linkify: function (content) {
       return LinkifyHtml(content);
     },
   },
 })
-var defaultSanitizeOptions = {
-    allowedTags: [],
-    allowedAttributes: {
-    }
-};
-Vue.use(VueSanitize, defaultSanitizeOptions);
-Vue.use(GetTextPlugin, { translations: translations, defaultLanguage: 'en', })
-Vue.config.productionTip = false
+const gettext = createGettext({
+  defaultLanguage: "en",
+  translations,
+});
+app.use(gettext);
+app.config.productionTip = false
+
+// set backend adress
 var websocketAdress = "ws://";
 if (window.location.protocol === "https:") {
   websocketAdress = "wss://";
@@ -58,14 +50,15 @@ if (window.location.protocol === "https:") {
 websocketAdress += window.location.host;
 websocketAdress += "/ws";
 
-if (process.env.NODE_ENV == "development") {
+if (process.env.NODE_ENV === "development") {
   if (process.env.VUE_APP_WS_ADDRESS) {
     websocketAdress = 'ws://' + process.env.VUE_APP_WS_ADDRESS + ':9080/ws';
   } else {
     websocketAdress = 'ws://localhost:9080/ws';
   }
 }
-Vue.use(VueNativeSock, websocketAdress,
+// initialise connection to the backend
+app.use(VueNativeSock, websocketAdress,
   {
     store: store,
     // format: 'json',
@@ -74,11 +67,8 @@ Vue.use(VueNativeSock, websocketAdress,
     reconnectionDelay: 3000, // (Number) how long to initially wait before attempting a new (1000) }
   }
 )
+app.use(store)
+app.use(router)
+app.mount('#app')
 
-export default new Vue({
-  store,
-  router,
-  render: h => h(App),
-}).$mount('#app')
-
-// Vue.use(VueSocketio, `//${window.location.host}`, store);
+export default app

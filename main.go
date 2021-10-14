@@ -1,11 +1,9 @@
 package main
 
 import (
-	"bufio"
 	"flag"
 	_ "image/jpeg"
 	_ "image/png"
-	"io"
 	"os"
 	"sync"
 
@@ -14,6 +12,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/nanu-c/axolotl/app/config"
+	"github.com/nanu-c/axolotl/app/crayfish"
 	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/nanu-c/axolotl/app/push"
 	"github.com/nanu-c/axolotl/app/ui"
@@ -21,23 +20,14 @@ import (
 	"github.com/nanu-c/axolotl/app/worker"
 )
 
-var e string
-
 func init() {
 	flag.StringVar(&config.MainQml, "qml", "qml/phoneui/main.qml", "The qml file to load.")
-	flag.StringVar(&config.Gui, "e", "", "use either electron, ut, lorca, qt or server")
+	flag.StringVar(&config.Gui, "e", "", "Specify runtime environment. Use either electron, ut, lorca, qt or server")
 	flag.StringVar(&config.AxolotlWebDir, "axolotlWebDir", "./axolotl-web/dist", "Specify the directory to use for axolotl-web")
-	flag.BoolVar(&config.ElectronDebug, "eDebug", false, "use to show development console in electron")
+	flag.BoolVar(&config.ElectronDebug, "eDebug", false, "Open electron development console")
+	flag.BoolVar(&config.PrintVersion, "version", false, "Print version info")
 	flag.StringVar(&config.ServerHost, "host", "127.0.0.1", "Host to serve UI from.")
 	flag.StringVar(&config.ServerPort, "port", "9080", "Port to serve UI from.")
-}
-func print(stdout io.ReadCloser) {
-	scanner := bufio.NewScanner(stdout)
-	scanner.Split(bufio.ScanWords)
-	for scanner.Scan() {
-		m := scanner.Text()
-		log.Println("[axolotl] ", m)
-	}
 }
 func setup() {
 	helpers.SetupLogging()
@@ -51,6 +41,11 @@ func runBackend() {
 		push.PushHelperProcess()
 	}
 }
+func runRustBackend() {
+	defer wg.Done()
+	crayfish.Run()
+
+}
 func runUI() error {
 	defer wg.Done()
 	if config.Gui != "ut" && config.Gui != "lorca" && config.Gui != "qt" {
@@ -59,32 +54,45 @@ func runUI() error {
 	} else {
 		ui.RunUi(config.Gui)
 	}
-	os.Exit(0)
+	endAxolotlGracefully()
 	return nil
 }
+func endAxolotlGracefully() {
+	log.Infoln("[axolotl] ending axolotl")
+	err := crayfish.Stop()
+	if err != nil {
+		log.Errorf("[axolotl] error stopping crayfish: %s", err)
+	}
+	os.Exit(0)
+}
 func runElectron() {
-	log.Infoln("[axolotl] Start electron")
+	defer endAxolotlGracefully()
 	l := log.New()
 	electronPath := os.Getenv("SNAP_USER_DATA")
 	if len(electronPath) == 0 {
 		electronPath = config.ConfigDir + "/electron"
 	}
-	var a, _ = astilectron.New(l, astilectron.Options{
+	var a, err = astilectron.New(l, astilectron.Options{
 		AppName:            "axolotl",
 		AppIconDefaultPath: "axolotl-web/public/axolotl.png", // If path is relative, it must be relative to the data directory
 		AppIconDarwinPath:  "axolotl-web/public/axolotl.png", // Same here
 		BaseDirectoryPath:  electronPath,
-		VersionElectron:    "11.1.1",
+		VersionElectron:    "12.0.0",
+		VersionAstilectron: "0.45.0",
 		SingleInstance:     true,
 		ElectronSwitches:   []string{"--disable-dev-shm-usage", "--no-sandbox"}})
+
+	if err != nil {
+		log.Errorln(errors.Wrap(err, "[axolotl-electron]: creating astilectron failed"))
+	}
 
 	defer a.Close()
 
 	// Start astilectron
 	a.HandleSignals()
 
-	if err := a.Start(); err != nil {
-		log.Debugln(errors.Wrap(err, "[axolotl-electron] main: starting astilectron failed"))
+	if err = a.Start(); err != nil {
+		log.Errorln(errors.Wrap(err, "[axolotl-electron] main: starting astilectron failed"))
 	}
 
 	a.On(astilectron.EventNameAppCrash, func(e astilectron.Event) (deleteListener bool) {
@@ -94,7 +102,6 @@ func runElectron() {
 	a.HandleSignals()
 	// New window
 	var w *astilectron.Window
-	var err error
 	center := true
 	height := 800
 	width := 600
@@ -109,9 +116,13 @@ func runElectron() {
 		log.Errorln("[axolotl-electron] Electron App has crashed")
 		return
 	})
+	w.On(astilectron.EventNameAppClose, func(e astilectron.Event) (deleteListener bool) {
+		log.Errorln("[axolotl-electron] Electron App was closed")
+		return
+	})
 	w.On(astilectron.EventNameWindowEventDidFinishLoad, func(e astilectron.Event) (deleteListener bool) {
 		log.Infoln("[axolotl-electron] Electron App load")
-		w.ExecuteJavaScript("window.onToken = function(token){window.location='http://"+config.ServerHost+":"+config.ServerPort+"/?token='+token;};")
+		w.ExecuteJavaScript("window.onToken = function(token){window.location='http://" + config.ServerHost + ":" + config.ServerPort + "/?token='+token;};")
 		return
 	})
 	w.On(astilectron.EventNameWindowEventWillNavigate, func(e astilectron.Event) (deleteListener bool) {
@@ -136,7 +147,7 @@ func runElectron() {
 	a.Wait()
 }
 func runWebserver() {
-	defer wg.Done()
+	defer endAxolotlGracefully()
 	log.Printf("[axolotl] Axolotl server started")
 	// Fetch the URL.
 	webserver.Run()
@@ -146,7 +157,10 @@ var wg sync.WaitGroup
 
 func main() {
 	setup()
-	runBackend()
+	wg.Add(1)
+	go runRustBackend()
+	wg.Add(1)
+	go runBackend()
 	log.Println("[axolotl] Setup completed")
 	wg.Add(1)
 	go runWebserver()
@@ -156,5 +170,7 @@ func main() {
 	} else {
 		log.Printf("[axolotl] Axolotl frontend is at http://" + config.ServerHost + ":" + config.ServerPort + "/")
 	}
+
 	wg.Wait()
+	log.Println("[axolotl] Axolotl stopped")
 }

@@ -3,9 +3,10 @@ package settings
 import (
 	"io/ioutil"
 
-	yaml "github.com/go-yaml/yaml"
 	"github.com/nanu-c/axolotl/app/config"
+
 	log "github.com/sirupsen/logrus"
+	yaml "gopkg.in/yaml.v2"
 )
 
 // Model for application settings

@@ -6,17 +6,19 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
+	"runtime"
 	"strings"
 
 	log "github.com/sirupsen/logrus"
 
 	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/signal-golang/textsecure"
+	textsecureConfig "github.com/signal-golang/textsecure/config"
 )
 
-var AppName = "textsecure.nanuc"
+const AppName = "textsecure.nanuc"
 
-var AppVersion = "0.9.7"
+const AppVersion = "1.0.5"
 
 // Do not allow sending attachments larger than 100M for now
 var MaxAttachmentSize int64 = 100 * 1024 * 1024
@@ -27,9 +29,9 @@ var (
 	MainQml                string
 	Gui                    string
 	ElectronDebug          bool
+	PrintVersion           bool
 	HomeDir                string
 	ConfigDir              string
-	CacheDir               string
 	ConfigFile             string
 	ContactsFile           string
 	RegisteredContactsFile string
@@ -46,22 +48,29 @@ var (
 	AxolotlWebDir          string
 )
 
-var Config *textsecure.Config
+var Config *textsecureConfig.Config
 
-func GetConfig() (*textsecure.Config, error) {
+func GetConfig() (*textsecureConfig.Config, error) {
 	ConfigFile = filepath.Join(ConfigDir, "config.yml")
 	cf := ConfigFile
 	if IsPhone {
-		ConfigDir = filepath.Join("/opt/click.ubuntu.com", AppName, "current")
+		ConfigDir = filepath.Join("/home/phablet/.config/textsecure.nanuc/")
 		if !helpers.Exists(ConfigFile) {
 			cf = filepath.Join(ConfigDir, "config.yml")
+		}
+	}
+	if _, err := os.Stat(ConfigFile); os.IsNotExist(err) {
+		log.Debugln("[axolotl] create config file")
+		_, err := os.OpenFile(ConfigFile, os.O_RDONLY|os.O_CREATE, 0600)
+		if err != nil {
+			log.Errorln("[axolotl] creating config file", err.Error())
 		}
 	}
 	var err error
 	if helpers.Exists(cf) {
 		Config, err = textsecure.ReadConfig(cf)
 	} else {
-		Config = &textsecure.Config{}
+		Config = &textsecureConfig.Config{}
 	}
 	Config.StorageDir = StorageDir
 	log.Debugln("[axolotl] config path: ", ConfigDir)
@@ -69,6 +78,7 @@ func GetConfig() (*textsecure.Config, error) {
 	Config.UnencryptedStorage = true
 
 	Config.LogLevel = "debug"
+	Config.CrayfishSupport = true
 	Config.AlwaysTrustPeerID = true
 	rootCA := filepath.Join(ConfigDir, "rootCA.crt")
 	if helpers.Exists(rootCA) {
@@ -77,6 +87,7 @@ func GetConfig() (*textsecure.Config, error) {
 	return Config, err
 }
 func SetupConfig() {
+	log.Debugln("[axolotl] setup config")
 
 	IsPhone = helpers.Exists("/home/phablet")
 	IsPushHelper = filepath.Base(os.Args[0]) == "pushHelper"
@@ -85,7 +96,13 @@ func SetupConfig() {
 		TsDeviceURL = flag.Arg(0)
 	}
 
-	if IsPushHelper || IsPhone{
+	if PrintVersion {
+		fmt.Printf("%s %s %s %s %s\n",
+			AppName, AppVersion, runtime.GOOS, runtime.GOARCH, runtime.Version())
+		os.Exit(0)
+	}
+
+	if IsPushHelper || IsPhone {
 		log.Printf("[axolotl] use push helper")
 		HomeDir = "/home/phablet"
 	} else {
@@ -104,18 +121,25 @@ func SetupConfig() {
 			}
 		}
 	}
-	CacheDir = filepath.Join(HomeDir, ".cache/", AppName)
 	LogFileName := []string{"application-click-", AppName, "_textsecure_", AppVersion, ".log"}
-	LogFile = filepath.Join(HomeDir, ".cache/", "upstart/", strings.Join(LogFileName, ""))
 	ConfigDir = filepath.Join(HomeDir, ".config/", AppName)
 	ContactsFile = filepath.Join(ConfigDir, "contacts.yml")
 	RegisteredContactsFile = filepath.Join(ConfigDir, "registeredContacts.yml")
 	SettingsFile = filepath.Join(ConfigDir, "settings.yml")
 	if _, err := os.Stat(SettingsFile); os.IsNotExist(err) {
-		os.OpenFile(SettingsFile, os.O_RDONLY|os.O_CREATE, 0700)
+		_, err := os.OpenFile(SettingsFile, os.O_RDONLY|os.O_CREATE, 0600)
+		if err != nil {
+			log.Errorln("[axolotl] creating settings file", err.Error())
+		}
 	}
 	os.MkdirAll(ConfigDir, 0700)
 	DataDir = filepath.Join(HomeDir, ".local", "share", AppName)
+	if IsPushHelper || IsPhone {
+		LogFile = filepath.Join(HomeDir, ".cache/", "upstart/", strings.Join(LogFileName, ""))
+	} else {
+		LogFile = filepath.Join(DataDir, strings.Join(LogFileName, ""))
+
+	}
 	AttachDir = filepath.Join(DataDir, "attachments")
 	os.MkdirAll(AttachDir, 0700)
 	StorageDir = filepath.Join(DataDir, ".storage")
@@ -151,10 +175,6 @@ func Unregister() {
 		log.Error(err)
 	}
 	err = os.RemoveAll(DataDir + AppName)
-	if err != nil {
-		log.Error(err)
-	}
-	err = os.RemoveAll(CacheDir + AppName)
 	if err != nil {
 		log.Error(err)
 	}

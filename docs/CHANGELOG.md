@@ -1,3 +1,73 @@
+1.0.5 (Sep 23 2021) 
+------------------------------------
+* Fix registration by adding a new backend and use the signal upstream libraries for that ♡ ♥ ❤ 💓 💔 (jonnius, Johannes Renkl, nanu-c)
+* Basic editing contacts support, (could be improved) (nanu-c)
+
+1.0.4 (Sep 12 2021)
+------------------------------------
+* Fix sending messages (nanu-c)
+* Makefile + Debian packaging improvements (nuehm-arno)
+* Update French translations (Anne017)
+
+1.0.3 (Sep 03 2021) Quick and dirty
+------------------------------------
+* Add support for unidentified sender, fixes sending messages partly (nanu-c)
+* Better group error handling (nanu-c)
+* Makefile + Debian packaging improvements (nuehm-arno) 
+
+1.0.2 (Aug 23 2021)
+------------------------------------
+* Updated Finnish translation (orenomfi)
+* Improve Makefile (olof-nord)
+* Fix Linking signal desktop (nanu-c)
+* Fix setting a password (nanu-c)
+* Lot's of code quality and improvements (nanu-c)
+
+
+1.0.1.1 (Jul 18 2021)
+------------------------------------
+* Hotfix: Verification Input fix
+
+1.0.1 (Jul 18 2021)
+------------------------------------
+* Handle profile key changes (nanu-c)
+* Only trigger a notification once per 10s per chat (nanu-c)
+* axolotl-web: Revise lots of linter messages (olof-nord)
+* Update italian translation (albanobattistella)
+* Update dutch translation (vistaus)
+* More modular Makefile (olof-nord)
+* Improve debian packaging (nuehm-arno)
+* Fix the ci (nanu-c)
+
+
+
+1.0.0 (Mai 28 2021) (76 merge request were merged)
+------------------------------------
+* Basic GroupsV2 support, a huge thanks go to blackoverflow and olof and all the testers. (nanu-c)
+* Update axolotl-web to vue3 (nanu-c)
+* fix hundreds of new linter-warnings with vue3 (olof-nord)
+* improve the ci (olof-nord)
+* add a makefile (olof-nord)
+* update translations English, French, Italian, Norge, Swedish (Anne017, RedXXIII, JanConGitHub, olof-nord, albanobattistella, sc0w)
+* upgrade electron and nodejs (olof-nord)
+* improve documentation a lot (olof-nord sc0w)
+
+
+0.9.9 (Feb 27 2021)
+------------------------------------
+* Add github actions to automagically build fltapak and clicks and appimages on release(olof nord)
+* Reenable starting new chats and check if your contacts are registered with signal(nanu-c)
+* Install script for mobian (nuehm-arno)
+* .Deb Packaging (nuehm-arno)
+* Improve Logging on non ut (nanu-c)
+* Update translation and contribution documentation (danfro)
+* Update Czech translation (jato-p)
+
+0.9.8 (Feb 10 2021)
+------------------------------------
+* Fix recieving messages because of Signal-API changes(nanu-c)
+* Delviver call messages in the appropiate Chats (nanu-c)
+
 0.9.7 (Feb 8 2021)
 ------------------------------------
 * Add support for registration captchas (nanu-c)
@@ -6,7 +76,6 @@
 * Add complete translation for PT-BR (yds12)
 * Don't show the currently broken warning everywhere (flaburgan)
 * Fix messages sent by signal desktop appearing in the wrong chat (nanu-c)
-
 
 0.9.6 (Jan 31 2021)
 ------------------------------------

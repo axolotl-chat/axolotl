@@ -24,6 +24,9 @@ var (
 	MsgFlagReaction              = 13
 	MsgFlagQuote                 = 14
 	MsgFlagHiddenQuote           = 15
+	MsgFlagChatCreated           = 16
+	MsgFlagGroupV2Change         = 17
+	MsgFlagProfileKeyUpdated     = 18
 )
 
 func HumanizeTimestamp(ts uint64) string {
@@ -110,4 +113,14 @@ func RandomString(length int) string {
 		output.WriteString(string(randomChar))
 	}
 	return output.String()
+}
+
+// HexToUUID returns a valid uuid string
+func HexToUUID(id string) string {
+	if len(id) != 32 {
+		return id
+	}
+	msbHex := id[:16]
+	lsbHex := id[16:]
+	return msbHex[:8] + "-" + msbHex[8:12] + "-" + msbHex[12:] + "-" + lsbHex[:4] + "-" + lsbHex[4:]
 }

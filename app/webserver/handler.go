@@ -6,7 +6,6 @@ import (
 	"math/rand"
 	"os"
 	"strings"
-	"sync"
 	"time"
 	"unsafe"
 
@@ -21,11 +20,10 @@ import (
 )
 
 var (
-	mu sync.Mutex
-  registered = false
-  requestPassword = false
-	requestSmsVerificationCode = false 
-
+	registered                 = false
+	requestPassword            = false
+	requestSmsVerificationCode = false
+	requestUsername            = false
 )
 
 type MessageRecieved struct {
@@ -39,7 +37,7 @@ func MessageHandler(msg *store.Message) {
 	// fetch attached message
 	if msg.Flags == helpers.MsgFlagQuote {
 		if msg.QuoteID != -1 {
-			err, qm := store.GetMessageById(msg.QuoteID)
+			qm, err := store.GetMessageById(msg.QuoteID)
 			if err != nil {
 				log.Errorln("[axolotl] Quoted Message not found ", err)
 			} else {
@@ -153,6 +151,8 @@ func requestEnterChat(chat int64) {
 func RequestInput(request string) string {
 	if request == "getEncryptionPw" {
 		requestPassword = true
+	} else if request == "getUsername" {
+		requestUsername = true
 	}
 	sendRequest(request)
 	requestChannel = make(chan string)

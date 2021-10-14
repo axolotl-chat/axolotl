@@ -1,14 +1,10 @@
-import Vue from "vue";
-import Router from "vue-router";
+import { createRouter, createWebHistory } from 'vue-router'
 import store from '../store/store'
 
-Vue.use(Router);
 
-const base = "/";
 
-export const router = new Router({
-  mode: "history",
-  base,
+export const router = new createRouter({
+  history: createWebHistory(),
   routes: [
     {
       path: "/",
@@ -53,6 +49,11 @@ export const router = new Router({
       path: "/setPassword",
       name: "setPassword",
       component: () => import("@/pages/SetPassword.vue")
+    },
+    {
+      path: "/setUsername",
+      name: "setUsername",
+      component: () => import("@/pages/SetUsername.vue")
     },
     {
       path: "/contacts",
@@ -102,17 +103,17 @@ export const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  if(to.query.token){
+  if (to.query.token) {
     store.dispatch("setCaptchaToken",
-    to.query.token)
+      to.query.token)
   }
   if (to.path === "/debug") {
     return next();
   }
 
-  if (store.state.registrationStatus == null) {
+  if (store.state.registrationStatus === null) {
     store.dispatch("getRegistrationStatus");
-    store.watch((state) => state.registrationStatus, function() {
+    store.watch((state) => state.registrationStatus, function () {
       proceed(to, next);
     });
   } else {
@@ -121,26 +122,28 @@ router.beforeEach((to, from, next) => {
 });
 
 function proceed(to, next) {
-  const registrationPages = ['/register', '/verify', '/password', '/pin'];
+  const registrationPages = ['/register', '/verify', '/password', '/pin', '/setUsername'];
   const registrationStatus = store.state.registrationStatus;
 
   //disable routes when registration is not finished yet
-  if ((registrationStatus == null || registrationStatus == "phoneNumber") && to.path != '/register') {
+  if ((registrationStatus === null || registrationStatus === "phoneNumber") && to.path !== '/register') {
     return next('/register');
-  } else if (registrationStatus == "verificationCode" && to.path != '/verify') {
+  } else if (registrationStatus === "verificationCode" && to.path !== '/verify') {
     return next('/verify');
-  } else if (registrationStatus == "pin" && to.path != '/pin'){
+  } else if (registrationStatus === "pin" && to.path !== '/pin') {
     return next('/pin');
-  } else if (registrationStatus == "password" && to.path != '/password'){
+  } else if (registrationStatus === "password" && to.path !== '/password') {
     return next('/password');
-  } else if (registrationStatus == "registered" && registrationPages.includes(to.path)){
+  } else if (registrationStatus === "getUsername" && to.path !== '/setUsername') {
+    return next('/setUsername');
+  } else if (registrationStatus === "registered" && registrationPages.includes(to.path)) {
     // We are registered. And are trying to access a registration page, redirect to home
-      return next('/');
+    return next('/');
   } else {
     next();
     // The screen can be displayed ;)
     let loader = document.getElementById('initial-loader');
-    if (loader != undefined) {
+    if (typeof loader !== "undefined") {
       loader.remove();
     }
   }

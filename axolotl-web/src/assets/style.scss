@@ -17,8 +17,7 @@ $close-color: $body-color;
 $link-color: $primary;
 // End of bootstrap override
 
-@import 'node_modules/bootstrap/scss/bootstrap';
-@import 'node_modules/bootstrap-vue/src/index.scss';
+@import "node_modules/bootstrap/scss/bootstrap";
 
 // All variables are now loaded, we can use them
 .row.chat-entry {
@@ -97,4 +96,13 @@ $link-color: $primary;
 
 .modal {
   background: #000e;
+}
+
+@font-face {
+  font-family: 'ubuntu';
+  src: url('fonts/ubuntu-r-webfont.woff2') format('woff2'),
+       url('fonts/ubuntu-r-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
 }

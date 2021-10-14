@@ -103,7 +103,10 @@ func (ds *DataStore) Convert(password string) error {
 	tmp := filepath.Join(dbDir, "tmp.db")
 
 	//create tmp file
-	os.OpenFile(tmp, os.O_RDONLY|os.O_CREATE, 0700)
+	_, err := os.OpenFile(tmp, os.O_RDONLY|os.O_CREATE, 0600)
+	if err != nil {
+		return err
+	}
 	saltFile = filepath.Join(dbDir, "salt")
 
 	encrypted := settings.SettingsModel.EncryptDatabase
@@ -137,7 +140,7 @@ func (ds *DataStore) Convert(password string) error {
 		}
 	}
 
-	err := os.Rename(tmp, dbFile)
+	err = os.Rename(tmp, dbFile)
 	if err != nil {
 		return err
 	}
@@ -154,7 +157,6 @@ var sqlite3Header = []byte("SQLite format 3\000")
 // encrypted, and false otherwise.
 // If the database header cannot be read properly an error is returned.
 func IsEncrypted(filename string) (bool, error) {
-	log.Debugf("isEncrypted")
 
 	// open file
 	db, err := os.Open(filename)

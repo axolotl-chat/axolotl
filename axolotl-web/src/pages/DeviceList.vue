@@ -1,63 +1,102 @@
-
 <template>
   <div class="deviceList">
-    <!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->
-    <div class="row device" v-for="device in devices" v-if="device.id!=1" v-bind:key="device.id">
-      <div class="col-10">
-        <div class="device-name">{{device.name}}</div>
-        <div class="meta">
-          <span class="lastSeen"><span v-translate>Last seen:</span> {{humanifyDate(device.lastSeen)}}</span>
+    <!-- The first device is the main device and should not be shown -->
+    <div v-if="devices && devices.length > 1">
+      <div v-for="(device, i) in devices" :key="device.id" class="row device">
+        <div class="col-10">
+          <div class="device-name">{{ device.name }}</div>
+          <div class="meta">
+            <span class="lastSeen">
+              <span v-translate>Last seen:</span>
+              {{ humanifyDate(device.lastSeen) }}
+            </span>
+          </div>
+        </div>
+        <div v-if="i!== 0" class="col-2 actions">
+          <button class="btn" @click="delDevice(device.id)">
+            <font-awesome-icon icon="trash" />
+          </button>
         </div>
       </div>
-      <div class="col-2 actions">
-        <button class="btn" @click="delDevice(device.id)"><font-awesome-icon icon="trash" /></button>
-      </div>
     </div>
-    <div v-if="devices.length == 0" class="no-entries" v-translate>
-      No linked devices
-    </div>
+    <div v-else v-translate class="no-entries">No linked devices</div>
     <!-- eslint-enable -->
-    <button @click="linkDevice" class="btn start-chat"><font-awesome-icon icon="plus" /></button>
+
+    <button class="btn start-chat" @click="linkDevice">
+      <font-awesome-icon icon="plus" />
+    </button>
+    <add-device-modal
+      v-if="showModal"
+      @close="showModal = false"
+      @add="addDevice($event)"
+    />
   </div>
 </template>
 
 <script>
+import AddDeviceModal from "@/components/AddDeviceModal";
+
 export default {
-  name: 'DeviceList',
-  props: {
-    msg: String
+  name: "DeviceList",
+  components: {
+    AddDeviceModal,
   },
-  mounted(){
+  data() {
+    return {
+      showModal: false,
+    };
+  },
+  computed: {
+    devices() {
+      return this.$store.state.devices;
+    },
+  },
+  mounted() {
     this.$store.dispatch("getDevices");
   },
-  methods:{
+  methods: {
     linkDevice() {
-      var result = window.prompt("desktopLink");
-      this.showSettingsMenu = false;
-      this.$store.dispatch("addDevice", result);
+      if (this.gui === "ut") {
+        const result = window.prompt("desktopLink");
+        this.showSettingsMenu = false;
+        this.$store.dispatch("addDevice", result);
+      } else {
+        this.showModal = true;
+      }
+    },
+    addDevice(qr) {
+      this.showModal = false;
+      if (qr !== "") this.$store.dispatch("addDevice", qr);
     },
     delDevice(id) {
       this.$store.dispatch("delDevice", id);
     },
-    humanifyDate(inputDate){
-      var now = new Date();
-      var date = new Date(inputDate);
-      var diff=(now-date)/1000;
-      var seconds = diff;
-      if(seconds<60)return "now";
-      var minutes = seconds/60;
-      if(minutes<60)return Math.floor(minutes)+" minutes ago";
-      var hours = minutes/60
-      if(hours<24)return Math.floor(hours)+" hours ago";
-      return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
+    humanifyDate(inputDate) {
+      const now = new Date();
+      const date = new Date(inputDate);
+      const diff = (now - date) / 1000;
+      const seconds = diff;
+      if (seconds < 60) return "now";
+      const minutes = seconds / 60;
+      if (minutes < 60) return Math.floor(minutes) + " minutes ago";
+      const hours = minutes / 60;
+      if (hours < 24) return Math.floor(hours) + " hours ago";
+      return (
+        date.getFullYear() +
+        "-" +
+        (date.getMonth() + 1) +
+        "-" +
+        date.getDate() +
+        " " +
+        date.getHours() +
+        ":" +
+        date.getMinutes() +
+        ":" +
+        date.getSeconds()
+      );
     },
   },
-  computed: {
-    devices () {
-      return this.$store.state.devices
-    }
-  }
-}
+};
 </script>
 <style scoped>
 .device {
@@ -75,5 +114,6 @@ export default {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  max-width: 35ch;
 }
 </style>

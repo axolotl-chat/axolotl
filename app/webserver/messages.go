@@ -3,6 +3,7 @@ package webserver
 import (
 	"github.com/nanu-c/axolotl/app/store"
 	"github.com/signal-golang/textsecure"
+	textsecureContacts "github.com/signal-golang/textsecure/contacts"
 )
 
 type MessageListEnvelope struct {
@@ -15,14 +16,14 @@ type ChatListEnvelope struct {
 	ChatList []*store.Session
 }
 type ContactListEnvelope struct {
-	ContactList []textsecure.Contact
+	ContactList []textsecureContacts.Contact
 }
 type DeviceListEnvelope struct {
 	DeviceList []textsecure.DeviceInfo
 }
 type OpenChat struct {
 	CurrentChat *store.Session
-	Contact     *textsecure.Contact
+	Contact     *textsecureContacts.Contact
 	Group       *textsecure.Group
 }
 type CurrentChatEnvelope struct {
@@ -30,7 +31,7 @@ type CurrentChatEnvelope struct {
 }
 type UpdateCurrentChat struct {
 	CurrentChat *store.Session
-	Contact     *textsecure.Contact
+	Contact     *textsecureContacts.Contact
 	Group       *textsecure.Group
 }
 type UpdateCurrentChatEnvelope struct {
@@ -53,6 +54,10 @@ type Message struct {
 	Type string                 `json:"request"`
 	Data map[string]interface{} `json:"-"` // Rest of the fields should go here.
 }
+type DelMessageMessage struct {
+	Type string `json:"request"`
+	ID   int64  `json:"id"`
+}
 type GetMessageListMessage struct {
 	Type string `json:"request"`
 	ID   int64  `json:"id"`
@@ -74,6 +79,10 @@ type SendPasswordMessage struct {
 	Type string `json:"request"`
 	Pw   string `json:"pw"`
 }
+type SendUsernameMessage struct {
+	Type     string `json:"request"`
+	Username string `json:"username"`
+}
 type SetPasswordMessage struct {
 	Type      string `json:"request"`
 	Pw        string `json:"pw"`
@@ -88,8 +97,8 @@ type SendPinMessage struct {
 	Pin  string `json:"pin"`
 }
 type SendCaptchaTokenMessage struct {
-	Type string `json:"request"`
-	Token  string `json:"token"`
+	Type  string `json:"request"`
+	Token string `json:"token"`
 }
 type AddDeviceMessage struct {
 	Type string `json:"request"`
@@ -128,7 +137,7 @@ type DelChatMessage struct {
 }
 type CreateChatMessage struct {
 	Type string `json:"request"`
-	Tel  string `json:"tel"`
+	UUID string `json:"uuid"`
 }
 type OpenChatMessage struct {
 	Type string `json:"request"`

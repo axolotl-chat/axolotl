@@ -1,10 +1,8 @@
 package webserver
 
 import (
-	"bufio"
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"os"
 	"strings"
@@ -20,18 +18,19 @@ import (
 	"github.com/nanu-c/axolotl/app/settings"
 	"github.com/nanu-c/axolotl/app/store"
 	"github.com/signal-golang/textsecure"
+	textsecureContacts "github.com/signal-golang/textsecure/contacts"
 )
 
 var (
-	clients = make(map[*websocket.Conn]bool)
-	activeChat int64 = -1
-	codeVerification = false
-	profile textsecure.Contact
-	broadcast = make(chan []byte, 100)
-	requestChannel chan string
-	upgrader = websocket.Upgrader{
-	ReadBufferSize:  1024,
-	WriteBufferSize: 1024,
+	clients                = make(map[*websocket.Conn]bool)
+	activeChat       int64 = -1
+	codeVerification       = false
+	profile          textsecureContacts.Contact
+	broadcast        = make(chan []byte, 100)
+	requestChannel   chan string
+	upgrader         = websocket.Upgrader{
+		ReadBufferSize:  1024,
+		WriteBufferSize: 1024,
 	}
 )
 
@@ -91,7 +90,7 @@ func wsReader(conn *websocket.Conn) {
 		defer func() {
 			if err := recover(); err != nil {
 				log.Errorln("[axolotl-ws] wsReader panic occurred:", err)
-				conn.Close()
+				recoverFromWsPanic(conn)
 			}
 		}()
 		// read in a message
@@ -129,11 +128,12 @@ func wsReader(conn *websocket.Conn) {
 		case "createChat":
 			createChatMessage := CreateChatMessage{}
 			json.Unmarshal([]byte(p), &createChatMessage)
-			log.Println("[axolotl] Create chat for ", createChatMessage.Tel)
-			newChat := createChat(createChatMessage.Tel)
+			log.Println("[axolotl] Create chat for ", createChatMessage.UUID)
+			newChat := createChat(createChatMessage.UUID)
 			activeChat = newChat.ID
 			store.ActiveSessionID = activeChat
 			requestEnterChat(activeChat)
+			sendChatList()
 		case "openChat":
 			openChatMessage := OpenChatMessage{}
 			json.Unmarshal([]byte(p), &openChatMessage)
@@ -144,11 +144,11 @@ func wsReader(conn *websocket.Conn) {
 				log.Errorln("[axolotl] Open chat with id: ", openChatMessage.Id, "failed", err)
 			} else {
 				activeChat = openChatMessage.Id
-				if !s.IsGroup {
-					// TODO: Avatar and profile handling for private chats, decryption is not yet done on the textsecure part
-					// p, _ := textsecure.GetProfile(s.Tel)
-					// profile = p
-				}
+				// TODO: Avatar and profile handling for private chats, decryption is not yet done on the textsecure part
+				// if !s.IsGroup {
+				// p, _ := textsecure.GetProfile(s.Tel)
+				// profile = p
+				// }
 				store.ActiveSessionID = activeChat
 				sendCurrentChat(s)
 			}
@@ -159,11 +159,17 @@ func wsReader(conn *websocket.Conn) {
 			createGroupMessage := CreateGroupMessage{}
 			json.Unmarshal([]byte(p), &createGroupMessage)
 			log.Println("[axolotl] Create group ", createGroupMessage.Name)
-			group := createGroup(createGroupMessage)
-			activeChat = group.ID
-			store.ActiveSessionID = activeChat
-			requestEnterChat(activeChat)
-			sendContactList()
+			group, err := createGroup(createGroupMessage)
+			if err != nil {
+				log.Errorln("[axolotl] Create chat failed: ", err)
+
+			} else {
+				activeChat = group.ID
+				store.ActiveSessionID = activeChat
+				requestEnterChat(activeChat)
+				sendContactList()
+			}
+
 		case "updateGroup":
 			updateGroupMessage := UpdateGroupMessage{}
 			json.Unmarshal([]byte(p), &updateGroupMessage)
@@ -191,6 +197,11 @@ func wsReader(conn *websocket.Conn) {
 
 				}()
 			}
+		case "delMessage":
+			deleteMessageMessage := DelMessageMessage{}
+			json.Unmarshal([]byte(p), &deleteMessageMessage)
+			log.Println("[axolotl] delete message ", deleteMessageMessage.ID)
+			store.DeleteMessage(deleteMessageMessage.ID)
 		case "getContacts":
 			go sendContactList()
 		case "addContact":
@@ -233,6 +244,13 @@ func wsReader(conn *websocket.Conn) {
 
 				requestChannel <- sendCaptchaTokenMessage.Token
 			}
+		case "sendUsername":
+			if requestChannel != nil {
+				sendUsernameMessage := SendUsernameMessage{}
+				json.Unmarshal([]byte(p), &sendUsernameMessage)
+				requestChannel <- sendUsernameMessage.Username
+				requestUsername = false
+			}
 		case "sendPassword":
 			if requestChannel != nil {
 				sendPasswordMessage := SendPasswordMessage{}
@@ -243,11 +261,12 @@ func wsReader(conn *websocket.Conn) {
 			setPasswordMessage := SetPasswordMessage{}
 			json.Unmarshal([]byte(p), &setPasswordMessage)
 			log.Infoln("[axolotl] set password")
-			if settings.SettingsModel.EncryptDatabase {
-				if !store.DS.DecryptDb(setPasswordMessage.CurrentPw) {
-					// setError(i18n.tr("Incorrect old passphrase!"))
-				}
-			}
+			// TODO: proof current password is correct
+			// if settings.SettingsModel.EncryptDatabase {
+			// 	if !store.DS.DecryptDb(setPasswordMessage.CurrentPw) {
+			// 		// setError(i18n.tr("Incorrect old passphrase!"))
+			// 	}
+			// }
 			if setPasswordMessage.Pw != "" {
 				store.DS.EncryptDb(setPasswordMessage.Pw)
 				settings.SettingsModel.EncryptDatabase = true
@@ -325,11 +344,11 @@ func wsReader(conn *websocket.Conn) {
 		case "editContact":
 			editContactMessage := EditContactMessage{}
 			json.Unmarshal([]byte(p), &editContactMessage)
-			replaceContact := textsecure.Contact{
+			replaceContact := textsecureContacts.Contact{
 				Tel:  editContactMessage.Phone,
 				Name: editContactMessage.Name,
 			}
-			log.Debugln("[axolotl ]editContact", editContactMessage.Name)
+			log.Debugln("[axolotl] editContact", editContactMessage.Name)
 			contact.EditContact(store.ContactsModel.GetContact(editContactMessage.ID), replaceContact)
 			err = store.RefreshContacts()
 			if err != nil {
@@ -339,8 +358,8 @@ func wsReader(conn *websocket.Conn) {
 		case "delChat":
 			delChatMessage := DelChatMessage{}
 			json.Unmarshal([]byte(p), &delChatMessage)
+			log.Debugln("[axolotl] deleteSession", delChatMessage.ID)
 			store.DeleteSession(delChatMessage.ID)
-			err = store.RefreshContacts()
 			if err != nil {
 				ShowError(err.Error())
 			}
@@ -431,12 +450,4 @@ func webserver() {
 		log.Error("[axolotl] webserver error", http.ListenAndServe(config.ServerHost+":"+config.ServerPort, nil))
 	}
 
-}
-func print(stdout io.ReadCloser) {
-	scanner := bufio.NewScanner(stdout)
-	scanner.Split(bufio.ScanWords)
-	for scanner.Scan() {
-		m := scanner.Text()
-		log.Infoln("[axolotl] print ", m)
-	}
 }

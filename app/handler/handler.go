@@ -2,7 +2,7 @@ package handler
 
 import (
 	"bytes"
-	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"strings"
 	"time"
@@ -19,19 +19,14 @@ import (
 	"github.com/signal-golang/textsecure"
 )
 
-func prettyPrint(i interface{}) string {
-	s, _ := json.MarshalIndent(i, "", "\t")
-	return string(s)
-}
-
 //messageHandler is used on incoming message
 func MessageHandler(msg *textsecure.Message) {
 	buildAndSaveMessage(msg, false)
 }
 func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 	var err error
-	var f []store.Attachment //should be array
-	mt := ""                 //
+	var attachments []store.Attachment //should be array
+	mt := ""                           //
 	if len(msg.Attachments()) > 0 {
 		for i, a := range msg.Attachments() {
 			mt = msg.Attachments()[i].MimeType
@@ -39,7 +34,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 			if err != nil {
 				log.Printf("[axolotl] MessageHandler Error saving attachments %s\n", err.Error())
 			}
-			f = append(f, file)
+			attachments = append(attachments, file)
 		}
 	}
 
@@ -53,6 +48,9 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 	if msg.Flags() == 2 {
 		text = "Message timer update."
 		msgFlags = helpers.MsgFlagExpirationTimerUpdate
+	}
+	if msg.Flags() == uint32(textsecure.ProfileKeyUpdatedFlag) {
+		msgFlags = helpers.MsgFlagProfileKeyUpdated
 	}
 	//Group Message
 	gr := msg.Group()
@@ -72,7 +70,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		if gr.Avatar != nil {
 			av, err = ioutil.ReadAll(bytes.NewReader(gr.Avatar))
 			if err != nil {
-				log.Println("[axolotl]", err)
+				log.Println("[axolotl] avatar", err)
 				return
 			}
 		}
@@ -99,11 +97,49 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 			msgFlags = helpers.MsgFlagGroupLeave
 		}
 	}
+	//GroupV2 Message
+	grV2 := msg.GroupV2()
+	if grV2 != nil {
+		group := store.Groups[grV2.Hexid]
+		if group != nil && grV2.DecryptedGroup != nil {
+			group.Name = string(grV2.DecryptedGroup.Title)
+			store.UpdateGroup(group)
+		} else {
+			title := "Unknown group"
+			if grV2.DecryptedGroup != nil {
+				title = string(grV2.DecryptedGroup.Title)
+			}
+			store.Groups[grV2.Hexid] = &store.GroupRecord{
+				GroupID: grV2.Hexid,
+				Name:    title,
+				Type:    store.GroupRecordTypeGroupv2,
+			}
+			_, err = store.SaveGroup(store.Groups[grV2.Hexid])
+			if err != nil {
+				log.Errorln("[axolotl] save groupV2 ", err)
+			}
+		}
+		if grV2.GroupAction != nil && msg.Message() == "" {
+
+			// update group only, when group was decrypted
+			if grV2.DecryptedGroup != nil {
+				group.Name = string(grV2.DecryptedGroup.Title)
+				store.UpdateGroup(group)
+			}
+			text = "Group was changed to revision " + fmt.Sprint(grV2.GroupContext.Revision)
+			msgFlags = helpers.MsgFlagGroupV2Change
+		}
+		// handle groupv2 updates etc
+	}
 
 	msgSource := msg.SourceUUID()
 	if gr != nil {
 		msgSource = gr.Hexid
 	}
+	if grV2 != nil {
+		msgSource = grV2.Hexid
+	}
+
 	if msg.Sticker() != nil {
 		msgFlags = helpers.MsgFlagSticker
 		text = "Unsupported Message: sticker"
@@ -141,7 +177,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		session, err = store.SessionsModel.GetByUUID(msgSource)
 		webserver.UpdateChatList()
 	}
-	if err != nil && gr == nil {
+	if err != nil && gr == nil && grV2 == nil {
 		// Session could not be found, lets try to find it by E164 aka phone number
 		log.Println("[axolotl] MessageHandler: ", err)
 		session = store.SessionsModel.GetByE164(msg.Source())
@@ -157,17 +193,21 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 			// create a new session
 			session = store.SessionsModel.CreateSessionForE164(msg.Source(), msg.SourceUUID())
 		}
-	} else if err != nil {
+	} else if err != nil && gr != nil {
 		log.Infoln("[axolotl] MessageHandler group Error ", err)
 		session = store.SessionsModel.CreateSessionForGroup(gr)
+		// TODO create group
+	} else if err != nil && grV2 != nil {
+		log.Infoln("[axolotl] MessageHandler group2 not found, lets create it ", err)
+		session = store.SessionsModel.CreateSessionForGroupV2(grV2)
 		// TODO create group
 	}
 	var m *store.Message
 	if syncMessage {
-		m = session.Add(text, "", f, mt, true, store.ActiveSessionID)
+		m = session.Add(text, "", attachments, mt, true, store.ActiveSessionID)
 		m.IsSent = true
 	} else {
-		m = session.Add(text, msg.Source(), f, mt, false, store.ActiveSessionID)
+		m = session.Add(text, msg.Source(), attachments, mt, false, store.ActiveSessionID)
 	}
 	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
 	m.SentAt = msg.Timestamp()
@@ -200,9 +240,10 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 	if msgFlags != 0 {
 		m.Flags = msgFlags
 	}
-	//TODO: have only one message per chat
-
-	if session.Notification && !syncMessage {
+	if msgFlags == helpers.MsgFlagProfileKeyUpdated {
+		m.IsRead = true
+	}
+	if session.Notification && !syncMessage && msgFlags != helpers.MsgFlagProfileKeyUpdated {
 		if settings.SettingsModel.EncryptDatabase {
 			text = "Encrypted message"
 		}
@@ -249,7 +290,7 @@ func ReceiptHandler(source string, devID uint32, timestamp uint64) {
 	if err != nil {
 		log.Printf("[axolotl] ReceiptHandler: Message with timestamp %d not found\n", timestamp)
 	} else {
-		log.Println("[axolotl] ReceiptHandler for message ", timestamp, m.Source)
+		log.Println("[axolotl] ReceiptHandler for message ", timestamp, m.SourceUUID)
 		m.IsSent = true
 		m.Receipt = true
 		store.UpdateMessageReceipt(m)
@@ -282,7 +323,7 @@ func ReceiptMessageHandler(msg *textsecure.Message) {
 
 // SyncSentHandler handle sync messages from signal desktop
 func SyncSentHandler(msg *textsecure.Message, timestamp uint64) {
-	log.Debugln("[axolotl] handle sync message", msg.Timestamp())
+	log.Debugln("[axolotl] handle sync message", msg.Timestamp(), msg.SourceUUID())
 	// use the same routine to save sync messages as incoming messages
 	buildAndSaveMessage(msg, true)
 }

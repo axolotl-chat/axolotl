@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-07 09:22+0200\n"
-"PO-Revision-Date: 2016-02-29 11:36+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2021-02-11 16:20+0200\n"
+"Last-Translator: jato\n"
 "Language-Team: none\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -14,25 +14,25 @@ msgstr ""
 
 #: src/pages/About.vue:4 src/pages/Register.vue:6
 msgid "A cross-plattform signal client"
-msgstr ""
+msgstr "Multi-platformový klient pro Signál"
 
 #: src/pages/Settings.vue:27
 msgid "About Axolotl"
-msgstr ""
+msgstr "O Axolotlu"
 
-#: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:22
+#: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:24
 msgid "Add"
-msgstr ""
+msgstr "Přidat"
 
 #: src/components/AddGroupMembersModal.vue:51
 #, fuzzy
 msgid "Add Contacts first"
-msgstr "Kontakt"
+msgstr "Nejprve přidat kontakty"
 
 #: src/components/AddGroupMembersModal.vue:5
 #, fuzzy
 msgid "Add members"
-msgstr "Členové skupiny"
+msgstr "Přidat členy skupiny"
 
 #: src/components/AttachmentBar.vue:13
 msgid "Audio"
@@ -43,24 +43,32 @@ msgid ""
 "Axolotl encountered an error communicating with Signal servers. Please try "
 "again."
 msgstr ""
+"Axolotl má problém v komunikaci se serverem Signálu. "
+"Zkuste to prosím znovu."
+
+#: src/components/ImportUnavailableModal.vue:18
+msgid ""
+"Be careful, if you add too many numbers which aren't Signal accounts, you "
+"won't be able to add contacts anymore."
+msgstr ""
 
 #: src/pages/Contacts.vue:3
 msgid "Can't change contact list: {{error}}"
-msgstr ""
+msgstr "Chyba při změně v seznamu kontaktů: {{error}}"
 
 #: src/components/ErrorModal.vue:18 src/components/IdentityModal.vue:21
-#: src/components/ImportUnavailableModal.vue:15
+#: src/components/ImportUnavailableModal.vue:23
 #: src/components/StartChatModal.vue:13
 msgid "Close"
-msgstr ""
+msgstr "Zavřít"
 
 #: src/components/ConfirmationModal.vue:13
 msgid "Confirm"
-msgstr ""
+msgstr "Potvrdit"
 
 #: src/components/Header.vue:73
 msgid "Connect with Signal"
-msgstr "Připojení pomocí Signál"
+msgstr "Připojit se k Signálu"
 
 #: src/components/AddContactModal.vue:5 src/components/EditContactModal.vue:5
 msgid "Contact"
@@ -68,81 +76,94 @@ msgstr "Kontakt"
 
 #: src/pages/Contacts.vue:16
 msgid "Contact list is empty..."
-msgstr ""
+msgstr "Seznam kontaktů je prázdný..."
 
 #: src/components/Header.vue:146
-#, fuzzy
 msgid "Contacts"
-msgstr "Kontakt"
+msgstr "Kontakty"
 
 #: src/pages/NewGroup.vue:12
 #, fuzzy
 msgid "Create group"
-msgstr "Opustit skupinu"
+msgstr "Vytvořit novou skupinu"
 
 #: src/pages/NewGroup.vue:31
 msgid "Creating Group"
-msgstr ""
+msgstr "Vytváření skupiny"
 
 #: src/pages/SetPassword.vue:20
 msgid "Current Password"
-msgstr ""
+msgstr "Aktuální heslo"
 
 #: src/pages/SetPassword.vue:10
 msgid "Current password is wrong"
-msgstr ""
+msgstr "Aktuální heslo je chybné"
 
 #: src/pages/Settings.vue:23
 msgid "Dark mode"
-msgstr ""
+msgstr "Tmavý styl"
 
 #: src/pages/Password.vue:4
 msgid "Decrypt"
-msgstr ""
+msgstr "Dešifrovat"
 
 #: src/components/AttachmentBar.vue:14
 msgid "Document"
+msgstr "Dokument"
+
+#: src/pages/Settings.vue:32
+msgid ""
+"Due to technical limitations, Axolotl doesn't support push notifications. "
+"Keep the app open to be notified in real time. In Ubuntu Touch, use UT Tweak "
+"Tool to set Axolotl on \"Prevent app suspension\"."
 msgstr ""
 
 #: src/components/WarningMessage.vue:3
 msgid ""
-"Due to upstream changes in Signal, some features are currently broken.\n"
-"      We're working as fast as we can to bring them back."
-msgstr ""
+
+"Due to upstream changes in Signal, some features are currently broken. We're "
+"working as fast as we can to bring them back."
+msgstr "Vzhledem ke změnám Signálu v přenosu směrem k operátorovi (upstream) "
+"nefungují některé funkce.\n"
+"      Pracujeme s plným nasazením, aby bylo brzy opět vše v pořádku."
 
 #: src/components/EditContactModal.vue:5
 msgid "Edit"
-msgstr ""
+msgstr "Upravit"
 
 #: src/components/Header.vue:105
-#, fuzzy
 msgid "Edit group"
 msgstr "Upravit skupinu"
 
 #: src/components/Header.vue:64
-#, fuzzy
 msgid "Edit Group"
 msgstr "Upravit skupinu"
 
 #: src/components/Header.vue:76
 msgid "Enter password"
-msgstr ""
+msgstr "Zadat heslo"
 
 #: src/pages/Verification.vue:2
 msgid "Enter your registration pin"
-msgstr ""
+msgstr "Zadejte registrační pin"
 
 #: src/components/ErrorModal.vue:5
 msgid "Error communicating with Signal servers"
-msgstr ""
+msgstr "Problém v komunikaci se serverem Signálu"
 
-#: src/components/WarningMessage.vue:7
+#: src/components/WarningMessage.vue:6
 msgid "Follow the progress or join us to help with development on"
-msgstr ""
+msgstr "Sledujte naše pokroky nebo se připojte a pomozte s vývojem na"
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
 msgstr "Název skupiny"
+
+#: src/components/ImportUnavailableModal.vue:13
+msgid ""
+"If you are really sure that the persons you want to text with have Signal, "
+"you can manually add them using the \"plus\" action on that page."
+msgstr ""
 
 #: src/components/ErrorModal.vue:15
 msgid ""
@@ -151,6 +172,11 @@ msgid ""
 "            Be careful, <strong>your encryption key will change and you will "
 "lose all your messages</strong> if you choose to do that."
 msgstr ""
+"Pokud se domníváte, že na vaší straně došlo k nějaké chybě, můžete "
+"<a href=\"#\" @click=\"unregister\">registraci zrušit</a> a registrovat "
+"se znovu.\n"
+"            Ale pozor! Pokud se k tomuto kroku rozhodnete, "
+"<strong>váš šifrovací klíč se změni a tím ztratíte všechny vaše zprávy</strong>."
 
 #: src/components/ErrorModal.vue:12
 msgid ""
@@ -160,36 +186,44 @@ msgid ""
 "\"https://github.com/nanu-c/axolotl/issues\" target=\"_blank\">opening an "
 "issue</a>."
 msgstr ""
+"Pokud se tato chybová zpráva objeví vícekrát, překontrolujte "
+"<a href=\"https://status.signal.org/\" target=\"_blank\">stav serveru Signálu</a>.\n"
+"            Pokud se zdá být vše v pořádku, nahlašte nám prosím tento problém "
+"na <a href=\"https://github.com/nanu-c/axolotl/issues\" target=\"_blank\">github.com</a>."
 
 #: src/components/Header.vue:132
-#, fuzzy
 msgid "Import contacts"
+msgstr "Importovat kontakty"
+
+#: src/components/ImportUnavailableModal.vue:5
+#, fuzzy
+msgid "Import contacts feature unavailable"
 msgstr "Kontakt"
 
 #: src/pages/Contacts.vue:4
 msgid "Importing contacts, head back later"
-msgstr ""
+msgstr "Importování kontaktů, může to chvíli trvat"
 
 #: src/pages/SetPassword.vue:2
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: src/pages/About.vue:11
 msgid "issues at the bug tracker"
-msgstr ""
+msgstr "záznamy (issues) v registru chyb"
 
 #: src/pages/DeviceList.vue:7
 msgid "Last seen:"
-msgstr ""
+msgstr "Naposledy přečteno:"
 
 #: src/pages/Settings.vue:11
 #, fuzzy
 msgid "Linked devices"
-msgstr "Obnovit"
+msgstr "Připojená zařízení"
 
 #: src/pages/Verification.vue:15
 msgid "Loading..."
-msgstr ""
+msgstr "Načítá..."
 
 #: src/pages/NewGroup.vue:10
 #, fuzzy
@@ -198,11 +232,11 @@ msgstr "Členové skupiny"
 
 #: src/components/Header.vue:59
 msgid "Mute"
-msgstr ""
+msgstr "Ztlumit"
 
-#: src/components/AddContactModal.vue:13
+#: src/components/AddContactModal.vue:15
 msgid "Name"
-msgstr ""
+msgstr "Jméno"
 
 #: src/components/StartChatModal.vue:11
 msgid ""
@@ -210,6 +244,9 @@ msgid ""
 "the linked Desktop Client. Alternatively, your counterparty could start the "
 "discussion."
 msgstr ""
+"Dočasně není možné začít novou konverzaci. Můžete ji ale začít z "
+"propojeného desktop clientu na vašem počítači. Jiná možnost je, že "
+"konverzaci začne jako první váš partner."
 
 #: src/components/Header.vue:99 src/components/Header.vue:149
 msgid "New group"
@@ -218,78 +255,81 @@ msgstr "Nová skupina"
 #: src/pages/SetPassword.vue:13
 #, fuzzy
 msgid "New password"
-msgstr "Nová zpráva"
+msgstr "Nové heslo"
 
 #: src/pages/Register.vue:17
 msgid "Next"
-msgstr ""
+msgstr "Další"
 
 #: src/pages/ChatList.vue:46
 msgid "No chats available"
-msgstr ""
+msgstr "Nenalezena žádná konverzace"
 
 #: src/pages/DeviceList.vue:14
 #, fuzzy
 msgid "No linked devices"
-msgstr "Obnovit"
+msgstr "Žádná připojená zařízení"
 
 #: src/pages/MessageList.vue:25
 msgid "No Messages available."
-msgstr ""
+msgstr "Nenalezeny žádné zprávy."
 
 #: src/components/Message.vue:46 src/components/Message.vue:72
 msgid "Not supported mime type:"
-msgstr ""
+msgstr "Nepodporovaný typ mime:"
 
 #: src/pages/EditGroup.vue:8 src/pages/NewGroup.vue:8
 msgid "Note, you can't add yourself to a group."
+msgstr "Pozor, není možné přidat sám/samu sebe do skupiny."
+
+#: src/components/AddContactModal.vue:11
+msgid "Only add numbers that you are sure are registered Signal accounts!"
 msgstr ""
 
 #: src/pages/About.vue:13
 msgid "or by becoming a"
-msgstr ""
+msgstr "nebo jako"
 
 #: src/pages/Verification.vue:4
 msgid "or disable it on Android/IOs"
-msgstr ""
+msgstr "nebo deaktivovat pin na Androidu/IOs"
 
 #: src/pages/Password.vue:2
 msgid "Password is wrong"
-msgstr ""
+msgstr "Nesprávné heslo"
 
 #: src/pages/SetPassword.vue:4
 msgid "Passwords don't match"
-msgstr ""
+msgstr "Rozdílná hesla"
 
-#: src/components/AddContactModal.vue:17 src/components/EditContactModal.vue:15
+#: src/components/AddContactModal.vue:19 src/components/EditContactModal.vue:15
 msgid "Phone"
-msgstr ""
+msgstr "Telefon"
 
 #: src/components/AttachmentBar.vue:11
 msgid "Photo"
-msgstr ""
+msgstr "Foto"
 
 #: src/pages/Settings.vue:5
 #, fuzzy
 msgid "Registered number"
-msgstr "Zaregistrovat"
+msgstr "Registrované číslo"
 
 #: src/pages/SetPassword.vue:16
 msgid "Repeat password"
-msgstr ""
+msgstr "Zopakovat heslo"
 
 #: src/pages/Register.vue:26
 msgid "Request code"
-msgstr ""
+msgstr "Vyžádat kód"
 
 #: src/components/Header.vue:63
-#, fuzzy
 msgid "Reset encryption"
 msgstr "Resetovat zabezpečenou konverzaci"
 
 #: src/components/IdentityModal.vue:14
 msgid "Safety numbers of you and"
-msgstr ""
+msgstr "Bezpečnostní kódy vaše a"
 
 #: src/components/EditContactModal.vue:20
 msgid "Save"
@@ -297,83 +337,83 @@ msgstr "Uložit"
 
 #: src/components/AttachmentBar.vue:5
 msgid "Send Attachments"
-msgstr ""
+msgstr "Poslat přílohy"
 
 #: src/pages/Verification.vue:11
 msgid "Send code"
-msgstr ""
+msgstr "Poslat kód"
 
 #: src/pages/Verification.vue:6
 msgid "Send pin"
-msgstr ""
+msgstr "Poslat pin"
 
 #: src/components/Header.vue:82
-#, fuzzy
 msgid "Set encryption password"
 msgstr "Resetovat zabezpečenou konverzaci"
 
 #: src/pages/SetPassword.vue:23 src/pages/Settings.vue:14
 msgid "Set password"
-msgstr ""
+msgstr "Nastavit heslo"
 
 #: src/components/Message.vue:78
 msgid "Set timer for self-destructing messages"
-msgstr ""
+msgstr "Nastavit časovač pro sebedestruktivní zprávy"
 
 #: src/pages/SetPassword.vue:3
 msgid ""
 "Setting a password is not adviced on devices short in memory. Restart is "
 "required!"
 msgstr ""
+"Nastavení hesla se nedoporučuje pro zařízení s malou pamětí. "
+"Nutný restart!"
 
 #: src/components/Header.vue:93 src/components/Header.vue:152
 msgid "Settings"
 msgstr "Nastavení"
 
 #: src/components/Header.vue:62
-#, fuzzy
 msgid "Show identity"
 msgstr "Ověření identity"
 
 #: src/pages/About.vue:14
 msgid "sponsor on patreon."
-msgstr ""
+msgstr "sponzor na Patreon."
 
 #: src/components/StartChatModal.vue:5
 msgid "Starting new chats is currently broken in Axolotl."
-msgstr ""
+msgstr "Momentálně nelze na Axolotlu začít novou konverzaci."
 
 #: src/pages/About.vue:6
 msgid ""
 "This is a free and open source signal client written in golang and vuejs."
 msgstr ""
+"Toto je svobodný a otevřený klient pro Signál, naprogramovaný v golang a vuejs."
 
 #: src/components/Header.vue:27 src/pages/ChatList.vue:26
-#, fuzzy
 msgid "Unknown group"
-msgstr "Nová skupina"
+msgstr "Neznámá skupina"
 
 #: src/components/Header.vue:60
 msgid "Unmute"
-msgstr ""
+msgstr "Ukončit ztlumení"
 
 #: src/pages/Password.vue:5 src/pages/Settings.vue:18
 #, fuzzy
 msgid "Unregister"
-msgstr "Rušení registrace"
+msgstr "Zrušit registraci"
 
 #: src/pages/SetPassword.vue:7
 msgid "Unsafe password"
-msgstr ""
+msgstr "Heslo není bezpečné"
 
 #: src/components/Message.vue:81
 msgid "Unsupported message type: sticker"
-msgstr ""
+msgstr "Nepodporovaný typ zprávy: nálepka (sticker)"
 
 #: src/pages/EditGroup.vue:41
 #, fuzzy
 msgid "Updating Group"
-msgstr "Upravit skupinu"
+msgstr "Aktualizuje skupinu"
 
 #: src/components/IdentityModal.vue:5
 msgid "Verify identity"
@@ -383,30 +423,40 @@ msgstr "Ověření identity"
 msgid "Video"
 msgstr "Video"
 
+#: src/components/ImportUnavailableModal.vue:8
+msgid ""
+"We are sorry, but due to a change in the Signal protocol, automatic import "
+"of contacts is currently unavailble."
+msgstr ""
+
 #: src/pages/Verification.vue:19
 msgid "Wrong code entered. Restart for another try."
-msgstr ""
+msgstr "Zadán neplatný kód. Restartovat pro nový pokus."
 
 #: src/components/Message.vue:19
 msgid "You"
-msgstr ""
+msgstr "Vy"
 
 #: src/pages/About.vue:8
 msgid "You can support the development of axolotl either by filling"
-msgstr ""
+msgstr "Vývoj Axolotlu můžete podpořit buď vyplněním"
 
 #: src/components/Message.vue:32 src/components/Message.vue:41
 #: src/components/Message.vue:57 src/pages/MessageList.vue:14
 msgid "Your browser does not support the audio element."
-msgstr ""
+msgstr "Váš prohlížeč nepodporuje tento element audia."
 
 #: src/components/Message.vue:67
 msgid "Your browser does not support the video element."
-msgstr ""
+msgstr "Váš prohlížeč nepodporuje tento element videa."
+
+#, fuzzy
+#~ msgid "Edit Group"
+#~ msgstr "Upravit skupinu"
 
 #, fuzzy
 #~ msgid "Add Contacts"
-#~ msgstr "Kontakt"
+#~ msgstr "Přidat kontakty"
 
 #, fuzzy
 #~ msgid "<b>Group name</b>"
@@ -414,7 +464,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Forwarded from "
-#~ msgstr "Přeposlat zprávu"
+#~ msgstr "Přeposláno z "
 
 #~ msgid "Image"
 #~ msgstr "Obrázek"
@@ -433,66 +483,66 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "New passphrase too short(6)!"
-#~ msgstr "Nová zpráva"
+#~ msgstr "Nové heslo je příliš krátké (6)!"
 
 #~ msgid "Disable Signal messages and calls?"
-#~ msgstr "Zakázat Signal zprávy a volání?"
+#~ msgstr "Zakázat zprávy a volání ze Signálu?"
 
 #~ msgid ""
 #~ "Disable Signal messages and calls by unregistering from the server. You "
 #~ "will need to re-register your phone number to use them again in the "
 #~ "future."
 #~ msgstr ""
-#~ "Tímto zakážete Signal zprávy a volání odregistrací ze serveru. Abyste "
-#~ "mohli používat Signal zprávy v budoucnosti, budete muset znovu "
-#~ "registrovat svoje telefonní číslo."
+#~ "Zrušením registrace ze serveru znemožníte Signálu posílání zpráv a volání. "
+#~ "Abyste mohli Signál znovu používat, budete muset znovu registrovat "
+#~ "vaše telefonní číslo."
 
 #~ msgid "Enter key sends"
 #~ msgstr "Klávesa Enter odesílá"
 
 #, fuzzy
 #~ msgid "Activate Debuglog"
-#~ msgstr "Odeslat ladící log"
+#~ msgstr "Aktivovat logování pro hledání chyb programu"
 
 #~ msgid "YOUR COUNTRY"
-#~ msgstr "Země"
+#~ msgstr "Vaše země"
 
 #~ msgid "YOUR COUNTRY CODE AND PHONE NUMBER"
-#~ msgstr "Kód země Telefonní číslo"
+#~ msgstr "Mezinárodní předvolba a telefonní číslo"
 
 #~ msgid "Verify your phone number to connect with Signal."
-#~ msgstr "Ověření vašeho telefoního čísla pro připojení k Signal"
+#~ msgstr "Ověřit vaše telefoní číslo pro připojení k Signálu."
 
 #~ msgid ""
 #~ "Registration transmits some contact information to the server. It is not "
 #~ "stored."
 #~ msgstr ""
 #~ "V průběhu registrace jsou odeslány některé kontaktní informace na server. "
-#~ "Nejsou ale uloženy."
+#~ "Nebudou ale uloženy."
 
 #~ msgid ""
 #~ "Double-check that this is your number! We're about to verify it with an "
 #~ "SMS."
-#~ msgstr "Znovu zkontrolujte Vaše číslo! Nyní bude ověřeno pomocí SMS."
+#~ msgstr "Znovu zkontrolujte vaše číslo! Nyní bude ověřeno pomocí SMS."
 
 #, fuzzy
 #~ msgid "Delete selected Device?"
-#~ msgstr "Smazat zprávu"
+#~ msgstr "Smazat vybrané zařízení?"
 
 #, fuzzy
 #~ msgid "This will permanently delete the selected Device."
-#~ msgstr "Tímto trvale smažete všechy zprávy této konverzace."
+#~ msgstr "Tímto trvale smažete vybrané zařízení."
 
 #, fuzzy
 #~ msgid "This will permanently delete all messages!"
-#~ msgstr "Tímto trvale smažete všechy zprávy této konverzace."
+#~ msgstr "Tímto trvale smažete všechy zprávy této konverzace!"
 
 #~ msgid "Refresh"
 #~ msgstr "Obnovit"
 
 #, fuzzy
 #~ msgid "Add contact"
-#~ msgstr "Kontakt"
+#~ msgstr "Přidat kontakt"
 
 #~ msgid "Verifying number"
 #~ msgstr "Probíhá ověření čísla"
@@ -501,11 +551,11 @@ msgstr ""
 #~ "Signal will now automatically verify your number with a confirmation SMS "
 #~ "message."
 #~ msgstr ""
-#~ "Signal nyní automaticky ověří vaše telefonní číslo pomocí potvrzovací SMS "
+#~ "Signál nyní automaticky ověří vaše telefonní číslo pomocí potvrzovací SMS "
 #~ "zprávy."
 
 #~ msgid "Waiting for SMS verification..."
-#~ msgstr "Čekám na ověřovací ověřovací SMS..."
+#~ msgstr "Čekám na ověřovací SMS..."
 
 #~ msgid "Call"
 #~ msgstr "Volat"
@@ -517,7 +567,7 @@ msgstr ""
 #~ "This may help if you're having encryption problems in this conversation. "
 #~ "Your messages will be kept."
 #~ msgstr ""
-#~ "Může to pomoct pokud máte problém s šifrováním této konverzace. Vaše "
+#~ "Může to pomoci, pokud máte problém s šifrováním této konverzace. Vaše "
 #~ "zprávy zůstanou zachovány."
 
 #~ msgid "Recipients list"
@@ -527,7 +577,7 @@ msgstr ""
 #~ msgstr "Opustit skupinu?"
 
 #~ msgid "Are you sure you want to leave this group?"
-#~ msgstr "Jsi si jistý, že chceš opustit tuto skupinu?"
+#~ msgstr "Jste si jistý/jistá, že chcete opustit tuto skupinu?"
 
 #~ msgid "Delete conversation"
 #~ msgstr "Smazat konverzaci"
@@ -554,25 +604,25 @@ msgstr ""
 #~ msgstr "Smazat zprávu"
 
 #~ msgid "Send Signal message"
-#~ msgstr "Poslat Signal zprávu"
+#~ msgstr "Poslat zprávu Signálu"
 
 #~ msgid "Delete"
 #~ msgstr "Smazat"
 
 #, fuzzy
 #~ msgid "Delete selected message?"
-#~ msgstr "Smazat zprávu"
+#~ msgstr "Smazat vybranou zprávu?"
 
 #, fuzzy
 #~ msgid "This will permanently delete the selected message."
-#~ msgstr "Tímto trvale smažete všechy zprávy této konverzace."
+#~ msgstr "Tímto trvale smažete vybranou zprávu."
 
 #~ msgid "Group members"
 #~ msgstr "Členové skupiny"
 
 #, fuzzy
 #~ msgid "Forward message to %1?"
-#~ msgstr "Přeposlat zprávu"
+#~ msgstr "Přeposlat zprávu na %1?"
 
 #~ msgid "Advanced"
 #~ msgstr "Rozšířené možnosti"
@@ -590,10 +640,10 @@ msgstr ""
 #~ msgstr "Reset zabezpečené komunikace."
 
 #~ msgid "You have left the group."
-#~ msgstr "Opustil(a) jste skupinu"
+#~ msgstr "Opustil(a) jste skupinu,"
 
 #~ msgid "Their identity (they read):"
-#~ msgstr "Jejich identita (čtou)"
+#~ msgstr "Jejich identita (čtou):"
 
 #~ msgid "Your identity (you read):"
 #~ msgstr "Vaše identita (čtete):"

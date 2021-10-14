@@ -14,6 +14,7 @@ import (
 	"github.com/nanu-c/axolotl/app/settings"
 	"github.com/nanu-c/axolotl/app/store"
 	"github.com/signal-golang/textsecure"
+	textsecureContacts "github.com/signal-golang/textsecure/contacts"
 )
 
 func websocketSender() {
@@ -29,14 +30,15 @@ func websocketSender() {
 }
 func sendRegistrationStatus() {
 	log.Debugln("[axolotl-ws] getRegistrationStatus")
-	if registered {
+	if requestUsername {
+		sendRequest("getUsername")
+	} else if registered {
 		sendRequest("registrationDone")
 	} else if requestPassword {
 		sendRequest("getEncryptionPw")
-	} else if requestSmsVerificationCode{
-
+	} else if requestSmsVerificationCode {
 		sendRequest("getVerificationCode")
-		}else{
+	} else {
 		sendRequest("getPhoneNumber")
 	}
 }
@@ -60,6 +62,10 @@ func sendCurrentChat(s *store.Session) {
 	)
 	if s.IsGroup {
 		gr, err = textsecure.GetGroupById(s.Tel)
+		if err != nil {
+			log.Errorln("[axolotl] sendCurrentChat: groups", err)
+			return
+		}
 	}
 	currentChatEnvelope := &CurrentChatEnvelope{
 		OpenChat: &OpenChat{
@@ -71,7 +77,7 @@ func sendCurrentChat(s *store.Session) {
 	message := &[]byte{}
 	*message, err = json.Marshal(currentChatEnvelope)
 	if err != nil {
-		log.Errorln("[axolotl] sendRegistrationStatus", err)
+		log.Errorln("[axolotl] sendCurrentChat: sendRegistrationStatus", err)
 		return
 	}
 	broadcast <- *message
@@ -80,10 +86,14 @@ func updateCurrentChat(s *store.Session) {
 	var (
 		err error
 		gr  *textsecure.Group
-		c   *textsecure.Contact
+		c   *textsecureContacts.Contact
 	)
 	if s.IsGroup {
 		gr, err = textsecure.GetGroupById(s.Tel)
+		if err != nil {
+			log.Errorln("[axolotl] updateCurrentChat", err)
+			return
+		}
 	} else {
 		c = store.GetContactForTel(s.Tel)
 	}
@@ -138,6 +148,10 @@ func sendContactList() {
 func sendDeviceList() {
 	var err error
 	devices, err := textsecure.LinkedDevices()
+	if err != nil {
+		log.Errorln("[axolotl] sendDeviceList", err)
+		return
+	}
 	deviceListEnvelope := &DeviceListEnvelope{
 		DeviceList: devices,
 	}
@@ -149,14 +163,21 @@ func sendDeviceList() {
 	}
 	broadcast <- *message
 }
-func createChat(tel string) *store.Session {
-	return store.SessionsModel.GetByE164(tel)
+func createChat(uuid string) *store.Session {
+	if uuid == "0" {
+		return nil
+	}
+	session, err := store.SessionsModel.GetByUUID(uuid)
+	if err != nil {
+		session = store.SessionsModel.CreateSessionForUUID(uuid)
+	}
+	return session
 }
-func createGroup(newGroupData CreateGroupMessage) *store.Session {
+func createGroup(newGroupData CreateGroupMessage) (*store.Session, error) {
 	group, err := textsecure.NewGroup(newGroupData.Name, newGroupData.Members)
 	if err != nil {
 		ShowError(err.Error())
-		return nil
+		return nil, err
 	}
 	members := strings.Join(newGroupData.Members, ",")
 	if !strings.Contains(members, config.Config.Tel) {
@@ -167,13 +188,16 @@ func createGroup(newGroupData CreateGroupMessage) *store.Session {
 		Name:    newGroupData.Name,
 		Members: members,
 	}
-	store.SaveGroup(store.Groups[group.Hexid])
-	session := store.SessionsModel.GetByE164(group.Hexid)
+	_, err = store.SaveGroup(store.Groups[group.Hexid])
+	if err != nil {
+		ShowError(err.Error())
+		return nil, err
+	}
+	session := store.SessionsModel.CreateSessionForGroup(group)
 	msg := session.Add(store.GroupUpdateMsg(append(newGroupData.Members, config.Config.Tel), newGroupData.Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
 	msg.Flags = helpers.MsgFlagGroupNew
 	store.SaveMessage(msg)
-
-	return session
+	return session, nil
 }
 func updateGroup(updateGroupData UpdateGroupMessage) *store.Session {
 	group, err := textsecure.UpdateGroup(updateGroupData.ID, updateGroupData.Name, updateGroupData.Members)
@@ -253,8 +277,6 @@ func sendIdentityInfo(fingerprintNumbers []string, fingerprintQRCode []byte) {
 	}
 	broadcast <- *message
 }
-
-var test = false
 
 // UpdateChatList updates the chatlist if not entered a chat + registered
 func UpdateChatList() {
