@@ -21,3 +21,5 @@ dist
 .idea
 axolotl.code-workspace
 libzkgroup.so
+go/*
+config.textsecure.nanuc
