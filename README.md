@@ -111,15 +111,17 @@ When setting up for the first time and maybe occasionally later you need to upda
 
 If you contribute new strings, please:
 
-- make them translatable using v-translate in the enclosing tag
+- make them translatable using v-translate in the enclosing tag or wrap them in a <translate> tag
 - avoid linebreaks within one tag, that will break extracting the strings for translation
 - try to reduce formatting tags within translatable strings
 
 examples:
 
 - `<p v-translate>Translate me!</p>` instead of `<p>Translate me!</p>`
-- `<p><strong v-translate>Translate me!</strong></p>` instead of `<p v-translate><strong>Translate me!</strong></p>`
-- `<p v-translate>Translate me!</p><br/><p v-translate> Please...</p>` instead of `<p v-translate>Translate me! <br/> Please...</p>`
+- `<p><strong v-translate>Translate me!</strong></p>` instead of `<p><strong>Translate me!</strong></p>`
+- `<p v-translate>Translate me!</p><br/><p v-translate> Please...</p>` instead of `<p>Translate me! <br/> Please...</p>`
+- `<div v-translate>Yes, I am translatable!</div>` instead of `<div>No, I am not translatable!</div>`
+- `<div><translate>This is a free and open source Signal client written in golang and vuejs.</translate></div>`
 
 ## Migrating from `janimo/axolotl`
 
