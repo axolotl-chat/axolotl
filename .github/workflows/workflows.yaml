@@ -73,6 +73,32 @@ jobs:
           path: axolotl-web/dist/
           retention-days: 1
 
+  build-crayfish:
+    name: Build crayfish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Build
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --manifest-path crayfish/Cargo.toml --release
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: crayfish
+          path: crayfish/target/release/crayfish
+          retention-days: 1
+
   package-appimage:
     name: Package as AppImage
     # This ensures that this job only runs on git tags

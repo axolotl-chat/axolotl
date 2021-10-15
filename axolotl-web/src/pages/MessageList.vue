@@ -32,12 +32,10 @@
             <source
               :src="
                 'http://localhost:9080/attachments?file=' +
-                showFullscreenVideoSrc
+                  showFullscreenVideoSrc
               "
             />
-            <span v-translate
-              >Your browser does not support the audio element.</span
-            >
+            <span v-translate>Your browser does not support the audio element.</span>
           </video>
           <button
             class="btn btn-secondary close"

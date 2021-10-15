@@ -132,10 +132,8 @@
         </div>
       </div>
       <div class="message-text">
-        <div
-          class="message-text-content"
-          v-html="linkify(sanitize(message.Message))"
-        />
+        <!-- eslint-disable-next-line vue/no-v-html -->
+        <div class="message-text-content" v-html="linkify(sanitize(message.Message))" />
         <div v-if="message.Flags===17" v-translate>Group changed.</div>
         <div
           v-if="
