@@ -40,7 +40,7 @@ SHARE_PREFIX = usr/share
 
 all: clean build
 
-build: build-axolotl-web build-axolotl
+build: build-dependencies build-axolotl-web build-axolotl
 
 install: install-axolotl install-axolotl-web
 	@sudo install -D -m 644 $(CURRENT_DIR)/scripts/axolotl.desktop $(DESTDIR)$(SHARE_PREFIX)/applications/axolotl.desktop
@@ -70,13 +70,18 @@ run: build
 	@echo "Found go with version $(GO_VERSION)"
 	LD_LIBRARY_PATH=$(PWD) $(GO)  run .
 
-build-dependencies: build-dependencies-axolotl-web build-dependencies-axolotl
+build-dependencies: build-dependencies-axolotl-web build-dependencies-axolotl build-crayfish build-zkgroup
 
 build-dependencies-axolotl-web:
 	$(NPM) install --prefix axolotl-web
 
 build-dependencies-axolotl:
 	$(GO) mod download
+
+build-crayfish:
+	@echo "Building (rust)..."
+	@cd $(CURRENT_DIR)/crayfish && cargo build --release
+
 
 install-axolotl-web: build-axolotl-web
 	@sudo mkdir -p $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/
