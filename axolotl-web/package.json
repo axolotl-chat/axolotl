@@ -17,7 +17,7 @@
     "translate-compile": "npm run translate-remove-tmp&&node ./node_modules/easygettext/src/compile-cli.js --output ./translations/translations.json $(find ../po/ -type f -name '*.po')",
     "translate-extract": "node ./node_modules/easygettext/src/extract-cli.js --attribute v-translate --output ../po/textsecure.nanuc.pot $(find src -type f -name '*.vue')",
     "translate-remove-tmp": "cd ../po && ls ../po | grep -P '\\.po[~]{1}|\\.pot[~]{1}' | xargs -d'\n' rm || true",
-    "translate-update": "cd ../po && find ./ -exec msgmerge --update {} textsecure.nanuc.pot \\;"
+    "translate-update": "cd ../po && find ./*.po -exec msgmerge --update {} textsecure.nanuc.pot \\;"
   },
   "main": "src/main.js",
   "dependencies": {
