@@ -39,7 +39,7 @@ finish-args:
   - --env=AXOLOTL_WEB_DIR=/app/bin/axolotl-web/dist
 
 modules:
-  - name: build-crayfish
+  - name: crayfish
     buildsystem: simple
     build-options:
       env:
@@ -55,7 +55,7 @@ modules:
         tag: main
         dest: src/github.com/nanu-c/axolotl
 
-  - name: build-zkgroup
+  - name: zkgroup
     buildsystem: simple
     build-options:
       env:
@@ -71,7 +71,7 @@ modules:
         tag: main
         dest: src/github.com/nanu-c/zkgroup
 
-  - name: build-axolotl
+  - name: axolotl
     buildsystem: simple
     build-options:
       append-path: /usr/lib/sdk/golang/bin
@@ -86,7 +86,7 @@ modules:
         tag: main
         dest: src/github.com/nanu-c/axolotl
 
-  - name: build-axolotl-web
+  - name: axolotl-web
     buildsystem: simple
     build-options:
       append-path: /usr/lib/sdk/node14/bin
