@@ -124,11 +124,11 @@ build-crayfish:
 
 install-crayfish:
 	@echo "Installing crayfish..."
-	@sudo install -D -m 755 $(CURRENT_DIR)/crayfish/target/release/crayfish $(DESTDIR)$(LIBRARY_PREFIX)/
+	@install -D -m 755 $(CURRENT_DIR)/crayfish/target/release/crayfish $(DESTDIR)$(LIBRARY_PREFIX)/
 
 uninstall-crayfish:
 	@echo "Uninstalling crayfish..."
-	sudo rm -f $(DESTDIR)$(LIBRARY_PREFIX)/crayfish
+	@rm -f $(DESTDIR)$(LIBRARY_PREFIX)/crayfish
 
 ## zkgroup
 build-zkgroup:
