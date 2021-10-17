@@ -63,14 +63,12 @@ modules:
     build-options:
       env:
         CARGO_HOME: ${FLATPAK_BUILDER_BUILDDIR}/.cargo
-        DESTDIR: ${FLATPAK_DEST}
-        LIBRARY_PREFIX: /lib
       append-path: /usr/lib/sdk/rust-stable/bin
       build-args:
         - --share=network
     build-commands:
       - cargo build --manifest-path src/github.com/nanu-c/zkgroup/lib/zkgroup/Cargo.toml --release
-      - install -Dm 755 src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release/libzkgroup.so ${DESTDIR}${LIBRARY_PREFIX}/
+      - install -Dm 755 src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release/libzkgroup.so ${FLATPAK_DEST}/lib
     sources:
       - type: git
         url: https://github.com/nanu-c/zkgroup
