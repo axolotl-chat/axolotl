@@ -55,7 +55,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/nanu-c/axolotl
-        tag: main
+        tag: flatpak-with-makefile-integration # TODO: change this to main once branch is merged
         dest: src/github.com/nanu-c/axolotl
 
   - name: zkgroup
@@ -74,7 +74,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/nanu-c/zkgroup
-        tag: main
+        tag: flatpak-with-makefile-integration # TODO: change this to main once branch is merged
         dest: src/github.com/nanu-c/zkgroup
 
   - name: axolotl
@@ -93,7 +93,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/nanu-c/axolotl
-        tag: main
+        tag: flatpak-with-makefile-integration # TODO: change this to main once branch is merged
         dest: src/github.com/nanu-c/axolotl
 
   - name: axolotl-web
@@ -112,7 +112,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/nanu-c/axolotl
-        tag: main
+        tag: flatpak-with-makefile-integration # TODO: change this to main once branch is merged
         dest: src/github.com/nanu-c/axolotl
 
   - name: install
