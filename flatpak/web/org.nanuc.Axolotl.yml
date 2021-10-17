@@ -44,11 +44,14 @@ modules:
     build-options:
       env:
         CARGO_HOME: ${FLATPAK_BUILDER_BUILDDIR}/.cargo
+        DESTDIR: ${FLATPAK_DEST}
+        LIBRARY_PREFIX: /lib
       append-path: /usr/lib/sdk/rust-stable/bin
       build-args:
         - --share=network
     build-commands:
       - make --directory=src/github.com/nanu-c/axolotl build-crayfish
+      - make --directory=src/github.com/nanu-c/axolotl --environment-overrides install-crayfish
     sources:
       - type: git
         url: https://github.com/nanu-c/axolotl
@@ -60,11 +63,14 @@ modules:
     build-options:
       env:
         CARGO_HOME: ${FLATPAK_BUILDER_BUILDDIR}/.cargo
+        DESTDIR: ${FLATPAK_DEST}
+        LIBRARY_PREFIX: /lib
       append-path: /usr/lib/sdk/rust-stable/bin
       build-args:
         - --share=network
     build-commands:
       - cargo build --manifest-path src/github.com/nanu-c/zkgroup/lib/zkgroup/Cargo.toml --release
+      - install -Dm 755 src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release/libzkgroup.so ${DESTDIR}${LIBRARY_PREFIX}/
     sources:
       - type: git
         url: https://github.com/nanu-c/zkgroup
@@ -74,12 +80,16 @@ modules:
   - name: axolotl
     buildsystem: simple
     build-options:
+      env:
+        DESTDIR: ${FLATPAK_DEST}
+        INSTALL_PREFIX: /bin
       append-path: /usr/lib/sdk/golang/bin
       build-args:
         - --share=network
     build-commands:
       - make --directory=src/github.com/nanu-c/axolotl build-dependencies-axolotl
       - make --directory=src/github.com/nanu-c/axolotl build-axolotl
+      - make --directory=src/github.com/nanu-c/axolotl --environment-overrides install-axolotl
     sources:
       - type: git
         url: https://github.com/nanu-c/axolotl
@@ -89,12 +99,16 @@ modules:
   - name: axolotl-web
     buildsystem: simple
     build-options:
+      env:
+        DESTDIR: ${FLATPAK_DEST}
+        INSTALL_PREFIX: /bin
       append-path: /usr/lib/sdk/node14/bin
       build-args:
         - --share=network
     build-commands:
       - make --directory=src/github.com/nanu-c/axolotl build-dependencies-axolotl-web
       - make --directory=src/github.com/nanu-c/axolotl build-axolotl-web
+      - make --directory=src/github.com/nanu-c/axolotl --environment-overrides install-axolotl-web
     sources:
       - type: git
         url: https://github.com/nanu-c/axolotl
@@ -103,21 +117,12 @@ modules:
 
   - name: install
     buildsystem: simple
-    build-options:
-      env:
-        DESTDIR: ${FLATPAK_DEST}
-        INSTALL_PREFIX: /bin
-        LIBRARY_PREFIX: /lib
     build-commands:
-      - make --directory=src/github.com/nanu-c/axolotl --environment-overrides install-crayfish
-      - make --directory=src/github.com/nanu-c/axolotl --environment-overrides install-axolotl
-      - make --directory=src/github.com/nanu-c/axolotl --environment-overrides install-axolotl-web
-      - "install -Dm 755 src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release/libzkgroup.so ${DESTDIR}${LIBRARY_PREFIX}/"
-      - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.png ${FLATPAK_DEST}/usr/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png"
-      - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.appdata.xml ${FLATPAK_DEST}/share/appdata/${FLATPAK_ID}.appdata.xml"
-      - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/web/org.nanuc.Axolotl.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop"
+      - install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.png ${FLATPAK_DEST}/usr/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png
+      - install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.appdata.xml ${FLATPAK_DEST}/share/appdata/${FLATPAK_ID}.appdata.xml
+      - install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/web/org.nanuc.Axolotl.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
     sources:
       - type: git
         url: https://github.com/nanu-c/axolotl
-        tag: flatpak-with-makefile-integration # TODO: change this to main later
+        tag: flatpak-with-makefile-integration # TODO: change this to main once branch is merged
         dest: src/github.com/nanu-c/axolotl
