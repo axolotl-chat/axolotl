@@ -65,11 +65,11 @@ check-axolotl:
 
 install-axolotl: build-axolotl
 	@echo "Installing axolotl..."
-	@sudo install -D -m 755 $(CURRENT_DIR)/axolotl $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl
+	@install -D -m 755 $(CURRENT_DIR)/axolotl $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl
 
 uninstall-axolotl:
 	@echo "Uninstalling axolotl..."
-	@sudo rm -rf $(DESTDIR)$(INSTALL_PREFIX)/axolotl
+	@rm -rf $(DESTDIR)$(INSTALL_PREFIX)/axolotl
 
 # axolotl-web
 build-dependencies-axolotl-web:
@@ -84,12 +84,12 @@ check-axolotl-web:
 
 install-axolotl-web: build-axolotl-web
 	@echo "Installing axolotl-web..."
-	@sudo mkdir -p $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/
-	@sudo cp -r $(CURRENT_DIR)/axolotl-web/dist $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/dist
+	@mkdir -p $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/
+	@cp -r $(CURRENT_DIR)/axolotl-web/dist $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/dist
 
 uninstall-axolotl-web:
 	@echo "Uninstalling axolotl-web..."
-	sudo rm -rf $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/dist
+	@rm -rf $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/dist
 
 ## utilities
 build-translation:
@@ -151,10 +151,10 @@ copy-zkgroup:
 	cp $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_$(HARDWARE_PLATFORM).so $(CURRENT_DIR)/
 
 install-zkgroup:
-	sudo cp $(CURRENT_DIR)/libzkgroup_linux_$(HARDWARE_PLATFORM).so $(DESTDIR)$(LIBRARY_PREFIX)/
+	@cp $(CURRENT_DIR)/libzkgroup_linux_$(HARDWARE_PLATFORM).so $(DESTDIR)$(LIBRARY_PREFIX)/
 
 uninstall-zkgroup:
-	sudo rm -f $(DESTDIR)$(LIBRARY_PREFIX)/libzkgroup_linux_$(HARDWARE_PLATFORM).so
+	@rm -f $(DESTDIR)$(LIBRARY_PREFIX)/libzkgroup_linux_$(HARDWARE_PLATFORM).so
 
 install-clickable-zkgroup:
 	$(GO) get -d github.com/nanu-c/zkgroup
@@ -167,6 +167,7 @@ uninstall-clickable-zkgroup:
 build-dependencies-flatpak:
 	$(FLATPAK) install org.freedesktop.Sdk.Extension.golang//20.08
 	$(FLATPAK) install org.freedesktop.Sdk.Extension.node14//20.08
+	$(FLATPAK) install org.freedesktop.Sdk.Extension.rust-stable//20.08
 
 build-dependencies-flatpak-web: build-dependencies-flatpak
 	$(FLATPAK) install org.freedesktop.Platform//20.08
@@ -178,11 +179,17 @@ build-dependencies-flatpak-qt: build-dependencies-flatpak
 	$(FLATPAK) install org.kde.Sdk//5.15
 	$(FLATPAK) install io.qt.qtwebengine.BaseApp//5.15
 
+build-flatpak-web:
+	$(FLATPAK_BUILDER) flatpak/build --force-clean flatpak/web/org.nanuc.Axolotl.yml
+
+build-flatpak-qt:
+	$(FLATPAK_BUILDER) flatpak/build --force-clean flatpak/qt/org.nanuc.Axolotl.yml
+
 install-flatpak-web:
-	$(FLATPAK_BUILDER) --user --install --force-clean build flatpak/web/org.nanuc.Axolotl.yml
+	$(FLATPAK_BUILDER) --user --install --force-clean flatpak/build flatpak/web/org.nanuc.Axolotl.yml
 
 install-flatpak-qt:
-	$(FLATPAK_BUILDER) --user --install --force-clean build flatpak/qt/org.nanuc.Axolotl.yml
+	$(FLATPAK_BUILDER) --user --install --force-clean flatpak/build flatpak/qt/org.nanuc.Axolotl.yml
 
 ## Snap
 build-snap:
