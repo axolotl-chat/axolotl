@@ -43,6 +43,4 @@ libraries:
         - curl -fsSL https://deb.nodesource.com/setup_current.x | bash -
         - apt-get install -y nodejs
     builder: custom
-    build:
-      - npm --prefix=${ROOT}/axolotl-web install
-      - npm --prefix=${ROOT}/axolotl-web ci
+    build: npm --prefix=${ROOT}/axolotl-web install && npm --prefix=${ROOT}/axolotl-web ci

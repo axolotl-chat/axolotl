@@ -23,4 +23,3 @@ dist
 axolotl.code-workspace
 libzkgroup.so
 libzkgroup*.so
-go/*
