@@ -15,6 +15,14 @@ Installation instructions can be found [here](https://clickable-ut.dev/en/latest
 
 **Build and Install**
 
+In order to build axolotl you need to get its nodejs dependencies once:
+
+`clickable build --libs nodejs_deps`
+
+To build crayfish execute:
+
+`clickable build --libs crayfish`
+
 The app is built by running:
 
 `clickable`
