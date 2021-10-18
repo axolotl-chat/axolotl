@@ -10,7 +10,7 @@ Clickable.
 
 **Tooling**
 
-This requires `clickable` to be installed locally.
+This requires `clickable` to be installed locally (version 7 or above).
 Installation instructions can be found [here](https://clickable-ut.dev/en/latest/install.html#install).
 
 **Build and Install**
