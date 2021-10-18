@@ -1,22 +1,22 @@
 <template>
   <div>
-    <h1>Debug screen</h1>
-    <p class="warning-box">For developers only, use with care!</p>
+    <h1 v-translate>Debug screen</h1>
+    <p v-translate class="warning-box">For developers only, use with care!</p>
     <p style="text-align: center">
-      <a href="/" class="btn btn-primary">Exit</a>
+      <a v-translate href="/" class="btn btn-primary">Exit</a>
     </p>
     <section>
-      <h2>Registration data</h2>
-      <p>
+      <h2 v-translate>Registration data</h2>
+      <p v-translate>
         Current registration status in local storage:
         {{ localRegistrationStatus }}
       </p>
-      <p>Current registration status in $store: {{ registrationStatus }}</p>
-      <button @click="clearRegistrationFromLocalStorage">
+      <p v-translate>Current registration status in $store: {{ registrationStatus }}</p>
+      <button v-translate @click="clearRegistrationFromLocalStorage">
         Clear registration from localStorage
       </button>
     </section>
-    <button @click="clearLocalStorage">Clear all localStorage</button>
+    <button v-translate @click="clearLocalStorage">Clear all localStorage</button>
   </div>
 </template>
 
