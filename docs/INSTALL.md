@@ -26,8 +26,7 @@ above three commands when building for you mobile device.
 
 All steps can be done with individual clickable commands `clickable build`, `clickable install` and `clickable launch`. To build and run Axolotl on your pc run `clickable desktop`.
 
-Clickable supports a few different parameters.
-For example, `clickable launch logs` to start signal and get logging output.
+Clickable supports a few different parameters. Those can be set via command line or in the `clickable.yaml` file. For example run `clickable launch logs` to start signal and get logging output.
 
 For a full list of available clickable commands, see [here](https://clickable-ut.dev/en/latest/commands.html).
 
