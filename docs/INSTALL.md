@@ -321,7 +321,7 @@ I also had to install the breezy package to get the bzr command.
 
 **Tooling**
 
-This requires `make`, `go`, `nodejs`, `cargo` and `npm` to be installed locally.
+This requires `make`, `go`, `nodejs`, `cargo`,  `rust` and `npm` to be installed locally.
 For the required versions, see [go.mod](../go.mod) and [package.json](../axolotl-web/package.json)
 
 **Build and Install**
