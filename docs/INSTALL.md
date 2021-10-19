@@ -10,7 +10,7 @@ Clickable.
 
 **Tooling**
 
-This requires `clickable` to be installed locally.
+This requires `clickable` to be installed locally (version 7 or above).
 Installation instructions can be found [here](https://clickable-ut.dev/en/latest/install.html#install).
 
 **Build and Install**
@@ -25,22 +25,16 @@ To build crayfish execute:
 
 The app is built by running:
 
-`clickable build`
+`clickable`
 
-The app is installed on device by running:
-
-`clickable install`
+This will build the app, install it onto a device connected via usb and run the app on the device.
 
 Remember to add `--arch <arch_of_your_mobile>` (i.e. `--arch arm64`) to the
 above three commands when building for you mobile device.
 
-**Run**
+All steps can be done with individual clickable commands `clickable build`, `clickable install` and `clickable launch`. To build and run Axolotl on your pc run `clickable desktop`.
 
-`clickable launch` to run axolotl on your mobile device or `clickable desktop`
-to run it on your pc.
-
-Clickable supports a few different parameters.
-For example, `clickable launch logs` to start signal and get logging output.
+Clickable supports a few different parameters. Those can be set via command line or in the `clickable.yaml` file. For example run `clickable launch logs` to start signal and get logging output.
 
 For a full list of available clickable commands, see [here](https://clickable-ut.dev/en/latest/commands.html).
 
@@ -308,11 +302,20 @@ make prebuild-package-deb-arm64 build-package-deb-arm64
 ```
 Packaging is still under improvement to comply with official Debian packaging rules.
 
+## Fedora
+
+We are not activly supporting building and installing Axolotl nativly on Fedora but the following hint from [#502](https://github.com/nanu-c/axolotl/issues/502) might help. 
+
+```
+GOVCS='*:all' does the trick though. 
+I also had to install the breezy package to get the bzr command.
+```
+
 ## Bare
 
 **Tooling**
 
-This requires `make`, `go`, `nodejs` and `npm` to be installed locally.
+This requires `make`, `go`, `nodejs`, `cargo`,  `rust` and `npm` to be installed locally.
 For the required versions, see [go.mod](../go.mod) and [package.json](../axolotl-web/package.json)
 
 **Build and Install**

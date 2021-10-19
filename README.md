@@ -1,4 +1,4 @@
-# Axolotl 
+# Axolotl
 
 Axolotl is a complete cross-platform [Signal](https://www.signal.org) client, compatible with the Ubuntu Phone and more.
 Unlike the desktop Signal client, **Axolotl is completely autonomous** and doesn't require you to have created an
@@ -80,9 +80,10 @@ Now we are good to go. To start, simply use the following:
 make run
 ```
 
-When setting up for the first time and maybe occasionally later you need to update the browser list with your installed browsers. Change into the axolotl-web subfolder and run the following command:
+When setting up for the first time and maybe occasionally later you need to update the browser list with your installed browsers.
 
-`npx browserslist@latest --update-db`
+- change into the `axolotl-web` subfolder
+- run the following command: `npx browserslist@latest --update-db`
 
 ## Run flags
 
@@ -110,15 +111,17 @@ When setting up for the first time and maybe occasionally later you need to upda
 
 If you contribute new strings, please:
 
-- make them translatable using v-translate in the enclosing tag
+- make them translatable using v-translate in the enclosing tag or wrap them in a <translate> tag
 - avoid linebreaks within one tag, that will break extracting the strings for translation
 - try to reduce formatting tags within translatable strings
 
 examples:
 
 - `<p v-translate>Translate me!</p>` instead of `<p>Translate me!</p>`
-- `<p><strong v-translate>Translate me!</strong></p>` instead of `<p v-translate><strong>Translate me!</strong></p>`
-- `<p v-translate>Translate me!</p><br/><p v-translate> Please...</p>` instead of `<p v-translate>Translate me! <br/> Please...</p>`
+- `<p><strong v-translate>Translate me!</strong></p>` instead of `<p><strong>Translate me!</strong></p>`
+- `<p v-translate>Translate me!</p><br/><p v-translate> Please...</p>` instead of `<p>Translate me! <br/> Please...</p>`
+- `<div v-translate>Yes, I am translatable!</div>` instead of `<div>No, I am not translatable!</div>`
+- `<div><translate>This is a free and open source Signal client written in golang and vuejs.</translate></div>`
 
 ## Migrating from `janimo/axolotl`
 
