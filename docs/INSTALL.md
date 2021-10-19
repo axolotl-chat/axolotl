@@ -302,11 +302,20 @@ make prebuild-package-deb-arm64 build-package-deb-arm64
 ```
 Packaging is still under improvement to comply with official Debian packaging rules.
 
+## Fedora
+
+We are not activly supporting building and installing Axolotl nativly on Fedora but the following hint from [#502](https://github.com/nanu-c/axolotl/issues/502) might help. 
+
+```
+GOVCS='*:all' does the trick though. 
+I also had to install the breezy package to get the bzr command.
+```
+
 ## Bare
 
 **Tooling**
 
-This requires `make`, `go`, `nodejs` and `npm` to be installed locally.
+This requires `make`, `go`, `nodejs`, `cargo`,  `rust` and `npm` to be installed locally.
 For the required versions, see [go.mod](../go.mod) and [package.json](../axolotl-web/package.json)
 
 **Build and Install**
