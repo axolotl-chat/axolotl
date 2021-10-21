@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: easygettext\n"
+"Project-Id-Version: \n"
 
 #: src/components/AddDeviceModal.vue:12
 msgid "1. Open Signal Desktop"
@@ -17,11 +17,8 @@ msgstr ""
 msgid "3. Paste the QR code here:"
 msgstr ""
 
-#: src/pages/Register.vue:6
-msgid "A cross-platform signal client"
-msgstr ""
-
 #: src/pages/About.vue:4
+#: src/pages/Register.vue:6
 msgid "A cross-platform Signal client"
 msgstr ""
 
@@ -29,7 +26,8 @@ msgstr ""
 msgid "About Axolotl"
 msgstr ""
 
-#: src/components/AddContactModal.vue:6 src/components/AddContactModal.vue:29
+#: src/components/AddContactModal.vue:6
+#: src/components/AddContactModal.vue:29
 #: src/components/AddDeviceModal.vue:22
 msgid "Add"
 msgstr ""
@@ -70,7 +68,16 @@ msgstr ""
 msgid "Can't change contact list: {{ error }}"
 msgstr ""
 
-#: src/components/ErrorModal.vue:31 src/components/IdentityModal.vue:22
+#: src/pages/Debug.vue:18
+msgid "Clear all localStorage"
+msgstr ""
+
+#: src/pages/Debug.vue:14
+msgid "Clear registration from localStorage"
+msgstr ""
+
+#: src/components/ErrorModal.vue:31
+#: src/components/IdentityModal.vue:22
 #: src/components/ImportUnavailableModal.vue:29
 #: src/components/StartChatModal.vue:19
 msgid "Close"
@@ -84,7 +91,8 @@ msgstr ""
 msgid "Connect with Signal"
 msgstr ""
 
-#: src/components/AddContactModal.vue:8 src/components/EditContactModal.vue:8
+#: src/components/AddContactModal.vue:8
+#: src/components/EditContactModal.vue:8
 msgid "Contact"
 msgstr ""
 
@@ -112,8 +120,22 @@ msgstr ""
 msgid "Current password is wrong"
 msgstr ""
 
+#: src/pages/Debug.vue:13
+msgid "Current registration status in $store: {{ registrationStatus }}"
+msgstr ""
+
+#: src/pages/Debug.vue:9
+msgid ""
+"Current registration status in local storage:\n"
+"        {{ localRegistrationStatus }}"
+msgstr ""
+
 #: src/pages/Settings.vue:21
 msgid "Dark mode"
+msgstr ""
+
+#: src/pages/Debug.vue:2
+msgid "Debug screen"
 msgstr ""
 
 #: src/pages/Password.vue:6
@@ -127,10 +149,8 @@ msgstr ""
 #: src/pages/Settings.vue:30
 msgid ""
 "Due to technical limitations, Axolotl doesn't support push\n"
-"        notifications. Keep the app open to be notified in real time. In "
-"Ubuntu\n"
-"        Touch, use UT Tweak Tool to set Axolotl on \"Prevent app suspension"
-"\"."
+"        notifications. Keep the app open to be notified in real time. In Ubuntu\n"
+"        Touch, use UT Tweak Tool to set Axolotl on \"Prevent app suspension\"."
 msgstr ""
 
 #: src/components/WarningMessage.vue:3
@@ -147,7 +167,8 @@ msgstr ""
 msgid "Edit contact"
 msgstr ""
 
-#: src/components/Header.vue:119 src/components/Header.vue:168
+#: src/components/Header.vue:119
+#: src/components/Header.vue:168
 msgid "Edit group"
 msgstr ""
 
@@ -163,34 +184,44 @@ msgstr ""
 msgid "Error communicating with Signal servers"
 msgstr ""
 
+#: src/pages/Debug.vue:5
+msgid "Exit"
+msgstr ""
+
 #: src/components/WarningMessage.vue:8
 msgid "Follow the progress or join us to help with development on"
 msgstr ""
 
-#: src/components/Message.vue:92
+#: src/pages/Debug.vue:3
+msgid "For developers only, use with care!"
+msgstr ""
+
+#: src/components/Message.vue:93
 msgid "Group changed."
 msgstr ""
 
-#: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
+#: src/pages/MessageList.vue:1
+msgid "Group has to be updated by a member."
+msgstr ""
+
+#: src/pages/EditGroup.vue:4
+#: src/pages/NewGroup.vue:4
 msgid "Group name"
 msgstr ""
 
 #: src/components/ImportUnavailableModal.vue:16
 msgid ""
 "If you are really sure that the persons you want to text with have\n"
-"            Signal, you can manually add them using the \"plus\" action on "
-"that\n"
+"            Signal, you can manually add them using the \"plus\" action on that\n"
 "            page."
 msgstr ""
 
 #: src/components/ErrorModal.vue:22
 msgid ""
 "If you think that something is wrong on your side, you can\n"
-"            <a href=\"#\" @click=\"unregister\">unregister</a> and register "
-"again.\n"
+"            <a href=\"#\" @click=\"unregister\">unregister</a> and register again.\n"
 "            Be careful,\n"
-"            <strong>your encryption key will change and you will lose all "
-"your\n"
+"            <strong>your encryption key will change and you will lose all your\n"
 "              messages</strong>\n"
 "            if you choose to do that."
 msgstr ""
@@ -198,11 +229,8 @@ msgstr ""
 #: src/components/ErrorModal.vue:17
 msgid ""
 "If you're seeing that error multiple times, check the\n"
-"            <a href=\"https://status.signal.org/\" target=\"_blank\">status "
-"of Signal servers</a>. If it's fine, then please tell us there is a problem "
-"by\n"
-"            <a href=\"https://github.com/nanu-c/axolotl/issues\" target="
-"\"_blank\">opening an issue</a>."
+"            <a href=\"https://status.signal.org/\" target=\"_blank\">status of Signal servers</a>. If it's fine, then please tell us there is a problem by\n"
+"            <a href=\"https://github.com/nanu-c/axolotl/issues\" target=\"_blank\">opening an issue</a>."
 msgstr ""
 
 #: src/components/Header.vue:196
@@ -217,7 +245,8 @@ msgstr ""
 msgid "Importing contacts, head back later"
 msgstr ""
 
-#: src/pages/SetPassword.vue:2 src/pages/SetUsername.vue:2
+#: src/pages/SetPassword.vue:2
+#: src/pages/SetUsername.vue:2
 msgid "Info"
 msgstr ""
 
@@ -256,7 +285,8 @@ msgid ""
 "            counterparty could start the discussion."
 msgstr ""
 
-#: src/components/Header.vue:162 src/components/Header.vue:218
+#: src/components/Header.vue:162
+#: src/components/Header.vue:218
 msgid "New group"
 msgstr ""
 
@@ -280,11 +310,13 @@ msgstr ""
 msgid "No messages available."
 msgstr ""
 
-#: src/components/Message.vue:53 src/components/Message.vue:87
+#: src/components/Message.vue:53
+#: src/components/Message.vue:87
 msgid "Not supported mime type:"
 msgstr ""
 
-#: src/pages/EditGroup.vue:7 src/pages/NewGroup.vue:7
+#: src/pages/EditGroup.vue:7
+#: src/pages/NewGroup.vue:7
 msgid "Note, you can't add yourself to a group."
 msgstr ""
 
@@ -310,7 +342,8 @@ msgstr ""
 msgid "Passwords don't match"
 msgstr ""
 
-#: src/components/AddContactModal.vue:24 src/components/EditContactModal.vue:19
+#: src/components/AddContactModal.vue:24
+#: src/components/EditContactModal.vue:19
 msgid "Phone"
 msgstr ""
 
@@ -324,6 +357,10 @@ msgstr ""
 
 #: src/pages/Settings.vue:4
 msgid "Registered number"
+msgstr ""
+
+#: src/pages/Debug.vue:8
+msgid "Registration data"
 msgstr ""
 
 #: src/pages/SetPassword.vue:23
@@ -366,11 +403,12 @@ msgstr ""
 msgid "Set encryption password"
 msgstr ""
 
-#: src/pages/SetPassword.vue:34 src/pages/Settings.vue:12
+#: src/pages/SetPassword.vue:34
+#: src/pages/Settings.vue:12
 msgid "Set password"
 msgstr ""
 
-#: src/components/Message.vue:98
+#: src/components/Message.vue:99
 msgid "Set timer for self-destructing messages"
 msgstr ""
 
@@ -386,7 +424,8 @@ msgstr ""
 msgid "Setting a username is required. Please choose one."
 msgstr ""
 
-#: src/components/Header.vue:156 src/components/Header.vue:221
+#: src/components/Header.vue:156
+#: src/components/Header.vue:221
 msgid "Settings"
 msgstr ""
 
@@ -408,7 +447,8 @@ msgid ""
 "        vuejs."
 msgstr ""
 
-#: src/components/Header.vue:33 src/pages/ChatList.vue:30
+#: src/components/Header.vue:33
+#: src/pages/ChatList.vue:30
 msgid "Unknown group"
 msgstr ""
 
@@ -416,7 +456,8 @@ msgstr ""
 msgid "Unmute"
 msgstr ""
 
-#: src/pages/Password.vue:9 src/pages/Settings.vue:16
+#: src/pages/Password.vue:9
+#: src/pages/Settings.vue:16
 msgid "Unregister"
 msgstr ""
 
@@ -424,7 +465,7 @@ msgstr ""
 msgid "Unsafe password"
 msgstr ""
 
-#: src/components/Message.vue:101
+#: src/components/Message.vue:102
 msgid "Unsupported message type: sticker"
 msgstr ""
 
@@ -465,15 +506,15 @@ msgstr ""
 #: src/pages/MessageList.vue:37
 msgid ""
 "You have been invited to this group. Accepting invitations is not yet\n"
-"      supported. In order to join please send private a message to the "
-"other\n"
-"      side to exchange the profile key. After that he/she has to remove and "
-"add\n"
+"      supported. In order to join please send private a message to the other\n"
+"      side to exchange the profile key. After that he/she has to remove and add\n"
 "      you again."
 msgstr ""
 
-#: src/components/Message.vue:39 src/components/Message.vue:48
-#: src/components/Message.vue:68 src/pages/MessageList.vue:21
+#: src/components/Message.vue:39
+#: src/components/Message.vue:48
+#: src/components/Message.vue:68
+#: src/pages/MessageList.vue:21
 msgid "Your browser does not support the audio element."
 msgstr ""
 

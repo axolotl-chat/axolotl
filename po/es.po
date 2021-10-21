@@ -28,11 +28,7 @@ msgstr ""
 msgid "3. Paste the QR code here:"
 msgstr ""
 
-#: src/pages/Register.vue:6
-msgid "A cross-platform signal client"
-msgstr ""
-
-#: src/pages/About.vue:4
+#: src/pages/About.vue:4 src/pages/Register.vue:6
 msgid "A cross-platform Signal client"
 msgstr ""
 
@@ -85,6 +81,14 @@ msgstr ""
 msgid "Can't change contact list: {{ error }}"
 msgstr ""
 
+#: src/pages/Debug.vue:18
+msgid "Clear all localStorage"
+msgstr ""
+
+#: src/pages/Debug.vue:14
+msgid "Clear registration from localStorage"
+msgstr ""
+
 #: src/components/ErrorModal.vue:31 src/components/IdentityModal.vue:22
 #: src/components/ImportUnavailableModal.vue:29
 #: src/components/StartChatModal.vue:19
@@ -128,8 +132,22 @@ msgstr ""
 msgid "Current password is wrong"
 msgstr ""
 
+#: src/pages/Debug.vue:13
+msgid "Current registration status in $store: {{ registrationStatus }}"
+msgstr ""
+
+#: src/pages/Debug.vue:9
+msgid ""
+"Current registration status in local storage:\n"
+"        {{ localRegistrationStatus }}"
+msgstr ""
+
 #: src/pages/Settings.vue:21
 msgid "Dark mode"
+msgstr ""
+
+#: src/pages/Debug.vue:2
+msgid "Debug screen"
 msgstr ""
 
 #: src/pages/Password.vue:6
@@ -182,14 +200,26 @@ msgstr ""
 msgid "Error communicating with Signal servers"
 msgstr ""
 
+#: src/pages/Debug.vue:5
+msgid "Exit"
+msgstr ""
+
 #: src/components/WarningMessage.vue:8
 msgid "Follow the progress or join us to help with development on"
 msgstr ""
 
-#: src/components/Message.vue:92
+#: src/pages/Debug.vue:3
+msgid "For developers only, use with care!"
+msgstr ""
+
+#: src/components/Message.vue:93
 #, fuzzy
 msgid "Group changed."
 msgstr "Nombre del grupo"
+
+#: src/pages/MessageList.vue:1
+msgid "Group has to be updated by a member."
+msgstr ""
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
@@ -354,6 +384,10 @@ msgstr "Código"
 msgid "Registered number"
 msgstr "Registrar"
 
+#: src/pages/Debug.vue:8
+msgid "Registration data"
+msgstr ""
+
 #: src/pages/SetPassword.vue:23
 #, fuzzy
 msgid "Repeat password"
@@ -401,7 +435,7 @@ msgstr "Reiniciar la sesión segura"
 msgid "Set password"
 msgstr ""
 
-#: src/components/Message.vue:98
+#: src/components/Message.vue:99
 msgid "Set timer for self-destructing messages"
 msgstr ""
 
@@ -458,7 +492,7 @@ msgstr "Anular el registro"
 msgid "Unsafe password"
 msgstr ""
 
-#: src/components/Message.vue:101
+#: src/components/Message.vue:102
 msgid "Unsupported message type: sticker"
 msgstr ""
 

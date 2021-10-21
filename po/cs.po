@@ -12,21 +12,45 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
+#: src/components/AddDeviceModal.vue:12
+msgid "1. Open Signal Desktop"
+msgstr ""
+
+#: src/components/AddDeviceModal.vue:13
+msgid "2. Scan the QR code with a QR code scanner"
+msgstr ""
+
+#: src/components/AddDeviceModal.vue:14
+msgid "3. Paste the QR code here:"
+msgstr ""
+
 #: src/pages/About.vue:4 src/pages/Register.vue:6
-msgid "A cross-plattform signal client"
+#, fuzzy
+msgid "A cross-platform Signal client"
 msgstr "Multi-platformový klient pro Signál"
 
-#: src/pages/Settings.vue:27
+#: src/pages/Settings.vue:25
 msgid "About Axolotl"
 msgstr "O Axolotlu"
 
-#: src/components/AddContactModal.vue:5 src/components/AddContactModal.vue:24
+#: src/components/AddContactModal.vue:6 src/components/AddContactModal.vue:29
+#: src/components/AddDeviceModal.vue:22
 msgid "Add"
 msgstr "Přidat"
 
-#: src/components/AddGroupMembersModal.vue:51
+#: src/components/AddDeviceModal.vue:5
 #, fuzzy
-msgid "Add Contacts first"
+msgid "Add a new device"
+msgstr "Žádná připojená zařízení"
+
+#: src/components/Header.vue:99
+#, fuzzy
+msgid "Add contact"
+msgstr "Přidat kontakt"
+
+#: src/components/AddGroupMembersModal.vue:56
+#, fuzzy
+msgid "Add contacts first"
 msgstr "Nejprve přidat kontakty"
 
 #: src/components/AddGroupMembersModal.vue:5
@@ -34,31 +58,40 @@ msgstr "Nejprve přidat kontakty"
 msgid "Add members"
 msgstr "Přidat členy skupiny"
 
-#: src/components/AttachmentBar.vue:13
+#: src/components/AttachmentBar.vue:17
 msgid "Audio"
 msgstr "Audio"
 
-#: src/components/ErrorModal.vue:11
+#: src/components/ErrorModal.vue:13
+#, fuzzy
 msgid ""
-"Axolotl encountered an error communicating with Signal servers. Please try "
-"again."
+"Axolotl encountered an error communicating with Signal servers.\n"
+"            Please try again."
 msgstr ""
-"Axolotl má problém v komunikaci se serverem Signálu. "
-"Zkuste to prosím znovu."
+"Axolotl má problém v komunikaci se serverem Signálu. Zkuste to prosím znovu."
 
-#: src/components/ImportUnavailableModal.vue:18
+#: src/components/ImportUnavailableModal.vue:23
 msgid ""
-"Be careful, if you add too many numbers which aren't Signal accounts, you "
-"won't be able to add contacts anymore."
+"Be careful, if you add too many numbers which aren't Signal\n"
+"            accounts, you won't be able to add contacts anymore."
 msgstr ""
 
-#: src/pages/Contacts.vue:3
-msgid "Can't change contact list: {{error}}"
+#: src/pages/Contacts.vue:2
+#, fuzzy
+msgid "Can't change contact list: {{ error }}"
 msgstr "Chyba při změně v seznamu kontaktů: {{error}}"
 
-#: src/components/ErrorModal.vue:18 src/components/IdentityModal.vue:21
-#: src/components/ImportUnavailableModal.vue:23
-#: src/components/StartChatModal.vue:13
+#: src/pages/Debug.vue:18
+msgid "Clear all localStorage"
+msgstr ""
+
+#: src/pages/Debug.vue:14
+msgid "Clear registration from localStorage"
+msgstr ""
+
+#: src/components/ErrorModal.vue:31 src/components/IdentityModal.vue:22
+#: src/components/ImportUnavailableModal.vue:29
+#: src/components/StartChatModal.vue:19
 msgid "Close"
 msgstr "Zavřít"
 
@@ -66,19 +99,19 @@ msgstr "Zavřít"
 msgid "Confirm"
 msgstr "Potvrdit"
 
-#: src/components/Header.vue:73
+#: src/components/Header.vue:132
 msgid "Connect with Signal"
 msgstr "Připojit se k Signálu"
 
-#: src/components/AddContactModal.vue:5 src/components/EditContactModal.vue:5
+#: src/components/AddContactModal.vue:8 src/components/EditContactModal.vue:8
 msgid "Contact"
 msgstr "Kontakt"
 
-#: src/pages/Contacts.vue:16
+#: src/pages/Contacts.vue:19
 msgid "Contact list is empty..."
 msgstr "Seznam kontaktů je prázdný..."
 
-#: src/components/Header.vue:146
+#: src/components/Header.vue:215
 msgid "Contacts"
 msgstr "Kontakty"
 
@@ -88,58 +121,78 @@ msgid "Create group"
 msgstr "Vytvořit novou skupinu"
 
 #: src/pages/NewGroup.vue:31
-msgid "Creating Group"
+#, fuzzy
+msgid "Creating group"
 msgstr "Vytváření skupiny"
 
-#: src/pages/SetPassword.vue:20
-msgid "Current Password"
+#: src/pages/SetPassword.vue:29
+#, fuzzy
+msgid "Current password"
 msgstr "Aktuální heslo"
 
-#: src/pages/SetPassword.vue:10
+#: src/pages/SetPassword.vue:13
 msgid "Current password is wrong"
 msgstr "Aktuální heslo je chybné"
 
-#: src/pages/Settings.vue:23
+#: src/pages/Debug.vue:13
+msgid "Current registration status in $store: {{ registrationStatus }}"
+msgstr ""
+
+#: src/pages/Debug.vue:9
+msgid ""
+"Current registration status in local storage:\n"
+"        {{ localRegistrationStatus }}"
+msgstr ""
+
+#: src/pages/Settings.vue:21
 msgid "Dark mode"
 msgstr "Tmavý styl"
 
-#: src/pages/Password.vue:4
+#: src/pages/Debug.vue:2
+msgid "Debug screen"
+msgstr ""
+
+#: src/pages/Password.vue:6
 msgid "Decrypt"
 msgstr "Dešifrovat"
 
-#: src/components/AttachmentBar.vue:14
+#: src/components/AttachmentBar.vue:20
 msgid "Document"
 msgstr "Dokument"
 
-#: src/pages/Settings.vue:32
+#: src/pages/Settings.vue:30
 msgid ""
-"Due to technical limitations, Axolotl doesn't support push notifications. "
-"Keep the app open to be notified in real time. In Ubuntu Touch, use UT Tweak "
-"Tool to set Axolotl on \"Prevent app suspension\"."
+"Due to technical limitations, Axolotl doesn't support push\n"
+"        notifications. Keep the app open to be notified in real time. In "
+"Ubuntu\n"
+"        Touch, use UT Tweak Tool to set Axolotl on \"Prevent app suspension"
+"\"."
 msgstr ""
 
 #: src/components/WarningMessage.vue:3
+#, fuzzy
 msgid ""
-
-"Due to upstream changes in Signal, some features are currently broken. We're "
-"working as fast as we can to bring them back."
-msgstr "Vzhledem ke změnám Signálu v přenosu směrem k operátorovi (upstream) "
+"Due to upstream changes in Signal, some features are currently broken.\n"
+"      We're working as fast as we can to bring them back."
+msgstr ""
+"Vzhledem ke změnám Signálu v přenosu směrem k operátorovi (upstream) "
 "nefungují některé funkce.\n"
 "      Pracujeme s plným nasazením, aby bylo brzy opět vše v pořádku."
 
-#: src/components/EditContactModal.vue:5
+#: src/components/EditContactModal.vue:6
 msgid "Edit"
 msgstr "Upravit"
 
-#: src/components/Header.vue:105
+#: src/components/Header.vue:106
+#, fuzzy
+msgid "Edit contact"
+msgstr "Přidat kontakt"
+
+#: src/components/Header.vue:119 src/components/Header.vue:168
 msgid "Edit group"
 msgstr "Upravit skupinu"
 
-#: src/components/Header.vue:64
-msgid "Edit Group"
-msgstr "Upravit skupinu"
-
-#: src/components/Header.vue:76
+#: src/components/Header.vue:137
 msgid "Enter password"
 msgstr "Zadat heslo"
 
@@ -151,47 +204,73 @@ msgstr "Zadejte registrační pin"
 msgid "Error communicating with Signal servers"
 msgstr "Problém v komunikaci se serverem Signálu"
 
-#: src/components/WarningMessage.vue:6
+#: src/pages/Debug.vue:5
+msgid "Exit"
+msgstr ""
+
+#: src/components/WarningMessage.vue:8
 msgid "Follow the progress or join us to help with development on"
 msgstr "Sledujte naše pokroky nebo se připojte a pomozte s vývojem na"
+
+#: src/pages/Debug.vue:3
+msgid "For developers only, use with care!"
+msgstr ""
+
+#: src/components/Message.vue:93
+#, fuzzy
+msgid "Group changed."
+msgstr "Název skupiny"
+
+#: src/pages/MessageList.vue:1
+msgid "Group has to be updated by a member."
+msgstr ""
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
 msgstr "Název skupiny"
 
-#: src/components/ImportUnavailableModal.vue:13
+#: src/components/ImportUnavailableModal.vue:16
 msgid ""
-"If you are really sure that the persons you want to text with have Signal, "
-"you can manually add them using the \"plus\" action on that page."
+"If you are really sure that the persons you want to text with have\n"
+"            Signal, you can manually add them using the \"plus\" action on "
+"that\n"
+"            page."
 msgstr ""
 
-#: src/components/ErrorModal.vue:15
+#: src/components/ErrorModal.vue:22
+#, fuzzy
 msgid ""
-"If you think that something is wrong on your side, you can <a href=\"#\" "
-"@click=\"unregister\">unregister</a> and register again.\n"
-"            Be careful, <strong>your encryption key will change and you will "
-"lose all your messages</strong> if you choose to do that."
+"If you think that something is wrong on your side, you can\n"
+"            <a href=\"#\" @click=\"unregister\">unregister</a> and register "
+"again.\n"
+"            Be careful,\n"
+"            <strong>your encryption key will change and you will lose all "
+"your\n"
+"              messages</strong>\n"
+"            if you choose to do that."
 msgstr ""
-"Pokud se domníváte, že na vaší straně došlo k nějaké chybě, můžete "
-"<a href=\"#\" @click=\"unregister\">registraci zrušit</a> a registrovat "
-"se znovu.\n"
-"            Ale pozor! Pokud se k tomuto kroku rozhodnete, "
-"<strong>váš šifrovací klíč se změni a tím ztratíte všechny vaše zprávy</strong>."
+"Pokud se domníváte, že na vaší straně došlo k nějaké chybě, můžete <a href="
+"\"#\" @click=\"unregister\">registraci zrušit</a> a registrovat se znovu.\n"
+"            Ale pozor! Pokud se k tomuto kroku rozhodnete, <strong>váš "
+"šifrovací klíč se změni a tím ztratíte všechny vaše zprávy</strong>."
 
-#: src/components/ErrorModal.vue:12
+#: src/components/ErrorModal.vue:17
+#, fuzzy
 msgid ""
-"If you're seeing that error multiple times, check the <a href=\"https://"
-"status.signal.org/\" target=\"_blank\">status of Signal servers</a>.\n"
-"            If it's fine, then please tell us there is a problem by <a href="
-"\"https://github.com/nanu-c/axolotl/issues\" target=\"_blank\">opening an "
-"issue</a>."
+"If you're seeing that error multiple times, check the\n"
+"            <a href=\"https://status.signal.org/\" target=\"_blank\">status "
+"of Signal servers</a>. If it's fine, then please tell us there is a problem "
+"by\n"
+"            <a href=\"https://github.com/nanu-c/axolotl/issues\" target="
+"\"_blank\">opening an issue</a>."
 msgstr ""
-"Pokud se tato chybová zpráva objeví vícekrát, překontrolujte "
-"<a href=\"https://status.signal.org/\" target=\"_blank\">stav serveru Signálu</a>.\n"
-"            Pokud se zdá být vše v pořádku, nahlašte nám prosím tento problém "
-"na <a href=\"https://github.com/nanu-c/axolotl/issues\" target=\"_blank\">github.com</a>."
+"Pokud se tato chybová zpráva objeví vícekrát, překontrolujte <a href="
+"\"https://status.signal.org/\" target=\"_blank\">stav serveru Signálu</a>.\n"
+"            Pokud se zdá být vše v pořádku, nahlašte nám prosím tento "
+"problém na <a href=\"https://github.com/nanu-c/axolotl/issues\" target="
+"\"_blank\">github.com</a>."
 
-#: src/components/Header.vue:132
+#: src/components/Header.vue:196
 msgid "Import contacts"
 msgstr "Importovat kontakty"
 
@@ -200,93 +279,97 @@ msgstr "Importovat kontakty"
 msgid "Import contacts feature unavailable"
 msgstr "Kontakt"
 
-#: src/pages/Contacts.vue:4
+#: src/pages/Contacts.vue:5
 msgid "Importing contacts, head back later"
 msgstr "Importování kontaktů, může to chvíli trvat"
 
-#: src/pages/SetPassword.vue:2
+#: src/pages/SetPassword.vue:2 src/pages/SetUsername.vue:2
 msgid "Info"
 msgstr "Info"
 
-#: src/pages/About.vue:11
+#: src/pages/About.vue:14
 msgid "issues at the bug tracker"
 msgstr "záznamy (issues) v registru chyb"
 
-#: src/pages/DeviceList.vue:7
+#: src/pages/DeviceList.vue:9
 msgid "Last seen:"
 msgstr "Naposledy přečteno:"
 
-#: src/pages/Settings.vue:11
+#: src/pages/Settings.vue:9
 #, fuzzy
 msgid "Linked devices"
 msgstr "Připojená zařízení"
 
-#: src/pages/Verification.vue:15
+#: src/pages/Verification.vue:18
 msgid "Loading..."
 msgstr "Načítá..."
 
-#: src/pages/NewGroup.vue:10
+#: src/pages/NewGroup.vue:9
 #, fuzzy
 msgid "Members"
 msgstr "Členové skupiny"
 
-#: src/components/Header.vue:59
+#: src/components/Header.vue:93
 msgid "Mute"
 msgstr "Ztlumit"
 
-#: src/components/AddContactModal.vue:15
+#: src/components/AddContactModal.vue:20
 msgid "Name"
 msgstr "Jméno"
 
-#: src/components/StartChatModal.vue:11
+#: src/components/StartChatModal.vue:13
+#, fuzzy
 msgid ""
-"New conversations are temporarily disabled. You can create a new chat from "
-"the linked Desktop Client. Alternatively, your counterparty could start the "
-"discussion."
+"New conversations are temporarily disabled. You can create a new\n"
+"            chat from the linked Desktop Client. Alternatively, your\n"
+"            counterparty could start the discussion."
 msgstr ""
-"Dočasně není možné začít novou konverzaci. Můžete ji ale začít z "
-"propojeného desktop clientu na vašem počítači. Jiná možnost je, že "
-"konverzaci začne jako první váš partner."
+"Dočasně není možné začít novou konverzaci. Můžete ji ale začít z propojeného "
+"desktop clientu na vašem počítači. Jiná možnost je, že konverzaci začne jako "
+"první váš partner."
 
-#: src/components/Header.vue:99 src/components/Header.vue:149
+#: src/components/Header.vue:162 src/components/Header.vue:218
 msgid "New group"
 msgstr "Nová skupina"
 
-#: src/pages/SetPassword.vue:13
+#: src/pages/SetPassword.vue:17
 #, fuzzy
 msgid "New password"
 msgstr "Nové heslo"
 
-#: src/pages/Register.vue:17
+#: src/pages/Register.vue:20
 msgid "Next"
 msgstr "Další"
 
-#: src/pages/ChatList.vue:46
+#: src/pages/ChatList.vue:62
 msgid "No chats available"
 msgstr "Nenalezena žádná konverzace"
 
-#: src/pages/DeviceList.vue:14
+#: src/pages/DeviceList.vue:21
 #, fuzzy
 msgid "No linked devices"
 msgstr "Žádná připojená zařízení"
 
-#: src/pages/MessageList.vue:25
-msgid "No Messages available."
+#: src/pages/MessageList.vue:33
+#, fuzzy
+msgid "No messages available."
 msgstr "Nenalezeny žádné zprávy."
 
-#: src/components/Message.vue:46 src/components/Message.vue:72
+#: src/components/Message.vue:53 src/components/Message.vue:87
 msgid "Not supported mime type:"
 msgstr "Nepodporovaný typ mime:"
 
-#: src/pages/EditGroup.vue:8 src/pages/NewGroup.vue:8
+#: src/pages/EditGroup.vue:7 src/pages/NewGroup.vue:7
 msgid "Note, you can't add yourself to a group."
 msgstr "Pozor, není možné přidat sám/samu sebe do skupiny."
 
-#: src/components/AddContactModal.vue:11
-msgid "Only add numbers that you are sure are registered Signal accounts!"
+#: src/components/AddContactModal.vue:15
+msgid ""
+"Only add numbers that you are sure are registered Signal\n"
+"            accounts!"
 msgstr ""
 
-#: src/pages/About.vue:13
+#: src/pages/About.vue:16
 msgid "or by becoming a"
 msgstr "nebo jako"
 
@@ -298,11 +381,11 @@ msgstr "nebo deaktivovat pin na Androidu/IOs"
 msgid "Password is wrong"
 msgstr "Nesprávné heslo"
 
-#: src/pages/SetPassword.vue:4
+#: src/pages/SetPassword.vue:7
 msgid "Passwords don't match"
 msgstr "Rozdílná hesla"
 
-#: src/components/AddContactModal.vue:19 src/components/EditContactModal.vue:15
+#: src/components/AddContactModal.vue:24 src/components/EditContactModal.vue:19
 msgid "Phone"
 msgstr "Telefon"
 
@@ -310,36 +393,50 @@ msgstr "Telefon"
 msgid "Photo"
 msgstr "Foto"
 
-#: src/pages/Settings.vue:5
+#: src/components/AddDeviceModal.vue:17
+#, fuzzy
+msgid "QR code"
+msgstr "Vyžádat kód"
+
+#: src/pages/Settings.vue:4
 #, fuzzy
 msgid "Registered number"
 msgstr "Registrované číslo"
 
-#: src/pages/SetPassword.vue:16
+#: src/pages/Debug.vue:8
+msgid "Registration data"
+msgstr ""
+
+#: src/pages/SetPassword.vue:23
 msgid "Repeat password"
 msgstr "Zopakovat heslo"
 
-#: src/pages/Register.vue:26
+#: src/pages/Register.vue:31
 msgid "Request code"
 msgstr "Vyžádat kód"
 
-#: src/components/Header.vue:63
+#: src/components/Header.vue:116
 msgid "Reset encryption"
 msgstr "Resetovat zabezpečenou konverzaci"
+
+#: src/pages/SetPassword.vue:6
+msgid "Restart is required!"
+msgstr ""
 
 #: src/components/IdentityModal.vue:14
 msgid "Safety numbers of you and"
 msgstr "Bezpečnostní kódy vaše a"
 
-#: src/components/EditContactModal.vue:20
+#: src/components/EditContactModal.vue:24
 msgid "Save"
 msgstr "Uložit"
 
 #: src/components/AttachmentBar.vue:5
-msgid "Send Attachments"
+#, fuzzy
+msgid "Send attachments"
 msgstr "Poslat přílohy"
 
-#: src/pages/Verification.vue:11
+#: src/pages/Verification.vue:12
 msgid "Send code"
 msgstr "Poslat kód"
 
@@ -347,35 +444,41 @@ msgstr "Poslat kód"
 msgid "Send pin"
 msgstr "Poslat pin"
 
-#: src/components/Header.vue:82
+#: src/components/Header.vue:144
 msgid "Set encryption password"
 msgstr "Resetovat zabezpečenou konverzaci"
 
-#: src/pages/SetPassword.vue:23 src/pages/Settings.vue:14
+#: src/pages/SetPassword.vue:34 src/pages/Settings.vue:12
 msgid "Set password"
 msgstr "Nastavit heslo"
 
-#: src/components/Message.vue:78
+#: src/components/Message.vue:99
 msgid "Set timer for self-destructing messages"
 msgstr "Nastavit časovač pro sebedestruktivní zprávy"
 
-#: src/pages/SetPassword.vue:3
-msgid ""
-"Setting a password is not adviced on devices short in memory. Restart is "
-"required!"
+#: src/pages/SetUsername.vue:12
+msgid "Set username"
 msgstr ""
-"Nastavení hesla se nedoporučuje pro zařízení s malou pamětí. "
-"Nutný restart!"
 
-#: src/components/Header.vue:93 src/components/Header.vue:152
+#: src/pages/SetPassword.vue:3
+#, fuzzy
+msgid "Setting a password is not advised on devices short in memory."
+msgstr ""
+"Nastavení hesla se nedoporučuje pro zařízení s malou pamětí. Nutný restart!"
+
+#: src/pages/SetUsername.vue:3
+msgid "Setting a username is required. Please choose one."
+msgstr ""
+
+#: src/components/Header.vue:156 src/components/Header.vue:221
 msgid "Settings"
 msgstr "Nastavení"
 
-#: src/components/Header.vue:62
+#: src/components/Header.vue:113
 msgid "Show identity"
 msgstr "Ověření identity"
 
-#: src/pages/About.vue:14
+#: src/pages/About.vue:19
 msgid "sponsor on patreon."
 msgstr "sponzor na Patreon."
 
@@ -384,73 +487,90 @@ msgid "Starting new chats is currently broken in Axolotl."
 msgstr "Momentálně nelze na Axolotlu začít novou konverzaci."
 
 #: src/pages/About.vue:6
+#, fuzzy
 msgid ""
-"This is a free and open source signal client written in golang and vuejs."
+"This is a free and open source Signal client written in golang and\n"
+"        vuejs."
 msgstr ""
-"Toto je svobodný a otevřený klient pro Signál, naprogramovaný v golang a vuejs."
+"Toto je svobodný a otevřený klient pro Signál, naprogramovaný v golang a "
+"vuejs."
 
-#: src/components/Header.vue:27 src/pages/ChatList.vue:26
+#: src/components/Header.vue:33 src/pages/ChatList.vue:30
 msgid "Unknown group"
 msgstr "Neznámá skupina"
 
-#: src/components/Header.vue:60
+#: src/components/Header.vue:96
 msgid "Unmute"
 msgstr "Ukončit ztlumení"
 
-#: src/pages/Password.vue:5 src/pages/Settings.vue:18
+#: src/pages/Password.vue:9 src/pages/Settings.vue:16
 #, fuzzy
 msgid "Unregister"
 msgstr "Zrušit registraci"
 
-#: src/pages/SetPassword.vue:7
+#: src/pages/SetPassword.vue:10
 msgid "Unsafe password"
 msgstr "Heslo není bezpečné"
 
-#: src/components/Message.vue:81
+#: src/components/Message.vue:102
 msgid "Unsupported message type: sticker"
 msgstr "Nepodporovaný typ zprávy: nálepka (sticker)"
 
 #: src/pages/EditGroup.vue:41
 #, fuzzy
-msgid "Updating Group"
+msgid "Updating group"
 msgstr "Aktualizuje skupinu"
+
+#: src/pages/SetUsername.vue:7
+msgid "Username"
+msgstr ""
 
 #: src/components/IdentityModal.vue:5
 msgid "Verify identity"
 msgstr "Ověření identity"
 
-#: src/components/AttachmentBar.vue:12
+#: src/components/AttachmentBar.vue:14
 msgid "Video"
 msgstr "Video"
 
-#: src/components/ImportUnavailableModal.vue:8
+#: src/components/ImportUnavailableModal.vue:10
 msgid ""
-"We are sorry, but due to a change in the Signal protocol, automatic import "
-"of contacts is currently unavailble."
+"We are sorry, but due to a change in the Signal protocol, automatic\n"
+"            import of contacts is currently unavailable."
 msgstr ""
 
-#: src/pages/Verification.vue:19
+#: src/pages/Verification.vue:22
 msgid "Wrong code entered. Restart for another try."
 msgstr "Zadán neplatný kód. Restartovat pro nový pokus."
 
-#: src/components/Message.vue:19
+#: src/components/Message.vue:26
 msgid "You"
 msgstr "Vy"
 
-#: src/pages/About.vue:8
-msgid "You can support the development of axolotl either by filling"
+#: src/pages/About.vue:11
+#, fuzzy
+msgid "You can support the development of Axolotl either by filling"
 msgstr "Vývoj Axolotlu můžete podpořit buď vyplněním"
 
-#: src/components/Message.vue:32 src/components/Message.vue:41
-#: src/components/Message.vue:57 src/pages/MessageList.vue:14
+#: src/pages/MessageList.vue:37
+msgid ""
+"You have been invited to this group. Accepting invitations is not yet\n"
+"      supported. In order to join please send private a message to the "
+"other\n"
+"      side to exchange the profile key. After that he/she has to remove and "
+"add\n"
+"      you again."
+msgstr ""
+
+#: src/components/Message.vue:39 src/components/Message.vue:48
+#: src/components/Message.vue:68 src/pages/MessageList.vue:21
 msgid "Your browser does not support the audio element."
 msgstr "Váš prohlížeč nepodporuje tento element audia."
 
-#: src/components/Message.vue:67
+#: src/components/Message.vue:82
 msgid "Your browser does not support the video element."
 msgstr "Váš prohlížeč nepodporuje tento element videa."
 
-#, fuzzy
 #~ msgid "Edit Group"
 #~ msgstr "Upravit skupinu"
 
@@ -493,9 +613,9 @@ msgstr "Váš prohlížeč nepodporuje tento element videa."
 #~ "will need to re-register your phone number to use them again in the "
 #~ "future."
 #~ msgstr ""
-#~ "Zrušením registrace ze serveru znemožníte Signálu posílání zpráv a volání. "
-#~ "Abyste mohli Signál znovu používat, budete muset znovu registrovat "
-#~ "vaše telefonní číslo."
+#~ "Zrušením registrace ze serveru znemožníte Signálu posílání zpráv a "
+#~ "volání. Abyste mohli Signál znovu používat, budete muset znovu "
+#~ "registrovat vaše telefonní číslo."
 
 #~ msgid "Enter key sends"
 #~ msgstr "Klávesa Enter odesílá"
@@ -539,10 +659,6 @@ msgstr "Váš prohlížeč nepodporuje tento element videa."
 
 #~ msgid "Refresh"
 #~ msgstr "Obnovit"
-
-#, fuzzy
-#~ msgid "Add contact"
-#~ msgstr "Přidat kontakt"
 
 #~ msgid "Verifying number"
 #~ msgstr "Probíhá ověření čísla"

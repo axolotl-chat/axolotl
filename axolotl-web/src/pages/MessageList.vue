@@ -73,7 +73,7 @@
       you again.
     </div>
     <div class="messageInputBox">
-      <!-- <div v-if="chat&&chat.IsGroup&&chat.Name==chat.Tel" class="alert alert-warning">Group has to be updated by a member.</div>
+      <!-- <div v-if="chat&&chat.IsGroup&&chat.Name==chat.Tel" v-translate class="alert alert-warning">Group has to be updated by a member.</div>
       <div v-else class=""> -->
       <div class="messageInput-container">
         <textarea
