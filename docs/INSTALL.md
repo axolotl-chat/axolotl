@@ -15,24 +15,23 @@ Installation instructions can be found [here](https://clickable-ut.dev/en/latest
 
 **Build and Install**
 
-In order to build axolotl you need to get its nodejs dependencies once:
+**Note**: For the next three commands add `--arch <arch_of_your_mobile>` (i.e. `--arch arm64`) to the command when building for a mobile device.
 
-`clickable build --libs nodejs_deps`
+1. In order to build axolotl you need to get its nodejs dependencies once:
 
-To build crayfish execute:
+    `clickable build --libs nodejs_deps`
 
-`clickable build --libs crayfish`
+2. To build crayfish execute:
 
-The app is built by running:
+    `clickable build --libs crayfish`
 
-`clickable`
+3. Finally the app is built by running:
 
-This will build the app, install it onto a device connected via usb and run the app on the device.
+    `clickable`
 
-Remember to add `--arch <arch_of_your_mobile>` (i.e. `--arch arm64`) to the
-above three commands when building for you mobile device.
+    This will build the app, install it onto a device connected via usb and run the app on the device.
 
-All steps can be done with individual clickable commands `clickable build`, `clickable install` and `clickable launch`. To build and run Axolotl on your pc run `clickable desktop`.
+    All steps can be done with individual clickable commands `clickable build`, `clickable install` and `clickable launch`. To build and run Axolotl on your pc run `clickable desktop`.
 
 Clickable supports a few different parameters. Those can be set via command line or in the `clickable.yaml` file. For example run `clickable launch logs` to start signal and get logging output.
 
@@ -304,10 +303,10 @@ Packaging is still under improvement to comply with official Debian packaging ru
 
 ## Fedora
 
-We are not activly supporting building and installing Axolotl nativly on Fedora but the following hint from [#502](https://github.com/nanu-c/axolotl/issues/502) might help. 
+We are not activly supporting building and installing Axolotl nativly on Fedora but the following hint from [#502](https://github.com/nanu-c/axolotl/issues/502) might help.
 
 ```
-GOVCS='*:all' does the trick though. 
+GOVCS='*:all' does the trick though.
 I also had to install the breezy package to get the bzr command.
 ```
 
