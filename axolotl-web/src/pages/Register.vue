@@ -4,7 +4,7 @@
     <div v-if="infoPage" class="page1 info">
       <img class="logo" src="/axolotl.png" alt="Axolotl logo">
       <h1 class="title">Axolotl Beta</h1>
-      <h2 v-translate class="subtitle">A cross-platform signal client</h2>
+      <h2 v-translate class="subtitle">A cross-platform Signal client</h2>
       <div class="description">
         Hey! Mr. Tambourine Man, play a song for me,
         <br>

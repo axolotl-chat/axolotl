@@ -24,12 +24,7 @@ msgstr "2. Skann QR koden med en QR kode skanner"
 msgid "3. Paste the QR code here:"
 msgstr "3. Lim inn QR koden her:"
 
-#: src/pages/Register.vue:6
-#, fuzzy
-msgid "A cross-platform signal client"
-msgstr "En kryssplattform Signalklient"
-
-#: src/pages/About.vue:4
+#: src/pages/About.vue:4 src/pages/Register.vue:6
 #, fuzzy
 msgid "A cross-platform Signal client"
 msgstr "En kryssplattform Signalklient"
@@ -84,6 +79,14 @@ msgstr ""
 msgid "Can't change contact list: {{ error }}"
 msgstr "Kan ikke endre kontaktlisten: {{error}}"
 
+#: src/pages/Debug.vue:18
+msgid "Clear all localStorage"
+msgstr ""
+
+#: src/pages/Debug.vue:14
+msgid "Clear registration from localStorage"
+msgstr ""
+
 #: src/components/ErrorModal.vue:31 src/components/IdentityModal.vue:22
 #: src/components/ImportUnavailableModal.vue:29
 #: src/components/StartChatModal.vue:19
@@ -127,9 +130,23 @@ msgstr "Nåværende passord"
 msgid "Current password is wrong"
 msgstr "Nåværende passord er feil"
 
+#: src/pages/Debug.vue:13
+msgid "Current registration status in $store: {{ registrationStatus }}"
+msgstr ""
+
+#: src/pages/Debug.vue:9
+msgid ""
+"Current registration status in local storage:\n"
+"        {{ localRegistrationStatus }}"
+msgstr ""
+
 #: src/pages/Settings.vue:21
 msgid "Dark mode"
 msgstr "Mørk modus"
+
+#: src/pages/Debug.vue:2
+msgid "Debug screen"
+msgstr ""
 
 #: src/pages/Password.vue:6
 msgid "Decrypt"
@@ -187,14 +204,26 @@ msgstr "Tast inn pinkode for registrering"
 msgid "Error communicating with Signal servers"
 msgstr "Feil ved kommunikasjon med Signal-tjenere"
 
+#: src/pages/Debug.vue:5
+msgid "Exit"
+msgstr ""
+
 #: src/components/WarningMessage.vue:8
 msgid "Follow the progress or join us to help with development on"
 msgstr "Følg fremdriften eller bli med oss for å hjelpe deg med utvikling"
 
-#: src/components/Message.vue:92
+#: src/pages/Debug.vue:3
+msgid "For developers only, use with care!"
+msgstr ""
+
+#: src/components/Message.vue:93
 #, fuzzy
 msgid "Group changed."
 msgstr "Gruppenavn"
+
+#: src/pages/MessageList.vue:1
+msgid "Group has to be updated by a member."
+msgstr ""
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
@@ -380,6 +409,10 @@ msgstr "QR kode"
 msgid "Registered number"
 msgstr "Registrert nummer"
 
+#: src/pages/Debug.vue:8
+msgid "Registration data"
+msgstr ""
+
 #: src/pages/SetPassword.vue:23
 msgid "Repeat password"
 msgstr "Gjenta passord"
@@ -424,7 +457,7 @@ msgstr "Angi krypteringspassord"
 msgid "Set password"
 msgstr "Angi passord"
 
-#: src/components/Message.vue:98
+#: src/components/Message.vue:99
 msgid "Set timer for self-destructing messages"
 msgstr "Angi tidsinnstilling for selvdestruerende meldinger"
 
@@ -486,7 +519,7 @@ msgstr "Avregistrér"
 msgid "Unsafe password"
 msgstr "Usikkert passord"
 
-#: src/components/Message.vue:101
+#: src/components/Message.vue:102
 #, fuzzy
 msgid "Unsupported message type: sticker"
 msgstr "MIME-type ikke støttet:"
@@ -547,6 +580,10 @@ msgstr "Nettleseren støtter ikke lydelementet."
 #: src/components/Message.vue:82
 msgid "Your browser does not support the video element."
 msgstr "Nettleseren støtter ikke videoelementet."
+
+#, fuzzy
+#~ msgid "A cross-platform signal client"
+#~ msgstr "En kryssplattform Signalklient"
 
 #~ msgid "Edit Group"
 #~ msgstr "Rediger gruppe"

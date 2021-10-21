@@ -24,11 +24,7 @@ msgstr "2. Scansiona il qr-code con uno scanner qr-Code"
 msgid "3. Paste the QR code here:"
 msgstr "3. Incolla qui il Qr-Code:"
 
-#: src/pages/Register.vue:6
-msgid "A cross-platform signal client"
-msgstr "Un client Signal multipiattaforma"
-
-#: src/pages/About.vue:4
+#: src/pages/About.vue:4 src/pages/Register.vue:6
 msgid "A cross-platform Signal client"
 msgstr "Un client Signal multipiattaforma"
 
@@ -81,6 +77,14 @@ msgstr ""
 msgid "Can't change contact list: {{ error }}"
 msgstr "Impossibile modificare l'elenco dei contatti: {{error}}"
 
+#: src/pages/Debug.vue:18
+msgid "Clear all localStorage"
+msgstr ""
+
+#: src/pages/Debug.vue:14
+msgid "Clear registration from localStorage"
+msgstr ""
+
 #: src/components/ErrorModal.vue:31 src/components/IdentityModal.vue:22
 #: src/components/ImportUnavailableModal.vue:29
 #: src/components/StartChatModal.vue:19
@@ -123,9 +127,23 @@ msgstr "Password Attuale"
 msgid "Current password is wrong"
 msgstr "la password attuale è sbagliata"
 
+#: src/pages/Debug.vue:13
+msgid "Current registration status in $store: {{ registrationStatus }}"
+msgstr ""
+
+#: src/pages/Debug.vue:9
+msgid ""
+"Current registration status in local storage:\n"
+"        {{ localRegistrationStatus }}"
+msgstr ""
+
 #: src/pages/Settings.vue:21
 msgid "Dark mode"
 msgstr "Modalità scura"
+
+#: src/pages/Debug.vue:2
+msgid "Debug screen"
+msgstr ""
 
 #: src/pages/Password.vue:6
 msgid "Decrypt"
@@ -182,13 +200,25 @@ msgstr "Inserisci il tuo PIN di registrazione"
 msgid "Error communicating with Signal servers"
 msgstr "Errore di comunicazione con i server Signal"
 
+#: src/pages/Debug.vue:5
+msgid "Exit"
+msgstr ""
+
 #: src/components/WarningMessage.vue:8
 msgid "Follow the progress or join us to help with development on"
 msgstr "Segui i progressi o unisciti a noi per aiutare con lo sviluppo"
 
-#: src/components/Message.vue:92
+#: src/pages/Debug.vue:3
+msgid "For developers only, use with care!"
+msgstr ""
+
+#: src/components/Message.vue:93
 msgid "Group changed."
 msgstr "Gruppo cambiato."
+
+#: src/pages/MessageList.vue:1
+msgid "Group has to be updated by a member."
+msgstr ""
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
@@ -362,6 +392,10 @@ msgstr "Codice-QR"
 msgid "Registered number"
 msgstr "Numero registrato"
 
+#: src/pages/Debug.vue:8
+msgid "Registration data"
+msgstr ""
+
 #: src/pages/SetPassword.vue:23
 msgid "Repeat password"
 msgstr "Ripeti password"
@@ -406,7 +440,7 @@ msgstr "Imposta password crittografata"
 msgid "Set password"
 msgstr "Imposta password"
 
-#: src/components/Message.vue:98
+#: src/components/Message.vue:99
 msgid "Set timer for self-destructing messages"
 msgstr "Imposta il timer per i messaggi che si autodistruggono"
 
@@ -465,7 +499,7 @@ msgstr "Annulla registrazione"
 msgid "Unsafe password"
 msgstr "Password non sicura"
 
-#: src/components/Message.vue:101
+#: src/components/Message.vue:102
 msgid "Unsupported message type: sticker"
 msgstr "Tipo di messaggio non supportato: sticker"
 
@@ -530,6 +564,9 @@ msgstr "Il tuo browser non supporta l'elemento audio."
 #: src/components/Message.vue:82
 msgid "Your browser does not support the video element."
 msgstr "Il tuo browser non supporta l'elemento video."
+
+#~ msgid "A cross-platform signal client"
+#~ msgstr "Un client Signal multipiattaforma"
 
 #~ msgid "Edit Group"
 #~ msgstr "Modifica gruppo"

@@ -14,10 +14,10 @@
       </div>
       <p v-translate>Note, you can't add yourself to a group.</p>
       <button class="btn add-group-members" @click="addMembersModal = true">
-        <font-awesome-icon icon="plus" /> Members
+        <font-awesome-icon v-translate icon="plus" /> Members
       </button>
       <button class="btn create-group" @click="updateGroup">
-        <font-awesome-icon icon="check" /> Update group
+        <font-awesome-icon v-translate icon="check" /> Update group
       </button>
       <add-group-members-modal
         v-if="addMembersModal"
