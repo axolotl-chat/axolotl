@@ -452,9 +452,9 @@ export default {
       this.showSettingsMenu = false;
       this.showConfirmationModal = true;
       this.cMType = "resetEncryption";
-      this.cMTitle = "Reset secure session?";
+      this.cMTitle = this.$gettext("Reset secure session?");
       this.cMText =
-        "This may help if you're having encryption problems in this conversation. Your messages will be kept.";
+        this.$gettext("This may help if you're having encryption problems in this conversation. Your messages will be kept.");
     },
     verifyIdentity() {
       this.$store.dispatch("verifyIdentity");
@@ -465,9 +465,9 @@ export default {
       this.showSettingsMenu = false;
       this.showConfirmationModal = true;
       this.cMType = "delChat";
-      this.cMTitle = "Delete this chat?";
+      this.cMTitle = this.$gettext("Delete this chat?");
       this.cMText =
-        "This chat will be permanently deleted - but only from your device.";
+        this.$gettext("This chat will be permanently deleted - but only from your device.");
     },
     confirm() {
       if (this.cMType === "resetEncryption")
