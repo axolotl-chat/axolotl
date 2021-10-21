@@ -37,6 +37,7 @@ libraries:
   crayfish:
     builder: rust
     src_dir: crayfish
+    rust_channel: 1.55.0
   nodejs_deps:
     image_setup:
       run:
