@@ -7,3 +7,5 @@ Icon=axolotl
 Comment=A signal client
 Categories=Network;InstantMessaging;Chat;
 Terminal=false
+X-KDE-FormFactor=desktop;tablet;handset;
+X-Purism-FormFactor=Workstation;Mobile; 

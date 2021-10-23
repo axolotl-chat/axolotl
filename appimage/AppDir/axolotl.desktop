@@ -5,3 +5,5 @@ Type=Application
 Comment=A signal client, AppImage version
 Categories=Network;InstantMessaging;Chat;
 Icon=axolotl
+X-KDE-FormFactor=desktop;tablet;handset;
+X-Purism-FormFactor=Workstation;Mobile; 
