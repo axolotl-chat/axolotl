@@ -5,6 +5,7 @@ import (
 	_ "image/jpeg"
 	_ "image/png"
 	"os"
+	"runtime"
 	"sync"
 
 	astilectron "github.com/asticode/go-astilectron"
@@ -72,6 +73,13 @@ func runElectron() {
 	if len(electronPath) == 0 {
 		electronPath = config.ConfigDir + "/electron"
 	}
+
+	electronSwitches := []string{"--disable-dev-shm-usage", "--no-sandbox"}
+	if os.Getenv("XDG_SESSION_TYPE") == "wayland" && (runtime.GOARCH == "arm" || runtime.GOARCH == "arm64") {
+		electronSwitches = append(electronSwitches, "--enable-features=UseOzonePlatform", "--ozone-platform=wayland")
+	}
+	log.Infoln("[axolotl-electron] creating astilelectron with the following switches:", electronSwitches)
+
 	var a, err = astilectron.New(l, astilectron.Options{
 		AppName:            "axolotl",
 		AppIconDefaultPath: "axolotl-web/public/axolotl.png", // If path is relative, it must be relative to the data directory
@@ -80,7 +88,7 @@ func runElectron() {
 		VersionElectron:    "15.1.2",
 		VersionAstilectron: "0.45.0",
 		SingleInstance:     true,
-		ElectronSwitches:   []string{"--disable-dev-shm-usage", "--no-sandbox"}})
+		ElectronSwitches:   electronSwitches})
 
 	if err != nil {
 		log.Errorln(errors.Wrap(err, "[axolotl-electron]: creating astilectron failed"))
