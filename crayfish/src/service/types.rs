@@ -68,7 +68,7 @@ pub struct SealedSenderDecryptResponse {
 
 impl<T: Serialize> NestedResponse<T> {
     pub fn new_msg(message: T, message_type: u32) -> Message {
-        Self::new(message, message_type).to_msg()
+        Self::new(message, message_type).into_msg()
     }
 
     fn new(message: T, message_type: u32) -> Self {
@@ -81,7 +81,7 @@ impl<T: Serialize> NestedResponse<T> {
         }
     }
 
-    fn to_msg(self) -> Message {
+    fn into_msg(self) -> Message {
         Message::text(
             serde_json::to_string(&self)
                 .unwrap_or(ErrorMessage::failure_response(self.response.message_type)),

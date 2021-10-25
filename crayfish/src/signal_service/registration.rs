@@ -1,5 +1,5 @@
-use super::service_with_number;
-use super::Result;
+use super::utils::service_with_number;
+use crate::error::Result;
 
 use libsignal_service::provisioning::{
     generate_registration_id, ConfirmCodeMessage, ConfirmCodeResponse, ProvisioningManager,
