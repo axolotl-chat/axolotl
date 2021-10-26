@@ -8,3 +8,5 @@ Comment=A signal client, snap version
 Terminal=false
 Categories=Network;InstantMessaging;Chat;
 Icon=${SNAP}/meta/gui/axolotl.png
+X-KDE-FormFactor=desktop;tablet;handset;
+X-Purism-FormFactor=Workstation;Mobile; 

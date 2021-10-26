@@ -8,3 +8,5 @@ Comment=A signal client, flatpak version
 Terminal=false
 Categories=Network;InstantMessaging;Chat;
 Icon=org.nanuc.Axolotl
+X-KDE-FormFactor=desktop;tablet;handset;
+X-Purism-FormFactor=Workstation;Mobile; 
