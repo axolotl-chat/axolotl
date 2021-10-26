@@ -282,8 +282,8 @@ func wsReader(conn *websocket.Conn) {
 			json.Unmarshal([]byte(p), &addDeviceMessage)
 			log.Println("[axolotl] add device " + addDeviceMessage.Url)
 			if addDeviceMessage.Url != "" {
-				if strings.Contains(addDeviceMessage.Url, "sgn") {
-					fmt.Printf("found sgn")
+				if strings.Contains(addDeviceMessage.Url, "sgnl") {
+					fmt.Printf("found sgnl")
 					store.AddDevice(addDeviceMessage.Url)
 				}
 			}
