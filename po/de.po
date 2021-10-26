@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2021-02-10 22:29+0100\n"
+"PO-Revision-Date: 2021-10-19 21:36+0200\n"
 "Last-Translator: Daniel Frost <one@frostinfo.de>\n"
 "Language-Team: none\n"
 "Language: de\n"
@@ -15,18 +15,17 @@ msgstr ""
 
 #: src/components/AddDeviceModal.vue:12
 msgid "1. Open Signal Desktop"
-msgstr ""
+msgstr "1. Öffne Signal Desktop"
 
 #: src/components/AddDeviceModal.vue:13
 msgid "2. Scan the QR code with a QR code scanner"
-msgstr ""
+msgstr "2. Scanne den QR Code mit einem QR Code Scanner"
 
 #: src/components/AddDeviceModal.vue:14
 msgid "3. Paste the QR code here:"
-msgstr ""
+msgstr "3. Füge den QR Code hier ein"
 
 #: src/pages/About.vue:4 src/pages/Register.vue:6
-#, fuzzy
 msgid "A cross-platform Signal client"
 msgstr "Ein Multi-Plattform Signal-Client"
 
@@ -40,12 +39,10 @@ msgid "Add"
 msgstr "Hinzufügen"
 
 #: src/components/AddDeviceModal.vue:5
-#, fuzzy
 msgid "Add a new device"
-msgstr "Gerät hinzufügen"
+msgstr "Neues Gerät hinzufügen"
 
 #: src/components/Header.vue:99
-#, fuzzy
 msgid "Add contact"
 msgstr "Kontakt hinzufügen"
 
@@ -62,35 +59,33 @@ msgid "Audio"
 msgstr "Audio"
 
 #: src/components/ErrorModal.vue:13
-#, fuzzy
 msgid ""
 "Axolotl encountered an error communicating with Signal servers.\n"
 "            Please try again."
 msgstr ""
-"Axolotl hat eine Kommunikationsfehler mit dem Signal-Server festgestellt. "
-"Bitte versuche es später noch einmal."
+"Axolotl hat eine Kommunikationsfehler mit dem Signal-Server festgestellt.\n"
+"            Bitte versuche es später noch einmal."
 
 #: src/components/ImportUnavailableModal.vue:23
-#, fuzzy
 msgid ""
 "Be careful, if you add too many numbers which aren't Signal\n"
 "            accounts, you won't be able to add contacts anymore."
 msgstr ""
-"Aber sei vorsichtig, wenn du zu viele Kontakte hinzufügst, die nicht bei "
-"Signal sind, kannst du keine weiteren Kontakte hinzufügen."
+"Aber sei vorsichtig, wenn du zu viele Kontakte hinzufügst, \n"
+"            die nicht bei Signal sind, kannst du keine weiteren Kontakte "
+"hinzufügen."
 
 #: src/pages/Contacts.vue:2
-#, fuzzy
 msgid "Can't change contact list: {{ error }}"
-msgstr "Fehler beim ändern der Kontaktliste {{error}}"
+msgstr "Kann Kontakteliste nicht ändern {{error}}"
 
 #: src/pages/Debug.vue:18
 msgid "Clear all localStorage"
-msgstr ""
+msgstr "Lösche alle Daten auf diesem Gerät"
 
 #: src/pages/Debug.vue:14
 msgid "Clear registration from localStorage"
-msgstr ""
+msgstr "Lösche die Registrierung auf diesem Gerät"
 
 #: src/components/ErrorModal.vue:31 src/components/IdentityModal.vue:22
 #: src/components/ImportUnavailableModal.vue:29
@@ -136,13 +131,15 @@ msgstr "Das aktuelle Passwort ist falsch"
 
 #: src/pages/Debug.vue:13
 msgid "Current registration status in $store: {{ registrationStatus }}"
-msgstr ""
+msgstr "Aktueller Registrierungsstatus in $store: {{ registrationStatus }}"
 
 #: src/pages/Debug.vue:9
 msgid ""
 "Current registration status in local storage:\n"
 "        {{ localRegistrationStatus }}"
 msgstr ""
+"Aktueller lokaler Registrierungsstatus:\n"
+"        {{ localRegistrationStatus }}"
 
 #: src/pages/Settings.vue:21
 msgid "Dark mode"
@@ -150,7 +147,7 @@ msgstr "Dunkler Modus"
 
 #: src/pages/Debug.vue:2
 msgid "Debug screen"
-msgstr ""
+msgstr "Debug Bildschirm"
 
 #: src/pages/Password.vue:6
 msgid "Decrypt"
@@ -161,7 +158,6 @@ msgid "Document"
 msgstr "Dokument"
 
 #: src/pages/Settings.vue:30
-#, fuzzy
 msgid ""
 "Due to technical limitations, Axolotl doesn't support push\n"
 "        notifications. Keep the app open to be notified in real time. In "
@@ -170,28 +166,28 @@ msgid ""
 "\"."
 msgstr ""
 "Wegen technischer Einschränkungen unterstützt Axolotl keine "
-"Hintergrunddienst-Benachrichtigungen. Halte die App offen um Echtzeit-"
-"Benachrichtigungen zu erhalten. In Ubuntu Touch aktiviere "
-"\"Hintergrundsuspendierung verhindern\" mit dem UT Tweak Tool."
+"Hintergrunddienst-Benachrichtigungen. \n"
+"\tHalte die App offen um Echtzeit-Benachrichtigungen zu erhalten. \n"
+"\tIn Ubuntu Touch aktiviere \"Hintergrundsuspendierung verhindern\" mit dem "
+"UT Tweak Tool."
 
 #: src/components/WarningMessage.vue:3
-#, fuzzy
 msgid ""
 "Due to upstream changes in Signal, some features are currently broken.\n"
 "      We're working as fast as we can to bring them back."
 msgstr ""
 "Wegen Änderungen am Quellcode von Signal sind momentan einige Funktionen "
-"nicht verwendbar. Wir arbeiten daran, diese so schnell wie möglich wieder "
-"verfügbar zu machen."
+"nicht verwendbar. \n"
+"\tWir arbeiten daran, diese so schnell wie möglich wieder verfügbar zu "
+"machen."
 
 #: src/components/EditContactModal.vue:6
 msgid "Edit"
 msgstr "Bearbeiten"
 
 #: src/components/Header.vue:106
-#, fuzzy
 msgid "Edit contact"
-msgstr "Kontakt hinzufügen"
+msgstr "Kontakt bearbeiten"
 
 #: src/components/Header.vue:119 src/components/Header.vue:168
 msgid "Edit group"
@@ -211,7 +207,7 @@ msgstr "Kommunikationsfehler mit Signal-Server"
 
 #: src/pages/Debug.vue:5
 msgid "Exit"
-msgstr ""
+msgstr "Schließen"
 
 #: src/components/WarningMessage.vue:8
 msgid "Follow the progress or join us to help with development on"
@@ -220,34 +216,31 @@ msgstr ""
 
 #: src/pages/Debug.vue:3
 msgid "For developers only, use with care!"
-msgstr ""
+msgstr "Nur für Entwickler, mit Vorsicht verwenden!"
 
 #: src/components/Message.vue:93
-#, fuzzy
 msgid "Group changed."
-msgstr "Gruppenname"
+msgstr "Gruppe geändert"
 
 #: src/pages/MessageList.vue:1
 msgid "Group has to be updated by a member."
-msgstr ""
+msgstr "Die Gruppe wurde von einem Mitglied aktualisiert."
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
 msgstr "Gruppenname"
 
 #: src/components/ImportUnavailableModal.vue:16
-#, fuzzy
 msgid ""
 "If you are really sure that the persons you want to text with have\n"
 "            Signal, you can manually add them using the \"plus\" action on "
 "that\n"
 "            page."
 msgstr ""
-"Wenn du wirklich sicher bist, dass dein Gegenüber Signal hat, kannst du den "
-"Kontakt manuell mit dem Plus-Symbol hinzufügen."
+"Wenn du wirklich sicher bist, dass dein Gegenüber Signal hat, \n"
+"\tkannst du den Kontakt manuell mit dem Plus-Symbol hinzufügen."
 
 #: src/components/ErrorModal.vue:22
-#, fuzzy
 msgid ""
 "If you think that something is wrong on your side, you can\n"
 "            <a href=\"#\" @click=\"unregister\">unregister</a> and register "
@@ -258,14 +251,15 @@ msgid ""
 "              messages</strong>\n"
 "            if you choose to do that."
 msgstr ""
-"Falls du denkst, dass an deinem Ende etwas nicht stimmt, kannst du deine <a "
-"href=\"#\" @click=\"unregister\">Registrierung löschen</a> und dich nochmals "
-"neu registrieren.\n"
-"            Aber bitte beachte, <strong>dein Schlüssel ändert sich dadurch "
-"und du wirst alle Nachrichten verlieren</strong>, wenn du das machst."
+"Falls du denkst, dass an deinem Ende etwas nicht stimmt, \n"
+"\tkannst du deine <a href=\"#\" @click=\"unregister\">Registrierung löschen</"
+"a> und dich nochmals neu registrieren.\n"
+"\t Aber bitte beachte, \n"
+"\t<strong>dein Schlüssel ändert sich dadurch und du wirst alle Nachrichten "
+"verlieren</strong>, \n"
+"\twenn du das machst."
 
 #: src/components/ErrorModal.vue:17
-#, fuzzy
 msgid ""
 "If you're seeing that error multiple times, check the\n"
 "            <a href=\"https://status.signal.org/\" target=\"_blank\">status "
@@ -274,11 +268,11 @@ msgid ""
 "            <a href=\"https://github.com/nanu-c/axolotl/issues\" target="
 "\"_blank\">opening an issue</a>."
 msgstr ""
-"Wenn dieser Fehler mehrmals auftritt, bitte prüfe <a href=\"https://status."
-"signal.org/\" target=\"_blank\">Status des Signal-Servers</a>.\n"
-"            Wenn der Server-Status fehlerfrei ist, bitte <a href=\"https://"
-"github.com/nanu-c/axolotl/issues\" target=\"_blank\">erstelle einen "
-"Fehlerbericht</a>."
+"Wenn dieser Fehler mehrmals auftritt, bitte prüfe\n"
+"\t <a href=\"https://status.signal.org/\" target=\"_blank\">Status des "
+"Signal-Servers</a>.\n"
+"\t Wenn der Server-Status fehlerfrei ist, bitte <a href=\"https://github.com/"
+"nanu-c/axolotl/issues\" target=\"_blank\">erstelle einen Fehlerbericht</a>."
 
 #: src/components/Header.vue:196
 msgid "Import contacts"
@@ -325,15 +319,14 @@ msgid "Name"
 msgstr "Name"
 
 #: src/components/StartChatModal.vue:13
-#, fuzzy
 msgid ""
 "New conversations are temporarily disabled. You can create a new\n"
 "            chat from the linked Desktop Client. Alternatively, your\n"
 "            counterparty could start the discussion."
 msgstr ""
-"Das beginnen neuer Konversationen ist momentan deaktiviert. Bitte starte "
-"diese von einem verknüpften Destkop-Gerät oder bitte dein Gegenüber diese zu "
-"starten."
+"Das beginnen neuer Konversationen ist vorübergehend deaktiviert.\n"
+"\tBitte starte diese von einem verknüpften Destkop-Gerät \n"
+"\toder bitte dein Gegenüber ein Gespräch zu starten."
 
 #: src/components/Header.vue:162 src/components/Header.vue:218
 msgid "New group"
@@ -368,7 +361,6 @@ msgid "Note, you can't add yourself to a group."
 msgstr "Hinweis: du kannst dich nicht selbst zur Gruppe hinzufügen."
 
 #: src/components/AddContactModal.vue:15
-#, fuzzy
 msgid ""
 "Only add numbers that you are sure are registered Signal\n"
 "            accounts!"
@@ -401,9 +393,8 @@ msgid "Photo"
 msgstr "Foto"
 
 #: src/components/AddDeviceModal.vue:17
-#, fuzzy
 msgid "QR code"
-msgstr "Code"
+msgstr "QR Code"
 
 #: src/pages/Settings.vue:4
 msgid "Registered number"
@@ -411,7 +402,7 @@ msgstr "Registrierte Nummer"
 
 #: src/pages/Debug.vue:8
 msgid "Registration data"
-msgstr ""
+msgstr "Registrierungsdaten"
 
 #: src/pages/SetPassword.vue:23
 msgid "Repeat password"
@@ -427,7 +418,7 @@ msgstr "Verschlüsselung neu starten"
 
 #: src/pages/SetPassword.vue:6
 msgid "Restart is required!"
-msgstr ""
+msgstr "Neustart erforderlich!"
 
 #: src/components/IdentityModal.vue:14
 msgid "Safety numbers of you and"
@@ -463,18 +454,16 @@ msgstr "Zeitbegrenzung für verschwindende Nachrichten festlegen"
 
 #: src/pages/SetUsername.vue:12
 msgid "Set username"
-msgstr ""
+msgstr "Nutzername festlegen"
 
 #: src/pages/SetPassword.vue:3
-#, fuzzy
 msgid "Setting a password is not advised on devices short in memory."
 msgstr ""
-"Ein Passwort wird auf Geräten mit wenig Arbeitsspeicher nicht empfohlen. Ein "
-"Neustart ist notwendig!"
+"Ein Passwort wird auf Geräten mit wenig Arbeitsspeicher nicht empfohlen."
 
 #: src/pages/SetUsername.vue:3
 msgid "Setting a username is required. Please choose one."
-msgstr ""
+msgstr "Ein Nutzername ist erforderlich. Bitte wähle einen aus."
 
 #: src/components/Header.vue:156 src/components/Header.vue:221
 msgid "Settings"
@@ -494,13 +483,12 @@ msgstr ""
 "Momentan können leider mit Axolotl keine neuen Gespräche begonnen werden."
 
 #: src/pages/About.vue:6
-#, fuzzy
 msgid ""
 "This is a free and open source Signal client written in golang and\n"
 "        vuejs."
 msgstr ""
-"Dies ist ein freier Open Source Signal-Client, geschrieben mit Golang und "
-"Vuejs."
+"Dies ist ein freier Open Source Signal-Client, geschrieben mit\n"
+"\t Golang und Vuejs."
 
 #: src/components/Header.vue:33 src/pages/ChatList.vue:30
 msgid "Unknown group"
@@ -528,7 +516,7 @@ msgstr "Gruppe aktualisieren"
 
 #: src/pages/SetUsername.vue:7
 msgid "Username"
-msgstr ""
+msgstr "Nutzername"
 
 #: src/components/IdentityModal.vue:5
 msgid "Verify identity"
@@ -539,13 +527,12 @@ msgid "Video"
 msgstr "Video"
 
 #: src/components/ImportUnavailableModal.vue:10
-#, fuzzy
 msgid ""
 "We are sorry, but due to a change in the Signal protocol, automatic\n"
 "            import of contacts is currently unavailable."
 msgstr ""
-"Der automatische Import von Kontakten ist, wegen Änderungen im Signal-"
-"Protokoll, leider momentan nicht verfügbar."
+"Der automatische Import von Kontakten ist, wegen Änderungen\n"
+"\tim Signal-Protokoll, leider momentan nicht verfügbar."
 
 #: src/pages/Verification.vue:22
 msgid "Wrong code entered. Restart for another try."
@@ -569,6 +556,11 @@ msgid ""
 "add\n"
 "      you again."
 msgstr ""
+"Du wurdest in diese Gruppe eingeladen. Das Annehmen von Einladungen\n"
+"\twird momentan noch nicht unterstützt. Um beizutreten sende bitte\n"
+"\teine private Nachricht an die Gegenseite und bitte um den Austausch\n"
+"\tdes Profilschlüssels. Danach muss die Gegenseite dich löschen und neu\n"
+"\thinzufügen."
 
 #: src/components/Message.vue:39 src/components/Message.vue:48
 #: src/components/Message.vue:68 src/pages/MessageList.vue:21
