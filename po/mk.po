@@ -23,11 +23,7 @@ msgstr ""
 msgid "3. Paste the QR code here:"
 msgstr ""
 
-#: src/pages/Register.vue:6
-msgid "A cross-platform signal client"
-msgstr ""
-
-#: src/pages/About.vue:4
+#: src/pages/About.vue:4 src/pages/Register.vue:6
 msgid "A cross-platform Signal client"
 msgstr ""
 
@@ -77,6 +73,14 @@ msgstr ""
 msgid "Can't change contact list: {{ error }}"
 msgstr ""
 
+#: src/pages/Debug.vue:18
+msgid "Clear all localStorage"
+msgstr ""
+
+#: src/pages/Debug.vue:14
+msgid "Clear registration from localStorage"
+msgstr ""
+
 #: src/components/ErrorModal.vue:31 src/components/IdentityModal.vue:22
 #: src/components/ImportUnavailableModal.vue:29
 #: src/components/StartChatModal.vue:19
@@ -87,7 +91,7 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
-#: src/components/Header.vue:132
+#: src/components/Header.vue:135
 msgid "Connect with Signal"
 msgstr "Конектирајте се со Signal"
 
@@ -99,7 +103,7 @@ msgstr ""
 msgid "Contact list is empty..."
 msgstr ""
 
-#: src/components/Header.vue:215
+#: src/components/Header.vue:218
 msgid "Contacts"
 msgstr ""
 
@@ -120,12 +124,35 @@ msgstr ""
 msgid "Current password is wrong"
 msgstr ""
 
+#: src/pages/Debug.vue:13
+msgid "Current registration status in $store: {{ registrationStatus }}"
+msgstr ""
+
+#: src/pages/Debug.vue:9
+msgid ""
+"Current registration status in local storage:\n"
+"        {{ localRegistrationStatus }}"
+msgstr ""
+
 #: src/pages/Settings.vue:21
 msgid "Dark mode"
 msgstr ""
 
+#: src/pages/Debug.vue:2
+msgid "Debug screen"
+msgstr ""
+
 #: src/pages/Password.vue:6
 msgid "Decrypt"
+msgstr ""
+
+#: src/components/Header.vue:119
+#, fuzzy
+msgid "Delete chat"
+msgstr "Избриши"
+
+#: src/components/Header.vue:92
+msgid "Delete this chat?"
 msgstr ""
 
 #: src/components/AttachmentBar.vue:20
@@ -155,12 +182,12 @@ msgstr ""
 msgid "Edit contact"
 msgstr ""
 
-#: src/components/Header.vue:119 src/components/Header.vue:168
+#: src/components/Header.vue:122 src/components/Header.vue:171
 #, fuzzy
 msgid "Edit group"
 msgstr "Ажурирај група"
 
-#: src/components/Header.vue:137
+#: src/components/Header.vue:140
 msgid "Enter password"
 msgstr ""
 
@@ -172,14 +199,26 @@ msgstr ""
 msgid "Error communicating with Signal servers"
 msgstr ""
 
+#: src/pages/Debug.vue:5
+msgid "Exit"
+msgstr ""
+
 #: src/components/WarningMessage.vue:8
 msgid "Follow the progress or join us to help with development on"
 msgstr ""
 
-#: src/components/Message.vue:92
+#: src/pages/Debug.vue:3
+msgid "For developers only, use with care!"
+msgstr ""
+
+#: src/components/Message.vue:93
 #, fuzzy
 msgid "Group changed."
 msgstr "Наслов на група"
+
+#: src/pages/MessageList.vue:1
+msgid "Group has to be updated by a member."
+msgstr ""
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
@@ -215,7 +254,7 @@ msgid ""
 "\"_blank\">opening an issue</a>."
 msgstr ""
 
-#: src/components/Header.vue:196
+#: src/components/Header.vue:199
 msgid "Import contacts"
 msgstr ""
 
@@ -267,7 +306,7 @@ msgid ""
 "            counterparty could start the discussion."
 msgstr ""
 
-#: src/components/Header.vue:162 src/components/Header.vue:218
+#: src/components/Header.vue:165 src/components/Header.vue:221
 msgid "New group"
 msgstr "Нова група"
 
@@ -339,6 +378,10 @@ msgstr ""
 msgid "Registered number"
 msgstr "Регистрирајте се"
 
+#: src/pages/Debug.vue:8
+msgid "Registration data"
+msgstr ""
+
 #: src/pages/SetPassword.vue:23
 msgid "Repeat password"
 msgstr ""
@@ -349,6 +392,10 @@ msgstr ""
 
 #: src/components/Header.vue:116
 msgid "Reset encryption"
+msgstr ""
+
+#: src/components/Header.vue:79
+msgid "Reset secure session?"
 msgstr ""
 
 #: src/pages/SetPassword.vue:6
@@ -375,7 +422,7 @@ msgstr ""
 msgid "Send pin"
 msgstr ""
 
-#: src/components/Header.vue:144
+#: src/components/Header.vue:147
 msgid "Set encryption password"
 msgstr ""
 
@@ -383,7 +430,7 @@ msgstr ""
 msgid "Set password"
 msgstr ""
 
-#: src/components/Message.vue:98
+#: src/components/Message.vue:99
 msgid "Set timer for self-destructing messages"
 msgstr ""
 
@@ -399,7 +446,7 @@ msgstr ""
 msgid "Setting a username is required. Please choose one."
 msgstr ""
 
-#: src/components/Header.vue:156 src/components/Header.vue:221
+#: src/components/Header.vue:159 src/components/Header.vue:224
 msgid "Settings"
 msgstr "Подесувања"
 
@@ -416,10 +463,20 @@ msgstr ""
 msgid "Starting new chats is currently broken in Axolotl."
 msgstr ""
 
+#: src/components/Header.vue:94
+msgid "This chat will be permanently deleted - but only from your device."
+msgstr ""
+
 #: src/pages/About.vue:6
 msgid ""
 "This is a free and open source Signal client written in golang and\n"
 "        vuejs."
+msgstr ""
+
+#: src/components/Header.vue:81
+msgid ""
+"This may help if you're having encryption problems in this conversation. "
+"Your messages will be kept."
 msgstr ""
 
 #: src/components/Header.vue:33 src/pages/ChatList.vue:30
@@ -440,7 +497,7 @@ msgstr "Одјавување"
 msgid "Unsafe password"
 msgstr ""
 
-#: src/components/Message.vue:101
+#: src/components/Message.vue:102
 msgid "Unsupported message type: sticker"
 msgstr ""
 
@@ -588,9 +645,6 @@ msgstr ""
 
 #~ msgid "Delete message"
 #~ msgstr "Избриши порака"
-
-#~ msgid "Delete"
-#~ msgstr "Избриши"
 
 #, fuzzy
 #~ msgid "Delete selected message?"

@@ -32,12 +32,10 @@
             <source
               :src="
                 'http://localhost:9080/attachments?file=' +
-                showFullscreenVideoSrc
+                  showFullscreenVideoSrc
               "
             />
-            <span v-translate
-              >Your browser does not support the audio element.</span
-            >
+            <span v-translate>Your browser does not support the audio element.</span>
           </video>
           <button
             class="btn btn-secondary close"
@@ -75,7 +73,7 @@
       you again.
     </div>
     <div class="messageInputBox">
-      <!-- <div v-if="chat&&chat.IsGroup&&chat.Name==chat.Tel" class="alert alert-warning">Group has to be updated by a member.</div>
+      <!-- <div v-if="chat&&chat.IsGroup&&chat.Name==chat.Tel" v-translate class="alert alert-warning">Group has to be updated by a member.</div>
       <div v-else class=""> -->
       <div class="messageInput-container">
         <textarea

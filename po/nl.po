@@ -26,11 +26,7 @@ msgstr "2. Scan de qr-code met een qr-codescanner"
 msgid "3. Paste the QR code here:"
 msgstr "3. Plak de qr-code hier:"
 
-#: src/pages/Register.vue:6
-msgid "A cross-platform signal client"
-msgstr "Een platform-onafhankelijke Signal-client"
-
-#: src/pages/About.vue:4
+#: src/pages/About.vue:4 src/pages/Register.vue:6
 msgid "A cross-platform Signal client"
 msgstr "Een platform-onafhankelijke Signal-client"
 
@@ -84,6 +80,14 @@ msgstr ""
 msgid "Can't change contact list: {{ error }}"
 msgstr "Kan de contactpersonenlijst niet aanpassen: {{ error }}"
 
+#: src/pages/Debug.vue:18
+msgid "Clear all localStorage"
+msgstr ""
+
+#: src/pages/Debug.vue:14
+msgid "Clear registration from localStorage"
+msgstr ""
+
 #: src/components/ErrorModal.vue:31 src/components/IdentityModal.vue:22
 #: src/components/ImportUnavailableModal.vue:29
 #: src/components/StartChatModal.vue:19
@@ -94,7 +98,7 @@ msgstr "Sluiten"
 msgid "Confirm"
 msgstr "Bevestigen"
 
-#: src/components/Header.vue:132
+#: src/components/Header.vue:135
 msgid "Connect with Signal"
 msgstr "Verbinden met Signal"
 
@@ -106,7 +110,7 @@ msgstr "Contactpersoon"
 msgid "Contact list is empty..."
 msgstr "Je contactpersonenlijst is leeg…"
 
-#: src/components/Header.vue:215
+#: src/components/Header.vue:218
 msgid "Contacts"
 msgstr "Contactpersonen"
 
@@ -126,13 +130,36 @@ msgstr "Huidig wachtwoord"
 msgid "Current password is wrong"
 msgstr "Je huidige wachtwoord is onjuist"
 
+#: src/pages/Debug.vue:13
+msgid "Current registration status in $store: {{ registrationStatus }}"
+msgstr ""
+
+#: src/pages/Debug.vue:9
+msgid ""
+"Current registration status in local storage:\n"
+"        {{ localRegistrationStatus }}"
+msgstr ""
+
 #: src/pages/Settings.vue:21
 msgid "Dark mode"
 msgstr "Donker thema"
 
+#: src/pages/Debug.vue:2
+msgid "Debug screen"
+msgstr ""
+
 #: src/pages/Password.vue:6
 msgid "Decrypt"
 msgstr "Ontsleutelen"
+
+#: src/components/Header.vue:119
+#, fuzzy
+msgid "Delete chat"
+msgstr "Verwijderen"
+
+#: src/components/Header.vue:92
+msgid "Delete this chat?"
+msgstr ""
 
 #: src/components/AttachmentBar.vue:20
 msgid "Document"
@@ -169,11 +196,11 @@ msgstr "Aanpassen"
 msgid "Edit contact"
 msgstr "Contactpersoon"
 
-#: src/components/Header.vue:119 src/components/Header.vue:168
+#: src/components/Header.vue:122 src/components/Header.vue:171
 msgid "Edit group"
 msgstr "Groep aanpassen"
 
-#: src/components/Header.vue:137
+#: src/components/Header.vue:140
 msgid "Enter password"
 msgstr "Voer je wachtwoord in"
 
@@ -185,13 +212,25 @@ msgstr "Voer je registratiecode in"
 msgid "Error communicating with Signal servers"
 msgstr "Fout tijdens communiceren met Signal-servers"
 
+#: src/pages/Debug.vue:5
+msgid "Exit"
+msgstr ""
+
 #: src/components/WarningMessage.vue:8
 msgid "Follow the progress or join us to help with development on"
 msgstr "Volg de voortgang of help ons op"
 
-#: src/components/Message.vue:92
+#: src/pages/Debug.vue:3
+msgid "For developers only, use with care!"
+msgstr ""
+
+#: src/components/Message.vue:93
 msgid "Group changed."
 msgstr "De groep is aangepast."
+
+#: src/pages/MessageList.vue:1
+msgid "Group has to be updated by a member."
+msgstr ""
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
@@ -243,7 +282,7 @@ msgstr ""
 "            <a href=\"https://github.com/nanu-c/axolotl/issues\" target="
 "\"_blank\">een ‘issue’ te openen</a>."
 
-#: src/components/Header.vue:196
+#: src/components/Header.vue:199
 msgid "Import contacts"
 msgstr "Contactpersonen importeren"
 
@@ -297,7 +336,7 @@ msgstr ""
 "            gesprek starten middels de gekoppelde computerclient, of\n"
 "            laat de ander het voor je doen."
 
-#: src/components/Header.vue:162 src/components/Header.vue:218
+#: src/components/Header.vue:165 src/components/Header.vue:221
 msgid "New group"
 msgstr "Nieuwe groep"
 
@@ -369,6 +408,10 @@ msgstr "QR-code"
 msgid "Registered number"
 msgstr "Geregistreerd nummer"
 
+#: src/pages/Debug.vue:8
+msgid "Registration data"
+msgstr ""
+
 #: src/pages/SetPassword.vue:23
 msgid "Repeat password"
 msgstr "Wachtwoord herhalen"
@@ -380,6 +423,10 @@ msgstr "Code aanvragen"
 #: src/components/Header.vue:116
 msgid "Reset encryption"
 msgstr "Versleuteling herstellen"
+
+#: src/components/Header.vue:79
+msgid "Reset secure session?"
+msgstr "Beveiligde sessie resetten?"
 
 #: src/pages/SetPassword.vue:6
 msgid "Restart is required!"
@@ -405,7 +452,7 @@ msgstr "Code versturen"
 msgid "Send pin"
 msgstr "Pincode versturen"
 
-#: src/components/Header.vue:144
+#: src/components/Header.vue:147
 msgid "Set encryption password"
 msgstr "Versleutelwachtwoord instellen"
 
@@ -413,7 +460,7 @@ msgstr "Versleutelwachtwoord instellen"
 msgid "Set password"
 msgstr "Wachtwoord instellen"
 
-#: src/components/Message.vue:98
+#: src/components/Message.vue:99
 msgid "Set timer for self-destructing messages"
 msgstr "Tijdklok instellen voor zelfvernietigende berichten"
 
@@ -433,7 +480,7 @@ msgstr ""
 msgid "Setting a username is required. Please choose one."
 msgstr "Het instellen van een gebruikersnaam is vereist."
 
-#: src/components/Header.vue:156 src/components/Header.vue:221
+#: src/components/Header.vue:159 src/components/Header.vue:224
 msgid "Settings"
 msgstr "Instellingen"
 
@@ -450,6 +497,11 @@ msgid "Starting new chats is currently broken in Axolotl."
 msgstr ""
 "Het starten van nieuwe gesprekken is momenteel niet mogelijk middels Axolotl."
 
+#: src/components/Header.vue:94
+#, fuzzy
+msgid "This chat will be permanently deleted - but only from your device."
+msgstr "Dit zal alle berichten in dit gesprek permanent verwijderen."
+
 #: src/pages/About.vue:6
 msgid ""
 "This is a free and open source Signal client written in golang and\n"
@@ -457,6 +509,14 @@ msgid ""
 msgstr ""
 "Dit is een gratis, open source Signal-client, geschreven in golang en\n"
 "            vuejs."
+
+#: src/components/Header.vue:81
+msgid ""
+"This may help if you're having encryption problems in this conversation. "
+"Your messages will be kept."
+msgstr ""
+"Dit kan mogelijk helpen wanneer je versleutelingsproblemen hebt met dit "
+"gesprek. Je berichten blijven behouden."
 
 #: src/components/Header.vue:33 src/pages/ChatList.vue:30
 msgid "Unknown group"
@@ -474,7 +534,7 @@ msgstr "Loskoppelen"
 msgid "Unsafe password"
 msgstr "Onveilig wachtwoord"
 
-#: src/components/Message.vue:101
+#: src/components/Message.vue:102
 msgid "Unsupported message type: sticker"
 msgstr "Niet-ondersteunde berichtsoort: sticker"
 
@@ -541,6 +601,9 @@ msgstr "Je browser heeft geen ondersteuning voor het audio-element."
 #: src/components/Message.vue:82
 msgid "Your browser does not support the video element."
 msgstr "Je browser heeft geen ondersteuning voor het video-element."
+
+#~ msgid "A cross-platform signal client"
+#~ msgstr "Een platform-onafhankelijke Signal-client"
 
 #~ msgid "Edit Group"
 #~ msgstr "Groep aanpassen"
@@ -644,10 +707,6 @@ msgstr "Je browser heeft geen ondersteuning voor het video-element."
 #~ msgstr "Bericht verwijderen"
 
 #, fuzzy
-#~ msgid "This will permanently delete the selected Device."
-#~ msgstr "Dit zal alle berichten in dit gesprek permanent verwijderen."
-
-#, fuzzy
 #~ msgid "This will permanently delete all messages!"
 #~ msgstr "Dit zal alle berichten in dit gesprek permanent verwijderen."
 
@@ -669,16 +728,6 @@ msgstr "Je browser heeft geen ondersteuning voor het video-element."
 
 #~ msgid "Call"
 #~ msgstr "Bel"
-
-#~ msgid "Reset secure session?"
-#~ msgstr "Beveiligde sessie resetten?"
-
-#~ msgid ""
-#~ "This may help if you're having encryption problems in this conversation. "
-#~ "Your messages will be kept."
-#~ msgstr ""
-#~ "Dit kan mogelijk helpen wanneer je versleutelingsproblemen hebt met dit "
-#~ "gesprek. Je berichten blijven behouden."
 
 #~ msgid "Recipients list"
 #~ msgstr "Lijst met ontvangers"
@@ -715,9 +764,6 @@ msgstr "Je browser heeft geen ondersteuning voor het video-element."
 
 #~ msgid "Send Signal message"
 #~ msgstr "Signal bericht versturen"
-
-#~ msgid "Delete"
-#~ msgstr "Verwijderen"
 
 #, fuzzy
 #~ msgid "Delete selected message?"

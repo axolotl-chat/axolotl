@@ -37,8 +37,8 @@
                     <div
                       v-if="
                         currentChat !== null &&
-                        currentChat.IsGroup &&
-                        currentChat.Name === currentChat.Tel
+                          currentChat.IsGroup &&
+                          currentChat.Name === currentChat.Tel
                       "
                       class="header-text-chat"
                     >
@@ -60,7 +60,7 @@
                       <div
                         v-if="
                           currentChat !== null &&
-                          currentChat.Name !== currentChat.Tel
+                            currentChat.Name !== currentChat.Tel
                         "
                         class=""
                       >
@@ -72,9 +72,9 @@
                     <div
                       v-if="
                         currentChat !== null &&
-                        currentChat.IsGroup &&
-                        currentGroup !== null &&
-                        typeof currentGroup !== 'undefined'
+                          currentChat.IsGroup &&
+                          currentGroup !== null &&
+                          typeof currentGroup !== 'undefined'
                       "
                       class="number-text"
                     >
@@ -85,9 +85,9 @@
                     <div
                       v-if="
                         currentChat !== null &&
-                        currentChat.IsGroup &&
-                        currentGroup !== null &&
-                        typeof currentGroup !== 'undefined'
+                          currentChat.IsGroup &&
+                          currentGroup !== null &&
+                          typeof currentGroup !== 'undefined'
                       "
                       class="number-text"
                     >
@@ -98,8 +98,8 @@
                     <div
                       v-if="
                         currentChat !== null &&
-                        !currentChat.IsGroup &&
-                        currentChat.Name === currentChat.Tel
+                          !currentChat.IsGroup &&
+                          currentChat.Name === currentChat.Tel
                       "
                       class="number-text"
                     >
@@ -132,8 +132,8 @@
                 <button
                   v-if="
                     currentChat !== null &&
-                    !currentChat.IsGroup &&
-                    currentChat.Name !== currentChat.Tel
+                      !currentChat.IsGroup &&
+                      currentChat.Name !== currentChat.Tel
                   "
                   class="dropdown-item"
                   @click="callNumber(currentChat.Tel)"
@@ -159,8 +159,8 @@
                 <button
                   v-if="
                     currentChat !== null &&
-                    !currentChat.IsGroup &&
-                    currentChat.Name === currentChat.Tel
+                      !currentChat.IsGroup &&
+                      currentChat.Name === currentChat.Tel
                   "
                   v-translate
                   class="dropdown-item"
@@ -171,8 +171,8 @@
                 <button
                   v-if="
                     currentChat !== null &&
-                    !currentChat.IsGroup &&
-                    currentChat.Name !== currentChat.Tel
+                      !currentChat.IsGroup &&
+                      currentChat.Name !== currentChat.Tel
                   "
                   v-translate
                   class="dropdown-item"
@@ -195,6 +195,14 @@
                   @click="resetEncryptionModal"
                 >
                   Reset encryption
+                </button>
+                <button
+                  v-if="currentChat != null && !currentChat.IsGroup"
+                  v-translate
+                  class="dropdown-item"
+                  @click="delChatModal"
+                >
+                  Delete chat
                 </button>
                 <router-link
                   v-if="currentChat !== null && currentChat.Type === 1"
@@ -420,6 +428,7 @@ import AddContactModal from "@/components/AddContactModal.vue";
 import EditContactModal from "@/components/EditContactModal.vue";
 
 import { mapState } from "vuex";
+import { router } from "@/router/router";
 export default {
   name: "Header",
   components: {
@@ -490,18 +499,29 @@ export default {
       this.showSettingsMenu = false;
       this.showConfirmationModal = true;
       this.cMType = "resetEncryption";
-      this.cMTitle = "Reset secure session?";
+      this.cMTitle = this.$gettext("Reset secure session?");
       this.cMText =
-        "This may help if you're having encryption problems in this conversation. Your messages will be kept.";
+        this.$gettext("This may help if you're having encryption problems in this conversation. Your messages will be kept.");
     },
     verifyIdentity() {
       this.$store.dispatch("verifyIdentity");
       this.showSettingsMenu = false;
       this.showIdentityModal = true;
     },
+    delChatModal() {
+      this.showSettingsMenu = false;
+      this.showConfirmationModal = true;
+      this.cMType = "delChat";
+      this.cMTitle = this.$gettext("Delete this chat?");
+      this.cMText =
+        this.$gettext("This chat will be permanently deleted - but only from your device.");
+    },
     confirm() {
       if (this.cMType === "resetEncryption")
         this.$store.dispatch("resetEncryption");
+      else if (this.cMType === "delChat")
+        this.$store.dispatch("delChat", this.currentChat.ID);
+        this.$router.push("/chatList");
       this.showConfirmationModal = false;
       this.showIdentityModal = false;
     },

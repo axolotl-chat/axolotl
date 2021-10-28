@@ -24,12 +24,7 @@ msgstr ""
 msgid "3. Paste the QR code here:"
 msgstr ""
 
-#: src/pages/Register.vue:6
-#, fuzzy
-msgid "A cross-platform signal client"
-msgstr "En kryssplattform signal klient"
-
-#: src/pages/About.vue:4
+#: src/pages/About.vue:4 src/pages/Register.vue:6
 #, fuzzy
 msgid "A cross-platform Signal client"
 msgstr "En kryssplattform signal klient"
@@ -82,6 +77,14 @@ msgstr ""
 msgid "Can't change contact list: {{ error }}"
 msgstr "Kan ikke endre kontaktlisten: {{error}}"
 
+#: src/pages/Debug.vue:18
+msgid "Clear all localStorage"
+msgstr ""
+
+#: src/pages/Debug.vue:14
+msgid "Clear registration from localStorage"
+msgstr ""
+
 #: src/components/ErrorModal.vue:31 src/components/IdentityModal.vue:22
 #: src/components/ImportUnavailableModal.vue:29
 #: src/components/StartChatModal.vue:19
@@ -92,7 +95,7 @@ msgstr "Lukk"
 msgid "Confirm"
 msgstr "Bekreft"
 
-#: src/components/Header.vue:132
+#: src/components/Header.vue:135
 msgid "Connect with Signal"
 msgstr "Kontakt gjennom Signal"
 
@@ -104,7 +107,7 @@ msgstr "Kontakt"
 msgid "Contact list is empty..."
 msgstr "Kontaktlisten er tom..."
 
-#: src/components/Header.vue:215
+#: src/components/Header.vue:218
 #, fuzzy
 msgid "Contacts"
 msgstr "Kontakter"
@@ -125,13 +128,36 @@ msgstr "Nåværende passord"
 msgid "Current password is wrong"
 msgstr "Nåværende passord er feil"
 
+#: src/pages/Debug.vue:13
+msgid "Current registration status in $store: {{ registrationStatus }}"
+msgstr ""
+
+#: src/pages/Debug.vue:9
+msgid ""
+"Current registration status in local storage:\n"
+"        {{ localRegistrationStatus }}"
+msgstr ""
+
 #: src/pages/Settings.vue:21
 msgid "Dark mode"
 msgstr "Mørk modus"
 
+#: src/pages/Debug.vue:2
+msgid "Debug screen"
+msgstr ""
+
 #: src/pages/Password.vue:6
 msgid "Decrypt"
 msgstr "Dekryptér"
+
+#: src/components/Header.vue:119
+#, fuzzy
+msgid "Delete chat"
+msgstr "Slett"
+
+#: src/components/Header.vue:92
+msgid "Delete this chat?"
+msgstr ""
 
 #: src/components/AttachmentBar.vue:20
 msgid "Document"
@@ -161,12 +187,12 @@ msgstr "Redigér"
 msgid "Edit contact"
 msgstr "Legg til kontakt"
 
-#: src/components/Header.vue:119 src/components/Header.vue:168
+#: src/components/Header.vue:122 src/components/Header.vue:171
 #, fuzzy
 msgid "Edit group"
 msgstr "Oppdatér gruppe"
 
-#: src/components/Header.vue:137
+#: src/components/Header.vue:140
 msgid "Enter password"
 msgstr "Oppgi passord"
 
@@ -178,14 +204,26 @@ msgstr "Oppgi pinkode for registrering"
 msgid "Error communicating with Signal servers"
 msgstr ""
 
+#: src/pages/Debug.vue:5
+msgid "Exit"
+msgstr ""
+
 #: src/components/WarningMessage.vue:8
 msgid "Follow the progress or join us to help with development on"
 msgstr ""
 
-#: src/components/Message.vue:92
+#: src/pages/Debug.vue:3
+msgid "For developers only, use with care!"
+msgstr ""
+
+#: src/components/Message.vue:93
 #, fuzzy
 msgid "Group changed."
 msgstr "Gruppenavn"
+
+#: src/pages/MessageList.vue:1
+msgid "Group has to be updated by a member."
+msgstr ""
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
@@ -221,7 +259,7 @@ msgid ""
 "\"_blank\">opening an issue</a>."
 msgstr ""
 
-#: src/components/Header.vue:196
+#: src/components/Header.vue:199
 #, fuzzy
 msgid "Import contacts"
 msgstr "Ingen kontakter"
@@ -274,7 +312,7 @@ msgid ""
 "            counterparty could start the discussion."
 msgstr ""
 
-#: src/components/Header.vue:162 src/components/Header.vue:218
+#: src/components/Header.vue:165 src/components/Header.vue:221
 msgid "New group"
 msgstr "Ny gruppe"
 
@@ -347,6 +385,10 @@ msgstr ""
 msgid "Registered number"
 msgstr "Registrér nummer"
 
+#: src/pages/Debug.vue:8
+msgid "Registration data"
+msgstr ""
+
 #: src/pages/SetPassword.vue:23
 msgid "Repeat password"
 msgstr "Gjenta passord"
@@ -358,6 +400,10 @@ msgstr "Få kode"
 #: src/components/Header.vue:116
 msgid "Reset encryption"
 msgstr "Nullstill sikker sesjon"
+
+#: src/components/Header.vue:79
+msgid "Reset secure session?"
+msgstr "Nullstille sikker sesjon?"
 
 #: src/pages/SetPassword.vue:6
 msgid "Restart is required!"
@@ -383,7 +429,7 @@ msgstr "Send kode"
 msgid "Send pin"
 msgstr "Send PIN"
 
-#: src/components/Header.vue:144
+#: src/components/Header.vue:147
 msgid "Set encryption password"
 msgstr "Angi passord for sikker sesjon"
 
@@ -391,7 +437,7 @@ msgstr "Angi passord for sikker sesjon"
 msgid "Set password"
 msgstr "Angi passord"
 
-#: src/components/Message.vue:98
+#: src/components/Message.vue:99
 msgid "Set timer for self-destructing messages"
 msgstr "Angi tidsinnstilling for selvdestruerende meldinger"
 
@@ -408,7 +454,7 @@ msgstr "Å angi passord på enheter med lite minne frarådes. Omstart påkrevd."
 msgid "Setting a username is required. Please choose one."
 msgstr ""
 
-#: src/components/Header.vue:156 src/components/Header.vue:221
+#: src/components/Header.vue:159 src/components/Header.vue:224
 msgid "Settings"
 msgstr "Innstillinger"
 
@@ -424,6 +470,11 @@ msgstr "sponsor på patreon."
 msgid "Starting new chats is currently broken in Axolotl."
 msgstr ""
 
+#: src/components/Header.vue:94
+#, fuzzy
+msgid "This chat will be permanently deleted - but only from your device."
+msgstr "Dette vil slette den angitte enheten permanent."
+
 #: src/pages/About.vue:6
 #, fuzzy
 msgid ""
@@ -433,6 +484,14 @@ msgstr ""
 "Dette er en gratis og åpen kildekode signal klient skrevet i golang og "
 "vuejs.\n"
 "    Du kan støtte utviklingen av axolotl enten ved å fylle ut"
+
+#: src/components/Header.vue:81
+msgid ""
+"This may help if you're having encryption problems in this conversation. "
+"Your messages will be kept."
+msgstr ""
+"Dette kan hjelpe dersom du har krypteringsproblemer i denne samtalen. "
+"Meldingene dine vil bli lagret."
 
 #: src/components/Header.vue:33 src/pages/ChatList.vue:30
 msgid "Unknown group"
@@ -450,7 +509,7 @@ msgstr "Avregistrér"
 msgid "Unsafe password"
 msgstr "Usikkert passord"
 
-#: src/components/Message.vue:101
+#: src/components/Message.vue:102
 #, fuzzy
 msgid "Unsupported message type: sticker"
 msgstr "MIME-type ikke støttet:"
@@ -511,6 +570,10 @@ msgstr "Nettleseren støtter ikke lydelementet."
 #: src/components/Message.vue:82
 msgid "Your browser does not support the video element."
 msgstr "Nettleseren støtter ikke videoelementet."
+
+#, fuzzy
+#~ msgid "A cross-platform signal client"
+#~ msgstr "En kryssplattform signal klient"
 
 #~ msgid "Edit Group"
 #~ msgstr "Oppdatér gruppe"
@@ -618,10 +681,6 @@ msgstr "Nettleseren støtter ikke videoelementet."
 #~ msgstr "Slette angitt enhet?"
 
 #, fuzzy
-#~ msgid "This will permanently delete the selected Device."
-#~ msgstr "Dette vil slette den angitte enheten permanent."
-
-#, fuzzy
 #~ msgid "This will permanently delete all messages!"
 #~ msgstr "Dette vil slette alle meldinger permanent!"
 
@@ -643,16 +702,6 @@ msgstr "Nettleseren støtter ikke videoelementet."
 
 #~ msgid "Call"
 #~ msgstr "Ring"
-
-#~ msgid "Reset secure session?"
-#~ msgstr "Nullstille sikker sesjon?"
-
-#~ msgid ""
-#~ "This may help if you're having encryption problems in this conversation. "
-#~ "Your messages will be kept."
-#~ msgstr ""
-#~ "Dette kan hjelpe dersom du har krypteringsproblemer i denne samtalen. "
-#~ "Meldingene dine vil bli lagret."
 
 #~ msgid "Recipients list"
 #~ msgstr "Mottakerliste"
@@ -689,9 +738,6 @@ msgstr "Nettleseren støtter ikke videoelementet."
 
 #~ msgid "Send Signal message"
 #~ msgstr "Send Signal melding"
-
-#~ msgid "Delete"
-#~ msgstr "Slett"
 
 #, fuzzy
 #~ msgid "Delete selected message?"

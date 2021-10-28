@@ -10,37 +10,30 @@ Clickable.
 
 **Tooling**
 
-This requires `clickable` to be installed locally.
+This requires `clickable` to be installed locally (version 7 or above).
 Installation instructions can be found [here](https://clickable-ut.dev/en/latest/install.html#install).
 
 **Build and Install**
 
-In order to build axolotl you need to get its nodejs dependencies once:
+**Note**: For the next three commands add `--arch <arch_of_your_mobile>` (i.e. `--arch arm64`) to the command when building for a mobile device.
 
-`clickable build --libs nodejs_deps`
+1. In order to build axolotl you need to get its nodejs dependencies once:
 
-To build crayfish execute:
+    `clickable build --libs nodejs_deps`
 
-`clickable build --libs crayfish`
+2. To build crayfish execute:
 
-The app is built by running:
+    `clickable build --libs crayfish`
 
-`clickable build`
+3. Finally the app is built by running:
 
-The app is installed on device by running:
+    `clickable`
 
-`clickable install`
+    This will build the app, install it onto a device connected via usb and run the app on the device.
 
-Remember to add `--arch <arch_of_your_mobile>` (i.e. `--arch arm64`) to the
-above three commands when building for you mobile device.
+    All steps can be done with individual clickable commands `clickable build`, `clickable install` and `clickable launch`. To build and run Axolotl on your pc run `clickable desktop`.
 
-**Run**
-
-`clickable launch` to run axolotl on your mobile device or `clickable desktop`
-to run it on your pc.
-
-Clickable supports a few different parameters.
-For example, `clickable launch logs` to start signal and get logging output.
+Clickable supports a few different parameters. Those can be set via command line or in the `clickable.yaml` file. For example run `clickable launch logs` to start signal and get logging output.
 
 For a full list of available clickable commands, see [here](https://clickable-ut.dev/en/latest/commands.html).
 
@@ -49,15 +42,9 @@ For a full list of available clickable commands, see [here](https://clickable-ut
 Note: Clickable handles all aspects from this section for you. Just follow the
 instructions for all other build methods.
 
-### Rust Tool Chain
+### Rust
 
-Install the [Rust tool chain](https://www.rust-lang.org/tools/install). Install
-the cross compiling tool chains, e.g.:
-
-```bash
-rustup target add aarch64-unknown-linux-gnu
-rustup target add armv7-unknown-linux-gnueabihf
-```
+Install Rust using [rustup](https://www.rust-lang.org/tools/install).
 
 ### Build Instructions
 
@@ -68,8 +55,52 @@ cd crayfish
 cargo build --release
 ```
 
+Building should work using both `stable` and `nightly` toolchains.
+
 Find the crayfish binary in `crayfish/target/release/crayfish` and ship it
 such that it is found in `PATH` on runtime.
+
+### Cross compile build
+
+#### cross
+
+To cross-compile for other targets, one approach is to use `cross` and specify the target flag.
+[Cross](https://github.com/rust-embedded/cross) provides an environment, cross toolchain and cross
+compiled libraries for building, without needing to install them separately.
+
+To install, use `cargo install cross`.
+
+To do a cross-compile build, use the following:
+
+```bash
+cross build --release --target aarch64-unknown-linux-gnu
+cross build --release --target armv7-unknown-linux-gnueabihf
+```
+
+#### Natively
+
+Another approach of cross-compiling is to set up the dependencies yourself.
+
+For that two things are required. First install the required dependencies.
+For Ubuntu, the following packages are required.
+
+```bash
+sudo apt install gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf
+```
+
+Then install the rust targets, e.g.:
+
+```bash
+rustup target add aarch64-unknown-linux-gnu
+rustup target add armv7-unknown-linux-gnueabihf
+```
+
+To do a cross-compile build, use the following:
+
+```bash
+cargo build --release --target aarch64-unknown-linux-gnu
+cargo build --release --target armv7-unknown-linux-gnueabihf
+```
 
 ## Snap
 
@@ -270,11 +301,20 @@ make prebuild-package-deb-arm64 build-package-deb-arm64
 ```
 Packaging is still under improvement to comply with official Debian packaging rules.
 
+## Fedora
+
+We are not activly supporting building and installing Axolotl nativly on Fedora but the following hint from [#502](https://github.com/nanu-c/axolotl/issues/502) might help.
+
+```
+GOVCS='*:all' does the trick though.
+I also had to install the breezy package to get the bzr command.
+```
+
 ## Bare
 
 **Tooling**
 
-This requires `make`, `go`, `nodejs` and `npm` to be installed locally.
+This requires `make`, `go`, `nodejs`, `cargo`,  `rust` and `npm` to be installed locally.
 For the required versions, see [go.mod](../go.mod) and [package.json](../axolotl-web/package.json)
 
 **Build and Install**

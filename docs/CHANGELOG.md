@@ -1,3 +1,27 @@
+1.0.7 (Okt 28 2021) 
+------------------------------------
+* Fix deleting chats (nuehm-arno)
+* Update electron version (Ferenc-)
+* Explicitly set ozone platform to Wayland for electron when needed (Ferenc-)
+* Fix clickable zkgroup copy error (nanu-c)
+* Explicitly set clickable-rust-version (jonnius)
+
+1.0.6 (Okt 26 2021) 
+------------------------------------
+* Fix signal desktop linking by change signal desktop link url (nanu-c)
+* Add FormFactor settings to desktop files (ferenc)
+* Update documentation (danfro, nanu-c)
+* Update Makefile (nuehm-arno, olof nord, nanu-c)
+* fix ineffectual (unused before reassign) assignment of recipient (axiomista)
+* make more strings translatable (danfro)
+* update translations (danfro, Anne017)
+* fix add contacts (kpenfound)
+* add crayfish to ci (olof-nord)
+* fix axolotl web linter errors (olof-nord)
+* update electron version (olof-nord)
+
+A warm welcome to our new first time contributors: axiomista, kpenfound, ferenc
+
 1.0.5 (Sep 23 2021) 
 ------------------------------------
 * Fix registration by adding a new backend and use the signal upstream libraries for that ♡ ♥ ❤ 💓 💔 (jonnius, Johannes Renkl, nanu-c)

@@ -73,6 +73,32 @@ jobs:
           path: axolotl-web/dist/
           retention-days: 1
 
+  build-crayfish:
+    name: Build crayfish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Build
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --manifest-path crayfish/Cargo.toml --release
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: crayfish
+          path: crayfish/target/release/crayfish
+          retention-days: 1
+
   package-appimage:
     name: Package as AppImage
     # This ensures that this job only runs on git tags
@@ -146,7 +172,7 @@ jobs:
           mv libzkgroup_linux_armv7_v0.8.8.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_armv7.so
 
       - name: Build clickable (armhf)
-        uses: docker://clickable/ci-dev-16.04-armhf:16.04.5
+        uses: docker://clickable/ci-dev-16.04-armhf:latest
         env:
           GOPATH: $GITHUB_WORKSPACE/go
         with:
@@ -182,7 +208,7 @@ jobs:
             mv libzkgroup_linux_aarch64_v0.8.8.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_aarch64.so
 
       - name: Build clickable (arm64)
-        uses: docker://clickable/ci-dev-16.04-arm64:16.04.5
+        uses: docker://clickable/ci-dev-16.04-arm64:latest
         env:
           GOPATH: $GITHUB_WORKSPACE/go
         with:

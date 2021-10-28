@@ -24,12 +24,7 @@ msgstr ""
 msgid "3. Paste the QR code here:"
 msgstr ""
 
-#: src/pages/Register.vue:6
-#, fuzzy
-msgid "A cross-platform signal client"
-msgstr "Um cliente signal multiplataforma"
-
-#: src/pages/About.vue:4
+#: src/pages/About.vue:4 src/pages/Register.vue:6
 #, fuzzy
 msgid "A cross-platform Signal client"
 msgstr "Um cliente signal multiplataforma"
@@ -82,6 +77,14 @@ msgstr ""
 msgid "Can't change contact list: {{ error }}"
 msgstr "Não é possível alterar a lista de contatos: {{erro}}"
 
+#: src/pages/Debug.vue:18
+msgid "Clear all localStorage"
+msgstr ""
+
+#: src/pages/Debug.vue:14
+msgid "Clear registration from localStorage"
+msgstr ""
+
 #: src/components/ErrorModal.vue:31 src/components/IdentityModal.vue:22
 #: src/components/ImportUnavailableModal.vue:29
 #: src/components/StartChatModal.vue:19
@@ -92,7 +95,7 @@ msgstr "Fechar"
 msgid "Confirm"
 msgstr "Confirmar"
 
-#: src/components/Header.vue:132
+#: src/components/Header.vue:135
 msgid "Connect with Signal"
 msgstr "Ligar com o Signal"
 
@@ -104,7 +107,7 @@ msgstr "Contato"
 msgid "Contact list is empty..."
 msgstr "Lista de contactos está vazia"
 
-#: src/components/Header.vue:215
+#: src/components/Header.vue:218
 #, fuzzy
 msgid "Contacts"
 msgstr "Contatos"
@@ -125,13 +128,36 @@ msgstr "Password atual"
 msgid "Current password is wrong"
 msgstr "Password atual está errada"
 
+#: src/pages/Debug.vue:13
+msgid "Current registration status in $store: {{ registrationStatus }}"
+msgstr ""
+
+#: src/pages/Debug.vue:9
+msgid ""
+"Current registration status in local storage:\n"
+"        {{ localRegistrationStatus }}"
+msgstr ""
+
 #: src/pages/Settings.vue:21
 msgid "Dark mode"
 msgstr "Modo escuro"
 
+#: src/pages/Debug.vue:2
+msgid "Debug screen"
+msgstr ""
+
 #: src/pages/Password.vue:6
 msgid "Decrypt"
 msgstr "Descriptografar"
+
+#: src/components/Header.vue:119
+#, fuzzy
+msgid "Delete chat"
+msgstr "Apagar"
+
+#: src/components/Header.vue:92
+msgid "Delete this chat?"
+msgstr ""
 
 #: src/components/AttachmentBar.vue:20
 msgid "Document"
@@ -161,11 +187,11 @@ msgstr "Editar"
 msgid "Edit contact"
 msgstr "Adicionar contato"
 
-#: src/components/Header.vue:119 src/components/Header.vue:168
+#: src/components/Header.vue:122 src/components/Header.vue:171
 msgid "Edit group"
 msgstr "Atualizar grupo"
 
-#: src/components/Header.vue:137
+#: src/components/Header.vue:140
 msgid "Enter password"
 msgstr "Insira password"
 
@@ -177,14 +203,26 @@ msgstr "Insira o seu pin de registo"
 msgid "Error communicating with Signal servers"
 msgstr ""
 
+#: src/pages/Debug.vue:5
+msgid "Exit"
+msgstr ""
+
 #: src/components/WarningMessage.vue:8
 msgid "Follow the progress or join us to help with development on"
 msgstr ""
 
-#: src/components/Message.vue:92
+#: src/pages/Debug.vue:3
+msgid "For developers only, use with care!"
+msgstr ""
+
+#: src/components/Message.vue:93
 #, fuzzy
 msgid "Group changed."
 msgstr "Nome do grupo"
+
+#: src/pages/MessageList.vue:1
+msgid "Group has to be updated by a member."
+msgstr ""
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
@@ -220,7 +258,7 @@ msgid ""
 "\"_blank\">opening an issue</a>."
 msgstr ""
 
-#: src/components/Header.vue:196
+#: src/components/Header.vue:199
 #, fuzzy
 msgid "Import contacts"
 msgstr "Sem contatos"
@@ -273,7 +311,7 @@ msgid ""
 "            counterparty could start the discussion."
 msgstr ""
 
-#: src/components/Header.vue:162 src/components/Header.vue:218
+#: src/components/Header.vue:165 src/components/Header.vue:221
 msgid "New group"
 msgstr "Novo grupo"
 
@@ -346,6 +384,10 @@ msgstr ""
 msgid "Registered number"
 msgstr "Registar"
 
+#: src/pages/Debug.vue:8
+msgid "Registration data"
+msgstr ""
+
 #: src/pages/SetPassword.vue:23
 msgid "Repeat password"
 msgstr "Repetir password"
@@ -357,6 +399,10 @@ msgstr "Código de solicitação"
 #: src/components/Header.vue:116
 msgid "Reset encryption"
 msgstr "Reiniciar a sessão segura"
+
+#: src/components/Header.vue:79
+msgid "Reset secure session?"
+msgstr "Reiniciar a sessão segura?"
 
 #: src/pages/SetPassword.vue:6
 msgid "Restart is required!"
@@ -382,7 +428,7 @@ msgstr "Enviar código"
 msgid "Send pin"
 msgstr "Enviar pin"
 
-#: src/components/Header.vue:144
+#: src/components/Header.vue:147
 msgid "Set encryption password"
 msgstr "Definir password de criptografia"
 
@@ -390,7 +436,7 @@ msgstr "Definir password de criptografia"
 msgid "Set password"
 msgstr "Definir password"
 
-#: src/components/Message.vue:98
+#: src/components/Message.vue:99
 msgid "Set timer for self-destructing messages"
 msgstr "Definir temporizador para mensagens autodestrutivas"
 
@@ -409,7 +455,7 @@ msgstr ""
 msgid "Setting a username is required. Please choose one."
 msgstr ""
 
-#: src/components/Header.vue:156 src/components/Header.vue:221
+#: src/components/Header.vue:159 src/components/Header.vue:224
 msgid "Settings"
 msgstr "Definições"
 
@@ -425,6 +471,11 @@ msgstr "patrocinador no patreon"
 msgid "Starting new chats is currently broken in Axolotl."
 msgstr ""
 
+#: src/components/Header.vue:94
+#, fuzzy
+msgid "This chat will be permanently deleted - but only from your device."
+msgstr "Isto elimina permanentemente todas as mensagens nesta conversa."
+
 #: src/pages/About.vue:6
 #, fuzzy
 msgid ""
@@ -434,6 +485,14 @@ msgstr ""
 "Este é um cliente de sinal gratuito e de código aberto escrito em golang e "
 "vuejs.\n"
 "    Você pode apoiar o desenvolvimento do axolotl preenchendo"
+
+#: src/components/Header.vue:81
+msgid ""
+"This may help if you're having encryption problems in this conversation. "
+"Your messages will be kept."
+msgstr ""
+"Isto pode auxiliar caso tenha problemas de cifra nesta conversa. As suas "
+"mensagens serão mantidas."
 
 #: src/components/Header.vue:33 src/pages/ChatList.vue:30
 msgid "Unknown group"
@@ -451,7 +510,7 @@ msgstr "A eliminar o registo..."
 msgid "Unsafe password"
 msgstr "Password insegura"
 
-#: src/components/Message.vue:101
+#: src/components/Message.vue:102
 #, fuzzy
 msgid "Unsupported message type: sticker"
 msgstr "Mime type não suportado"
@@ -512,6 +571,10 @@ msgstr "Seu navegador não suporta o elemento de áudio."
 #: src/components/Message.vue:82
 msgid "Your browser does not support the video element."
 msgstr "Seu navegador não suporta o elemento de vídeo."
+
+#, fuzzy
+#~ msgid "A cross-platform signal client"
+#~ msgstr "Um cliente signal multiplataforma"
 
 #~ msgid "Edit Group"
 #~ msgstr "Atualizar grupo"
@@ -619,10 +682,6 @@ msgstr "Seu navegador não suporta o elemento de vídeo."
 #~ msgstr "Apagar a mensagem"
 
 #, fuzzy
-#~ msgid "This will permanently delete the selected Device."
-#~ msgstr "Isto elimina permanentemente todas as mensagens nesta conversa."
-
-#, fuzzy
 #~ msgid "This will permanently delete all messages!"
 #~ msgstr "Isto elimina permanentemente todas as mensagens nesta conversa."
 
@@ -644,16 +703,6 @@ msgstr "Seu navegador não suporta o elemento de vídeo."
 
 #~ msgid "Call"
 #~ msgstr "Chamar"
-
-#~ msgid "Reset secure session?"
-#~ msgstr "Reiniciar a sessão segura?"
-
-#~ msgid ""
-#~ "This may help if you're having encryption problems in this conversation. "
-#~ "Your messages will be kept."
-#~ msgstr ""
-#~ "Isto pode auxiliar caso tenha problemas de cifra nesta conversa. As suas "
-#~ "mensagens serão mantidas."
 
 #~ msgid "Recipients list"
 #~ msgstr "Lista de destinatários"
@@ -690,9 +739,6 @@ msgstr "Seu navegador não suporta o elemento de vídeo."
 
 #~ msgid "Send Signal message"
 #~ msgstr "Enviar a mensagem Signal"
-
-#~ msgid "Delete"
-#~ msgstr "Apagar"
 
 #, fuzzy
 #~ msgid "Delete selected message?"

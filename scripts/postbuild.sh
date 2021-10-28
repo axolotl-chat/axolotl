@@ -29,7 +29,7 @@ if [ -v $GOPATH ]
 then
 	# Github
 	readonly ZKGROUP_GITHUB=/github/workspace/go/src/github.com/nanu-c/zkgroup/lib/$FILENAME
-
+	echo "blub1"
 	cp $ZKGROUP_GITHUB $@/lib/;
 	rm -f ${INSTALL_DIR}/\\${GITHUB_WORKSPACE}
 else
@@ -40,7 +40,7 @@ else
 	mkdir -p $CLICK_LD_LIBRARY_PATH
 
 	[ -f $ZKGROUP_OPTION1 ] && cp $ZKGROUP_OPTION1 $CLICK_LD_LIBRARY_PATH/;
-	[ -f $ZKGROUP_OPTION2 ] && cp $ZKGROUP_OPTION2 $CLICK_LD_LIBRARY_PATH/;
+	# [ -f $ZKGROUP_OPTION2 ] && cp $ZKGROUP_OPTION2 $CLICK_LD_LIBRARY_PATH/;
 
 	if [ ! -f $CLICK_LD_LIBRARY_PATH/$FILENAME ]
 	then

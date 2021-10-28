@@ -40,54 +40,69 @@ SHARE_PREFIX = usr/share
 
 all: clean build
 
-build: build-axolotl-web build-axolotl
+build: build-axolotl-web build-axolotl build-crayfish build-zkgroup
 
-install: install-axolotl install-axolotl-web
+install: install-axolotl install-axolotl-web install-crayfish install-zkgroup
 	@sudo install -D -m 644 $(CURRENT_DIR)/scripts/axolotl.desktop $(DESTDIR)$(SHARE_PREFIX)/applications/axolotl.desktop
 	@sudo install -D -m 644 $(CURRENT_DIR)/snap/gui/axolotl.png $(DESTDIR)$(SHARE_PREFIX)/icons/hicolor/128x128/apps/axolotl.png
 
-uninstall:
-	@sudo rm -rf $(DESTDIR)$(INSTALL_PREFIX)/axolotl
-
-build-axolotl-web:
-	$(NPM) run build --prefix axolotl-web
-
-build-axolotl:
-	$(GO) build -v .
-
-build-translation:
-	$(NPM) run translate --prefix axolotl-web
+uninstall: uninstall-axolotl uninstall-axolotl-web uninstall-crayfish uninstall-zkgroup
 
 check: check-axolotl check-axolotl-web
+
+build-dependencies: build-dependencies-axolotl-web build-dependencies-axolotl
+
+# axolotl
+build-dependencies-axolotl:
+	$(GO) mod download
+
+build-axolotl:
+	@echo "Building axolotl..."
+	$(GO) build -v .
+
+check-axolotl:
+	$(GO) test -race ./...
+
+install-axolotl: build-axolotl
+	@echo "Installing axolotl..."
+	@sudo install -D -m 755 $(CURRENT_DIR)/axolotl $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl
+
+uninstall-axolotl:
+	@echo "Uninstalling axolotl..."
+	@sudo rm -rf $(DESTDIR)$(INSTALL_PREFIX)/axolotl
+
+# axolotl-web
+build-dependencies-axolotl-web:
+	$(NPM) install --prefix axolotl-web
+
+build-axolotl-web:
+	@echo "Building axolotl-web..."
+	$(NPM) run build --prefix axolotl-web
 
 check-axolotl-web:
 	$(NPM) run test --prefix axolotl-web
 
-check-axolotl:
-	$(GO) test -race ./...
+install-axolotl-web: build-axolotl-web
+	@echo "Installing axolotl-web..."
+	@sudo mkdir -p $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/
+	@sudo cp -r $(CURRENT_DIR)/axolotl-web/dist $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/dist
+
+uninstall-axolotl-web:
+	@echo "Uninstalling axolotl-web..."
+	sudo rm -rf $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/dist
+
+## utilities
+build-translation:
+	$(NPM) run translate --prefix axolotl-web
 
 run: build
 	@echo "Found go with version $(GO_VERSION)"
 	LD_LIBRARY_PATH=$(PWD) $(GO)  run .
 
-build-dependencies: build-dependencies-axolotl-web build-dependencies-axolotl
-
-build-dependencies-axolotl-web:
-	$(NPM) install --prefix axolotl-web
-
-build-dependencies-axolotl:
-	$(GO) mod download
-
-install-axolotl-web: build-axolotl-web
-	@sudo mkdir -p $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/
-	@sudo cp -r $(CURRENT_DIR)/axolotl-web/dist $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/dist
-
-install-axolotl: build-axolotl
-	@sudo install -D -m 755 $(CURRENT_DIR)/axolotl $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl
-
 clean:
-	rm -f axolotl
-	rm -rf axolotl-web/dist
+	rm -f $(CURRENT_DIR)/axolotl
+	rm -rf $(CURRENT_DIR)/axolotl-web/dist
+	rm -rf $(CURRENT_DIR)/crayfish/target
 
 update-version:
 ifeq ($(NEW_VERSION),)
@@ -102,11 +117,22 @@ else
 	@echo "Update complete"
 endif
 
+## crayfish
+build-crayfish:
+	@echo "Building crayfish..."
+	@cd $(CURRENT_DIR)/crayfish && cargo build --release
+
+install-crayfish:
+	@echo "Installing crayfish..."
+	@sudo install -D -m 755 $(CURRENT_DIR)/crayfish/target/release/crayfish $(DESTDIR)$(LIBRARY_PREFIX)/
+
+uninstall-crayfish:
+	@echo "Uninstalling crayfish..."
+	sudo rm -f $(DESTDIR)$(LIBRARY_PREFIX)/crayfish
+
 ## zkgroup
 build-zkgroup:
-	@echo "Found cargo with version $(CARGO_VERSION)"
-	@echo "Found go with version $(GO_VERSION)"
-	@echo "Found git with version $(GIT_VERSION)"
+	@echo "Building zkgroup..."
 ifeq ($(UNAME_S), Linux)
 	@echo "get zkgroup $(PLATFORM)"
 	$(GO) get -d github.com/nanu-c/zkgroup \

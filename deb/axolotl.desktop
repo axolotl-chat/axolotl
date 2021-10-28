@@ -9,3 +9,5 @@ Icon=axolotl.png
 Terminal=false
 Categories=Network;Chat;InstantMessaging
 StartupWMClass=axolotl
+X-KDE-FormFactor=desktop;tablet;handset;
+X-Purism-FormFactor=Workstation;Mobile; 
