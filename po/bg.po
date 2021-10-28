@@ -95,7 +95,7 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
-#: src/components/Header.vue:132
+#: src/components/Header.vue:135
 msgid "Connect with Signal"
 msgstr "Свържи се със Signal"
 
@@ -107,7 +107,7 @@ msgstr "Контакт"
 msgid "Contact list is empty..."
 msgstr ""
 
-#: src/components/Header.vue:215
+#: src/components/Header.vue:218
 #, fuzzy
 msgid "Contacts"
 msgstr "Контакт"
@@ -151,6 +151,15 @@ msgstr ""
 msgid "Decrypt"
 msgstr ""
 
+#: src/components/Header.vue:119
+#, fuzzy
+msgid "Delete chat"
+msgstr "Изтрий"
+
+#: src/components/Header.vue:92
+msgid "Delete this chat?"
+msgstr ""
+
 #: src/components/AttachmentBar.vue:20
 msgid "Document"
 msgstr ""
@@ -179,12 +188,12 @@ msgstr ""
 msgid "Edit contact"
 msgstr "Контакт"
 
-#: src/components/Header.vue:119 src/components/Header.vue:168
+#: src/components/Header.vue:122 src/components/Header.vue:171
 #, fuzzy
 msgid "Edit group"
 msgstr "Промени група"
 
-#: src/components/Header.vue:137
+#: src/components/Header.vue:140
 msgid "Enter password"
 msgstr ""
 
@@ -251,7 +260,7 @@ msgid ""
 "\"_blank\">opening an issue</a>."
 msgstr ""
 
-#: src/components/Header.vue:196
+#: src/components/Header.vue:199
 #, fuzzy
 msgid "Import contacts"
 msgstr "Контакт"
@@ -306,7 +315,7 @@ msgid ""
 "            counterparty could start the discussion."
 msgstr ""
 
-#: src/components/Header.vue:162 src/components/Header.vue:218
+#: src/components/Header.vue:165 src/components/Header.vue:221
 msgid "New group"
 msgstr "Нова група"
 
@@ -396,6 +405,10 @@ msgstr ""
 msgid "Reset encryption"
 msgstr "Започни нова сигурна сесия"
 
+#: src/components/Header.vue:79
+msgid "Reset secure session?"
+msgstr "Рестартирай сигурната сесия?"
+
 #: src/pages/SetPassword.vue:6
 msgid "Restart is required!"
 msgstr ""
@@ -420,7 +433,7 @@ msgstr ""
 msgid "Send pin"
 msgstr ""
 
-#: src/components/Header.vue:144
+#: src/components/Header.vue:147
 #, fuzzy
 msgid "Set encryption password"
 msgstr "Започни нова сигурна сесия"
@@ -445,7 +458,7 @@ msgstr ""
 msgid "Setting a username is required. Please choose one."
 msgstr ""
 
-#: src/components/Header.vue:156 src/components/Header.vue:221
+#: src/components/Header.vue:159 src/components/Header.vue:224
 msgid "Settings"
 msgstr "Настройки"
 
@@ -462,11 +475,24 @@ msgstr ""
 msgid "Starting new chats is currently broken in Axolotl."
 msgstr ""
 
+#: src/components/Header.vue:94
+#, fuzzy
+msgid "This chat will be permanently deleted - but only from your device."
+msgstr "Това ще изтрие невъзвращаемо всичките съобщения в този разговор."
+
 #: src/pages/About.vue:6
 msgid ""
 "This is a free and open source Signal client written in golang and\n"
 "        vuejs."
 msgstr ""
+
+#: src/components/Header.vue:81
+msgid ""
+"This may help if you're having encryption problems in this conversation. "
+"Your messages will be kept."
+msgstr ""
+"Това може да помогне ако имате проблеми с екрипцията в този разговор. Вашите "
+"съобщения ще бъдат запазени."
 
 #: src/components/Header.vue:33 src/pages/ChatList.vue:30
 #, fuzzy
@@ -624,10 +650,6 @@ msgstr ""
 #~ msgstr "Изтрий съобщението"
 
 #, fuzzy
-#~ msgid "This will permanently delete the selected Device."
-#~ msgstr "Това ще изтрие невъзвращаемо всичките съобщения в този разговор."
-
-#, fuzzy
 #~ msgid "This will permanently delete all messages!"
 #~ msgstr "Това ще изтрие невъзвращаемо всичките съобщения в този разговор."
 
@@ -649,16 +671,6 @@ msgstr ""
 
 #~ msgid "Call"
 #~ msgstr "Обаждане"
-
-#~ msgid "Reset secure session?"
-#~ msgstr "Рестартирай сигурната сесия?"
-
-#~ msgid ""
-#~ "This may help if you're having encryption problems in this conversation. "
-#~ "Your messages will be kept."
-#~ msgstr ""
-#~ "Това може да помогне ако имате проблеми с екрипцията в този разговор. "
-#~ "Вашите съобщения ще бъдат запазени."
 
 #~ msgid "Recipients list"
 #~ msgstr "Списък на получатели"
@@ -695,9 +707,6 @@ msgstr ""
 
 #~ msgid "Send Signal message"
 #~ msgstr "Изпрати Signal съобщение"
-
-#~ msgid "Delete"
-#~ msgstr "Изтрий"
 
 #, fuzzy
 #~ msgid "Delete selected message?"

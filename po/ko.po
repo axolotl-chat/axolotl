@@ -95,7 +95,7 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
-#: src/components/Header.vue:132
+#: src/components/Header.vue:135
 msgid "Connect with Signal"
 msgstr "Signal로 연결"
 
@@ -107,7 +107,7 @@ msgstr "연락처"
 msgid "Contact list is empty..."
 msgstr ""
 
-#: src/components/Header.vue:215
+#: src/components/Header.vue:218
 #, fuzzy
 msgid "Contacts"
 msgstr "연락처"
@@ -151,6 +151,15 @@ msgstr ""
 msgid "Decrypt"
 msgstr ""
 
+#: src/components/Header.vue:119
+#, fuzzy
+msgid "Delete chat"
+msgstr "삭제"
+
+#: src/components/Header.vue:92
+msgid "Delete this chat?"
+msgstr ""
+
 #: src/components/AttachmentBar.vue:20
 msgid "Document"
 msgstr ""
@@ -179,12 +188,12 @@ msgstr ""
 msgid "Edit contact"
 msgstr "연락처"
 
-#: src/components/Header.vue:119 src/components/Header.vue:168
+#: src/components/Header.vue:122 src/components/Header.vue:171
 #, fuzzy
 msgid "Edit group"
 msgstr "그룹 업데이트"
 
-#: src/components/Header.vue:137
+#: src/components/Header.vue:140
 msgid "Enter password"
 msgstr ""
 
@@ -251,7 +260,7 @@ msgid ""
 "\"_blank\">opening an issue</a>."
 msgstr ""
 
-#: src/components/Header.vue:196
+#: src/components/Header.vue:199
 #, fuzzy
 msgid "Import contacts"
 msgstr "연락처"
@@ -306,7 +315,7 @@ msgid ""
 "            counterparty could start the discussion."
 msgstr ""
 
-#: src/components/Header.vue:162 src/components/Header.vue:218
+#: src/components/Header.vue:165 src/components/Header.vue:221
 msgid "New group"
 msgstr "새 그룹"
 
@@ -396,6 +405,10 @@ msgstr ""
 msgid "Reset encryption"
 msgstr "암호화된 세션 초기화"
 
+#: src/components/Header.vue:79
+msgid "Reset secure session?"
+msgstr "암호화된 세션을 초기화하시겠습니까?"
+
 #: src/pages/SetPassword.vue:6
 msgid "Restart is required!"
 msgstr ""
@@ -420,7 +433,7 @@ msgstr ""
 msgid "Send pin"
 msgstr ""
 
-#: src/components/Header.vue:144
+#: src/components/Header.vue:147
 #, fuzzy
 msgid "Set encryption password"
 msgstr "암호화된 세션 초기화"
@@ -445,7 +458,7 @@ msgstr ""
 msgid "Setting a username is required. Please choose one."
 msgstr ""
 
-#: src/components/Header.vue:156 src/components/Header.vue:221
+#: src/components/Header.vue:159 src/components/Header.vue:224
 msgid "Settings"
 msgstr "설정"
 
@@ -462,11 +475,24 @@ msgstr ""
 msgid "Starting new chats is currently broken in Axolotl."
 msgstr ""
 
+#: src/components/Header.vue:94
+#, fuzzy
+msgid "This chat will be permanently deleted - but only from your device."
+msgstr "이 대화에 있는 모든 메시지가 영구 삭제됩니다."
+
 #: src/pages/About.vue:6
 msgid ""
 "This is a free and open source Signal client written in golang and\n"
 "        vuejs."
 msgstr ""
+
+#: src/components/Header.vue:81
+msgid ""
+"This may help if you're having encryption problems in this conversation. "
+"Your messages will be kept."
+msgstr ""
+"이 대화에 암호화 문제가 발생할 경우 이 문제를 해결할 수 있습니다. 모든 메시지"
+"가 보관됩니다."
 
 #: src/components/Header.vue:33 src/pages/ChatList.vue:30
 #, fuzzy
@@ -621,10 +647,6 @@ msgstr ""
 #~ msgstr "메시지 삭제"
 
 #, fuzzy
-#~ msgid "This will permanently delete the selected Device."
-#~ msgstr "이 대화에 있는 모든 메시지가 영구 삭제됩니다."
-
-#, fuzzy
 #~ msgid "This will permanently delete all messages!"
 #~ msgstr "이 대화에 있는 모든 메시지가 영구 삭제됩니다."
 
@@ -644,16 +666,6 @@ msgstr ""
 
 #~ msgid "Call"
 #~ msgstr "전화걸기"
-
-#~ msgid "Reset secure session?"
-#~ msgstr "암호화된 세션을 초기화하시겠습니까?"
-
-#~ msgid ""
-#~ "This may help if you're having encryption problems in this conversation. "
-#~ "Your messages will be kept."
-#~ msgstr ""
-#~ "이 대화에 암호화 문제가 발생할 경우 이 문제를 해결할 수 있습니다. 모든 메"
-#~ "시지가 보관됩니다."
 
 #~ msgid "Recipients list"
 #~ msgstr "수신자 목록"
@@ -690,9 +702,6 @@ msgstr ""
 
 #~ msgid "Send Signal message"
 #~ msgstr "Signal 메시지 보내기"
-
-#~ msgid "Delete"
-#~ msgstr "삭제"
 
 #, fuzzy
 #~ msgid "Delete selected message?"

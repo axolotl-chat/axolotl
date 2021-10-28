@@ -95,7 +95,7 @@ msgstr "Fechar"
 msgid "Confirm"
 msgstr "Confirmar"
 
-#: src/components/Header.vue:132
+#: src/components/Header.vue:135
 msgid "Connect with Signal"
 msgstr "Ligar com o Signal"
 
@@ -107,7 +107,7 @@ msgstr "Contato"
 msgid "Contact list is empty..."
 msgstr "Lista de contactos está vazia"
 
-#: src/components/Header.vue:215
+#: src/components/Header.vue:218
 #, fuzzy
 msgid "Contacts"
 msgstr "Contatos"
@@ -150,6 +150,15 @@ msgstr ""
 msgid "Decrypt"
 msgstr "Descriptografar"
 
+#: src/components/Header.vue:119
+#, fuzzy
+msgid "Delete chat"
+msgstr "Apagar"
+
+#: src/components/Header.vue:92
+msgid "Delete this chat?"
+msgstr ""
+
 #: src/components/AttachmentBar.vue:20
 msgid "Document"
 msgstr "Documento"
@@ -178,11 +187,11 @@ msgstr "Editar"
 msgid "Edit contact"
 msgstr "Adicionar contato"
 
-#: src/components/Header.vue:119 src/components/Header.vue:168
+#: src/components/Header.vue:122 src/components/Header.vue:171
 msgid "Edit group"
 msgstr "Atualizar grupo"
 
-#: src/components/Header.vue:137
+#: src/components/Header.vue:140
 msgid "Enter password"
 msgstr "Insira password"
 
@@ -249,7 +258,7 @@ msgid ""
 "\"_blank\">opening an issue</a>."
 msgstr ""
 
-#: src/components/Header.vue:196
+#: src/components/Header.vue:199
 #, fuzzy
 msgid "Import contacts"
 msgstr "Sem contatos"
@@ -302,7 +311,7 @@ msgid ""
 "            counterparty could start the discussion."
 msgstr ""
 
-#: src/components/Header.vue:162 src/components/Header.vue:218
+#: src/components/Header.vue:165 src/components/Header.vue:221
 msgid "New group"
 msgstr "Novo grupo"
 
@@ -391,6 +400,10 @@ msgstr "Código de solicitação"
 msgid "Reset encryption"
 msgstr "Reiniciar a sessão segura"
 
+#: src/components/Header.vue:79
+msgid "Reset secure session?"
+msgstr "Reiniciar a sessão segura?"
+
 #: src/pages/SetPassword.vue:6
 msgid "Restart is required!"
 msgstr ""
@@ -415,7 +428,7 @@ msgstr "Enviar código"
 msgid "Send pin"
 msgstr "Enviar pin"
 
-#: src/components/Header.vue:144
+#: src/components/Header.vue:147
 msgid "Set encryption password"
 msgstr "Definir password de criptografia"
 
@@ -442,7 +455,7 @@ msgstr ""
 msgid "Setting a username is required. Please choose one."
 msgstr ""
 
-#: src/components/Header.vue:156 src/components/Header.vue:221
+#: src/components/Header.vue:159 src/components/Header.vue:224
 msgid "Settings"
 msgstr "Definições"
 
@@ -458,6 +471,11 @@ msgstr "patrocinador no patreon"
 msgid "Starting new chats is currently broken in Axolotl."
 msgstr ""
 
+#: src/components/Header.vue:94
+#, fuzzy
+msgid "This chat will be permanently deleted - but only from your device."
+msgstr "Isto elimina permanentemente todas as mensagens nesta conversa."
+
 #: src/pages/About.vue:6
 #, fuzzy
 msgid ""
@@ -467,6 +485,14 @@ msgstr ""
 "Este é um cliente de sinal gratuito e de código aberto escrito em golang e "
 "vuejs.\n"
 "    Você pode apoiar o desenvolvimento do axolotl preenchendo"
+
+#: src/components/Header.vue:81
+msgid ""
+"This may help if you're having encryption problems in this conversation. "
+"Your messages will be kept."
+msgstr ""
+"Isto pode auxiliar caso tenha problemas de cifra nesta conversa. As suas "
+"mensagens serão mantidas."
 
 #: src/components/Header.vue:33 src/pages/ChatList.vue:30
 msgid "Unknown group"
@@ -656,10 +682,6 @@ msgstr "Seu navegador não suporta o elemento de vídeo."
 #~ msgstr "Apagar a mensagem"
 
 #, fuzzy
-#~ msgid "This will permanently delete the selected Device."
-#~ msgstr "Isto elimina permanentemente todas as mensagens nesta conversa."
-
-#, fuzzy
 #~ msgid "This will permanently delete all messages!"
 #~ msgstr "Isto elimina permanentemente todas as mensagens nesta conversa."
 
@@ -681,16 +703,6 @@ msgstr "Seu navegador não suporta o elemento de vídeo."
 
 #~ msgid "Call"
 #~ msgstr "Chamar"
-
-#~ msgid "Reset secure session?"
-#~ msgstr "Reiniciar a sessão segura?"
-
-#~ msgid ""
-#~ "This may help if you're having encryption problems in this conversation. "
-#~ "Your messages will be kept."
-#~ msgstr ""
-#~ "Isto pode auxiliar caso tenha problemas de cifra nesta conversa. As suas "
-#~ "mensagens serão mantidas."
 
 #~ msgid "Recipients list"
 #~ msgstr "Lista de destinatários"
@@ -727,9 +739,6 @@ msgstr "Seu navegador não suporta o elemento de vídeo."
 
 #~ msgid "Send Signal message"
 #~ msgstr "Enviar a mensagem Signal"
-
-#~ msgid "Delete"
-#~ msgstr "Apagar"
 
 #, fuzzy
 #~ msgid "Delete selected message?"

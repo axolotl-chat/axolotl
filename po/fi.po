@@ -99,7 +99,7 @@ msgstr "Sulje"
 msgid "Confirm"
 msgstr "Varmista"
 
-#: src/components/Header.vue:132
+#: src/components/Header.vue:135
 msgid "Connect with Signal"
 msgstr "Yhdistä Signaliin"
 
@@ -111,7 +111,7 @@ msgstr "Yhteystieto"
 msgid "Contact list is empty..."
 msgstr "Yhteystietolista on tyhjä..."
 
-#: src/components/Header.vue:215
+#: src/components/Header.vue:218
 #, fuzzy
 msgid "Contacts"
 msgstr "Yhteystiedot"
@@ -155,6 +155,15 @@ msgstr ""
 msgid "Decrypt"
 msgstr "Pura"
 
+#: src/components/Header.vue:119
+#, fuzzy
+msgid "Delete chat"
+msgstr "Poista"
+
+#: src/components/Header.vue:92
+msgid "Delete this chat?"
+msgstr ""
+
 #: src/components/AttachmentBar.vue:20
 msgid "Document"
 msgstr "Dokumentti"
@@ -190,12 +199,12 @@ msgstr "Muokkaa"
 msgid "Edit contact"
 msgstr "Yhteystieto"
 
-#: src/components/Header.vue:119 src/components/Header.vue:168
+#: src/components/Header.vue:122 src/components/Header.vue:171
 #, fuzzy
 msgid "Edit group"
 msgstr "Muokkaa ryhmää"
 
-#: src/components/Header.vue:137
+#: src/components/Header.vue:140
 msgid "Enter password"
 msgstr "Anna salasana"
 
@@ -279,7 +288,7 @@ msgstr ""
 "            <a href=\"https://github.com/nanu-c/axolotl/issues\" target="
 "\"_blank\">luomalla uusi ongelma (issue)</a>."
 
-#: src/components/Header.vue:196
+#: src/components/Header.vue:199
 #, fuzzy
 msgid "Import contacts"
 msgstr "Tuo yhteystiedot"
@@ -337,7 +346,7 @@ msgstr ""
 "            keskustelun linkitetyllä Desktop Clientillä. Vaihtoehtoisesti\n"
 "            vastapuoli voi aloittaa keskustelun."
 
-#: src/components/Header.vue:162 src/components/Header.vue:218
+#: src/components/Header.vue:165 src/components/Header.vue:221
 msgid "New group"
 msgstr "Uusi ryhmä"
 
@@ -428,6 +437,10 @@ msgstr "Pyyntökoodi (Request code)"
 msgid "Reset encryption"
 msgstr "Resetoi salaus (Alusta suojattu istunto)"
 
+#: src/components/Header.vue:79
+msgid "Reset secure session?"
+msgstr "Alusta suojattu istunto?"
+
 #: src/pages/SetPassword.vue:6
 msgid "Restart is required!"
 msgstr ""
@@ -452,7 +465,7 @@ msgstr "Lähetä koodi"
 msgid "Send pin"
 msgstr "Lähetä pin"
 
-#: src/components/Header.vue:144
+#: src/components/Header.vue:147
 #, fuzzy
 msgid "Set encryption password"
 msgstr "Lisää salaussalasana (alusta suojattu istunto)"
@@ -481,7 +494,7 @@ msgstr ""
 msgid "Setting a username is required. Please choose one."
 msgstr "Käyttäjänimen asettaminen on pakollista."
 
-#: src/components/Header.vue:156 src/components/Header.vue:221
+#: src/components/Header.vue:159 src/components/Header.vue:224
 msgid "Settings"
 msgstr "Asetukset"
 
@@ -498,6 +511,11 @@ msgstr "sponsoriksi Patreonissa."
 msgid "Starting new chats is currently broken in Axolotl."
 msgstr "Uusien keskustelujen aloittaminen on parhaillaan rikki Axolotlissa."
 
+#: src/components/Header.vue:94
+#, fuzzy
+msgid "This chat will be permanently deleted - but only from your device."
+msgstr "Tämä poistaa pysyvästi kaikki viestit tästä keskustelusta."
+
 #: src/pages/About.vue:6
 msgid ""
 "This is a free and open source Signal client written in golang and\n"
@@ -505,6 +523,15 @@ msgid ""
 msgstr ""
 "Tämä on ilmainen ja vapaan lähdekoodin Signal-asiakasohjelma,\n"
 "        kirjoitettu golangilla ja vuejs:llä."
+
+#: src/components/Header.vue:81
+msgid ""
+"This may help if you're having encryption problems in this conversation. "
+"Your messages will be kept."
+msgstr ""
+"Tämä saattaa auttaa, jos tässä keskustelussa on ilmennyt salaukseen "
+"liittyviä ongelmia. Huom. tämä ei poista eikä muokkaa mitenkään olemassa "
+"olevia viestejä."
 
 #: src/components/Header.vue:33 src/pages/ChatList.vue:30
 #, fuzzy
@@ -675,10 +702,6 @@ msgstr "Selaimesi ei tue video-elementtejä."
 #~ msgstr "Poista viesti"
 
 #, fuzzy
-#~ msgid "This will permanently delete the selected Device."
-#~ msgstr "Tämä poistaa pysyvästi kaikki viestit tästä keskustelusta."
-
-#, fuzzy
 #~ msgid "This will permanently delete all messages!"
 #~ msgstr "Tämä poistaa pysyvästi kaikki viestit tästä keskustelusta."
 
@@ -699,17 +722,6 @@ msgstr "Selaimesi ei tue video-elementtejä."
 
 #~ msgid "Call"
 #~ msgstr "Soita"
-
-#~ msgid "Reset secure session?"
-#~ msgstr "Alusta suojattu istunto?"
-
-#~ msgid ""
-#~ "This may help if you're having encryption problems in this conversation. "
-#~ "Your messages will be kept."
-#~ msgstr ""
-#~ "Tämä saattaa auttaa, jos tässä keskustelussa on ilmennyt salaukseen "
-#~ "liittyviä ongelmia. Huom. tämä ei poista eikä muokkaa mitenkään olemassa "
-#~ "olevia viestejä."
 
 #~ msgid "Recipients list"
 #~ msgstr "Vastaanottajalista"
@@ -746,9 +758,6 @@ msgstr "Selaimesi ei tue video-elementtejä."
 
 #~ msgid "Send Signal message"
 #~ msgstr "Lähetä Signal-viesti"
-
-#~ msgid "Delete"
-#~ msgstr "Poista"
 
 #, fuzzy
 #~ msgid "Delete selected message?"
