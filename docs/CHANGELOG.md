@@ -1,3 +1,11 @@
+1.0.7 (Okt 28 2021) 
+------------------------------------
+* Fix deleting chats (nuehm-arno)
+* Update electron version (Ferenc-)
+* Explicitly set ozone platform to Wayland for electron when needed (Ferenc-)
+* Fix clickable zkgroup copy error (nanu-c)
+* Explicitly set clickable-rust-version (jonnius)
+
 1.0.6 (Okt 26 2021) 
 ------------------------------------
 * Fix signal desktop linking by change signal desktop link url (nanu-c)
