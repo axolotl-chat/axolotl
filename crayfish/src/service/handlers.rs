@@ -1,16 +1,18 @@
 use super::types::*;
 use crate::error::{Error, Result};
-use crate::requests::registration::{self, register_user, verify_user};
-use crate::requests::sealedsender;
+use crate::signal_service::registration::{ConfirmRegistration, Register};
+use crate::signal_service::requests::Request;
+use crate::signal_service::{sealedsender, Queue};
 // , decryptSealedMessage};
 
 use libsignal_service::provisioning::VerificationCodeResponse;
 
+use tokio::sync::oneshot;
 use warp::ws::Message;
 
 use super::types::ErrorMessage;
 
-pub async fn handle_message(msg: Message) -> Result<Message> {
+pub async fn handle_message(msg: Message, queue: Queue) -> Result<Message> {
     let content: &str = msg
         .to_str()
         .map_err(|_| Error::new("Message is not text. Failed to parse."))?;
@@ -22,13 +24,13 @@ pub async fn handle_message(msg: Message) -> Result<Message> {
     }
 
     let response = match type_check.request.message_type {
-        CRAYFISH_WEBSOCKET_MESSAGE_REGISTRATION => handle_registration(content).await,
+        CRAYFISH_WEBSOCKET_MESSAGE_REGISTRATION => handle_registration(content, queue).await,
         CRAYFISH_WEBSOCKET_MESSAGE_CONFIRM_REGISTRAION => {
-            handle_registration_confirm(content).await
-        },
+            handle_registration_confirm(content, queue).await
+        }
         CRAYFISH_WEBSOCKET_MESSAGE_SEALED_SENDER_DECRYPT => {
-            handle_sealed_sender_decrypt(content).await
-        },
+            handle_sealed_sender_decrypt(content, queue).await
+        }
         _ => Error::is("Received request type is unknown"),
     };
 
@@ -40,11 +42,16 @@ pub async fn handle_message(msg: Message) -> Result<Message> {
     })
 }
 
-async fn handle_registration(content: &str) -> Result<Message> {
+async fn handle_registration(content: &str, queue: Queue) -> Result<Message> {
     println!("Handle registration message");
-    let req: NestedRequest<registration::Register> = serde_json::from_str(content)?;
 
-    match register_user(req.request.message).await? {
+    let (tx, rx) = oneshot::channel();
+    let nested: NestedRequest<Register> = serde_json::from_str(content)?;
+    let req = Request::Register(nested.request.message, tx);
+
+    queue.send(req).await?;
+
+    match rx.await?? {
         VerificationCodeResponse::Issued => {
             println!("Registration request was sent");
             Ok(NestedResponse::new_msg(
@@ -59,11 +66,15 @@ async fn handle_registration(content: &str) -> Result<Message> {
     }
 }
 
-async fn handle_registration_confirm(content: &str) -> Result<Message> {
+async fn handle_registration_confirm(content: &str, queue: Queue) -> Result<Message> {
     println!("Handle registration confirmation message");
-    let req: NestedRequest<registration::ConfirmRegistration> = serde_json::from_str(content)?;
 
-    let response_data = verify_user(req.request.message).await?;
+    let (tx, rx) = oneshot::channel();
+    let nested: NestedRequest<ConfirmRegistration> = serde_json::from_str(content)?;
+    let req = Request::ConfirmRegistration(nested.request.message, tx);
+
+    queue.send(req).await?;
+    let response_data = rx.await??;
 
     Ok(NestedResponse::new_msg(
         RegistrationData {
@@ -74,11 +85,15 @@ async fn handle_registration_confirm(content: &str) -> Result<Message> {
     ))
 }
 
-async fn handle_sealed_sender_decrypt(content: &str) -> Result<Message> {
+async fn handle_sealed_sender_decrypt(content: &str, queue: Queue) -> Result<Message> {
     println!("Handle sealed sender decrypt message");
-    let req: NestedRequest<sealedsender::SealedSenderMessage> = serde_json::from_str(content)?;
 
-    let response_data = sealedsender::decryptSealedMessage(req.request.message).await?;
+    let (tx, rx) = oneshot::channel();
+    let nested: NestedRequest<sealedsender::SealedSenderMessage> = serde_json::from_str(content)?;
+    let req = Request::DecryptSealedSender(nested.request.message, tx);
+
+    queue.send(req).await?;
+    let response_data = rx.await??;
 
     Ok(NestedResponse::new_msg(
         SealedSenderDecryptResponse {

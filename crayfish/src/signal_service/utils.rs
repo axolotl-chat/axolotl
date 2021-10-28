@@ -1,8 +1,3 @@
-pub mod registration;
-pub mod sealedsender;
-
-use crate::error::Result;
-
 use libsignal_service::configuration::{ServiceCredentials, SignalServers};
 use libsignal_service::USER_AGENT;
 use libsignal_service_hyper::prelude::HyperPushService;

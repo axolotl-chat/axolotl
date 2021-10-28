@@ -1,5 +1,5 @@
-use super::Result;
 use crate::config::SignalConfig;
+use crate::error::Result;
 use crate::store::Storage;
 use crate::store::StorageLocation;
 use libsignal_service::cipher::ServiceCipher;
@@ -13,7 +13,7 @@ use serde::{Deserialize, Serialize};
 pub struct SealedSenderMessage {
     #[serde(with = "serde_str")]
     pub uuid: String,
-    pub message:[u8; 32],
+    pub message: [u8; 32],
 }
 
 #[derive(Serialize)]
@@ -24,7 +24,7 @@ fn service_cfg() -> ServiceConfiguration {
     // XXX: read the configuration files!
     SignalServers::Production.into()
 }
-pub async fn decryptSealedMessage(
+pub async fn decrypt_sealed_message(
     data: SealedSenderMessage,
 ) -> Result<DecryptSealedMessageResponse> {
     let service_cfg = service_cfg();
@@ -43,16 +43,17 @@ pub async fn decryptSealedMessage(
     let ret = Envelope::decrypt(&data.message, &signaling_key, true).unwrap();
     // let ret = Envelope::try_from(data.message).unwrap();
     // let ret : Envelope =  protobuf::Message::parse_from_bytes(data.message).unwrap();
-    cipher.open_envelope(ret);
+    cipher.open_envelope(ret).await?;
 
     Ok(DecryptSealedMessageResponse { message: [0; 32] })
 }
 
 async fn open_storage(config: &crate::config::SignalConfig) -> anyhow::Result<Storage> {
-    let home = dirs::home_dir().unwrap()
-    .join(".local")
-    .join("share")
-    .join("textsecure.nanuc");
+    let home = dirs::home_dir()
+        .unwrap()
+        .join(".local")
+        .join("share")
+        .join("textsecure.nanuc");
     let location = StorageLocation::Path(home);
     let storage = Storage::open(&location).await?;
     Ok(storage)
