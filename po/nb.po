@@ -97,7 +97,7 @@ msgstr "Lukk"
 msgid "Confirm"
 msgstr "Bekreft"
 
-#: src/components/Header.vue:132
+#: src/components/Header.vue:135
 msgid "Connect with Signal"
 msgstr "Kontakt med Signal"
 
@@ -109,7 +109,7 @@ msgstr "Kontakt"
 msgid "Contact list is empty..."
 msgstr "Kontaktlisten er tom..."
 
-#: src/components/Header.vue:215
+#: src/components/Header.vue:218
 #, fuzzy
 msgid "Contacts"
 msgstr "Kontakter"
@@ -152,6 +152,15 @@ msgstr ""
 msgid "Decrypt"
 msgstr "Dekryptér"
 
+#: src/components/Header.vue:119
+#, fuzzy
+msgid "Delete chat"
+msgstr "Slett"
+
+#: src/components/Header.vue:92
+msgid "Delete this chat?"
+msgstr ""
+
 #: src/components/AttachmentBar.vue:20
 msgid "Document"
 msgstr "Dokument"
@@ -187,12 +196,12 @@ msgstr "Redigér"
 msgid "Edit contact"
 msgstr "Legg til kontakt"
 
-#: src/components/Header.vue:119 src/components/Header.vue:168
+#: src/components/Header.vue:122 src/components/Header.vue:171
 #, fuzzy
 msgid "Edit group"
 msgstr "Oppdatér gruppe"
 
-#: src/components/Header.vue:137
+#: src/components/Header.vue:140
 msgid "Enter password"
 msgstr "Tast inn passord"
 
@@ -277,7 +286,7 @@ msgstr ""
 "            <a href=\"https://github.com/nanu-c/axolotl/issues\" target="
 "\"_blank\"> å åpne et problem</a>."
 
-#: src/components/Header.vue:196
+#: src/components/Header.vue:199
 #, fuzzy
 msgid "Import contacts"
 msgstr "Importer kontakter"
@@ -333,7 +342,7 @@ msgstr ""
 "            chat fra den koblede Desktop-klienten. Alternativt kan\n"
 "            din motpart starte diskusjonen."
 
-#: src/components/Header.vue:162 src/components/Header.vue:218
+#: src/components/Header.vue:165 src/components/Header.vue:221
 msgid "New group"
 msgstr "Ny gruppe"
 
@@ -425,6 +434,10 @@ msgstr "Forespørselskode"
 msgid "Reset encryption"
 msgstr "Tilbakestill kryptering"
 
+#: src/components/Header.vue:79
+msgid "Reset secure session?"
+msgstr "Nullstille sikker sesjon?"
+
 #: src/pages/SetPassword.vue:6
 msgid "Restart is required!"
 msgstr ""
@@ -449,7 +462,7 @@ msgstr "Send kode"
 msgid "Send pin"
 msgstr "Send PIN"
 
-#: src/components/Header.vue:144
+#: src/components/Header.vue:147
 msgid "Set encryption password"
 msgstr "Angi krypteringspassord"
 
@@ -477,7 +490,7 @@ msgstr ""
 msgid "Setting a username is required. Please choose one."
 msgstr ""
 
-#: src/components/Header.vue:156 src/components/Header.vue:221
+#: src/components/Header.vue:159 src/components/Header.vue:224
 msgid "Settings"
 msgstr "Innstillinger"
 
@@ -493,6 +506,11 @@ msgstr "sponsor på patreon."
 msgid "Starting new chats is currently broken in Axolotl."
 msgstr "Å starte nye samtaler er for tiden ødelagt i Axolotl."
 
+#: src/components/Header.vue:94
+#, fuzzy
+msgid "This chat will be permanently deleted - but only from your device."
+msgstr "Dette vil slette den angitte enheten permanent."
+
 #: src/pages/About.vue:6
 #, fuzzy
 msgid ""
@@ -502,6 +520,14 @@ msgstr ""
 "Dette er en gratis og åpen kildekode signal klient skrevet i golang og "
 "vuejs.\n"
 "    Du kan støtte utviklingen av axolotl enten ved å fylle ut"
+
+#: src/components/Header.vue:81
+msgid ""
+"This may help if you're having encryption problems in this conversation. "
+"Your messages will be kept."
+msgstr ""
+"Dette kan hjelpe dersom du har krypteringsproblemer i denne samtalen. "
+"Meldingene dine vil bli lagret."
 
 #: src/components/Header.vue:33 src/pages/ChatList.vue:30
 msgid "Unknown group"
@@ -688,10 +714,6 @@ msgstr "Nettleseren støtter ikke videoelementet."
 #~ msgstr "Slette angitt enhet?"
 
 #, fuzzy
-#~ msgid "This will permanently delete the selected Device."
-#~ msgstr "Dette vil slette den angitte enheten permanent."
-
-#, fuzzy
 #~ msgid "This will permanently delete all messages!"
 #~ msgstr "Dette vil slette alle meldinger permanent!"
 
@@ -713,16 +735,6 @@ msgstr "Nettleseren støtter ikke videoelementet."
 
 #~ msgid "Call"
 #~ msgstr "Ring"
-
-#~ msgid "Reset secure session?"
-#~ msgstr "Nullstille sikker sesjon?"
-
-#~ msgid ""
-#~ "This may help if you're having encryption problems in this conversation. "
-#~ "Your messages will be kept."
-#~ msgstr ""
-#~ "Dette kan hjelpe dersom du har krypteringsproblemer i denne samtalen. "
-#~ "Meldingene dine vil bli lagret."
 
 #~ msgid "Recipients list"
 #~ msgstr "Mottakerliste"
@@ -759,9 +771,6 @@ msgstr "Nettleseren støtter ikke videoelementet."
 
 #~ msgid "Send Signal message"
 #~ msgstr "Send Signal melding"
-
-#~ msgid "Delete"
-#~ msgstr "Slett"
 
 #, fuzzy
 #~ msgid "Delete selected message?"

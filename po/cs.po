@@ -99,7 +99,7 @@ msgstr "Zavřít"
 msgid "Confirm"
 msgstr "Potvrdit"
 
-#: src/components/Header.vue:132
+#: src/components/Header.vue:135
 msgid "Connect with Signal"
 msgstr "Připojit se k Signálu"
 
@@ -111,7 +111,7 @@ msgstr "Kontakt"
 msgid "Contact list is empty..."
 msgstr "Seznam kontaktů je prázdný..."
 
-#: src/components/Header.vue:215
+#: src/components/Header.vue:218
 msgid "Contacts"
 msgstr "Kontakty"
 
@@ -156,6 +156,15 @@ msgstr ""
 msgid "Decrypt"
 msgstr "Dešifrovat"
 
+#: src/components/Header.vue:119
+#, fuzzy
+msgid "Delete chat"
+msgstr "Smazat"
+
+#: src/components/Header.vue:92
+msgid "Delete this chat?"
+msgstr ""
+
 #: src/components/AttachmentBar.vue:20
 msgid "Document"
 msgstr "Dokument"
@@ -188,11 +197,11 @@ msgstr "Upravit"
 msgid "Edit contact"
 msgstr "Přidat kontakt"
 
-#: src/components/Header.vue:119 src/components/Header.vue:168
+#: src/components/Header.vue:122 src/components/Header.vue:171
 msgid "Edit group"
 msgstr "Upravit skupinu"
 
-#: src/components/Header.vue:137
+#: src/components/Header.vue:140
 msgid "Enter password"
 msgstr "Zadat heslo"
 
@@ -270,7 +279,7 @@ msgstr ""
 "problém na <a href=\"https://github.com/nanu-c/axolotl/issues\" target="
 "\"_blank\">github.com</a>."
 
-#: src/components/Header.vue:196
+#: src/components/Header.vue:199
 msgid "Import contacts"
 msgstr "Importovat kontakty"
 
@@ -328,7 +337,7 @@ msgstr ""
 "desktop clientu na vašem počítači. Jiná možnost je, že konverzaci začne jako "
 "první váš partner."
 
-#: src/components/Header.vue:162 src/components/Header.vue:218
+#: src/components/Header.vue:165 src/components/Header.vue:221
 msgid "New group"
 msgstr "Nová skupina"
 
@@ -419,6 +428,10 @@ msgstr "Vyžádat kód"
 msgid "Reset encryption"
 msgstr "Resetovat zabezpečenou konverzaci"
 
+#: src/components/Header.vue:79
+msgid "Reset secure session?"
+msgstr "Resetovat zabezpečenou konverzaci?"
+
 #: src/pages/SetPassword.vue:6
 msgid "Restart is required!"
 msgstr ""
@@ -444,7 +457,7 @@ msgstr "Poslat kód"
 msgid "Send pin"
 msgstr "Poslat pin"
 
-#: src/components/Header.vue:144
+#: src/components/Header.vue:147
 msgid "Set encryption password"
 msgstr "Resetovat zabezpečenou konverzaci"
 
@@ -470,7 +483,7 @@ msgstr ""
 msgid "Setting a username is required. Please choose one."
 msgstr ""
 
-#: src/components/Header.vue:156 src/components/Header.vue:221
+#: src/components/Header.vue:159 src/components/Header.vue:224
 msgid "Settings"
 msgstr "Nastavení"
 
@@ -486,6 +499,11 @@ msgstr "sponzor na Patreon."
 msgid "Starting new chats is currently broken in Axolotl."
 msgstr "Momentálně nelze na Axolotlu začít novou konverzaci."
 
+#: src/components/Header.vue:94
+#, fuzzy
+msgid "This chat will be permanently deleted - but only from your device."
+msgstr "Tímto trvale smažete vybrané zařízení."
+
 #: src/pages/About.vue:6
 #, fuzzy
 msgid ""
@@ -494,6 +512,14 @@ msgid ""
 msgstr ""
 "Toto je svobodný a otevřený klient pro Signál, naprogramovaný v golang a "
 "vuejs."
+
+#: src/components/Header.vue:81
+msgid ""
+"This may help if you're having encryption problems in this conversation. "
+"Your messages will be kept."
+msgstr ""
+"Může to pomoci, pokud máte problém s šifrováním této konverzace. Vaše zprávy "
+"zůstanou zachovány."
 
 #: src/components/Header.vue:33 src/pages/ChatList.vue:30
 msgid "Unknown group"
@@ -650,10 +676,6 @@ msgstr "Váš prohlížeč nepodporuje tento element videa."
 #~ msgstr "Smazat vybrané zařízení?"
 
 #, fuzzy
-#~ msgid "This will permanently delete the selected Device."
-#~ msgstr "Tímto trvale smažete vybrané zařízení."
-
-#, fuzzy
 #~ msgid "This will permanently delete all messages!"
 #~ msgstr "Tímto trvale smažete všechy zprávy této konverzace!"
 
@@ -675,16 +697,6 @@ msgstr "Váš prohlížeč nepodporuje tento element videa."
 
 #~ msgid "Call"
 #~ msgstr "Volat"
-
-#~ msgid "Reset secure session?"
-#~ msgstr "Resetovat zabezpečenou konverzaci?"
-
-#~ msgid ""
-#~ "This may help if you're having encryption problems in this conversation. "
-#~ "Your messages will be kept."
-#~ msgstr ""
-#~ "Může to pomoci, pokud máte problém s šifrováním této konverzace. Vaše "
-#~ "zprávy zůstanou zachovány."
 
 #~ msgid "Recipients list"
 #~ msgstr "Seznam příjemců"
@@ -721,9 +733,6 @@ msgstr "Váš prohlížeč nepodporuje tento element videa."
 
 #~ msgid "Send Signal message"
 #~ msgstr "Poslat zprávu Signálu"
-
-#~ msgid "Delete"
-#~ msgstr "Smazat"
 
 #, fuzzy
 #~ msgid "Delete selected message?"
