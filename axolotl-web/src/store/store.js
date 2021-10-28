@@ -395,7 +395,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "delChat",
-          "id": id,
+          "id": this.state.currentChat.ID
         }
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
