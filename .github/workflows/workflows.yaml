@@ -85,6 +85,8 @@ jobs:
 
       - name: Check out code
         uses: actions/checkout@v2
+        with:
+          submodules: 'true'
 
       - name: Build
         uses: actions-rs/cargo@v1
@@ -109,6 +111,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
+        with:
+          submodules: 'true'
 
       - name: Download axolotl and axolotl-web build artifacts
         uses: actions/download-artifact@v2
@@ -156,6 +160,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
+        with:
+          submodules: 'true'
 
       - name: Setup Node 14
         uses: actions/setup-node@v1
@@ -192,6 +198,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
+        with:
+          submodules: 'true'
 
       - name: Setup Node 14
         uses: actions/setup-node@v1
@@ -231,6 +239,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
+        with:
+          submodules: 'true'
 
       - uses: bilelmoussaoui/flatpak-github-actions@v2
         with:
@@ -251,6 +261,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
+        with:
+          submodules: 'true'
 
       - name: Get git tag version
         id: get_version
