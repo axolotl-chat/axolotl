@@ -43,8 +43,8 @@ func runBackend() {
 	}
 }
 func runRustBackend() {
-	defer wg.Done()
-	crayfish.Run()
+	// defer wg.Done()
+	// crayfish.Run()
 
 }
 func runUI() error {

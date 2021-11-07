@@ -18,7 +18,6 @@ import (
 	"github.com/nanu-c/axolotl/app/ui"
 	"github.com/signal-golang/textsecure"
 	textsecureConfig "github.com/signal-golang/textsecure/config"
-	"github.com/signal-golang/textsecure/crayfish"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -88,14 +87,7 @@ func (Api *TextsecureAPI) SetLogLevel() {
 	Api.SaveSettings()
 	// textsecure.WriteConfig(config.ConfigFile, config.Config)
 }
-func RegisterWithCrayfish(regisrationInfo *textsecure.RegistrationInfo) (*textsecure.CrayfishRegistration, error) {
-	registration, err := crayfish.Instance.CrayfishRegister(regisrationInfo)
-	if err != nil {
-		return nil, err
-	}
-	return registration, nil
 
-}
 func RunBackend() {
 	log.Debugf("[axolotl] Run Backend")
 	store.DS.SetupDb("")
@@ -172,7 +164,6 @@ func RunBackend() {
 		SyncSentHandler:       handler.SyncSentHandler,
 		RegistrationDone:      ui.RegistrationDone,
 		GetUsername:           ui.GetUsername,
-		RegisterWithCrayfish:  RegisterWithCrayfish,
 	}
 
 	if config.IsPhone {
@@ -221,6 +212,7 @@ func startSession() {
 	log.Debugf("[axolotl] starting Signal connection")
 	err := textsecure.Setup(client)
 	if _, ok := err.(*strconv.NumError); ok {
+		log.Errorf("[axolotl] startSession: %s", err)
 		ui.ShowError(fmt.Errorf("[axolotl] switching to unencrypted session store, removing %s\nThis will reset your sessions and reregister your phone.\n", config.StorageDir))
 		os.RemoveAll(config.StorageDir)
 		os.Exit(1)
