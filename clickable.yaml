@@ -1,6 +1,6 @@
 clickable_minimum_required: '7'
 builder: go
-prebuild: cp ${ROOT}/axolotl-web/dist/* ${BUILD_DIR}/axolotl-web -R
+prebuild: mkdir -p ${BUILD_DIR}/axolotl-web && cp ${ROOT}/axolotl-web/dist/* ${BUILD_DIR}/axolotl-web -R
 postbuild: ${ROOT}/scripts/postbuild.sh ${INSTALL_DIR};
 install_bin:
   - ${CRAYFISH_LIB_INSTALL_DIR}/bin/crayfish
