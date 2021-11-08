@@ -3,6 +3,18 @@ builder: go
 postbuild: ${ROOT}/scripts/postbuild.sh ${INSTALL_DIR};
 install_bin:
   - ${CRAYFISH_LIB_INSTALL_DIR}/bin/crayfish
+install_root_data:
+  - manifest.json
+  - click/axolotl.png
+  - click/textsecure-helper
+  - click/textsecure-push-helper.json
+  - click/textsecure-push.apparmor
+  - click/textsecure.content-hub
+  - click/textsecure.desktop
+  - click/textsecure.png
+  - click/textsecure.url-dispatcher
+install_data:
+  axolotl-web/dist: axolotl-web
 dependencies_host:
   - gettext
 kill: textsecure
@@ -38,10 +50,16 @@ libraries:
     builder: rust
     src_dir: crayfish
     rust_channel: 1.55.0
-  nodejs_deps:
+    docker_image: rust
+    dependencies_host:
+      - crossbuild-essential-${ARCH}
+  axolotlweb:
     image_setup:
       run:
-        - curl -fsSL https://deb.nodesource.com/setup_current.x | bash -
+        - curl -fsSL https://deb.nodesource.com/setup_16.x  | bash -
         - apt-get install -y nodejs
     builder: custom
-    build: npm --prefix=${ROOT}/axolotl-web install && npm --prefix=${ROOT}/axolotl-web ci
+    src_dir: axolotl-web
+    build: 
+      - npm install
+      - npm run build

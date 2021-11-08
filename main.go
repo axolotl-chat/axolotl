@@ -42,11 +42,6 @@ func runBackend() {
 		push.PushHelperProcess()
 	}
 }
-func runRustBackend() {
-	// defer wg.Done()
-	// crayfish.Run()
-
-}
 func runUI() error {
 	defer wg.Done()
 	if config.Gui != "ut" && config.Gui != "lorca" && config.Gui != "qt" {
@@ -165,8 +160,6 @@ var wg sync.WaitGroup
 
 func main() {
 	setup()
-	wg.Add(1)
-	go runRustBackend()
 	wg.Add(1)
 	go runBackend()
 	log.Println("[axolotl] Setup completed")
