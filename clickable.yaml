@@ -1,5 +1,6 @@
 clickable_minimum_required: '7'
 builder: go
+prebuild: cp ${ROOT}/axolotl-web/dist/* ${BUILD_DIR}/axolotl-web -R
 postbuild: ${ROOT}/scripts/postbuild.sh ${INSTALL_DIR};
 install_bin:
   - ${CRAYFISH_LIB_INSTALL_DIR}/bin/crayfish
@@ -9,42 +10,16 @@ install_root_data:
   - click/textsecure-helper
   - click/textsecure-push-helper.json
   - click/textsecure-push.apparmor
+  - click/textsecure.apparmor
   - click/textsecure.content-hub
   - click/textsecure.desktop
   - click/textsecure.png
   - click/textsecure.url-dispatcher
-install_data:
-  axolotl-web/dist: axolotl-web
+  - ${BUILD_DIR}/axolotl-web
+  - guis/qml/ut
 dependencies_host:
   - gettext
-kill: textsecure
-ignore:
-  - .*
-  - .clickable
-  - .git
-  - .github
-  - .gitignore
-  - .gitmodules
-  - click
-  - crayfish
-  - docker
-  - main.go
-  - po
-  - scripts
-  - axolotl-web
-  - build
-  - output
-  - '*.snap'
-  - main
-  - bind*.go
-  - '*.syso'
-  - '*.go'
-  - dist
-  - .flatpak-builder
-  - .idea
-  - flatpak
-  - libzkgroup*.so
-  - \$GITHUB_WORKSPACE/*
+kill: axolotl
 libraries:
   crayfish:
     builder: rust

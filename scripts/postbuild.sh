@@ -2,15 +2,7 @@
 
 # make sure the script fails on errors
 set -Eeuo pipefail
-
-# copy click files
-echo "copy click files $@"
-
-cp -a ../../../click/* $@
-# Build axolotl-web
-# echo "update translations and build axolotl-web $@"
-# cd ../../../axolotl-web&&npm run translate &&npm run build && mkdir $@/axolotl-web&&cp dist $@/axolotl-web/ -r
-
+echo "Running postbuild script"
 case $ARCH in
 	amd64)
 		ARCH_NAME=x86_64
