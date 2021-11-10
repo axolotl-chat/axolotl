@@ -35,6 +35,6 @@ libraries:
         - apt-get install -y nodejs
     builder: custom
     src_dir: axolotl-web
-    build: 
-      - npm install
+    build:
+      - npm ci
       - npm run build
