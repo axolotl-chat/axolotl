@@ -13,18 +13,15 @@
     "lint": "vue-cli-service lint",
     "depcheck": "depcheck",
     "test": "echo 'No tests available' && exit 0",
-    "translate": "npm run translate-extract && npm run translate-update && npm run translate-compile",
-    "translate-compile": "npm run translate-remove-tmp&&node ./node_modules/easygettext/src/compile-cli.js --output ./translations/translations.json $(find ../po/ -type f -name '*.po')",
-    "translate-extract": "node ./node_modules/easygettext/src/extract-cli.js --attribute v-translate --output ../po/textsecure.nanuc.pot $(find src -type f -name '*.vue')",
-    "translate-remove-tmp": "cd ../po && ls ../po | grep -P '\\.po[~]{1}|\\.pot[~]{1}' | xargs -d'\n' rm || true",
-    "translate-update": "cd ../po && find ./*.po -exec msgmerge --update {} textsecure.nanuc.pot \\;"
+    "translate": "npm run translate-extract && npm run translate-compile",
+    "translate-compile": "vue-gettext-compile",
+    "translate-extract": "vue-gettext-extract"
   },
   "main": "src/main.js",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
     "@fortawesome/vue-fontawesome": "^3.0.0-4",
-    "@jshmrtn/vue3-gettext": "^1.0.4",
     "bootstrap": "^5.1.0",
     "core-js": "^3.6.5",
     "file-saver": "^2.0.5",
@@ -36,6 +33,7 @@
     "vue-loader": "^16.5.0",
     "vue-native-websocket-vue3": "^3.1.4",
     "vue-router": "^4.0.11",
+    "vue3-gettext": "^2.0.0-alpha.2",
     "vue3-tel-input": "^1.0.4",
     "vuex": "^4.0.2"
   },
