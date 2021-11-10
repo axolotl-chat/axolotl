@@ -21,7 +21,6 @@ if [ -v $GOPATH ]
 then
 	# Github
 	readonly ZKGROUP_GITHUB=/github/workspace/go/src/github.com/nanu-c/zkgroup/lib/$FILENAME
-	echo "blub1"
 	cp $ZKGROUP_GITHUB $@/lib/;
 	rm -f ${INSTALL_DIR}/\\${GITHUB_WORKSPACE}
 else
