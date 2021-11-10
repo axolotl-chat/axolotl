@@ -1,3 +1,5 @@
+#!/bin/bash
+
 go clean
 
 echo "Build ut linux armhf"
