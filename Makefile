@@ -198,7 +198,7 @@ install-snap:
 ## Please get the source via
 ## env GO111MODULE=off go get -d -u github.com/nanu-c/axolotl/
 check-platform-deb-arm64:
-	@echo "Building Axolotl for Debian arm64/aarch64"
+	@echo "Building Axolotl for Debian arm64/aarch64."
   ifneq ($(UNAME_S),Linux)
 	@echo "Platform unsupported - only available for Linux" && exit 1
   endif
@@ -212,12 +212,12 @@ check-platform-deb-arm64:
 dependencies-deb-arm64: check-platform-deb-arm64
 	@echo "Installing dependencies for building Axolotl..."
 	@sudo $(APT) update
-	@sudo $(APT) install nano curl git golang nodejs npm
+	@sudo $(APT) install nano curl wget git golang nodejs npm debmake
   ifneq ($(RUST),${HOME}/.cargo/bin/rustup)
 	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-	@source ${HOME}/.cargo/env
   endif
-	@rustup update
+	@$(RUST_BIN)/rustup update
+  @echo "Dependencies installed."
 
 build-deb-arm64: dependencies-deb-arm64
 	@echo "Downloading (go)..."
@@ -232,7 +232,7 @@ build-deb-arm64: dependencies-deb-arm64
 	@cp --recursive $(CURRENT_DIR)/axolotl-web/dist $(CURRENT_DIR)/build/linux-arm64/axolotl-web/
 	@cp --recursive $(CURRENT_DIR)/guis $(CURRENT_DIR)/build/linux-arm64/
 	@echo "Building (rust)..."
-	@cd $(CURRENT_DIR)/crayfish && cargo build --release
+	@cd $(CURRENT_DIR)/crayfish && $(RUST_BIN)/cargo build --release
 	@echo "Building complete."
 
 prebuild-package-deb-arm64: package-clean-deb-arm64
@@ -260,7 +260,7 @@ prebuild-package-deb-arm64: package-clean-deb-arm64
 	@$(WGET) https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_aarch64.so --directory-prefix=$(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/lib/
 	@mv $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl/axolotl $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin/
 	@cp $(CURRENT_DIR)/crayfish/target/release/crayfish $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin/
-	@echo "Prebuilding Debian package complete"
+	@echo "Prebuilding Debian package complete."
 
 build-package-deb-arm64:
 	@echo "Building Debian package..."
@@ -273,7 +273,7 @@ build-package-deb-arm64:
 
 install-deb-arm64: uninstall-deb-arm64
 # Use for testing purposes only
-	@echo "Installing Axolotl"
+	@echo "Installing Axolotl..."
 # Copy libzkgroup
 	@sudo $(WGET) https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_aarch64.so --directory-prefix=$(DESTDIR)$(LIBRARY_PREFIX)/
 #	Copy binary and helpers
@@ -286,7 +286,7 @@ install-deb-arm64: uninstall-deb-arm64
 	@sudo cp $(CURRENT_DIR)/deb/axolotl.sh /etc/profile.d
 	@bash -c "source /etc/profile.d/axolotl.sh"
 	@sudo cp $(CURRENT_DIR)/crayfish/target/release/crayfish $(DESTDIR)$(INSTALL_PREFIX)/
-	@echo "Installation complete"
+	@echo "Installation complete."
 
 uninstall-deb-arm64:
 	@sudo rm --recursive --force $(DESTDIR)$(SHARE_PREFIX)/axolotl/
@@ -297,10 +297,10 @@ uninstall-deb-arm64:
 	@sudo rm --force /etc/profile.d/axolotl.sh
 	@sudo rm --force $(DESTDIR)$(LIBRARY_PREFIX)/libzkgroup_linux_aarch64.so
 	@sudo rm --force $(DESTDIR)$(INSTALL_PREFIX)/crayfish
-	@echo "Removing complete"
+	@echo "Removing complete."
 
 check-platform-deb-arm64-cc:
-	@echo "Cross-compiling Axolotl for Debian arm64/aarch64"
+	@echo "Cross-compiling Axolotl for Debian arm64/aarch64."
   ifneq ($(UNAME_S),Linux)
 	@echo "Platform unsupported - only available for Linux" && exit 1
   endif
@@ -312,7 +312,7 @@ check-platform-deb-arm64-cc:
   endif
 
 dependencies-deb-arm64-cc: check-platform-deb-arm64-cc
-	@echo "Installing dependencies for building Axolotl..."
+	@echo "Installing dependencies for cross-compiling Axolotl..."
 	@sudo dpkg --add-architecture arm64
 	@sudo $(APT) update
 	@sudo $(APT) install nano curl wget git golang nodejs npm gcc-aarch64-linux-gnu debmake libc-dev:arm64
@@ -349,10 +349,10 @@ build-deb-arm64-cc:
 	@echo "Building (rust)..."
 	@sudo systemctl start docker
 	@cd $(CURRENT_DIR)/crayfish && $(RUST_BIN)/cross build --release --target aarch64-unknown-linux-gnu
-	@echo "Building complete."
+	@echo "Cross-compiling complete."
 
 prebuild-package-deb-arm64-cc: package-clean-deb-arm64
-	@echo "Prebuilding Debian package..."
+	@echo "Prebuilding cross-compiled Debian package..."
 # Get the source tarball
 	@$(WGET) https://github.com/nanu-c/axolotl/archive/v$(AXOLOTL_VERSION).tar.gz --output-document=$(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION).tar.gz
 # Prepare packaging folder
@@ -376,10 +376,10 @@ prebuild-package-deb-arm64-cc: package-clean-deb-arm64
 	@$(WGET) https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_aarch64.so --directory-prefix=$(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/lib/
 	@mv $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl/axolotl $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin/
 	@cp $(CURRENT_DIR)/crayfish/target/aarch64-unknown-linux-gnu/release/crayfish $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin/
-	@echo "Prebuilding Debian package complete"
+	@echo "Prebuilding cross-compiled Debian package complete."
 
 build-package-deb-arm64-cc:
-	@echo "Building Debian package..."
+	@echo "Building cross-compiled Debian package..."
 # Prompt to edit changelog file
 	@nano $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
 # Prompt to edit copyright file
@@ -392,6 +392,11 @@ clean-deb-arm64:
 
 package-clean-deb-arm64:
 	@rm --recursive --force $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/
+
+uninstall-deb-dependencies:
+	@sudo apt purge wget git golang nodejs npm debmake
+	@sudo apt autoremove && sudo apt autoclean
+	@rustup self uninstall
 
 uninstall-deb-dependencies-cc:
 	@sudo dpkg --remove-architecture arm64
