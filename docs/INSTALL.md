@@ -274,11 +274,11 @@ This requires clickable and snapcraft to be installed.
 It also requires the axolotl-web bundle to already be built.
 see [build.sh](../scripts/build.sh)
 
-## Mobian
+## Mobian (or Debian arm64 systems)
 
 **Build and Install**
 
-Building Axolotl for Mobian (or other Debian arm64 systems) can be done by getting the source via
+Building Axolotl on Mobian (or other Debian arm64 systems) can be done by getting the source via
 
 ```
 env GO111MODULE=off go get -d -u github.com/nanu-c/axolotl/
@@ -287,6 +287,7 @@ and executing this Makefile command in the source folder on a Debian arm64 machi
 ```
 make build-deb-arm64
 ```
+The dependencies golang and git are needed.
 
 Installation can be done afterwards via
 ```
@@ -300,6 +301,23 @@ The Debian arm64 package uploaded [here](https://github.com/nuehm-arno/axolotl-m
 make prebuild-package-deb-arm64 build-package-deb-arm64
 ```
 Packaging is still under improvement to comply with official Debian packaging rules.
+
+**Debian cross-compiling**
+
+Axolotl can be cross-compiled and packaged for Mobian (Debian arm64 systems) on a Debian x86_64/amd64 system using
+```
+make dependencies-deb-arm64-cc
+```
+followed by
+```
+make build-deb-arm64-cc
+```
+and
+```
+make prebuild-package-deb-arm64-cc build-package-deb-arm64-cc
+```
+The resulting deb-file can be found in the source folder.
+
 
 ## Fedora
 
