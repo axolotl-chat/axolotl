@@ -217,7 +217,7 @@ dependencies-deb-arm64: check-platform-deb-arm64
 	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
   endif
 	@$(RUST_BIN)/rustup update
-  @echo "Dependencies installed."
+	@echo "Dependencies installed."
 
 build-deb-arm64: dependencies-deb-arm64
 	@echo "Downloading (go)..."
