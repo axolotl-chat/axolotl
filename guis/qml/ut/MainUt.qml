@@ -23,7 +23,6 @@ UITK.Page {
     id: webView
     profile:webProfile
     url: "http://localhost:9080/"
-    // url: "https://google.de"
     settings.showScrollBars: false
     anchors {
       left: parent.left
