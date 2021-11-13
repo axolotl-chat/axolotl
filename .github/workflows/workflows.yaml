@@ -178,7 +178,7 @@ jobs:
       - name: Build crayfish (armhf)
         uses: docker://rust:latest
         with:
-          args: /bin/bash -c "apt update && apt install python3-pip -y && pip3 install --user git+https://gitlab.com/clickable/clickable.git@dev && /root/.local/bin/clickable build -a armhf --verbose --container-mode --libs crayfish"
+          args: /bin/bash -c "apt update && apt install python3-pip -y && pip3 install --user git+https://gitlab.com/clickable/clickable.git@dev && find / | grep clickable && echo $GITHUB_WORKSPACE/ && /$GITHUB_WORKSPACE/.local/bin/clickable build -a armhf --verbose --container-mode --libs crayfish"
 
       - name: Build clickable (armhf)
         uses: docker://clickable/ci-dev-16.04-armhf:latest
