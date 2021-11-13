@@ -156,6 +156,7 @@ jobs:
   package-clickable-armhf:
     name: Package as clickable armhf
     runs-on: ubuntu-latest
+    needs: [build-axolotl, build-axolotl-web]
 
     steps:
       - name: Check out code
@@ -196,6 +197,7 @@ jobs:
   package-clickable-arm64:
     name: Package as clickable arm64
     runs-on: ubuntu-latest
+    needs: [build-axolotl, build-axolotl-web]
 
     steps:
       - name: Check out code
