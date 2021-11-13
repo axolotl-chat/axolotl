@@ -175,10 +175,10 @@ jobs:
           mkdir $GITHUB_WORKSPACE/lib/
           mv libzkgroup_linux_armv7_v0.8.8.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_armv7.so
 
-      - name: Build clickable (armhf)
+      - name: Build crayfish (armhf)
         uses: docker://rust:latest
         with:
-          args: /bin/bash -c "apt update && apt install python3-pip -y && pip3 install --user git+https://gitlab.com/clickable/clickable.git@dev && clickable build -a armhf --verbose --container-mode --libs crayfish"
+          args: /bin/bash -c "apt update && apt install python3-pip -y && pip3 install --user git+https://gitlab.com/clickable/clickable.git@dev && /root/.local/bin/clickable build -a armhf --verbose --container-mode --libs crayfish"
 
       - name: Build clickable (armhf)
         uses: docker://clickable/ci-dev-16.04-armhf:latest
