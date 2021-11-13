@@ -162,14 +162,11 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: 'true'
-
-      - name: Setup Node 14
-        uses: actions/setup-node@v1
+          
+      - name: Download axolotl and axolotl-web build artifacts
+        uses: actions/download-artifact@v2
         with:
-          node-version: "14.x"
-
-      - name: Download npm dependencies
-        run: npm --prefix ./axolotl-web ci --loglevel verbose
+          path: build-artifacts
 
       - name: Download built zkgroup library (armhf)
         run: |
@@ -178,11 +175,19 @@ jobs:
           mv libzkgroup_linux_armv7_v0.8.8.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_armv7.so
 
       - name: Build clickable (armhf)
+        uses: docker://rust:latest
+        run: |
+          apt update
+          apt install python3-pip -y
+          pip3 install --user git+https://gitlab.com/clickable/clickable.git@dev
+          clickable build -a armhf --verbose --container-mode --libs crayfish
+
+      - name: Build clickable (armhf)
         uses: docker://clickable/ci-dev-16.04-armhf:latest
         env:
           GOPATH: $GITHUB_WORKSPACE/go
         with:
-          args: clickable build --verbose --libs crayfish --app
+          args: clickable build --verbose -a armhf --app
 
       - name: Upload the built clickable artifact (armhf)
         uses: actions/upload-artifact@v2
