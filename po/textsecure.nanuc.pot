@@ -161,12 +161,6 @@ msgid ""
 "        Touch, use UT Tweak Tool to set Axolotl on \"Prevent app suspension\"."
 msgstr ""
 
-#: src/components/WarningMessage.vue:3
-msgid ""
-"Due to upstream changes in Signal, some features are currently broken.\n"
-"      We're working as fast as we can to bring them back."
-msgstr ""
-
 #: src/components/EditContactModal.vue:6
 msgid "Edit"
 msgstr ""
@@ -194,10 +188,6 @@ msgstr ""
 
 #: src/pages/Debug.vue:5
 msgid "Exit"
-msgstr ""
-
-#: src/components/WarningMessage.vue:8
-msgid "Follow the progress or join us to help with development on"
 msgstr ""
 
 #: src/pages/Debug.vue:3
