@@ -228,7 +228,7 @@ build-deb-arm64: dependencies-deb-arm64
 	@cd $(CURRENT_DIR)/axolotl-web && npm run build
 	@mkdir -p $(CURRENT_DIR)/build/linux-arm64/axolotl-web
 	@echo "Building (go)..."
-	@cd $(CURRENT_DIR) && env GOOS=linux GOARCH=arm64 go build -o build/linux-arm64/axolotl .
+	@cd $(CURRENT_DIR) && go build -o build/linux-arm64/axolotl .
 	@cp --recursive $(CURRENT_DIR)/axolotl-web/dist $(CURRENT_DIR)/build/linux-arm64/axolotl-web/
 	@cp --recursive $(CURRENT_DIR)/guis $(CURRENT_DIR)/build/linux-arm64/
 	@echo "Building (rust)..."
