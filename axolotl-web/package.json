@@ -46,7 +46,6 @@
     "babel-eslint": "^10.1.0",
     "browserslist": "^4.16.3",
     "depcheck": "^1.4.0",
-    "easygettext": "^2.16.1",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.20.2",
