@@ -1,6 +1,4 @@
 ignores:
-  - "core-js"
-  - "node-sass"
   - "sass-loader"
   - "bootstrap"
   - "@vue/cli-plugin-eslint"
@@ -8,6 +6,7 @@ ignores:
   - "@vue/cli-plugin-babel"
   - "browserslist"
   - "vue-loader"
+  - "vue3-gettext"
   - "@vue/eslint-config-airbnb"
   - "eslint-config-prettier"
   - "eslint-plugin-import"
@@ -15,7 +14,6 @@ ignores:
   - "eslint-plugin-prettier-vue"
   - "prettier"
   - "sass"
-  - "webpack"
 specials:
   - "bin"
   - "eslint"
