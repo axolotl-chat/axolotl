@@ -104,7 +104,7 @@ jobs:
   package-appimage:
     name: Package as AppImage
     # This ensures that this job only runs on git tags
-    if: startsWith(github.ref, 'refs/tags/v')
+    #if: startsWith(github.ref, 'refs/tags/v')
     needs: [build-axolotl, build-axolotl-web]
     runs-on: ubuntu-latest
 
@@ -151,7 +151,7 @@ jobs:
         with:
           name: Axolotl-AppImage
           path: Axolotl-x86_64.AppImage
-          retention-days: 1
+          retention-days: 5
 
   package-clickable-armhf:
     name: Package as clickable armhf
@@ -181,9 +181,12 @@ jobs:
           mv libzkgroup_linux_armv7_v0.8.8.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_armv7.so
 
       - name: Build crayfish (armhf)
-        uses: docker://rust:latest
+        uses: ubuntu:bionic
         with:
-          args: /bin/bash -c "apt update && apt install python3-pip -y && pip3 install --user git+https://gitlab.com/clickable/clickable.git@dev && /github/home/.local/bin/clickable build -a armhf --verbose --container-mode --libs crayfish"
+          args: |
+          /bin/bash -c "apt update && apt install python3-pip curl -y && \
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y && \
+          pip3 install --user git+https://gitlab.com/clickable/clickable.git@dev && /github/home/.local/bin/clickable build -a armhf --verbose --container-mode --libs crayfish"
 
       - name: Build clickable (armhf)
         uses: docker://clickable/ci-dev-16.04-armhf:latest
