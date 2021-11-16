@@ -216,7 +216,7 @@ dependencies-deb-arm64: check-platform-deb-arm64
   ifneq ($(RUST),${HOME}/.cargo/bin/rustup)
 	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
   endif
-	@$(RUST_BIN)/rustup update
+	@$(CARGO_PREFIX)/rustup update
 	@echo "Dependencies installed."
 
 build-deb-arm64: dependencies-deb-arm64
