@@ -39,7 +39,7 @@ DESTDIR = /
 INSTALL_PREFIX = usr/bin
 LIBRARY_PREFIX = usr/lib
 SHARE_PREFIX = usr/share
-RUST_BIN = ${HOME}/.cargo/bin
+CARGO_PREFIX = ${HOME}/.cargo/bin
 
 all: clean build
 
@@ -232,7 +232,7 @@ build-deb-arm64: dependencies-deb-arm64
 	@cp --recursive $(CURRENT_DIR)/axolotl-web/dist $(CURRENT_DIR)/build/linux-arm64/axolotl-web/
 	@cp --recursive $(CURRENT_DIR)/guis $(CURRENT_DIR)/build/linux-arm64/
 	@echo "Building (rust)..."
-	@cd $(CURRENT_DIR)/crayfish && $(RUST_BIN)/cargo build --release
+	@cd $(CURRENT_DIR)/crayfish && $(CARGO_PREFIX)/cargo build --release
 	@echo "Building complete."
 
 prebuild-package-deb-arm64: package-clean-deb-arm64
@@ -319,9 +319,9 @@ dependencies-deb-arm64-cc: check-platform-deb-arm64-cc
   ifneq ($(RUST),${HOME}/.cargo/bin/rustup)
 	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
   endif
-	@$(RUST_BIN)/rustup update
+	@$(CARGO_PREFIX)/rustup update
   ifneq ($(CROSS),${HOME}/.cargo/bin/cross)
-	@$(RUST_BIN)/cargo install cross
+	@$(CARGO_PREFIX)/cargo install cross
   endif
   ifneq ($(DOCKER),/usr/bin/docker)
 	@curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -348,7 +348,7 @@ build-deb-arm64-cc:
 	@cp --recursive $(CURRENT_DIR)/guis $(CURRENT_DIR)/build/linux-arm64/
 	@echo "Building (rust)..."
 	@sudo systemctl start docker
-	@cd $(CURRENT_DIR)/crayfish && $(RUST_BIN)/cross build --release --target aarch64-unknown-linux-gnu
+	@cd $(CURRENT_DIR)/crayfish && $(CARGO_PREFIX)/cross build --release --target aarch64-unknown-linux-gnu
 	@echo "Cross-compiling complete."
 
 prebuild-package-deb-arm64-cc: package-clean-deb-arm64
