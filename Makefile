@@ -280,7 +280,7 @@ install-deb-arm64: uninstall-deb-arm64
 	@sudo mv $(DESTDIR)$(SHARE_PREFIX)/axolotl/axolotl $(DESTDIR)$(INSTALL_PREFIX)/
 	@sudo cp $(CURRENT_DIR)/deb/axolotl.desktop $(DESTDIR)$(SHARE_PREFIX)/applications/
 	@sudo cp $(CURRENT_DIR)/deb/axolotl.png $(DESTDIR)$(SHARE_PREFIX)/icons/hicolor/128x128/apps/
-	@sudo gtk-update-icon-cache
+	@sudo xdg-icon-resource forceupdate
 	@sudo cp $(CURRENT_DIR)/deb/axolotl.sh /etc/profile.d
 	@bash -c "source /etc/profile.d/axolotl.sh"
 	@sudo cp $(CURRENT_DIR)/crayfish/target/release/crayfish $(DESTDIR)$(INSTALL_PREFIX)/
@@ -291,7 +291,7 @@ uninstall-deb-arm64:
 	@sudo rm --force $(DESTDIR)$(INSTALL_PREFIX)/axolotl
 	@sudo rm --force $(DESTDIR)$(SHARE_PREFIX)/applications/axolotl.desktop
 	@sudo rm --force $(DESTDIR)$(SHARE_PREFIX)/icons/hicolor/128x128/apps/axolotl.png
-	@sudo gtk-update-icon-cache
+	@sudo xdg-icon-resource forceupdate
 	@sudo rm --force /etc/profile.d/axolotl.sh
 	@sudo rm --force $(DESTDIR)$(LIBRARY_PREFIX)/libzkgroup_linux_aarch64.so
 	@sudo rm --force $(DESTDIR)$(INSTALL_PREFIX)/crayfish

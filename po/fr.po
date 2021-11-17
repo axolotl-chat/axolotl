@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2021-10-03 13:29+0200\n"
+"PO-Revision-Date: 2021-11-02 12:48+0100\n"
 "Last-Translator: Anne017\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -80,11 +80,11 @@ msgstr "Impossible de modifier la liste des contacts : {{error}}"
 
 #: src/pages/Debug.vue:18
 msgid "Clear all localStorage"
-msgstr ""
+msgstr "Effacer tout le stockage local"
 
 #: src/pages/Debug.vue:14
 msgid "Clear registration from localStorage"
-msgstr ""
+msgstr "Effacer l'enregistrement du stockage local"
 
 #: src/components/ErrorModal.vue:31 src/components/IdentityModal.vue:22
 #: src/components/ImportUnavailableModal.vue:29
@@ -130,13 +130,15 @@ msgstr "Le mot de passe actuel est incorrect"
 
 #: src/pages/Debug.vue:13
 msgid "Current registration status in $store: {{ registrationStatus }}"
-msgstr ""
+msgstr "État actuel de l'enregistrement dans $store : {{ registrationStatus }}"
 
 #: src/pages/Debug.vue:9
 msgid ""
 "Current registration status in local storage:\n"
 "        {{ localRegistrationStatus }}"
 msgstr ""
+"État actuel de l'enregistrement dans le stockage local :\n"
+"        {{ localRegistrationStatus }}"
 
 #: src/pages/Settings.vue:21
 msgid "Dark mode"
@@ -144,20 +146,19 @@ msgstr "Mode sombre"
 
 #: src/pages/Debug.vue:2
 msgid "Debug screen"
-msgstr ""
+msgstr "Écran de débogage"
 
 #: src/pages/Password.vue:6
 msgid "Decrypt"
 msgstr "Déchiffrer"
 
 #: src/components/Header.vue:119
-#, fuzzy
 msgid "Delete chat"
-msgstr "Supprimer"
+msgstr "Supprimer la discussion"
 
 #: src/components/Header.vue:92
 msgid "Delete this chat?"
-msgstr ""
+msgstr "Supprimer cette discussion ?"
 
 #: src/components/AttachmentBar.vue:20
 msgid "Document"
@@ -212,7 +213,7 @@ msgstr "Erreur lors de la communication avec les serveurs de Signal"
 
 #: src/pages/Debug.vue:5
 msgid "Exit"
-msgstr ""
+msgstr "Quitter"
 
 #: src/components/WarningMessage.vue:8
 msgid "Follow the progress or join us to help with development on"
@@ -221,7 +222,7 @@ msgstr ""
 
 #: src/pages/Debug.vue:3
 msgid "For developers only, use with care!"
-msgstr ""
+msgstr "Pour les développeurs/euses uniquement, à utiliser avec précaution !"
 
 #: src/components/Message.vue:93
 msgid "Group changed."
@@ -229,7 +230,7 @@ msgstr "Le groupe a changé."
 
 #: src/pages/MessageList.vue:1
 msgid "Group has to be updated by a member."
-msgstr ""
+msgstr "Le groupe doit être mis à jour par un membre."
 
 #: src/pages/EditGroup.vue:4 src/pages/NewGroup.vue:4
 msgid "Group name"
@@ -413,7 +414,7 @@ msgstr "Numéro d'enregistrement"
 
 #: src/pages/Debug.vue:8
 msgid "Registration data"
-msgstr ""
+msgstr "Données d'enregistrement"
 
 #: src/pages/SetPassword.vue:23
 msgid "Repeat password"
@@ -500,9 +501,10 @@ msgstr ""
 "Axolotl."
 
 #: src/components/Header.vue:94
-#, fuzzy
 msgid "This chat will be permanently deleted - but only from your device."
-msgstr "Cela supprimera définitivement l'appareil sélectionné."
+msgstr ""
+"Cette discussion sera définitivement supprimée, mais uniquement de votre "
+"appareil."
 
 #: src/pages/About.vue:6
 msgid ""
