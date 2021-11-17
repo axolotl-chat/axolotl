@@ -1,47 +1,42 @@
 clickable_minimum_required: '7'
 builder: go
-postbuild: ${ROOT}/scripts/postbuild.sh ${INSTALL_DIR};
+prebuild: 
+  - mkdir -p ${BUILD_DIR}/axolotl-web 
+  - cp ${SRC_DIR}/axolotl-web/dist ${BUILD_DIR}/axolotl-web/ -R
+postbuild: ${SRC_DIR}/scripts/postbuild.sh ${INSTALL_DIR};
 install_bin:
   - ${CRAYFISH_LIB_INSTALL_DIR}/bin/crayfish
+install_root_data:
+  - manifest.json
+  - click/axolotl.png
+  - click/textsecure-helper
+  - click/textsecure-push-helper.json
+  - click/textsecure-push.apparmor
+  - click/textsecure.apparmor
+  - click/textsecure.content-hub
+  - click/textsecure.desktop
+  - click/textsecure.png
+  - click/textsecure.url-dispatcher
+  - ${BUILD_DIR}/axolotl-web
+  - guis/qml/ut
 dependencies_host:
   - gettext
-kill: textsecure
-ignore:
-  - .*
-  - .clickable
-  - .git
-  - .github
-  - .gitignore
-  - .gitmodules
-  - click
-  - crayfish
-  - docker
-  - main.go
-  - po
-  - scripts
-  - axolotl-web
-  - build
-  - output
-  - '*.snap'
-  - main
-  - bind*.go
-  - '*.syso'
-  - '*.go'
-  - dist
-  - .flatpak-builder
-  - .idea
-  - flatpak
-  - libzkgroup*.so
-  - \$GITHUB_WORKSPACE/*
+kill: axolotl
 libraries:
   crayfish:
     builder: rust
     src_dir: crayfish
     rust_channel: 1.55.0
-  nodejs_deps:
+    # docker_image: rust
+    dependencies_host:
+      - crossbuild-essential-${ARCH}
+  axolotlweb:
     image_setup:
       run:
-        - curl -fsSL https://deb.nodesource.com/setup_current.x | bash -
+        - curl -fsSL https://deb.nodesource.com/setup_16.x  | bash -
         - apt-get install -y nodejs
     builder: custom
-    build: npm --prefix=${ROOT}/axolotl-web install && npm --prefix=${ROOT}/axolotl-web ci
+    src_dir: axolotl-web
+    build:
+      - npm ci
+      - npm run build
