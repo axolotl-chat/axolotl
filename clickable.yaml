@@ -27,7 +27,7 @@ libraries:
     builder: rust
     src_dir: crayfish
     rust_channel: 1.55.0
-    docker_image: rust
+    # docker_image: rust
     dependencies_host:
       - crossbuild-essential-${ARCH}
   axolotlweb:

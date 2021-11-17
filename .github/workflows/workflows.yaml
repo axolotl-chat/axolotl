@@ -181,9 +181,9 @@ jobs:
           mv libzkgroup_linux_armv7_v0.8.8.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_armv7.so
 
       - name: Build crayfish (armhf)
-        uses: docker://ubuntu:bionic
+        uses: docker://clickable/ci-dev-16.04-armhf:latest
         with:
-          args: /bin/bash -c "apt update && apt install python3-pip curl -y && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y &&   pip3 install --user git+https://gitlab.com/clickable/clickable.git@dev && /github/home/.local/bin/clickable build -a armhf --verbose --container-mode --libs crayfish"
+          args: clickable build -a armhf --verbose --container-mode --libs crayfish
 
       - name: Build clickable (armhf)
         uses: docker://clickable/ci-dev-16.04-armhf:latest
