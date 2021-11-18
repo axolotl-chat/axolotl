@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Axolotl
 #Exec=qmlscene --scaling qml/MainUt.qml
-Exec=textsecure -e ut  %u 
+Exec=axolotl -e ut  %u 
 Icon=axolotl.png
 Terminal=false
 Type=Application

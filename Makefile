@@ -232,6 +232,7 @@ build-deb-arm64: dependencies-deb-arm64
 	@cp --recursive $(CURRENT_DIR)/axolotl-web/dist $(CURRENT_DIR)/build/linux-arm64/axolotl-web/
 	@cp --recursive $(CURRENT_DIR)/guis $(CURRENT_DIR)/build/linux-arm64/
 	@echo "Building (rust)..."
+	@cd $(CURRENT_DIR) && git submodule init && git submodule update
 	@cd $(CURRENT_DIR)/crayfish && $(CARGO_PREFIX)/cargo build --release
 	@echo "Building complete."
 
@@ -348,6 +349,7 @@ build-deb-arm64-cc:
 	@cp --recursive $(CURRENT_DIR)/guis $(CURRENT_DIR)/build/linux-arm64/
 	@echo "Building (rust)..."
 	@sudo systemctl start docker
+	@cd $(CURRENT_DIR) && git submodule init && git submodule update
 	@cd $(CURRENT_DIR)/crayfish && $(CARGO_PREFIX)/cross build --release --target aarch64-unknown-linux-gnu
 	@echo "Cross-compiling complete."
 

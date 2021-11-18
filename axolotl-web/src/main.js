@@ -3,7 +3,7 @@ import App from './App.vue'
 import VueNativeSock from 'vue-native-websocket-vue3'
 import store from './store/store'
 import { router } from "./router/router";
-import { createGettext } from "@jshmrtn/vue3-gettext";
+import { createGettext } from "vue3-gettext";
 import translations from '../translations/translations.json'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import LinkifyHtml from 'linkifyjs/html'

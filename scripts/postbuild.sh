@@ -2,15 +2,7 @@
 
 # make sure the script fails on errors
 set -Eeuo pipefail
-
-# copy click files
-echo "copy click files $@"
-
-cp -a ../../../click/* $@
-# Build axolotl-web
-echo "update translations and build axolotl-web $@"
-cd ../../../axolotl-web&&npm run translate &&npm run build && mkdir $@/axolotl-web&&cp dist $@/axolotl-web/ -r
-
+echo "Running postbuild script"
 case $ARCH in
 	amd64)
 		ARCH_NAME=x86_64
@@ -29,7 +21,6 @@ if [ -v $GOPATH ]
 then
 	# Github
 	readonly ZKGROUP_GITHUB=/github/workspace/go/src/github.com/nanu-c/zkgroup/lib/$FILENAME
-	echo "blub1"
 	cp $ZKGROUP_GITHUB $@/lib/;
 	rm -f ${INSTALL_DIR}/\\${GITHUB_WORKSPACE}
 else

@@ -81,7 +81,7 @@ func runUIUbuntuTouch(e string) {
 	log.Infof("[axolotl] Axolotl-gui starting for sys: %v", config.Gui)
 
 	if config.Gui == "ut" {
-		cmd = exec.Command("qmlscene", "--scaling", "guis/qml/ut/MainUt.qml")
+		cmd = exec.Command("qmlscene", "--scaling", "ut/MainUt.qml")
 	} else if config.Gui == "qt" {
 		guilocation := os.Getenv("AXOLOTL_GUI_DIR")
 		cmd = exec.Command("qmlscene", "--scaling", guilocation+"guis/qml/qml/MainQML.qml")
