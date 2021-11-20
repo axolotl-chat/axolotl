@@ -1,7 +1,7 @@
 # This is the Makefile for axolotl.
 # For more info about the syntax, see https://makefiletutorial.com/
 
-.PHONY: build clean build-axolotl-web build-axolotl install install-axolotl install-axolotl-web uninstall build-translation run check check-axolotl check-axolotl-web build-dependencies build-dependencies-axolotl-web build-dependencies-axolotl update-version build-zkgroup copy-zkgroup install-zkgroup uninstall-zkgroup install-clickable-zkgroup uninstall-clickable-zkgroup build-dependencies-flatpak build-dependencies-flatpak-web build-dependencies-flatpak-qt install-flatpak-web install-flatpak-qt build-snap install-snap check-platform-deb-arm64 dependencies-deb-arm64 build-deb-arm64 prebuild-package-deb-arm64 build-package-deb-arm64 install-deb-arm64 uninstall-deb-arm64 clean-deb-arm64 package-clean-deb-arm64
+.PHONY: build clean build-axolotl-web build-axolotl install install-axolotl install-axolotl-web uninstall build-translation run check check-axolotl check-axolotl-web build-dependencies build-dependencies-axolotl-web build-dependencies-axolotl update-version build-zkgroup copy-zkgroup install-zkgroup uninstall-zkgroup install-clickable-zkgroup uninstall-clickable-zkgroup build-dependencies-flatpak build-dependencies-flatpak-web build-dependencies-flatpak-qt install-flatpak-web install-flatpak-qt build-snap install-snap check-platform-deb-arm64 dependencies-deb-arm64 build-deb-arm64 prebuild-package-deb-arm64 build-package-deb-arm64 install-deb-arm64 uninstall-deb-arm64 check-platform-deb-arm64-cc dependencies-deb-arm64-cc build-deb-arm64-cc prebuild-package-deb-arm64-cc build-package-deb-arm64-cc clean-deb-arm64 package-clean-deb-arm64 uninstall-deb-dependencies-cc
 
 NPM_VERSION := $(shell npm --version 2>/dev/null)
 NODE_VERSION := $(shell node --version 2>/dev/null)
@@ -32,11 +32,14 @@ SNAP=$(shell which snap)
 APT=$(shell which apt)
 WGET=$(shell which wget)
 RUST=$(shell which rustup)
+CROSS=$(shell which cross)
+DOCKER=$(shell which docker)
 
 DESTDIR = /
 INSTALL_PREFIX = usr/bin
 LIBRARY_PREFIX = usr/lib
 SHARE_PREFIX = usr/share
+CARGO_PREFIX = ${HOME}/.cargo/bin
 
 all: clean build
 
@@ -195,7 +198,7 @@ install-snap:
 ## Please get the source via
 ## env GO111MODULE=off go get -d -u github.com/nanu-c/axolotl/
 check-platform-deb-arm64:
-	@echo "Building Axolotl for Debian arm64/aarch64"
+	@echo "Building Axolotl for Debian arm64/aarch64."
   ifneq ($(UNAME_S),Linux)
 	@echo "Platform unsupported - only available for Linux" && exit 1
   endif
@@ -209,12 +212,12 @@ check-platform-deb-arm64:
 dependencies-deb-arm64: check-platform-deb-arm64
 	@echo "Installing dependencies for building Axolotl..."
 	@sudo $(APT) update
-	@sudo $(APT) install nano curl git golang nodejs npm
+	@sudo $(APT) install nano curl wget git golang nodejs npm debmake
   ifneq ($(RUST),${HOME}/.cargo/bin/rustup)
 	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-	@source ${HOME}/.cargo/env
   endif
-	@rustup update
+	@$(CARGO_PREFIX)/rustup update
+	@echo "Dependencies installed."
 
 build-deb-arm64: dependencies-deb-arm64
 	@echo "Downloading (go)..."
@@ -225,12 +228,12 @@ build-deb-arm64: dependencies-deb-arm64
 	@cd $(CURRENT_DIR)/axolotl-web && npm run build
 	@mkdir -p $(CURRENT_DIR)/build/linux-arm64/axolotl-web
 	@echo "Building (go)..."
-	@cd $(CURRENT_DIR) && env GOOS=linux GOARCH=arm64 go build -o build/linux-arm64/axolotl .
+	@cd $(CURRENT_DIR) && go build -o build/linux-arm64/axolotl .
 	@cp --recursive $(CURRENT_DIR)/axolotl-web/dist $(CURRENT_DIR)/build/linux-arm64/axolotl-web/
 	@cp --recursive $(CURRENT_DIR)/guis $(CURRENT_DIR)/build/linux-arm64/
 	@echo "Building (rust)..."
 	@cd $(CURRENT_DIR) && git submodule init && git submodule update
-	@cd $(CURRENT_DIR)/crayfish && cargo build --release
+	@cd $(CURRENT_DIR)/crayfish && $(CARGO_PREFIX)/cargo build --release
 	@echo "Building complete."
 
 prebuild-package-deb-arm64: package-clean-deb-arm64
@@ -258,7 +261,7 @@ prebuild-package-deb-arm64: package-clean-deb-arm64
 	@$(WGET) https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_aarch64.so --directory-prefix=$(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/lib/
 	@mv $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl/axolotl $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin/
 	@cp $(CURRENT_DIR)/crayfish/target/release/crayfish $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin/
-	@echo "Prebuilding Debian package complete"
+	@echo "Prebuilding Debian package complete."
 
 build-package-deb-arm64:
 	@echo "Building Debian package..."
@@ -271,7 +274,7 @@ build-package-deb-arm64:
 
 install-deb-arm64: uninstall-deb-arm64
 # Use for testing purposes only
-	@echo "Installing Axolotl"
+	@echo "Installing Axolotl..."
 # Copy libzkgroup
 	@sudo $(WGET) https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_aarch64.so --directory-prefix=$(DESTDIR)$(LIBRARY_PREFIX)/
 #	Copy binary and helpers
@@ -284,7 +287,7 @@ install-deb-arm64: uninstall-deb-arm64
 	@sudo cp $(CURRENT_DIR)/deb/axolotl.sh /etc/profile.d
 	@bash -c "source /etc/profile.d/axolotl.sh"
 	@sudo cp $(CURRENT_DIR)/crayfish/target/release/crayfish $(DESTDIR)$(INSTALL_PREFIX)/
-	@echo "Installation complete"
+	@echo "Installation complete."
 
 uninstall-deb-arm64:
 	@sudo rm --recursive --force $(DESTDIR)$(SHARE_PREFIX)/axolotl/
@@ -295,10 +298,111 @@ uninstall-deb-arm64:
 	@sudo rm --force /etc/profile.d/axolotl.sh
 	@sudo rm --force $(DESTDIR)$(LIBRARY_PREFIX)/libzkgroup_linux_aarch64.so
 	@sudo rm --force $(DESTDIR)$(INSTALL_PREFIX)/crayfish
-	@echo "Removing complete"
+	@echo "Removing complete."
+
+check-platform-deb-arm64-cc:
+	@echo "Cross-compiling Axolotl for Debian arm64/aarch64."
+  ifneq ($(UNAME_S),Linux)
+	@echo "Platform unsupported - only available for Linux" && exit 1
+  endif
+  ifneq ($(HARDWARE_PLATFORM),x86_64)
+	@echo "Machine unsupported - x86_64 should be used" && exit 1
+  endif
+  ifneq ($(APT),/usr/bin/apt)
+	@echo "OS unsupported - apt not found" && exit 1
+  endif
+
+dependencies-deb-arm64-cc: check-platform-deb-arm64-cc
+	@echo "Installing dependencies for cross-compiling Axolotl..."
+	@sudo dpkg --add-architecture arm64
+	@sudo $(APT) update
+	@sudo $(APT) install nano curl wget git golang nodejs npm gcc-aarch64-linux-gnu debmake libc-dev:arm64
+  ifneq ($(RUST),${HOME}/.cargo/bin/rustup)
+	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+  endif
+	@$(CARGO_PREFIX)/rustup update
+  ifneq ($(CROSS),${HOME}/.cargo/bin/cross)
+	@$(CARGO_PREFIX)/cargo install cross
+  endif
+  ifneq ($(DOCKER),/usr/bin/docker)
+	@curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+	@echo "deb [arch=$(shell dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(shell lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+	@sudo apt update
+	@sudo apt install docker-ce docker-ce-cli containerd.io
+	@sudo usermod -aG docker ${USER}
+	@echo "Dependencies installed."
+	@newgrp docker # This ends the current bash an starts a new one with docker added to groups.
+  endif
+	@echo "Dependencies installed."
+
+build-deb-arm64-cc:
+	@echo "Downloading (go)..."
+	@cd $(CURRENT_DIR) && go mod download
+	@echo "Installing (npm)..."
+	@cd $(CURRENT_DIR)/axolotl-web && npm --target_arch=arm64 ci
+	@echo "Building (npm)..."
+	@cd $(CURRENT_DIR)/axolotl-web && npm --target_arch=arm64 run build
+	@mkdir -p $(CURRENT_DIR)/build/linux-arm64/axolotl-web
+	@echo "Building (go)..."
+	@cd $(CURRENT_DIR) && env GOOS=linux GOARCH=arm64 CGO_ENABLED=1 CC=aarch64-linux-gnu-gcc PKG_CONFIG_PATH=/usr/lib/aarch64-linux-gnu/pkgconfig go build -o build/linux-arm64/axolotl .
+	@cp --recursive $(CURRENT_DIR)/axolotl-web/dist $(CURRENT_DIR)/build/linux-arm64/axolotl-web/
+	@cp --recursive $(CURRENT_DIR)/guis $(CURRENT_DIR)/build/linux-arm64/
+	@echo "Building (rust)..."
+	@sudo systemctl start docker
+	@cd $(CURRENT_DIR) && git submodule init && git submodule update
+	@cd $(CURRENT_DIR)/crayfish && $(CARGO_PREFIX)/cross build --release --target aarch64-unknown-linux-gnu
+	@echo "Cross-compiling complete."
+
+prebuild-package-deb-arm64-cc: package-clean-deb-arm64
+	@echo "Prebuilding cross-compiled Debian package..."
+# Get the source tarball
+	@$(WGET) https://github.com/nanu-c/axolotl/archive/v$(AXOLOTL_VERSION).tar.gz --output-document=$(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION).tar.gz
+# Prepare packaging folder
+	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl
+	@cp --recursive $(CURRENT_DIR)/build/linux-arm64/* $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl/
+	@cp $(CURRENT_DIR)/deb/LICENSE $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/LICENSE
+# Run debmake
+	@cd $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION) && debmake --email arno_nuehm@riseup.net --fullname "Arno Nuehm" --monoarch
+# Create target folders and copy additional files into package folder
+	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/icons/hicolor/128x128/apps
+	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/applications
+	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin
+	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/etc/profile.d
+	@cp $(CURRENT_DIR)/README.md $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/README.Debian
+	@cp $(CURRENT_DIR)/deb/axolotl.png $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/icons/hicolor/128x128/apps/axolotl.png
+	@cp $(CURRENT_DIR)/deb/axolotl.desktop $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/applications/
+	@cp $(CURRENT_DIR)/deb/axolotl.sh $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/etc/profile.d/
+	@cp $(CURRENT_DIR)/deb/axolotl.install $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/
+	@cp $(CURRENT_DIR)/deb/postinst $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/
+	@cp $(CURRENT_DIR)/deb/control $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/control
+	@$(WGET) https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_aarch64.so --directory-prefix=$(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/lib/
+	@mv $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl/axolotl $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin/
+	@cp $(CURRENT_DIR)/crayfish/target/aarch64-unknown-linux-gnu/release/crayfish $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin/
+	@echo "Prebuilding cross-compiled Debian package complete."
+
+build-package-deb-arm64-cc:
+	@echo "Building cross-compiled Debian package..."
+# Prompt to edit changelog file
+	@nano $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+# Prompt to edit copyright file
+	@nano $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
+# Build Debian package
+	@cd $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION) && debuild -i -us -uc -b -aarm64
 
 clean-deb-arm64:
 	@rm --recursive --force $(CURRENT_DIR)/build/
 
 package-clean-deb-arm64:
 	@rm --recursive --force $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/
+
+uninstall-deb-dependencies:
+	@sudo apt purge wget git golang nodejs npm debmake
+	@sudo apt autoremove && sudo apt autoclean
+	@rustup self uninstall
+
+uninstall-deb-dependencies-cc:
+	@sudo dpkg --remove-architecture arm64
+	@sudo apt purge wget git golang nodejs npm gcc-aarch64-linux-gnu debmake libc-dev:arm64 docker-ce docker-ce-cli containerd.io
+	@sudo apt autoremove && sudo apt autoclean
+	@rustup self uninstall
+	@sudo rm /etc/apt/sources.list.d/docker.list
