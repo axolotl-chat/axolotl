@@ -6,9 +6,12 @@
         class="overlay"
         @click="showSettingsMenu = false"
       />
-      <!-- chat page start -->
       <div class="header-row">
-        <div v-if="route() === 'chat'" class="message-list-container row">
+        <!-- chat page start -->
+        <div
+          v-if="route() === 'chat'"
+          class="message-list-container row chat-page"
+        >
           <div v-if="errorConnection !== null" class="connection-error" />
           <div class="col-10 chat-header">
             <button class="btn" @click="back()">
@@ -239,6 +242,7 @@
         <div v-else-if="route() === 'password'">
           <div class="header-text"><span v-translate>Enter password</span></div>
         </div>
+        <!-- set password page -->
         <div
           v-else-if="route() === 'setPassword'"
           class="list-header-container"
@@ -250,34 +254,40 @@
             <span v-translate>Set encryption password</span>
           </div>
         </div>
+        <!-- about page -->
         <div v-else-if="route() === 'about'" class="list-header-container">
           <router-link class="btn" :to="'/settings'">
             <font-awesome-icon icon="arrow-left" />
           </router-link>
         </div>
+        <!-- settings page -->
         <div v-else-if="route() === 'settings'" class="list-header-container">
           <router-link class="btn" :to="'/chatList'">
             <font-awesome-icon icon="arrow-left" />
           </router-link>
           <div class="header-text"><span v-translate>Settings</span></div>
         </div>
+        <!-- new group page -->
         <div v-else-if="route() === 'newGroup'" class="list-header-container">
           <router-link class="btn" :to="'/chatList'">
             <font-awesome-icon icon="arrow-left" />
           </router-link>
           <div class="header-text"><span v-translate>New group</span></div>
         </div>
+        <!-- edit group page -->
         <div v-else-if="route() === 'editGroup'" class="list-header-container">
           <router-link class="btn" :to="'/chatList'">
             <font-awesome-icon icon="arrow-left" />
           </router-link>
           <div class="header-text"><span v-translate>Edit group</span></div>
         </div>
+        <!-- linking devices page -->
         <div v-else-if="route() === 'devices'">
           <button class="back btn" @click="back()">
             <font-awesome-icon icon="arrow-left" />
           </button>
         </div>
+        <!-- contacts page -->
         <div v-else-if="route() === 'contacts'" class="row">
           <div class="col-2">
             <button class="back btn" @click="back()">
@@ -361,9 +371,10 @@
             @close="showImportUnavailableModal = false"
           />
         </div>
+        <!-- chat list page -->
         <div v-else-if="route() === 'chatList'" class="settings-container row">
           <div v-if="errorConnection !== null" class="connection-error" />
-          <div class="dropdown">
+          <div class="dropdown d-flex justify-content-end">
             <button
               id="dropdownMenuButton"
               class="btn"
@@ -500,8 +511,9 @@ export default {
       this.showConfirmationModal = true;
       this.cMType = "resetEncryption";
       this.cMTitle = this.$gettext("Reset secure session?");
-      this.cMText =
-        this.$gettext("This may help if you're having encryption problems in this conversation. Your messages will be kept.");
+      this.cMText = this.$gettext(
+        "This may help if you're having encryption problems in this conversation. Your messages will be kept."
+      );
     },
     verifyIdentity() {
       this.$store.dispatch("verifyIdentity");
@@ -513,15 +525,16 @@ export default {
       this.showConfirmationModal = true;
       this.cMType = "delChat";
       this.cMTitle = this.$gettext("Delete this chat?");
-      this.cMText =
-        this.$gettext("This chat will be permanently deleted - but only from your device.");
+      this.cMText = this.$gettext(
+        "This chat will be permanently deleted - but only from your device."
+      );
     },
     confirm() {
       if (this.cMType === "resetEncryption")
         this.$store.dispatch("resetEncryption");
       else if (this.cMType === "delChat")
         this.$store.dispatch("delChat", this.currentChat.ID);
-        this.$router.push("/chatList");
+      this.$router.push("/chatList");
       this.showConfirmationModal = false;
       this.showIdentityModal = false;
     },
