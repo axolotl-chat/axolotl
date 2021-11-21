@@ -1,3 +1,13 @@
+1.0.8 (Nov 21 2021) 
+------------------------------------
+* Support receiving unidentfied sender messages -> fixes receiving messages (nanu-c)
+* French translation updated (Anne017)
+* Delete warning message (nuehm-arno)
+* Standardise gettext usage (olof-nord)
+* Update electron (nanu-c)
+* Cross-compile capabilites in the makefile (nanu-c)
+* Debian packaging improvements (nuehm-arno)
+
 1.0.7 (Okt 28 2021) 
 ------------------------------------
 * Fix deleting chats (nuehm-arno)
