@@ -3,7 +3,7 @@ module github.com/nanu-c/axolotl
 go 1.16
 
 require (
-	github.com/asticode/go-astikit v0.17.0 // indirect
+	github.com/asticode/go-astikit v0.22.0 // indirect
 	github.com/asticode/go-astilectron v0.25.0
 	github.com/dustin/go-humanize v1.0.0
 	github.com/emersion/go-vcard v0.0.0-20210521075357-3445b9171995
@@ -16,7 +16,7 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.0 // indirect
 	github.com/mutecomm/go-sqlcipher v0.0.0-20190227152316-55dbde17881f
 	github.com/pkg/errors v0.9.1
-	github.com/signal-golang/textsecure v1.4.1
+	github.com/signal-golang/textsecure v1.4.2
 	github.com/sirupsen/logrus v1.8.1
 	github.com/ttacon/builder v0.0.0-20170518171403-c099f663e1c2 // indirect
 	github.com/ttacon/libphonenumber v1.1.0
