@@ -14,6 +14,8 @@ github.com/asticode/go-astikit v0.22.0 h1:ZI/gS/0bWlqPvC8KGuoOOl71ZjFtA4ypxYXxwW
 github.com/asticode/go-astikit v0.22.0/go.mod h1:h4ly7idim1tNhaVkdVBeXQZEE3L0xblP7fCWbgwipF0=
 github.com/asticode/go-astilectron v0.25.0 h1:eMDoHuEMn1uaLnRIIYLjhmqJUReifxyX6YyFSWmNtAA=
 github.com/asticode/go-astilectron v0.25.0/go.mod h1:Tx+aS0IvbV0cO4TlQbOO1NFA/lATj11vEStydyIjMjM=
+github.com/blackoverflow/textsecure v1.4.3-0.20211203185727-090c2e0a6c12 h1:FKrhUEsF+uFvmqDAfifPCSVqL8ROP0xs3MCL7j4GjKA=
+github.com/blackoverflow/textsecure v1.4.3-0.20211203185727-090c2e0a6c12/go.mod h1:WQU1duk8Ef6AARPSnf3nkAx8nsLFv/3O4mMu+YEnOpM=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
 github.com/client9/misspell v0.3.4 h1:ta993UF76GwbvJcIo3Y68y/M3WxlpEHPWIGDkJYwzJI=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
