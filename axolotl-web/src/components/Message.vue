@@ -234,10 +234,9 @@ export default {
   },
   methods: {
     sanitize(msg) {
-      // copied from https://github.com/vuejs/vue/blob/dev/src/compiler/parser/entity-decoder.js
       decoder = decoder || document.createElement("div");
-      decoder.innerHTML = msg;
-      return decoder.textContent;
+      decoder.textContent = msg;
+      return decoder.innerHTML;
     },
     getName(tel) {
       if (this.contacts !== null) {
