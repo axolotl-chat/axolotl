@@ -1,7 +1,8 @@
 import { expect } from 'chai'
 import LinkifyHtml from 'linkifyjs/html'
 import Message from '@/components/Message.vue'
-import { shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
+import vuex from "vuex";
 
 const wrapperConfig = {
   global: {
@@ -9,12 +10,17 @@ const wrapperConfig = {
       Translate() {
          // do nothing in this test
       }
-    }
-  },
-  methods: {
-    linkify(content) {
-      return LinkifyHtml(content);
-    }
+    },
+    mixins: [
+      {
+        methods: {
+          linkify(content) {
+            return LinkifyHtml(content);
+          }
+        }
+      }
+    ],
+
   }
 }
 
@@ -26,9 +32,10 @@ describe('Message.vue', () => {
         Attachment: '',
         Outgoing: false,
         QuotedMessage: null,
-        ExpireTimer: 0
+        ExpireTimer: 0,
+        ReceivedAt: 0,
     }
-    const wrapper = shallowMount(Message, {
+    const wrapper = mount(Message, {
       ...wrapperConfig,
       props: {
         message: msg,
@@ -36,11 +43,11 @@ describe('Message.vue', () => {
         names: [ ]
       }
     })
-    expect(wrapper.find('.message-text-content').innerHTML).toMatch(msg.Message)
+    expect(wrapper.get('[data-test="message-text"]').wrapperElement.innerHTML).to.equal(msg.Message)
   })
 
   it('renders message with link linkified', () => {
-    const expected = 'Visit <a href="axolotl.chat">axolotl.chat</a> if you have time'
+    const expected = 'Visit <a href="http://axolotl.chat">axolotl.chat</a> if you have time'
     const msg = {
         ID: 'test',
         Message: 'Visit axolotl.chat if you have time',
@@ -49,7 +56,7 @@ describe('Message.vue', () => {
         QuotedMessage: null,
         ExpireTimer: 0
     }
-    const wrapper = shallowMount(Message, {
+    const wrapper = mount(Message, {
       ...wrapperConfig,
       props: {
         message: msg,
@@ -57,7 +64,7 @@ describe('Message.vue', () => {
         names: [ ]
       }
     })
-    expect(wrapper.find('.message-text-content').innerHTML).toMatch(expected)
+    expect(wrapper.get('[data-test="message-text"]').wrapperElement.innerHTML).to.equal(expected)
   })
 
   it('renders message with html entities escaped', () => {
@@ -70,7 +77,7 @@ describe('Message.vue', () => {
         QuotedMessage: null,
         ExpireTimer: 0
     }
-    const wrapper = shallowMount(Message, {
+    const wrapper = mount(Message, {
       ...wrapperConfig,
       props: {
         message: msg,
@@ -78,6 +85,6 @@ describe('Message.vue', () => {
         names: [ ]
       }
     })
-    expect(wrapper.find('.message-text-content').innerHTML).toMatch(expected)
+    expect(wrapper.get('[data-test="message-text"]').wrapperElement.innerHTML).to.equal(expected)
   })
 })
