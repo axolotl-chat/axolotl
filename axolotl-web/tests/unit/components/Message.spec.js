@@ -8,13 +8,13 @@ const wrapperConfig = {
     directives: {
       Translate() {
          // do nothing in this test
-      ,
+      }
     }
   },
   methods: {
     linkify(content) {
       return LinkifyHtml(content);
-    },
+    }
   }
 }
 
