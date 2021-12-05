@@ -6,11 +6,13 @@ import { shallowMount } from '@vue/test-utils'
 const wrapperConfig = {
   global: {
     directives: {
-      Translate: function () { }
+      Translate() {
+         // do nothing in this test
+      ,
     }
   },
   methods: {
-    linkify: function (content) {
+    linkify(content) {
       return LinkifyHtml(content);
     },
   }
@@ -34,7 +36,6 @@ describe('Message.vue', () => {
         names: [ ]
       }
     })
-    console.log(wrapper.html())
     expect(wrapper.find('.message-text-content').innerHTML).toMatch(msg.Message)
   })
 
