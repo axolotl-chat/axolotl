@@ -6,6 +6,7 @@ enabled = true
 
   [analyzers.meta]
   plugins = ["vue"]
+  environment = ["mocha"]
 
 [[analyzers]]
 name = "go"
