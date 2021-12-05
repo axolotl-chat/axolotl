@@ -2,7 +2,6 @@ import { expect } from 'chai'
 import LinkifyHtml from 'linkifyjs/html'
 import Message from '@/components/Message.vue'
 import { mount } from '@vue/test-utils'
-import vuex from "vuex";
 
 const wrapperConfig = {
   global: {
