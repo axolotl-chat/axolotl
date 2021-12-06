@@ -1,26 +1,23 @@
 import LinkifyHtml from 'linkifyjs/html'
 import Message from '@/components/Message.vue'
 import { expect } from 'chai'
-import { mount } from '@vue/test-utils'
+import { config, mount } from '@vue/test-utils'
 
-const wrapperConfig = {
-  global: {
-    directives: {
-      Translate() {
-         // do nothing in this test
-      }
-    },
-    mixins: [
-      {
-        methods: {
-          linkify(content) {
-            return LinkifyHtml(content);
-          }
+config.global = {
+  directives: {
+    Translate() {
+      // do nothing in this test
+    }
+  },
+  mixins: [
+    {
+      methods: {
+        linkify(content) {
+          return LinkifyHtml(content);
         }
       }
-    ],
-
-  }
+    }
+  ],
 }
 
 describe('Message.vue', () => {
@@ -35,7 +32,6 @@ describe('Message.vue', () => {
         ReceivedAt: 0,
     }
     const wrapper = mount(Message, {
-      ...wrapperConfig,
       props: {
         message: msg,
         isGroup: false,
@@ -56,7 +52,6 @@ describe('Message.vue', () => {
         ExpireTimer: 0
     }
     const wrapper = mount(Message, {
-      ...wrapperConfig,
       props: {
         message: msg,
         isGroup: false,
@@ -77,7 +72,6 @@ describe('Message.vue', () => {
         ExpireTimer: 0
     }
     const wrapper = mount(Message, {
-      ...wrapperConfig,
       props: {
         message: msg,
         isGroup: false,
@@ -97,7 +91,6 @@ describe('Message.vue', () => {
         ExpireTimer: 0
     }
     const wrapper = mount(Message, {
-      ...wrapperConfig,
       props: {
         message: msg,
         isGroup: false,
