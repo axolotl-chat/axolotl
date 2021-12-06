@@ -67,7 +67,7 @@ describe('Message.vue', () => {
   })
 
   it('renders message with html entities escaped', () => {
-    const expected = 'I &lt;3 Axolotl'
+    const expected = 'I <3 Axolotl'
     const msg = {
         ID: 'test',
         Message: 'I <3 Axolotl',
@@ -84,7 +84,7 @@ describe('Message.vue', () => {
         names: [ ]
       }
     })
-    expect(wrapper.get('[data-test="message-text"]').wrapperElement.innerHTML).to.equal(expected)
+    expect(wrapper.get('[data-test="message-text"]').wrapperElement.textContent).to.equal(expected)
   })
 
   it('does not interpred injected html code', () => {

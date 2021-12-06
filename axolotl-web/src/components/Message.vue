@@ -236,7 +236,10 @@ export default {
     sanitize(msg) {
       decoder = decoder || document.createElement("div");
       decoder.textContent = msg;
-      return decoder.innerHTML;
+      let result = decoder.innerHTML;
+      decoder.textContent = result;//escapes twice in order to negate v-html's unescaping
+      result = decoder.innerHTML;
+      return result;
     },
     getName(tel) {
       if (this.contacts !== null) {
