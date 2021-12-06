@@ -1,4 +1,9 @@
-1.0.8 (Nov 21 2021) 
+prerelease :
+------------------------------------
+* Fix Messages with HTML special entities not rendered correctly (blackoverflow)
+* Introduced Chai+Mocha for Vue unit tests (blackoverflow)
+
+1.0.8 (Nov 21 2021)
 ------------------------------------
 * Support receiving unidentfied sender messages -> fixes receiving messages (nanu-c)
 * French translation updated (Anne017)
@@ -8,7 +13,7 @@
 * Cross-compile capabilites in the makefile (nanu-c)
 * Debian packaging improvements (nuehm-arno)
 
-1.0.7 (Okt 28 2021) 
+1.0.7 (Okt 28 2021)
 ------------------------------------
 * Fix deleting chats (nuehm-arno)
 * Update electron version (Ferenc-)
@@ -16,7 +21,7 @@
 * Fix clickable zkgroup copy error (nanu-c)
 * Explicitly set clickable-rust-version (jonnius)
 
-1.0.6 (Okt 26 2021) 
+1.0.6 (Okt 26 2021)
 ------------------------------------
 * Fix signal desktop linking by change signal desktop link url (nanu-c)
 * Add FormFactor settings to desktop files (ferenc)
@@ -32,7 +37,7 @@
 
 A warm welcome to our new first time contributors: axiomista, kpenfound, ferenc
 
-1.0.5 (Sep 23 2021) 
+1.0.5 (Sep 23 2021)
 ------------------------------------
 * Fix registration by adding a new backend and use the signal upstream libraries for that ♡ ♥ ❤ 💓 💔 (jonnius, Johannes Renkl, nanu-c)
 * Basic editing contacts support, (could be improved) (nanu-c)
@@ -47,7 +52,7 @@ A warm welcome to our new first time contributors: axiomista, kpenfound, ferenc
 ------------------------------------
 * Add support for unidentified sender, fixes sending messages partly (nanu-c)
 * Better group error handling (nanu-c)
-* Makefile + Debian packaging improvements (nuehm-arno) 
+* Makefile + Debian packaging improvements (nuehm-arno)
 
 1.0.2 (Aug 23 2021)
 ------------------------------------
