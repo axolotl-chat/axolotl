@@ -222,7 +222,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["contacts"]),
+    ...mapState(["contacts", "config"]),
     isSenderNameDisplayed() {
       return (
         !this.message.Outgoing &&
@@ -263,6 +263,16 @@ export default {
         return false;
       }
       // JSON.parse(input)
+    },
+    shareAttachment(file, e) {
+      if (typeof this.config.Gui !== "undefined" && this.config.Gui === "ut") {
+        e.preventDefault();
+        alert("[oD]" + file);
+        // this.showAttachmentsBar=true
+      } else {
+        // alert(file)
+        // console.log(file)
+      }
     },
     timerPercentage(m) {
       const r = moment(m.ReceivedAt);
