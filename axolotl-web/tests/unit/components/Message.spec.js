@@ -1,6 +1,6 @@
 import LinkifyHtml from 'linkifyjs/html'
-import { expect } from 'chai'
 import Message from '@/components/Message.vue'
+import { expect } from 'chai'
 import { mount } from '@vue/test-utils'
 
 const wrapperConfig = {
@@ -85,5 +85,25 @@ describe('Message.vue', () => {
       }
     })
     expect(wrapper.get('[data-test="message-text"]').wrapperElement.innerHTML).to.equal(expected)
+  })
+
+  it('does not interpred injected html code', () => {
+    const msg = {
+        ID: 'test',
+        Message: '<div data-test="html-injection">Injected Code</div>',
+        Attachment: '',
+        Outgoing: false,
+        QuotedMessage: null,
+        ExpireTimer: 0
+    }
+    const wrapper = mount(Message, {
+      ...wrapperConfig,
+      props: {
+        message: msg,
+        isGroup: false,
+        names: [ ]
+      }
+    })
+    expect(wrapper.find('[data-test="html-injection"]').exists()).to.be.false
   })
 })
