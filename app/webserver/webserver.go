@@ -416,7 +416,7 @@ func wsReader(conn *websocket.Conn) {
 			if err != nil {
 				ShowError(err.Error())
 			}
-			fingerprintNumbers, fingerprintQRCode, err := textsecure.GetFingerprint(s.Tel)
+			fingerprintNumbers, fingerprintQRCode, err := textsecure.GetFingerprint(s.UUID, s.Tel)
 			if err != nil {
 				log.Debugln("[axolotl] identity information ", err)
 			}

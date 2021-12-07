@@ -1,7 +1,6 @@
 prerelease :
 ------------------------------------
-* Fix Messages with HTML special entities not rendered correctly (blackoverflow)
-* Introduced Chai+Mocha for Vue unit tests (blackoverflow)
+* Fix 'Verifiy Identity' (blackoverflow)
 
 1.0.8 (Nov 21 2021)
 ------------------------------------
