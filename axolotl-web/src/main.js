@@ -30,7 +30,7 @@ const app = createApp(App)
 app.component('FontAwesomeIcon', FontAwesomeIcon)
 app.mixin({
   methods: {
-    linkify: function (content) {
+    linkify(content) {
       return linkifyHTML(
         content,
         {
