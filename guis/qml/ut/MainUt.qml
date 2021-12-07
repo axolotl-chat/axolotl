@@ -40,6 +40,13 @@ UITK.Page {
         var  interceptor = "window.onToken = function(token){window.location = 'http://localhost:9080/?token='+token;};"
         webView.runJavaScript(interceptor)
     }
+    onNavigationRequested: function(request) {
+        console.log("[axolotl ut] navigation request: ", request.url);
+        if(!request.url.includes("localhost")) {
+            request.action = WebEngineNavigationRequest.AcceptRequest;
+            Qt.openUrlExternally(request.url);
+        }
+    }
     onJavaScriptDialogRequested: function(request) {
       request.accepted = true;
       console.log("[axolotl ut] request: ",request.message)
