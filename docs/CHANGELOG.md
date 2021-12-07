@@ -1,6 +1,6 @@
 prerelease :
 ------------------------------------
-* Fix opening document attachments (blackoverflow)
+* Fix 'Verifiy Identity' (blackoverflow)
 
 1.0.8 (Nov 21 2021)
 ------------------------------------
