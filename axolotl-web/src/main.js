@@ -20,11 +20,16 @@ import {
   faHeart,
   faSearch,
   faArrowDown,
-  faPlus
+  faPlus,
+  faMicrophone,
+  faStopCircle,
+  faPlay
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 library.add(faArrowLeft, faEllipsisV, faPencilAlt, faPlus, faTrash, faPaperPlane,
-  faUserFriends, faTimes, faCheck, faVolumeMute, faHeart, faSearch, faArrowDown)
+  faUserFriends, faTimes, faCheck, faVolumeMute, faHeart, faSearch, faArrowDown,
+  faMicrophone, faStopCircle, faPlay
+  )
 
 const app = createApp(App)
 app.component('FontAwesomeIcon', FontAwesomeIcon)

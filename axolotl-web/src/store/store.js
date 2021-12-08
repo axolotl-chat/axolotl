@@ -715,6 +715,16 @@ export default createStore({
 
       }
     },
+    sendVoiceNote: function(state, voiceNote) {
+      if (this.state.socket.isConnected) {
+        var message = {
+          "request": "sendVoiceNote",
+          "voiceNote": voiceNote,
+          "to": this.state.currentChat.Tel,
+        }
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
+      }
+    },
     setDarkMode(state, darkMode) {
       if (this.state.socket.isConnected) {
         const message = {

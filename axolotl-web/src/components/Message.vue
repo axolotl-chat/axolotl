@@ -211,8 +211,8 @@ export default {
       default: false,
     },
     names: {
-      type: Array,
-      default: () => []
+      type: Object,
+      default: () => {}
     }
   },
   emits: ["showFullscreenImg", "showFullscreenVideo"],
