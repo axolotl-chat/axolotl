@@ -719,8 +719,8 @@ export default createStore({
       if (this.state.socket.isConnected) {
         var message = {
           "request": "sendVoiceNote",
-          "voiceNote": voiceNote,
-          "to": this.state.currentChat.Tel,
+          "voiceNote": voiceNote.note,
+          "to": voiceNote.to,
         }
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }

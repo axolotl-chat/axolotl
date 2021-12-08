@@ -431,7 +431,11 @@ export default {
         var that = this;
         reader.onload = function() {
           var r = reader.result
-          that.$store.dispatch("sendVoiceNote", r);
+          const m = {
+            note:r,
+            to: that.chatId,
+          }
+          that.$store.dispatch("sendVoiceNote", m);
         };
       });
     },

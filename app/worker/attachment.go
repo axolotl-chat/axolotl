@@ -33,6 +33,6 @@ func (Api *TextsecureAPI) SendAttachmentToApi(to int64, message string, file str
 		return nil
 	}
 
-	go sender.SendMessageHelper(to, message, file, nil)
+	go sender.SendMessageHelper(to, message, file, nil, false)
 	return nil
 }
