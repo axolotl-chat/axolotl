@@ -3,28 +3,12 @@
     :key="message.ID"
     :class="{
       'col-12': true,
-      outgoing: message.Outgoing,
-      sent: message.IsSent && message.Outgoing,
-      read: message.IsRead && message.Outgoing,
-      delivered: message.Receipt && message.Outgoing,
-      incoming: !message.Outgoing,
-      status:
-        (message.Flags > 0 &&
-          message.Flags !== 11 &&
-          message.Flags !== 13 &&
-          message.Flags !== 14) ||
-        message.StatusMessage ||
-        (message.Attachment.includes('null') && message.Message === ''),
-      hidden: message.Flags === 18,
-      error: message.SentAt === 0 || message.SendingError,
+      ...messageStyle
     }"
   >
-    <div v-if="verifySelfDestruction(message)" class="message">
+    <div v-if="!destroyed" class="message">
       <div v-if="isSenderNameDisplayed" class="sender">
-        <div v-if="names[message.Source]">
-          {{ names[message.Source] }}
-        </div>
-        <div v-else>{{ getName(message.Source) }}</div>
+        {{ getName() }}
       </div>
       <blockquote v-if="message.QuotedMessage !== null">
         <cite v-if="message.QuotedMessage.Outgoing" v-translate>You</cite>
@@ -219,6 +203,7 @@ export default {
   data() {
     return {
       showDate: false,
+      destroyed: false
     };
   },
   computed: {
@@ -231,6 +216,39 @@ export default {
       ); // #14 is the flag for quoting messages
 	    // see this list for all message types: https://github.com/nanu-c/axolotl/blob/main/app/helpers/models.go#L15
     },
+    messageStyle() {
+      return {
+        outgoing: message.Outgoing,
+        sent: message.IsSent && message.Outgoing,
+        read: message.IsRead && message.Outgoing,
+        delivered: message.Receipt && message.Outgoing,
+        incoming: !message.Outgoing,
+        status:
+          (message.Flags > 0 &&
+            message.Flags !== 11 &&
+            message.Flags !== 13 &&
+            message.Flags !== 14) ||
+          message.StatusMessage ||
+          (message.Attachment.includes('null') && message.Message === ''),
+        hidden: message.Flags === 18,
+        error: message.SentAt === 0 || message.SendingError,
+      }
+    },
+    sentAt() {
+      return message.SentAt;
+    }
+  },
+  watch: {
+    sentAt(newValue, oldValue) {
+      if(newValue != 0 && this.message.ExpireTimer != 0) {
+        this.setupForDestruction();
+      }
+    }
+  },
+  mounted() {
+    if(this.message.ExpireTimer != 0) {
+      this.setupForDestruction();
+    }
   },
   methods: {
     sanitize(msg) {
@@ -241,20 +259,20 @@ export default {
       result = decoder.innerHTML;
       return result;
     },
-    getName(tel) {
+    getName(tel = message.Source) {
+      if (this.names[tel]) {
+        return this.names[tel];
+      }
       if (this.contacts !== null) {
-        if (typeof this.names[tel] === "undefined") {
-          const contact = this.contacts.find(function (element) {
-            return element.Tel === tel;
-          });
-          if (typeof contact !== "undefined") {
-            this.names[tel] = contact.Name;
-            return contact.Name;
-          } else {
-            this.names[tel] = tel;
-            return tel;
-          }
-        } else return this.names[tel];
+        const contact = this.contacts.find(function (element) {
+          return element.Tel === tel;
+        });
+        if (typeof contact !== "undefined") {
+          this.names[tel] = contact.Name;
+          return contact.Name;
+        } else {
+          this.names[tel] = tel;
+        }
       }
       return tel;
     },
@@ -277,27 +295,21 @@ export default {
       }
       else return 0;
     },
-    verifySelfDestruction(m) {
-      if (m.ExpireTimer !== 0) {
-        // console.log(m.ExpireTimer,m.SentAt, m.ReceivedAt, Date.now())
-        if (m.ReceivedAt !== 0) {
-          // hide destructed messages but not timer settings
-          const r = moment(m.ReceivedAt);
-          const duration = moment.duration(r.diff(moment.now()));
-          if (duration.asSeconds() + m.ExpireTimer < 0) {
-            this.$store.dispatch("deleteSelfDestructingMessage", m);
-            return false;
-          }
-        } else if (m.SentAt !== 0) {
-          const rS = moment(m.SentAt);
-          const durationS = moment.duration(rS.diff(moment.now()));
-          if (durationS.asSeconds() + m.ExpireTimer < 0 && m.Message !== "") {
-            this.$store.dispatch("deleteSelfDestructingMessage", m);
-            return false;
-          }
+    setupForDestruction() {
+      const startTime = message.ReceivedAt | message.SentAt;
+      if(startTime > 0) {
+        const timePast = moment.duration(moment.now().diff(moment(startTime)));
+        const secondsUntilDestruction = timePast.asSeconds() - mesage.ExpireTimer
+        if(secondsUntilDestruction < 0){
+          this.selfDestroy();
+        } else {
+          setTimeout(this.selfDestroy, secondsUntilDestruction * 1000);
         }
       }
-      return true;
+    },
+    selfDestroy() {
+      this.$store.dispatch("deleteSelfDestructingMessage", this.message);
+      this.destroyed = true;
     },
     humanifyDate(inputDate) {
       return new moment(inputDate).format("lll");
