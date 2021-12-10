@@ -218,24 +218,24 @@ export default {
     },
     messageStyle() {
       return {
-        outgoing: message.Outgoing,
-        sent: message.IsSent && message.Outgoing,
-        read: message.IsRead && message.Outgoing,
-        delivered: message.Receipt && message.Outgoing,
-        incoming: !message.Outgoing,
+        outgoing: this.message.Outgoing,
+        sent: this.message.IsSent && this.message.Outgoing,
+        read: this.message.IsRead && this.message.Outgoing,
+        delivered: this.message.Receipt && this.message.Outgoing,
+        incoming: !this.message.Outgoing,
         status:
-          (message.Flags > 0 &&
-            message.Flags !== 11 &&
-            message.Flags !== 13 &&
-            message.Flags !== 14) ||
-          message.StatusMessage ||
-          (message.Attachment.includes('null') && message.Message === ''),
-        hidden: message.Flags === 18,
-        error: message.SentAt === 0 || message.SendingError,
+          (this.message.Flags > 0 &&
+            this.message.Flags !== 11 &&
+            this.message.Flags !== 13 &&
+            this.message.Flags !== 14) ||
+          this.message.StatusMessage ||
+          (this.message.Attachment.includes('null') && this.message.Message === ''),
+        hidden: this.message.Flags === 18,
+        error: this.message.SentAt === 0 || this.message.SendingError,
       }
     },
     sentAt() {
-      return message.SentAt;
+      return this.message.SentAt;
     }
   },
   watch: {
@@ -259,7 +259,7 @@ export default {
       result = decoder.innerHTML;
       return result;
     },
-    getName(tel = message.Source) {
+    getName(tel = this.message.Source) {
       if (this.names[tel]) {
         return this.names[tel];
       }
@@ -296,10 +296,10 @@ export default {
       else return 0;
     },
     setupForDestruction() {
-      const startTime = message.ReceivedAt | message.SentAt;
+      const startTime = this.message.ReceivedAt | this.message.SentAt;
       if(startTime > 0) {
         const timePast = moment.duration(moment.now().diff(moment(startTime)));
-        const secondsUntilDestruction = timePast.asSeconds() - mesage.ExpireTimer
+        const secondsUntilDestruction = timePast.asSeconds() - this.mesage.ExpireTimer
         if(secondsUntilDestruction < 0){
           this.selfDestroy();
         } else {
