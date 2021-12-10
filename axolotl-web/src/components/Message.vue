@@ -245,7 +245,7 @@ export default {
       }
     }
   },
-  mounted() {
+  created() {
     if(this.message.ExpireTimer != 0) {
       this.setupForDestruction();
     }
@@ -286,7 +286,7 @@ export default {
     },
     timerPercentage(m) {
       const r = moment(m.ReceivedAt);
-      const duration = moment.duration(r.diff(moment.now()));
+      const duration = moment.duration(r.diff(moment()));
       const percentage =
         1 - (m.ExpireTimer + duration.asSeconds()) / m.ExpireTimer;
       if (percentage < 1) {
@@ -296,10 +296,10 @@ export default {
       else return 0;
     },
     setupForDestruction() {
-      const startTime = this.message.ReceivedAt | this.message.SentAt;
+      const startTime = this.message.ReceivedAt || this.message.SentAt;
       if(startTime > 0) {
-        const timePast = moment.duration(moment.now().diff(moment(startTime)));
-        const secondsUntilDestruction = timePast.asSeconds() - this.mesage.ExpireTimer
+        const timePast = moment.duration(moment().diff(moment(startTime)));
+        const secondsUntilDestruction =  this.message.ExpireTimer - timePast.asSeconds()
         if(secondsUntilDestruction < 0){
           this.selfDestroy();
         } else {
