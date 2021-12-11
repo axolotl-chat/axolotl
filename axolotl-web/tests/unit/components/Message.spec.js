@@ -1,11 +1,16 @@
 import { config, mount } from '@vue/test-utils'
 import LinkifyHtml from 'linkifyjs/html'
 import Message from '@/components/Message.vue'
-import { expect } from 'chai'
+import chai from 'chai'
 import sinon from 'sinon'
+import sinonChai from 'sinon-chai'
 import { nextTick } from 'vue';
 
 import moment from "moment";
+
+var expect = chai.expect
+
+chai.use(sinonChai);
 
 config.global = {
   directives: {
@@ -132,7 +137,7 @@ describe('Message.vue', () => {
       })
 
       expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element').to.be.false;
-      expect($store.dispatch.calledOnce, 'dispatch called').to.be.true;
+      expect($store.dispatch, 'dispatch called').to.have.been.calledOnce;
     })
 
     it('should destroy recieved message after reaching its expire timer', async () => {
@@ -158,13 +163,13 @@ describe('Message.vue', () => {
       })
 
       expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element at first').to.be.true;
-      expect($store.dispatch.notCalled, 'dispatch not called yet').to.be.true;
+      expect($store.dispatch, 'dispatch not called yet').not.to.have.been.called;
 
       clock.tick(1000)
       await nextTick();
 
       expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element after timeout').to.be.false;
-      expect($store.dispatch.calledOnce, 'dispatch called').to.be.true;
+      expect($store.dispatch, 'dispatch called').to.have.been.calledOnce;
 
     })
 
@@ -191,13 +196,13 @@ describe('Message.vue', () => {
       })
 
       expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element at first').to.be.true;
-      expect($store.dispatch.notCalled, 'dispatch not called yet').to.be.true;
+      expect($store.dispatch, 'dispatch not called yet').not.to.have.been.called;
 
       clock.tick(999)
       await nextTick();
 
       expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element just before timeout').to.be.true;
-      expect($store.dispatch.notCalled, 'dispatch not called').to.be.true;
+      expect($store.dispatch, 'dispatch not called').not.to.have.been.called;
     })
 
     //send messages
@@ -225,7 +230,7 @@ describe('Message.vue', () => {
       })
 
       expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element').to.be.false;
-      expect($store.dispatch.calledOnce, 'dispatch called').to.be.true;
+      expect($store.dispatch, 'dispatch called').to.have.been.calledOnce;
     })
 
     it('should destroy sent message after reaching its expire timer', async () => {
@@ -252,13 +257,13 @@ describe('Message.vue', () => {
       })
 
       expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element at first').to.be.true;
-      expect($store.dispatch.notCalled, 'dispatch not called yet').to.be.true;
+      expect($store.dispatch, 'dispatch not called yet').not.to.have.been.called;
 
       clock.tick(1000)
       await nextTick();
 
       expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element after timeout').to.be.false;
-      expect($store.dispatch.calledOnce, 'dispatch called').to.be.true;
+      expect($store.dispatch, 'dispatch called').to.have.been.calledOnce;
 
     })
 
@@ -286,13 +291,13 @@ describe('Message.vue', () => {
       })
 
       expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element at first').to.be.true;
-      expect($store.dispatch.notCalled, 'dispatch not called yet').to.be.true;
+      expect($store.dispatch, 'dispatch not called yet').not.to.have.been.called;
 
       clock.tick(999)
       await nextTick();
 
       expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element just before timeout').to.be.true;
-      expect($store.dispatch.notCalled, 'dispatch not called').to.be.true;
+      expect($store.dispatch, 'dispatch not called').not.to.have.been.called;
     })
 
     it('should destroy outgoing message only after it is sent', async () => {
@@ -318,13 +323,13 @@ describe('Message.vue', () => {
       })
 
       expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element at first').to.be.true;
-      expect($store.dispatch.notCalled, 'dispatch not called yet').to.be.true;
+      expect($store.dispatch, 'dispatch not called yet').not.to.have.been.called;
 
       clock.tick(3000)
       await nextTick();
 
       expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element after some time').to.be.true;
-      expect($store.dispatch.notCalled, 'dispatch not called after some time').to.be.true;
+      expect($store.dispatch, 'dispatch not called after some time').not.to.have.been.called;
 
       wrapper.setProps({
           message: getMessage({
@@ -337,13 +342,13 @@ describe('Message.vue', () => {
       await nextTick();
 
       expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element after it was sent').to.be.true;
-      expect($store.dispatch.notCalled, 'dispatch not called after it was sent').to.be.true;
+      expect($store.dispatch, 'dispatch not called after it was sent').not.to.have.been.called;
 
       clock.tick(1000)
       await nextTick();
 
       expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element after timeout passed').to.be.false;
-      expect($store.dispatch.calledOnce, 'dispatch called after timeout passed').to.be.true;
+      expect($store.dispatch, 'dispatch called after timeout passed').to.have.been.calledOnce;
 
     })
   })
