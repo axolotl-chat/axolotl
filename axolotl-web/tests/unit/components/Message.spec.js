@@ -104,7 +104,7 @@ describe('Message.vue', () => {
   })
 
   describe('self destroying messages', () => {
-    let clock;
+    let clock = null;
     beforeEach(() => {
       clock = sinon.useFakeTimers(new Date('2000-06-30T18:00:00+01:00'));
 
