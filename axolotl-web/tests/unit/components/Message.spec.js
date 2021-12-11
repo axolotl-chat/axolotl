@@ -1,7 +1,6 @@
 import { config, mount } from '@vue/test-utils'
 import LinkifyHtml from 'linkifyjs/html'
 import Message from '@/components/Message.vue'
-import MockDate from 'mockdate'
 import { expect } from 'chai'
 import sinon from 'sinon'
 import { nextTick } from 'vue';
@@ -25,77 +24,68 @@ config.global = {
   ],
 }
 
+function getMessage(properties) {
+  return {
+    ID: 'test',
+    Message: '',
+    Attachment: '',
+    Outgoing: false,
+    QuotedMessage: null,
+    //ExpireTimer: 0,
+    ReceivedAt: 0,
+    ...properties
+  }
+}
+
 describe('Message.vue', () => {
   describe('sanitization and linkify', () => {
     it('renders simple message without changes', () => {
-      const msg = {
-          ID: 'test',
-          Message: 'Test Message',
-          Attachment: '',
-          Outgoing: false,
-          QuotedMessage: null,
-          ExpireTimer: 0,
-          ReceivedAt: 0,
-      }
+      const msg = getMessage({
+        Message: 'Test Message',
+      });
       const wrapper = mount(Message, {
         props: {
           message: msg,
           isGroup: false,
           names: [ ]
         }
-      })
+      });
       expect(wrapper.get('[data-test="message-text"]').wrapperElement.innerHTML, 'message html').to.equal(msg.Message)
     })
 
     it('renders message with link linkified', () => {
       const expected = 'Visit <a href="http://axolotl.chat">axolotl.chat</a> if you have time'
-      const msg = {
-          ID: 'test',
-          Message: 'Visit axolotl.chat if you have time',
-          Attachment: '',
-          Outgoing: false,
-          QuotedMessage: null,
-          ExpireTimer: 0
-      }
+      const msg = getMessage({
+        Message: 'Visit axolotl.chat if you have time',
+      });
       const wrapper = mount(Message, {
         props: {
           message: msg,
           isGroup: false,
           names: [ ]
         }
-      })
+      });
       expect(wrapper.get('[data-test="message-text"]').wrapperElement.innerHTML, 'message html').to.equal(expected)
     })
 
     it('renders message with html entities escaped', () => {
-      const expected = 'I <3 Axolotl'
-      const msg = {
-          ID: 'test',
-          Message: 'I <3 Axolotl',
-          Attachment: '',
-          Outgoing: false,
-          QuotedMessage: null,
-          ExpireTimer: 0
-      }
+      const msg = getMessage({
+        Message: 'I <3 Axolotl',
+      });
       const wrapper = mount(Message, {
         props: {
           message: msg,
           isGroup: false,
           names: [ ]
         }
-      })
-      expect(wrapper.get('[data-test="message-text"]').wrapperElement.textContent, 'message text').to.equal(expected)
+      });
+      expect(wrapper.get('[data-test="message-text"]').wrapperElement.textContent, 'message text').to.equal(msg.Message)
     })
 
     it('does not interpred injected html code', () => {
-      const msg = {
-          ID: 'test',
-          Message: '<div data-test="html-injection">Injected Code</div>',
-          Attachment: '',
-          Outgoing: false,
-          QuotedMessage: null,
-          ExpireTimer: 0
-      }
+      const msg = getMessage({
+        Message: '<div data-test="html-injection">Injected Code</div>',
+      });
       const wrapper = mount(Message, {
         props: {
           message: msg,
@@ -108,24 +98,22 @@ describe('Message.vue', () => {
   })
 
   describe('self destroying messages', () => {
+    var clock;
     beforeEach(() => {
-      MockDate.set('2000-06-30T18:00:00+01:00');
+      clock = sinon.useFakeTimers(new Date('2000-06-30T18:00:00+01:00'));
 
     });
     afterEach(() => {
-      MockDate.reset();
+      clock.restore();
       sinon.restore();
     })
-    it('should instantly destroy message beyond expire timer', () => {
-      const msg = {
-          ID: 'test',
-          Message: '<div data-test="html-injection">Injected Code</div>',
-          Attachment: '',
-          Outgoing: false,
-          QuotedMessage: null,
-          ExpireTimer: 1,
-          ReceivedAt: new Date('2000-06-30T17:59:58+01:00')
-      }
+
+    //recieved messages
+    it('should instantly destroy recieved message beyond expire timer', () => {
+      const msg = getMessage({
+        ExpireTimer: 1,
+        ReceivedAt: new Date('2000-06-30T17:59:58+01:00')
+      });
       const $store = {
         dispatch: sinon.spy(),
       }
@@ -147,20 +135,14 @@ describe('Message.vue', () => {
       expect($store.dispatch.calledOnce, 'dispatch called').to.be.true;
     })
 
-    it('should destroy message after reaching its expire timer', async () => {
-      const msg = {
-          ID: 'test',
-          Message: '<div data-test="html-injection">Injected Code</div>',
-          Attachment: '',
-          Outgoing: false,
-          QuotedMessage: null,
-          ExpireTimer: 1,
-          ReceivedAt: new Date('2000-06-30T18:00:00+01:00')
-      }
+    it('should destroy recieved message after reaching its expire timer', async () => {
+      const msg = getMessage({
+        ExpireTimer: 1,
+        ReceivedAt: new Date('2000-06-30T18:00:00+01:00')
+      });
       const $store = {
         dispatch: sinon.spy(),
       }
-      var clock = sinon.useFakeTimers()
 
       const wrapper = mount(Message, {
         props: {
@@ -178,12 +160,191 @@ describe('Message.vue', () => {
       expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element at first').to.be.true;
       expect($store.dispatch.notCalled, 'dispatch not called yet').to.be.true;
 
-      clock.tick(2100)
+      clock.tick(1000)
       await nextTick();
 
       expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element after timeout').to.be.false;
       expect($store.dispatch.calledOnce, 'dispatch called').to.be.true;
-      clock.restore();
+
+    })
+
+    it('should not destroy recieved message just before reaching its expire timer', async () => {
+      const msg = getMessage({
+        ExpireTimer: 1,
+        ReceivedAt: new Date('2000-06-30T18:00:00+01:00')
+      });
+      const $store = {
+        dispatch: sinon.spy(),
+      }
+
+      const wrapper = mount(Message, {
+        props: {
+          message: msg,
+          isGroup: false,
+          names: [ ]
+        },
+        global: {
+          mocks: {
+            $store,
+          }
+        }
+      })
+
+      expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element at first').to.be.true;
+      expect($store.dispatch.notCalled, 'dispatch not called yet').to.be.true;
+
+      clock.tick(999)
+      await nextTick();
+
+      expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element just before timeout').to.be.true;
+      expect($store.dispatch.notCalled, 'dispatch not called').to.be.true;
+    })
+
+    //send messages
+    it('should instantly destroy sent message beyond expire timer', () => {
+      const msg = getMessage({
+        ExpireTimer: 1,
+        Outgoing: true,
+        SentAt: new Date('2000-06-30T17:59:58+01:00')
+      });
+      const $store = {
+        dispatch: sinon.spy(),
+      }
+
+      const wrapper = mount(Message, {
+        props: {
+          message: msg,
+          isGroup: false,
+          names: [ ]
+        },
+        global: {
+          mocks: {
+            $store,
+          }
+        }
+      })
+
+      expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element').to.be.false;
+      expect($store.dispatch.calledOnce, 'dispatch called').to.be.true;
+    })
+
+    it('should destroy sent message after reaching its expire timer', async () => {
+      const msg = getMessage({
+        ExpireTimer: 1,
+        Outgoing: true,
+        SentAt: new Date('2000-06-30T18:00:00+01:00')
+      });
+      const $store = {
+        dispatch: sinon.spy(),
+      }
+
+      const wrapper = mount(Message, {
+        props: {
+          message: msg,
+          isGroup: false,
+          names: [ ]
+        },
+        global: {
+          mocks: {
+            $store,
+          }
+        }
+      })
+
+      expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element at first').to.be.true;
+      expect($store.dispatch.notCalled, 'dispatch not called yet').to.be.true;
+
+      clock.tick(1000)
+      await nextTick();
+
+      expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element after timeout').to.be.false;
+      expect($store.dispatch.calledOnce, 'dispatch called').to.be.true;
+
+    })
+
+    it('should not destroy sent message just before reaching its expire timer', async () => {
+      const msg = getMessage({
+        ExpireTimer: 1,
+        Outgoing: true,
+        SentAt: new Date('2000-06-30T18:00:00+01:00')
+      });
+      const $store = {
+        dispatch: sinon.spy(),
+      }
+
+      const wrapper = mount(Message, {
+        props: {
+          message: msg,
+          isGroup: false,
+          names: [ ]
+        },
+        global: {
+          mocks: {
+            $store,
+          }
+        }
+      })
+
+      expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element at first').to.be.true;
+      expect($store.dispatch.notCalled, 'dispatch not called yet').to.be.true;
+
+      clock.tick(999)
+      await nextTick();
+
+      expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element just before timeout').to.be.true;
+      expect($store.dispatch.notCalled, 'dispatch not called').to.be.true;
+    })
+
+    it('should destroy outgoing message only after it is sent', async () => {
+      const msg = getMessage({
+        ExpireTimer: 1,
+        Outgoing: true,
+      });
+      const $store = {
+        dispatch: sinon.spy(),
+      }
+
+      const wrapper = mount(Message, {
+        props: {
+          message: msg,
+          isGroup: false,
+          names: [ ]
+        },
+        global: {
+          mocks: {
+            $store,
+          }
+        }
+      })
+
+      expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element at first').to.be.true;
+      expect($store.dispatch.notCalled, 'dispatch not called yet').to.be.true;
+
+      clock.tick(3000)
+      await nextTick();
+
+      expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element after some time').to.be.true;
+      expect($store.dispatch.notCalled, 'dispatch not called after some time').to.be.true;
+
+      wrapper.setProps({
+          message: getMessage({
+            ExpireTimer: 1,
+            Outgoing: true,
+            SentAt: new Date(),
+          })
+      })
+
+      await nextTick();
+
+      expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element after it was sent').to.be.true;
+      expect($store.dispatch.notCalled, 'dispatch not called after it was sent').to.be.true;
+
+      clock.tick(1000)
+      await nextTick();
+
+      expect(wrapper.find('[data-test="message-text"]').exists(), 'existence of message element after timeout passed').to.be.false;
+      expect($store.dispatch.calledOnce, 'dispatch called after timeout passed').to.be.true;
+
     })
   })
 })
