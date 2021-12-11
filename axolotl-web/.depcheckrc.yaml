@@ -14,6 +14,8 @@ ignores:
   - "eslint-plugin-prettier-vue"
   - "prettier"
   - "sass"
+  - "@vue/cli-plugin-unit-mocha"
+  - "@vue/compiler-sfc"
 specials:
   - "bin"
   - "eslint"
