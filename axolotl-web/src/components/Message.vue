@@ -237,7 +237,6 @@ export default {
   },
   watch: {
     'message.SentAt': function (newValue, oldValue) {
-      console.log('sent at changed')
       if(newValue != 0 && this.message.ExpireTimer != 0) {
         this.setupForDestruction();
       }
@@ -298,7 +297,6 @@ export default {
       if(startTime > 0) {
         const timePast = moment.duration(moment().diff(moment(startTime)));
         const secondsUntilDestruction =  this.message.ExpireTimer - timePast.asSeconds()
-        console.log('until destruction: ', secondsUntilDestruction);
         if(secondsUntilDestruction < 0){
           this.selfDestroy();
         } else {

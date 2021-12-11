@@ -2,13 +2,11 @@ import { config, mount } from '@vue/test-utils'
 import LinkifyHtml from 'linkifyjs/html'
 import Message from '@/components/Message.vue'
 import chai from 'chai'
+import { nextTick } from 'vue';
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
-import { nextTick } from 'vue';
 
-import moment from "moment";
-
-var expect = chai.expect
+const { expect } = chai
 
 chai.use(sinonChai);
 
@@ -29,6 +27,10 @@ config.global = {
   ],
 }
 
+/**
+ * Helper to initialise message objects, setting some default values.
+ * @param properties adds or overwrites properties of the generated message.
+ */
 function getMessage(properties) {
   return {
     ID: 'test',
@@ -36,7 +38,6 @@ function getMessage(properties) {
     Attachment: '',
     Outgoing: false,
     QuotedMessage: null,
-    //ExpireTimer: 0,
     ReceivedAt: 0,
     ...properties
   }
@@ -103,7 +104,7 @@ describe('Message.vue', () => {
   })
 
   describe('self destroying messages', () => {
-    var clock;
+    let clock;
     beforeEach(() => {
       clock = sinon.useFakeTimers(new Date('2000-06-30T18:00:00+01:00'));
 
