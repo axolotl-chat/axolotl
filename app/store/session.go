@@ -246,8 +246,8 @@ func (s *Session) MarkRead() {
 	UpdateSession(s)
 }
 
-// ToggleSessionNotifcation turns on/off notification for a session
-func (s *Session) ToggleSessionNotifcation() {
+// ToggleSessionNotification turns on/off notification for a session
+func (s *Session) ToggleSessionNotification() {
 	s.Notification = !s.Notification
 	txt := ""
 	if s.Notification {
@@ -257,7 +257,7 @@ func (s *Session) ToggleSessionNotifcation() {
 
 	}
 	//qml.Changed(s, &s.Notification)
-	log.Debugln("[axolotl] ToggleSessionNotifcation ", txt)
+	log.Debugln("[axolotl] ToggleSessionNotification ", txt)
 	UpdateSession(s)
 }
 

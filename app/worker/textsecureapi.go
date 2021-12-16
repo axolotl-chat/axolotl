@@ -279,5 +279,5 @@ func (Api *TextsecureAPI) TgNotification(notification bool) {
 		ui.ShowError(err)
 		return
 	}
-	sess.ToggleSessionNotifcation()
+	sess.ToggleSessionNotification()
 }

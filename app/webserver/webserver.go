@@ -384,7 +384,7 @@ func wsReader(conn *websocket.Conn) {
 			if err != nil {
 				ShowError(err.Error())
 			}
-		case "toggleNotifcations":
+		case "toggleNotifications":
 			toggleNotificationsMessage := toggleNotificationsMessage{}
 			json.Unmarshal([]byte(p), &toggleNotificationsMessage)
 			log.Debugln("[axolotl] toggle notification for: ", toggleNotificationsMessage.Chat)
@@ -392,7 +392,7 @@ func wsReader(conn *websocket.Conn) {
 			if err != nil {
 				ShowError(err.Error())
 			}
-			s.ToggleSessionNotifcation()
+			s.ToggleSessionNotification()
 			sendCurrentChat(s)
 			sendChatList()
 		case "resetEncryption":
