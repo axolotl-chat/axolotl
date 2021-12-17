@@ -1,6 +1,5 @@
 <template>
   <div class="register">
-    <WarningMessage />
     <div v-if="infoPage" class="page1 info">
       <img class="logo" src="/axolotl.png" alt="Axolotl logo">
       <h1 class="title">Axolotl Beta</h1>
@@ -47,14 +46,12 @@
 <script>
 import { VueTelInput } from "vue3-tel-input";
 import "vue3-tel-input/dist/vue3-tel-input.css";
-import WarningMessage from "@/components/WarningMessage";
 import { mapState } from "vuex";
 
 export default {
   name: "Register",
   components: {
     VueTelInput,
-    WarningMessage,
   },
   data() {
     return {
