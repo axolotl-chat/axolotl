@@ -133,7 +133,7 @@
       </div>
       <div class="message-text">
         <!-- eslint-disable-next-line vue/no-v-html -->
-        <div class="message-text-content" v-html="linkify(sanitize(message.Message))" />
+        <div class="message-text-content" data-test="message-text" v-html="linkify(sanitize(message.Message))" />
         <div v-if="message.Flags===17" v-translate>Group changed.</div>
         <div
           v-if="
@@ -222,7 +222,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["contacts"]),
+    ...mapState(["contacts", "config"]),
     isSenderNameDisplayed() {
       return (
         !this.message.Outgoing &&
@@ -234,10 +234,12 @@ export default {
   },
   methods: {
     sanitize(msg) {
-      // copied from https://github.com/vuejs/vue/blob/dev/src/compiler/parser/entity-decoder.js
       decoder = decoder || document.createElement("div");
-      decoder.innerHTML = msg;
-      return decoder.textContent;
+      decoder.textContent = msg;
+      let result = decoder.innerHTML;
+      decoder.textContent = result;//escapes twice in order to negate v-html's unescaping
+      result = decoder.innerHTML;
+      return result;
     },
     getName(tel) {
       if (this.contacts !== null) {
@@ -263,6 +265,16 @@ export default {
         return false;
       }
       // JSON.parse(input)
+    },
+    shareAttachment(file, e) {
+      if (typeof this.config.Gui !== "undefined" && this.config.Gui === "ut") {
+        e.preventDefault();
+        alert("[oD]" + file);
+        // this.showAttachmentsBar=true
+      } else {
+        // alert(file)
+        // console.log(file)
+      }
     },
     timerPercentage(m) {
       const r = moment(m.ReceivedAt);

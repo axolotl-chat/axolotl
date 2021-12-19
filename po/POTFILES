@@ -18,7 +18,6 @@ axolotl-web/src/components/AddContactModal.vue
 axolotl-web/src/components/Message.vue
 axolotl-web/src/components/EditContactModal.vue
 axolotl-web/src/components/IdentityModal.vue
-axolotl-web/src/components/WarningMessage.vue
 axolotl-web/src/components/Header.vue
 axolotl-web/src/components/StartChatModal.vue
 axolotl-web/src/components/ErrorModal.vue

@@ -10,9 +10,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "test": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "depcheck": "depcheck",
-    "test": "echo 'No tests available' && exit 0",
     "translate": "npm run translate-extract && npm run translate-compile",
     "translate-compile": "vue-gettext-compile",
     "translate-extract": "vue-gettext-extract"
@@ -31,7 +31,7 @@
     "moment": "^2.29.1",
     "qrcode": "^1.4.4",
     "vue": "^3.2.22",
-    "vue-loader": "^16.8.3",
+    "vue-loader": "^17.0.0",
     "vue-native-websocket-vue3": "^3.1.4",
     "vue-router": "^4.0.12",
     "vue3-gettext": "^2.0.0-alpha.2",
@@ -41,11 +41,14 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "~5.0.0-beta.3",
     "@vue/cli-plugin-eslint": "~5.0.0-beta.3",
+    "@vue/cli-plugin-unit-mocha": "~5.0.0-beta.3",
     "@vue/cli-service": "~5.0.0-beta.3",
     "@vue/compiler-sfc": "^3.2.22",
     "@vue/eslint-config-airbnb": "^5.0.2",
+    "@vue/test-utils": "^2.0.0-0",
     "babel-eslint": "^10.1.0",
-    "browserslist": "^4.18.1",
+    "browserslist": "^4.19.1",
+    "chai": "^4.3.4",
     "depcheck": "^1.4.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
@@ -55,7 +58,7 @@
     "eslint-plugin-vue": "^7.20.0",
     "prettier": "^2.3.2",
     "sass": "^1.43.4",
-    "sass-loader": "^12.3.0"
+    "sass-loader": "^12.4.0"
   },
   "postcss": {
     "plugins": {
