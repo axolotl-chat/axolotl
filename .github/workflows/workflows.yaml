@@ -44,7 +44,7 @@ jobs:
 
     steps:
       - name: Setup Node 14
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2.5.0
         with:
           node-version: "14.x"
 
