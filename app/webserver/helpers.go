@@ -61,7 +61,7 @@ func sendCurrentChat(s *store.Session) {
 		gr  *textsecure.Group
 	)
 	if s.IsGroup {
-		gr, err = textsecure.GetGroupById(s.Tel)
+		gr, err = textsecure.GetGroupById(s.UUID)
 		if err != nil {
 			log.Errorln("[axolotl] sendCurrentChat: groups", err)
 			return
@@ -89,7 +89,7 @@ func updateCurrentChat(s *store.Session) {
 		c   *textsecureContacts.Contact
 	)
 	if s.IsGroup {
-		gr, err = textsecure.GetGroupById(s.Tel)
+		gr, err = textsecure.GetGroupById(s.UUID)
 		if err != nil {
 			log.Errorln("[axolotl] updateCurrentChat", err)
 			return
