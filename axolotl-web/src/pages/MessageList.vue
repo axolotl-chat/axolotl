@@ -105,7 +105,7 @@
     </div>
     <div v-else class="messageInputBox justify-content-center">
       <div class="messageInput-btn-container d-flex justify-content-center align-items-center">
-        <div><span>{{duration}}</span><span v-translate class="me-2">s</span></div>
+        <div><span>{{ duration }}</span><span v-translate class="me-2">s</span></div>
         <button v-if="!playing" class="btn send play me-1" @click="playAudio">
           <font-awesome-icon icon="play" />
         </button>
@@ -389,6 +389,7 @@ export default {
     },
     stopPlayAudio(){
       this.playing = false;
+      this.voiceNoteElem = document.getElementById("voiceNote");
       this.voiceNoteElem.pause();
     },
     stopRecording(){
@@ -397,6 +398,7 @@ export default {
       this.recorder.stop()
       this.recorder.getMp3().then(([_buffer, blob]) => {
         this.blobUrl = URL.createObjectURL(blob);
+        this.blobObj = blob;
         let that = this;
         setTimeout(function(){
           that.voiceNoteElem = document.getElementById("voiceNote");
@@ -413,7 +415,7 @@ export default {
       this.playing = false;
       /* eslint-disable no-unused-vars */
       this.recorder.getMp3().then(([buffer, _blob]) => {
-        const file = new File(buffer, 'voice.mp3', {
+        const file = new File([this.blobObj] , 'voice.mp3', {
           type: "audio/mpeg",
           lastModified: Date.now()
         });

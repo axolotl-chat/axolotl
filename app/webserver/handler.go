@@ -271,7 +271,7 @@ func uploadSendVoiceNote(voiceNote SendVoiceNoteMessage) error {
 	log.Debug("[axolotl] uploadSendVoiceNote to ", voiceNote.To)
 	// Do not allow sending attachments larger than 100M for now
 	var maxAttachmentSize int64 = 100 * 1024 * 1024
-	file := config.AttachDir + "/" + RandStringBytesMaskImprSrcUnsafe(10) + ".m4a"
+	file := config.AttachDir + "/" + RandStringBytesMaskImprSrcUnsafe(10) + ".mp3"
 	dataURL, err := dataurl.DecodeString(voiceNote.VoiceNote)
 	if err != nil {
 		log.Errorln("[axolotl] voiceNote error:", err)

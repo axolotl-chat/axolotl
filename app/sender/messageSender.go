@@ -201,9 +201,8 @@ func SendMessageLoop(to string, message string, group bool, att io.Reader, flags
 				}
 			} else {
 				if voiceMessage {
-					ts, err = textsecure.SendAttachment(to, message, att, timer)
-					log.Printf("[axolotl] SendMessageLoop send voice note")
 					ts, err = textsecure.SendVoiceNote(to, message, att, timer)
+					log.Printf("[axolotl] SendMessageLoop send voice note")
 				} else {
 					log.Printf("[axolotl] SendMessageLoop sendAttachment")
 					ts, err = textsecure.SendAttachment(to, message, att, timer)
