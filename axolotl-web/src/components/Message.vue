@@ -200,7 +200,7 @@ import { mapState } from "vuex";
 let decoder;
 
 export default {
-  name: "Message",
+  name: "MessageComponent",
   props: {
     message: {
       type: Object,

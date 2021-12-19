@@ -23,7 +23,7 @@
 import { mapState } from "vuex";
 
 export default {
-  name: "Password",
+  name: "PasswordPage",
   data() {
     return {
       pw: "",

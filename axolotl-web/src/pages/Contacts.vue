@@ -108,10 +108,9 @@ import AddContactModal from "@/components/AddContactModal.vue";
 import EditContactModal from "@/components/EditContactModal.vue";
 import StartChatModal from "@/components/StartChatModal.vue";
 import { validateUUID } from "@/helpers/uuidCheck";
-import longPressEvent from "long-press-event/dist/long-press-event.min.js";
 
 export default {
-  name: "Contacts",
+  name: "ContactsPage",
   components: {
     AddContactModal,
     EditContactModal,
