@@ -35,10 +35,10 @@ UITK.Page {
       console.log(msg)
     }
     onLoadingChanged:{
-        var msg = "[Axolotl Web View] [JS] url changed %1".arg(url)
-        console.log(msg)
-        var  interceptor = "window.onToken = function(token){window.location = 'http://localhost:9080/?token='+token;};"
-        webView.runJavaScript(interceptor)
+      var msg = "[Axolotl Web View] [JS] url changed %1".arg(url)
+      console.log(msg)
+      var  interceptor = "window.onToken = function(token){window.location = 'http://localhost:9080/?token='+token;};"
+      webView.runJavaScript(interceptor)
     }
     onJavaScriptDialogRequested: function(request) {
       request.accepted = true;
@@ -112,22 +112,23 @@ UITK.Page {
         request.dialogAccept();
 
       } else if(request.message.toLowerCase().includes("http")){
-          Qt.openUrlExternally(request.message);
-          request.dialogAccept();
+        Qt.openUrlExternally(request.message);
+        request.dialogAccept();
       } else if(request.message =="paste"){
         request.dialogAccept(UITK.Clipboard.data.text ? UITK.Clipboard.data.text : "");
-    } else{
-      simpleDialog.request = request;
-      simpleDialog.visible = true;
-      root.request = request;
-    }
-    onFeaturePermissionRequested: {
+      } else{
+        simpleDialog.request = request;
+        simpleDialog.visible = true;
+        root.request = request;
+      }
+      onFeaturePermissionRequested: {
         grantFeaturePermission(securityOrigin, feature, true);
+      }
     }
-  }
 
-  WebEngineProfile{
+    WebEngineProfile{
       id:webProfile
+    }
   }
   ContentPeerPicker {
     id: peerPicker
@@ -138,41 +139,41 @@ UITK.Page {
     // selectionType: root.selectionType
     onPeerSelected: {
       root.activeTransfer = peer.request()
-        if(handler === ContentHandler.Source ){
-          peer.selectionType = root.selectionType
-          webView.forceActiveFocus();
-        }
-        else {
-          root.activeTransfer.stateChanged.connect(function() {
-              if (root.activeTransfer.state === ContentTransfer.InProgress) {
-                  console.log("In progress", root.url);
-                  root.activeTransfer.items = [ resultComponent.createObject(parent, {"url": root.url}) ];
-                  root.activeTransfer.state = ContentTransfer.Charged;
-                  requestContentHub=false;
-                  request.dialogAccept();
-                  webView.forceActiveFocus();
-              }
-          })
-        }
+      if(handler === ContentHandler.Source ){
+        peer.selectionType = root.selectionType
+        webView.forceActiveFocus();
+      }
+      else {
+        root.activeTransfer.stateChanged.connect(function() {
+          if (root.activeTransfer.state === ContentTransfer.InProgress) {
+            console.log("In progress", root.url);
+            root.activeTransfer.items = [ resultComponent.createObject(parent, {"url": root.url}) ];
+            root.activeTransfer.state = ContentTransfer.Charged;
+            requestContentHub=false;
+            request.dialogAccept();
+            webView.forceActiveFocus();
+          }
+        })
+      }
     }
     onCancelPressed: {
-        webView.forceActiveFocus();
-        request.dialogAccept("canceld");
-        requestContentHub=false
+      webView.forceActiveFocus();
+      request.dialogAccept("canceld");
+      requestContentHub=false
     }
   }
 
   Connections {
-        target: root.activeTransfer
-        onStateChanged: {
-          if(handler === ContentHandler.Source ){
-            if (root.activeTransfer.state === ContentTransfer.Charged)
-                requestContentHub=false
-                if (root.activeTransfer.items.length > 0) {
-                  request.dialogAccept(root.activeTransfer.items[0].url);
-                }
-              }
+    target: root.activeTransfer
+    onStateChanged: {
+      if(handler === ContentHandler.Source ){
+        if (root.activeTransfer.state === ContentTransfer.Charged)
+        requestContentHub=false
+        if (root.activeTransfer.items.length > 0) {
+          request.dialogAccept(root.activeTransfer.items[0].url);
         }
+      }
+    }
   }
   UITK_Popups.Dialog {
     id: desktopLinkDialog
@@ -238,28 +239,28 @@ UITK.Page {
     width: parent.width
     visible:Qt.inputMethod.visible
     anchors {
-        // bottomMargin: (UbuntuApplication.inputMethod.visible) ? -height : 0
-        // onBottomMarginChanged: hidden = (anchors.bottomMargin == -height ? true : hidden)
-        left: parent.left
-        right: parent.right
-        bottom: parent.bottom
-        // Behavior on bottomMargin {
-        //   NumberAnimation {
-        //     duration: UbuntuAnimation.FastDuration
-        //     easing: UbuntuAnimation.StandardEasing
-        //   }
-        // }
-      }
+      // bottomMargin: (UbuntuApplication.inputMethod.visible) ? -height : 0
+      // onBottomMarginChanged: hidden = (anchors.bottomMargin == -height ? true : hidden)
+      left: parent.left
+      right: parent.right
+      bottom: parent.bottom
+      // Behavior on bottomMargin {
+      //   NumberAnimation {
+      //     duration: UbuntuAnimation.FastDuration
+      //     easing: UbuntuAnimation.StandardEasing
+      //   }
+      // }
+    }
     Rectangle {
-    color: "white"
+      color: "white"
       anchors.fill: parent
     }
   }
   Component.onCompleted:{
-      webProfile.clearHttpCache();
+    webProfile.clearHttpCache();
   }
   Component {
-      id: resultComponent
-      ContentItem {}
+    id: resultComponent
+    ContentItem {}
   }
 }
