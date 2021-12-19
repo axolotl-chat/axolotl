@@ -206,7 +206,7 @@ func sendAttachment(attachment SendAttachmentMessage) error {
 		log.Errorln("[axolotl] attachment error: Attachment too large, not sending")
 		return nil
 	}
-	err, m := sender.SendMessageHelper(attachment.To, attachment.Message, file, nil, false)
+	m, err := sender.SendMessageHelper(attachment.To, attachment.Message, file, nil, false)
 	if err == nil {
 		go MessageHandler(m)
 	}
@@ -261,7 +261,7 @@ func uploadSendAttachment(attachment UploadAttachmentMessage) error {
 		log.Errorln("[axolotl] attachment error: Attachment too large, not sending")
 		return nil
 	}
-	err, m := sender.SendMessageHelper(attachment.To, attachment.Message, file, nil, false)
+	m, err := sender.SendMessageHelper(attachment.To, attachment.Message, file, nil, false)
 	if err == nil {
 		go MessageHandler(m)
 	}
@@ -287,7 +287,7 @@ func uploadSendVoiceNote(voiceNote SendVoiceNoteMessage) error {
 		log.Errorln("[axolotl] voiceNote error: Attachment too large, not sending")
 		return nil
 	}
-	err, m := sender.SendMessageHelper(voiceNote.To, "", file, nil, true)
+	m, err := sender.SendMessageHelper(voiceNote.To, "", file, nil, true)
 	if err == nil {
 		go MessageHandler(m)
 	}

@@ -20,7 +20,7 @@ const emptyUUID = "0"
 // SendMessageHelper sends the message and returns the updated message
 func SendMessageHelper(ID int64, message, file string,
 	updateMessageChannel chan *store.Message,
-	voiceMessage bool) (error, *store.Message) {
+	voiceMessage bool) (*store.Message, error) {
 	if ID >= 0 {
 		var err error
 		attachments := []store.Attachment{}
@@ -29,7 +29,7 @@ func SendMessageHelper(ID int64, message, file string,
 			log.Debugln("[axolotl] attachment: " + file)
 			if err != nil {
 				log.Errorln("[axolotl] Error Attachment:" + err.Error())
-				return err, nil
+				return nil, err
 			}
 			strParts := strings.Split(file, "/")
 			if voiceMessage {
@@ -43,7 +43,7 @@ func SendMessageHelper(ID int64, message, file string,
 		session, err := store.SessionsModel.Get(ID)
 		if err != nil {
 			log.Errorln("[axolotl] SendMessageHelper:" + err.Error())
-			return err, nil
+			return nil, err
 		}
 		// sessions fix bug in 1.9.4 could be deleted later
 		if !session.IsGroup && len(session.Tel) > 0 && session.Tel[0] != '+' {
@@ -102,10 +102,10 @@ func SendMessageHelper(ID int64, message, file string,
 				updateMessageChannel <- mNew
 			}
 		}()
-		return nil, savedM
+		return savedM, nil
 	}
 	log.Errorln("[axolotl] send to is empty")
-	return errors.New("send to is empty"), nil
+	return nil, errors.New("send to is empty")
 }
 
 func SendMessage(s *store.Session, m *store.Message, voiceMessage bool) (*store.Message, error) {

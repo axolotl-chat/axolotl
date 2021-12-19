@@ -182,7 +182,7 @@ func wsReader(conn *websocket.Conn) {
 			json.Unmarshal([]byte(p), &sendMessageMessage)
 			log.Debugln("[axolotl] send message to ", sendMessageMessage.To)
 			updateMessageChannel := make(chan *store.Message)
-			err, m := sender.SendMessageHelper(sendMessageMessage.To,
+			m, err := sender.SendMessageHelper(sendMessageMessage.To,
 				sendMessageMessage.Message, "", updateMessageChannel, false)
 			if err != nil || m == nil {
 				log.Errorln("[axolotl] send message: ", err)

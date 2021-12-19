@@ -97,7 +97,7 @@ export default createStore({
       if (typeof state.messageList.Messages === "undefined") {
         state.messageList.Messages = []
       }
-      var prepare = state.messageList.Messages.map(function (e) { return e.ID; })
+      const prepare = state.messageList.Messages.map(e => e.ID)
       if (data.CurrentChat.Messages !== null) {
         data.CurrentChat.Messages.forEach(m => {
           state.messageList.Messages[prepare.indexOf(m.ID)] = m;
@@ -126,7 +126,7 @@ export default createStore({
       state.registrationStatus = status;
     },
     SET_REQUEST(state, request) {
-      var type = request["Type"]
+      const type = request.Type;
       state.request = request;
       if (type === "getPhoneNumber") {
         this.commit("SET_REGISTRATION_STATUS", "phoneNumber");
@@ -169,7 +169,7 @@ export default createStore({
     },
     SET_MESSAGE_RECIEVED(state, message) {
       if (state.messageList.ID === message.SID) {
-        var tmpList = state.messageList.Messages;
+        let tmpList = state.messageList.Messages;
         tmpList.push(message);
         tmpList.sort(function (a, b) {
           return b.ID - a.ID
@@ -184,12 +184,12 @@ export default createStore({
     },
     SET_MESSAGE_UPDATE(state, message) {
       if (state.messageList.ID === message.SID) {
-        var index = state.messageList.Messages.findIndex(m => {
+        const index = state.messageList.Messages.findIndex(m => {
           return m.ID === message.ID;
         });
         // check if message exists
         if (index !== -1) {
-          var tmpList = JSON.parse(JSON.stringify(state.messageList.Messages));
+          let tmpList = JSON.parse(JSON.stringify(state.messageList.Messages));
           tmpList[index] = message;
           tmpList.sort(function (a, b) {
             return b.ID - a.ID
@@ -222,13 +222,13 @@ export default createStore({
     },
     SET_CONTACTS_FILTER(state, filter) {
       filter = filter.toLowerCase()
-      var f = state.contacts.filter(c => c.Name.toLowerCase().includes(filter));
+      const f = state.contacts.filter(c => c.Name.toLowerCase().includes(filter));
       state.contactsFiltered = f;
       state.contactsFilterActive = true;
     },
     SET_CONTACTS_FOR_GROUP_FILTER(state, filter) {
       filter = filter.toLowerCase()
-      var f = state.contacts.filter(c => {
+      let f = state.contacts.filter(c => {
         if (!validateUUID(c.UUID)) return false
         if (c.Name.toLowerCase().includes(filter))
           return true;
@@ -281,7 +281,7 @@ export default createStore({
     SOCKET_ONMESSAGE(state, message) {
       state.socket.message = message;
       if (message.data !== "Hi Client!") {
-        var messageData = JSON.parse(message.data);
+        const messageData = JSON.parse(message.data);
         if (typeof messageData.Error !== "undefined") {
           this.commit("SET_ERROR", messageData["Error"]);
         }
@@ -346,9 +346,9 @@ export default createStore({
     },
     SET_CONFIG_DARK_MODE(state, darkMode) {
       if (window.getCookie("darkMode") !== String(darkMode)) {
-        var d = new Date();
+        const d = new Date();
         d.setTime(d.getTime() + (300 * 24 * 60 * 60 * 1000));
-        var expires = "expires=" + d.toUTCString();
+        const expires = `expires=${d.toUTCString()}`;
         document.cookie = "darkMode" + "=" + darkMode + ";" + expires + ";path=/";
         state.darkMode = darkMode;
         window.location.replace("/")
@@ -715,9 +715,9 @@ export default createStore({
 
       }
     },
-    sendVoiceNote: function(state, voiceNote) {
+    sendVoiceNote(state, voiceNote) {
       if (this.state.socket.isConnected) {
-        var message = {
+        const message = {
           "request": "sendVoiceNote",
           "voiceNote": voiceNote.note,
           "to": voiceNote.to,

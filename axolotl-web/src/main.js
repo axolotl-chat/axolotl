@@ -7,25 +7,26 @@ import { createGettext } from "vue3-gettext";
 import translations from '../translations/translations.json'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import LinkifyHtml from 'linkifyjs/html'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {
+  faArrowDown,
   faArrowLeft,
+  faCheck,
   faEllipsisV,
+  faHeart,
+  faMicrophone,
+  faPaperPlane,
   faPencilAlt,
+  faPlay,
+  faPlus,
+  faSearch,
+  faStopCircle,
+  faTimes,
   faTrash,
   faUserFriends,
-  faPaperPlane,
-  faTimes,
-  faCheck,
   faVolumeMute,
-  faHeart,
-  faSearch,
-  faArrowDown,
-  faPlus,
-  faMicrophone,
-  faStopCircle,
-  faPlay
 } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
 library.add(faArrowLeft, faEllipsisV, faPencilAlt, faPlus, faTrash, faPaperPlane,
   faUserFriends, faTimes, faCheck, faVolumeMute, faHeart, faSearch, faArrowDown,
   faMicrophone, faStopCircle, faPlay
