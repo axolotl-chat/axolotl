@@ -58,7 +58,7 @@ func sendChatList() {
 func sendCurrentChat(s *store.Session) {
 	var (
 		err error
-		gr  *textsecure.Group
+		gr  *store.GroupRecord
 	)
 	if s.IsGroup {
 		gr = store.GetGroupById(s.UUID)
@@ -71,7 +71,11 @@ func sendCurrentChat(s *store.Session) {
 		OpenChat: &OpenChat{
 			CurrentChat: s,
 			Contact:     &profile,
-			Group:       gr,
+			Group:       &Group{
+				HexId: gr.GroupID,
+				Name: gr.Name,
+				Members: strings.Split(gr.Members, ","),
+			},
 		},
 	}
 	message := &[]byte{}
@@ -85,7 +89,7 @@ func sendCurrentChat(s *store.Session) {
 func updateCurrentChat(s *store.Session) {
 	var (
 		err error
-		gr  *textsecure.Group
+		gr  *store.GroupRecord
 		c   *textsecureContacts.Contact
 	)
 	if s.IsGroup {
@@ -101,7 +105,11 @@ func updateCurrentChat(s *store.Session) {
 		UpdateCurrentChat: &UpdateCurrentChat{
 			CurrentChat: s,
 			Contact:     c,
-			Group:       gr,
+			Group:       &Group{
+				HexId: gr.GroupID,
+				Name: gr.Name,
+				Members: strings.Split(gr.Members, ","),
+			},
 		},
 	}
 	message := &[]byte{}

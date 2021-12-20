@@ -21,10 +21,15 @@ type ContactListEnvelope struct {
 type DeviceListEnvelope struct {
 	DeviceList []textsecure.DeviceInfo
 }
+type Group struct {
+	HexId		string
+	Name		string
+	Members	[]string
+}
 type OpenChat struct {
 	CurrentChat *store.Session
 	Contact     *textsecureContacts.Contact
-	Group       *textsecure.Group
+	Group       *Group
 }
 type CurrentChatEnvelope struct {
 	OpenChat *OpenChat
@@ -32,7 +37,7 @@ type CurrentChatEnvelope struct {
 type UpdateCurrentChat struct {
 	CurrentChat *store.Session
 	Contact     *textsecureContacts.Contact
-	Group       *textsecure.Group
+	Group       *Group
 }
 type UpdateCurrentChatEnvelope struct {
 	UpdateCurrentChat *UpdateCurrentChat
