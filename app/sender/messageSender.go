@@ -166,7 +166,7 @@ func SendMessage(s *store.Session, m *store.Message, voiceMessage bool) (*store.
 }
 
 // SendMessageLoop sends a single message and also loops over groups in order to send it to each participant of the group
-func SendMessageLoop(to string, message string, group bool, att io.Reader, flags int, timer uint32, voiceMessage bool) uint64 {
+func SendMessageLoop(to, message string, group bool, att io.Reader, flags int, timer uint32, voiceMessage bool) uint64 {
 	var err error
 	var ts uint64
 	var count int
