@@ -362,7 +362,7 @@ export default {
       var that = this;
       this.recording = true;
       this.playing =  false;
-      navigator.mediaDevices.getUserMedia({
+       navigator.mediaDevices.getUserMedia({
           video: false,
           audio: true
       }).then(async function() {
