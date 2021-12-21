@@ -105,7 +105,7 @@
     </div>
     <div v-else class="messageInputBox justify-content-center">
       <div class="messageInput-btn-container d-flex justify-content-center align-items-center">
-        <div><span>{{ duration }}</span><span v-translate class="me-2">s</span></div>
+        <div><span>{{ Math.floor(duration) }}</span><span v-translate class="me-2">s</span></div>
         <button v-if="!playing" class="btn send play me-1" @click="playAudio">
           <font-awesome-icon icon="play" />
         </button>
@@ -120,10 +120,11 @@
         </button>
       </div>
     </div>
-    <audio v-if="blobUrl!=''"
-           id="voiceNote"
-           controls
-           :src="blobUrl"
+    <audio 
+      v-if="blobUrl!=''"
+      id="voiceNote"
+      controls
+      :src="blobUrl"
     >
       Your browser does not support the
       <code>audio</code> element.
@@ -360,24 +361,26 @@ export default {
     },
     recordAudio(){
       var that = this;
-      this.recording = true;
       this.playing =  false;
        navigator.mediaDevices.getUserMedia({
           video: false,
           audio: true
       }).then(async function() {
+
           that.recorder = new MicRecorder({
             bitRate: 128
           });
           that.recorder.start().then(() => {
             // something else
+            that.recording = true;
           }).catch((e) => {
             /* eslint-disable no-console */
-            console.error(e);
+            //console.error(e);
           });
       });
     },
     deleteAudio(){
+      this.stopPlayAudio();
       this.playing = false;
       this.recorded = false;
       this.recorder = null;

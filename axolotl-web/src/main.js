@@ -15,6 +15,7 @@ import {
   faEllipsisV,
   faHeart,
   faMicrophone,
+  faPause,
   faPaperPlane,
   faPencilAlt,
   faPlay,
@@ -29,7 +30,7 @@ import {
 
 library.add(faArrowLeft, faEllipsisV, faPencilAlt, faPlus, faTrash, faPaperPlane,
   faUserFriends, faTimes, faCheck, faVolumeMute, faHeart, faSearch, faArrowDown,
-  faMicrophone, faStopCircle, faPlay
+  faMicrophone, faStopCircle, faPlay, faPause
   )
 
 const app = createApp(App)
