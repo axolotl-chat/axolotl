@@ -57,8 +57,9 @@ func sendChatList() {
 }
 func sendCurrentChat(s *store.Session) {
 	var (
-		err error
-		gr  *store.GroupRecord
+		err   error
+		gr    *store.GroupRecord
+		group *Group
 	)
 	if s.IsGroup {
 		gr = store.GetGroupById(s.UUID)
@@ -66,16 +67,17 @@ func sendCurrentChat(s *store.Session) {
 			log.Errorln("[axolotl] sendCurrentChat: group not found", s.UUID)
 			return
 		}
+		group = &Group{
+			HexId: gr.GroupID,
+			Name: gr.Name,
+			Members: strings.Split(gr.Members, ","),
+		}
 	}
 	currentChatEnvelope := &CurrentChatEnvelope{
 		OpenChat: &OpenChat{
 			CurrentChat: s,
 			Contact:     &profile,
-			Group:       &Group{
-				HexId: gr.GroupID,
-				Name: gr.Name,
-				Members: strings.Split(gr.Members, ","),
-			},
+			Group:       group,
 		},
 	}
 	message := &[]byte{}
