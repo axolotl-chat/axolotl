@@ -183,7 +183,9 @@ export default {
     },
   },
   mounted() {
+    console.log('[blackoverflow] openChat', this.getId())
     this.$store.dispatch("openChat", this.getId());
+    console.log('[blackoverflow] getMessageList', this.getId())
     this.$store.dispatch("getMessageList", this.getId());
     document.getElementById("messageInput").focus();
     setTimeout(this.scrollDown, 600);
