@@ -184,7 +184,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch("openChat", this.getId());
-    this.$store.dispatch("getMessageList", this.getId());
     document.getElementById("messageInput").focus();
     setTimeout(this.scrollDown, 600);
     const that = this;
