@@ -1,5 +1,5 @@
 import { config, mount } from '@vue/test-utils'
-import LinkifyHtml from 'linkifyjs/html'
+import linkifyHTML from 'linkify-html'
 import Message from '@/components/Message.vue'
 import { expect } from 'chai'
 
