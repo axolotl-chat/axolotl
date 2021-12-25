@@ -40,7 +40,8 @@ app.mixin({
           },
           target: {
             url: '_blank'
-          }
+          },
+          className: 'linkified'
         }
       );
     },
