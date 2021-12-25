@@ -44,7 +44,7 @@ jobs:
 
     steps:
       - name: Setup Node 14
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2.5.0
         with:
           node-version: "14.x"
 
@@ -259,7 +259,7 @@ jobs:
         with:
           submodules: 'true'
 
-      - uses: bilelmoussaoui/flatpak-github-actions@v2
+      - uses: bilelmoussaoui/flatpak-github-actions@v4
         with:
           bundle: "axolotl.flatpak"
           manifest-path: "flatpak/web/org.nanuc.Axolotl.yml"

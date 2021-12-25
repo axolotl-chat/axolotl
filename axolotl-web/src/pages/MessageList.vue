@@ -235,16 +235,6 @@ export default {
         document.getElementById("attachment").click();
       }
     },
-    shareAttachment(file, e) {
-      if (typeof this.config.Gui !== "undefined" && this.config.Gui === "ut") {
-        e.preventDefault();
-        alert("[oD]" + file);
-        // this.showAttachmentsBar=true
-      } else {
-        // alert(file)
-        // console.log(file)
-      }
-    },
     sendDesktopAttachment(evt) {
       const f = evt.target.files[0];
       if (f) {
