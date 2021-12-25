@@ -1,7 +1,7 @@
 import { config, mount } from '@vue/test-utils'
 import Message from '@/components/Message.vue'
-import linkifyHTML from 'linkify-html'
 import { expect } from 'chai'
+import linkifyHTML from 'linkify-html'
 
 config.global = {
   directives: {
