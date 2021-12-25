@@ -1,6 +1,6 @@
 import { config, mount } from '@vue/test-utils'
-import linkifyHTML from 'linkify-html'
 import Message from '@/components/Message.vue'
+import linkifyHTML from 'linkify-html'
 import { expect } from 'chai'
 
 config.global = {
@@ -13,7 +13,7 @@ config.global = {
     {
       methods: {
         linkify(content) {
-          return LinkifyHtml(content);
+          return linkifyHTML(content);
         }
       }
     }
