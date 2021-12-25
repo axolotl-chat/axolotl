@@ -26,6 +26,7 @@
     "core-js": "^3.6.5",
     "file-saver": "^2.0.5",
     "linkify-html": "^3.0.4",
+    "linkifyjs": "^3.0.4",
     "long-press-event": "^2.4.2",
     "moment": "^2.29.1",
     "qrcode": "^1.4.4",
