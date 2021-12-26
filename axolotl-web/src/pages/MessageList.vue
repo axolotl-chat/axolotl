@@ -548,7 +548,7 @@ input:focus {
   color: red;
 }
 #voiceNote{
-  position:fixed;
-  top:-100em;
+  position: fixed;
+  top: -100em;
 }
 </style>
