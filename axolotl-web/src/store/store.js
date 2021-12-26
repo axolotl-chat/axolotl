@@ -169,7 +169,7 @@ export default createStore({
     },
     SET_MESSAGE_RECIEVED(state, message) {
       if (state.messageList.ID === message.SID) {
-        let tmpList = state.messageList.Messages;
+        const tmpList = state.messageList.Messages;
         tmpList.push(message);
         tmpList.sort(function (a, b) {
           return b.ID - a.ID
@@ -189,7 +189,7 @@ export default createStore({
         });
         // check if message exists
         if (index !== -1) {
-          let tmpList = JSON.parse(JSON.stringify(state.messageList.Messages));
+          const tmpList = JSON.parse(JSON.stringify(state.messageList.Messages));
           tmpList[index] = message;
           tmpList.sort(function (a, b) {
             return b.ID - a.ID
