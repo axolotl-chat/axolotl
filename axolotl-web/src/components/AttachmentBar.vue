@@ -45,7 +45,7 @@
 
 <script>
 export default {
-  name: "AddContact",
+  name: "AttachmentBarComponent",
   emits: ["send", "close"],
   computed: {
     gui() {
