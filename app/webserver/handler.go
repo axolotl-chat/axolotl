@@ -243,7 +243,7 @@ func uploadSendAttachment(attachment UploadAttachmentMessage) error {
 	log.Debug("[axolotl] uploadSendAttachment to ", attachment.To)
 
 	// Do not allow sending attachments larger than 100M for now
-	var maxAttachmentSize int64 = 100 * 1024 * 1024
+	const maxAttachmentSize int64 = 100 * 1024 * 1024
 	file := config.AttachDir + "/" + RandStringBytesMaskImprSrcUnsafe(10)
 	dataURL, err := dataurl.DecodeString(attachment.Attachment)
 	if err != nil {
