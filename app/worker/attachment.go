@@ -4,6 +4,7 @@ import (
 	"errors"
 	"os"
 
+	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/contact"
 	"github.com/nanu-c/axolotl/app/sender"
 	"github.com/nanu-c/axolotl/app/ui"
@@ -21,14 +22,12 @@ func (Api *TextsecureAPI) SendContactAttachment(to int64, message string, file s
 }
 
 func (Api *TextsecureAPI) SendAttachmentToApi(to int64, message string, file string) error {
-	// Do not allow sending attachments larger than 100M for now
-	var maxAttachmentSize int64 = 100 * 1024 * 1024
 	// log.Printf("SendAttachmentApi")
 	fi, err := os.Stat(file)
 	if err != nil {
 		return err
 	}
-	if fi.Size() > maxAttachmentSize {
+	if fi.Size() > config.MaxAttachmentSize {
 		ui.ShowError(errors.New("Attachment too large, not sending"))
 		return nil
 	}
