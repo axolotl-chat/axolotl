@@ -219,9 +219,8 @@ export default {
     return {
       showDate: false,
       audio: null,
-      isPlaying: false,
-      duration: "0",
-      currentTime: "0",
+      duration: 0.0,
+      currentTime: 0.0,
     };
   },
   computed: {
@@ -234,22 +233,26 @@ export default {
       ); // #14 is the flag for quoting messages
 	    // see this list for all message types: https://github.com/nanu-c/axolotl/blob/main/app/helpers/models.go#L15
     },
+    isPlaying(){
+      return this.audio ? !this.audio.paused : false;
+    }
   },
   mounted() {
     if (this.message.Attachment!="" && this.message.Attachment!=null) {
       const attachment = JSON.parse(this.message.Attachment);
-      if (attachment!=null&&attachment.length>0 &&attachment[0].CType === 3) {
-        this.audio = new Audio("http://localhost:9080/attachments?file=" + attachment[0].File);
-        var that = this;
-        this.audio.onloadedmetadata = function() {
+      if (attachment?.length>0 && attachment[0].CType === 3) {
+        this.audio = { 
+          ...new Audio("http://localhost:9080/attachments?file=" + attachment[0].File),
+          onloadedmetadata() {
           that.duration = that.audio.duration.toFixed(2);
-        };
-        this.audio.onended = function (){
-          that.audio.currentTime = 0;
-          that.isPlaying = false;
-        };
-        this.audio.ontimeupdate = function (){
-          that.currentTime = that.audio.currentTime.toFixed(2);
+          },  
+          onended() {
+            that.audio.currentTime = 0;
+            that.isPlaying = false;
+          },
+          ontimeupdate() {
+            that.currentTime = that.audio.currentTime.toFixed(2);
+          }
         };
       }
     }

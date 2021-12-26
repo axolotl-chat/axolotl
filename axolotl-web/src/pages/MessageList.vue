@@ -72,8 +72,8 @@
       side to exchange the profile key. After that he/she has to remove and add
       you again.
     </div>
-    <div v-if="!recorded" class="messageInputBox">
-      <div v-if="!recording" class="messageInput-container">
+    <div v-if="!voiceNote.recorded" class="messageInputBox">
+      <div v-if="!voiceNote.recording" class="messageInput-container">
         <textarea
           id="messageInput"
           v-model="messageInput"
@@ -88,7 +88,7 @@
           <font-awesome-icon icon="paper-plane" />
         </button>
       </div>
-      <div v-else-if="recording" class="messageInput-btn-container d-flex justify-content-center w-100">
+      <div v-else-if="voiceNote.recording" class="messageInput-btn-container d-flex justify-content-center w-100">
         <div v-translate class="me-5">Recording...</div>
         <button class="btn send record-stop" @click="stopRecording">
           <font-awesome-icon icon="stop-circle" />
@@ -105,8 +105,8 @@
     </div>
     <div v-else class="messageInputBox justify-content-center">
       <div class="messageInput-btn-container d-flex justify-content-center align-items-center">
-        <div><span>{{ Math.floor(duration) }}</span><span v-translate class="me-2">s</span></div>
-        <button v-if="!playing" class="btn send play me-1" @click="playAudio">
+        <div><span>{{ Math.floor(voiceNote.duration) }}</span><span v-translate class="me-2">s</span></div>
+        <button v-if="!voiceNote.playing" class="btn send play me-1" @click="playAudio">
           <font-awesome-icon icon="play" />
         </button>
         <button v-else class="btn send stop me-1" @click="stopPlayAudio">
@@ -140,7 +140,7 @@
       style="position: fixed; top: -100em"
       @change="sendDesktopAttachment"
     />
-    <audio id="voiceNote" :src="blobUrl" style="position: fixed; top: -100em" />
+    <audio id="voiceNote" :src="voiceNote.blobUrl" style="position: fixed; top: -100em" />
   </div>
 </template>
 
@@ -170,13 +170,15 @@ export default {
       lastCHeight: 0,
       lastMHeight: 0,
       scrollLocked: false,
-      recorder: null,
-      recording: false,
-      recorded: false,
-      playing: false,
-      blobUrl: "",
-      voiceNoteElem: null,
-      duration:0,
+      voiceNote:{
+        recorder: null,
+        recording: false,
+        recorded: false,
+        playing: false,
+        blobUrl: "",
+        voiceNoteElem: null,
+        duration:0,
+      }
     };
   },
   computed: {
@@ -337,10 +339,7 @@ export default {
       if (
         !this.$data.scrollLocked &&
         event.target.scrollTop < 80 &&
-        this.$store.state.messageList !== null &&
-        this.$store.state.messageList.Messages !== null &&
-        this.$store.state.messageList.Messages !== undefined &&
-        this.$store.state.messageList.Messages.length > 19
+        this.$store.state.messageList?.Messages?.length > 19
       ) {
         this.$data.scrollLocked = true;
         this.$store.dispatch("getMoreMessages");
@@ -361,64 +360,65 @@ export default {
     },
     recordAudio(){
       var that = this;
-      this.playing =  false;
+      this.voiceNote.playing =  false;
        navigator.mediaDevices.getUserMedia({
           video: false,
           audio: true
       }).then(async function() {
 
-          that.recorder = new MicRecorder({
+          that.voiceNote.recorder = new MicRecorder({
             bitRate: 128
           });
-          that.recorder.start().then(() => {
+          that.voiceNote.recorder.start().then(() => {
             // something else
-            that.recording = true;
+            that.voiceNote.recording = true;
           }).catch((e) => {
+            //skipqc: JS-0002
             /* eslint-disable no-console */
-            //console.error(e);
+            console.error(e);
           });
       });
     },
     deleteAudio(){
       this.stopPlayAudio();
-      this.playing = false;
-      this.recorded = false;
-      this.recorder = null;
+      this.voiceNote.playing = false;
+      this.voiceNote.recorded = false;
+      this.voiceNote.recorder = null;
     },
     playAudio(){
-      this.playing = true;
-      this.voiceNoteElem.play();
+      this.voiceNote.playing = true;
+      this.voiceNote.voiceNoteElem.play();
 
     },
     stopPlayAudio(){
-      this.playing = false;
-      this.voiceNoteElem = document.getElementById("voiceNote");
-      this.voiceNoteElem.pause();
+      this.voiceNote.playing = false;
+      this.voiceNote.voiceNoteElem = document.getElementById("voiceNote");
+      this.voiceNote.voiceNoteElem.pause();
     },
     stopRecording(){
-      this.recording = false;
-      this.recorded = true;
-      this.recorder.stop()
-      this.recorder.getMp3().then(([_buffer, blob]) => {
-        this.blobUrl = URL.createObjectURL(blob);
-        this.blobObj = blob;
+      this.voiceNote.recording = false;
+      this.voiceNote.recorded = true;
+      this.voiceNote.recorder.stop()
+      this.voiceNote.recorder.getMp3().then(([, blob]) => {
+        this.voiceNote.blobUrl = URL.createObjectURL(blob);
+        this.voiceNote.blobObj = blob;
         let that = this;
         setTimeout(function(){
-          that.voiceNoteElem = document.getElementById("voiceNote");
-          that.duration = that.voiceNoteElem.duration;
+          that.voiceNote.voiceNoteElem = document.getElementById("voiceNote");
+          that.voiceNote.duration = that.voiceNote.voiceNoteElem.duration;
         }, 200);
       })
 
     },
     sendVoiceNote(){
-      this.recorded = false;
+      this.voiceNote.recorded = false;
       let reader = new FileReader();
       let voiceNoteElem = document.getElementById("voiceNote");
       voiceNoteElem.pause()
-      this.playing = false;
+      this.voiceNote.playing = false;
       /* eslint-disable no-unused-vars */
-      this.recorder.getMp3().then(([buffer, _blob]) => {
-        const file = new File([this.blobObj] , 'voice.mp3', {
+      this.recorder.getMp3().then(() => {
+        const file = new File([this.voiceNote.blobObj] , 'voice.mp3', {
           type: "audio/mpeg",
           lastModified: Date.now()
         });
