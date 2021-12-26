@@ -41,162 +41,162 @@ UITK.Page {
       _webView.runJavaScript(interceptor)
     }
     onJavaScriptDialogRequested: function(request) {
-    request.accepted = true;
-    console.log("[axolotl ut] request: ", request.message)
-    if(request.message =="desktopLink")
-    {
-      desktopLinkDialog.request = request; // keep the reference to the request
-      desktopLinkDialog.visible = true;
-      root.request = request;
-    }
-    else if(request.message =="refreshContacts")
-    {
-      root.request = request
-      root.requestContentHub = true
-      root.contentType = ContentType.Contacts
-      root.handler = ContentHandler.Source
-      root.selectionType = ContentTransfer.Multiple
-    }
-    else if(request.message =="photo")
-    {
-      root.request = request
-      root.requestContentHub = true
-      root.contentType = ContentType.Pictures
-      root.handler = ContentHandler.Source
-      root.selectionType = ContentTransfer.Single
-    }
-    else if(request.message =="video")
-    {
-      root.request = request
-      root.requestContentHub = true
-      root.contentType = ContentType.Videos
-      root.handler = ContentHandler.Source
-      root.selectionType = ContentTransfer.Single
-    }
-    else if(request.message =="document")
-    {
-      root.request = request
-      root.requestContentHub = true
-      root.contentType = ContentType.Documents
-      root.handler = ContentHandler.Source
-      root.selectionType = ContentTransfer.Single
-    }
-    else if(request.message =="audio")
-    {
-      root.request = request
-      root.requestContentHub = true
-      root.contentType = ContentType.Music
-      root.handler = ContentHandler.Source
-      root.selectionType = ContentTransfer.Single
-    }
-    else if(request.message.includes("[oC]"))
-    {
-      root.request = request
-      root.requestContentHub = true
-      root.url = request.message.substring(4)
-      root.contentType = ContentType.Contacts
-      root.handler = ContentHandler.Destination
-      root.selectionType = ContentTransfer.Multiple
-    }
-    else if(request.message.includes("[oP]"))
-    {
-      root.request = request
-      root.requestContentHub = true
-      root.url = request.message.substring(4)
-      root.contentType = ContentType.Pictures
-      root.handler = ContentHandler.Destination
-      root.selectionType = ContentTransfer.Single
-    }
-    else if(request.message.includes("[oV]"))
-    {
-      root.request = request
-      root.requestContentHub = true
-      root.url = request.message.substring(4)
-      root.contentType = ContentType.Videos
-      root.handler = ContentHandler.Destination
-      root.selectionType = ContentTransfer.Single
-    }
-    else if(request.message.includes("[oD]"))
-    {
-      root.request = request
-      root.requestContentHub = true
-      root.url = request.message.substring(4)
-      root.contentType = ContentType.Documents
-      root.handler = ContentHandler.Destination
-      root.selectionType = ContentTransfer.Single
-    }
-    else if(request.message.toLowerCase().includes("call"))
-    {
-      root.request = request
-      var callUrl = request.message.substring(4)
-      Qt.openUrlExternally("tel: ///"+callUrl);
-      request.dialogAccept();
-
-    }
-    else if(request.message.toLowerCase().includes("http"))
-    {
-      Qt.openUrlExternally(request.message);
-      request.dialogAccept();
-    }
-    else if(request.message =="paste")
-    {
-      request.dialogAccept(UITK.Clipboard.data.text ? UITK.Clipboard.data.text: "");
-    }
-    else {
-      simpleDialog.request = request;
-      simpleDialog.visible = true;
-      root.request = request;
-    }
-    onFeaturePermissionRequested: {
-      grantFeaturePermission(securityOrigin, feature, true);
-    }
-  }
-  Connections {
-    onFeaturePermissionRequested: {
-      console.log("grantFeaturePermission", feature)
-      _webView.grantFeaturePermission(securityOrigin, feature, true);
-    }
-  }
-
-  WebEngineProfile {
-    id: webProfile
-  }
-}
-ContentPeerPicker {
-  id: peerPicker
-  anchors {
-    fill: parent;
-  }
-  visible: root.requestContentHub
-  contentType: root.contentType //ContentType.Pictures
-  handler: root.handler //ContentHandler.Source
-  // selectionType: root.selectionType
-  onPeerSelected: {
-    root.activeTransfer = peer.request()
-    if(handler === ContentHandler.Source )
-    {
-      peer.selectionType = root.selectionType
-      _webView.forceActiveFocus();
-    }
-    else {
-      root.activeTransfer.stateChanged.connect(function() {
-      if (root.activeTransfer.state === ContentTransfer.InProgress)
+      request.accepted = true;
+      console.log("[axolotl ut] request: ", request.message)
+      if(request.message =="desktopLink")
       {
-        console.log("In progress", root.url);
-        root.activeTransfer.items = [ resultComponent.createObject(parent, {"url": root.url}) ];
-        root.activeTransfer.state = ContentTransfer.Charged;
-        requestContentHub=false;
+        desktopLinkDialog.request = request; // keep the reference to the request
+        desktopLinkDialog.visible = true;
+        root.request = request;
+      }
+      else if(request.message =="refreshContacts")
+      {
+        root.request = request
+        root.requestContentHub = true
+        root.contentType = ContentType.Contacts
+        root.handler = ContentHandler.Source
+        root.selectionType = ContentTransfer.Multiple
+      }
+      else if(request.message =="photo")
+      {
+        root.request = request
+        root.requestContentHub = true
+        root.contentType = ContentType.Pictures
+        root.handler = ContentHandler.Source
+        root.selectionType = ContentTransfer.Single
+      }
+      else if(request.message =="video")
+      {
+        root.request = request
+        root.requestContentHub = true
+        root.contentType = ContentType.Videos
+        root.handler = ContentHandler.Source
+        root.selectionType = ContentTransfer.Single
+      }
+      else if(request.message =="document")
+      {
+        root.request = request
+        root.requestContentHub = true
+        root.contentType = ContentType.Documents
+        root.handler = ContentHandler.Source
+        root.selectionType = ContentTransfer.Single
+      }
+      else if(request.message =="audio")
+      {
+        root.request = request
+        root.requestContentHub = true
+        root.contentType = ContentType.Music
+        root.handler = ContentHandler.Source
+        root.selectionType = ContentTransfer.Single
+      }
+      else if(request.message.includes("[oC]"))
+      {
+        root.request = request
+        root.requestContentHub = true
+        root.url = request.message.substring(4)
+        root.contentType = ContentType.Contacts
+        root.handler = ContentHandler.Destination
+        root.selectionType = ContentTransfer.Multiple
+      }
+      else if(request.message.includes("[oP]"))
+      {
+        root.request = request
+        root.requestContentHub = true
+        root.url = request.message.substring(4)
+        root.contentType = ContentType.Pictures
+        root.handler = ContentHandler.Destination
+        root.selectionType = ContentTransfer.Single
+      }
+      else if(request.message.includes("[oV]"))
+      {
+        root.request = request
+        root.requestContentHub = true
+        root.url = request.message.substring(4)
+        root.contentType = ContentType.Videos
+        root.handler = ContentHandler.Destination
+        root.selectionType = ContentTransfer.Single
+      }
+      else if(request.message.includes("[oD]"))
+      {
+        root.request = request
+        root.requestContentHub = true
+        root.url = request.message.substring(4)
+        root.contentType = ContentType.Documents
+        root.handler = ContentHandler.Destination
+        root.selectionType = ContentTransfer.Single
+      }
+      else if(request.message.toLowerCase().includes("call"))
+      {
+        root.request = request
+        var callUrl = request.message.substring(4)
+        Qt.openUrlExternally("tel: ///"+callUrl);
         request.dialogAccept();
+
+      }
+      else if(request.message.toLowerCase().includes("http"))
+      {
+        Qt.openUrlExternally(request.message);
+        request.dialogAccept();
+      }
+      else if(request.message =="paste")
+      {
+        request.dialogAccept(UITK.Clipboard.data.text ? UITK.Clipboard.data.text: "");
+      }
+      else {
+        simpleDialog.request = request;
+        simpleDialog.visible = true;
+        root.request = request;
+      }
+      onFeaturePermissionRequested: {
+        grantFeaturePermission(securityOrigin, feature, true);
+      }
+    } 
+    Connections {
+      onFeaturePermissionRequested: {
+        console.log("grantFeaturePermission", feature)
+        _webView.grantFeaturePermission(securityOrigin, feature, true);
+      }
+    }
+
+    WebEngineProfile {
+      id: webProfile
+    }
+  }
+  ContentPeerPicker {
+    id: peerPicker
+    anchors {
+      fill: parent;
+    }
+    visible: root.requestContentHub
+    contentType: root.contentType //ContentType.Pictures
+    handler: root.handler //ContentHandler.Source
+    // selectionType: root.selectionType
+    onPeerSelected: {
+      root.activeTransfer = peer.request()
+      if(handler === ContentHandler.Source )
+      {
+        peer.selectionType = root.selectionType
         _webView.forceActiveFocus();
       }
-    })
+      else {
+        root.activeTransfer.stateChanged.connect(function() {
+        if (root.activeTransfer.state === ContentTransfer.InProgress)
+        {
+          console.log("In progress", root.url);
+          root.activeTransfer.items = [ resultComponent.createObject(parent, {"url": root.url}) ];
+          root.activeTransfer.state = ContentTransfer.Charged;
+          requestContentHub=false;
+          request.dialogAccept();
+          _webView.forceActiveFocus();
+        }
+      })
+    }
   }
-}
-onCancelPressed: {
-  _webView.forceActiveFocus();
-  request.dialogAccept("canceld");
-  requestContentHub=false
-}
+  onCancelPressed: {
+    _webView.forceActiveFocus();
+    request.dialogAccept("canceld");
+    requestContentHub=false
+  }
 }
 
 Connections {
@@ -263,7 +263,7 @@ UITK.Button {
   text: "Cancel"
   onClicked: {
     UITK_Popups.PopupUtils.close(simpleDialog)
-    request.dialogAccept()
+    request.dialogCancel()
   }
 }
 }
