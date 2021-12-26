@@ -542,7 +542,6 @@ button {
 }
 #audio-player-container {
   position: relative;
- // margin: 100px 5% auto 5%;
   width: 90%;
   max-width: 500px;
   height: 80px;
