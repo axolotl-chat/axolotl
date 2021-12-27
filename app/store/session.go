@@ -236,7 +236,6 @@ func (s *Session) Add(text string, source string, file []Attachment, mimetype st
 	//FIXME not shure if it breaks unread message counter
 	if !outgoing {
 		s.Unread++
-		//qml.Changed(s, &s.Unread)
 	}
 	UpdateSession(s)
 
@@ -250,8 +249,8 @@ func (s *Session) MarkRead() {
 	UpdateSession(s)
 }
 
-// ToggleSessionNotifcation turns on/off notification for a session
-func (s *Session) ToggleSessionNotifcation() {
+// ToggleSessionNotification turns on/off notification for a session
+func (s *Session) ToggleSessionNotification() {
 	s.Notification = !s.Notification
 	txt := ""
 	if s.Notification {
@@ -260,8 +259,7 @@ func (s *Session) ToggleSessionNotifcation() {
 		txt = "notifications off"
 
 	}
-	//qml.Changed(s, &s.Notification)
-	log.Debugln("[axolotl] ToggleSessionNotifcation ", txt)
+	log.Debugln("[axolotl] ToggleSessionNotification ", txt)
 	UpdateSession(s)
 }
 

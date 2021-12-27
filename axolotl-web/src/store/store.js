@@ -410,14 +410,14 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    openChat(state, chatId) {
-      this.commit("CLEAR_MESSAGELIST");
+    openChat({dispatch}, chatId) {
       if (this.state.socket.isConnected) {
         const message = {
           "request": "openChat",
           "id": chatId
         }
         app.config.globalProperties.$socket.send(JSON.stringify(message))
+        dispatch("getMessageList", chatId);
       }
     },
     getMoreMessages() {

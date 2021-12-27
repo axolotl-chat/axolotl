@@ -6,8 +6,9 @@ import { router } from "./router/router";
 import { createGettext } from "vue3-gettext";
 import translations from '../translations/translations.json'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import LinkifyHtml from 'linkifyjs/html'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import linkifyHTML from 'linkify-html'
+
 import {
   faArrowDown,
   faArrowLeft,
@@ -37,8 +38,24 @@ const app = createApp(App)
 app.component('FontAwesomeIcon', FontAwesomeIcon)
 app.mixin({
   methods: {
-    linkify: function (content) {
-      return LinkifyHtml(content);
+    linkify(content) {
+      return linkifyHTML(
+        content,
+        {
+          defaultProtocol: 'https',
+          rel: {
+            url: 'noopener noreferrer'
+          },
+          target: {
+            url: '_blank'
+          },
+          className: 'linkified',
+          ignoreTags: [
+            'script',
+            'style'
+          ]
+        }
+      );
     },
   },
 })
