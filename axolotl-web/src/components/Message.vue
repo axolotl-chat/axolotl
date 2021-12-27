@@ -458,11 +458,14 @@ video,
   height: 15px;
   background: #e6e2e7;
   border-radius: 50%;
+  position: relative;
 }
 .circle-wrap .circle .mask,
 .circle-wrap .circle .fill {
   width: 16px;
   height: 16px;
+  top: 0;
+  left: 0;
   position: absolute;
   border-radius: 50%;
 }
