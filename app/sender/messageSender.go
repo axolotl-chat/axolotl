@@ -32,19 +32,20 @@ func SendMessageHelper(ID int64, message, file string,
 				return nil, err
 			}
 			strParts := strings.Split(file, "/")
+			filename := strParts[len(strParts)-1]
 			if voiceMessage {
 				attachments = []store.Attachment{
 					store.Attachment{
 						File:     file,
 						CType:    3,
-						FileName: strParts[len(strParts)-1],
+						FileName: filename,
 					},
 				}
 			} else {
 				attachments = []store.Attachment{
 					store.Attachment{
 						File:     file,
-						FileName: strParts[len(strParts)-1],
+						FileName: filename,
 					},
 				}
 			}
