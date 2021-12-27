@@ -41,7 +41,11 @@ app.mixin({
           target: {
             url: '_blank'
           },
-          className: 'linkified'
+          className: 'linkified',
+          ignoreTags: [
+            'script',
+            'style'
+          ]
         }
       );
     },
