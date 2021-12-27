@@ -217,7 +217,7 @@ Connections {
   id: desktopLinkDialog
   property QtObject request
   title: "Add signal desktop"
-  text: "Scan QR-Code with Tagger from open store and paste the recieved code here"
+  text: "Scan QR-Code with Tagger from open store and paste the received code here"
   TextField {
     id: desktopId
     height: units.gu(10)
