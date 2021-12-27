@@ -236,7 +236,7 @@ export default {
     },
   },
   mounted() {
-    if (this.message.Attachment!="" && this.message.Attachment!=null) {
+    if (this.message.Attachment !== "" && this.message.Attachment !== null) {
       const attachment = JSON.parse(this.message.Attachment);
       if (attachment?.length>0 && attachment[0].CType === 3) {
         this.audio = new Audio("http://localhost:9080/attachments?file=" + attachment[0].File);
