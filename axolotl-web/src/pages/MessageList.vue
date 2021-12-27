@@ -64,13 +64,14 @@
     </div>
     <div
       v-if="chat.IsGroup && chat.GroupJoinStatus !== 0"
-      v-translate
       class="messageInputBoxDisabled w-100"
-    >
+    > <p v-translate>
       You have been invited to this group. Accepting invitations is not yet
       supported. In order to join please send private a message to the other
       side to exchange the profile key. After that he/she has to remove and add
       you again.
+      </p>
+      <div v-translate class="btn btn-primary" @click="joinGroupAccept">Join</div>
     </div>
     <div class="messageInputBox">
       <!-- <div v-if="chat&&chat.IsGroup&&chat.Name==chat.Tel" v-translate class="alert alert-warning">Group has to be updated by a member.</div>
@@ -289,6 +290,9 @@ export default {
         this.messageInput = "";
       }
       this.scrollDown();
+    },
+    joinGroupAccept() {
+      this.$store.dispatch("joinGroup", this.chat.UUID);
     },
     handleScroll(event) {
       if (

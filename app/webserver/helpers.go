@@ -68,8 +68,8 @@ func sendCurrentChat(s *store.Session) {
 			return
 		}
 		group = &Group{
-			HexId: gr.GroupID,
-			Name: gr.Name,
+			HexId:   gr.GroupID,
+			Name:    gr.Name,
 			Members: strings.Split(gr.Members, ","),
 		}
 	}
@@ -107,9 +107,9 @@ func updateCurrentChat(s *store.Session) {
 		UpdateCurrentChat: &UpdateCurrentChat{
 			CurrentChat: s,
 			Contact:     c,
-			Group:       &Group{
-				HexId: gr.GroupID,
-				Name: gr.Name,
+			Group: &Group{
+				HexId:   gr.GroupID,
+				Name:    gr.Name,
 				Members: strings.Split(gr.Members, ","),
 			},
 		},
@@ -228,6 +228,24 @@ func updateGroup(updateGroupData UpdateGroupMessage) *store.Session {
 	//qml.Changed(msg, &msg.Flags)
 	store.SaveMessage(msg)
 
+	return session
+}
+func joinGroup(joinGroupmessage JoinGroupMessage) *store.Session {
+	group, err := textsecure.JoinGroup(joinGroupmessage.ID)
+	if err != nil {
+		ShowError(err.Error())
+		return nil
+	}
+	store.Groups[group.Hexid] = &store.GroupRecord{
+		GroupID: group.Hexid,
+		Name:    string(group.GroupContext.Title[:]),
+		// Members: members,
+	}
+	store.SaveGroup(store.Groups[group.Hexid])
+	session := store.SessionsModel.GetByE164(group.Hexid)
+	msg := session.Add(store.GroupUpdateMsg(nil, store.Groups[group.Hexid].Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
+	msg.Flags = helpers.MsgFlagGroupNew
+	store.SaveMessage(msg)
 	return session
 }
 func sendMessageList(ID int64) {

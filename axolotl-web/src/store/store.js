@@ -699,7 +699,15 @@ export default createStore({
           "members": data.members,
         }
         app.config.globalProperties.$socket.send(JSON.stringify(message))
-
+      }
+    },
+    joinGroup(state, data) {
+      if (this.state.socket.isConnected) {
+        const message = {
+          "request": "joinGroup",
+          "id": data,
+        }
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     sendAttachment(state, data) {
