@@ -33,10 +33,20 @@ func SendMessageHelper(ID int64, message, file string,
 			}
 			strParts := strings.Split(file, "/")
 			if voiceMessage {
-				attachments = []store.Attachment{store.Attachment{File: file,
-					CType: 3, FileName: strParts[len(strParts)-1]}}
+				attachments = []store.Attachment{
+					store.Attachment{
+						File:     file,
+						CType:    3,
+						FileName: strParts[len(strParts)-1],
+					},
+				}
 			} else {
-				attachments = []store.Attachment{store.Attachment{File: file, FileName: strParts[len(strParts)-1]}}
+				attachments = []store.Attachment{
+					store.Attachment{
+						File:     file,
+						FileName: strParts[len(strParts)-1],
+					},
+				}
 			}
 
 		}
@@ -108,7 +118,7 @@ func SendMessageHelper(ID int64, message, file string,
 	return nil, errors.New("send to is empty")
 }
 
-func SendMessage(s *store.Session, m *store.Message, voiceMessage bool) (*store.Message, error) {
+func SendMessage(s *store.Session, m *store.Message, isVoiceMessage bool) (*store.Message, error) {
 	var att io.Reader
 	var err error
 	if len(m.Attachment) > 0 && m.Attachment != "null" {
@@ -143,7 +153,7 @@ func SendMessage(s *store.Session, m *store.Message, voiceMessage bool) (*store.
 			recipient = helpers.HexToUUID(recipient)
 		}
 	}
-	ts := SendMessageLoop(recipient, m.Message, s.IsGroup, att, m.Flags, s.ExpireTimer, voiceMessage)
+	ts := SendMessageLoop(recipient, m.Message, s.IsGroup, att, m.Flags, s.ExpireTimer, isVoiceMessage)
 	log.Debugln("[axolotl] SendMessage", recipient, ts)
 	m.SentAt = ts
 	m.ExpireTimer = s.ExpireTimer
@@ -166,7 +176,7 @@ func SendMessage(s *store.Session, m *store.Message, voiceMessage bool) (*store.
 }
 
 // SendMessageLoop sends a single message and also loops over groups in order to send it to each participant of the group
-func SendMessageLoop(to, message string, group bool, att io.Reader, flags int, timer uint32, voiceMessage bool) uint64 {
+func SendMessageLoop(to, message string, group bool, att io.Reader, flags int, timer uint32, isVoiceMessage bool) uint64 {
 	var err error
 	var ts uint64
 	var count int
@@ -194,13 +204,13 @@ func SendMessageLoop(to, message string, group bool, att io.Reader, flags int, t
 			}
 		} else {
 			if group {
-				if voiceMessage {
+				if isVoiceMessage {
 					ts, err = textsecure.SendGroupVoiceNote(to, message, att, timer)
 				} else {
 					ts, err = textsecure.SendGroupAttachment(to, message, att, timer)
 				}
 			} else {
-				if voiceMessage {
+				if isVoiceMessage {
 					ts, err = textsecure.SendVoiceNote(to, message, att, timer)
 					log.Printf("[axolotl] SendMessageLoop send voice note")
 				} else {
