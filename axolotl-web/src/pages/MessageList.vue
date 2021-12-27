@@ -121,10 +121,10 @@
       </div>
     </div>
     <audio 
-      v-if="blobUrl!=''"
+      v-if="voiceNote.blobUrl!=''"
       id="voiceNote"
       controls
-      :src="blobUrl"
+      :src="voiceNote.blobUrl"
     >
       Your browser does not support the
       <code>audio</code> element.
@@ -245,11 +245,10 @@ export default {
           event.preventDefault();
           alert(event.target.href);
         }
-        // else
-        // console.log(that.config.Gui)
       },
       false
     );
+    this.voiceNote.voiceNoteElem = document.getElementById("voiceNote");
   },
   methods: {
     getId: function () {
@@ -392,7 +391,6 @@ export default {
     },
     stopPlayAudio(){
       this.voiceNote.playing = false;
-      this.voiceNote.voiceNoteElem = document.getElementById("voiceNote");
       this.voiceNote.voiceNoteElem.pause();
     },
     stopRecording(){
@@ -413,11 +411,10 @@ export default {
     sendVoiceNote(){
       this.voiceNote.recorded = false;
       let reader = new FileReader();
-      let voiceNoteElem = document.getElementById("voiceNote");
-      voiceNoteElem.pause()
+      this.voiceNote.voiceNoteElem.pause()
       this.voiceNote.playing = false;
       /* eslint-disable no-unused-vars */
-      this.recorder.getMp3().then(() => {
+      this.voiceNote.recorder.getMp3().then(() => {
         const file = new File([this.voiceNote.blobObj] , 'voice.mp3', {
           type: "audio/mpeg",
           lastModified: Date.now()
