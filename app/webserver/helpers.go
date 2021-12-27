@@ -57,21 +57,27 @@ func sendChatList() {
 }
 func sendCurrentChat(s *store.Session) {
 	var (
-		err error
-		gr  *textsecure.Group
+		err   error
+		gr    *store.GroupRecord
+		group *Group
 	)
 	if s.IsGroup {
-		gr, err = textsecure.GetGroupById(s.Tel)
-		if err != nil {
-			log.Errorln("[axolotl] sendCurrentChat: groups", err)
+		gr = store.GetGroupById(s.UUID)
+		if gr == nil {
+			log.Errorln("[axolotl] sendCurrentChat: group not found", s.UUID)
 			return
+		}
+		group = &Group{
+			HexId: gr.GroupID,
+			Name: gr.Name,
+			Members: strings.Split(gr.Members, ","),
 		}
 	}
 	currentChatEnvelope := &CurrentChatEnvelope{
 		OpenChat: &OpenChat{
 			CurrentChat: s,
 			Contact:     &profile,
-			Group:       gr,
+			Group:       group,
 		},
 	}
 	message := &[]byte{}
@@ -85,13 +91,13 @@ func sendCurrentChat(s *store.Session) {
 func updateCurrentChat(s *store.Session) {
 	var (
 		err error
-		gr  *textsecure.Group
+		gr  *store.GroupRecord
 		c   *textsecureContacts.Contact
 	)
 	if s.IsGroup {
-		gr, err = textsecure.GetGroupById(s.Tel)
-		if err != nil {
-			log.Errorln("[axolotl] updateCurrentChat", err)
+		gr = store.GetGroupById(s.UUID)
+		if gr == nil {
+			log.Errorln("[axolotl] updateCurrentChat: group not found", s.UUID)
 			return
 		}
 	} else {
@@ -101,7 +107,11 @@ func updateCurrentChat(s *store.Session) {
 		UpdateCurrentChat: &UpdateCurrentChat{
 			CurrentChat: s,
 			Contact:     c,
-			Group:       gr,
+			Group:       &Group{
+				HexId: gr.GroupID,
+				Name: gr.Name,
+				Members: strings.Split(gr.Members, ","),
+			},
 		},
 	}
 	message := &[]byte{}
