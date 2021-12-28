@@ -30,7 +30,8 @@ parts:
     override-build: |
       snapcraftctl build
       mkdir --parents $SNAPCRAFT_PART_INSTALL/usr/lib
-      cp /root/go/pkg/mod/github.com/nanu-c/zkgroup*/lib/libzkgroup_linux_$(dpkg --print-architecture).so $SNAPCRAFT_PART_INSTALL/usr/lib
+      cp /root/go/pkg/mod/github.com/nanu-c/zkgroup@v0.8.8/lib/libzkgroup_linux_x86_64.so /root/go/pkg/mod/github.com/nanu-c/zkgroup@v0.8.8/lib/libzkgroup_linux_amd64.so
+      cp /root/go/pkg/mod/github.com/nanu-c/zkgroup@v0.8.8/lib/libzkgroup_linux_$(dpkg --print-architecture).so $SNAPCRAFT_PART_INSTALL/usr/lib
 
 
   axolotl-web:
