@@ -31,7 +31,7 @@ parts:
       snapcraftctl build
       mkdir --parents $SNAPCRAFT_PART_INSTALL/usr/lib
       cp /root/go/pkg/mod/github.com/nanu-c/zkgroup@v0.8.8/lib/libzkgroup_linux_x86_64.so /root/go/pkg/mod/github.com/nanu-c/zkgroup@v0.8.8/lib/libzkgroup_linux_amd64.so
-      cp /root/go/pkg/mod/github.com/nanu-c/zkgroup@v0.8.8/lib/libzkgroup_linux_v7.so /root/go/pkg/mod/github.com/nanu-c/zkgroup@v0.8.8/lib/libzkgroup_linux_armhf.so
+      cp /root/go/pkg/mod/github.com/nanu-c/zkgroup@v0.8.8/lib/libzkgroup_linux_armv7.so /root/go/pkg/mod/github.com/nanu-c/zkgroup@v0.8.8/lib/libzkgroup_linux_armhf.so
       cp /root/go/pkg/mod/github.com/nanu-c/zkgroup@v0.8.8/lib/libzkgroup_linux_aarch64.so /root/go/pkg/mod/github.com/nanu-c/zkgroup@v0.8.8/lib/libzkgroup_linux_arm64.so
       cp /root/go/pkg/mod/github.com/nanu-c/zkgroup@v0.8.8/lib/libzkgroup_linux_$(dpkg --print-architecture).so $SNAPCRAFT_PART_INSTALL/usr/lib
 
@@ -52,7 +52,7 @@ parts:
       cp -r dist ../install/bin/axolotl-web
     stage:
       - bin/axolotl-web
-      
+
   crayfish:
     source-type: git
     plugin: rust
