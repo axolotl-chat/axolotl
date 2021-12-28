@@ -40,7 +40,7 @@
 import { mapState } from "vuex";
 import VerificationPinInput from "@/components/VerificationPinInput";
 export default {
-  name: "Verification",
+  name: "VerificationPage",
   components: {
     VerificationPinInput,
   },

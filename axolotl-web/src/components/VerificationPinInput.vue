@@ -23,7 +23,7 @@
 </template>
 <script>
 export default {
-  name: "VerificationPinInput",
+  name: "VerificationPinInputComponent",
   props: {
     numberOfBoxes: {
       type: Number,

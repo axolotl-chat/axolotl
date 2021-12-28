@@ -439,9 +439,8 @@ import AddContactModal from "@/components/AddContactModal.vue";
 import EditContactModal from "@/components/EditContactModal.vue";
 
 import { mapState } from "vuex";
-import { router } from "@/router/router";
 export default {
-  name: "Header",
+  name: "HeaderComponent",
   components: {
     ConfirmationModal,
     IdentityModal,

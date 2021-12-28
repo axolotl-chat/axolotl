@@ -182,8 +182,8 @@ func wsReader(conn *websocket.Conn) {
 			json.Unmarshal([]byte(p), &sendMessageMessage)
 			log.Debugln("[axolotl] send message to ", sendMessageMessage.To)
 			updateMessageChannel := make(chan *store.Message)
-			err, m := sender.SendMessageHelper(sendMessageMessage.To,
-				sendMessageMessage.Message, "", updateMessageChannel)
+			m, err := sender.SendMessageHelper(sendMessageMessage.To,
+				sendMessageMessage.Message, "", updateMessageChannel, false)
 			if err != nil || m == nil {
 				log.Errorln("[axolotl] send message: ", err)
 			} else {
@@ -197,6 +197,10 @@ func wsReader(conn *websocket.Conn) {
 
 				}()
 			}
+		case "sendVoiceNote":
+			sendVoiceNoteMessage := SendVoiceNoteMessage{}
+			json.Unmarshal([]byte(p), &sendVoiceNoteMessage)
+			uploadSendVoiceNote(sendVoiceNoteMessage)
 		case "delMessage":
 			deleteMessageMessage := DelMessageMessage{}
 			json.Unmarshal([]byte(p), &deleteMessageMessage)
@@ -406,7 +410,7 @@ func wsReader(conn *websocket.Conn) {
 			m := s.Add("Secure session reset.", "", []store.Attachment{}, "", true, store.ActiveSessionID)
 			m.Flags = helpers.MsgFlagResetSession
 			store.SaveMessage(m)
-			go sender.SendMessage(s, m)
+			go sender.SendMessage(s, m, false)
 			sendChatList()
 		case "verifyIdentity":
 			verifyIdentityMessage := verifyIdentityMessage{}

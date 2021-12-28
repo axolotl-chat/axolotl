@@ -18,7 +18,9 @@ import (
 const emptyUUID = "0"
 
 // SendMessageHelper sends the message and returns the updated message
-func SendMessageHelper(ID int64, message, file string, updateMessageChannel chan *store.Message) (error, *store.Message) {
+func SendMessageHelper(ID int64, message, file string,
+	updateMessageChannel chan *store.Message,
+	voiceMessage bool) (*store.Message, error) {
 	if ID >= 0 {
 		var err error
 		attachments := []store.Attachment{}
@@ -27,16 +29,32 @@ func SendMessageHelper(ID int64, message, file string, updateMessageChannel chan
 			log.Debugln("[axolotl] attachment: " + file)
 			if err != nil {
 				log.Errorln("[axolotl] Error Attachment:" + err.Error())
-				return err, nil
+				return nil, err
 			}
 			strParts := strings.Split(file, "/")
-			attachments = []store.Attachment{store.Attachment{File: file, FileName: strParts[len(strParts)-1]}}
+			filename := strParts[len(strParts)-1]
+			if voiceMessage {
+				attachments = []store.Attachment{
+					store.Attachment{
+						File:     file,
+						CType:    3,
+						FileName: filename,
+					},
+				}
+			} else {
+				attachments = []store.Attachment{
+					store.Attachment{
+						File:     file,
+						FileName: filename,
+					},
+				}
+			}
 
 		}
 		session, err := store.SessionsModel.Get(ID)
 		if err != nil {
 			log.Errorln("[axolotl] SendMessageHelper:" + err.Error())
-			return err, nil
+			return nil, err
 		}
 		// sessions fix bug in 1.9.4 could be deleted later
 		if !session.IsGroup && len(session.Tel) > 0 && session.Tel[0] != '+' {
@@ -90,18 +108,18 @@ func SendMessageHelper(ID int64, message, file string, updateMessageChannel chan
 		_, savedM := store.SaveMessage(m)
 
 		go func() {
-			mNew, _ := SendMessage(session, m)
+			mNew, _ := SendMessage(session, m, voiceMessage)
 			if updateMessageChannel != nil {
 				updateMessageChannel <- mNew
 			}
 		}()
-		return nil, savedM
+		return savedM, nil
 	}
 	log.Errorln("[axolotl] send to is empty")
-	return errors.New("send to is empty"), nil
+	return nil, errors.New("send to is empty")
 }
 
-func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
+func SendMessage(s *store.Session, m *store.Message, isVoiceMessage bool) (*store.Message, error) {
 	var att io.Reader
 	var err error
 	if len(m.Attachment) > 0 && m.Attachment != "null" {
@@ -136,7 +154,7 @@ func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
 			recipient = helpers.HexToUUID(recipient)
 		}
 	}
-	ts := SendMessageLoop(recipient, m.Message, s.IsGroup, att, m.Flags, s.ExpireTimer)
+	ts := SendMessageLoop(recipient, m.Message, s.IsGroup, att, m.Flags, s.ExpireTimer, isVoiceMessage)
 	log.Debugln("[axolotl] SendMessage", recipient, ts)
 	m.SentAt = ts
 	m.ExpireTimer = s.ExpireTimer
@@ -159,7 +177,7 @@ func SendMessage(s *store.Session, m *store.Message) (*store.Message, error) {
 }
 
 // SendMessageLoop sends a single message and also loops over groups in order to send it to each participant of the group
-func SendMessageLoop(to string, message string, group bool, att io.Reader, flags int, timer uint32) uint64 {
+func SendMessageLoop(to, message string, group bool, att io.Reader, flags int, timer uint32, isVoiceMessage bool) uint64 {
 	var err error
 	var ts uint64
 	var count int
@@ -187,10 +205,19 @@ func SendMessageLoop(to string, message string, group bool, att io.Reader, flags
 			}
 		} else {
 			if group {
-				ts, err = textsecure.SendGroupAttachment(to, message, att, timer)
+				if isVoiceMessage {
+					ts, err = textsecure.SendGroupVoiceNote(to, message, att, timer)
+				} else {
+					ts, err = textsecure.SendGroupAttachment(to, message, att, timer)
+				}
 			} else {
-				log.Printf("[axolotl] SendMessageLoop sendAttachment")
-				ts, err = textsecure.SendAttachment(to, message, att, timer)
+				if isVoiceMessage {
+					ts, err = textsecure.SendVoiceNote(to, message, att, timer)
+					log.Printf("[axolotl] SendMessageLoop send voice note")
+				} else {
+					log.Printf("[axolotl] SendMessageLoop sendAttachment")
+					ts, err = textsecure.SendAttachment(to, message, att, timer)
+				}
 			}
 		}
 		if err == nil {

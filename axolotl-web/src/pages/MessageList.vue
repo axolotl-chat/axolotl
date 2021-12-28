@@ -72,10 +72,8 @@
       side to exchange the profile key. After that he/she has to remove and add
       you again.
     </div>
-    <div class="messageInputBox">
-      <!-- <div v-if="chat&&chat.IsGroup&&chat.Name==chat.Tel" v-translate class="alert alert-warning">Group has to be updated by a member.</div>
-      <div v-else class=""> -->
-      <div class="messageInput-container">
+    <div v-if="!voiceNote.recorded" class="messageInputBox">
+      <div v-if="!voiceNote.recording" class="messageInput-container">
         <textarea
           id="messageInput"
           v-model="messageInput"
@@ -90,12 +88,47 @@
           <font-awesome-icon icon="paper-plane" />
         </button>
       </div>
-      <div v-else class="messageInput-btn-container">
+      <div v-else-if="voiceNote.recording" class="messageInput-btn-container d-flex justify-content-center w-100">
+        <div v-translate class="me-5">Recording...</div>
+        <button class="btn send record-stop" @click="stopRecording">
+          <font-awesome-icon icon="stop-circle" />
+        </button>
+      </div>
+      <div v-else class="messageInput-btn-container d-flex">
+        <button class="btn send record me-2" @click="recordAudio">
+          <font-awesome-icon icon="microphone" />
+        </button>
         <button class="btn send" @click="loadAttachmentDialog">
           <font-awesome-icon icon="plus" />
         </button>
       </div>
     </div>
+    <div v-else class="messageInputBox justify-content-center">
+      <div class="messageInput-btn-container d-flex justify-content-center align-items-center">
+        <div><span>{{ Math.floor(voiceNote.duration) }}</span><span v-translate class="me-2">s</span></div>
+        <button v-if="!voiceNote.playing" class="btn send play me-1" @click="playAudio">
+          <font-awesome-icon icon="play" />
+        </button>
+        <button v-else class="btn send stop me-1" @click="stopPlayAudio">
+          <font-awesome-icon icon="stop-circle" />
+        </button>
+        <button class="btn send delete me-1" @click="deleteAudio">
+          <font-awesome-icon icon="times" />
+        </button>
+        <button class="btn send send-voice" @click="sendVoiceNote">
+          <font-awesome-icon icon="paper-plane" />
+        </button>
+      </div>
+    </div>
+    <audio 
+      v-if="voiceNote.blobUrl!=''"
+      id="voiceNote"
+      controls
+      :src="voiceNote.blobUrl"
+    >
+      Your browser does not support the
+      <code>audio</code> element.
+    </audio>
     <attachment-bar
       v-if="showAttachmentsBar"
       @close="showAttachmentsBar = false"
@@ -107,6 +140,7 @@
       style="position: fixed; top: -100em"
       @change="sendDesktopAttachment"
     />
+    <audio id="voiceNote" :src="voiceNote.blobUrl" style="position: fixed; top: -100em" />
   </div>
 </template>
 
@@ -115,6 +149,7 @@ import { mapState } from "vuex";
 import Message from "@/components/Message";
 import AttachmentBar from "@/components/AttachmentBar";
 import { saveAs } from "file-saver";
+import * as MicRecorder from 'mic-recorder-to-mp3';
 export default {
   name: "MessageList",
   components: {
@@ -135,6 +170,15 @@ export default {
       lastCHeight: 0,
       lastMHeight: 0,
       scrollLocked: false,
+      voiceNote:{
+        recorder: null,
+        recording: false,
+        recorded: false,
+        playing: false,
+        blobUrl: "",
+        voiceNoteElem: null,
+        duration:0,
+      }
     };
   },
   computed: {
@@ -200,11 +244,10 @@ export default {
           event.preventDefault();
           alert(event.target.href);
         }
-        // else
-        // console.log(that.config.Gui)
       },
       false
     );
+    this.voiceNote.voiceNoteElem = document.getElementById("voiceNote");
   },
   methods: {
     getId: function () {
@@ -294,8 +337,7 @@ export default {
       if (
         !this.$data.scrollLocked &&
         event.target.scrollTop < 80 &&
-        this.$store.state.messageList.Messages !== null &&
-        this.$store.state.messageList.Messages.length > 19
+        this.$store.state.messageList?.Messages?.length > 19
       ) {
         this.$data.scrollLocked = true;
         this.$store.dispatch("getMoreMessages");
@@ -313,6 +355,80 @@ export default {
     },
     scrollDown() {
       document.getElementById("chat-bottom").scrollIntoView();
+    },
+    recordAudio(){
+      var that = this;
+      this.voiceNote.playing =  false;
+       navigator.mediaDevices.getUserMedia({
+          video: false,
+          audio: true
+      }).then(async function() {
+
+          that.voiceNote.recorder = new MicRecorder({
+            bitRate: 128
+          });
+          that.voiceNote.recorder.start().then(() => {
+            // something else
+            that.voiceNote.recording = true;
+          }).catch((e) => {
+            //skipqc: JS-0002
+            /* eslint-disable no-console */
+            console.error(e);
+          });
+      });
+    },
+    deleteAudio(){
+      this.stopPlayAudio();
+      this.voiceNote.playing = false;
+      this.voiceNote.recorded = false;
+      this.voiceNote.recorder = null;
+    },
+    playAudio(){
+      this.voiceNote.playing = true;
+      this.voiceNote.voiceNoteElem.play();
+
+    },
+    stopPlayAudio(){
+      this.voiceNote.playing = false;
+      this.voiceNote.voiceNoteElem.pause();
+    },
+    stopRecording(){
+      this.voiceNote.recording = false;
+      this.voiceNote.recorded = true;
+      this.voiceNote.recorder.stop()
+      this.voiceNote.recorder.getMp3().then(([, blob]) => {
+        this.voiceNote.blobUrl = URL.createObjectURL(blob);
+        this.voiceNote.blobObj = blob;
+        let that = this;
+        setTimeout(function(){
+          that.voiceNote.voiceNoteElem = document.getElementById("voiceNote");
+          that.voiceNote.duration = that.voiceNote.voiceNoteElem.duration;
+        }, 200);
+      })
+
+    },
+    sendVoiceNote(){
+      this.voiceNote.recorded = false;
+      let reader = new FileReader();
+      this.voiceNote.voiceNoteElem.pause()
+      this.voiceNote.playing = false;
+      /* eslint-disable no-unused-vars */
+      this.voiceNote.recorder.getMp3().then(() => {
+        const file = new File([this.voiceNote.blobObj] , 'voice.mp3', {
+          type: "audio/mpeg",
+          lastModified: Date.now()
+        });
+        reader.readAsDataURL(file); // converts the blob to base64 and calls onload
+        var that = this;
+        reader.onload = function() {
+          var r = reader.result
+          const m = {
+            note:r,
+            to: that.chatId,
+          }
+          that.$store.dispatch("sendVoiceNote", m);
+        };
+      });
     },
   },
 };
@@ -426,5 +542,9 @@ input:focus {
 }
 .messageInputBoxDisabled {
   color: red;
+}
+#voiceNote{
+  position: fixed;
+  top: -100em;
 }
 </style>
