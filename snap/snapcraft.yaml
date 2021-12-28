@@ -37,7 +37,7 @@ parts:
     # https://github.com/snapcore/snapcraft/blob/master/snapcraft/plugins/v1/nodejs.py
     plugin: npm
     source: ./axolotl-web
-    npm-node-version: 14.16.0
+    npm-node-version: 16.13.1
     build-packages:
       - npm
     override-build: |
@@ -51,6 +51,13 @@ parts:
       cp -r dist ../install/bin/axolotl-web
     stage:
       - bin/axolotl-web
+  crayfish:
+    source-type: git
+    plugin: rust
+    source: ./crayfish
+    stage:
+      - bin/crayfish
+
 
 plugs:
   browser-sandbox:
