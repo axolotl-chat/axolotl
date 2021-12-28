@@ -44,7 +44,7 @@
     "@vue/cli-plugin-unit-mocha": "~5.0.0-rc.1",
     "@vue/cli-service": "~5.0.0-rc.1",
     "@vue/compiler-sfc": "^3.2.22",
-    "@vue/eslint-config-airbnb": "^5.0.2",
+    "@vue/eslint-config-airbnb": "^6.0.0",
     "@vue/test-utils": "^2.0.0-0",
     "babel-eslint": "^10.1.0",
     "browserslist": "^4.19.1",
