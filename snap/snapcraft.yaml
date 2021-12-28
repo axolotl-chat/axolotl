@@ -49,7 +49,7 @@ parts:
       mkdir -p /root/parts/axolotl-web/install
       if echo $(dpkg --print-architecture)|grep -q 'amd64'; then curl -s https://nodejs.org/dist/v16.13.1/node-v16.13.1-linux-x64.tar.gz | tar xzf - -C $SNAPCRAFT_PART_SRC/../install --strip-components=1 ; fi
       if echo $(dpkg --print-architecture)|grep -q 'arm64'; then curl -s https://nodejs.org/dist/v16.13.1/node-v16.13.1-linux-arm64.tar.gz | tar xzf - -C $SNAPCRAFT_PART_SRC/../install --strip-components=1 ; fi
-      if echo $(dpkg --print-architecture)|grep -q 'armhf'; then curl -s https://nodejs.org/dist/v16.13.1/node-v16.13.1-linux-armv7.tar.gz | tar xzf - -C $SNAPCRAFT_PART_SRC/../install --strip-components=1 ; fi
+      if echo $(dpkg --print-architecture)|grep -q 'armhf'; then curl -s https://nodejs.org/dist/v16.13.1/node-v16.13.1-linux-armv7l.tar.gz | tar xzf - -C $SNAPCRAFT_PART_SRC/../install --strip-components=1 ; fi
       export PATH=$SNAPCRAFT_PART_SRC/../install/bin/:$PATH
       npm config set unsafe-perm true
       npm ci
