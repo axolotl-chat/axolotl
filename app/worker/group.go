@@ -83,7 +83,7 @@ func (Api *TextsecureAPI) UpdateGroup(hexid, name string, members string) error 
 	store.SaveMessage(msg)
 	session.Name = name
 	store.UpdateSession(session)
-	go sender.SendMessage(session, msg)
+	go sender.SendMessage(session, msg, false)
 	return nil
 }
 
@@ -103,7 +103,7 @@ func (Api *TextsecureAPI) LeaveGroup(hexid string) error {
 	msg.Flags = helpers.MsgFlagGroupLeave
 	store.SaveMessage(msg)
 	session.Active = false
-	go sender.SendMessage(session, msg)
+	go sender.SendMessage(session, msg, false)
 	return err
 }
 func GroupUpdateMsg(tels []string, title string) string {

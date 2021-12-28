@@ -23,7 +23,7 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  name: "Debug",
+  name: "DebugPage",
   computed: {
     localRegistrationStatus() {
       return localStorage.getItem("registrationStatus");

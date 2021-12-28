@@ -194,19 +194,17 @@ func ClearError() {
 
 func sendAttachment(attachment SendAttachmentMessage) error {
 	log.Infoln("[axolotl] send attachment ")
-	// Do not allow sending attachments larger than 100M for now
-	var maxAttachmentSize int64 = 100 * 1024 * 1024
 	file := strings.TrimPrefix(attachment.Path, "file://")
 	fi, err := os.Stat(file)
 	if err != nil {
 		log.Errorln("[axolotl] attachment error:", err)
 		return err
 	}
-	if fi.Size() > maxAttachmentSize {
+	if fi.Size() > config.MaxAttachmentSize {
 		log.Errorln("[axolotl] attachment error: Attachment too large, not sending")
 		return nil
 	}
-	err, m := sender.SendMessageHelper(attachment.To, attachment.Message, file, nil)
+	m, err := sender.SendMessageHelper(attachment.To, attachment.Message, file, nil, false)
 	if err == nil {
 		go MessageHandler(m)
 	}
@@ -240,13 +238,12 @@ func RandStringBytesMaskImprSrcUnsafe(n int) string {
 	return *(*string)(unsafe.Pointer(&b))
 }
 func uploadSendAttachment(attachment UploadAttachmentMessage) error {
-	// log.Infoln("[axolotl] send attachment ", attachment.Path)
-	// Do not allow sending attachments larger than 100M for now
-	var maxAttachmentSize int64 = 100 * 1024 * 1024
+	log.Debug("[axolotl] uploadSendAttachment to ", attachment.To)
+
 	file := config.AttachDir + "/" + RandStringBytesMaskImprSrcUnsafe(10)
 	dataURL, err := dataurl.DecodeString(attachment.Attachment)
 	if err != nil {
-		log.Errorln("[axolotl] requestEnterChat", err)
+		log.Errorln("[axolotl] uploadSendAttachment", err)
 
 	}
 	ioutil.WriteFile(file, dataURL.Data, 0644)
@@ -256,11 +253,35 @@ func uploadSendAttachment(attachment UploadAttachmentMessage) error {
 		log.Errorln("[axolotl] attachment error:", err)
 		return err
 	}
-	if fi.Size() > maxAttachmentSize {
+	if fi.Size() > config.MaxAttachmentSize {
 		log.Errorln("[axolotl] attachment error: Attachment too large, not sending")
 		return nil
 	}
-	err, m := sender.SendMessageHelper(attachment.To, attachment.Message, file, nil)
+	m, err := sender.SendMessageHelper(attachment.To, attachment.Message, file, nil, false)
+	if err == nil {
+		go MessageHandler(m)
+	}
+	return nil
+}
+func uploadSendVoiceNote(voiceNote SendVoiceNoteMessage) error {
+	log.Debug("[axolotl] uploadSendVoiceNote to ", voiceNote.To)
+	file := config.AttachDir + "/" + RandStringBytesMaskImprSrcUnsafe(10) + ".mp3"
+	dataURL, err := dataurl.DecodeString(voiceNote.VoiceNote)
+	if err != nil {
+		log.Errorln("[axolotl] voiceNote error:", err)
+	}
+	ioutil.WriteFile(file, dataURL.Data, 0644)
+
+	fi, err := os.Stat(file)
+	if err != nil {
+		log.Errorln("[axolotl] voiceNote error:", err)
+		return err
+	}
+	if fi.Size() > config.MaxAttachmentSize {
+		log.Errorln("[axolotl] voiceNote error: Attachment too large, not sending")
+		return nil
+	}
+	m, err := sender.SendMessageHelper(voiceNote.To, "", file, nil, true)
 	if err == nil {
 		go MessageHandler(m)
 	}

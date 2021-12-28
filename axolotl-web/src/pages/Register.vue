@@ -49,7 +49,7 @@ import "vue3-tel-input/dist/vue3-tel-input.css";
 import { mapState } from "vuex";
 
 export default {
-  name: "Register",
+  name: "RegisterPage",
   components: {
     VueTelInput,
   },

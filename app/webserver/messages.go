@@ -166,6 +166,11 @@ type SendAttachmentMessage struct {
 	To      int64  `json:"to"`
 	Message string `json:"message"`
 }
+type SendVoiceNoteMessage struct {
+	Type      string `json:"request"`
+	To        int64  `json:"to"`
+	VoiceNote string `json:"voiceNote"`
+}
 type UploadAttachmentMessage struct {
 	Type       string `json:"request"`
 	To         int64  `json:"to"`
