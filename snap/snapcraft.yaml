@@ -60,11 +60,16 @@ parts:
 
   crayfish:
     source-type: git
-    plugin: rust
-    source: ./crayfish
     build-packages:
       - libstdc++6-armhf-cross
-      - libstdc++6-armel-cross
+      - libstdc++6-arm64-cross
+      - protobuf-compiler
+    plugin: rust
+    override-build: |
+      apt update
+      apt install -y libstdc++6-armhf-cross libstdc++6-arm64-cross protobuf-compiler
+      snapcraftctl build
+    source: ./crayfish
     stage:
       - bin/crayfish
 
