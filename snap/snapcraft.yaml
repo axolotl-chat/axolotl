@@ -62,6 +62,9 @@ parts:
     source-type: git
     plugin: rust
     source: ./crayfish
+    build-packages:
+      - libstdc++6-armhf-cross
+      - libstdc++6-armel-cross
     stage:
       - bin/crayfish
 
