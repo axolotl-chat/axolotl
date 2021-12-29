@@ -46,7 +46,7 @@
               >
             </div>
             <div v-else-if="m.CType === 3" class="attachment-audio">
-              <div id="audio-player-container d-flex">
+              <div class="audio-player-container d-flex">
                 <button id="play-icon">
                   <font-awesome-icon v-if="!isPlaying" class="play" icon="play" @click="play" />
                   <font-awesome-icon v-if="isPlaying" class="pause" icon="pause" @click="pause" />
@@ -93,7 +93,7 @@
           >
         </div>
         <div v-else-if="message.CType === 3" class="attachment-audio">
-          <div id="audio-player-container d-flex">
+          <div class="audio-player-container d-flex">
             <button id="play-icon">
               <font-awesome-icon v-if="!isPlaying" class="play" icon="play" @click="play" />
               <font-awesome-icon v-if="isPlaying" class="pause" icon="pause" @click="pause" />
@@ -540,19 +540,19 @@ button {
   width: 40px;
   height: 40px;
 }
-#audio-player-container {
+.audio-player-container {
   position: relative;
   width: 90%;
   max-width: 500px;
   height: 80px;
   p {
-  position: absolute;
-  top: -18px;
-  right: 5%;
-  padding: 0 5px;
-  margin: 0;
-  font-size: 28px;
-  background: #fff;
+    position: absolute;
+    top: -18px;
+    right: 5%;
+    padding: 0 5px;
+    margin: 0;
+    font-size: 28px;
+    background: #fff;
   }
   #play-icon {
     margin: 20px 2.5% 20px 2.5%;
