@@ -60,14 +60,12 @@ parts:
 
   crayfish:
     source-type: git
-    build-packages:
-      - libstdc++6-armhf-cross
-      - libstdc++6-arm64-cross
-      - protobuf-compiler
     plugin: rust
     override-build: |
+      echo "deb [arch=arm64] http://us.archive.ubuntu.com/ubuntu/ focal main restricted universe multiverse" >>/etc/apt/sources.list 
+      echo "deb [arch=armhf] http://us.archive.ubuntu.com/ubuntu/ focal main restricted universe multiverse" >>/etc/apt/sources.list 
       apt update
-      apt install -y libstdc++6-armhf-cross libstdc++6-arm64-cross protobuf-compiler
+      apt install -y libstdc++6-armhf-cross libstdc++6-arm64-cross protobuf-compiler libstdc++6:arm64 libstdc++6:armhf
       snapcraftctl build
     source: ./crayfish
     stage:
