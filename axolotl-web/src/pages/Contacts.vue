@@ -40,13 +40,17 @@
             </div>
           </div>
           <div
-            class="meta col-9"
-            data-long-press-delay="500"
+            class="meta col-8"
             @click="contactClick(c)"
-            @long-press="showContactAction(c)"
           >
             <p class="name">{{ c.Name }}</p>
             <p class="number">{{ c.Tel }}</p>
+          </div>
+          <div
+            class="col-1"
+            @click="showContactAction(c)"
+          >
+            <font-awesome-icon icon="wrench" />
           </div>
         </div>
       </div>
@@ -69,13 +73,17 @@
           <div class="badge-name">{{ c.Name[0] + c.Name[1] }}</div>
         </div>
         <div
-          class="meta col-9"
-          data-long-press-delay="500"
+          class="meta col-8"
           @click="contactClick(c)"
-          @long-press="showContactAction(c)"
         >
           <p class="name">{{ c.Name }}</p>
           <p class="number">{{ c.Tel }}</p>
+        </div>
+        <div
+          class="col-1"
+          @click="showContactAction(c)"
+        >
+          <font-awesome-icon icon="wrench" />
         </div>
       </div>
     </div>
@@ -161,14 +169,12 @@ export default {
       this.showActions = true;
     },
     closeActionMode() {
-      this.editContactModal = false;
       this.showActions = false;
       this.selectedContact = null;
     },
     delContact() {
       this.$store.dispatch("delContact", this.selectedContact.Tel);
-      this.showActions = false;
-      this.selectedContact = null;
+      this.closeActionMode()
     },
     openEditContactModal() {
       this.editContactModal = true;
@@ -176,13 +182,11 @@ export default {
     },
     closeEditContactModal() {
       this.editContactModal = false
-      this.selectedContact = null
+      this.closeActionMode()
     },
     saveContact(data) {
       this.$store.dispatch("editContact", data);
-      this.editContactModal = false;
-      this.showActions = false;
-      this.selectedContact = null;
+      this.closeEditContactModal()
     },
     contactClick(contact) {
       if (!this.showActions) {
