@@ -6,25 +6,33 @@ import { router } from "./router/router";
 import { createGettext } from "vue3-gettext";
 import translations from '../translations/translations.json'
 import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import linkifyHTML from 'linkify-html'
+
 import {
+  faArrowDown,
   faArrowLeft,
+  faCheck,
   faEllipsisV,
+  faHeart,
+  faMicrophone,
+  faPause,
+  faPaperPlane,
   faPencilAlt,
+  faPlay,
+  faPlus,
+  faSearch,
+  faStopCircle,
+  faTimes,
   faTrash,
   faUserFriends,
-  faPaperPlane,
-  faTimes,
-  faCheck,
   faVolumeMute,
-  faHeart,
-  faSearch,
-  faArrowDown,
-  faPlus
 } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
 library.add(faArrowLeft, faEllipsisV, faPencilAlt, faPlus, faTrash, faPaperPlane,
-  faUserFriends, faTimes, faCheck, faVolumeMute, faHeart, faSearch, faArrowDown)
+  faUserFriends, faTimes, faCheck, faVolumeMute, faHeart, faSearch, faArrowDown,
+  faMicrophone, faStopCircle, faPlay, faPause
+  )
 
 const app = createApp(App)
 app.component('FontAwesomeIcon', FontAwesomeIcon)

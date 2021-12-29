@@ -3,6 +3,7 @@
     :key="message.ID"
     :class="{
       'col-12': true,
+      'message-container': true,
       outgoing: message.Outgoing,
       sent: message.IsSent && message.Outgoing,
       read: message.IsRead && message.Outgoing,
@@ -45,13 +46,14 @@
               >
             </div>
             <div v-else-if="m.CType === 3" class="attachment-audio">
-              <audio controls>
-                <source
-                  :src="'http://localhost:9080/attachments?file=' + m.File"
-                  type="audio/mpeg"
-                >
-                <span v-translate>Your browser does not support the audio element.</span>
-              </audio>
+              <div id="audio-player-container d-flex">
+                <button id="play-icon">
+                  <font-awesome-icon v-if="!isPlaying" class="play" icon="play" @click="play" />
+                  <font-awesome-icon v-if="isPlaying" class="pause" icon="pause" @click="pause" />
+                </button>
+                <span v-if="!isPlaying" id="duration" class="time">{{ humanifyTimePeriod(duration) }}</span>
+                <span v-if="isPlaying" id="currentTime" class="time">{{ humanifyTimePeriod(currentTime) }} / {{ humanifyTimePeriod(duration) }}</span>
+              </div>
             </div>
             <div
               v-else-if="m.File !== '' && m.CType === 0"
@@ -91,15 +93,14 @@
           >
         </div>
         <div v-else-if="message.CType === 3" class="attachment-audio">
-          <audio controls>
-            <source
-              :src="
-                'http://localhost:9080/attachments?file=' + message.Attachment
-              "
-              type="audio/mpeg"
-            >
-            <span v-translate>Your browser does not support the audio element.</span>
-          </audio>
+          <div id="audio-player-container d-flex">
+            <button id="play-icon">
+              <font-awesome-icon v-if="!isPlaying" class="play" icon="play" @click="play" />
+              <font-awesome-icon v-if="isPlaying" class="pause" icon="pause" @click="pause" />
+            </button>
+            <span v-if="!isPlaying" id="duration" class="time">{{ humanifyTimePeriod(duration) }}</span>
+            <span v-if="isPlaying" id="currentTime" class="time">{{ humanifyTimePeriod(currentTime) }} / {{ humanifyTimePeriod(duration) }}</span>
+          </div>
         </div>
         <div
           v-else-if="message.Attachment !== 'null' && message.CType === 0"
@@ -119,9 +120,7 @@
         >
           <video>
             <source
-              :src="
-                'http://localhost:9080/attachments?file=' + message.Attachment
-              "
+              :src="'http://localhost:9080/attachments?file=' + message.Attachment"
             >
             <span v-translate>Your browser does not support the video element.</span>
           </video>
@@ -200,7 +199,7 @@ import { mapState } from "vuex";
 let decoder;
 
 export default {
-  name: "Message",
+  name: "MessageComponent",
   props: {
     message: {
       type: Object,
@@ -211,14 +210,18 @@ export default {
       default: false,
     },
     names: {
-      type: Array,
-      default: () => []
+      type: Object,
+      default: () => {}
     }
   },
   emits: ["showFullscreenImg", "showFullscreenVideo"],
   data() {
     return {
       showDate: false,
+      audio: null,
+      duration: 0.0,
+      currentTime: 0.0,
+      isPlaying: false,
     };
   },
   computed: {
@@ -231,6 +234,25 @@ export default {
       ); // #14 is the flag for quoting messages
 	    // see this list for all message types: https://github.com/nanu-c/axolotl/blob/main/app/helpers/models.go#L15
     },
+  },
+  mounted() {
+    if (this.message.Attachment !== "" && this.message.Attachment !== null) {
+      const attachment = JSON.parse(this.message.Attachment);
+      if (attachment?.length>0 && attachment[0].CType === 3) {
+        this.audio = new Audio("http://localhost:9080/attachments?file=" + attachment[0].File);
+        var that = this;
+        this.audio.onloadedmetadata = function(){
+          that.duration = that.audio.duration.toFixed(2);
+        };
+        this.audio.onended = function(){
+          that.audio.currentTime = 0;
+          that.isPlaying = false;
+        };
+        this.audio.ontimeupdate = function(){
+          that.currentTime = that.audio.currentTime.toFixed(2);
+        };
+      }
+    }
   },
   methods: {
     sanitize(msg) {
@@ -322,6 +344,15 @@ export default {
       else if (time < 60 * 60 * 24) return time / 60 / 60 / 24 + " d";
       return time;
     },
+    play(){
+      this.audio.play();
+      this.isPlaying = true;
+    },
+    pause(){
+      this.audio?.pause();
+      this.isPlaying = false;
+
+    }
   },
 };
 </script>
@@ -500,4 +531,32 @@ blockquote {
 .hidden{
   display: none;
 }
+button {
+  padding: 0;
+  border: 0;
+  background: inherit;
+  cursor: pointer;
+  outline: none;
+  width: 40px;
+  height: 40px;
+}
+#audio-player-container {
+  position: relative;
+  width: 90%;
+  max-width: 500px;
+  height: 80px;
+  p {
+  position: absolute;
+  top: -18px;
+  right: 5%;
+  padding: 0 5px;
+  margin: 0;
+  font-size: 28px;
+  background: #fff;
+  }
+  #play-icon {
+    margin: 20px 2.5% 20px 2.5%;
+  }
+}
+
 </style>

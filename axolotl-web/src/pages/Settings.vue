@@ -57,7 +57,7 @@
 import ConfirmationModal from "@/components/ConfirmationModal.vue";
 import { mapState } from "vuex";
 export default {
-  name: "Settings",
+  name: "SettingsPage",
   components: {
     ConfirmationModal,
   },
