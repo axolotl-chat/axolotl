@@ -25,7 +25,7 @@ then
 	rm -f ${INSTALL_DIR}/\\${GITHUB_WORKSPACE}
 else
 	# Clickable
-	readonly ZKGROUP_OPTION1=$GOPATH/pkg/mod/github.com/nanu-c/zkgroup@v0.8.8/lib/$FILENAME
+	readonly ZKGROUP_OPTION1=$GOPATH/pkg/mod/github.com/nanu-c/zkgroup@v0.9.0/lib/$FILENAME
 	readonly ZKGROUP_OPTION2=$GOPATH/src/github.com/nanu-c/zkgroup/lib/$FILENAME
 
 	mkdir -p $CLICK_LD_LIBRARY_PATH

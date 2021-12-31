@@ -232,10 +232,11 @@ func startSession() {
 		log.Debugln("[axolotl] gv2 not set, start gv2 migration")
 		// enable gv2 capabilities
 		config.Config.AccountCapabilities = textsecureConfig.AccountCapabilities{
-			UUID:         false,
-			Gv2:          true,
-			Storage:      false,
-			Gv1Migration: false,
+			Gv2:               true,
+			SenderKey:         false,
+			AnnouncementGroup: false,
+			ChangeNumber:      false,
+			Gv1Migration:      false,
 		}
 		// err := textsecure.WriteConfig(config.ConfigFile, config.Config)
 		if err != nil {
