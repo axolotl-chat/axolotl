@@ -30,9 +30,9 @@ parts:
     override-build: |
       snapcraftctl build
       mkdir --parents $SNAPCRAFT_PART_INSTALL/usr/lib
-      if echo $(dpkg --print-architecture)|grep -q 'amd64'; then cp /root/go/pkg/mod/github.com/nanu-c/zkgroup@v0.8.8/lib/libzkgroup_linux_x86_64.so $SNAPCRAFT_PART_INSTALL/usr/lib ; fi
-      if echo $(dpkg --print-architecture)|grep -q 'arm64'; then cp /root/go/pkg/mod/github.com/nanu-c/zkgroup@v0.8.8/lib/libzkgroup_linux_aarch64.so $SNAPCRAFT_PART_INSTALL/usr/lib ; fi
-      if echo $(dpkg --print-architecture)|grep -q 'armhf'; then cp /root/go/pkg/mod/github.com/nanu-c/zkgroup@v0.8.8/lib/libzkgroup_linux_armv7.so $SNAPCRAFT_PART_INSTALL/usr/lib ; fi
+      if echo $(dpkg --print-architecture)|grep -q 'amd64'; then cp /root/go/pkg/mod/github.com/nanu-c/zkgroup@v0.9.0/lib/libzkgroup_linux_x86_64.so $SNAPCRAFT_PART_INSTALL/usr/lib ; fi
+      if echo $(dpkg --print-architecture)|grep -q 'arm64'; then cp /root/go/pkg/mod/github.com/nanu-c/zkgroup@v0.9.0/lib/libzkgroup_linux_aarch64.so $SNAPCRAFT_PART_INSTALL/usr/lib ; fi
+      if echo $(dpkg --print-architecture)|grep -q 'armhf'; then cp /root/go/pkg/mod/github.com/nanu-c/zkgroup@v0.9.0/lib/libzkgroup_linux_armv7.so $SNAPCRAFT_PART_INSTALL/usr/lib ; fi
 
   axolotl-web:
     plugin: npm
@@ -65,7 +65,7 @@ parts:
       echo "deb [arch=arm64] http://us.archive.ubuntu.com/ubuntu/ focal main restricted universe multiverse" >>/etc/apt/sources.list 
       echo "deb [arch=armhf] http://us.archive.ubuntu.com/ubuntu/ focal main restricted universe multiverse" >>/etc/apt/sources.list 
       apt update
-      apt install -y libstdc++6-armhf-cross libstdc++6-arm64-cross protobuf-compiler libstdc++6:arm64 libstdc++6:armhf
+      apt install -y libstdc++6-armhf-cross libstdc++6-arm64-cross protobuf-compiler libstdc++6
       snapcraftctl build
     source: ./crayfish
     stage:
