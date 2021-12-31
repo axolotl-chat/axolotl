@@ -27,4 +27,5 @@ require (
 	gopkg.in/yaml.v2 v2.4.0
 	launchpad.net/gocheck v0.0.0-20140225173054-000000000087 // indirect
 )
-replace  github.com/signal-golang/textsecure v1.4.3 => /home/nanu/go/src/github.com/signal-golang/textsecure
+replace github.com/signal-golang/textsecure v1.5.0 => /home/nanu/go/src/github.com/signal-golang/textsecure
+replace github.com/nanu-c/zkgroup v0.8.8 => /home/nanu/go/src/github.com/nanu-c/zkgroup
