@@ -27,11 +27,12 @@ import {
   faTrash,
   faUserFriends,
   faVolumeMute,
+  faWrench,
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faArrowLeft, faEllipsisV, faPencilAlt, faPlus, faTrash, faPaperPlane,
   faUserFriends, faTimes, faCheck, faVolumeMute, faHeart, faSearch, faArrowDown,
-  faMicrophone, faStopCircle, faPlay, faPause
+  faMicrophone, faStopCircle, faPlay, faPause, faWrench
   )
 
 const app = createApp(App)
