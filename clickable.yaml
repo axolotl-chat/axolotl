@@ -33,7 +33,7 @@ libraries:
   axolotlweb:
     image_setup:
       run:
-        - curl -fsSL https://deb.nodesource.com/setup_16.x  | bash -
+        - curl -fsSL https://deb.nodesource.com/setup_14.x  | bash -
         - apt-get install -y nodejs
     builder: custom
     src_dir: axolotl-web
