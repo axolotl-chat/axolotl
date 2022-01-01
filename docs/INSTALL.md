@@ -15,7 +15,7 @@ Axolotl uses [crayfish](https://github.com/nanu-c/crayfish) in combination with 
 **Tooling**
 
 This requires `clickable` to be installed locally (version 7 or above).
-Installation instructions can be found [here](https://clickable-ut.dev/en/latest/install.html#install).
+Installation instructions can be found [here](https://clickable-ut.dev/en/dev/install.html).
 
 **Build and Install**
 
