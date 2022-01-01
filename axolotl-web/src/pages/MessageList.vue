@@ -337,7 +337,9 @@ export default {
       if (
         !this.$data.scrollLocked &&
         event.target.scrollTop < 80 &&
-        this.$store.state.messageList?.Messages?.length > 19
+        this.$store.state.messageList &&
+        this.$store.state.messageList.Messages &&
+        this.$store.state.messageList.Messages.length > 19
       ) {
         this.$data.scrollLocked = true;
         this.$store.dispatch("getMoreMessages");
