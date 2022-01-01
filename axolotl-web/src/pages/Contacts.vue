@@ -193,7 +193,7 @@ export default {
         if (this.validateUUID(contact.UUID))
           this.$store.dispatch("createChat", contact.UUID);
       } else {
-        this.selectedContact = contact;
+        this.closeActionMode()
       }
     },
     checkForUUIDClass(contact) {
