@@ -43,10 +43,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Setup Node 16
+      - name: Setup Node 14
         uses: actions/setup-node@v2.5.0
         with:
-          node-version: "16.x"
+          node-version: "14.x"
 
       - name: Check out code
         uses: actions/checkout@v2
@@ -114,7 +114,7 @@ jobs:
         with:
           submodules: 'true'
 
-      - name: Download axolotl and axolotl-web build artifacts
+      - name: Download axolotl, axolotl-web and crayfish build artifacts
         uses: actions/download-artifact@v2
         with:
           path: build-artifacts
