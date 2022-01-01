@@ -238,7 +238,7 @@ export default {
   mounted() {
     if (this.message.Attachment !== "" && this.message.Attachment !== null) {
       const attachment = JSON.parse(this.message.Attachment);
-      if (attachment?.length>0 && attachment[0].CType === 3) {
+      if (attachment&&attachment.length>0 && attachment[0].CType === 3) {
         this.audio = new Audio("http://localhost:9080/attachments?file=" + attachment[0].File);
         var that = this;
         this.audio.onloadedmetadata = function(){
@@ -349,8 +349,10 @@ export default {
       this.isPlaying = true;
     },
     pause(){
-      this.audio?.pause();
-      this.isPlaying = false;
+      if(this.audio && this.audio.currentTime>0){
+        this.audio.pause();
+        this.isPlaying = false;
+      }
 
     }
   },
