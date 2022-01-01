@@ -23,7 +23,7 @@ Installation instructions can be found [here](https://clickable-ut.dev/en/latest
 
 1. In order to build axolotl you need to get its nodejs dependencies once:
 
-    `clickable build --libs nodejs_deps`
+    `clickable build --libs axolotlweb`
 
 2. To build crayfish execute:
 

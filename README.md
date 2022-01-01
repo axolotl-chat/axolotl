@@ -68,6 +68,7 @@ sudo apt update
 sudo apt install golang-go nodejs npm build-essential
 ```
 
+After installing npm run `npm run build`.
 Then, install axolotl go and npm dependencies.
 
 ```shell
