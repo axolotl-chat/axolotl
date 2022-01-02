@@ -101,9 +101,6 @@
         @save="saveContact($event)"
       />
     </div>
-    <div v-if="startChatModal" class="startChatModal">
-      <start-chat-modal @close="closeStartChatModal()" />
-    </div>
     <button class="btn add-contact" @click="openAddContactModal()">
       <font-awesome-icon icon="plus" />
     </button>
@@ -113,7 +110,6 @@
 <script>
 import AddContactModal from "@/components/AddContactModal.vue";
 import EditContactModal from "@/components/EditContactModal.vue";
-import StartChatModal from "@/components/StartChatModal.vue";
 import { validateUUID } from "@/helpers/uuidCheck";
 
 export default {
@@ -121,7 +117,6 @@ export default {
   components: {
     AddContactModal,
     EditContactModal,
-    StartChatModal,
   },
   data() {
     return {
@@ -200,15 +195,6 @@ export default {
       var isValid = this.validateUUID(contact.UUID);
       return isValid ? "" : "not-registered";
     },
-    openStartChatModal() {
-      if (!this.showActions) {
-        this.startChatModal = true;
-      }
-    },
-    closeStartChatModal() {
-      this.startChatModal = false
-    },
-
   },
 };
 </script>

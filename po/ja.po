@@ -84,7 +84,6 @@ msgstr ""
 
 #: src/components/ErrorModal.vue:32 src/components/IdentityModal.vue:27
 #: src/components/ImportUnavailableModal.vue:30
-#: src/components/StartChatModal.vue:20
 msgid "Close"
 msgstr ""
 
@@ -275,13 +274,6 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: src/components/StartChatModal.vue:14
-msgid ""
-"New conversations are temporarily disabled. You can create a new chat from "
-"the linked Desktop Client. Alternatively, your counterparty could start the "
-"discussion."
-msgstr ""
-
 #: src/components/Header.vue:275 src/components/Header.vue:398
 msgid "New group"
 msgstr "新規グループ"
@@ -434,10 +426,6 @@ msgstr "本人確認"
 
 #: src/pages/About.vue:27
 msgid "sponsor on patreon."
-msgstr ""
-
-#: src/components/StartChatModal.vue:6
-msgid "Starting new chats is currently broken in Axolotl."
 msgstr ""
 
 #: src/components/Header.vue:527

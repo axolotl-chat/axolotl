@@ -93,7 +93,6 @@ msgstr ""
 
 #: src/components/ErrorModal.vue:32 src/components/IdentityModal.vue:27
 #: src/components/ImportUnavailableModal.vue:30
-#: src/components/StartChatModal.vue:20
 msgid "Close"
 msgstr "Sulje"
 
@@ -314,17 +313,6 @@ msgstr "Hiljennä"
 msgid "Name"
 msgstr "Nimi"
 
-#: src/components/StartChatModal.vue:14
-#, fuzzy
-msgid ""
-"New conversations are temporarily disabled. You can create a new chat from "
-"the linked Desktop Client. Alternatively, your counterparty could start the "
-"discussion."
-msgstr ""
-"Uudet keskustelut ovat väliaikaisesti poissa käytöstä. Voit luoda uuden\n"
-"            keskustelun linkitetyllä Desktop Clientillä. Vaihtoehtoisesti\n"
-"            vastapuoli voi aloittaa keskustelun."
-
 #: src/components/Header.vue:275 src/components/Header.vue:398
 msgid "New group"
 msgstr "Uusi ryhmä"
@@ -485,10 +473,6 @@ msgstr "Näytä identiteetti"
 msgid "sponsor on patreon."
 msgstr "sponsoriksi Patreonissa."
 
-#: src/components/StartChatModal.vue:6
-msgid "Starting new chats is currently broken in Axolotl."
-msgstr "Uusien keskustelujen aloittaminen on parhaillaan rikki Axolotlissa."
-
 #: src/components/Header.vue:527
 #, fuzzy
 msgid "This chat will be permanently deleted - but only from your device."
@@ -596,6 +580,20 @@ msgstr "Selaimesi ei tue audio-elementtejä."
 #: src/components/Message.vue:125
 msgid "Your browser does not support the video element."
 msgstr "Selaimesi ei tue video-elementtejä."
+
+#, fuzzy
+#~ msgid ""
+#~ "New conversations are temporarily disabled. You can create a new chat "
+#~ "from the linked Desktop Client. Alternatively, your counterparty could "
+#~ "start the discussion."
+#~ msgstr ""
+#~ "Uudet keskustelut ovat väliaikaisesti poissa käytöstä. Voit luoda uuden\n"
+#~ "            keskustelun linkitetyllä Desktop Clientillä. "
+#~ "Vaihtoehtoisesti\n"
+#~ "            vastapuoli voi aloittaa keskustelun."
+
+#~ msgid "Starting new chats is currently broken in Axolotl."
+#~ msgstr "Uusien keskustelujen aloittaminen on parhaillaan rikki Axolotlissa."
 
 #~ msgid ""
 #~ "Due to upstream changes in Signal, some features are currently broken.\n"

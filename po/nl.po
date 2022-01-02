@@ -92,7 +92,6 @@ msgstr ""
 
 #: src/components/ErrorModal.vue:32 src/components/IdentityModal.vue:27
 #: src/components/ImportUnavailableModal.vue:30
-#: src/components/StartChatModal.vue:20
 msgid "Close"
 msgstr "Sluiten"
 
@@ -305,17 +304,6 @@ msgstr "Dempen"
 msgid "Name"
 msgstr "Naam"
 
-#: src/components/StartChatModal.vue:14
-#, fuzzy
-msgid ""
-"New conversations are temporarily disabled. You can create a new chat from "
-"the linked Desktop Client. Alternatively, your counterparty could start the "
-"discussion."
-msgstr ""
-"Nieuwe gesprekken zijn tijdelijk uitgeschakeld. Je kunt een nieuw\n"
-"            gesprek starten middels de gekoppelde computerclient, of\n"
-"            laat de ander het voor je doen."
-
 #: src/components/Header.vue:275 src/components/Header.vue:398
 msgid "New group"
 msgstr "Nieuwe groep"
@@ -471,11 +459,6 @@ msgstr "Identiteit tonen"
 msgid "sponsor on patreon."
 msgstr "sponsor te worden op Patreon."
 
-#: src/components/StartChatModal.vue:6
-msgid "Starting new chats is currently broken in Axolotl."
-msgstr ""
-"Het starten van nieuwe gesprekken is momenteel niet mogelijk middels Axolotl."
-
 #: src/components/Header.vue:527
 #, fuzzy
 msgid "This chat will be permanently deleted - but only from your device."
@@ -584,6 +567,21 @@ msgstr "Je browser heeft geen ondersteuning voor het audio-element."
 #: src/components/Message.vue:125
 msgid "Your browser does not support the video element."
 msgstr "Je browser heeft geen ondersteuning voor het video-element."
+
+#, fuzzy
+#~ msgid ""
+#~ "New conversations are temporarily disabled. You can create a new chat "
+#~ "from the linked Desktop Client. Alternatively, your counterparty could "
+#~ "start the discussion."
+#~ msgstr ""
+#~ "Nieuwe gesprekken zijn tijdelijk uitgeschakeld. Je kunt een nieuw\n"
+#~ "            gesprek starten middels de gekoppelde computerclient, of\n"
+#~ "            laat de ander het voor je doen."
+
+#~ msgid "Starting new chats is currently broken in Axolotl."
+#~ msgstr ""
+#~ "Het starten van nieuwe gesprekken is momenteel niet mogelijk middels "
+#~ "Axolotl."
 
 #~ msgid ""
 #~ "Due to upstream changes in Signal, some features are currently broken.\n"
