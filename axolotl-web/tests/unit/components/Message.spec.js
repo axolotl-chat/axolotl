@@ -18,6 +18,7 @@ config.global = {
       }
     }
   ],
+  stubs: ['FontAwesomeIcon'],
 }
 
 describe('Message.vue', () => {

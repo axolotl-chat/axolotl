@@ -46,7 +46,7 @@
               >
             </div>
             <div v-else-if="m.CType === 3" class="attachment-audio">
-              <div id="audio-player-container d-flex">
+              <div class="audio-player-container d-flex">
                 <button id="play-icon">
                   <font-awesome-icon v-if="!isPlaying" class="play" icon="play" @click="play" />
                   <font-awesome-icon v-if="isPlaying" class="pause" icon="pause" @click="pause" />
@@ -93,7 +93,7 @@
           >
         </div>
         <div v-else-if="message.CType === 3" class="attachment-audio">
-          <div id="audio-player-container d-flex">
+          <div class="audio-player-container d-flex">
             <button id="play-icon">
               <font-awesome-icon v-if="!isPlaying" class="play" icon="play" @click="play" />
               <font-awesome-icon v-if="isPlaying" class="pause" icon="pause" @click="pause" />
@@ -238,7 +238,7 @@ export default {
   mounted() {
     if (this.message.Attachment !== "" && this.message.Attachment !== null) {
       const attachment = JSON.parse(this.message.Attachment);
-      if (attachment?.length>0 && attachment[0].CType === 3) {
+      if (attachment&&attachment.length>0 && attachment[0].CType === 3) {
         this.audio = new Audio("http://localhost:9080/attachments?file=" + attachment[0].File);
         var that = this;
         this.audio.onloadedmetadata = function(){
@@ -349,8 +349,10 @@ export default {
       this.isPlaying = true;
     },
     pause(){
-      this.audio?.pause();
-      this.isPlaying = false;
+      if(this.audio && this.audio.currentTime>0){
+        this.audio.pause();
+        this.isPlaying = false;
+      }
 
     }
   },
@@ -540,19 +542,19 @@ button {
   width: 40px;
   height: 40px;
 }
-#audio-player-container {
+.audio-player-container {
   position: relative;
   width: 90%;
   max-width: 500px;
   height: 80px;
   p {
-  position: absolute;
-  top: -18px;
-  right: 5%;
-  padding: 0 5px;
-  margin: 0;
-  font-size: 28px;
-  background: #fff;
+    position: absolute;
+    top: -18px;
+    right: 5%;
+    padding: 0 5px;
+    margin: 0;
+    font-size: 28px;
+    background: #fff;
   }
   #play-icon {
     margin: 20px 2.5% 20px 2.5%;
