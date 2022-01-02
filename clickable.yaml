@@ -40,7 +40,4 @@ libraries:
     builder: custom
     src_dir: axolotl-web
     build:
-      - echo ${SCR_DIR}
-      - echo ${AXOLOTLWEB_LIB_SRC_DIR}
-      - cd ${SCR_DIR}/axolotl-web && ls && npm ci
-      - cd ${SCR_DIR} && npm run build
+      - cd ../../../axolotl-web/ && npm ci && npm run build
