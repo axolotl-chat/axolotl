@@ -181,7 +181,7 @@ func wsReader(conn *websocket.Conn) {
 			joinGroupMessage := JoinGroupMessage{}
 			json.Unmarshal([]byte(p), &joinGroupMessage)
 			log.Println("[axolotl] Join group ", joinGroupMessage.ID)
-			joinGroup(joinGroupMessage)
+			go joinGroup(joinGroupMessage)
 		case "sendMessage":
 			sendMessageMessage := SendMessageMessage{}
 			json.Unmarshal([]byte(p), &sendMessageMessage)
@@ -430,7 +430,7 @@ func wsReader(conn *websocket.Conn) {
 			}
 			sendIdentityInfo(fingerprintNumbers, fingerprintQRCode)
 		default:
-			log.Debugln("[axolotl] unknown message type: ", incomingMessage.Type)
+			log.Debugln("[axolotl] unknown message type: ", incomingMessage.Type, incomingMessage)
 		}
 
 	}

@@ -17,6 +17,8 @@ type GroupRecord struct {
 const (
 	GroupRecordTypeGroupv1 = 0
 	GroupRecordTypeGroupv2 = 1
+	GroupJoinStatusJoined  = 0
+	GroupJoinStatusInvited = 1
 )
 
 var AllGroups []*GroupRecord

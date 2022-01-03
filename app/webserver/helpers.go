@@ -224,30 +224,50 @@ func updateGroup(updateGroupData UpdateGroupMessage) *store.Session {
 		Members: members,
 	}
 	store.SaveGroup(store.Groups[group.Hexid])
-	session := store.SessionsModel.GetByE164(group.Hexid)
-	msg := session.Add(store.GroupUpdateMsg(updateGroupData.Members, updateGroupData.Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
-	msg.Flags = helpers.MsgFlagGroupNew
-	//qml.Changed(msg, &msg.Flags)
-	store.SaveMessage(msg)
+	session, err := store.SessionsModel.GetByUUID(group.Hexid)
+	if err != nil {
+		ShowError(err.Error())
+	} else {
+		msg := session.Add(store.GroupUpdateMsg(updateGroupData.Members, updateGroupData.Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
+		msg.Flags = helpers.MsgFlagGroupUpdate
+		store.SaveMessage(msg)
 
-	return session
+		return session
+	}
+	return nil
+
 }
 func joinGroup(joinGroupmessage JoinGroupMessage) *store.Session {
+	log.Infoln("[axolotl] joinGroup", joinGroupmessage.ID)
 	group, err := textsecure.JoinGroup(joinGroupmessage.ID)
 	if err != nil {
+		if group != nil {
+			session, _ := store.SessionsModel.GetByUUID(group.Hexid)
+			session.Name = group.DecryptedGroup.Title
+			session.GroupJoinStatus = group.JoinStatus
+			store.UpdateSession(session)
+		}
+		log.Errorln("[axolotl] joinGroup", err)
 		ShowError(err.Error())
 		return nil
 	}
+	log.Infoln("[axolotl] joining group was succesful", group.Hexid)
 	store.Groups[group.Hexid] = &store.GroupRecord{
 		GroupID: group.Hexid,
-		Name:    string(group.GroupContext.Title[:]),
+		Name:    group.DecryptedGroup.Title,
 		// Members: members,
+		JoinStatus: store.GroupJoinStatusJoined,
 	}
 	store.SaveGroup(store.Groups[group.Hexid])
-	session := store.SessionsModel.GetByE164(group.Hexid)
-	msg := session.Add(store.GroupUpdateMsg(nil, store.Groups[group.Hexid].Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
-	msg.Flags = helpers.MsgFlagGroupNew
+	session, err := store.SessionsModel.GetByUUID(group.Hexid)
+	session.Name = group.DecryptedGroup.Title
+	session.GroupJoinStatus = store.GroupJoinStatusJoined
+	msg := session.Add("You accepted the invitation to the group.", "", []store.Attachment{}, "", true, store.ActiveSessionID)
+	msg.Flags = helpers.MsgFlagGroupJoined
+	store.UpdateSession(session)
 	store.SaveMessage(msg)
+	requestEnterChat(store.ActiveSessionID)
+	sendContactList()
 	return session
 }
 func sendMessageList(ID int64) {
