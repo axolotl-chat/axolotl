@@ -259,7 +259,7 @@ func joinGroup(joinGroupmessage JoinGroupMessage) *store.Session {
 		JoinStatus: store.GroupJoinStatusJoined,
 	}
 	store.SaveGroup(store.Groups[group.Hexid])
-	session, err := store.SessionsModel.GetByUUID(group.Hexid)
+	session, _ := store.SessionsModel.GetByUUID(group.Hexid)
 	session.Name = group.DecryptedGroup.Title
 	session.GroupJoinStatus = store.GroupJoinStatusJoined
 	msg := session.Add("You accepted the invitation to the group.", "", []store.Attachment{}, "", true, store.ActiveSessionID)
