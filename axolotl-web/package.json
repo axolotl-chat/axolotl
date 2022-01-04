@@ -68,7 +68,7 @@
   "browserslist": [
     "> 1%",
     "last 2 versions",
-    "chrome 69"
+    "chrome 69"//support for chromium version used by QtWebEngine 5.12.
   ],
   "bugs": {
     "url": "https://github.com/nanu-c/axolotl/issues"
