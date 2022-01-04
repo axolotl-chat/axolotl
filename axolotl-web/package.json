@@ -67,7 +67,8 @@
   },
   "browserslist": [
     "> 1%",
-    "last 2 versions"
+    "last 2 versions",
+    "chrome 69"
   ],
   "bugs": {
     "url": "https://github.com/nanu-c/axolotl/issues"
