@@ -90,7 +90,6 @@ msgstr "Effacer l'enregistrement du stockage local"
 
 #: src/components/ErrorModal.vue:32 src/components/IdentityModal.vue:27
 #: src/components/ImportUnavailableModal.vue:30
-#: src/components/StartChatModal.vue:20
 msgid "Close"
 msgstr "Fermer"
 
@@ -307,18 +306,6 @@ msgstr "Mettre en silencieux"
 msgid "Name"
 msgstr "Nom"
 
-#: src/components/StartChatModal.vue:14
-#, fuzzy
-msgid ""
-"New conversations are temporarily disabled. You can create a new chat from "
-"the linked Desktop Client. Alternatively, your counterparty could start the "
-"discussion."
-msgstr ""
-"Les nouvelles conversations sont temporairement désactivées. Vous pouvez "
-"créer une nouvelle\n"
-"            conversation à partir du client lié sur bureau. Sinon, votre\n"
-"            votre interlocuteur/trice peut lancer la discussion."
-
 #: src/components/Header.vue:275 src/components/Header.vue:398
 msgid "New group"
 msgstr "Nouveau groupe"
@@ -472,12 +459,6 @@ msgstr "Afficher l’identité"
 msgid "sponsor on patreon."
 msgstr "mécène sur Patreon."
 
-#: src/components/StartChatModal.vue:6
-msgid "Starting new chats is currently broken in Axolotl."
-msgstr ""
-"Le lancement de nouvelles discussions est actuellement indisponible dans "
-"Axolotl."
-
 #: src/components/Header.vue:527
 msgid "This chat will be permanently deleted - but only from your device."
 msgstr ""
@@ -587,6 +568,22 @@ msgstr "Votre navigateur ne prend pas en charge l'élément audio."
 msgid "Your browser does not support the video element."
 msgstr "Votre navigateur ne prend pas en charge l'élément vidéo."
 
+#, fuzzy
+#~ msgid ""
+#~ "New conversations are temporarily disabled. You can create a new chat "
+#~ "from the linked Desktop Client. Alternatively, your counterparty could "
+#~ "start the discussion."
+#~ msgstr ""
+#~ "Les nouvelles conversations sont temporairement désactivées. Vous pouvez "
+#~ "créer une nouvelle\n"
+#~ "            conversation à partir du client lié sur bureau. Sinon, votre\n"
+#~ "            votre interlocuteur/trice peut lancer la discussion."
+
+#~ msgid "Starting new chats is currently broken in Axolotl."
+#~ msgstr ""
+#~ "Le lancement de nouvelles discussions est actuellement indisponible dans "
+#~ "Axolotl."
+
 #~ msgid ""
 #~ "Due to upstream changes in Signal, some features are currently broken.\n"
 #~ "      We're working as fast as we can to bring them back."
@@ -601,4 +598,3 @@ msgstr "Votre navigateur ne prend pas en charge l'élément vidéo."
 
 #~ msgid "Group has to be updated by a member."
 #~ msgstr "Le groupe doit être mis à jour par un membre."
-

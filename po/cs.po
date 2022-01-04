@@ -91,7 +91,6 @@ msgstr ""
 
 #: src/components/ErrorModal.vue:32 src/components/IdentityModal.vue:27
 #: src/components/ImportUnavailableModal.vue:30
-#: src/components/StartChatModal.vue:20
 msgid "Close"
 msgstr "Zavřít"
 
@@ -297,17 +296,6 @@ msgstr "Ztlumit"
 msgid "Name"
 msgstr "Jméno"
 
-#: src/components/StartChatModal.vue:14
-#, fuzzy
-msgid ""
-"New conversations are temporarily disabled. You can create a new chat from "
-"the linked Desktop Client. Alternatively, your counterparty could start the "
-"discussion."
-msgstr ""
-"Dočasně není možné začít novou konverzaci. Můžete ji ale začít z propojeného "
-"desktop clientu na vašem počítači. Jiná možnost je, že konverzaci začne jako "
-"první váš partner."
-
 #: src/components/Header.vue:275 src/components/Header.vue:398
 msgid "New group"
 msgstr "Nová skupina"
@@ -464,10 +452,6 @@ msgstr "Ověření identity"
 msgid "sponsor on patreon."
 msgstr "sponzor na Patreon."
 
-#: src/components/StartChatModal.vue:6
-msgid "Starting new chats is currently broken in Axolotl."
-msgstr "Momentálně nelze na Axolotlu začít novou konverzaci."
-
 #: src/components/Header.vue:527
 #, fuzzy
 msgid "This chat will be permanently deleted - but only from your device."
@@ -566,6 +550,19 @@ msgstr "Váš prohlížeč nepodporuje tento element audia."
 #: src/components/Message.vue:125
 msgid "Your browser does not support the video element."
 msgstr "Váš prohlížeč nepodporuje tento element videa."
+
+#, fuzzy
+#~ msgid ""
+#~ "New conversations are temporarily disabled. You can create a new chat "
+#~ "from the linked Desktop Client. Alternatively, your counterparty could "
+#~ "start the discussion."
+#~ msgstr ""
+#~ "Dočasně není možné začít novou konverzaci. Můžete ji ale začít z "
+#~ "propojeného desktop clientu na vašem počítači. Jiná možnost je, že "
+#~ "konverzaci začne jako první váš partner."
+
+#~ msgid "Starting new chats is currently broken in Axolotl."
+#~ msgstr "Momentálně nelze na Axolotlu začít novou konverzaci."
 
 #, fuzzy
 #~ msgid ""

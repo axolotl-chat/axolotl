@@ -89,7 +89,6 @@ msgstr ""
 
 #: src/components/ErrorModal.vue:32 src/components/IdentityModal.vue:27
 #: src/components/ImportUnavailableModal.vue:30
-#: src/components/StartChatModal.vue:20
 msgid "Close"
 msgstr "Chiudi"
 
@@ -297,17 +296,6 @@ msgstr "Muto"
 msgid "Name"
 msgstr "Nome"
 
-#: src/components/StartChatModal.vue:14
-#, fuzzy
-msgid ""
-"New conversations are temporarily disabled. You can create a new chat from "
-"the linked Desktop Client. Alternatively, your counterparty could start the "
-"discussion."
-msgstr ""
-"Le nuove conversazioni sono temporaneamente disabilitate. Puoi creare una "
-"nuova chat da il client desktop collegato. In alternativa, la tua "
-"controparte potrebbe avviare il discussione."
-
 #: src/components/Header.vue:275 src/components/Header.vue:398
 msgid "New group"
 msgstr "Nuovo gruppo"
@@ -463,10 +451,6 @@ msgstr "Mostra identità"
 msgid "sponsor on patreon."
 msgstr "sponsor su patreon."
 
-#: src/components/StartChatModal.vue:6
-msgid "Starting new chats is currently broken in Axolotl."
-msgstr "L'avvio di nuove chat è attualmente interrotto in Axolotl."
-
 #: src/components/Header.vue:527
 #, fuzzy
 msgid "This chat will be permanently deleted - but only from your device."
@@ -572,6 +556,19 @@ msgstr "Il tuo browser non supporta l'elemento audio."
 #: src/components/Message.vue:125
 msgid "Your browser does not support the video element."
 msgstr "Il tuo browser non supporta l'elemento video."
+
+#, fuzzy
+#~ msgid ""
+#~ "New conversations are temporarily disabled. You can create a new chat "
+#~ "from the linked Desktop Client. Alternatively, your counterparty could "
+#~ "start the discussion."
+#~ msgstr ""
+#~ "Le nuove conversazioni sono temporaneamente disabilitate. Puoi creare una "
+#~ "nuova chat da il client desktop collegato. In alternativa, la tua "
+#~ "controparte potrebbe avviare il discussione."
+
+#~ msgid "Starting new chats is currently broken in Axolotl."
+#~ msgstr "L'avvio di nuove chat è attualmente interrotto in Axolotl."
 
 #~ msgid ""
 #~ "Due to upstream changes in Signal, some features are currently broken.\n"

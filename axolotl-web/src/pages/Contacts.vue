@@ -7,14 +7,14 @@
       Importing contacts, head back later
     </div>
     <div v-if="showActions" class="actions-header">
-      <button class="btn" @click="delContact(i)">
+      <button class="btn" @click="delContact()">
         <font-awesome-icon icon="trash" />
       </button>
-      <button class="btn" @click="editContactModalOpen(contact, i)">
+      <button class="btn" @click="openEditContactModal()">
         <font-awesome-icon icon="pencil-alt" />
       </button>
       <button class="btn hide-actions">
-        <font-awesome-icon icon="times" @click="closeActionMode" />
+        <font-awesome-icon icon="times" @click="closeActionMode()" />
       </button>
     </div>
     <div v-if="contacts.length === 0" v-translate class="empty">
@@ -25,7 +25,7 @@
         v-for="c in contactsFiltered"
         :key="c.Tel"
         :class="
-          c.Tel === editContactId
+          c === selectedContact
             ? 'selected btn col-12 chat'
             : 'btn col-12 chat'
         "
@@ -33,20 +33,24 @@
         <div class="row chat-entry">
           <div
             :class="'avatar col-3 ' + checkForUUIDClass(c)"
-            @click="contactClick(c, i)"
+            @click="contactClick(c)"
           >
             <div class="badge-name">
               {{ c.Name[0] + c.Name[1] }}
             </div>
           </div>
           <div
-            class="meta col-9"
-            data-long-press-delay="500"
+            class="meta col-8"
             @click="contactClick(c)"
-            @long-press="showContactAction(c)"
           >
             <p class="name">{{ c.Name }}</p>
             <p class="number">{{ c.Tel }}</p>
+          </div>
+          <div
+            class="col-1"
+            @click="showContactAction(c)"
+          >
+            <font-awesome-icon icon="wrench" />
           </div>
         </div>
       </div>
@@ -56,7 +60,7 @@
       v-else
       :key="c.Tel"
       :class="
-        c.Tel === editContactId
+        c === selectedContact
           ? 'selected btn col-12 chat'
           : 'btn col-12 chat'
       "
@@ -64,40 +68,40 @@
       <div class="row chat-entry">
         <div
           :class="'avatar col-3 avatar ' + checkForUUIDClass(c)"
-          @click="contactClick(c, i)"
+          @click="contactClick(c)"
         >
           <div class="badge-name">{{ c.Name[0] + c.Name[1] }}</div>
         </div>
         <div
-          class="meta col-9"
-          data-long-press-delay="500"
-          @click="contactClick(contact)"
-          @long-press="showContactAction(contact)"
+          class="meta col-8"
+          @click="contactClick(c)"
         >
           <p class="name">{{ c.Name }}</p>
           <p class="number">{{ c.Tel }}</p>
+        </div>
+        <div
+          class="col-1"
+          @click="showContactAction(c)"
+        >
+          <font-awesome-icon icon="wrench" />
         </div>
       </div>
     </div>
 
     <div v-if="addContactModal" class="addContactModal">
       <add-contact-modal
-        @close="addContactModal = false"
+        @close="closeAddContactModal()"
         @add="addContact($event)"
       />
     </div>
     <div v-if="editContactModal" class="editContactModal">
       <edit-contact-modal
-        :id="contactId"
-        :contact="contact"
-        @close="editContactModal = false"
+        :contact="selectedContact"
+        @close="closeEditContactModal()"
         @save="saveContact($event)"
       />
     </div>
-    <div v-if="startChatModal" class="startChatModal">
-      <start-chat-modal @close="startChatModal = false" />
-    </div>
-    <button class="btn add-contact" @click="addContactModal = true">
+    <button class="btn add-contact" @click="openAddContactModal()">
       <font-awesome-icon icon="plus" />
     </button>
   </div>
@@ -106,7 +110,6 @@
 <script>
 import AddContactModal from "@/components/AddContactModal.vue";
 import EditContactModal from "@/components/EditContactModal.vue";
-import StartChatModal from "@/components/StartChatModal.vue";
 import { validateUUID } from "@/helpers/uuidCheck";
 
 export default {
@@ -114,18 +117,14 @@ export default {
   components: {
     AddContactModal,
     EditContactModal,
-    StartChatModal,
   },
   data() {
     return {
       showActions: false,
       addContactModal: false,
       editContactModal: false,
-      contact: null,
-      contactId: null,
       startChatModal: false,
-      editContactId: "",
-      i: null,
+      selectedContact: null,
     };
   },
   computed: {
@@ -150,57 +149,51 @@ export default {
   },
   methods: {
     validateUUID,
+    openAddContactModal() {
+      this.addContactModal = true
+    },
+    closeAddContactModal() {
+      this.addContactModal = false
+    },
     addContact(data) {
       this.$store.dispatch("addContact", data);
       this.addContactModal = false;
     },
-    delContact() {
-      this.$store.dispatch("delContact", this.editContactId);
-      this.showActions = false;
-      this.editContactId = "";
-    },
-    checkForUUIDClass(contact) {
-      var isValid = this.validateUUID(contact.UUID);
-      return isValid ? "" : "not-registered";
-    },
-    saveContact(data) {
-      this.editContactModal = false;
-      this.showActions = false;
-      this.editContactId = "";
-      this.$store.dispatch("editContact", data);
-    },
     showContactAction(contact) {
-      this.editContactId = contact.Tel;
-      this.contact = contact;
+      this.selectedContact = contact;
       this.showActions = true;
     },
     closeActionMode() {
-      this.addContactModal = false;
       this.showActions = false;
-      this.editContactModal = false;
-      this.contact = null;
-      this.contactId = null;
-      this.startChatModal = false;
-      this.editContactId = "";
+      this.selectedContact = null;
+    },
+    delContact() {
+      this.$store.dispatch("delContact", this.selectedContact.Tel);
+      this.closeActionMode()
+    },
+    openEditContactModal() {
+      this.editContactModal = true;
+      this.showActions = false;
+    },
+    closeEditContactModal() {
+      this.editContactModal = false
+      this.closeActionMode()
+    },
+    saveContact(data) {
+      this.$store.dispatch("editContact", data);
+      this.closeEditContactModal()
     },
     contactClick(contact) {
       if (!this.showActions) {
         if (this.validateUUID(contact.UUID))
           this.$store.dispatch("createChat", contact.UUID);
       } else {
-        this.editContactId = contact.Tel;
+        this.closeActionMode()
       }
     },
-    editContactModalOpen() {
-      this.editContactModal = true;
-      this.contactId = this.editContactId;
-      this.showActions = false;
-      this.editContactId = "";
-    },
-    startChatModalOpen() {
-      if (!this.showActions) {
-        this.startChatModal = true;
-      }
+    checkForUUIDClass(contact) {
+      var isValid = this.validateUUID(contact.UUID);
+      return isValid ? "" : "not-registered";
     },
   },
 };
