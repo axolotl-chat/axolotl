@@ -6,7 +6,7 @@ grade: stable
 confinement: strict
 base: core20
 icon: snap/gui/axolotl.png
-version: "1.0.8"
+version: "1.0.9"
 architectures:
   - build-on: amd64
   - build-on: arm64
