@@ -64,83 +64,83 @@
     </div>
     <div
       v-if="chat.IsGroup && chat.GroupJoinStatus !== 0"
-      v-translate
       class="messageInputBoxDisabled w-100"
-    >
-      You have been invited to this group. Accepting invitations is not yet
-      supported. In order to join please send private a message to the other
-      side to exchange the profile key. After that he/she has to remove and add
-      you again.
+    > <p v-translate>
+        Join this group? They won’t know you’ve seen their messages until you accept.
+      </p>
+      <div v-translate class="btn btn-primary" @click="joinGroupAccept">Join</div>
     </div>
-    <div v-if="!voiceNote.recorded" class="messageInputBox">
-      <div v-if="!voiceNote.recording" class="messageInput-container">
-        <textarea
-          id="messageInput"
-          v-model="messageInput"
-          type="textarea"
-          contenteditable="true"
-          data-long-press-delay="500"
-          @long-press="paste"
-        />
+    <div v-else class="bottom-wrapper">
+      <div v-if="!voiceNote.recorded" class="messageInputBox">
+        <div v-if="!voiceNote.recording" class="messageInput-container">
+          <textarea
+            id="messageInput"
+            v-model="messageInput"
+            type="textarea"
+            contenteditable="true"
+            data-long-press-delay="500"
+            @long-press="paste"
+          />
+        </div>
+        <div v-if="messageInput !== ''" class="messageInput-btn-container">
+          <button class="btn send" @click="sendMessage">
+            <font-awesome-icon icon="paper-plane" />
+          </button>
+        </div>
+        <div v-else-if="voiceNote.recording" class="messageInput-btn-container d-flex justify-content-center w-100">
+          <div v-translate class="me-5">Recording...</div>
+          <button class="btn send record-stop" @click="stopRecording">
+            <font-awesome-icon icon="stop-circle" />
+          </button>
+        </div>
+        <div v-else class="messageInput-btn-container d-flex">
+          <button class="btn send record me-2" @click="recordAudio">
+            <font-awesome-icon icon="microphone" />
+          </button>
+          <button class="btn send" @click="loadAttachmentDialog">
+            <font-awesome-icon icon="plus" />
+          </button>
+        </div>
       </div>
-      <div v-if="messageInput !== ''" class="messageInput-btn-container">
-        <button class="btn send" @click="sendMessage">
-          <font-awesome-icon icon="paper-plane" />
-        </button>
+      <div v-else class="messageInputBox justify-content-center">
+        <div class="messageInput-btn-container d-flex justify-content-center align-items-center">
+          <div><span>{{ Math.floor(voiceNote.duration) }}</span><span v-translate class="me-2">s</span></div>
+          <button v-if="!voiceNote.playing" class="btn send play me-1" @click="playAudio">
+            <font-awesome-icon icon="play" />
+          </button>
+          <button v-else class="btn send stop me-1" @click="stopPlayAudio">
+            <font-awesome-icon icon="stop-circle" />
+          </button>
+          <button class="btn send delete me-1" @click="deleteAudio">
+            <font-awesome-icon icon="times" />
+          </button>
+          <button class="btn send send-voice" @click="sendVoiceNote">
+            <font-awesome-icon icon="paper-plane" />
+          </button>
+        </div>
       </div>
-      <div v-else-if="voiceNote.recording" class="messageInput-btn-container d-flex justify-content-center w-100">
-        <div v-translate class="me-5">Recording...</div>
-        <button class="btn send record-stop" @click="stopRecording">
-          <font-awesome-icon icon="stop-circle" />
-        </button>
-      </div>
-      <div v-else class="messageInput-btn-container d-flex">
-        <button class="btn send record me-2" @click="recordAudio">
-          <font-awesome-icon icon="microphone" />
-        </button>
-        <button class="btn send" @click="loadAttachmentDialog">
-          <font-awesome-icon icon="plus" />
-        </button>
-      </div>
+      <audio 
+        v-if="voiceNote.blobUrl!=''"
+        id="voiceNote"
+        controls
+        :src="voiceNote.blobUrl"
+      >
+        Your browser does not support the
+        <code>audio</code> element.
+      </audio>
+      <attachment-bar
+        v-if="showAttachmentsBar"
+        @close="showAttachmentsBar = false"
+        @send="callContentHub($event)"
+      />
+      <input
+        id="attachment"
+        type="file"
+        style="position: fixed; top: -100em"
+        @change="sendDesktopAttachment"
+      />
+      <audio id="voiceNote" :src="voiceNote.blobUrl" style="position: fixed; top: -100em" />
     </div>
-    <div v-else class="messageInputBox justify-content-center">
-      <div class="messageInput-btn-container d-flex justify-content-center align-items-center">
-        <div><span>{{ Math.floor(voiceNote.duration) }}</span><span v-translate class="me-2">s</span></div>
-        <button v-if="!voiceNote.playing" class="btn send play me-1" @click="playAudio">
-          <font-awesome-icon icon="play" />
-        </button>
-        <button v-else class="btn send stop me-1" @click="stopPlayAudio">
-          <font-awesome-icon icon="stop-circle" />
-        </button>
-        <button class="btn send delete me-1" @click="deleteAudio">
-          <font-awesome-icon icon="times" />
-        </button>
-        <button class="btn send send-voice" @click="sendVoiceNote">
-          <font-awesome-icon icon="paper-plane" />
-        </button>
-      </div>
-    </div>
-    <audio 
-      v-if="voiceNote.blobUrl!=''"
-      id="voiceNote"
-      controls
-      :src="voiceNote.blobUrl"
-    >
-      Your browser does not support the
-      <code>audio</code> element.
-    </audio>
-    <attachment-bar
-      v-if="showAttachmentsBar"
-      @close="showAttachmentsBar = false"
-      @send="callContentHub($event)"
-    />
-    <input
-      id="attachment"
-      type="file"
-      style="position: fixed; top: -100em"
-      @change="sendDesktopAttachment"
-    />
-    <audio id="voiceNote" :src="voiceNote.blobUrl" style="position: fixed; top: -100em" />
   </div>
 </template>
 
@@ -332,6 +332,9 @@ export default {
         this.messageInput = "";
       }
       this.scrollDown();
+    },
+    joinGroupAccept() {
+      this.$store.dispatch("joinGroup", this.chat.UUID);
     },
     handleScroll(event) {
       if (

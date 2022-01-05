@@ -68,8 +68,8 @@ func sendCurrentChat(s *store.Session) {
 			return
 		}
 		group = &Group{
-			HexId: gr.GroupID,
-			Name: gr.Name,
+			HexId:   gr.GroupID,
+			Name:    gr.Name,
 			Members: strings.Split(gr.Members, ","),
 		}
 	}
@@ -90,10 +90,10 @@ func sendCurrentChat(s *store.Session) {
 }
 func updateCurrentChat(s *store.Session) {
 	var (
-		err error
+		err   error
 		gr    *store.GroupRecord
 		group *Group
-		c   *textsecureContacts.Contact
+		c     *textsecureContacts.Contact
 	)
 	if s.IsGroup {
 		gr = store.GetGroupById(s.UUID)
@@ -102,8 +102,8 @@ func updateCurrentChat(s *store.Session) {
 			return
 		}
 		group = &Group{
-			HexId: gr.GroupID,
-			Name: gr.Name,
+			HexId:   gr.GroupID,
+			Name:    gr.Name,
 			Members: strings.Split(gr.Members, ","),
 		}
 	} else {
@@ -224,12 +224,54 @@ func updateGroup(updateGroupData UpdateGroupMessage) *store.Session {
 		Members: members,
 	}
 	store.SaveGroup(store.Groups[group.Hexid])
-	session := store.SessionsModel.GetByE164(group.Hexid)
+	session, err := store.SessionsModel.GetByUUID(group.Hexid)
+	if err != nil {
+		ShowError(err.Error())
+		return nil
+	}
 	msg := session.Add(store.GroupUpdateMsg(updateGroupData.Members, updateGroupData.Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
-	msg.Flags = helpers.MsgFlagGroupNew
-	//qml.Changed(msg, &msg.Flags)
+	msg.Flags = helpers.MsgFlagGroupUpdate
 	store.SaveMessage(msg)
 
+	return session
+
+}
+func joinGroup(joinGroupmessage JoinGroupMessage) *store.Session {
+	log.Infoln("[axolotl] joinGroup", joinGroupmessage.ID)
+	group, err := textsecure.JoinGroup(joinGroupmessage.ID)
+	if err != nil {
+		// update group also in the case that the group is already joined to remove the join message
+		if group != nil {
+			session, _ := store.SessionsModel.GetByUUID(group.Hexid)
+			session.Name = group.DecryptedGroup.Title
+			session.GroupJoinStatus = group.JoinStatus
+			store.UpdateSession(session)
+		}
+		log.Errorln("[axolotl] joinGroup", err)
+		ShowError(err.Error())
+		return nil
+	}
+	log.Infoln("[axolotl] joining group was succesful", group.Hexid)
+	members := ""
+	for _, member := range group.DecryptedGroup.Members {
+		members = members + string(member.Uuid) + ","
+	}
+	store.Groups[group.Hexid] = &store.GroupRecord{
+		GroupID:    group.Hexid,
+		Name:       group.DecryptedGroup.Title,
+		Members:    members,
+		JoinStatus: store.GroupJoinStatusJoined,
+	}
+	store.SaveGroup(store.Groups[group.Hexid])
+	session, _ := store.SessionsModel.GetByUUID(group.Hexid)
+	session.Name = group.DecryptedGroup.Title
+	session.GroupJoinStatus = store.GroupJoinStatusJoined
+	msg := session.Add("You accepted the invitation to the group.", "", []store.Attachment{}, "", true, store.ActiveSessionID)
+	msg.Flags = helpers.MsgFlagGroupJoined
+	store.UpdateSession(session)
+	store.SaveMessage(msg)
+	requestEnterChat(store.ActiveSessionID)
+	sendContactList()
 	return session
 }
 func sendMessageList(ID int64) {

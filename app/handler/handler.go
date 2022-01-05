@@ -120,12 +120,6 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 			}
 		}
 		if grV2.GroupAction != nil && msg.Message() == "" {
-
-			// update group only, when group was decrypted
-			if grV2.DecryptedGroup != nil {
-				group.Name = string(grV2.DecryptedGroup.Title)
-				store.UpdateGroup(group)
-			}
 			text = "Group was changed to revision " + fmt.Sprint(grV2.GroupContext.Revision)
 			msgFlags = helpers.MsgFlagGroupV2Change
 		}

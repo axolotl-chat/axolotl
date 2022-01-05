@@ -28,6 +28,7 @@ var (
 	MsgFlagGroupV2Change         = 17
 	MsgFlagProfileKeyUpdated     = 18
 	MsgFlagVoiceNote             = 19
+	MsgFlagGroupJoined           = 20
 )
 
 func HumanizeTimestamp(ts uint64) string {

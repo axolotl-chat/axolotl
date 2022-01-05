@@ -22,9 +22,9 @@ type DeviceListEnvelope struct {
 	DeviceList []textsecure.DeviceInfo
 }
 type Group struct {
-	HexId		string
-	Name		string
-	Members	[]string
+	HexId   string
+	Name    string
+	Members []string
 }
 type OpenChat struct {
 	CurrentChat *store.Session
@@ -158,6 +158,10 @@ type UpdateGroupMessage struct {
 	Name    string   `json:"name"`
 	ID      string   `json:"id"`
 	Members []string `json:"members"`
+}
+type JoinGroupMessage struct {
+	Type string `json:"request"`
+	ID   string `json:"id"`
 }
 type SendAttachmentMessage struct {
 	Type    string `json:"request"`

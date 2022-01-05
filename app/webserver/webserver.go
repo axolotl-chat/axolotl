@@ -101,7 +101,6 @@ func wsReader(conn *websocket.Conn) {
 		}
 		incomingMessage := Message{}
 		json.Unmarshal([]byte(p), &incomingMessage)
-		// fmt.Println(string(p), incomingMessage.Type)
 		switch incomingMessage.Type {
 		case "getChatList":
 			sendChatList()
@@ -177,6 +176,11 @@ func wsReader(conn *websocket.Conn) {
 			updateGroup(updateGroupMessage)
 			requestEnterChat(store.ActiveSessionID)
 			sendContactList()
+		case "joinGroup":
+			joinGroupMessage := JoinGroupMessage{}
+			json.Unmarshal([]byte(p), &joinGroupMessage)
+			log.Println("[axolotl] Join group ", joinGroupMessage.ID)
+			go joinGroup(joinGroupMessage)
 		case "sendMessage":
 			sendMessageMessage := SendMessageMessage{}
 			json.Unmarshal([]byte(p), &sendMessageMessage)
@@ -194,7 +198,6 @@ func wsReader(conn *websocket.Conn) {
 				go func() {
 					m := <-updateMessageChannel
 					go UpdateMessageHandlerWithSource(m)
-
 				}()
 			}
 		case "sendVoiceNote":
@@ -425,7 +428,12 @@ func wsReader(conn *websocket.Conn) {
 				log.Debugln("[axolotl] identity information ", err)
 			}
 			sendIdentityInfo(fingerprintNumbers, fingerprintQRCode)
+		default:
+			if incomingMessage.Type != "" {
+				log.Debugf("[axolotl] unknown message type: %v", incomingMessage)
+			}
 		}
+
 	}
 }
 
