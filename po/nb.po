@@ -286,6 +286,15 @@ msgstr "Info"
 msgid "issues at the bug tracker"
 msgstr "forhold i feiloversikten"
 
+#: src/pages/MessageList.vue:71
+msgid "Join"
+msgstr ""
+
+#: src/pages/MessageList.vue:68
+msgid ""
+"Join this group? They won’t know you’ve seen their messages until you accept."
+msgstr ""
+
 #: src/pages/DeviceList.vue:10
 msgid "Last seen:"
 msgstr "Sist sett:"
@@ -568,14 +577,6 @@ msgstr "Deg"
 #, fuzzy
 msgid "You can support the development of Axolotl either by filling"
 msgstr "Du kan støtte utviklingen av Axolotl enten ved å fylle ut"
-
-#: src/pages/MessageList.vue:65
-msgid ""
-"You have been invited to this group. Accepting invitations is not yet "
-"supported. In order to join please send private a message to the other side "
-"to exchange the profile key. After that he/she has to remove and add you "
-"again."
-msgstr ""
 
 #: src/components/Message.vue:76 src/pages/MessageList.vue:38
 msgid "Your browser does not support the audio element."

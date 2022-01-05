@@ -35,8 +35,9 @@ libraries:
       run:
         - curl -fsSL https://deb.nodesource.com/setup_16.x  | bash -
         - apt-get install -y nodejs
+        - echo "NODE Version:" && node --version
+        - echo "NPM Version:" && npm --version
     builder: custom
     src_dir: axolotl-web
     build:
-      - npm ci
-      - npm run build
+      - cd ../../../axolotl-web/ && npm ci && npm run build

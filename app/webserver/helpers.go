@@ -227,20 +227,20 @@ func updateGroup(updateGroupData UpdateGroupMessage) *store.Session {
 	session, err := store.SessionsModel.GetByUUID(group.Hexid)
 	if err != nil {
 		ShowError(err.Error())
-	} else {
-		msg := session.Add(store.GroupUpdateMsg(updateGroupData.Members, updateGroupData.Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
-		msg.Flags = helpers.MsgFlagGroupUpdate
-		store.SaveMessage(msg)
-
-		return session
+		return nil
 	}
-	return nil
+	msg := session.Add(store.GroupUpdateMsg(updateGroupData.Members, updateGroupData.Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
+	msg.Flags = helpers.MsgFlagGroupUpdate
+	store.SaveMessage(msg)
+
+	return session
 
 }
 func joinGroup(joinGroupmessage JoinGroupMessage) *store.Session {
 	log.Infoln("[axolotl] joinGroup", joinGroupmessage.ID)
 	group, err := textsecure.JoinGroup(joinGroupmessage.ID)
 	if err != nil {
+		// update group also in the case that the group is already joined to remove the join message
 		if group != nil {
 			session, _ := store.SessionsModel.GetByUUID(group.Hexid)
 			session.Name = group.DecryptedGroup.Title
@@ -252,10 +252,14 @@ func joinGroup(joinGroupmessage JoinGroupMessage) *store.Session {
 		return nil
 	}
 	log.Infoln("[axolotl] joining group was succesful", group.Hexid)
+	members := ""
+	for _, member := range group.DecryptedGroup.Members {
+		members = members + string(member.Uuid) + ","
+	}
 	store.Groups[group.Hexid] = &store.GroupRecord{
-		GroupID: group.Hexid,
-		Name:    group.DecryptedGroup.Title,
-		// Members: members,
+		GroupID:    group.Hexid,
+		Name:       group.DecryptedGroup.Title,
+		Members:    members,
 		JoinStatus: store.GroupJoinStatusJoined,
 	}
 	store.SaveGroup(store.Groups[group.Hexid])

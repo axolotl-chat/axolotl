@@ -281,6 +281,15 @@ msgstr "Informatie"
 msgid "issues at the bug tracker"
 msgstr "problemen op de bugtracker"
 
+#: src/pages/MessageList.vue:71
+msgid "Join"
+msgstr ""
+
+#: src/pages/MessageList.vue:68
+msgid ""
+"Join this group? They won’t know you’ve seen their messages until you accept."
+msgstr ""
+
 #: src/pages/DeviceList.vue:10
 msgid "Last seen:"
 msgstr "Laatst gezien:"
@@ -562,21 +571,6 @@ msgstr ""
 "vuejs.\n"
 "    Je kunt de ontwikkeling van Axolotl ondersteunen door"
 
-#: src/pages/MessageList.vue:65
-#, fuzzy
-msgid ""
-"You have been invited to this group. Accepting invitations is not yet "
-"supported. In order to join please send private a message to the other side "
-"to exchange the profile key. After that he/she has to remove and add you "
-"again."
-msgstr ""
-"Je bent uitgenodigd voor deze groep. Er is nog geen ondersteuning voor het\n"
-"      accepteren van uitnodigingen. Als je lid wilt worden, stuur dan een "
-"privébericht\n"
-"      naar ze en wissel de profielsleutel uit. Nadien kan hij/zij je "
-"verwijderen en opnieuw\n"
-"      toevoegen."
-
 #: src/components/Message.vue:76 src/pages/MessageList.vue:38
 msgid "Your browser does not support the audio element."
 msgstr "Je browser heeft geen ondersteuning voor het audio-element."
@@ -584,6 +578,21 @@ msgstr "Je browser heeft geen ondersteuning voor het audio-element."
 #: src/components/Message.vue:125
 msgid "Your browser does not support the video element."
 msgstr "Je browser heeft geen ondersteuning voor het video-element."
+
+#, fuzzy
+#~ msgid ""
+#~ "You have been invited to this group. Accepting invitations is not yet "
+#~ "supported. In order to join please send private a message to the other "
+#~ "side to exchange the profile key. After that he/she has to remove and add "
+#~ "you again."
+#~ msgstr ""
+#~ "Je bent uitgenodigd voor deze groep. Er is nog geen ondersteuning voor "
+#~ "het\n"
+#~ "      accepteren van uitnodigingen. Als je lid wilt worden, stuur dan een "
+#~ "privébericht\n"
+#~ "      naar ze en wissel de profielsleutel uit. Nadien kan hij/zij je "
+#~ "verwijderen en opnieuw\n"
+#~ "      toevoegen."
 
 #~ msgid ""
 #~ "Due to upstream changes in Signal, some features are currently broken.\n"

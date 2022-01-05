@@ -101,7 +101,6 @@ func wsReader(conn *websocket.Conn) {
 		}
 		incomingMessage := Message{}
 		json.Unmarshal([]byte(p), &incomingMessage)
-		// fmt.Println(string(p), incomingMessage.Type)
 		switch incomingMessage.Type {
 		case "getChatList":
 			sendChatList()
@@ -430,7 +429,9 @@ func wsReader(conn *websocket.Conn) {
 			}
 			sendIdentityInfo(fingerprintNumbers, fingerprintQRCode)
 		default:
-			log.Debugln("[axolotl] unknown message type: ", incomingMessage.Type, incomingMessage)
+			if incomingMessage.Type != "" {
+				log.Debugf("[axolotl] unknown message type: %v", incomingMessage)
+			}
 		}
 
 	}

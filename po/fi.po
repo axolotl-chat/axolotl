@@ -288,6 +288,15 @@ msgstr "Tietoa"
 msgid "issues at the bug tracker"
 msgstr "ongelmia bug-trackerissa"
 
+#: src/pages/MessageList.vue:71
+msgid "Join"
+msgstr ""
+
+#: src/pages/MessageList.vue:68
+msgid ""
+"Join this group? They won’t know you’ve seen their messages until you accept."
+msgstr ""
+
 #: src/pages/DeviceList.vue:10
 msgid "Last seen:"
 msgstr "Viimeksi nähty:"
@@ -576,19 +585,6 @@ msgstr "Sinä"
 msgid "You can support the development of Axolotl either by filling"
 msgstr "Voit tukea Axolotlin kehitystä joko täyttämällä"
 
-#: src/pages/MessageList.vue:65
-#, fuzzy
-msgid ""
-"You have been invited to this group. Accepting invitations is not yet "
-"supported. In order to join please send private a message to the other side "
-"to exchange the profile key. After that he/she has to remove and add you "
-"again."
-msgstr ""
-"Sinut on kutsuttu tähän ryhmään. Kutsujen hyväksyntä ei ole parhaillaan\n"
-"      tuettuna. Jotta voit liittyä, lähetä viesti toiselle osapuolelle,\n"
-"      jotta profiiliavaimet tulee jaetuksi. Tämän jälkeen hänen tuleelisätä\n"
-"      sinut uudestaan."
-
 #: src/components/Message.vue:76 src/pages/MessageList.vue:38
 msgid "Your browser does not support the audio element."
 msgstr "Selaimesi ei tue audio-elementtejä."
@@ -596,6 +592,19 @@ msgstr "Selaimesi ei tue audio-elementtejä."
 #: src/components/Message.vue:125
 msgid "Your browser does not support the video element."
 msgstr "Selaimesi ei tue video-elementtejä."
+
+#, fuzzy
+#~ msgid ""
+#~ "You have been invited to this group. Accepting invitations is not yet "
+#~ "supported. In order to join please send private a message to the other "
+#~ "side to exchange the profile key. After that he/she has to remove and add "
+#~ "you again."
+#~ msgstr ""
+#~ "Sinut on kutsuttu tähän ryhmään. Kutsujen hyväksyntä ei ole parhaillaan\n"
+#~ "      tuettuna. Jotta voit liittyä, lähetä viesti toiselle osapuolelle,\n"
+#~ "      jotta profiiliavaimet tulee jaetuksi. Tämän jälkeen hänen "
+#~ "tuleelisätä\n"
+#~ "      sinut uudestaan."
 
 #~ msgid ""
 #~ "Due to upstream changes in Signal, some features are currently broken.\n"
