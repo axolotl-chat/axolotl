@@ -53,8 +53,8 @@
           :message="message"
           :is-group="isGroup"
           :names="names"
-          @showFullscreenImg="showFullscreenImg($event)"
-          @showFullscreenVideo="showFullscreenVideo($event)"
+          @show-fullscreen-img="showFullscreenImg($event)"
+          @show-fullscreen-video="showFullscreenVideo($event)"
         />
       </div>
       <div v-else class="no-entries">
@@ -119,7 +119,7 @@
           </button>
         </div>
       </div>
-      <audio 
+      <audio
         v-if="voiceNote.blobUrl!=''"
         id="voiceNote"
         controls
