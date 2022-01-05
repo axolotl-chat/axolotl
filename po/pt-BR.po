@@ -89,7 +89,6 @@ msgstr ""
 
 #: src/components/ErrorModal.vue:32 src/components/IdentityModal.vue:27
 #: src/components/ImportUnavailableModal.vue:30
-#: src/components/StartChatModal.vue:20
 msgid "Close"
 msgstr "Fechar"
 
@@ -299,13 +298,6 @@ msgstr "Mudo"
 msgid "Name"
 msgstr "Nome"
 
-#: src/components/StartChatModal.vue:14
-msgid ""
-"New conversations are temporarily disabled. You can create a new chat from "
-"the linked Desktop Client. Alternatively, your counterparty could start the "
-"discussion."
-msgstr ""
-
 #: src/components/Header.vue:275 src/components/Header.vue:398
 msgid "New group"
 msgstr "Novo grupo"
@@ -457,10 +449,6 @@ msgstr "Mostrar identidade"
 msgid "sponsor on patreon."
 msgstr "apoiar no Patreon"
 
-#: src/components/StartChatModal.vue:6
-msgid "Starting new chats is currently broken in Axolotl."
-msgstr "No momento começar novas conversas no Axolotl não funciona."
-
 #: src/components/Header.vue:527
 #, fuzzy
 msgid "This chat will be permanently deleted - but only from your device."
@@ -548,6 +536,9 @@ msgstr "Seu navegador não suporta o elemento audio."
 #: src/components/Message.vue:125
 msgid "Your browser does not support the video element."
 msgstr "Seu navegador não suporta o elemento video"
+
+#~ msgid "Starting new chats is currently broken in Axolotl."
+#~ msgstr "No momento começar novas conversas no Axolotl não funciona."
 
 #, fuzzy
 #~ msgid "A cross-platform signal client"

@@ -92,7 +92,6 @@ msgstr ""
 
 #: src/components/ErrorModal.vue:32 src/components/IdentityModal.vue:27
 #: src/components/ImportUnavailableModal.vue:30
-#: src/components/StartChatModal.vue:20
 msgid "Close"
 msgstr "Sluiten"
 
@@ -314,17 +313,6 @@ msgstr "Dempen"
 msgid "Name"
 msgstr "Naam"
 
-#: src/components/StartChatModal.vue:14
-#, fuzzy
-msgid ""
-"New conversations are temporarily disabled. You can create a new chat from "
-"the linked Desktop Client. Alternatively, your counterparty could start the "
-"discussion."
-msgstr ""
-"Nieuwe gesprekken zijn tijdelijk uitgeschakeld. Je kunt een nieuw\n"
-"            gesprek starten middels de gekoppelde computerclient, of\n"
-"            laat de ander het voor je doen."
-
 #: src/components/Header.vue:275 src/components/Header.vue:398
 msgid "New group"
 msgstr "Nieuwe groep"
@@ -480,11 +468,6 @@ msgstr "Identiteit tonen"
 msgid "sponsor on patreon."
 msgstr "sponsor te worden op Patreon."
 
-#: src/components/StartChatModal.vue:6
-msgid "Starting new chats is currently broken in Axolotl."
-msgstr ""
-"Het starten van nieuwe gesprekken is momenteel niet mogelijk middels Axolotl."
-
 #: src/components/Header.vue:527
 #, fuzzy
 msgid "This chat will be permanently deleted - but only from your device."
@@ -581,18 +564,18 @@ msgstr "Je browser heeft geen ondersteuning voor het video-element."
 
 #, fuzzy
 #~ msgid ""
-#~ "You have been invited to this group. Accepting invitations is not yet "
-#~ "supported. In order to join please send private a message to the other "
-#~ "side to exchange the profile key. After that he/she has to remove and add "
-#~ "you again."
+#~ "New conversations are temporarily disabled. You can create a new chat "
+#~ "from the linked Desktop Client. Alternatively, your counterparty could "
+#~ "start the discussion."
 #~ msgstr ""
-#~ "Je bent uitgenodigd voor deze groep. Er is nog geen ondersteuning voor "
-#~ "het\n"
-#~ "      accepteren van uitnodigingen. Als je lid wilt worden, stuur dan een "
-#~ "privébericht\n"
-#~ "      naar ze en wissel de profielsleutel uit. Nadien kan hij/zij je "
-#~ "verwijderen en opnieuw\n"
-#~ "      toevoegen."
+#~ "Nieuwe gesprekken zijn tijdelijk uitgeschakeld. Je kunt een nieuw\n"
+#~ "            gesprek starten middels de gekoppelde computerclient, of\n"
+#~ "            laat de ander het voor je doen."
+
+#~ msgid "Starting new chats is currently broken in Axolotl."
+#~ msgstr ""
+#~ "Het starten van nieuwe gesprekken is momenteel niet mogelijk middels "
+#~ "Axolotl."
 
 #~ msgid ""
 #~ "Due to upstream changes in Signal, some features are currently broken.\n"

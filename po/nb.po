@@ -91,7 +91,6 @@ msgstr ""
 
 #: src/components/ErrorModal.vue:32 src/components/IdentityModal.vue:27
 #: src/components/ImportUnavailableModal.vue:30
-#: src/components/StartChatModal.vue:20
 msgid "Close"
 msgstr "Lukk"
 
@@ -319,17 +318,6 @@ msgstr "Lydløs"
 msgid "Name"
 msgstr "Navn"
 
-#: src/components/StartChatModal.vue:14
-#, fuzzy
-msgid ""
-"New conversations are temporarily disabled. You can create a new chat from "
-"the linked Desktop Client. Alternatively, your counterparty could start the "
-"discussion."
-msgstr ""
-"Nye samtaler er midlertidig deaktivert. Du kan opprette en ny\n"
-"            chat fra den koblede Desktop-klienten. Alternativt kan\n"
-"            din motpart starte diskusjonen."
-
 #: src/components/Header.vue:275 src/components/Header.vue:398
 msgid "New group"
 msgstr "Ny gruppe"
@@ -488,10 +476,6 @@ msgstr "Vis identitet"
 msgid "sponsor on patreon."
 msgstr "sponsor på patreon."
 
-#: src/components/StartChatModal.vue:6
-msgid "Starting new chats is currently broken in Axolotl."
-msgstr "Å starte nye samtaler er for tiden ødelagt i Axolotl."
-
 #: src/components/Header.vue:527
 #, fuzzy
 msgid "This chat will be permanently deleted - but only from your device."
@@ -585,6 +569,19 @@ msgstr "Nettleseren støtter ikke lydelementet."
 #: src/components/Message.vue:125
 msgid "Your browser does not support the video element."
 msgstr "Nettleseren støtter ikke videoelementet."
+
+#, fuzzy
+#~ msgid ""
+#~ "New conversations are temporarily disabled. You can create a new chat "
+#~ "from the linked Desktop Client. Alternatively, your counterparty could "
+#~ "start the discussion."
+#~ msgstr ""
+#~ "Nye samtaler er midlertidig deaktivert. Du kan opprette en ny\n"
+#~ "            chat fra den koblede Desktop-klienten. Alternativt kan\n"
+#~ "            din motpart starte diskusjonen."
+
+#~ msgid "Starting new chats is currently broken in Axolotl."
+#~ msgstr "Å starte nye samtaler er for tiden ødelagt i Axolotl."
 
 #~ msgid ""
 #~ "Due to upstream changes in Signal, some features are currently broken.\n"

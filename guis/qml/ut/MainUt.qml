@@ -37,7 +37,7 @@ UITK.Page {
     onLoadingChanged: {
       var msg = "[Axolotl Web View] [JS] url changed %1".arg(url)
       console.log(msg)
-      var  interceptor = "window.onToken = function(token) {window.location = 'http: //localhost: 9080/?token='+token;};"
+      var  interceptor = "window.onToken = function(token) {window.location = 'http://localhost:9080/?token='+token;};"
       _webView.runJavaScript(interceptor)
     }
     onJavaScriptDialogRequested: function(request) {
@@ -150,7 +150,7 @@ UITK.Page {
       onFeaturePermissionRequested: {
         grantFeaturePermission(securityOrigin, feature, true);
       }
-    } 
+    }
     Connections {
       onFeaturePermissionRequested: {
         console.log("grantFeaturePermission", feature)

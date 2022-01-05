@@ -88,7 +88,6 @@ msgstr "Lösche die Registrierung auf diesem Gerät"
 
 #: src/components/ErrorModal.vue:32 src/components/IdentityModal.vue:27
 #: src/components/ImportUnavailableModal.vue:30
-#: src/components/StartChatModal.vue:20
 msgid "Close"
 msgstr "Schließen"
 
@@ -297,16 +296,6 @@ msgstr "Stumm"
 msgid "Name"
 msgstr "Name"
 
-#: src/components/StartChatModal.vue:14
-msgid ""
-"New conversations are temporarily disabled. You can create a new chat from "
-"the linked Desktop Client. Alternatively, your counterparty could start the "
-"discussion."
-msgstr ""
-"Das beginnen neuer Konversationen ist vorübergehend deaktiviert. Bitte "
-"starte diese von einem verknüpften Destkop-Gerät oder bitte dein Gegenüber "
-"ein Gespräch zu starten."
-
 #: src/components/Header.vue:275 src/components/Header.vue:398
 msgid "New group"
 msgstr "Neue Gruppe"
@@ -458,11 +447,6 @@ msgstr "Kontakt überprüfen"
 msgid "sponsor on patreon."
 msgstr "Sponsor auf Patreon."
 
-#: src/components/StartChatModal.vue:6
-msgid "Starting new chats is currently broken in Axolotl."
-msgstr ""
-"Momentan können leider mit Axolotl keine neuen Gespräche begonnen werden."
-
 #: src/components/Header.vue:527
 msgid "This chat will be permanently deleted - but only from your device."
 msgstr ""
@@ -554,13 +538,14 @@ msgid "Your browser does not support the video element."
 msgstr "Dein Browser unterstützt dieses Video-Element nicht."
 
 #~ msgid ""
-#~ "You have been invited to this group. Accepting invitations is not yet "
-#~ "supported. In order to join please send private a message to the other "
-#~ "side to exchange the profile key. After that he/she has to remove and add "
-#~ "you again."
+#~ "New conversations are temporarily disabled. You can create a new chat "
+#~ "from the linked Desktop Client. Alternatively, your counterparty could "
+#~ "start the discussion."
 #~ msgstr ""
-#~ "Du wurdest in diese Gruppe eingeladen. Das Annehmen von Einladungen wird "
-#~ "momentan noch nicht unterstützt. Um beizutreten sende bitte eine private "
-#~ "Nachricht an die Gegenseite und bitte um den Austausch des "
-#~ "Profilschlüssels. Danach muss die Gegenseite dich löschen und neu "
-#~ "hinzufügen."
+#~ "Das beginnen neuer Konversationen ist vorübergehend deaktiviert. Bitte "
+#~ "starte diese von einem verknüpften Destkop-Gerät oder bitte dein "
+#~ "Gegenüber ein Gespräch zu starten."
+
+#~ msgid "Starting new chats is currently broken in Axolotl."
+#~ msgstr ""
+#~ "Momentan können leider mit Axolotl keine neuen Gespräche begonnen werden."

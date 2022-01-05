@@ -89,7 +89,6 @@ msgstr ""
 
 #: src/components/ErrorModal.vue:32 src/components/IdentityModal.vue:27
 #: src/components/ImportUnavailableModal.vue:30
-#: src/components/StartChatModal.vue:20
 msgid "Close"
 msgstr "Chiudi"
 
@@ -306,17 +305,6 @@ msgstr "Muto"
 msgid "Name"
 msgstr "Nome"
 
-#: src/components/StartChatModal.vue:14
-#, fuzzy
-msgid ""
-"New conversations are temporarily disabled. You can create a new chat from "
-"the linked Desktop Client. Alternatively, your counterparty could start the "
-"discussion."
-msgstr ""
-"Le nuove conversazioni sono temporaneamente disabilitate. Puoi creare una "
-"nuova chat da il client desktop collegato. In alternativa, la tua "
-"controparte potrebbe avviare il discussione."
-
 #: src/components/Header.vue:275 src/components/Header.vue:398
 msgid "New group"
 msgstr "Nuovo gruppo"
@@ -472,10 +460,6 @@ msgstr "Mostra identità"
 msgid "sponsor on patreon."
 msgstr "sponsor su patreon."
 
-#: src/components/StartChatModal.vue:6
-msgid "Starting new chats is currently broken in Axolotl."
-msgstr "L'avvio di nuove chat è attualmente interrotto in Axolotl."
-
 #: src/components/Header.vue:527
 #, fuzzy
 msgid "This chat will be permanently deleted - but only from your device."
@@ -569,17 +553,16 @@ msgstr "Il tuo browser non supporta l'elemento video."
 
 #, fuzzy
 #~ msgid ""
-#~ "You have been invited to this group. Accepting invitations is not yet "
-#~ "supported. In order to join please send private a message to the other "
-#~ "side to exchange the profile key. After that he/she has to remove and add "
-#~ "you again."
+#~ "New conversations are temporarily disabled. You can create a new chat "
+#~ "from the linked Desktop Client. Alternatively, your counterparty could "
+#~ "start the discussion."
 #~ msgstr ""
-#~ "Sei stato invitato a questo gruppo. L'accettazione degli inviti non è "
-#~ "ancora\n"
-#~ "supportata. Per partecipare inviare un messaggio privato all' altro\n"
-#~ "lato per scambiare la chiave del profilo. Dopodiché lui/lei deve "
-#~ "rimuoverti e aggiungerti\n"
-#~ "      di nuovo."
+#~ "Le nuove conversazioni sono temporaneamente disabilitate. Puoi creare una "
+#~ "nuova chat da il client desktop collegato. In alternativa, la tua "
+#~ "controparte potrebbe avviare il discussione."
+
+#~ msgid "Starting new chats is currently broken in Axolotl."
+#~ msgstr "L'avvio di nuove chat è attualmente interrotto in Axolotl."
 
 #~ msgid ""
 #~ "Due to upstream changes in Signal, some features are currently broken.\n"

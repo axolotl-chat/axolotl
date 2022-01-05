@@ -94,7 +94,6 @@ msgstr ""
 
 #: src/components/ErrorModal.vue:32 src/components/IdentityModal.vue:27
 #: src/components/ImportUnavailableModal.vue:30
-#: src/components/StartChatModal.vue:20
 msgid "Close"
 msgstr "Stäng"
 
@@ -316,17 +315,6 @@ msgstr "Tysta"
 msgid "Name"
 msgstr "Namn"
 
-#: src/components/StartChatModal.vue:14
-#, fuzzy
-msgid ""
-"New conversations are temporarily disabled. You can create a new chat from "
-"the linked Desktop Client. Alternatively, your counterparty could start the "
-"discussion."
-msgstr ""
-"Nya konversationer är för tillfället inaktiverat. Du kan starta en ny chat "
-"med en länkad Signal-Desktop klient eller be din samtalspartneratt starta "
-"konversationen."
-
 #: src/components/Header.vue:275 src/components/Header.vue:398
 msgid "New group"
 msgstr "Ny grupp"
@@ -485,10 +473,6 @@ msgstr "Verifiera identiteten"
 msgid "sponsor on patreon."
 msgstr "sponsra på Patreon."
 
-#: src/components/StartChatModal.vue:6
-msgid "Starting new chats is currently broken in Axolotl."
-msgstr "Att starta nya chattar med Axolotl är för tillfället inte möjligt."
-
 #: src/components/Header.vue:527
 #, fuzzy
 msgid "This chat will be permanently deleted - but only from your device."
@@ -583,6 +567,19 @@ msgstr "Din webbläsare stöder inte ljudelement."
 #: src/components/Message.vue:125
 msgid "Your browser does not support the video element."
 msgstr "Din webbläsare stöder inte videoelement."
+
+#, fuzzy
+#~ msgid ""
+#~ "New conversations are temporarily disabled. You can create a new chat "
+#~ "from the linked Desktop Client. Alternatively, your counterparty could "
+#~ "start the discussion."
+#~ msgstr ""
+#~ "Nya konversationer är för tillfället inaktiverat. Du kan starta en ny "
+#~ "chat med en länkad Signal-Desktop klient eller be din samtalspartneratt "
+#~ "starta konversationen."
+
+#~ msgid "Starting new chats is currently broken in Axolotl."
+#~ msgstr "Att starta nya chattar med Axolotl är för tillfället inte möjligt."
 
 #~ msgid ""
 #~ "Due to upstream changes in Signal, some features are currently broken.\n"
