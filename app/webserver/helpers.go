@@ -273,6 +273,7 @@ func joinGroup(joinGroupmessage JoinGroupMessage) *store.Session {
 		msg := session.Add("You accepted the invitation to the group.", "", []store.Attachment{}, "", true, store.ActiveSessionID)
 		msg.Flags = helpers.MsgFlagGroupJoined
 		store.SaveMessage(msg)
+		MessageHandler(msg)
 	}
 	store.UpdateSession(session)
 	requestEnterChat(store.ActiveSessionID)
