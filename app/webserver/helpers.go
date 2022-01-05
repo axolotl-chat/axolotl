@@ -239,14 +239,7 @@ func updateGroup(updateGroupData UpdateGroupMessage) *store.Session {
 func joinGroup(joinGroupmessage JoinGroupMessage) *store.Session {
 	log.Infoln("[axolotl] joinGroup", joinGroupmessage.ID)
 	group, err := textsecure.JoinGroup(joinGroupmessage.ID)
-	if err != nil {
-		// update group also in the case that the group is already joined to remove the join message
-		if group != nil {
-			session, _ := store.SessionsModel.GetByUUID(group.Hexid)
-			session.Name = group.DecryptedGroup.Title
-			session.GroupJoinStatus = group.JoinStatus
-			store.UpdateSession(session)
-		}
+	if err != nil && group == nil {// update group also in the case that the group is already joined to remove the join message
 		log.Errorln("[axolotl] joinGroup", err)
 		ShowError(err.Error())
 		return nil
