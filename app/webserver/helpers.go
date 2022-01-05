@@ -239,30 +239,42 @@ func updateGroup(updateGroupData UpdateGroupMessage) *store.Session {
 func joinGroup(joinGroupmessage JoinGroupMessage) *store.Session {
 	log.Infoln("[axolotl] joinGroup", joinGroupmessage.ID)
 	group, err := textsecure.JoinGroup(joinGroupmessage.ID)
-	if err != nil && group == nil {// update group also in the case that the group is already joined to remove the join message
-		log.Errorln("[axolotl] joinGroup", err)
-		ShowError(err.Error())
-		return nil
+	if err != nil {
+		log.Errorln("[axolotl] joinGroup failed", err)
+		// update group also in the case that the group is already joined to remove the join message
+		if group == nil {
+			return nil
+		}
+
 	}
+
 	log.Infoln("[axolotl] joining group was succesful", group.Hexid)
 	members := ""
-	for _, member := range group.DecryptedGroup.Members {
-		members = members + string(member.Uuid) + ","
+	// members cannot be read if the group is not yet joined
+	if group.JoinStatus == store.GroupJoinStatusJoined {
+		for _, member := range group.DecryptedGroup.Members {
+			members = members + string(member.Uuid) + ","
+		}
 	}
-	store.Groups[group.Hexid] = &store.GroupRecord{
+
+	storeGroup := &store.GroupRecord{
 		GroupID:    group.Hexid,
 		Name:       group.DecryptedGroup.Title,
 		Members:    members,
-		JoinStatus: store.GroupJoinStatusJoined,
+		JoinStatus: group.JoinStatus,
 	}
-	store.SaveGroup(store.Groups[group.Hexid])
+	store.Groups[group.Hexid] = storeGroup
+	store.SaveGroup(storeGroup)
 	session, _ := store.SessionsModel.GetByUUID(group.Hexid)
 	session.Name = group.DecryptedGroup.Title
-	session.GroupJoinStatus = store.GroupJoinStatusJoined
-	msg := session.Add("You accepted the invitation to the group.", "", []store.Attachment{}, "", true, store.ActiveSessionID)
-	msg.Flags = helpers.MsgFlagGroupJoined
+	session.GroupJoinStatus = group.JoinStatus
+	// Add a join message to the session when the group is joined
+	if group.JoinStatus == store.GroupJoinStatusJoined {
+		msg := session.Add("You accepted the invitation to the group.", "", []store.Attachment{}, "", true, store.ActiveSessionID)
+		msg.Flags = helpers.MsgFlagGroupJoined
+		store.SaveMessage(msg)
+	}
 	store.UpdateSession(session)
-	store.SaveMessage(msg)
 	requestEnterChat(store.ActiveSessionID)
 	sendContactList()
 	return session
