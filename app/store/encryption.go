@@ -52,7 +52,7 @@ func getKey(saltPath, password string) ([]byte, error) {
 
 	return scrypt.Key([]byte(password), salt, 16384, 8, 1, 32)
 }
-func (ds *DataStore) Encrypt(dbFile string, password string) error {
+func (*DataStore) Encrypt(dbFile string, password string) error {
 	log.Debugf("Encrypt Database")
 	err := DS.Dbx.Ping()
 	if err != nil {
@@ -93,7 +93,7 @@ func (ds *DataStore) Encrypt(dbFile string, password string) error {
 
 	return nil
 }
-func (ds *DataStore) Convert(password string) error {
+func (*DataStore) Convert(password string) error {
 	log.Debugf("Convert Data Storage")
 	if password == "" {
 		return fmt.Errorf("No password given")

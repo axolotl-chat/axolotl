@@ -110,7 +110,7 @@ func (n *NotificationHandler) Send(m *PushMessage) error {
 
 // NewStandardPushMessage creates a base Notification with common
 // components (members) setup.
-func (n *NotificationHandler) NewStandardPushMessage(summary, body, icon string, tag string) *PushMessage {
+func (*NotificationHandler) NewStandardPushMessage(summary, body, icon string, tag string) *PushMessage {
 	pm := &PushMessage{
 		Message: summary,
 		Notification: Notification{

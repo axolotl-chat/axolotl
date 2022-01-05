@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"regexp"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/nanu-c/axolotl/app/config"
+	log "github.com/sirupsen/logrus"
 )
 
 type entry struct {
@@ -36,7 +36,7 @@ func filterLogs(logs string) string {
 	return re.ReplaceAllString(logs, "/+XXXXXXXXX")
 }
 
-func (Api *TextsecureAPI) SubmitDebugLog() (string, error) {
+func (*TextsecureAPI) SubmitDebugLog() (string, error) {
 	b, err := ioutil.ReadFile(config.LogFile)
 	if err != nil {
 		return "", err

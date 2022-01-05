@@ -45,7 +45,7 @@ var (
 // Get salt for encrypted database stored at path
 
 // Decrypt database and closes connection
-func (ds *DataStore) Decrypt(dbPath string) error {
+func (*DataStore) Decrypt(dbPath string) error {
 	log.Debugf("[axolotl] Decrypt Db")
 	query := fmt.Sprintf("ATTACH DATABASE '%s' AS plaintext KEY '';", dbPath)
 	if DS.Dbx == nil {
@@ -71,12 +71,12 @@ func (ds *DataStore) Decrypt(dbPath string) error {
 	return nil
 }
 
-func (ds *DataStore) DBX() *sqlx.DB {
+func (*DataStore) DBX() *sqlx.DB {
 	return DS.Dbx
 }
 
 // SetupDb tries to decrypt the database and runs the migrations
-func (ds *DataStore) SetupDb(password string) bool {
+func (*DataStore) SetupDb(password string) bool {
 	var err error
 	dbDir = filepath.Join(config.DataDir, "db")
 	log.Debugln("[axolotl] openDb: " + dbDir)
@@ -111,7 +111,7 @@ func (ds *DataStore) SetupDb(password string) bool {
 }
 
 // ResetDb removes the database file and resets the config for encrypted database.
-func (ds *DataStore) ResetDb() {
+func (*DataStore) ResetDb() {
 	dbDir = filepath.Join(config.DataDir, "db")
 	dbFile = filepath.Join(dbDir, "db.sql")
 	err := os.Remove(dbFile)

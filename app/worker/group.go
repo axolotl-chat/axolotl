@@ -23,7 +23,7 @@ type GroupRecord struct {
 }
 
 // FIXME: receive members as splice, blocked by https://github.com/nanu-c/qml-go/issues/137
-func (Api *TextsecureAPI) NewGroup(name string, members string) error {
+func (*TextsecureAPI) NewGroup(name string, members string) error {
 	m := strings.Split(members, ",")
 	group, err := textsecure.NewGroup(name, m)
 	if err != nil {
@@ -54,7 +54,7 @@ func (Api *TextsecureAPI) NewGroup(name string, members string) error {
 	return nil
 
 }
-func (Api *TextsecureAPI) UpdateGroup(hexid, name string, members string) error {
+func (*TextsecureAPI) UpdateGroup(hexid, name string, members string) error {
 	g, ok := store.Groups[hexid]
 	if !ok {
 		log.Errorf("[textsecure] Update group: Unknown group id %s\n", hexid)
@@ -87,7 +87,7 @@ func (Api *TextsecureAPI) UpdateGroup(hexid, name string, members string) error 
 	return nil
 }
 
-func (Api *TextsecureAPI) LeaveGroup(hexid string) error {
+func (*TextsecureAPI) LeaveGroup(hexid string) error {
 	store.Groups[hexid].Active = false
 	g, err := store.UpdateGroup(store.Groups[hexid])
 	if err != nil {
@@ -118,7 +118,7 @@ func GroupUpdateMsg(tels []string, title string) string {
 	return s + "Title is now '" + title + "'."
 }
 
-func (Api *TextsecureAPI) GroupInfo(hexid string) string {
+func (*TextsecureAPI) GroupInfo(hexid string) string {
 	s := ""
 	if g, ok := store.Groups[hexid]; ok {
 		for _, t := range strings.Split(g.Members, ",") {

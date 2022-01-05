@@ -15,7 +15,7 @@ type LinkedDevices struct {
 
 var LinkedDevicesModel *LinkedDevices = &LinkedDevices{}
 
-func (c *LinkedDevices) GetDevice(i int) textsecure.DeviceInfo {
+func (*LinkedDevices) GetDevice(i int) textsecure.DeviceInfo {
 	log.Println("[axolotl] get linked devices ", i)
 	if i == -1 {
 		return textsecure.DeviceInfo{}
@@ -28,7 +28,7 @@ func (c *LinkedDevices) GetDevice(i int) textsecure.DeviceInfo {
 	tmp := LinkedDevicesModel.LinkedDevices[i]
 	return tmp
 }
-func (c *LinkedDevices) RefreshDevices() error {
+func (*LinkedDevices) RefreshDevices() error {
 	d, err := textsecure.LinkedDevices()
 	if err != nil {
 		return err
@@ -38,11 +38,11 @@ func (c *LinkedDevices) RefreshDevices() error {
 	//qml.Changed(LinkedDevicesModel, &LinkedDevicesModel.Len)
 	return nil
 }
-func (c *LinkedDevices) UnlinkDevice(id int) error {
+func (*LinkedDevices) UnlinkDevice(id int) error {
 	textsecure.UnlinkDevice(id)
 	return nil
 }
-func (c *LinkedDevices) DeleteDevice() error {
+func (*LinkedDevices) DeleteDevice() error {
 	d, err := textsecure.LinkedDevices()
 	if err != nil {
 		return err

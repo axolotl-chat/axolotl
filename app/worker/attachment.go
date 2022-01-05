@@ -21,7 +21,7 @@ func (Api *TextsecureAPI) SendContactAttachment(to int64, message string, file s
 	return Api.SendMessage(to, phone)
 }
 
-func (Api *TextsecureAPI) SendAttachmentToApi(to int64, message string, file string) error {
+func (*TextsecureAPI) SendAttachmentToApi(to int64, message string, file string) error {
 	// log.Printf("SendAttachmentApi")
 	fi, err := os.Stat(file)
 	if err != nil {

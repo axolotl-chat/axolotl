@@ -37,12 +37,12 @@ var sessionStarted = false
 var isEncrypted = true
 
 //unregister  signal id
-func (Api *TextsecureAPI) Unregister() {
+func (*TextsecureAPI) Unregister() {
 	config.Unregister()
 }
 
 //get identitys
-func (Api *TextsecureAPI) IdentityInfo(id string) string {
+func (*TextsecureAPI) IdentityInfo(id string) string {
 	myID := textsecure.MyIdentityKey()
 	theirID, err := textsecure.ContactIdentityKey(id)
 	if err != nil {
@@ -52,14 +52,14 @@ func (Api *TextsecureAPI) IdentityInfo(id string) string {
 		"Your identity (you read):" + "<br><br>" + fmt.Sprintf("% 0X", myID)
 }
 
-func (Api *TextsecureAPI) ContactsImported(path string) {
+func (*TextsecureAPI) ContactsImported(path string) {
 	config.VcardPath = path
 	err := store.RefreshContacts()
 	if err != nil {
 		ui.ShowError(err)
 	}
 }
-func (Api *TextsecureAPI) AddContact(name string, phone string) {
+func (*TextsecureAPI) AddContact(name string, phone string) {
 	err := contact.AddContact(name, phone)
 	if err != nil {
 		ui.ShowError(err)
@@ -202,7 +202,7 @@ func RunBackend() {
 
 	}
 }
-func (Api *TextsecureAPI) StartAfterDecryption() {
+func (*TextsecureAPI) StartAfterDecryption() {
 
 	log.Debugf("[axolotl] DB Encrypted, ready to start")
 	isEncrypted = false
@@ -254,27 +254,27 @@ func startSession() {
 
 }
 
-func (Api *TextsecureAPI) SaveSettings() error {
+func (*TextsecureAPI) SaveSettings() error {
 	return settings.SaveSettings(settings.SettingsModel)
 }
 
 // GetActiveSessionID returns the active session id
-func (Api *TextsecureAPI) GetActiveSessionID() int64 {
+func (*TextsecureAPI) GetActiveSessionID() int64 {
 	return store.ActiveSessionID
 }
 
 // SetActiveSessionID updates the active session id
-func (Api *TextsecureAPI) SetActiveSessionID(ID int64) {
+func (*TextsecureAPI) SetActiveSessionID(ID int64) {
 	store.ActiveSessionID = ID
 }
 
 // LeaveChat reset the active session id
-func (Api *TextsecureAPI) LeaveChat() {
+func (*TextsecureAPI) LeaveChat() {
 	store.ActiveSessionID = -1
 }
 
 // TgNotification turns the notification for the currently active chat on/off
-func (Api *TextsecureAPI) TgNotification(notification bool) {
+func (*TextsecureAPI) TgNotification(notification bool) {
 	sess, err := store.SessionsModel.Get(store.ActiveSessionID)
 	if err != nil {
 		ui.ShowError(err)
