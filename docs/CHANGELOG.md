@@ -18,7 +18,7 @@
 * Fix linter and test warning (blackoverflow)
 * Fix receiving messages by waking up crayfish childprocess from sleep (nanu-c)
 * Support QtWebEngine with Browserslist -> fix correct legacy compiling for ut (blackoverflow)
-* Fix building snaps for amd64 (armhf and arm64 is still broken)
+* Fix building snaps for amd64 (armhf and arm64 is still broken) (nanu-c)
 * Make editing contacts accessible via icon (blackoverflow)
 
 1.0.8 (Nov 21 2021)
