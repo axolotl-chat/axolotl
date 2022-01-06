@@ -240,14 +240,13 @@ func joinGroup(joinGroupmessage JoinGroupMessage) *store.Session {
 	log.Infoln("[axolotl] joinGroup", joinGroupmessage.ID)
 	group, err := textsecure.JoinGroup(joinGroupmessage.ID)
 	if err != nil {
-		log.Errorln("[axolotl] joinGroup failed", err)
-		// update group also in the case that the group is already joined to remove the join message
+		log.Warnln("[axolotl] error while joining group", err)
 		if group == nil {
+			log.Errorln("[axolotl] joinGroup failed")
 			return nil
 		}
-
+		// in this case the group is already joined. Its join status has to be updated
 	}
-
 	log.Infoln("[axolotl] joining group was succesful", group.Hexid)
 	members := ""
 	// members cannot be read if the group is not yet joined
