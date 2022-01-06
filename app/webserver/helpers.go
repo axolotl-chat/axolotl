@@ -247,7 +247,7 @@ func joinGroup(joinGroupmessage JoinGroupMessage) *store.Session {
 		}
 		// in this case the group is already joined. Its join status has to be updated
 	}
-	log.Infoln("[axolotl] joining group was succesful", group.Hexid)
+	log.Infoln("[axolotl] joining group was successful", group.Hexid)
 	members := ""
 	// members cannot be read if the group is not yet joined
 	if group.JoinStatus == store.GroupJoinStatusJoined {
