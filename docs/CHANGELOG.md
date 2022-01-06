@@ -1,6 +1,25 @@
-prerelease :
+1.0.9 (Jan 6 2021)
 ------------------------------------
 * Fix 'Verifiy Identity' (blackoverflow)
+* Fix option to mute groups (blackoverflow)
+* Fix links opening inside of axolotl on ubuntu touch (blackoverflow)
+* Fix rendering of expire timer in chats with self destroying messages (blackoverflow)
+* Remove "Upstream Changes" Warning Message (nuehm-arno)
+* Add support for voice notes (Note:needs ota21 on ut) (nanu-c)
+* Add support for joining groups (nanu-c)
+* Fix opening document attachments (blackoverflow)
+* Fix Messages with special characters (e.g. "<") not displayed correctly (blackoverflow)
+* Introduced Chai+Mocha for Vue unit tests (blackoverflow)
+* Update nvm Node to 16.13.1 to fix building (nalysius)
+* Update many dependencies (dependabot)
+* Fix building axolotl-web with clickable (nanu-c)
+* Improve documentation (danfro)
+* Update german translation (danfro)
+* Fix linter and test warning (blackoverflow)
+* Fix receiving messages by waking up crayfish childprocess from sleep (nanu-c)
+* Support QtWebEngine with Browserslist -> fix correct legacy compiling for ut (blackoverflow)
+* Fix building snaps for amd64 (armhf and arm64 is still broken) (nanu-c)
+* Make editing contacts accessible via icon (blackoverflow)
 
 1.0.8 (Nov 21 2021)
 ------------------------------------
