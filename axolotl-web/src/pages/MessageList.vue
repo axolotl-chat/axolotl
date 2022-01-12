@@ -55,6 +55,7 @@
           :names="names"
           @showFullscreenImg="showFullscreenImg($event)"
           @showFullscreenVideo="showFullscreenVideo($event)"
+          @click="handleClick($event)"
         />
       </div>
       <div v-else class="no-entries">
@@ -231,22 +232,6 @@ export default {
     document.getElementById("messageInput").focus();
     setTimeout(this.scrollDown, 600);
     const that = this;
-    document.addEventListener(
-      "click",
-      function (event) {
-        // If the clicked element doesn't have the right selector, bail
-        if (!event.target.matches(".linkified")) return;
-        if (
-          typeof that.config.Gui !== "undefined" &&
-          that.config.Gui === "ut"
-        ) {
-          // Don't follow the link
-          event.preventDefault();
-          alert(event.target.href);
-        }
-      },
-      false
-    );
     this.voiceNote.voiceNoteElem = document.getElementById("voiceNote");
   },
   methods: {
@@ -435,6 +420,18 @@ export default {
         };
       });
     },
+    handleClick(event){
+      // If the clicked element doesn't have the right selector, bail
+      if (!event.target.matches(".linkified")) return;
+      if (
+        typeof this.config.Gui !== "undefined" &&
+        this.config.Gui === "ut"
+      ) {
+        // Don't follow the link
+        event.preventDefault();
+        alert(event.target.href);
+      }
+    }
   },
 };
 </script>
