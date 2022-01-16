@@ -8,6 +8,7 @@ import (
 	"mime"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/nanu-c/axolotl/app/config"
@@ -36,6 +37,7 @@ func SaveAttachment(a *textsecure.Attachment) (Attachment, error) {
 	// 	ext = strings.Replace(a.MimeType, "video/", ".", 1)
 	// }
 	fileName := a.FileName
+	fileName = strings.Replace(fileName, "/", "-", -1)
 	if fileName == "" {
 		fileName = helpers.RandomString(10)
 		extension, err := mime.ExtensionsByType(a.MimeType)
