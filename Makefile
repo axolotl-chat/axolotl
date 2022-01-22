@@ -266,7 +266,7 @@ prebuild-package-deb-arm64: package-clean-deb-arm64
 build-package-deb-arm64:
 	@echo "Building Debian package..."
 # Edit changelog file
-	@sed -i.bak '4d' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+	@sed -i '4d' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
 	@sed -e '/Initial/ {' -e 'r $(CURRENT_DIR)/docs/CHANGELOG.md' -e 'd' -e '}' -i $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
 	@sed -i '3,4d' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
 	@sed -i 's/*/  */g' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
