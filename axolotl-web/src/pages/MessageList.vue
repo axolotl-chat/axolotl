@@ -53,8 +53,8 @@
           :message="message"
           :is-group="isGroup"
           :names="names"
-          @showFullscreenImg="showFullscreenImg($event)"
-          @showFullscreenVideo="showFullscreenVideo($event)"
+          @show-fullscreen-img="showFullscreenImg($event)"
+          @show-fullscreen-video="showFullscreenVideo($event)"
           @click="handleClick($event)"
         />
       </div>
@@ -66,7 +66,8 @@
     <div
       v-if="chat.IsGroup && chat.GroupJoinStatus !== 0"
       class="messageInputBoxDisabled w-100"
-    > <p v-translate>
+    >
+      <p v-translate>
         Join this group? They won’t know you’ve seen their messages until you accept.
       </p>
       <div v-translate class="btn btn-primary" @click="joinGroupAccept">Join</div>
@@ -120,7 +121,7 @@
           </button>
         </div>
       </div>
-      <audio 
+      <audio
         v-if="voiceNote.blobUrl!=''"
         id="voiceNote"
         controls

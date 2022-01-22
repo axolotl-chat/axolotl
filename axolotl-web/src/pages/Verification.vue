@@ -12,7 +12,7 @@
       </button>
     </div>
     <div v-if="!requestPin" class="verify">
-      <VerificationPinInput class="codeInput" :number-of-boxes="6" @inputValue="updateCode($event)" />
+      <VerificationPinInput class="codeInput" :number-of-boxes="6" @input-value="updateCode($event)" />
       <button
         v-translate
         :disabled="inProgress"

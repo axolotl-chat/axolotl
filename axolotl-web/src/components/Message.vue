@@ -42,7 +42,7 @@
               <img
                 :src="'http://localhost:9080/attachments?file=' + m.File"
                 alt="Fullscreen image"
-                @click="$emit('showFullscreenImg', m.File)"
+                @click="$emit('show-fullscreen-img', m.File)"
               >
             </div>
             <div v-else-if="m.CType === 3" class="attachment-audio">
@@ -67,7 +67,7 @@
             <div
               v-else-if="m.CType === 5"
               class="attachment-video"
-              @click="$emit('showFullscreenVideo', m.File)"
+              @click="$emit('show-fullscreen-video', m.File)"
             >
               <video>
                 <source
@@ -89,7 +89,7 @@
               'http://localhost:9080/attachments?file=' + message.Attachment
             "
             alt="Fullscreen image"
-            @click="$emit('showFullscreenImg', message.Attachment)"
+            @click="$emit('show-fullscreen-img', message.Attachment)"
           >
         </div>
         <div v-else-if="message.CType === 3" class="attachment-audio">
@@ -116,7 +116,7 @@
         <div
           v-else-if="message.CType === 5"
           class="attachment-video"
-          @click="$emit('showFullscreenVideo', message.Attachment)"
+          @click="$emit('show-fullscreen-video', message.Attachment)"
         >
           <video>
             <source
@@ -214,7 +214,7 @@ export default {
       default: () => {}
     }
   },
-  emits: ["showFullscreenImg", "showFullscreenVideo"],
+  emits: ["show-fullscreen-img", "show-fullscreen-video"],
   data() {
     return {
       showDate: false,
