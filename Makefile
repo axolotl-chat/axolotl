@@ -245,7 +245,7 @@ prebuild-package-deb-arm64: package-clean-deb-arm64
 	@cp --recursive $(CURRENT_DIR)/build/linux-arm64/* $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl/
 	@cp $(CURRENT_DIR)/deb/LICENSE $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/LICENSE
 # Run debmake
-	@cd $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION) && debmake --email arno_nuehm@riseup.net --fullname "Arno Nuehm" --monoarch
+	@cd $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION) && debmake --yes --email arno_nuehm@riseup.net --fullname "Arno Nuehm" --monoarch
 # Create target folders and copy additional files into package folder
 	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/icons/hicolor/128x128/apps
 	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/applications
@@ -265,10 +265,14 @@ prebuild-package-deb-arm64: package-clean-deb-arm64
 
 build-package-deb-arm64:
 	@echo "Building Debian package..."
-# Prompt to edit changelog file
-	@nano $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
-# Prompt to edit copyright file
-	@nano $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
+# Edit changelog file
+	@sed -i '4d' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+	@sed -e '/Initial/ {' -e 'r $(CURRENT_DIR)/docs/CHANGELOG.md' -e 'd' -e '}' -i $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+	@sed -i '3,4d' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+	@sed -i 's/*/  */g' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+# Edit copyright file
+	@sed -i 's/<preferred name and address to reach the upstream project>/aaron@nanu-c.org/' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
+	@sed -i 's/<url:\/\/example.com>/https:\/\/github.com\/nanu-c\/axolotl/' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
 # Build Debian package
 	@cd $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION) && debuild -i -us -uc -b
 
@@ -362,7 +366,7 @@ prebuild-package-deb-arm64-cc: package-clean-deb-arm64
 	@cp --recursive $(CURRENT_DIR)/build/linux-arm64/* $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl/
 	@cp $(CURRENT_DIR)/deb/LICENSE $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/LICENSE
 # Run debmake
-	@cd $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION) && debmake --email arno_nuehm@riseup.net --fullname "Arno Nuehm" --monoarch
+	@cd $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION) && debmake --yes --email arno_nuehm@riseup.net --fullname "Arno Nuehm" --monoarch
 # Create target folders and copy additional files into package folder
 	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/icons/hicolor/128x128/apps
 	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/applications
@@ -382,10 +386,14 @@ prebuild-package-deb-arm64-cc: package-clean-deb-arm64
 
 build-package-deb-arm64-cc:
 	@echo "Building cross-compiled Debian package..."
-# Prompt to edit changelog file
-	@nano $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
-# Prompt to edit copyright file
-	@nano $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
+# Edit changelog file
+	@sed -i '4d' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+	@sed -e '/Initial/ {' -e 'r $(CURRENT_DIR)/docs/CHANGELOG.md' -e 'd' -e '}' -i $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+	@sed -i '3,4d' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+	@sed -i 's/*/  */g' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+# Edit copyright file
+	@sed -i 's/<preferred name and address to reach the upstream project>/aaron@nanu-c.org/' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
+	@sed -i 's/<url:\/\/example.com>/https:\/\/github.com\/nanu-c\/axolotl/' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
 # Build Debian package
 	@cd $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION) && debuild -i -us -uc -b -aarm64
 
