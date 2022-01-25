@@ -24,7 +24,7 @@
             class="btn btn-secondary close"
             @click="showFullscreenImgSrc = ''"
           >
-            X
+            <font-awesome-icon icon="times" />
           </button>
         </div>
         <div v-if="showFullscreenVideoSrc !== ''" class="fullscreenImage">
@@ -41,7 +41,7 @@
             class="btn btn-secondary close"
             @click="showFullscreenVideoSrc = ''"
           >
-            X
+            <font-awesome-icon icon="times" />
           </button>
           <button class="btn btn-secondary save" @click="saveVideo($event)">
             <font-awesome-icon icon="arrow-down" />
@@ -533,6 +533,7 @@ input:focus {
   top: 10px;
   padding: 10px;
   background-color: #ffffff;
+  color: black;
 }
 .fullscreenImage .save {
   position: absolute;
