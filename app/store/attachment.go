@@ -37,7 +37,7 @@ func SaveAttachment(a *textsecure.Attachment) (Attachment, error) {
 	// 	ext = strings.Replace(a.MimeType, "video/", ".", 1)
 	// }
 	fileName := a.FileName
-	fileName = strings.Replace(fileName, "/", "-", -1)
+	fileName = strings.ReplaceAll(fileName, "/", "-")
 	if fileName == "" {
 		fileName = helpers.RandomString(10)
 		extension, err := mime.ExtensionsByType(a.MimeType)
