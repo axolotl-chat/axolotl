@@ -5,7 +5,7 @@ runtime-version: '20.08'
 sdk: org.freedesktop.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.golang
-  - org.freedesktop.Sdk.Extension.node16
+  - org.freedesktop.Sdk.Extension.node14
   - org.freedesktop.Sdk.Extension.rust-stable
 command: axolotl
 base: org.electronjs.Electron2.BaseApp
@@ -36,7 +36,7 @@ finish-args:
   # To send and receive notifications
   - --talk-name=org.freedesktop.Notifications
   # Specify axolotl-web location
-  - --env=AXOLOTL_WEB_DIR=/app/bin/axolotl-web/dist
+  - --env=AXOLOTL_WEB_DIR=/app/bin/axolotl/axolotl-web/dist
 
 modules:
   - name: crayfish
