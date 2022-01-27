@@ -2,7 +2,7 @@
 
 [Desktop Entry]
 Name=Axolotl
-Exec=axolotl -axolotlWebDir=/app/bin/axolotl/axolotl-web/dist
+Exec=axolotl -axolotlWebDir=/app/bin/axolotl-web/dist
 Type=Application
 Comment=A signal client, flatpak version
 Terminal=false

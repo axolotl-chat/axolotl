@@ -72,5 +72,10 @@ To enter a shell into a built flatpak, use `make debug-flatpak-web`.
 
 Binaries are installed to `/app/bin`, libraries are installed to `/app/lib`.
 
+* axolotl: `/app/bin/axolotl`
+* axolotl-web: `/app/bin/axolotl-web`
+* crayfish: `/app/lib/crayfish`
+* zkgroup: `/app/lib/zkgroup`
+
 * FLATPAK_DEST=/app
 * FLATPAK_ID=org.nanuc.Axolotl
