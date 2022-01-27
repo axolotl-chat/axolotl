@@ -40,7 +40,6 @@ finish-args:
 
 modules:
   - name: crayfish
-    disabled: true
     buildsystem: simple
     build-options:
       env:
@@ -60,7 +59,6 @@ modules:
         dest: src/github.com/nanu-c/axolotl
 
   - name: zkgroup
-    disabled: true
     buildsystem: simple
     build-options:
       env:
@@ -117,7 +115,6 @@ modules:
         dest: src/github.com/nanu-c/axolotl
 
   - name: install
-    disabled: true
     buildsystem: simple
     build-commands:
       - install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.png ${FLATPAK_DEST}/usr/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png
