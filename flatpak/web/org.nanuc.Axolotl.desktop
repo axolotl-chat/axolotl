@@ -2,11 +2,11 @@
 
 [Desktop Entry]
 Name=Axolotl
-Exec=axolotl -axolotlWebDir=/app/bin/axolotl-web/dist
+Exec=axolotl -axolotlWebDir=/app/bin/axolotl/axolotl-web/dist
 Type=Application
 Comment=A signal client, flatpak version
 Terminal=false
 Categories=Network;InstantMessaging;Chat;
 Icon=org.nanuc.Axolotl
 X-KDE-FormFactor=desktop;tablet;handset;
-X-Purism-FormFactor=Workstation;Mobile; 
+X-Purism-FormFactor=Workstation;Mobile;
