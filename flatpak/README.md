@@ -96,5 +96,5 @@ If the following message is shown during startup, it is because the electron whi
 by go, "astilectron", somehow failed. This can be solved by removing the electron folder and re-start.
 
 ```bash
-rm -rf /home/${USER}/.config/textsecure.nanuc/electron`
+rm -rf /home/${USER}/.config/textsecure.nanuc/electron
 ```
