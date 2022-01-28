@@ -70,7 +70,7 @@ To verify, the archive can be extracted by using `tar xvJf axolotl-web-dependenc
 
 To enter a shell into a built flatpak, use `make debug-flatpak-web`.
 
-To interactively use rust, npm or go, the PATH needs to be adjusted (or just use the full path)
+To interactively use rust/cargo, node/npm or go, the PATH should be adjusted.
 Here an example with node: `PATH=$PATH:/usr/lib/sdk/node16/bin`.
 
 ### Build directories
