@@ -66,16 +66,23 @@ tar cfvJ ../flatpak/archives/axolotl-web-dependencies-x86_64-v1.0.1.tar.xz node_
 
 To verify, the archive can be extracted by using `tar xvJf axolotl-web-dependencies-x86_64-v1.0.1.tar.xz`.
 
-## Flatpak environment variables
+## Flatpak details
 
 To enter a shell into a built flatpak, use `make debug-flatpak-web`.
 
-Binaries are installed to `/app/bin`, libraries are installed to `/app/lib`.
+To interactively use rust, npm or go, the PATH needs to be adjusted (or just use the full path)
+Here an example with node: `PATH=$PATH:/usr/lib/sdk/node16/bin`.
+
+### Build directories
+
+* axolotl: `/run/build/axolotl`
+* axolotl-web: `/run/build/axolotl-web`
+* crayfish: `/run/build/crayfish`
+* zkgroup: `/run/build/zkgroup`
+
+### Install directories
 
 * axolotl: `/app/bin/axolotl`
 * axolotl-web: `/app/bin/axolotl-web`
 * crayfish: `/app/lib/crayfish`
 * zkgroup: `/app/lib/zkgroup`
-
-* FLATPAK_DEST=/app
-* FLATPAK_ID=org.nanuc.Axolotl
