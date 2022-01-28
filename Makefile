@@ -168,14 +168,14 @@ uninstall-clickable-zkgroup:
 
 ## Flatpak
 build-dependencies-flatpak:
-	$(FLATPAK) install org.freedesktop.Sdk.Extension.golang//20.08
-	$(FLATPAK) install org.freedesktop.Sdk.Extension.node14//20.08
-	$(FLATPAK) install org.freedesktop.Sdk.Extension.rust-stable//20.08
+	$(FLATPAK) install org.freedesktop.Sdk.Extension.golang//21.08
+	$(FLATPAK) install org.freedesktop.Sdk.Extension.node16//21.08
+	$(FLATPAK) install org.freedesktop.Sdk.Extension.rust-stable//21.08
 
 build-dependencies-flatpak-web: build-dependencies-flatpak
-	$(FLATPAK) install org.freedesktop.Platform//20.08
-	$(FLATPAK) install org.freedesktop.Sdk//20.08
-	$(FLATPAK) install org.electronjs.Electron2.BaseApp//20.08
+	$(FLATPAK) install org.freedesktop.Platform//21.08
+	$(FLATPAK) install org.freedesktop.Sdk//21.08
+	$(FLATPAK) install org.electronjs.Electron2.BaseApp//21.08
 
 build-dependencies-flatpak-qt: build-dependencies-flatpak
 	$(FLATPAK) install org.kde.Platform//5.15
