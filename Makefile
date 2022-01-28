@@ -34,6 +34,7 @@ WGET=$(shell which wget)
 RUST=$(shell which rustup)
 CROSS=$(shell which cross)
 DOCKER=$(shell which docker)
+ASTILECTRON_BUILDER=$(shell which astilectron-bundler)
 
 DESTDIR = /
 INSTALL_PREFIX = usr/bin
@@ -165,6 +166,10 @@ install-clickable-zkgroup:
 
 uninstall-clickable-zkgroup:
 	rm -f $(CURRENT_DIR)/lib/libzkgroup_linux_$(HARDWARE_PLATFORM).so
+
+## go-astilectron-bundler
+build-astilectron:
+	$(ASTILECTRON_BUILDER)
 
 ## Flatpak
 build-dependencies-flatpak:
