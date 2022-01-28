@@ -68,7 +68,7 @@ modules:
         - --share=network
     build-commands:
       - cargo build --manifest-path src/github.com/nanu-c/zkgroup/lib/zkgroup/Cargo.toml --release
-      - install -Dm 755 src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release/libzkgroup.so ${FLATPAK_DEST}/lib
+      - install -Dm 755 src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release/libzkgroup.so ${FLATPAK_DEST}/lib/libzkgroup_linux_${FLATPAK_ARCH}.so
     sources:
       - type: git
         url: https://github.com/nanu-c/zkgroup

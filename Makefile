@@ -127,7 +127,7 @@ build-crayfish:
 
 install-crayfish:
 	@echo "Installing crayfish..."
-	@install -D -m 755 $(CURRENT_DIR)/crayfish/target/release/crayfish $(DESTDIR)$(LIBRARY_PREFIX)/
+	@install -D -m 755 $(CURRENT_DIR)/crayfish/target/release/crayfish $(DESTDIR)$(INSTALL_PREFIX)/
 
 uninstall-crayfish:
 	@echo "Uninstalling crayfish..."
