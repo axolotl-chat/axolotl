@@ -77,7 +77,6 @@ modules:
 
   - name: axolotl
     buildsystem: simple
-    disabled: true
     build-options:
       env:
         DESTDIR: ${FLATPAK_DEST}
