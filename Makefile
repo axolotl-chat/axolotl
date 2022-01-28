@@ -87,12 +87,12 @@ check-axolotl-web:
 
 install-axolotl-web:
 	@echo "Installing axolotl-web..."
-	@mkdir -p $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/
-	@cp -r $(CURRENT_DIR)/axolotl-web/dist $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/dist
+	@mkdir -p $(DESTDIR)$(INSTALL_PREFIX)/axolotl-web/
+	@cp -r $(CURRENT_DIR)/axolotl-web/dist $(DESTDIR)$(INSTALL_PREFIX)/axolotl-web/dist
 
 uninstall-axolotl-web:
 	@echo "Uninstalling axolotl-web..."
-	@rm -rf $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/dist
+	@rm -rf $(DESTDIR)$(INSTALL_PREFIX)/axolotl-web
 
 ## utilities
 build-translation:
