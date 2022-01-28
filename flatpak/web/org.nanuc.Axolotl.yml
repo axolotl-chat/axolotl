@@ -13,6 +13,12 @@ base-version: '21.08'
 separate-locales: false
 tags:
   - latest
+build-options:
+  env:
+    CARGO_HOME: ${FLATPAK_BUILDER_BUILDDIR}/.cargo
+    DESTDIR: ${FLATPAK_DEST}
+    INSTALL_PREFIX: /bin
+    LIBRARY_PREFIX: /lib
 finish-args:
   # See https://docs.flatpak.org/en/latest/sandbox-permissions-reference.html
   # Write access for the user download folder (to save media)
@@ -42,10 +48,6 @@ modules:
   - name: crayfish
     buildsystem: simple
     build-options:
-      env:
-        CARGO_HOME: ${FLATPAK_BUILDER_BUILDDIR}/.cargo
-        DESTDIR: ${FLATPAK_DEST}
-        LIBRARY_PREFIX: /lib
       append-path: /usr/lib/sdk/rust-stable/bin
       build-args:
         - --share=network
@@ -61,8 +63,6 @@ modules:
   - name: zkgroup
     buildsystem: simple
     build-options:
-      env:
-        CARGO_HOME: ${FLATPAK_BUILDER_BUILDDIR}/.cargo
       append-path: /usr/lib/sdk/rust-stable/bin
       build-args:
         - --share=network
@@ -78,9 +78,6 @@ modules:
   - name: axolotl
     buildsystem: simple
     build-options:
-      env:
-        DESTDIR: ${FLATPAK_DEST}
-        INSTALL_PREFIX: /bin
       append-path: /usr/lib/sdk/golang/bin
       build-args:
         - --share=network
@@ -97,9 +94,6 @@ modules:
   - name: axolotl-web
     buildsystem: simple
     build-options:
-      env:
-        DESTDIR: ${FLATPAK_DEST}
-        INSTALL_PREFIX: /bin
       append-path: /usr/lib/sdk/node16/bin
       build-args:
         - --share=network
