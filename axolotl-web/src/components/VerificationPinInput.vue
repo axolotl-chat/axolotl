@@ -42,7 +42,7 @@ export default {
       default: false,
     },
   },
-  emits:['inputValue','enter','clearValue'],
+  emits:['input-value','enter','clearValue'],
 
   data() {
     return {
@@ -119,7 +119,7 @@ export default {
     },
     emitInput() {
       const result = this.arraySize.join("").slice(0, this.numberOfBoxes);
-      this.$emit("inputValue", result);
+      this.$emit("input-value", result);
     },
     handleKeyDown(event, index) {
       const key = this.sanitizeKeyData(event.key);
