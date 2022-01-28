@@ -84,5 +84,17 @@ Here an example with node: `PATH=$PATH:/usr/lib/sdk/node16/bin`.
 
 * axolotl: `/app/bin/axolotl`
 * axolotl-web: `/app/bin/axolotl-web`
-* crayfish: `/app/lib/crayfish`
+* crayfish: `/app/bin/crayfish`
 * zkgroup: `/app/lib/zkgroup`
+
+
+## Debugging
+
+"ERRO[0000] [axolotl-electron] main: starting astilectron failed: provisioning failed"
+
+If the following message is shown during startup, it is because the electron which is downloaded
+by go, "astilectron", somehow failed. This can be solved by removing the electron folder and re-start.
+
+```bash
+rm -rf /home/${USER}/.config/textsecure.nanuc/electron`
+```
