@@ -48,8 +48,9 @@ finish-args:
 modules:
   - name: crayfish
     buildsystem: simple
-    build-args:
-      - --share=network
+    build-options:
+      build-args:
+        - --share=network
     build-commands:
       - make --directory=src/github.com/nanu-c/axolotl build-crayfish
       - make --directory=src/github.com/nanu-c/axolotl --environment-overrides install-crayfish
@@ -61,8 +62,9 @@ modules:
 
   - name: zkgroup
     buildsystem: simple
-    build-args:
-      - --share=network
+    build-options:
+      build-args:
+        - --share=network
     build-commands:
       - cargo build --manifest-path src/github.com/nanu-c/zkgroup/lib/zkgroup/Cargo.toml --release
       - install -Dm 755 src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release/libzkgroup.so ${FLATPAK_DEST}/lib/libzkgroup_linux_${FLATPAK_ARCH}.so
@@ -74,8 +76,9 @@ modules:
 
   - name: axolotl-electron-bundle
     buildsystem: simple
-    build-args:
-      - --share=network
+    build-options:
+      build-args:
+        - --share=network
     build-commands:
       - make --directory=src/github.com/nanu-c/axolotl build-dependencies-axolotl-web
       - make --directory=src/github.com/nanu-c/axolotl build-axolotl-web
