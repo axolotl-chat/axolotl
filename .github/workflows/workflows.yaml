@@ -153,8 +153,8 @@ jobs:
           path: Axolotl-x86_64.AppImage
           retention-days: 5
 
-  package-clickable-armhf:
-    name: Package as clickable armhf
+  package-click-armhf:
+    name: Package as click armhf
     runs-on: ubuntu-latest
     needs: [build-axolotl-web]
 
@@ -181,26 +181,26 @@ jobs:
           mv libzkgroup_linux_armv7_v0.8.8.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_armv7.so
 
       - name: Build crayfish (armhf)
-        uses: docker://clickable/ci-dev-16.04-armhf:latest
+        uses: docker://clickable/ci-16.04-armhf:7.0.1
         with:
           args: clickable build -a armhf --verbose --container-mode --libs crayfish
 
-      - name: Build clickable (armhf)
-        uses: docker://clickable/ci-dev-16.04-armhf:latest
+      - name: Build click (armhf)
+        uses: docker://clickable/ci-16.04-armhf:7.0.1
         env:
           GOPATH: $GITHUB_WORKSPACE/go
         with:
           args: clickable build --verbose -a armhf --app
 
-      - name: Upload the built clickable artifact (armhf)
+      - name: Upload the built click artifact (armhf)
         uses: actions/upload-artifact@v2
         with:
           name: Axolotl-Clickable
           path: build/arm-linux-gnueabihf/app/textsecure.nanuc_*.click
           retention-days: 1
 
-  package-clickable-arm64:
-    name: Package as clickable arm64
+  package-click-arm64:
+    name: Package as click arm64
     runs-on: ubuntu-latest
     needs: [build-axolotl-web]
 
@@ -226,19 +226,19 @@ jobs:
             mkdir $GITHUB_WORKSPACE/lib/
             mv libzkgroup_linux_aarch64_v0.8.8.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_aarch64.so
 
-      - name: Build crayfish (armhf)
-        uses: docker://rust:latest
+      - name: Build crayfish (arm64)
+        uses: docker://clickable/ci-16.04-arm64:7.0.1
         with:
-          args: /bin/bash -c "apt update && apt install python3-pip -y && pip3 install --user git+https://gitlab.com/clickable/clickable.git@dev && /github/home/.local/bin/clickable build -a arm64 --verbose --container-mode --libs crayfish"
+          args: clickable build -a arm64 --verbose --container-mode --libs crayfish
 
-      - name: Build clickable (arm64)
-        uses: docker://clickable/ci-dev-16.04-arm64:latest
+      - name: Build click (arm64)
+        uses: docker://clickable/ci-16.04-arm64:7.0.1
         env:
           GOPATH: $GITHUB_WORKSPACE/go
         with:
           args: clickable build --verbose -a arm64 --app
 
-      - name: Upload the built clickable artifact (amd64)
+      - name: Upload the built click artifact (amd64)
         uses: actions/upload-artifact@v2
         with:
           name: Axolotl-Clickable
@@ -271,8 +271,8 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     needs:
       - package-appimage
-      - package-clickable-armhf
-      - package-clickable-arm64
+      - package-click-armhf
+      - package-click-arm64
     runs-on: ubuntu-latest
 
     steps:
@@ -294,14 +294,14 @@ jobs:
         with:
           path: build-artifacts
 
-      - name: Get clickable version
-        id: get_clickable_version
+      - name: Get click version
+        id: get_click_version
         run: |
           echo "::set-output name=version::$(ls ./build-artifacts/Axolotl-Clickable/*amd64.click | cut --delimiter="_" --fields=2)"
 
-      - name: Set clickable version
+      - name: Set click version
         run: |
-          echo "CLICKABLE_VERSION=${{ steps.get_clickable_version.outputs.version }}" >> $GITHUB_ENV
+          echo "CLICKABLE_VERSION=${{ steps.get_click_version.outputs.version }}" >> $GITHUB_ENV
 
       - name: Create draft GitHub release page
         id: create_release
@@ -327,7 +327,7 @@ jobs:
           asset_name: Axolotl-${{ env.VERSION }}-x86_64.AppImage
           asset_content_type: application/vnd.appimage
 
-      - name: Add clickable to release (amd64)
+      - name: Add click to release (amd64)
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -337,7 +337,7 @@ jobs:
           asset_name: textsecure.nanuc_${{ env.VERSION }}_amd64.click
           asset_content_type: application/vnd.debian.binary-package
 
-      - name: Add clickable to release (armhf)
+      - name: Add click to release (armhf)
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
