@@ -15,8 +15,8 @@ import (
 	"github.com/emersion/go-vcard"
 	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/helpers"
+	"github.com/signal-golang/libphonenumber"
 	textsecureContacts "github.com/signal-golang/textsecure/contacts"
-	"github.com/ttacon/libphonenumber"
 )
 
 func PhoneFromVCardFile(file string) (string, error) {

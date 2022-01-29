@@ -3,8 +3,8 @@ package ui
 import (
 	"github.com/nanu-c/axolotl/app/contact"
 	"github.com/nanu-c/axolotl/app/webserver"
+	"github.com/signal-golang/libphonenumber"
 	log "github.com/sirupsen/logrus"
-	"github.com/ttacon/libphonenumber"
 )
 
 func GetTextFromDialog(fun, obj, signal string) string {
