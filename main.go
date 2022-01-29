@@ -86,7 +86,7 @@ func runElectron() {
 		SingleInstance:     true,
 		ElectronSwitches:   electronSwitches,
 		SkipSetup:          config.ElectronBundled,
-		CustomElectronPath: "/run/build/axolotl-electron-bundle"})
+		CustomElectronPath: "/app/bin/axolotl-electron-bundle"})
 
 	if err != nil {
 		log.Errorln(errors.Wrap(err, "[axolotl-electron]: creating astilectron failed"))
