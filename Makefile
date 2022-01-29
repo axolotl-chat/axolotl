@@ -6,6 +6,8 @@
 NPM_VERSION := $(shell npm --version 2>/dev/null)
 NODE_VERSION := $(shell node --version 2>/dev/null)
 GO_VERSION := $(shell go version 2>/dev/null)
+GOOS=$(shell go env GOOS)
+GOARCH=$(shell go env GOARCH)
 CARGO_VERSION := $(shell cargo --version 2>/dev/null)
 GIT_VERSION := $(shell git --version 2>/dev/null)
 AXOLOTL_GIT_VERSION := $(shell git tag | tail --lines=1)
@@ -177,7 +179,7 @@ build-axolotl-electron-bundle:
 
 install-axolotl-electron-bundle:
 	@echo "Installing axolotl electron bundle..."
-	@install -D -m 755 $(CURRENT_DIR)/output/$(HARDWARE_PLATFORM)/axolotl-electron-bundle $(DESTDIR)$(INSTALL_PREFIX)/
+	@install -D -m 755 $(CURRENT_DIR)/output/$(GOOS)-$(GOARCH)/axolotl-electron-bundle $(DESTDIR)$(INSTALL_PREFIX)/
 
 ## Flatpak
 build-dependencies-flatpak:
