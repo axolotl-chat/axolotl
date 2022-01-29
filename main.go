@@ -26,6 +26,7 @@ func init() {
 	flag.StringVar(&config.Gui, "e", "", "Specify runtime environment. Use either electron, ut, lorca, qt or server")
 	flag.StringVar(&config.AxolotlWebDir, "axolotlWebDir", "./axolotl-web/dist", "Specify the directory to use for axolotl-web")
 	flag.BoolVar(&config.ElectronDebug, "eDebug", false, "Open electron development console")
+	flag.BoolVar(&config.ElectronBundled, "electronBundled", false, "If true, use bundled (provided) Electron. If false, download Electron on startup")
 	flag.BoolVar(&config.PrintVersion, "version", false, "Print version info")
 	flag.StringVar(&config.ServerHost, "host", "127.0.0.1", "Host to serve UI from.")
 	flag.StringVar(&config.ServerPort, "port", "9080", "Port to serve UI from.")
@@ -83,7 +84,9 @@ func runElectron() {
 		VersionElectron:    "16.0.0",
 		VersionAstilectron: "0.50.0",
 		SingleInstance:     true,
-		ElectronSwitches:   electronSwitches})
+		ElectronSwitches:   electronSwitches,
+		SkipSetup:          config.ElectronBundled,
+		CustomElectronPath: "/run/build/axolotl-electron-bundle"})
 
 	if err != nil {
 		log.Errorln(errors.Wrap(err, "[axolotl-electron]: creating astilectron failed"))

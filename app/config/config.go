@@ -29,6 +29,7 @@ var (
 	MainQml                string
 	Gui                    string
 	ElectronDebug          bool
+	ElectronBundled        bool
 	PrintVersion           bool
 	HomeDir                string
 	ConfigDir              string
