@@ -19,7 +19,7 @@ build-options:
     CARGO_HOME: ${FLATPAK_BUILDER_BUILDDIR}/.cargo
     GOBIN: /app/bin
     GOROOT: /usr/lib/sdk/golang
-    NPM_CONFIG_LOGLEVEL: info
+    NPM_CONFIG_LOGLEVEL: error
     DESTDIR: ${FLATPAK_DEST}
     INSTALL_PREFIX: /bin
     LIBRARY_PREFIX: /lib
@@ -109,4 +109,4 @@ modules:
       - type: script
         dest-filename: run.sh
         commands:
-          - zypak-wrapper /app/bin/axolotl-electron-bundle "$@"
+          - zypak-wrapper /app/bin/axolotl-electron-bundle -electronBundled "$@"
