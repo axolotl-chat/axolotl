@@ -86,7 +86,7 @@ func runElectron() {
 		ElectronSwitches:   electronSwitches})
 
 	if err != nil {
-		log.Errorln(errors.Wrap(err, "[axolotl-electron]: creating astilectron failed"))
+		log.Errorln(errors.Wrap(err, "[axolotl-electron]: creating astilectron failed: %w", err))
 	}
 
 	defer a.Close()
@@ -95,7 +95,7 @@ func runElectron() {
 	a.HandleSignals()
 
 	if err = a.Start(); err != nil {
-		log.Errorln(errors.Wrap(err, "[axolotl-electron] main: starting astilectron failed"))
+		log.Errorln(errors.Wrap(err, "[axolotl-electron] main: starting astilectron failed: %w", err))
 	}
 
 	a.On(astilectron.EventNameAppCrash, func(e astilectron.Event) (deleteListener bool) {
@@ -113,7 +113,7 @@ func runElectron() {
 		Height: &height,
 		Width:  &width,
 	}); err != nil {
-		log.Debugln("[axolotl-electron]", errors.Wrap(err, "main: new window failed"))
+		log.Debugln("[axolotl-electron]", errors.Wrap(err, "main: new window failed: %w", err))
 	}
 	w.On(astilectron.EventNameAppCrash, func(e astilectron.Event) (deleteListener bool) {
 		log.Errorln("[axolotl-electron] Electron App has crashed")
@@ -138,7 +138,7 @@ func runElectron() {
 	})
 	// Create windows
 	if err = w.Create(); err != nil {
-		log.Debugln("[axolotl-electron]", errors.Wrap(err, "main: creating window failed"))
+		log.Debugln("[axolotl-electron]", errors.Wrap(err, "main: creating window failed: %w", err))
 	}
 	log.Debugln("[axolotl-electron] open dev tools", config.ElectronDebug)
 
