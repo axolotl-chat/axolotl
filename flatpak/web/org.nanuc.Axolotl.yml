@@ -19,6 +19,7 @@ build-options:
     CARGO_HOME: ${FLATPAK_BUILDER_BUILDDIR}/.cargo
     GOBIN: /app/bin
     GOROOT: /usr/lib/sdk/golang
+    NPM_CONFIG_LOGLEVEL: info
     DESTDIR: ${FLATPAK_DEST}
     INSTALL_PREFIX: /bin
     LIBRARY_PREFIX: /lib
