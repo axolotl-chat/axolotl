@@ -91,9 +91,10 @@ func runElectron() {
 
 	defer a.Close()
 
-	// Start astilectron
+  // Handle signals
 	a.HandleSignals()
 
+  // Start astilectron
 	if err = a.Start(); err != nil {
 		log.Errorln(errors.Wrap(err, "[axolotl-electron] main: starting astilectron failed: %w", err))
 	}
