@@ -167,9 +167,13 @@ install-clickable-zkgroup:
 uninstall-clickable-zkgroup:
 	rm -f $(CURRENT_DIR)/lib/libzkgroup_linux_$(HARDWARE_PLATFORM).so
 
-## go-astilectron-bundler
-build-astilectron:
+## Electron bundler
+build-axolotl-electron-bundle:
 	$(ASTILECTRON_BUILDER)
+
+install-axolotl-electron-bundle:
+	@echo "Installing axolotl electron bundle..."
+	@install -D -m 755 $(CURRENT_DIR)/output/$(HARDWARE_PLATFORM)/axolotl-electron-bundle $(DESTDIR)$(INSTALL_PREFIX)/
 
 ## Flatpak
 build-dependencies-flatpak:

@@ -1,5 +1,5 @@
 {
-  "app_name": "astilectron-axolotl",
+  "app_name": "axolotl-electron-bundle",
   "icon_path_darwin": "axolotl-web/public/axolotl.png",
   "icon_path_linux": "axolotl-web/public/axolotl.png",
   "icon_path_windows": "axolotl-web/public/axolotl.ico",
