@@ -171,6 +171,7 @@ uninstall-clickable-zkgroup:
 
 ## Electron bundler
 build-dependencies-axolotl-electron-bundle:
+	$(GO) get -u github.com/asticode/go-astilectron-bundler/...
 	$(GO) install github.com/asticode/go-astilectron-bundler/astilectron-bundler
 
 build-axolotl-electron-bundle:

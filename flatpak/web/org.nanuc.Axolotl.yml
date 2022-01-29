@@ -17,6 +17,8 @@ build-options:
   append-path: "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/golang/bin:/usr/lib/sdk/node16/bin"
   env:
     CARGO_HOME: ${FLATPAK_BUILDER_BUILDDIR}/.cargo
+    GOBIN: /app/bin
+    GOROOT: /usr/lib/sdk/golang
     DESTDIR: ${FLATPAK_DEST}
     INSTALL_PREFIX: /bin
     LIBRARY_PREFIX: /lib
