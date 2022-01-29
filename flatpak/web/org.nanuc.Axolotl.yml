@@ -44,8 +44,6 @@ finish-args:
   - --device=dri
   # To send and receive notifications
   - --talk-name=org.freedesktop.Notifications
-  # Specify axolotl-web location
-  - --env=AXOLOTL_WEB_DIR=/app/bin/axolotl-web/dist
 
 modules:
   - name: crayfish

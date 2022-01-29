@@ -2,7 +2,7 @@
 
 [Desktop Entry]
 Name=Axolotl
-Exec=axolotl -axolotlWebDir=/app/bin/axolotl-web/dist
+Exec=run.sh
 Type=Application
 Comment=A signal client, flatpak version
 Terminal=false
