@@ -141,7 +141,7 @@ func runElectron() {
 	})
 	// Create windows
 	if err = w.Create(); err != nil {
-		log.Debugln("[axolotl-electron]", errors.Wrap(err, "main: creating window failed"))
+		log.Errorln("[axolotl-electron]", errors.Wrap(err, "main: creating window failed"))
 	}
 	log.Debugln("[axolotl-electron] open dev tools", config.ElectronDebug)
 
