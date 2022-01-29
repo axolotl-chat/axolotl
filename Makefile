@@ -168,7 +168,11 @@ uninstall-clickable-zkgroup:
 	rm -f $(CURRENT_DIR)/lib/libzkgroup_linux_$(HARDWARE_PLATFORM).so
 
 ## Electron bundler
+build-dependencies-axolotl-electron-bundle:
+	$(GO) install github.com/asticode/go-astilectron-bundler/astilectron-bundler
+
 build-axolotl-electron-bundle:
+	@echo "Building axolotl electron bundle..."
 	$(ASTILECTRON_BUILDER)
 
 install-axolotl-electron-bundle:
