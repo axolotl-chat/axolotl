@@ -45,6 +45,8 @@ finish-args:
   - --device=dri
   # To send and receive notifications
   - --talk-name=org.freedesktop.Notifications
+  # Specify axolotl Electron bundle location
+  - --env=AXOLOTL_ELECTRON_PATH=/app/bin/axolotl-electron-bundle
 
 modules:
   - name: crayfish
