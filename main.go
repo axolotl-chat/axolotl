@@ -5,7 +5,6 @@ import (
 	_ "image/jpeg"
 	_ "image/png"
 	"os"
-	"runtime"
 	"sync"
 
 	astilectron "github.com/asticode/go-astilectron"
@@ -71,7 +70,7 @@ func runElectron() {
 	}
 
 	electronSwitches := []string{"--disable-dev-shm-usage", "--no-sandbox"}
-	if os.Getenv("XDG_SESSION_TYPE") == "wayland" && (runtime.GOARCH == "arm" || runtime.GOARCH == "arm64") {
+	if os.Getenv("XDG_SESSION_TYPE") == "wayland" {
 		electronSwitches = append(electronSwitches, "--enable-features=UseOzonePlatform", "--ozone-platform=wayland")
 	}
 	log.Infoln("[axolotl-electron] creating astilelectron with the following switches:", electronSwitches)
