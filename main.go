@@ -78,7 +78,7 @@ func runElectron() {
 		AppIconDarwinPath:  "axolotl-web/public/axolotl.png", // Same here
 		BaseDirectoryPath:  electronPath,
 		VersionElectron:    "16.0.0",
-		VersionAstilectron: "0.50.0",
+		VersionAstilectron: "0.51.0",
 		SingleInstance:     true,
 		ElectronSwitches:   electronSwitches,
 	}
