@@ -122,8 +122,7 @@ func runElectron() {
 	center := true
 	height := 800
 	width := 600
-	// TODO: Change back to axolotl-web once Electron starts without problems
-	if w, err = a.NewWindow("https://duckduckgo.com/", &astilectron.WindowOptions{
+	if w, err = a.NewWindow("http://"+config.ServerHost+":"+config.ServerPort, &astilectron.WindowOptions{
 		Center: &center,
 		Height: &height,
 		Width:  &width,
