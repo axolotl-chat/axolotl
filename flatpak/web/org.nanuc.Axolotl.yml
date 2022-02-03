@@ -23,6 +23,8 @@ build-options:
     DESTDIR: ${FLATPAK_DEST}
     INSTALL_PREFIX: /bin
     LIBRARY_PREFIX: /lib
+cleanup:
+  - /app/bin/astilectron-bundler
 finish-args:
   # See https://docs.flatpak.org/en/latest/sandbox-permissions-reference.html
   # Write access for the user download folder (to save media)
