@@ -45,8 +45,8 @@ finish-args:
   - --device=dri
   # To send and receive notifications
   - --talk-name=org.freedesktop.Notifications
-  # Specify axolotl Electron bundle location
-  - --env=AXOLOTL_ELECTRON_PATH=/app/bin/axolotl-electron-bundle
+  # Run with bundled Electron
+  - --env=AXOLOTL_ELECTRON_BUNDLED="true"
 
 modules:
   - name: crayfish
@@ -111,4 +111,6 @@ modules:
       - type: script
         dest-filename: run.sh
         commands:
-          - zypak-wrapper /app/bin/axolotl-electron-bundle -electronBundled "$@"
+          - export DISPLAY=:0
+          - export WAYLAND_DISPLAY=wayland-0
+          - zypak-wrapper /app/bin/axolotl-electron-bundle "$@"

@@ -8,6 +8,7 @@ import (
 	"sync"
 
 	astilectron "github.com/asticode/go-astilectron"
+	bootstrap "github.com/asticode/go-astilectron-bootstrap"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 
@@ -25,7 +26,6 @@ func init() {
 	flag.StringVar(&config.Gui, "e", "", "Specify runtime environment. Use either electron, ut, lorca, qt or server")
 	flag.StringVar(&config.AxolotlWebDir, "axolotlWebDir", "./axolotl-web/dist", "Specify the directory to use for axolotl-web")
 	flag.BoolVar(&config.ElectronDebug, "eDebug", false, "Open electron development console")
-	flag.BoolVar(&config.ElectronBundled, "electronBundled", false, "If specified, use bundled (provided) Electron. If not, download Electron on startup")
 	flag.BoolVar(&config.PrintVersion, "version", false, "Print version info")
 	flag.StringVar(&config.ServerHost, "host", "127.0.0.1", "Host to serve UI from.")
 	flag.StringVar(&config.ServerPort, "port", "9080", "Port to serve UI from.")
@@ -64,7 +64,7 @@ func endAxolotlGracefully() {
 func runElectron() {
 	defer endAxolotlGracefully()
 	l := log.New()
-	electronPath := os.Getenv("SNAP_USER_DATA")
+	electronPath := os.Getenv("XDG_DATA_HOME")
 	if len(electronPath) == 0 {
 		electronPath = config.ConfigDir + "/electron"
 	}
@@ -72,7 +72,7 @@ func runElectron() {
 	electronSwitches := []string{"--disable-dev-shm-usage", "--no-sandbox", "--enable-features=UseOzonePlatform", "--ozone-platform=wayland"}
 	log.Infoln("[axolotl-electron] creating astilelectron with the following switches:", electronSwitches)
 
-	var a, err = astilectron.New(l, astilectron.Options{
+	var astilElectronOptions = astilectron.Options{
 		AppName:            "axolotl",
 		AppIconDefaultPath: "axolotl-web/public/axolotl.png", // If path is relative, it must be relative to the data directory
 		AppIconDarwinPath:  "axolotl-web/public/axolotl.png", // Same here
@@ -81,8 +81,23 @@ func runElectron() {
 		VersionAstilectron: "0.50.0",
 		SingleInstance:     true,
 		ElectronSwitches:   electronSwitches,
-		SkipSetup:          config.ElectronBundled,
-		CustomElectronPath: os.Getenv("AXOLOTL_ELECTRON_PATH")})
+	}
+
+	var a *astilectron.Astilectron
+	var err error
+
+	if os.Getenv("AXOLOTL_ELECTRON_BUNDLED") == "true" {
+		err = bootstrap.Run(bootstrap.Options{
+			AstilectronOptions: astilElectronOptions,
+			Logger:             l,
+			OnWait: func(astielectron *astilectron.Astilectron, _ []*astilectron.Window, _ *astilectron.Menu, _ *astilectron.Tray, _ *astilectron.Menu) error {
+				a = astielectron
+				return nil
+			},
+		})
+	} else {
+		a, err = astilectron.New(l, astilElectronOptions)
+	}
 
 	if err != nil {
 		log.Errorln(errors.Wrap(err, "[axolotl-electron]: creating astilectron failed"))
