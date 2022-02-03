@@ -216,6 +216,9 @@ debug-flatpak-web:
 debug-flatpak-qt:
 	$(FLATPAK_BUILDER) --run --verbose flatpak/build flatpak/qt/org.nanuc.Axolotl.yml sh
 
+uninstall-flatpak:
+	$(FLATPAK) uninstall org.nanuc.Axolotl
+
 ## Snap
 build-snap:
 	@sudo $(SNAPCRAFT)
