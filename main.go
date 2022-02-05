@@ -119,10 +119,12 @@ func runElectron() {
 	a.HandleSignals()
 	// New window
 	var w *astilectron.Window
+	title := "Axolotl"
 	center := true
 	height := 800
 	width := 600
 	if w, err = a.NewWindow("http://"+config.ServerHost+":"+config.ServerPort, &astilectron.WindowOptions{
+		Title:  &title,
 		Center: &center,
 		Height: &height,
 		Width:  &width,
