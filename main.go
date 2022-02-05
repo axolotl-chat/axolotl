@@ -69,11 +69,8 @@ func runElectron() {
 		electronPath = config.ConfigDir + "/electron"
 	}
 
-	electronSwitches := []string{"--disable-dev-shm-usage", "--no-sandbox"}
-	if os.Getenv("XDG_SESSION_TYPE") == "wayland" {
-		electronSwitches = append(electronSwitches, "--enable-features=UseOzonePlatform", "--ozone-platform=wayland")
-	}
-	log.Infoln("[axolotl-electron] creating astilelectron with the following switches:", electronSwitches)
+	electronSwitches := []string{"--disable-dev-shm-usage", "--no-sandbox", "--ozone-platform-hint=auto"}
+	log.Infoln("[axolotl-electron] starting astilelectron with the following switches:", electronSwitches)
 
 	var astilElectronOptions = astilectron.Options{
 		AppName:            "axolotl",
