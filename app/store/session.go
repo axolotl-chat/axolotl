@@ -235,7 +235,7 @@ func (s *Session) Add(text string, source string, file []Attachment, mimetype st
 	s.CType = ctype
 	// Only increments the counter for incoming messages, and only if the
 	// user is not currently on the conversation
-	if !outgoing && s.ID != sessionID {
+	if !outgoing && s.ID != sessionID && text != "readReceiptMessage" && text != "deliveryReceiptMessage" {
 		s.Unread++
 	}
 	UpdateSession(s)
