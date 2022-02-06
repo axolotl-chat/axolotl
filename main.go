@@ -34,7 +34,7 @@ func setup() {
 	helpers.SetupLogging()
 	config.SetupConfig()
 	log.SetLevel(log.DebugLevel)
-	log.Infoln("[axolotl] Starting Signal for Ubuntu version", config.AppVersion)
+	log.Infoln("[axolotl] Starting axolotl version", config.AppVersion)
 }
 func runBackend() {
 	go worker.RunBackend()
