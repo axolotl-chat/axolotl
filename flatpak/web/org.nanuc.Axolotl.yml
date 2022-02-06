@@ -62,7 +62,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/nanu-c/axolotl
-        tag: flatpak-with-makefile-integration-take-two # TODO: change this to main once branch is merged
+        tag: main
         dest: src/github.com/nanu-c/axolotl
 
   - name: zkgroup
@@ -94,7 +94,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/nanu-c/axolotl
-        tag: flatpak-with-makefile-integration-take-two # TODO: change this to main once branch is merged
+        tag: main
         dest: src/github.com/nanu-c/axolotl
 
   - name: metadata
@@ -107,7 +107,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/nanu-c/axolotl
-        tag: flatpak-with-makefile-integration-take-two # TODO: change this to main once branch is merged
+        tag: main
         dest: src/github.com/nanu-c/axolotl
       # Wrapper to launch the app
       - type: script
