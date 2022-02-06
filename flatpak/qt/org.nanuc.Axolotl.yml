@@ -1,7 +1,7 @@
 app-id: org.nanuc.Axolotl
 branch: main
 runtime: org.kde.Platform
-runtime-version: '5.15'
+runtime-version: '5.15-21.08'
 sdk: org.kde.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.golang
@@ -9,7 +9,8 @@ sdk-extensions:
   - org.freedesktop.Sdk.Extension.rust-stable
 command: axolotl
 base: io.qt.qtwebengine.BaseApp
-base-version: '5.15'
+base-version: '5.15-21.08'
+separate-locales: false
 tags:
   - latest
 build-options:
