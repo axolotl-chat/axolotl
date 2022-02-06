@@ -1,9 +1,15 @@
-clickable_minimum_required: '7'
+clickable_minimum_required: '7.0.1'
+
 builder: go
 prebuild: 
   - mkdir -p ${BUILD_DIR}/axolotl-web 
   - cp ${SRC_DIR}/axolotl-web/dist ${BUILD_DIR}/axolotl-web/ -R
-postbuild: ${SRC_DIR}/scripts/postbuild.sh ${INSTALL_DIR};
+postbuild: ${SRC_DIR}/scripts/postbuild.sh ${INSTALL_DIR}
+dependencies_host:
+  - gettext
+
+kill: axolotl
+
 install_bin:
   - ${CRAYFISH_LIB_INSTALL_DIR}/bin/crayfish
 install_root_data:
@@ -19,17 +25,13 @@ install_root_data:
   - click/textsecure.url-dispatcher
   - ${BUILD_DIR}/axolotl-web
   - guis/qml/ut
-dependencies_host:
-  - gettext
-kill: axolotl
+
 libraries:
   crayfish:
     builder: rust
     src_dir: crayfish
     rust_channel: 1.55.0
-    # docker_image: rust
-    dependencies_host:
-      - crossbuild-essential-${ARCH}
+
   axolotlweb:
     image_setup:
       run:
@@ -37,6 +39,7 @@ libraries:
         - apt-get install -y nodejs
         - echo "NODE Version:" && node --version
         - echo "NPM Version:" && npm --version
+
     builder: custom
     src_dir: axolotl-web
     build:
