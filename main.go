@@ -5,10 +5,10 @@ import (
 	_ "image/jpeg"
 	_ "image/png"
 	"os"
-	"runtime"
 	"sync"
 
 	astilectron "github.com/asticode/go-astilectron"
+	bootstrap "github.com/asticode/go-astilectron-bootstrap"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 
@@ -64,26 +64,40 @@ func endAxolotlGracefully() {
 func runElectron() {
 	defer endAxolotlGracefully()
 	l := log.New()
-	electronPath := os.Getenv("SNAP_USER_DATA")
+	electronPath := os.Getenv("XDG_DATA_HOME")
 	if len(electronPath) == 0 {
 		electronPath = config.ConfigDir + "/electron"
 	}
 
-	electronSwitches := []string{"--disable-dev-shm-usage", "--no-sandbox"}
-	if os.Getenv("XDG_SESSION_TYPE") == "wayland" && (runtime.GOARCH == "arm" || runtime.GOARCH == "arm64") {
-		electronSwitches = append(electronSwitches, "--enable-features=UseOzonePlatform", "--ozone-platform=wayland")
-	}
-	log.Infoln("[axolotl-electron] creating astilelectron with the following switches:", electronSwitches)
+	electronSwitches := []string{"--disable-dev-shm-usage", "--no-sandbox", "--ozone-platform-hint=auto"}
+	log.Infoln("[axolotl-electron] starting astilelectron with the following switches:", electronSwitches)
 
-	var a, err = astilectron.New(l, astilectron.Options{
+	var astilElectronOptions = astilectron.Options{
 		AppName:            "axolotl",
 		AppIconDefaultPath: "axolotl-web/public/axolotl.png", // If path is relative, it must be relative to the data directory
 		AppIconDarwinPath:  "axolotl-web/public/axolotl.png", // Same here
 		BaseDirectoryPath:  electronPath,
-		VersionElectron:    "16.0.0",
-		VersionAstilectron: "0.50.0",
+		VersionElectron:    "17.0.0",
+		VersionAstilectron: "0.51.0",
 		SingleInstance:     true,
-		ElectronSwitches:   electronSwitches})
+		ElectronSwitches:   electronSwitches,
+	}
+
+	var a *astilectron.Astilectron
+	var err error
+
+	if os.Getenv("AXOLOTL_ELECTRON_BUNDLED") == "true" {
+		err = bootstrap.Run(bootstrap.Options{
+			AstilectronOptions: astilElectronOptions,
+			Logger:             l,
+			OnWait: func(astielectron *astilectron.Astilectron, _ []*astilectron.Window, _ *astilectron.Menu, _ *astilectron.Tray, _ *astilectron.Menu) error {
+				a = astielectron
+				return nil
+			},
+		})
+	} else {
+		a, err = astilectron.New(l, astilElectronOptions)
+	}
 
 	if err != nil {
 		log.Errorln(errors.Wrap(err, "[axolotl-electron]: creating astilectron failed"))
@@ -105,10 +119,12 @@ func runElectron() {
 	a.HandleSignals()
 	// New window
 	var w *astilectron.Window
+	title := "Axolotl"
 	center := true
 	height := 800
 	width := 600
 	if w, err = a.NewWindow("http://"+config.ServerHost+":"+config.ServerPort, &astilectron.WindowOptions{
+		Title:  &title,
 		Center: &center,
 		Height: &height,
 		Width:  &width,
@@ -138,7 +154,7 @@ func runElectron() {
 	})
 	// Create windows
 	if err = w.Create(); err != nil {
-		log.Debugln("[axolotl-electron]", errors.Wrap(err, "main: creating window failed"))
+		log.Errorln("[axolotl-electron]", errors.Wrap(err, "main: creating window failed"))
 	}
 	log.Debugln("[axolotl-electron] open dev tools", config.ElectronDebug)
 

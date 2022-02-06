@@ -1,17 +1,30 @@
 app-id: org.nanuc.Axolotl
 branch: main
 runtime: org.freedesktop.Platform
-runtime-version: '20.08'
+runtime-version: '21.08'
 sdk: org.freedesktop.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.golang
-  - org.freedesktop.Sdk.Extension.node14
-command: axolotl
+  - org.freedesktop.Sdk.Extension.node16
+  - org.freedesktop.Sdk.Extension.rust-stable
+command: run.sh
 base: org.electronjs.Electron2.BaseApp
-base-version: '20.08'
+base-version: '21.08'
 separate-locales: false
 tags:
   - latest
+build-options:
+  append-path: "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/golang/bin:/usr/lib/sdk/node16/bin"
+  env:
+    CARGO_HOME: ${FLATPAK_BUILDER_BUILDDIR}/.cargo
+    GOBIN: /app/bin
+    GOROOT: /usr/lib/sdk/golang
+    NPM_CONFIG_LOGLEVEL: error
+    DESTDIR: ${FLATPAK_DEST}
+    INSTALL_PREFIX: /bin
+    LIBRARY_PREFIX: /lib
+cleanup:
+  - /app/bin/astilectron-bundler
 finish-args:
   # See https://docs.flatpak.org/en/latest/sandbox-permissions-reference.html
   # Write access for the user download folder (to save media)
@@ -34,56 +47,72 @@ finish-args:
   - --device=dri
   # To send and receive notifications
   - --talk-name=org.freedesktop.Notifications
-  # Specify axolotl-web location
-  - --env=AXOLOTL_WEB_DIR=/app/bin/axolotl-web/dist
+  # Run with bundled Electron
+  - --env=AXOLOTL_ELECTRON_BUNDLED="true"
 
 modules:
+  - name: crayfish
+    buildsystem: simple
+    build-options:
+      build-args:
+        - --share=network
+    build-commands:
+      - make --directory=src/github.com/nanu-c/axolotl build-crayfish
+      - make --directory=src/github.com/nanu-c/axolotl --environment-overrides install-crayfish
+    sources:
+      - type: git
+        url: https://github.com/nanu-c/axolotl
+        tag: flatpak-with-makefile-integration-take-two # TODO: change this to main once branch is merged
+        dest: src/github.com/nanu-c/axolotl
+
   - name: zkgroup
     buildsystem: simple
+    build-options:
+      build-args:
+        - --share=network
     build-commands:
-      - "install -Dm 755 src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_${FLATPAK_ARCH}.so ${FLATPAK_DEST}/lib"
+      - cargo build --manifest-path src/github.com/nanu-c/zkgroup/lib/zkgroup/Cargo.toml --release
+      - install -Dm 755 src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release/libzkgroup.so ${FLATPAK_DEST}/lib/libzkgroup_linux_${FLATPAK_ARCH}.so
     sources:
       - type: git
         url: https://github.com/nanu-c/zkgroup
         tag: main
         dest: src/github.com/nanu-c/zkgroup
 
-  - name: axolotl
+  - name: axolotl-electron-bundle
     buildsystem: simple
     build-options:
-      prefix: /usr/lib/sdk/golang
-      prepend-path: /usr/lib/sdk/golang/bin
       build-args:
         - --share=network
     build-commands:
-      - "cd src/github.com/nanu-c/axolotl;
-         go mod download -x;
-         go build -v"
-      - "install -Dm 755 src/github.com/nanu-c/axolotl/axolotl ${FLATPAK_DEST}/bin/axolotl"
+      - make --directory=src/github.com/nanu-c/axolotl build-dependencies-axolotl-web
+      - make --directory=src/github.com/nanu-c/axolotl build-axolotl-web
+      - make --directory=src/github.com/nanu-c/axolotl build-dependencies-axolotl
+      - make --directory=src/github.com/nanu-c/axolotl build-dependencies-axolotl-electron-bundle
+      - make --directory=src/github.com/nanu-c/axolotl build-axolotl-electron-bundle
+      - make --directory=src/github.com/nanu-c/axolotl --environment-overrides install-axolotl-electron-bundle
     sources:
       - type: git
         url: https://github.com/nanu-c/axolotl
-        tag: main
+        tag: flatpak-with-makefile-integration-take-two # TODO: change this to main once branch is merged
         dest: src/github.com/nanu-c/axolotl
 
-  - name: axolotl-web
+  - name: metadata
     buildsystem: simple
-    build-options:
-      prefix: /usr/lib/sdk/node14
-      prepend-path: /usr/lib/sdk/node14/bin
-      build-args:
-        - --share=network
     build-commands:
-      - "cd src/github.com/nanu-c/axolotl/axolotl-web;
-         npm ci;
-         npm run build"
-      - "mkdir -p ${FLATPAK_DEST}/bin/axolotl-web"
-      - "cp -r src/github.com/nanu-c/axolotl/axolotl-web/dist ${FLATPAK_DEST}/bin/axolotl-web"
-      - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.png ${FLATPAK_DEST}/usr/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png"
-      - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.appdata.xml ${FLATPAK_DEST}/share/appdata/${FLATPAK_ID}.appdata.xml"
-      - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/web/org.nanuc.Axolotl.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop"
+      - install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.png ${FLATPAK_DEST}/usr/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png
+      - install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.appdata.xml ${FLATPAK_DEST}/share/appdata/${FLATPAK_ID}.appdata.xml
+      - install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/web/org.nanuc.Axolotl.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
+      - install -Dm 755 run.sh ${FLATPAK_DEST}${INSTALL_PREFIX}/run.sh
     sources:
       - type: git
         url: https://github.com/nanu-c/axolotl
-        tag: main
+        tag: flatpak-with-makefile-integration-take-two # TODO: change this to main once branch is merged
         dest: src/github.com/nanu-c/axolotl
+      # Wrapper to launch the app
+      - type: script
+        dest-filename: run.sh
+        commands:
+          - export DISPLAY=:0
+          - export WAYLAND_DISPLAY=wayland-0
+          - zypak-wrapper /app/bin/axolotl-electron-bundle "$@"

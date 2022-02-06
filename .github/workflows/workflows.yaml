@@ -250,7 +250,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-axolotl, build-axolotl-web, build-crayfish]
     container:
-      image: bilelmoussaoui/flatpak-github-actions:freedesktop-20.08
+      image: bilelmoussaoui/flatpak-github-actions:freedesktop-21.08
       options: --privileged
 
     steps:

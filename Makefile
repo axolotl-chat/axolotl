@@ -6,6 +6,8 @@
 NPM_VERSION := $(shell npm --version 2>/dev/null)
 NODE_VERSION := $(shell node --version 2>/dev/null)
 GO_VERSION := $(shell go version 2>/dev/null)
+GOOS=$(shell go env GOOS)
+GOARCH=$(shell go env GOARCH)
 CARGO_VERSION := $(shell cargo --version 2>/dev/null)
 GIT_VERSION := $(shell git --version 2>/dev/null)
 AXOLOTL_GIT_VERSION := $(shell git tag | tail --lines=1)
@@ -34,6 +36,7 @@ WGET=$(shell which wget)
 RUST=$(shell which rustup)
 CROSS=$(shell which cross)
 DOCKER=$(shell which docker)
+ASTILECTRON_BUILDER=$(shell which astilectron-bundler)
 
 DESTDIR = /
 INSTALL_PREFIX = usr/bin
@@ -66,13 +69,13 @@ build-axolotl:
 check-axolotl:
 	$(GO) test -race ./...
 
-install-axolotl: build-axolotl
+install-axolotl:
 	@echo "Installing axolotl..."
-	@sudo install -D -m 755 $(CURRENT_DIR)/axolotl $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl
+	@install -D -m 755 $(CURRENT_DIR)/axolotl $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl
 
 uninstall-axolotl:
 	@echo "Uninstalling axolotl..."
-	@sudo rm -rf $(DESTDIR)$(INSTALL_PREFIX)/axolotl
+	@rm -rf $(DESTDIR)$(INSTALL_PREFIX)/axolotl
 
 # axolotl-web
 build-dependencies-axolotl-web:
@@ -85,14 +88,14 @@ build-axolotl-web:
 check-axolotl-web:
 	$(NPM) run test --prefix axolotl-web
 
-install-axolotl-web: build-axolotl-web
+install-axolotl-web:
 	@echo "Installing axolotl-web..."
-	@sudo mkdir -p $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/
-	@sudo cp -r $(CURRENT_DIR)/axolotl-web/dist $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/dist
+	@mkdir -p $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/
+	@cp -r $(CURRENT_DIR)/axolotl-web/dist $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/dist
 
 uninstall-axolotl-web:
 	@echo "Uninstalling axolotl-web..."
-	sudo rm -rf $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/dist
+	@rm -rf $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web
 
 ## utilities
 build-translation:
@@ -127,11 +130,11 @@ build-crayfish:
 
 install-crayfish:
 	@echo "Installing crayfish..."
-	@sudo install -D -m 755 $(CURRENT_DIR)/crayfish/target/release/crayfish $(DESTDIR)$(LIBRARY_PREFIX)/
+	@install -D -m 755 $(CURRENT_DIR)/crayfish/target/release/crayfish $(DESTDIR)$(INSTALL_PREFIX)/
 
 uninstall-crayfish:
 	@echo "Uninstalling crayfish..."
-	sudo rm -f $(DESTDIR)$(LIBRARY_PREFIX)/crayfish
+	@rm -f $(DESTDIR)$(LIBRARY_PREFIX)/crayfish
 
 ## zkgroup
 build-zkgroup:
@@ -154,10 +157,10 @@ copy-zkgroup:
 	cp $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_$(HARDWARE_PLATFORM).so $(CURRENT_DIR)/
 
 install-zkgroup:
-	sudo cp $(CURRENT_DIR)/libzkgroup_linux_$(HARDWARE_PLATFORM).so $(DESTDIR)$(LIBRARY_PREFIX)/
+	@cp $(CURRENT_DIR)/libzkgroup_linux_$(HARDWARE_PLATFORM).so $(DESTDIR)$(LIBRARY_PREFIX)/
 
 uninstall-zkgroup:
-	sudo rm -f $(DESTDIR)$(LIBRARY_PREFIX)/libzkgroup_linux_$(HARDWARE_PLATFORM).so
+	@rm -f $(DESTDIR)$(LIBRARY_PREFIX)/libzkgroup_linux_$(HARDWARE_PLATFORM).so
 
 install-clickable-zkgroup:
 	$(GO) get -d github.com/nanu-c/zkgroup
@@ -166,26 +169,54 @@ install-clickable-zkgroup:
 uninstall-clickable-zkgroup:
 	rm -f $(CURRENT_DIR)/lib/libzkgroup_linux_$(HARDWARE_PLATFORM).so
 
+## Electron bundler
+build-dependencies-axolotl-electron-bundle:
+	$(GO) install github.com/asticode/go-astilectron-bundler/astilectron-bundler@latest
+
+build-axolotl-electron-bundle:
+	@echo "Building axolotl electron bundle..."
+	$(ASTILECTRON_BUILDER)
+
+install-axolotl-electron-bundle:
+	@echo "Installing axolotl electron bundle..."
+	@install -D -m 755 $(CURRENT_DIR)/output/$(GOOS)-$(GOARCH)/axolotl-electron-bundle $(DESTDIR)$(INSTALL_PREFIX)/
+
 ## Flatpak
 build-dependencies-flatpak:
-	$(FLATPAK) install org.freedesktop.Sdk.Extension.golang//20.08
-	$(FLATPAK) install org.freedesktop.Sdk.Extension.node14//20.08
+	$(FLATPAK) install org.freedesktop.Sdk.Extension.golang//21.08
+	$(FLATPAK) install org.freedesktop.Sdk.Extension.node16//21.08
+	$(FLATPAK) install org.freedesktop.Sdk.Extension.rust-stable//21.08
 
 build-dependencies-flatpak-web: build-dependencies-flatpak
-	$(FLATPAK) install org.freedesktop.Platform//20.08
-	$(FLATPAK) install org.freedesktop.Sdk//20.08
-	$(FLATPAK) install org.electronjs.Electron2.BaseApp//20.08
+	$(FLATPAK) install org.freedesktop.Platform//21.08
+	$(FLATPAK) install org.freedesktop.Sdk//21.08
+	$(FLATPAK) install org.electronjs.Electron2.BaseApp//21.08
 
 build-dependencies-flatpak-qt: build-dependencies-flatpak
 	$(FLATPAK) install org.kde.Platform//5.15
 	$(FLATPAK) install org.kde.Sdk//5.15
 	$(FLATPAK) install io.qt.qtwebengine.BaseApp//5.15
 
+build-flatpak-web:
+	$(FLATPAK_BUILDER) flatpak/build --verbose --force-clean flatpak/web/org.nanuc.Axolotl.yml
+
+build-flatpak-qt:
+	$(FLATPAK_BUILDER) flatpak/build --verbose --force-clean flatpak/qt/org.nanuc.Axolotl.yml
+
 install-flatpak-web:
-	$(FLATPAK_BUILDER) --user --install --force-clean build flatpak/web/org.nanuc.Axolotl.yml
+	$(FLATPAK_BUILDER) --user --install --force-clean flatpak/build flatpak/web/org.nanuc.Axolotl.yml
 
 install-flatpak-qt:
-	$(FLATPAK_BUILDER) --user --install --force-clean build flatpak/qt/org.nanuc.Axolotl.yml
+	$(FLATPAK_BUILDER) --user --install --force-clean flatpak/build flatpak/qt/org.nanuc.Axolotl.yml
+
+debug-flatpak-web:
+	$(FLATPAK_BUILDER) --run --verbose flatpak/build flatpak/web/org.nanuc.Axolotl.yml sh
+
+debug-flatpak-qt:
+	$(FLATPAK_BUILDER) --run --verbose flatpak/build flatpak/qt/org.nanuc.Axolotl.yml sh
+
+uninstall-flatpak:
+	$(FLATPAK) uninstall org.nanuc.Axolotl
 
 ## Snap
 build-snap:

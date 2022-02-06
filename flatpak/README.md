@@ -12,7 +12,7 @@ To be published, all dependencies of the application needs to be listed in the F
 There is a set of [flatpak builder tools](https://github.com/flatpak/flatpak-builder-tools) provided as to assist with
 this dependency listing.
 
-## axolotl-web 
+## axolotl-web
 
 To list all dependencies of the `axolotl` go application is completely doable with the
 [go-get](https://github.com/flatpak/flatpak-builder-tools/tree/master/go-get) Flatpak builder tool.
@@ -27,7 +27,7 @@ I have however never been able to successfully use it to parse the dependencies,
 I suspect this is due to the complexity of the relations between the dependencies in node_modules, as I have waited for
 several hours without any noticeable change.
 
-Either way, to work around this, the dependencies for a specific version are bundled together and put in this repository. 
+Either way, to work around this, the dependencies for a specific version are bundled together and put in this repository.
 
 ### Create dependency archive
 
@@ -65,3 +65,19 @@ tar cfvJ ../flatpak/archives/axolotl-web-dependencies-x86_64-v1.0.1.tar.xz node_
 ```
 
 To verify, the archive can be extracted by using `tar xvJf axolotl-web-dependencies-x86_64-v1.0.1.tar.xz`.
+
+## Flatpak details
+
+To enter a shell into a built flatpak, use `make debug-flatpak-web`.
+
+### Build directories
+
+* axolotl-electron-bundle: `/run/build/axolotl-electron-bundle`
+* crayfish: `/run/build/crayfish`
+* zkgroup: `/run/build/zkgroup`
+
+### Install directories
+
+* axolotl-electron-bundle: `/app/bin/axolotl-electron-bundle`
+* crayfish: `/app/bin/crayfish`
+* zkgroup: `/app/lib/zkgroup`

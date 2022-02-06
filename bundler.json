@@ -1,12 +1,9 @@
 {
-  "app_name": "Axolotl",
+  "app_name": "axolotl-electron-bundle",
   "icon_path_darwin": "axolotl-web/public/axolotl.png",
   "icon_path_linux": "axolotl-web/public/axolotl.png",
-  "icon_path_windows": "axolotl-web/public/axolotl.ico",
+  "version_electron": "17.0.0",
+  "version_astilectron":"0.51.0",
   "output_path": "output",
-  "resources_path":"axolotl-web/dist",
-  "environments": [
-    {"arch": "amd64", "os": "linux"}
-
-  ]
+  "resources_path": "axolotl-web/dist"
 }
