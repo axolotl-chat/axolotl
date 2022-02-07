@@ -311,6 +311,186 @@ jobs:
           manifest-path: "flatpak/web/org.nanuc.Axolotl.yml"
           branch: "main"
 
+  build-axolotl-deb-arm64:
+    name: Build axolotl Debian arm64
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Go 1.16
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.16
+
+      - name: Set up cross-compiling environment
+        run: |
+          sudo apt update
+          sudo apt install gcc-aarch64-linux-gnu
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Download dependencies
+        run: go mod download
+
+      - name: Run tests
+        run: go test -race ./...
+
+      - name: Build
+        run: env GOOS=linux GOARCH=arm64 CGO_ENABLED=1 CC=aarch64-linux-gnu-gcc PKG_CONFIG_PATH=/usr/lib/aarch64-linux-gnu/pkgconfig go build -o build/linux-arm64/axolotl .
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: linux-arm64
+          path: build/linux-arm64/axolotl
+          retention-days: 1
+
+  build-axolotl-web-deb-arm64:
+    name: Build axolotl-web Debian arm64
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Node 16
+        uses: actions/setup-node@v2.5.0
+        with:
+          node-version: "16.x"
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Create folder
+        run: mkdir --parents $GITHUB_WORKSPACE/build/linux-arm64/axolotl-web
+
+      - name: Download dependencies
+        run: npm --prefix ./axolotl-web --target_arch=arm64 ci --loglevel verbose
+
+      - name: Run tests
+        run: npm --prefix ./axolotl-web test
+
+      - name: Lint application
+        run: npm --prefix ./axolotl-web run lint
+
+      - name: Analyze npm dependencies
+        run: npm --prefix ./axolotl-web run depcheck
+
+      - name: Build
+        run: npm --prefix ./axolotl-web --target_arch=arm64 run build
+
+      - name: Copy build files
+        run: |
+          cp --recursive $GITHUB_WORKSPACE/axolotl-web/dist $GITHUB_WORKSPACE/build/linux-arm64/axolotl-web/
+          cp --recursive $GITHUB_WORKSPACE/guis $GITHUB_WORKSPACE/build/linux-arm64/
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: linux-arm64
+          path: build/linux-arm64/
+          retention-days: 1
+
+  build-crayfish-deb-arm64:
+    name: Build crayfish Debian arm64
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install linker
+        run: |
+          sudo apt update
+          sudo apt install gcc-aarch64-linux-gnu
+
+      - name: Configure Rust & Cross
+        run: |
+          rustup update
+          rustup target add aarch64-unknown-linux-gnu
+          cargo install cross
+
+      - name: Check out code
+        uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+
+      - name: Build
+        run: cd crayfish && cross build --release --target aarch64-unknown-linux-gnu
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: crayfish_arm64
+          path: crayfish/target/aarch64-unknown-linux-gnu/release/crayfish
+          retention-days: 1
+
+  package-deb-arm64:
+    name: Package as Debian arm64
+    needs: [build-axolotl-deb-arm64, build-axolotl-web-deb-arm64, build-crayfish-deb-arm64]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up arm64 packaging environment
+        run: |
+          sudo apt update
+          sudo dpkg --add-architecture arm64
+          sudo apt install debmake debhelper gcc-aarch64-linux-gnu
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Download axolotl, axolotl-web and crayfish build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: build-artifacts
+
+      - name: Get git tag version
+        run: |
+          git fetch --all --tags
+          echo "TAG=$(git tag | tail --lines=1)" >> $GITHUB_ENV
+
+      - name: Set package version
+        run: |
+          echo "RELEASE_VERSION=$(echo ${{ env.TAG }} | sed 's/v//')" >> $GITHUB_ENV
+
+      - name: Prebuild package Debian arm64
+        run: |
+          wget https://github.com/nanu-c/axolotl/archive/v${{ env.RELEASE_VERSION }}.tar.gz --output-document=$GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}.tar.gz
+          mkdir --parents $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/axolotl
+          cp --recursive $GITHUB_WORKSPACE/build-artifacts/linux-arm64/* $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/axolotl/
+          cp $GITHUB_WORKSPACE/deb/LICENSE $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/LICENSE
+          cd $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }} && debmake --yes --email arno_nuehm@riseup.net --fullname "Arno Nuehm" --monoarch
+          mkdir --parents $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/usr/share/icons/hicolor/128x128/apps
+          mkdir --parents $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/usr/share/applications
+          mkdir --parents $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/usr/bin
+          mkdir --parents $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/etc/profile.d
+          cp $GITHUB_WORKSPACE/README.md $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/README.Debian
+          cp $GITHUB_WORKSPACE/deb/axolotl.png $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/usr/share/icons/hicolor/128x128/apps/axolotl.png
+          cp $GITHUB_WORKSPACE/deb/axolotl.desktop $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/usr/share/applications/
+          cp $GITHUB_WORKSPACE/deb/axolotl.sh $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/etc/profile.d/
+          cp $GITHUB_WORKSPACE/deb/axolotl.install $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/
+          cp $GITHUB_WORKSPACE/deb/postinst $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/
+          cp $GITHUB_WORKSPACE/deb/control $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/control
+          cp $GITHUB_WORKSPACE/deb/rules $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/rules
+          wget https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_aarch64.so --directory-prefix=$GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/usr/lib/
+          mv $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/axolotl/axolotl $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/usr/bin/
+          cp --recursive $GITHUB_WORKSPACE/build-artifacts/crayfish_arm64/crayfish $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/usr/bin/
+
+      - name: Build package Debian arm64
+        run: |
+          rm $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/compat
+          sudo ln -s /usr/lib/x86_64-linux-gnu/libfakeroot/libfakeroot-sysv.so /usr/aarch64-linux-gnu/lib/
+          sed -i '4d' $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/changelog
+          sed -e '/Initial/ {' -e 'r $GITHUB_WORKSPACE/docs/CHANGELOG.md' -e 'd' -e '}' -i $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/changelog
+          sed -i '3,4d' $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/changelog
+          sed -i 's/*/  */g' $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/changelog
+          sed -i 's/<preferred name and address to reach the upstream project>/aaron@nanu-c.org/' $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/copyright
+          sed -i 's/<url:\/\/example.com>/https:\/\/github.com\/nanu-c\/axolotl/' $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/copyright
+          cd $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }} && debuild -i -us -uc -b -aarm64
+
+      - name: Upload the built Debian package artifact (arm64)
+        uses: actions/upload-artifact@v2
+        with:
+          name: Axolotl-Debian-arm64
+          path: axolotl_*_arm64.deb
+          retention-days: 1
+
+
   release:
     name: Create release
     # This ensures that this job only runs on git tags
@@ -335,6 +515,15 @@ jobs:
       - name: Set git tag version
         run: |
           echo "VERSION=${{ steps.get_version.outputs.version }}" >> $GITHUB_ENV
+
+      - name: Get git tag version Debian arm64 # if needed
+        run: |
+          git fetch --all --tags
+          echo "TAG=$(git tag | tail --lines=1)" >> $GITHUB_ENV
+
+      - name: Set package version Debian arm64 # if needed
+        run: |
+          echo "RELEASE_VERSION=$(echo ${{ env.TAG }} | sed 's/v//')" >> $GITHUB_ENV
 
       - name: Download build artifacts
         uses: actions/download-artifact@v2
@@ -403,3 +592,13 @@ jobs:
           asset_path: ./build-artifacts/Axolotl-Clickable/textsecure.nanuc_${{ env.CLICKABLE_VERSION }}_armhf.click
           asset_name: textsecure.nanuc_${{ env.VERSION }}_armhf.click
           asset_content_type: application/vnd.debian.binary-package
+
+      - name: Add Debian package to release (arm64)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build-artifacts/Axolotl-Debian-arm64
+          asset_name: axolotl_${{ env.RELEASE_VERSION }}-1_arm64.deb
+          asset_content_type: application/deb
