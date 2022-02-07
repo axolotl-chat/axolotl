@@ -5,6 +5,7 @@ import (
 	_ "image/jpeg"
 	_ "image/png"
 	"os"
+	"runtime"
 	"sync"
 
 	astilectron "github.com/asticode/go-astilectron"
@@ -69,7 +70,13 @@ func runElectron() {
 		electronPath = config.ConfigDir + "/electron"
 	}
 
-	electronSwitches := []string{"--disable-dev-shm-usage", "--no-sandbox", "--ozone-platform-hint=auto"}
+	electronSwitches := []string{"--disable-dev-shm-usage", "--no-sandbox"}
+	if os.Getenv("XDG_SESSION_TYPE") == "wayland" && (runtime.GOARCH == "arm" || runtime.GOARCH == "arm64") {
+		electronSwitches = append(electronSwitches, "--enable-features=UseOzonePlatform", "--ozone-platform=wayland")
+	} else {
+		electronSwitches = append(electronSwitches, "--ozone-platform-hint=auto")
+	}
+
 	log.Infoln("[axolotl-electron] starting astilelectron with the following switches:", electronSwitches)
 
 	var astilElectronOptions = astilectron.Options{
