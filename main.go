@@ -29,6 +29,7 @@ func init() {
 	flag.BoolVar(&config.PrintVersion, "version", false, "Print version info")
 	flag.StringVar(&config.ServerHost, "host", "127.0.0.1", "Host to serve UI from.")
 	flag.StringVar(&config.ServerPort, "port", "9080", "Port to serve UI from.")
+	flag.StringVar(&config.ElectronFlag, "electron-flag", "", "Specify electron flag. Use no-ozone to disable Ozone/Wayland platform")
 }
 func setup() {
 	helpers.SetupLogging()
@@ -69,7 +70,12 @@ func runElectron() {
 		electronPath = config.ConfigDir + "/electron"
 	}
 
-	electronSwitches := []string{"--disable-dev-shm-usage", "--no-sandbox", "--ozone-platform-hint=auto"}
+	electronSwitches := []string{"--disable-dev-shm-usage", "--no-sandbox"}
+	if config.ElectronFlag == "no-ozone" {
+		electronSwitches = append(electronSwitches, "")
+	} else {
+		electronSwitches = append(electronSwitches, "--ozone-platform-hint=auto")
+	}
 	log.Infoln("[axolotl-electron] starting astilelectron with the following switches:", electronSwitches)
 
 	var astilElectronOptions = astilectron.Options{
