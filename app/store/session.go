@@ -233,8 +233,9 @@ func (s *Session) Add(text string, source string, file []Attachment, mimetype st
 	s.Last = text
 	s.Len++
 	s.CType = ctype
-	//FIXME not shure if it breaks unread message counter
-	if !outgoing {
+	// Only increments the counter for incoming messages, and only if the
+	// user is not currently on the conversation
+	if !outgoing && s.ID != sessionID && text != "readReceiptMessage" && text != "deliveryReceiptMessage" {
 		s.Unread++
 	}
 	UpdateSession(s)
