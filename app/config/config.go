@@ -46,6 +46,7 @@ var (
 	ServerHost             string
 	ServerPort             string
 	AxolotlWebDir          string
+	ElectronFlag           string
 )
 
 var Config *textsecureConfig.Config
