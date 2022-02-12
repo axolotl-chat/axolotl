@@ -1,3 +1,22 @@
+1.1.0 (Feb 12 2021)
+------------------------------------
+* Fix joining groupsv2 (nanun-c)
+* Fix receiving messages for armhf devices (nanu-c)
+* Update dutch and french translations (vistaus/anne017)
+* Fix the opening of HTTP links on Ubuntu Touch (nalysius)
+* Display a cross to close a fullscreen picture (nalysius)
+* Fix an issue in reading voice notes (nalysius)
+* Building/Packaging for Debian arm64 without further user interaction (nuehm-arno)
+* Add debian packaging for arm64 to the ci(nuehm-arno)
+* Make axolotl Flatpak installer work again (olof-nord)
+* Fix the unread counter (nalysius)
+* Add electron ozone switch flag for pinephone (nuehm-arno)
+* [axolotl-web] linter: Address warnings about event naming (olof-nord)
+* [axolotl-web]: Increment minimum Node.js version required (olof-nord)
+* Pin click workflow to Clickable 7.0.1 (jonnius)
+* Improve the startup message (olo-nord)
+
+
 1.0.9 (Jan 6 2021)
 ------------------------------------
 * Fix 'Verifiy Identity' (blackoverflow)
