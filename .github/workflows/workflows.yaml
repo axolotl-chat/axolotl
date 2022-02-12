@@ -324,16 +324,13 @@ jobs:
       - name: Set up cross-compiling environment
         run: |
           sudo apt update
-          sudo apt install gcc-aarch64-linux-gnu
+          sudo apt install -y gcc-aarch64-linux-gnu
 
       - name: Check out code
         uses: actions/checkout@v2
 
       - name: Download dependencies
         run: go mod download
-
-      - name: Run tests
-        run: go test -race ./...
 
       - name: Build
         run: env GOOS=linux GOARCH=arm64 CGO_ENABLED=1 CC=aarch64-linux-gnu-gcc PKG_CONFIG_PATH=/usr/lib/aarch64-linux-gnu/pkgconfig go build -o build/linux-arm64/axolotl .
@@ -364,15 +361,6 @@ jobs:
       - name: Download dependencies
         run: npm --prefix ./axolotl-web --target_arch=arm64 ci --loglevel verbose
 
-      - name: Run tests
-        run: npm --prefix ./axolotl-web test
-
-      - name: Lint application
-        run: npm --prefix ./axolotl-web run lint
-
-      - name: Analyze npm dependencies
-        run: npm --prefix ./axolotl-web run depcheck
-
       - name: Build
         run: npm --prefix ./axolotl-web --target_arch=arm64 run build
 
@@ -396,7 +384,7 @@ jobs:
       - name: Install linker
         run: |
           sudo apt update
-          sudo apt install gcc-aarch64-linux-gnu
+          sudo apt install -y gcc-aarch64-linux-gnu
 
       - name: Configure Rust & Cross
         run: |
@@ -415,7 +403,7 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: crayfish_arm64
+          name: crayfish-arm64
           path: crayfish/target/aarch64-unknown-linux-gnu/release/crayfish
           retention-days: 1
 
@@ -429,7 +417,7 @@ jobs:
         run: |
           sudo apt update
           sudo dpkg --add-architecture arm64
-          sudo apt install debmake debhelper gcc-aarch64-linux-gnu
+          sudo apt install -y debmake debhelper gcc-aarch64-linux-gnu
 
       - name: Check out code
         uses: actions/checkout@v2
@@ -469,7 +457,7 @@ jobs:
           cp $GITHUB_WORKSPACE/deb/rules $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/rules
           wget https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_aarch64.so --directory-prefix=$GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/usr/lib/
           mv $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/axolotl/axolotl $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/usr/bin/
-          cp --recursive $GITHUB_WORKSPACE/build-artifacts/crayfish_arm64/crayfish $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/usr/bin/
+          cp $GITHUB_WORKSPACE/build-artifacts/crayfish-arm64/crayfish $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/usr/bin/
 
       - name: Build package Debian arm64
         run: |
@@ -500,6 +488,7 @@ jobs:
       - package-click-armhf
       - package-click-arm64
       - package-click-amd64
+      - package-deb-arm64
     runs-on: ubuntu-latest
 
     steps:
@@ -516,12 +505,12 @@ jobs:
         run: |
           echo "VERSION=${{ steps.get_version.outputs.version }}" >> $GITHUB_ENV
 
-      - name: Get git tag version Debian arm64 # if needed
+      - name: Get git tag version Debian arm64 # might be redundant
         run: |
           git fetch --all --tags
           echo "TAG=$(git tag | tail --lines=1)" >> $GITHUB_ENV
 
-      - name: Set package version Debian arm64 # if needed
+      - name: Set package version Debian arm64 # might be redundant
         run: |
           echo "RELEASE_VERSION=$(echo ${{ env.TAG }} | sed 's/v//')" >> $GITHUB_ENV
 
