@@ -18,7 +18,7 @@ import (
 
 const AppName = "textsecure.nanuc"
 
-const AppVersion = "1.0.9"
+const AppVersion = "1.1.0"
 
 // Do not allow sending attachments larger than 100M for now
 const MaxAttachmentSize int64 = 100 * 1024 * 1024
