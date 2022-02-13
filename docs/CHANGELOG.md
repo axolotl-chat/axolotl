@@ -1,103 +1,103 @@
 1.1.0 (Feb 12 2021)
 ------------------------------------
-* Fix joining groupsv2 (nanun-c)
-* Fix receiving messages for armhf devices (nanu-c)
-* Update dutch and french translations (vistaus/anne017)
-* Fix the opening of HTTP links on Ubuntu Touch (nalysius)
-* Display a cross to close a fullscreen picture (nalysius)
-* Fix an issue in reading voice notes (nalysius)
-* Building/Packaging for Debian arm64 without further user interaction (nuehm-arno)
-* Add debian packaging for arm64 to the ci(nuehm-arno)
-* Make axolotl Flatpak installer work again (olof-nord)
-* Fix the unread counter (nalysius)
-* Add electron ozone switch flag for pinephone (nuehm-arno)
-* [axolotl-web] linter: Address warnings about event naming (olof-nord)
-* [axolotl-web]: Increment minimum Node.js version required (olof-nord)
-* Pin click workflow to Clickable 7.0.1 (jonnius)
-* Improve the startup message (olo-nord)
-
+* Fix joining groupsv2 @nanu-c
+* Fix receiving messages for armhf devices @nanu-c
+* Update dutch and french translations @vistaus @anne017
+* Fix the opening of HTTP links on Ubuntu Touch @nalysius
+* Display a cross to close a fullscreen picture @nalysius
+* Fix an issue in reading voice notes @nalysius
+* Building/Packaging for Debian arm64 without further user interaction @nuehm-arno
+* Add debian packaging for arm64 to the ci @nuehm-arno
+* Make axolotl Flatpak installer work again @olof-nord
+* Fix the unread counter @nalysius
+* Add electron ozone switch flag for pinephone @nuehm-arno
+* [axolotl-web] linter: Address warnings about event naming @olof-nord
+* [axolotl-web]: Increment minimum Node.js version required @olof-nord
+* Pin click workflow to Clickable 7.0.1 @jonnius
+* Improve the startup message @olof-nord
+* Automatically add release artifacts to releases @olof-nord
 
 1.0.9 (Jan 6 2021)
 ------------------------------------
-* Fix 'Verifiy Identity' (blackoverflow)
-* Fix option to mute groups (blackoverflow)
-* Fix links opening inside of axolotl on ubuntu touch (blackoverflow)
-* Fix rendering of expire timer in chats with self destroying messages (blackoverflow)
-* Remove "Upstream Changes" Warning Message (nuehm-arno)
-* Add support for voice notes (Note:needs ota21 on ut) (nanu-c)
-* Add support for joining groups (nanu-c)
-* Fix opening document attachments (blackoverflow)
-* Fix Messages with special characters (e.g. "<") not displayed correctly (blackoverflow)
-* Introduced Chai+Mocha for Vue unit tests (blackoverflow)
-* Update nvm Node to 16.13.1 to fix building (nalysius)
+* Fix 'Verifiy Identity' @blackoverflow
+* Fix option to mute groups @blackoverflow
+* Fix links opening inside of axolotl on ubuntu touch @blackoverflow
+* Fix rendering of expire timer in chats with self destroying messages @blackoverflow
+* Remove "Upstream Changes" Warning Message @nuehm-arno
+* Add support for voice notes (Note:needs ota21 on ut) @nanu-c
+* Add support for joining groups @nanu-c
+* Fix opening document attachments @blackoverflow
+* Fix Messages with special characters (e.g. "<") not displayed correctly @blackoverflow
+* Introduced Chai+Mocha for Vue unit tests @blackoverflow
+* Update nvm Node to 16.13.1 to fix building @nalysius
 * Update many dependencies (dependabot)
-* Fix building axolotl-web with clickable (nanu-c)
-* Improve documentation (danfro)
-* Update german translation (danfro)
-* Fix linter and test warning (blackoverflow)
-* Fix receiving messages by waking up crayfish childprocess from sleep (nanu-c)
-* Support QtWebEngine with Browserslist -> fix correct legacy compiling for ut (blackoverflow)
-* Fix building snaps for amd64 (armhf and arm64 is still broken) (nanu-c)
-* Make editing contacts accessible via icon (blackoverflow)
+* Fix building axolotl-web with clickable @nanu-c
+* Improve documentation @danfro
+* Update german translation @danfro
+* Fix linter and test warning @blackoverflow
+* Fix receiving messages by waking up crayfish childprocess from sleep @nanu-c
+* Support QtWebEngine with Browserslist -> fix correct legacy compiling for ut @blackoverflow
+* Fix building snaps for amd64 (armhf and arm64 is still broken) @nanu-c
+* Make editing contacts accessible via icon @blackoverflow
 
 1.0.8 (Nov 21 2021)
 ------------------------------------
-* Support receiving unidentfied sender messages -> fixes receiving messages (nanu-c)
-* French translation updated (Anne017)
-* Delete warning message (nuehm-arno)
-* Standardise gettext usage (olof-nord)
-* Update electron (nanu-c)
-* Cross-compile capabilites in the makefile (nanu-c)
-* Debian packaging improvements (nuehm-arno)
+* Support receiving unidentfied sender messages -> fixes receiving messages @nanu-c
+* French translation updated @Anne017
+* Delete warning message @nuehm-arno
+* Standardise gettext usage @olof-nord
+* Update electron @nanu-c
+* Cross-compile capabilites in the makefile @nanu-c
+* Debian packaging improvements @nuehm-arno
 
 1.0.7 (Okt 28 2021)
 ------------------------------------
-* Fix deleting chats (nuehm-arno)
-* Update electron version (Ferenc-)
-* Explicitly set ozone platform to Wayland for electron when needed (Ferenc-)
-* Fix clickable zkgroup copy error (nanu-c)
-* Explicitly set clickable-rust-version (jonnius)
+* Fix deleting chats @nuehm-arno
+* Update electron version @ferenc
+* Explicitly set ozone platform to Wayland for electron when needed @ferenc
+* Fix clickable zkgroup copy error @nanu-c
+* Explicitly set clickable-rust-version @jonnius
 
 1.0.6 (Okt 26 2021)
 ------------------------------------
-* Fix signal desktop linking by change signal desktop link url (nanu-c)
-* Add FormFactor settings to desktop files (ferenc)
+* Fix signal desktop linking by change signal desktop link url @nanu-c
+* Add FormFactor settings to desktop files @ferenc
 * Update documentation (danfro, nanu-c)
 * Update Makefile (nuehm-arno, olof nord, nanu-c)
-* fix ineffectual (unused before reassign) assignment of recipient (axiomista)
-* make more strings translatable (danfro)
+* fix ineffectual (unused before reassign) assignment of recipient @axiomista
+* make more strings translatable @danfro
 * update translations (danfro, Anne017)
 * fix add contacts (kpenfound)
-* add crayfish to ci (olof-nord)
-* fix axolotl web linter errors (olof-nord)
-* update electron version (olof-nord)
+* add crayfish to ci @olof-nord
+* fix axolotl web linter errors @olof-nord
+* update electron version @olof-nord
 
 A warm welcome to our new first time contributors: axiomista, kpenfound, ferenc
 
 1.0.5 (Sep 23 2021)
 ------------------------------------
 * Fix registration by adding a new backend and use the signal upstream libraries for that ♡ ♥ ❤ 💓 💔 (jonnius, Johannes Renkl, nanu-c)
-* Basic editing contacts support, (could be improved) (nanu-c)
+* Basic editing contacts support, (could be improved) @nanu-c
 
 1.0.4 (Sep 12 2021)
 ------------------------------------
-* Fix sending messages (nanu-c)
-* Makefile + Debian packaging improvements (nuehm-arno)
-* Update French translations (Anne017)
+* Fix sending messages @nanu-c
+* Makefile + Debian packaging improvements @nuehm-arno
+* Update French translations @Anne017
 
 1.0.3 (Sep 03 2021) Quick and dirty
 ------------------------------------
-* Add support for unidentified sender, fixes sending messages partly (nanu-c)
-* Better group error handling (nanu-c)
-* Makefile + Debian packaging improvements (nuehm-arno)
+* Add support for unidentified sender, fixes sending messages partly @nanu-c
+* Better group error handling @nanu-c
+* Makefile + Debian packaging improvements @nuehm-arno
 
 1.0.2 (Aug 23 2021)
 ------------------------------------
 * Updated Finnish translation (orenomfi)
-* Improve Makefile (olof-nord)
-* Fix Linking signal desktop (nanu-c)
-* Fix setting a password (nanu-c)
-* Lot's of code quality and improvements (nanu-c)
+* Improve Makefile @olof-nord
+* Fix Linking signal desktop @nanu-c
+* Fix setting a password @nanu-c
+* Lot's of code quality and improvements @nanu-c
 
 
 1.0.1.1 (Jul 18 2021)
@@ -106,71 +106,71 @@ A warm welcome to our new first time contributors: axiomista, kpenfound, ferenc
 
 1.0.1 (Jul 18 2021)
 ------------------------------------
-* Handle profile key changes (nanu-c)
-* Only trigger a notification once per 10s per chat (nanu-c)
-* axolotl-web: Revise lots of linter messages (olof-nord)
+* Handle profile key changes @nanu-c
+* Only trigger a notification once per 10s per chat @nanu-c
+* axolotl-web: Revise lots of linter messages @olof-nord
 * Update italian translation (albanobattistella)
 * Update dutch translation (vistaus)
-* More modular Makefile (olof-nord)
-* Improve debian packaging (nuehm-arno)
-* Fix the ci (nanu-c)
+* More modular Makefile @olof-nord
+* Improve debian packaging @nuehm-arno
+* Fix the ci @nanu-c
 
 
 
 1.0.0 (Mai 28 2021) (76 merge request were merged)
 ------------------------------------
-* Basic GroupsV2 support, a huge thanks go to blackoverflow and olof and all the testers. (nanu-c)
-* Update axolotl-web to vue3 (nanu-c)
-* fix hundreds of new linter-warnings with vue3 (olof-nord)
-* improve the ci (olof-nord)
-* add a makefile (olof-nord)
+* Basic GroupsV2 support, a huge thanks go to blackoverflow and olof and all the testers. @nanu-c
+* Update axolotl-web to vue3 @nanu-c
+* fix hundreds of new linter-warnings with vue3 @olof-nord
+* improve the ci @olof-nord
+* add a makefile @olof-nord
 * update translations English, French, Italian, Norge, Swedish (Anne017, RedXXIII, JanConGitHub, olof-nord, albanobattistella, sc0w)
-* upgrade electron and nodejs (olof-nord)
+* upgrade electron and nodejs @olof-nord
 * improve documentation a lot (olof-nord sc0w)
 
 
 0.9.9 (Feb 27 2021)
 ------------------------------------
 * Add github actions to automagically build fltapak and clicks and appimages on release(olof nord)
-* Reenable starting new chats and check if your contacts are registered with signal(nanu-c)
-* Install script for mobian (nuehm-arno)
-* .Deb Packaging (nuehm-arno)
-* Improve Logging on non ut (nanu-c)
-* Update translation and contribution documentation (danfro)
+* Reenable starting new chats and check if your contacts are registered with signal@nanu-c
+* Install script for mobian @nuehm-arno
+* .Deb Packaging @nuehm-arno
+* Improve Logging on non ut @nanu-c
+* Update translation and contribution documentation @danfro
 * Update Czech translation (jato-p)
 
 0.9.8 (Feb 10 2021)
 ------------------------------------
-* Fix recieving messages because of Signal-API changes(nanu-c)
-* Delviver call messages in the appropiate Chats (nanu-c)
+* Fix recieving messages because of Signal-API changes@nanu-c
+* Delviver call messages in the appropiate Chats @nanu-c
 
 0.9.7 (Feb 8 2021)
 ------------------------------------
-* Add support for registration captchas (nanu-c)
-* Deduplicate chat's that exists twice (nanu-c)
-* German translation update (danfro)
+* Add support for registration captchas @nanu-c
+* Deduplicate chat's that exists twice @nanu-c
+* German translation update @danfro
 * Add complete translation for PT-BR (yds12)
 * Don't show the currently broken warning everywhere (flaburgan)
-* Fix messages sent by signal desktop appearing in the wrong chat (nanu-c)
+* Fix messages sent by signal desktop appearing in the wrong chat @nanu-c
 
 0.9.6 (Jan 31 2021)
 ------------------------------------
 * Add a message to warn about current broken state in Axolotl due to upstream Signal changes (flaburgan)
-* Fix messages sometimes going to the wrong conversation (nanu-c)
-* Fix duplicate conversations for the same group (nanu-c)
+* Fix messages sometimes going to the wrong conversation @nanu-c
+* Fix duplicate conversations for the same group @nanu-c
 * Make the debug screen harder to reach and allow users to exit if they went there by mistake (flaburgan)
 
 0.9.5 (Jan 15 2021)
 ------------------------------------
-* Support for empty prekeys - solves message sending errors (nanu-c)
-* Support for uuids (nanu-c)
+* Support for empty prekeys - solves message sending errors @nanu-c
+* Support for uuids @nanu-c
 * Add a more telling error message when something isn't working (flaburgan)
-* Fix sending messages if a signal desktop is linked (nanu-c)
+* Fix sending messages if a signal desktop is linked @nanu-c
 
 0.9.4 (Jan 15 2021)
 ------------------------------------
 * Warn users that due to upstream changes in Signal, importing contacts is currently broken. (flaburgan)
-* Allow to manually add contacts as a workaround by disabling discovery (nanu-c)
+* Allow to manually add contacts as a workaround by disabling discovery @nanu-c
 * Update Dutch translations (Vistaus)
 
 0.9.3 (Jan 13 2021)
@@ -193,14 +193,14 @@ A warm welcome to our new first time contributors: axiomista, kpenfound, ferenc
 
 0.9.0 (Nov 30 2020)
 ------------------------------------
-* Improve ci-scripts, appimage and flat-package (olof-nord)
+* Improve ci-scripts, appimage and flat-package @olof-nord
 * Add support for displaying quoted messages (flaburgan & nanu-c)
 * Add a loading screen until Axolotl is ready (flaburgan)
-* Fix avatar handling (blackoverflow)
-* Add support for message read status ticks (nanu-c)
-* Improve documentation (olof-nord)
-* Fix message syncing between signal desktop and axolotl (nanu-c)
-* Indicate if the attachment is a video and handle video donwloads correctly (nanu-c)
+* Fix avatar handling @blackoverflow
+* Add support for message read status ticks @nanu-c
+* Improve documentation @olof-nord
+* Fix message syncing between signal desktop and axolotl @nanu-c
+* Indicate if the attachment is a video and handle video donwloads correctly @nanu-c
 * Update translations (Anne017 + danfro)
 
 0.8.9 (Oct 09 2020)
