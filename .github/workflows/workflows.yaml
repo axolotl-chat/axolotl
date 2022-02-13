@@ -528,17 +528,16 @@ jobs:
 
       - name: Create draft GitHub release page
         id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: marvinpinto/action-automatic-releases@v1.2.1
         with:
-          tag_name: ${{ env.VERSION }}
-          release_name: ${{ env.VERSION }}
-          body: |
-            -
-            -
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          title: ${{ env.VERSION }}
           draft: true
           prerelease: false
+          files: |
+            **/*.AppImage
+            **/*.click
+            **/*.deb
 
       - name: Add AppImage to release (x86_64)
         uses: actions/upload-release-asset@v1
