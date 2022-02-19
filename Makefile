@@ -225,39 +225,39 @@ build-snap:
 install-snap:
 	@sudo $(SNAP) install axolotl_$(AXOLOTL_VERSION)_amd64.snap --dangerous
 
-## Debian arm64 building and packaging
-## Please get the source via
+## Debian arm64 building/cross-compiling and packaging
+## Please install golang and git before getting the source via
 ## env GO111MODULE=off go get -d -u github.com/nanu-c/axolotl/
 check-platform-deb-arm64:
-	@echo "Building Axolotl for Debian arm64/aarch64."
-  ifneq ($(UNAME_S),Linux)
+ifneq ($(UNAME_S),Linux)
 	@echo "Platform unsupported - only available for Linux" && exit 1
-  endif
-  ifneq ($(HARDWARE_PLATFORM),aarch64)
+endif
+ifneq ($(HARDWARE_PLATFORM),aarch64)
 	@echo "Machine unsupported - only available for arm64/aarch64" && exit 1
-  endif
-  ifneq ($(APT),/usr/bin/apt)
+endif
+ifneq ($(APT),/usr/bin/apt)
 	@echo "OS unsupported - apt not found" && exit 1
-  endif
+endif
 
 dependencies-deb-arm64: check-platform-deb-arm64
 	@echo "Installing dependencies for building Axolotl..."
 	@sudo $(APT) update
-	@sudo $(APT) install nano curl wget git golang nodejs npm debmake
-  ifneq ($(RUST),${HOME}/.cargo/bin/rustup)
+	@sudo $(APT) install curl wget nodejs npm debmake
+ifneq ($(RUST),${HOME}/.cargo/bin/rustup)
 	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-  endif
+endif
 	@$(CARGO_PREFIX)/rustup update
 	@echo "Dependencies installed."
 
-build-deb-arm64: dependencies-deb-arm64
+build-deb-arm64:
+	@echo "Building Axolotl for Debian arm64/aarch64."
 	@echo "Downloading (go)..."
 	@cd $(CURRENT_DIR) && go mod download
 	@echo "Installing (npm)..."
 	@cd $(CURRENT_DIR)/axolotl-web && npm ci
 	@echo "Building (npm)..."
 	@cd $(CURRENT_DIR)/axolotl-web && npm run build
-	@mkdir -p $(CURRENT_DIR)/build/linux-arm64/axolotl-web
+	@mkdir --parents $(CURRENT_DIR)/build/linux-arm64/axolotl-web
 	@echo "Building (go)..."
 	@cd $(CURRENT_DIR) && go build -o build/linux-arm64/axolotl .
 	@cp --recursive $(CURRENT_DIR)/axolotl-web/dist $(CURRENT_DIR)/build/linux-arm64/axolotl-web/
@@ -312,7 +312,7 @@ install-deb-arm64: uninstall-deb-arm64
 	@echo "Installing Axolotl..."
 # Copy libzkgroup
 	@sudo $(WGET) https://github.com/nanu-c/zkgroup/raw/main/lib/libzkgroup_linux_aarch64.so --directory-prefix=$(DESTDIR)$(LIBRARY_PREFIX)/
-#	Copy binary and helpers
+# Copy binary and helpers
 	@sudo mkdir --parents $(DESTDIR)$(SHARE_PREFIX)/axolotl
 	@sudo cp --recursive $(CURRENT_DIR)/build/linux-arm64/* $(DESTDIR)$(SHARE_PREFIX)/axolotl/
 	@sudo mv $(DESTDIR)$(SHARE_PREFIX)/axolotl/axolotl $(DESTDIR)$(INSTALL_PREFIX)/
@@ -336,30 +336,29 @@ uninstall-deb-arm64:
 	@echo "Removing complete."
 
 check-platform-deb-arm64-cc:
-	@echo "Cross-compiling Axolotl for Debian arm64/aarch64."
-  ifneq ($(UNAME_S),Linux)
+ifneq ($(UNAME_S),Linux)
 	@echo "Platform unsupported - only available for Linux" && exit 1
-  endif
-  ifneq ($(HARDWARE_PLATFORM),x86_64)
+endif
+ifneq ($(HARDWARE_PLATFORM),x86_64)
 	@echo "Machine unsupported - x86_64 should be used" && exit 1
-  endif
-  ifneq ($(APT),/usr/bin/apt)
+endif
+ifneq ($(APT),/usr/bin/apt)
 	@echo "OS unsupported - apt not found" && exit 1
-  endif
+endif
 
 dependencies-deb-arm64-cc: check-platform-deb-arm64-cc
 	@echo "Installing dependencies for cross-compiling Axolotl..."
-	@sudo dpkg --add-architecture arm64
 	@sudo $(APT) update
-	@sudo $(APT) install nano curl wget git golang nodejs npm gcc-aarch64-linux-gnu debmake libc-dev:arm64
-  ifneq ($(RUST),${HOME}/.cargo/bin/rustup)
+	@sudo dpkg --add-architecture arm64
+	@sudo $(APT) install curl wget nodejs npm gcc-aarch64-linux-gnu debmake linux-libc-dev-arm64-cross
+ifneq ($(RUST),${HOME}/.cargo/bin/rustup)
 	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-  endif
+endif
 	@$(CARGO_PREFIX)/rustup update
-  ifneq ($(CROSS),${HOME}/.cargo/bin/cross)
+ifneq ($(CROSS),${HOME}/.cargo/bin/cross)
 	@$(CARGO_PREFIX)/cargo install cross
-  endif
-  ifneq ($(DOCKER),/usr/bin/docker)
+endif
+ifneq ($(DOCKER),/usr/bin/docker)
 	@curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 	@echo "deb [arch=$(shell dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(shell lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 	@sudo apt update
@@ -367,17 +366,18 @@ dependencies-deb-arm64-cc: check-platform-deb-arm64-cc
 	@sudo usermod -aG docker ${USER}
 	@echo "Dependencies installed."
 	@newgrp docker # This ends the current bash an starts a new one with docker added to groups.
-  endif
+endif
 	@echo "Dependencies installed."
 
 build-deb-arm64-cc:
+	@echo "Cross-compiling Axolotl for Debian arm64/aarch64."
 	@echo "Downloading (go)..."
 	@cd $(CURRENT_DIR) && go mod download
 	@echo "Installing (npm)..."
 	@cd $(CURRENT_DIR)/axolotl-web && npm --target_arch=arm64 ci
 	@echo "Building (npm)..."
 	@cd $(CURRENT_DIR)/axolotl-web && npm --target_arch=arm64 run build
-	@mkdir -p $(CURRENT_DIR)/build/linux-arm64/axolotl-web
+	@mkdir --parents $(CURRENT_DIR)/build/linux-arm64/axolotl-web
 	@echo "Building (go)..."
 	@cd $(CURRENT_DIR) && env GOOS=linux GOARCH=arm64 CGO_ENABLED=1 CC=aarch64-linux-gnu-gcc PKG_CONFIG_PATH=/usr/lib/aarch64-linux-gnu/pkgconfig go build -o build/linux-arm64/axolotl .
 	@cp --recursive $(CURRENT_DIR)/axolotl-web/dist $(CURRENT_DIR)/build/linux-arm64/axolotl-web/
@@ -435,13 +435,12 @@ package-clean-deb-arm64:
 	@rm --recursive --force $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/
 
 uninstall-deb-dependencies:
-	@sudo apt purge wget git golang nodejs npm debmake
+	@sudo apt purge curl wget git golang nodejs npm debmake
 	@sudo apt autoremove && sudo apt autoclean
 	@rustup self uninstall
 
 uninstall-deb-dependencies-cc:
-	@sudo dpkg --remove-architecture arm64
-	@sudo apt purge wget git golang nodejs npm gcc-aarch64-linux-gnu debmake libc-dev:arm64 docker-ce docker-ce-cli containerd.io
+	@sudo apt purge curl wget git golang nodejs npm gcc-aarch64-linux-gnu debmake linux-libc-dev-arm64-cross docker-ce docker-ce-cli containerd.io
 	@sudo apt autoremove && sudo apt autoclean
 	@rustup self uninstall
 	@sudo rm /etc/apt/sources.list.d/docker.list
