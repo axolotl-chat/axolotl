@@ -57,7 +57,6 @@ func GetDesktopContacts() ([]textsecureContacts.Contact, error) {
 }
 func indexOfUuid(uuid string, data []textsecureContacts.Contact) int {
 	for k, v := range data {
-		log.Debugln("[axolotl] indexOfUuid", v.UUID, uuid)
 		if uuid == v.UUID {
 			return k
 		}
@@ -123,7 +122,6 @@ func EditContact(cContact textsecureContacts.Contact, editContact textsecureCont
 	if err != nil {
 		os.Create(config.ContactsFile)
 	}
-	newContactList := []textsecureContacts.Contact{}
 	index := indexOfUuid(cContact.UUID, contacts)
 	if index > -1 {
 		contacts[index].Name = editContact.Name
@@ -131,8 +129,8 @@ func EditContact(cContact textsecureContacts.Contact, editContact textsecureCont
 	} else {
 		return errors.New("Contact not found")
 	}
-	sort.Slice(newContactList, func(i, j int) bool { return newContactList[i].Name < newContactList[j].Name })
-	err = textsecureContacts.WriteContacts(config.ContactsFile, newContactList)
+	sort.Slice(contacts, func(i, j int) bool { return contacts[i].Name < contacts[j].Name })
+	err = textsecureContacts.WriteContacts(config.ContactsFile, contacts)
 	if err != nil {
 		return err
 	}
