@@ -226,8 +226,9 @@ install-snap:
 	@sudo $(SNAP) install axolotl_$(AXOLOTL_VERSION)_amd64.snap --dangerous
 
 ## Debian arm64 building/cross-compiling and packaging
-## Please install golang and git before getting the source via
+## Please use "make dependencies-deb-arm64(-cc)" before getting the source via
 ## env GO111MODULE=off go get -d -u github.com/nanu-c/axolotl/
+
 check-platform-deb-arm64:
 ifneq ($(UNAME_S),Linux)
 	@echo "Platform unsupported - only available for Linux" && exit 1
@@ -242,7 +243,7 @@ endif
 dependencies-deb-arm64: check-platform-deb-arm64
 	@echo "Installing dependencies for building Axolotl..."
 	@sudo $(APT) update
-	@sudo $(APT) install curl wget nodejs npm debmake
+	@sudo $(APT) install curl wget git golang nodejs npm debmake
 ifneq ($(RUST),${HOME}/.cargo/bin/rustup)
 	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 endif
@@ -350,7 +351,8 @@ dependencies-deb-arm64-cc: check-platform-deb-arm64-cc
 	@echo "Installing dependencies for cross-compiling Axolotl..."
 	@sudo $(APT) update
 	@sudo dpkg --add-architecture arm64
-	@sudo $(APT) install curl wget nodejs npm gcc-aarch64-linux-gnu debmake linux-libc-dev-arm64-cross
+	@sudo $(APT) install curl wget git nodejs npm gcc-aarch64-linux-gnu debmake linux-libc-dev-arm64-cross
+	@sudo apt -t $(dpkg --status tzdata|grep Provides|cut -f2 -d'-')-backports install golang
 ifneq ($(RUST),${HOME}/.cargo/bin/rustup)
 	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 endif
