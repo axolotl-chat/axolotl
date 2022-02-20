@@ -128,6 +128,8 @@ func EditContact(cContact textsecureContacts.Contact, editContact textsecureCont
 	if index > -1 {
 		contacts[index].Name = editContact.Name
 		contacts[index].Tel = editContact.Tel
+	} else {
+		return errors.New("Contact not found")
 	}
 	sort.Slice(newContactList, func(i, j int) bool { return newContactList[i].Name < newContactList[j].Name })
 	err = textsecureContacts.WriteContacts(config.ContactsFile, newContactList)

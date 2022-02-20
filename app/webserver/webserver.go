@@ -362,6 +362,7 @@ func wsReader(conn *websocket.Conn) {
 			}
 			log.Debugln("[axolotl] editContact", editContactMessage.Name)
 			contact.EditContact(store.ContactsModel.GetContact(editContactMessage.ID), replaceContact)
+			// todo: dont refresh contacts when only the name is changed to avoid hitting the server limit
 			err = store.RefreshContacts()
 			if err != nil {
 				ShowError(err.Error())
