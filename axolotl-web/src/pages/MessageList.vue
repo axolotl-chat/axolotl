@@ -64,7 +64,7 @@
       <div id="chat-bottom" />
     </div>
     <div
-      v-if="chat.IsGroup && chat.GroupJoinStatus !== 0"
+      v-if="chat && chat.IsGroup && chat.GroupJoinStatus !== 0"
       class="messageInputBoxDisabled w-100"
     >
       <p v-translate>

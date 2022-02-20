@@ -59,8 +59,8 @@ func (Api *TextsecureAPI) ContactsImported(path string) {
 		ui.ShowError(err)
 	}
 }
-func (Api *TextsecureAPI) AddContact(name string, phone string) {
-	err := contact.AddContact(name, phone)
+func (Api *TextsecureAPI) AddContact(name, phone, uuid string) {
+	err := contact.AddContact(name, phone, uuid)
 	if err != nil {
 		ui.ShowError(err)
 	}
@@ -167,8 +167,10 @@ func RunBackend() {
 	}
 
 	if config.IsPhone {
+		log.Debugf("[axolotl] IsPhone")
 		client.GetLocalContacts = contact.GetAddressBookContactsFromContentHub
 	} else {
+		log.Debugf("[axolotl] IsDesktop")
 		client.GetLocalContacts = contact.GetDesktopContacts
 	}
 

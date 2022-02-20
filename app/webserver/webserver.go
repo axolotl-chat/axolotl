@@ -214,10 +214,14 @@ func wsReader(conn *websocket.Conn) {
 		case "addContact":
 			addContactMessage := AddContactMessage{}
 			json.Unmarshal([]byte(p), &addContactMessage)
-			contact.AddContact(addContactMessage.Name, addContactMessage.Phone)
-			log.Infoln("[Axolotl] Add contact", addContactMessage.Name)
+			log.Infoln("[axolotl] Add contact", addContactMessage.Name)
+			err = contact.AddContact(addContactMessage.Name, addContactMessage.Phone, addContactMessage.UUID)
+			if err != nil {
+				log.Errorln("[axolotl] Add contact failed: ", err)
+			}
 			err = store.RefreshContacts()
 			if err != nil {
+				log.Errorln("[axolotl] Refresh contacts failed: ", err)
 				ShowError(err.Error())
 			}
 			go sendContactList()
@@ -354,6 +358,7 @@ func wsReader(conn *websocket.Conn) {
 			replaceContact := textsecureContacts.Contact{
 				Tel:  editContactMessage.Phone,
 				Name: editContactMessage.Name,
+				UUID: editContactMessage.UUID,
 			}
 			log.Debugln("[axolotl] editContact", editContactMessage.Name)
 			contact.EditContact(store.ContactsModel.GetContact(editContactMessage.ID), replaceContact)

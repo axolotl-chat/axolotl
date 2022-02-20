@@ -10,7 +10,7 @@ func AvatarImageProvider(id string, width, height int) image.Image {
 	var r io.Reader
 
 	if c := GetContactForTel(id); c != nil {
-		r = bytes.NewReader(c.Avatar)
+		r = bytes.NewReader(c.AvatarImg)
 	}
 
 	if g, ok := Groups[id]; ok {

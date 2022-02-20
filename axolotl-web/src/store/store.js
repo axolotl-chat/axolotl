@@ -514,6 +514,7 @@ export default createStore({
           "request": "addContact",
           "name": contact.name,
           "phone": contact.phone,
+          "uuid":contact.uuid
         }
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
@@ -589,6 +590,7 @@ export default createStore({
           "request": "editContact",
           "phone": data.contact.Tel,
           "name": data.contact.Name,
+          "uuid": data.contact.UUID,
           "id": data.id
         }
         app.config.globalProperties.$socket.send(JSON.stringify(message))
