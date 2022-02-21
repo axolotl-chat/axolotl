@@ -48,23 +48,49 @@ func FormatE164(tel string, country string) string {
 	return libphonenumber.Format(num, libphonenumber.E164)
 }
 func GetDesktopContacts() ([]textsecureContacts.Contact, error) {
-	return textsecureContacts.ReadContacts(filepath.Join(config.ConfigDir, "contacts.yml"))
+	contacts, err := textsecureContacts.ReadContacts(filepath.Join(config.ConfigDir, "contacts.yml"))
+	if err != nil {
+		log.Error("[axolotl] GetDesktopContacts", err)
+		return nil, err
+	}
+	return contacts, nil
+}
+func indexOfUuid(uuid string, data []textsecureContacts.Contact) int {
+	for k, v := range data {
+		if uuid == v.UUID {
+			return k
+		}
+	}
+	return -1 //not found.
 }
 
-func AddContact(name string, phone string) error {
+func AddContact(name string, phone string, uuid string) error {
+	log.Debug("[axolotl] AddContact uuid", name, uuid)
 	if phone[0] == '0' && phone[1] == '0' {
 		phone = "+" + phone[2:]
 	}
 	contacts, err := textsecureContacts.ReadContacts(config.ContactsFile)
 	if err != nil {
+		log.Infoln("[axolotl] AddContact no contacts file found create one", err)
 		os.Create(config.ContactsFile)
 	}
-	contact := &textsecureContacts.Contact{
-		Name: name,
-		Tel:  phone,
+	// check if uuid already exists and if so, update the name and phone, else add a new contact
+	index := -1
+	if len(uuid) > 0 {
+		index = indexOfUuid(uuid, contacts)
 	}
-	contacts = append(contacts, *contact)
-	sort.Slice(contacts, func(i, j int) bool { return contacts[i].Name < contacts[j].Name })
+	if index > -1 {
+		contacts[index].Name = name
+		contacts[index].Tel = phone
+	} else {
+		contact := &textsecureContacts.Contact{
+			Name: name,
+			Tel:  phone,
+			UUID: uuid,
+		}
+		contacts = append(contacts, *contact)
+		sort.Slice(contacts, func(i, j int) bool { return contacts[i].Name < contacts[j].Name })
+	}
 	err = textsecureContacts.WriteContacts(config.ContactsFile, contacts)
 	if err != nil {
 		return err
@@ -96,17 +122,15 @@ func EditContact(cContact textsecureContacts.Contact, editContact textsecureCont
 	if err != nil {
 		os.Create(config.ContactsFile)
 	}
-	newContactList := []textsecureContacts.Contact{}
-
-	for i := range contacts {
-		if contacts[i].Tel == cContact.Tel {
-			newContactList = append(newContactList, editContact)
-		} else {
-			newContactList = append(newContactList, contacts[i])
-		}
+	index := indexOfUuid(cContact.UUID, contacts)
+	if index > -1 {
+		contacts[index].Name = editContact.Name
+		contacts[index].Tel = editContact.Tel
+	} else {
+		return errors.New("Contact not found")
 	}
-	sort.Slice(newContactList, func(i, j int) bool { return newContactList[i].Name < newContactList[j].Name })
-	err = textsecureContacts.WriteContacts(config.ContactsFile, newContactList)
+	sort.Slice(contacts, func(i, j int) bool { return contacts[i].Name < contacts[j].Name })
+	err = textsecureContacts.WriteContacts(config.ContactsFile, contacts)
 	if err != nil {
 		return err
 	}

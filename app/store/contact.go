@@ -43,14 +43,15 @@ func GetContactForUUID(uuid string) *textsecureContacts.Contact {
 }
 func RefreshContacts() error {
 	c, err := textsecure.GetRegisteredContacts()
-	log.Debugln("[axolotl] Refresh contacts count: ", len(c))
-
 	if err != nil {
+		log.Errorln("[axolotl] RefreshContacts", err)
+		// when refresh fails, we load the old contacts
 		c, _ = readRegisteredContacts(config.RegisteredContactsFile)
+		return err
 	} else {
 		writeRegisteredContacts(config.RegisteredContactsFile, c)
-
 	}
+	log.Debugln("[axolotl] Refresh contacts count: ", len(c))
 	ContactsModel.Contacts = c
 	ContactsModel.Len = len(c)
 	SessionsModel.UpdateSessionNames()

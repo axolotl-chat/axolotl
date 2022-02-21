@@ -117,9 +117,11 @@ type AddContactMessage struct {
 	Type  string `json:"request"`
 	Name  string `json:"name"`
 	Phone string `json:"phone"`
+	UUID  string `json:"uuid"`
 }
 type EditContactMessage struct {
 	Type  string `json:"request"`
+	UUID  string `json:"uuid"`
 	Name  string `json:"name"`
 	Phone string `json:"phone"`
 	ID    int    `json:"id"`

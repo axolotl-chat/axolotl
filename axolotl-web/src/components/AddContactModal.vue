@@ -42,7 +42,7 @@
             v-translate
             type="button"
             class="btn btn-primary"
-            @click="$emit('add', { name: name, phone: phone })"
+            @click="$emit('add', { name: name, phone: phone, uuid:uuid })"
           >
             Add
           </button>
@@ -57,6 +57,11 @@ export default {
   name: "AddContactModal",
   props: {
     number: {
+      type: String,
+      required: false,
+      default: null
+    },
+    uuid: {
       type: String,
       required: false,
       default: null

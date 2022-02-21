@@ -413,6 +413,7 @@
     <div v-if="addContactModal" class="addContactModal">
       <add-contact-modal
         :number="currentChat.Tel"
+        :uuid="currentChat.UUID"
         @close="addContactModal = false"
         @add="addContact($event)"
       />
