@@ -112,6 +112,8 @@ github.com/signal-golang/mimemagic v0.0.0-20200821045537-3f613cf2cd3f h1:S17lCk5
 github.com/signal-golang/mimemagic v0.0.0-20200821045537-3f613cf2cd3f/go.mod h1:tU6SWwv50oGkZNPlvTFvmqZvEBp0vWWCC+LCEVlTE5A=
 github.com/signal-golang/textsecure v1.10.3 h1:DiRvnPzCWdBq6fUHmMZ1twfuYwFM7x+ZUnSZfBkliek=
 github.com/signal-golang/textsecure v1.10.3/go.mod h1:teNGhh4TcoKEfPta0A8JKq25zerVF+mh1ZYWAelVeGQ=
+github.com/signal-golang/textsecure v1.10.4-0.20220221110011-7c6683023299 h1:IXAbeSYaDJ0Yc7KaZYz4kv1RoQnrmgnTbNWFmOV5F7U=
+github.com/signal-golang/textsecure v1.10.4-0.20220221110011-7c6683023299/go.mod h1:teNGhh4TcoKEfPta0A8JKq25zerVF+mh1ZYWAelVeGQ=
 github.com/sirupsen/logrus v1.8.1 h1:dJKuHgqk1NNQlqoA6BTlM1Wf9DOH3NBjQyu0h9+AZZE=
 github.com/sirupsen/logrus v1.8.1/go.mod h1:yWOB1SBYBC5VeMP7gHvWumXLIWorT60ONWic61uBYv0=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=

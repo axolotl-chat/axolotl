@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "ImportVcfModal",
   props: {
@@ -59,6 +60,9 @@ export default {
       name: "",
     };
   },
+  computed: mapState([
+    "gui",
+  ]),
   mounted() {
     if (this.number) {
       this.phone = this.number;
@@ -89,6 +93,7 @@ export default {
         const result = window.prompt("refreshContacts");
         if (result !== "canceled")
           this.$store.dispatch("refreshContacts", result);
+          this.$emit("close");
       } else {
         this.showSettingsMenu = false;
         document.getElementById("addVcf").click();
