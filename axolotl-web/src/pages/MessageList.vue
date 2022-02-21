@@ -64,7 +64,7 @@
       <div id="chat-bottom" />
     </div>
     <div
-      v-if="chat && chat.IsGroup && chat.GroupJoinStatus !== 0"
+      v-if="showAddContactButton()"
       class="messageInputBoxDisabled w-100"
     >
       <p v-translate>
@@ -186,6 +186,9 @@ export default {
   computed: {
     chat() {
       return this.$store.state.currentChat;
+    },
+    showAddContactButton() {
+      return this.chat && this.chat.IsGroup && this.chat.GroupJoinStatus !== 0
     },
     messages() {
       return this.$store.state.messageList.Messages;
