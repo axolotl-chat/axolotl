@@ -42,7 +42,7 @@ Axolotl can be installed through different means.
 | <a href='https://open-store.io/app/textsecure.nanuc'><img width='130' alt="Get it from the OpenStore" src="https://open-store.io/badges/en_US.png"></a> | nanu-c | For Ubuntu Touch |
 | <a href='https://snapcraft.io/axolotl'><img width='130' alt="Get it from the Snap Store" src="https://snapcraft.io/static/images/badges/en/snap-store-black.svg"></a> | nanu-c | For Ubuntu desktop |
 | <a href='https://flathub.org/apps/details/org.nanuc.Axolotl'><img width='130' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/></a> | olof-nord | https://github.com/flathub/org.nanuc.Axolotl |
-| <a href='https://github.com/nuehm-arno/axolotl-mobian-package'><img alt="mobian version" src="https://img.shields.io/badge/axolotl-deb-%23A80030"></a> | nuehm-arno | https://github.com/nuehm-arno/axolotl-mobian-package |
+| <a href='https://github.com/nanu-c/axolotl/releases'><img alt="mobian version" src="https://img.shields.io/badge/axolotl-deb-%23A80030"></a> | nuehm-arno | https://github.com/nanu-c/axolotl/releases <br>(Debian package in the Assets section)|
 
 ## Building
 
@@ -52,7 +52,7 @@ To find out how to build from source and install yourself, please see below.
 * with Snap: see [here](docs/INSTALL.md#snap).
 * with Flatpak: see [here](docs/INSTALL.md#flatpak).
 * with AppImage: see [here](docs/INSTALL.md#appimage).
-* for Mobian: see [here](docs/INSTALL.md#mobian).
+* for Mobian: see [here](docs/INSTALL.md#mobian-or-debian-arm64-systems).
 
 ### Manually
 
