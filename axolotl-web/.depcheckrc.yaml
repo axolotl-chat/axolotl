@@ -5,7 +5,6 @@ ignores:
   - "babel-eslint"
   - "@vue/cli-plugin-babel"
   - "browserslist"
-  - "vue-loader"
   - "vue3-gettext"
   - "@vue/eslint-config-airbnb"
   - "eslint-config-prettier"
