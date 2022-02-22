@@ -352,24 +352,14 @@
                   class="dropdown-item"
                   @click="
                     showSettingsMenu = false;
-                    refreshContacts();
+                    showImportVcfModal = true;
                   "
                 >
                   Import contacts
                 </button>
-                <input
-                  id="addVcf"
-                  type="file"
-                  style="position: fixed; top: -100em"
-                  @change="readVcf"
-                />
               </div>
             </div>
           </div>
-          <import-unavailable-modal
-            v-if="showImportUnavailableModal"
-            @close="showImportUnavailableModal = false"
-          />
         </div>
         <!-- chat list page -->
         <div v-else-if="route() === 'chatList'" class="settings-container row">
@@ -418,6 +408,11 @@
         @add="addContact($event)"
       />
     </div>
+    <div v-if="showImportVcfModal" class="addContactModal">
+      <import-vcf-modal
+        @close="showImportVcfModal = false"
+      />
+    </div>
     <div
       v-if="editContactModal && editContactId !== -1"
       class="editContactModal"
@@ -435,7 +430,7 @@
 <script>
 import IdentityModal from "@/components/IdentityModal.vue";
 import ConfirmationModal from "@/components/ConfirmationModal.vue";
-import ImportUnavailableModal from "@/components/ImportUnavailableModal.vue";
+import ImportVcfModal from "@/components/ImportVcfModal.vue";
 import AddContactModal from "@/components/AddContactModal.vue";
 import EditContactModal from "@/components/EditContactModal.vue";
 
@@ -445,7 +440,7 @@ export default {
   components: {
     ConfirmationModal,
     IdentityModal,
-    ImportUnavailableModal,
+    ImportVcfModal,
     AddContactModal,
     EditContactModal,
   },
@@ -454,7 +449,7 @@ export default {
       showSettingsMenu: false,
       showConfirmationModal: false,
       showIdentityModal: false,
-      showImportUnavailableModal: false,
+      showImportVcfModal: false,
       cMTitle: "",
       cMText: "",
       cMType: "",
@@ -561,19 +556,6 @@ export default {
         } else return tel;
       });
     },
-    refreshContacts() {
-      this.$store.state.importingContacts = true;
-      // console.log("Import contacts for gui " + this.gui)
-      this.showSettingsMenu = false;
-      if (this.gui === "ut") {
-        const result = window.prompt("refreshContacts");
-        if (result !== "canceled")
-          this.$store.dispatch("refreshContacts", result);
-      } else {
-        this.showSettingsMenu = false;
-        document.getElementById("addVcf").click();
-      }
-    },
     callNumber(n) {
       if (this.gui === "ut") {
         window.prompt("call" + n);
@@ -583,20 +565,6 @@ export default {
       }
     },
     createGroup() {},
-    readVcf(evt) {
-      const f = evt.target.files[0];
-      if (f) {
-        const r = new FileReader();
-        const that = this;
-        r.onload = function (e) {
-          const vcf = e.target.result;
-          that.$store.dispatch("uploadVcf", vcf);
-        };
-        r.readAsText(f);
-      } else {
-        alert("Failed to load file");
-      }
-    },
     openEditContactModal() {
       const id = this.contacts.findIndex((c) => c.Tel === this.currentChat.Tel);
       this.editContactId = id;

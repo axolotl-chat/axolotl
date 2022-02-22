@@ -8,7 +8,7 @@ func (Api *TextsecureAPI) GetAvatarImage(id string) string {
 	url := ""
 
 	if c := store.GetContactForTel(id); c != nil {
-		if c.Avatar {
+		if c.HasAvatar {
 			url = "image://avatar/" + id
 		}
 	}

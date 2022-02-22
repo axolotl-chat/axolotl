@@ -85,7 +85,7 @@ func avatarsHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "File not found.", 404)
 			return
 		}
-		if !avatar.Avatar {
+		if !avatar.HasAvatar {
 			//File not found, send 404
 			http.Error(w, "File not found.", 404)
 			return

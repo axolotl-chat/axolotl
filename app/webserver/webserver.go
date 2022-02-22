@@ -320,27 +320,23 @@ func wsReader(conn *websocket.Conn) {
 			f, err := os.Create("import.vcf")
 			if err != nil {
 				log.Debugln("[axolotl] import vcf ", err)
-				return
+			} else {
+				l, err := f.WriteString(uploadVcf.Vcf)
+				if err != nil {
+					log.Errorln("[axolotl] import vcf ", err)
+					f.Close()
+				}
+				log.Debugln("[axolotl] import vcf bytes written successfully", l)
+				err = f.Close()
+				if err != nil {
+					log.Errorln("[axolotl] import vcf ", err)
+				} else {
+					//non blocking vcf import
+					go importVcf()
+				}
+
 			}
-			l, err := f.WriteString(uploadVcf.Vcf)
-			if err != nil {
-				log.Debugln("[axolotl] import vcf ", err)
-				f.Close()
-				return
-			}
-			log.Debugln("[axolotl] import vcf bytes written successfully", l)
-			err = f.Close()
-			if err != nil {
-				log.Debugln("[axolotl] import vcf ", err)
-				return
-			}
-			config.VcardPath = "import.vcf"
-			contact.GetAddressBookContactsFromContentHub()
-			err = store.RefreshContacts()
-			if err != nil {
-				ShowError(err.Error())
-			}
-			go sendContactList()
+
 		case "delContact":
 			delContactMessage := DelContactMessage{}
 			json.Unmarshal([]byte(p), &delContactMessage)

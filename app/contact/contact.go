@@ -12,9 +12,9 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/emersion/go-vcard"
 	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/helpers"
+	vcard "github.com/signal-golang/go-vcard"
 	"github.com/signal-golang/libphonenumber"
 	textsecureContacts "github.com/signal-golang/textsecure/contacts"
 )
@@ -181,7 +181,8 @@ func getContactsFromVCardFile(path string) ([]textsecureContacts.Contact, error)
 	// vcardContacts, err := vcard.GetVCards(path)
 	f, err := os.Open(path)
 	if err != nil {
-		log.Fatal(err)
+		log.Error("[axolotl] opening vcf file failed", err)
+		return nil, err
 	}
 	defer f.Close()
 
@@ -193,41 +194,27 @@ func getContactsFromVCardFile(path string) ([]textsecureContacts.Contact, error)
 		if err == io.EOF {
 			break
 		} else if err != nil {
-			log.Fatal(err)
+			return nil, err
+
 		}
 		name := card.PreferredValue(vcard.FieldFormattedName)
 		log.Debugln("[axolotl] Import contact: " + name)
 		telNums := card.Values(vcard.FieldTelephone)
-		for index, tel := range telNums {
-			tmp := textsecureContacts.Contact{}
-			tmp.Name = name
-			if index > 0 {
-				tmp.Name = name + " " + strconv.Itoa(index)
+		importedNumbers := 0
+		for _, tel := range telNums {
+			// only import numbers that are not empty
+			if len(tel) > 0 {
+				tmp := textsecureContacts.Contact{}
+				tmp.Name = name
+				if importedNumbers > 0 {
+					tmp.Name = name + " " + strconv.Itoa(importedNumbers)
+				}
+
+				tmp.Tel = FormatE164(tel, country)
+				contacts = append(contacts, tmp)
 			}
-			tmp.Tel = FormatE164(tel, country)
-			contacts = append(contacts, tmp)
 		}
 	}
-
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	//
-	//
-	// i := 0
-	// for _, c := range vcardContacts {
-	// 	if len(c.Phone) > 0 {
-	// 		contacts[i].Name = c.FormattedName
-	// 		contacts[i].Tel = FormatE164(c.Phone
-	// 		if c.Photo != "" {
-	// 			b, err := base64.StdEncoding.DecodeString(c.Photo)
-	// 			if err == nil {
-	// 				contacts[i].Photo = string(b)
-	// 			}
-	// 		}
-	// 		i++
-	// 	}
-	// }
 	return contacts, nil
 }
 

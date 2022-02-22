@@ -13,8 +13,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <span><strong v-translate>Only add numbers that you are sure are registered Signal
-            accounts!</strong></span>
+          <span><strong v-translate>After adding a contact, it takes a few seconds for checking if the contact is registered with signal.</strong></span>
         </div>
         <div class="modal-body">
           <div class="form-group">

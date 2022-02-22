@@ -429,3 +429,13 @@ func sendConfig() {
 	}
 	broadcast <- *message
 }
+
+func importVcf() {
+	config.VcardPath = "import.vcf"
+	contact.GetAddressBookContactsFromContentHub()
+	err := store.RefreshContacts()
+	if err != nil {
+		ShowError(err.Error())
+	}
+	sendContactList()
+}
