@@ -47,7 +47,7 @@ jobs:
 
     steps:
       - name: Setup Node 16
-        uses: actions/setup-node@v2.5.0
+        uses: actions/setup-node@v2.5.1
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -351,7 +351,7 @@ jobs:
 
     steps:
       - name: Set up Node 16
-        uses: actions/setup-node@v2.5.0
+        uses: actions/setup-node@v2.5.1
         with:
           node-version: ${{ env.NODE_VERSION }}
 
