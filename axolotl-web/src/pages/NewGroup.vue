@@ -1,48 +1,50 @@
 <template>
-  <div class="new-group">
-    <div v-if="!creatingGroup" class="new-group-form">
-      <div class="form-group">
-        <label for="group-name"><b v-translate>Group name</b></label>
-        <input
-          id="group-name"
-          v-model="newGroupName"
-          type="text"
-          class="form-control"
-          placeholder="Enter group name"
-          @change="setGroupName"
-        >
-      </div>
-      <p v-translate>Note, you can't add yourself to a group.</p>
-      <button class="btn add-group-members" @click="addMembersModal = true">
-        <font-awesome-icon icon="plus" /> <span v-translate>Members</span>
-      </button>
-      <button class="btn create-group" @click="createGroup">
-        <font-awesome-icon icon="check" /> <span v-translate>Create group</span>
-      </button>
-      <add-group-members-modal
-        v-if="addMembersModal"
-        :already-added="newGroupMembers"
-        @add="addGroupMember"
-        @close="addMembersModal = false"
-      />
-      <div v-for="(m, i) in newGroupMembers" :key="m" class="member row">
-        <div class="row col-10">
-          <div class="name col-12">
-            {{ m.Name }}
+  <component :is="$route.meta.layout || 'div'">
+    <div class="new-group">
+      <div v-if="!creatingGroup" class="new-group-form">
+        <div class="form-group">
+          <label for="group-name"><b v-translate>Group name</b></label>
+          <input
+            id="group-name"
+            v-model="newGroupName"
+            type="text"
+            class="form-control"
+            placeholder="Enter group name"
+            @change="setGroupName"
+          >
+        </div>
+        <p v-translate>Note, you can't add yourself to a group.</p>
+        <button class="btn add-group-members" @click="addMembersModal = true">
+          <font-awesome-icon icon="plus" /> <span v-translate>Members</span>
+        </button>
+        <button class="btn create-group" @click="createGroup">
+          <font-awesome-icon icon="check" /> <span v-translate>Create group</span>
+        </button>
+        <add-group-members-modal
+          v-if="addMembersModal"
+          :already-added="newGroupMembers"
+          @add="addGroupMember"
+          @close="addMembersModal = false"
+        />
+        <div v-for="(m, i) in newGroupMembers" :key="m" class="member row">
+          <div class="row col-10">
+            <div class="name col-12">
+              {{ m.Name }}
+            </div>
+            <div class="tel col-12">
+              {{ m.Tel }}
+            </div>
           </div>
-          <div class="tel col-12">
-            {{ m.Tel }}
+          <div class="col-2 rm">
+            <button type="button" class="remove btn" @click="removeMember(i)">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
         </div>
-        <div class="col-2 rm">
-          <button type="button" class="remove btn" @click="removeMember(i)">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
       </div>
+      <div v-else v-translate class="">Creating group</div>
     </div>
-    <div v-else v-translate class="">Creating group</div>
-  </div>
+  </component>
 </template>
 
 <script>

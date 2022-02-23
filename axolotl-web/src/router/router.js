@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import store from '../store/store'
-
+import Legacy from "../layouts/Legacy.vue";
+import Default from "../layouts/Default.vue";
 
 
 export const router = new createRouter({
@@ -10,11 +11,19 @@ export const router = new createRouter({
       path: "/",
       alias: "/chatList",
       name: "chatList",
+      meta: {
+        layout: Default,
+        hasMenu: true,
+        hasBackButton: false,
+      },
       component: () => import("@/pages/ChatList.vue")
     },
     {
       path: "/chat/:id",
       name: "chat",
+      meta: {
+        layout: Legacy,
+      },
       props: route => ({
         chatId: Number(route.params.id),
       }),
@@ -24,18 +33,27 @@ export const router = new createRouter({
       // register page is where the registration starts
       path: "/register",
       name: "register",
+      meta: {
+        layout: Legacy,
+      },
       component: () => import("@/pages/Register.vue")
     },
     {
       // verify page is for entering the sms pin
       path: "/verify",
       name: "verify",
+      meta: {
+        layout: Legacy,
+      },
       component: () => import("@/pages/Verification.vue")
     },
     {
       // password page is for entering the password for database decryption
       path: "/password",
       name: "password",
+      meta: {
+        layout: Legacy,
+      },
       component: () => import("@/pages/Password.vue")
     },
     {
@@ -43,51 +61,81 @@ export const router = new createRouter({
       // and handled by the verification page
       path: "/pin",
       name: "pin",
+      meta: {
+        layout: Legacy,
+      },
       component: () => import("@/pages/Verification.vue")
     },
     {
       path: "/setPassword",
       name: "setPassword",
+      meta: {
+        layout: Legacy,
+      },
       component: () => import("@/pages/SetPassword.vue")
     },
     {
       path: "/setUsername",
       name: "setUsername",
+      meta: {
+        layout: Legacy,
+      },
       component: () => import("@/pages/SetUsername.vue")
     },
     {
       path: "/contacts",
       name: "contacts",
+      meta: {
+        layout: Legacy,
+      },
       component: () => import("@/pages/Contacts.vue")
     },
     {
       path: "/settings",
       name: "settings",
+      meta: {
+        layout: Legacy,
+      },
       component: () => import("@/pages/Settings.vue")
     },
     {
       path: "/about",
       name: "about",
+      meta: {
+        layout: Legacy,
+      },
       component: () => import("@/pages/About.vue")
     },
     {
       path: "/devices",
       name: "devices",
+      meta: {
+        layout: Legacy,
+      },
       component: () => import("@/pages/DeviceList.vue")
     },
     {
       path: "/newGroup",
       name: "newGroup",
+      meta: {
+        layout: Legacy,
+      },
       component: () => import("@/pages/NewGroup.vue")
     },
     {
       path: "/editGroup/:id",
       name: "editGroup",
+      meta: {
+        layout: Legacy,
+      },
       component: () => import("@/pages/EditGroup.vue")
     },
     {
       path: "/debug",
       name: "debug",
+      meta: {
+        layout: Legacy,
+      },
       component: () => import("@/pages/Debug.vue")
     },
     {

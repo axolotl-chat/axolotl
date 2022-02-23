@@ -1,25 +1,27 @@
 <template>
-  <div class="set-username">
-    <h5 v-translate>Info</h5>
-    <p v-translate>
-      Setting a username is required. Please choose one.
-    </p>
-    <div class="form-group">
-      <label v-translate for="username" class="text-primary">
-        Username
-      </label>
-      <input
-        id="username"
-        v-model="username"
-        required
-        type="text"
-        class="form-control"
-      >
+  <component :is="$route.meta.layout || 'div'">
+    <div class="set-username">
+      <h5 v-translate>Info</h5>
+      <p v-translate>
+        Setting a username is required. Please choose one.
+      </p>
+      <div class="form-group">
+        <label v-translate for="username" class="text-primary">
+          Username
+        </label>
+        <input
+          id="username"
+          v-model="username"
+          required
+          type="text"
+          class="form-control"
+        >
+      </div>
+      <button v-translate class="btn btn-primary" @click="setUsername()">
+        Set username
+      </button>
     </div>
-    <button v-translate class="btn btn-primary" @click="setUsername()">
-      Set username
-    </button>
-  </div>
+  </component>
 </template>
 
 <script>

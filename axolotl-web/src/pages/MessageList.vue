@@ -1,155 +1,161 @@
 <template>
-  <div class="chat">
-    <div
-      id="messageList-container"
-      class="messageList-container"
-      @scroll="handleScroll($event)"
-    >
+  <component :is="$route.meta.layout || 'div'">
+    <template #header>
+      huh
+    </template>
+    <div class="chat">
       <div
-        v-if="messages && messages.length > 0"
-        id="messageList"
-        class="messageList row"
+        id="messageList-container"
+        class="messageList-container"
+        @scroll="handleScroll($event)"
       >
-        <div v-if="showFullscreenImgSrc !== ''" class="fullscreenImage">
-          <img
-            :src="
-              'http://localhost:9080/attachments?file=' + showFullscreenImgSrc
-            "
-            alt="Fullscreen image"
-          />
-          <button class="btn btn-secondary save" @click="saveImg($event)">
-            <font-awesome-icon icon="arrow-down" />
-          </button>
-          <button
-            class="btn btn-secondary close"
-            @click="showFullscreenImgSrc = ''"
-          >
-            <font-awesome-icon icon="times" />
-          </button>
-        </div>
-        <div v-if="showFullscreenVideoSrc !== ''" class="fullscreenImage">
-          <video controls>
-            <source
+        <div
+          v-if="messages && messages.length > 0"
+          id="messageList"
+          class="messageList row"
+        >
+          <div v-if="showFullscreenImgSrc !== ''" class="fullscreenImage">
+            <img
               :src="
-                'http://localhost:9080/attachments?file=' +
-                  showFullscreenVideoSrc
+                'http://localhost:9080/attachments?file=' + showFullscreenImgSrc
               "
+              alt="Fullscreen image"
             />
-            <span v-translate>Your browser does not support the audio element.</span>
-          </video>
-          <button
-            class="btn btn-secondary close"
-            @click="showFullscreenVideoSrc = ''"
-          >
-            <font-awesome-icon icon="times" />
-          </button>
-          <button class="btn btn-secondary save" @click="saveVideo($event)">
-            <font-awesome-icon icon="arrow-down" />
-          </button>
-        </div>
-        <message
-          v-for="message in messageList.Messages.slice().reverse()"
-          :key="message.ID"
-          :message="message"
-          :is-group="isGroup"
-          :names="names"
-          @show-fullscreen-img="showFullscreenImg($event)"
-          @show-fullscreen-video="showFullscreenVideo($event)"
-          @click="handleClick($event)"
-        />
-      </div>
-      <div v-else class="no-entries">
-        <span v-translate>No messages available.</span>
-      </div>
-      <div id="chat-bottom" />
-    </div>
-    <div
-      v-if="showAddContactButton()"
-      class="messageInputBoxDisabled w-100"
-    >
-      <p v-translate>
-        Join this group? They won’t know you’ve seen their messages until you accept.
-      </p>
-      <div v-translate class="btn btn-primary" @click="joinGroupAccept">Join</div>
-    </div>
-    <div v-else class="bottom-wrapper">
-      <div v-if="!voiceNote.recorded" class="messageInputBox">
-        <div v-if="!voiceNote.recording" class="messageInput-container">
-          <textarea
-            id="messageInput"
-            v-model="messageInput"
-            type="textarea"
-            contenteditable="true"
-            data-long-press-delay="500"
-            @long-press="paste"
+            <button class="btn btn-secondary save" @click="saveImg($event)">
+              <font-awesome-icon icon="arrow-down" />
+            </button>
+            <button
+              class="btn btn-secondary close"
+              @click="showFullscreenImgSrc = ''"
+            >
+              <font-awesome-icon icon="times" />
+            </button>
+          </div>
+          <div v-if="showFullscreenVideoSrc !== ''" class="fullscreenImage">
+            <video controls>
+              <source
+                :src="
+                  'http://localhost:9080/attachments?file=' +
+                    showFullscreenVideoSrc
+                "
+              />
+              <span v-translate>Your browser does not support the audio element.</span>
+            </video>
+            <button
+              class="btn btn-secondary close"
+              @click="showFullscreenVideoSrc = ''"
+            >
+              <font-awesome-icon icon="times" />
+            </button>
+            <button class="btn btn-secondary save" @click="saveVideo($event)">
+              <font-awesome-icon icon="arrow-down" />
+            </button>
+          </div>
+          <message
+            v-for="message in messageList.Messages.slice().reverse()"
+            :key="message.ID"
+            :message="message"
+            :is-group="isGroup"
+            :names="names"
+            @show-fullscreen-img="showFullscreenImg($event)"
+            @show-fullscreen-video="showFullscreenVideo($event)"
+            @click="handleClick($event)"
           />
         </div>
-        <div v-if="messageInput !== ''" class="messageInput-btn-container">
-          <button class="btn send" @click="sendMessage">
-            <font-awesome-icon icon="paper-plane" />
-          </button>
+        <div v-else class="no-entries">
+          <span v-translate>No messages available.</span>
         </div>
-        <div v-else-if="voiceNote.recording" class="messageInput-btn-container d-flex justify-content-center w-100">
-          <div v-translate class="me-5">Recording...</div>
-          <button class="btn send record-stop" @click="stopRecording">
-            <font-awesome-icon icon="stop-circle" />
-          </button>
-        </div>
-        <div v-else class="messageInput-btn-container d-flex">
-          <button class="btn send record me-2" @click="recordAudio">
-            <font-awesome-icon icon="microphone" />
-          </button>
-          <button class="btn send" @click="loadAttachmentDialog">
-            <font-awesome-icon icon="plus" />
-          </button>
-        </div>
+        <div id="chat-bottom" />
       </div>
-      <div v-else class="messageInputBox justify-content-center">
-        <div class="messageInput-btn-container d-flex justify-content-center align-items-center">
-          <div><span>{{ Math.floor(voiceNote.duration) }}</span><span v-translate class="me-2">s</span></div>
-          <button v-if="!voiceNote.playing" class="btn send play me-1" @click="playAudio">
-            <font-awesome-icon icon="play" />
-          </button>
-          <button v-else class="btn send stop me-1" @click="stopPlayAudio">
-            <font-awesome-icon icon="stop-circle" />
-          </button>
-          <button class="btn send delete me-1" @click="deleteAudio">
-            <font-awesome-icon icon="times" />
-          </button>
-          <button class="btn send send-voice" @click="sendVoiceNote">
-            <font-awesome-icon icon="paper-plane" />
-          </button>
-        </div>
-      </div>
-      <audio
-        v-if="voiceNote.blobUrl!=''"
-        id="voiceNote"
-        controls
-        :src="voiceNote.blobUrl"
+      <div
+        v-if="showAddContactButton"
+        class="messageInputBoxDisabled w-100"
       >
-        Your browser does not support the
-        <code>audio</code> element.
-      </audio>
-      <attachment-bar
-        v-if="showAttachmentsBar"
-        @close="showAttachmentsBar = false"
-        @send="callContentHub($event)"
-      />
-      <input
-        id="attachment"
-        type="file"
-        style="position: fixed; top: -100em"
-        @change="sendDesktopAttachment"
-      />
-      <audio id="voiceNote" :src="voiceNote.blobUrl" style="position: fixed; top: -100em" />
+        <p v-translate>
+          Join this group? They won’t know you’ve seen their messages until you accept.
+        </p>
+        <div v-translate class="btn btn-primary" @click="joinGroupAccept">Join</div>
+      </div>
+      <div v-else class="bottom-wrapper">
+        <div v-if="!voiceNote.recorded" class="messageInputBox">
+          <div v-if="!voiceNote.recording" class="messageInput-container">
+            <textarea
+              id="messageInput"
+              v-model="messageInput"
+              type="textarea"
+              contenteditable="true"
+              data-long-press-delay="500"
+              @long-press="paste"
+            />
+          </div>
+          <div v-if="messageInput !== ''" class="messageInput-btn-container">
+            <button class="btn send" @click="sendMessage">
+              <font-awesome-icon icon="paper-plane" />
+            </button>
+          </div>
+          <div v-else-if="voiceNote.recording" class="messageInput-btn-container d-flex justify-content-center w-100">
+            <div v-translate class="me-5">Recording...</div>
+            <button class="btn send record-stop" @click="stopRecording">
+              <font-awesome-icon icon="stop-circle" />
+            </button>
+          </div>
+          <div v-else class="messageInput-btn-container d-flex">
+            <button class="btn send record me-2" @click="recordAudio">
+              <font-awesome-icon icon="microphone" />
+            </button>
+            <button class="btn send" @click="loadAttachmentDialog">
+              <font-awesome-icon icon="plus" />
+            </button>
+          </div>
+        </div>
+        <div v-else class="messageInputBox justify-content-center">
+          <div class="messageInput-btn-container d-flex justify-content-center align-items-center">
+            <div><span>{{ Math.floor(voiceNote.duration) }}</span><span v-translate class="me-2">s</span></div>
+            <button v-if="!voiceNote.playing" class="btn send play me-1" @click="playAudio">
+              <font-awesome-icon icon="play" />
+            </button>
+            <button v-else class="btn send stop me-1" @click="stopPlayAudio">
+              <font-awesome-icon icon="stop-circle" />
+            </button>
+            <button class="btn send delete me-1" @click="deleteAudio">
+              <font-awesome-icon icon="times" />
+            </button>
+            <button class="btn send send-voice" @click="sendVoiceNote">
+              <font-awesome-icon icon="paper-plane" />
+            </button>
+          </div>
+        </div>
+        <audio
+          v-if="voiceNote.blobUrl!=''"
+          id="voiceNote"
+          controls
+          :src="voiceNote.blobUrl"
+        >
+          Your browser does not support the
+          <code>audio</code> element.
+        </audio>
+        <attachment-bar
+          v-if="showAttachmentsBar"
+          @close="showAttachmentsBar = false"
+          @send="callContentHub($event)"
+        />
+        <input
+          id="attachment"
+          type="file"
+          style="position: fixed; top: -100em"
+          @change="sendDesktopAttachment"
+        />
+        <audio id="voiceNote" :src="voiceNote.blobUrl" style="position: fixed; top: -100em" />
+      </div>
     </div>
-  </div>
+  </component>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import Message from "@/components/Message";
 import AttachmentBar from "@/components/AttachmentBar";
+import DefaultLayout from "@/layouts/Default";
 import { saveAs } from "file-saver";
 import * as MicRecorder from 'mic-recorder-to-mp3';
 export default {
@@ -157,6 +163,7 @@ export default {
   components: {
     AttachmentBar,
     Message,
+    DefaultLayout
   },
   props: {
     chatId: { type: Number, default: -1 },

@@ -1,56 +1,58 @@
 <template>
-  <div class="settings">
-    <div class="profile">
-      <div class="avatar" />
-      <div v-translate class="name">Registered number</div>
-      <div class="number">
-        {{ config.RegisteredNumber }}
+  <component :is="$route.meta.layout || 'div'">
+    <div class="settings">
+      <div class="profile">
+        <div class="avatar" />
+        <div v-translate class="name">Registered number</div>
+        <div class="number">
+          {{ config.RegisteredNumber }}
+        </div>
+      </div>
+      <router-link v-translate class="btn btn-primary" :to="'/devices/'">
+        Linked devices
+      </router-link>
+      <router-link v-translate class="btn btn-primary" :to="'/setPassword/'">
+        Set password
+      </router-link>
+
+      <button
+        v-translate
+        class="btn btn-danger"
+        @click="showConfirmationModal = true"
+      >
+        Unregister
+      </button>
+      <div class="custom-control custom-switch darkmode-switch">
+        <input
+          id="darkmode-switch"
+          v-model="darkMode"
+          type="checkbox"
+          class="custom-control-input"
+          @change="toggleDarkMode()"
+        >
+        <label v-translate class="custom-control-label" for="darkmode-switch">Dark mode</label>
+      </div>
+      <confirmation-modal
+        v-if="showConfirmationModal"
+        title="Unregister"
+        text="Do you really want to unregister? Everything will be deleted!"
+        @close="showConfirmationModal = false"
+        @confirm="unregister"
+      />
+      <div class="about w-100">
+        <router-link v-translate class="btn btn-primary" :to="'/about'">
+          About Axolotl
+        </router-link>
+      </div>
+      <div class="warning-box">
+        <span v-translate>
+          Due to technical limitations, Axolotl doesn't support push
+          notifications. Keep the app open to be notified in real time. In Ubuntu
+          Touch, use UT Tweak Tool to set Axolotl on "Prevent app suspension".
+        </span>
       </div>
     </div>
-    <router-link v-translate class="btn btn-primary" :to="'/devices/'">
-      Linked devices
-    </router-link>
-    <router-link v-translate class="btn btn-primary" :to="'/setPassword/'">
-      Set password
-    </router-link>
-
-    <button
-      v-translate
-      class="btn btn-danger"
-      @click="showConfirmationModal = true"
-    >
-      Unregister
-    </button>
-    <div class="custom-control custom-switch darkmode-switch">
-      <input
-        id="darkmode-switch"
-        v-model="darkMode"
-        type="checkbox"
-        class="custom-control-input"
-        @change="toggleDarkMode()"
-      >
-      <label v-translate class="custom-control-label" for="darkmode-switch">Dark mode</label>
-    </div>
-    <confirmation-modal
-      v-if="showConfirmationModal"
-      title="Unregister"
-      text="Do you really want to unregister? Everything will be deleted!"
-      @close="showConfirmationModal = false"
-      @confirm="unregister"
-    />
-    <div class="about w-100">
-      <router-link v-translate class="btn btn-primary" :to="'/about'">
-        About Axolotl
-      </router-link>
-    </div>
-    <div class="warning-box">
-      <span v-translate>
-        Due to technical limitations, Axolotl doesn't support push
-        notifications. Keep the app open to be notified in real time. In Ubuntu
-        Touch, use UT Tweak Tool to set Axolotl on "Prevent app suspension".
-      </span>
-    </div>
-  </div>
+  </component>
 </template>
 
 <script>

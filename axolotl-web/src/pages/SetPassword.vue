@@ -1,77 +1,79 @@
 <template>
-  <div class="set-password">
-    <h5 v-translate>Info</h5>
-    <p v-translate>
-      Setting a password is not advised on devices short in memory.
-    </p>
-    <p v-translate>Restart is required!</p>
-    <div
-      v-if="passwordError"
-      v-translate
-      class="alert alert-danger"
-      role="alert"
-    >
-      Passwords don't match
-    </div>
-    <div
-      v-if="passwordUnsafe"
-      v-translate
-      class="alert alert-danger"
-      role="alert"
-    >
-      Unsafe password
-    </div>
-    <div
-      v-if="currentPasswordWrong"
-      v-translate
-      class="alert alert-danger"
-      role="alert"
-    >
-      Current password is wrong
-    </div>
-    <div class="form-group">
-      <label v-translate for="passwordRepeat" class="text-primary">
-        New password
-      </label>
-      <input
-        id="setPassword"
-        v-model="password"
-        type="password"
-        name="password"
-        class="form-control"
-        :secure-length="7"
+  <component :is="$route.meta.layout || 'div'">
+    <div class="set-password">
+      <h5 v-translate>Info</h5>
+      <p v-translate>
+        Setting a password is not advised on devices short in memory.
+      </p>
+      <p v-translate>Restart is required!</p>
+      <div
+        v-if="passwordError"
+        v-translate
+        class="alert alert-danger"
+        role="alert"
       >
-    </div>
-    <div class="form-group">
-      <label v-translate for="passwordRepeat" class="text-primary">
-        Repeat password
-      </label>
-      <input
-        id="passwordRepeat"
-        v-model="passwordRepeat"
-        required
-        type="password"
-        name="passwordRepeat"
-        class="form-control"
+        Passwords don't match
+      </div>
+      <div
+        v-if="passwordUnsafe"
+        v-translate
+        class="alert alert-danger"
+        role="alert"
       >
-    </div>
-    <div class="form-group">
-      <label v-translate for="passwordCurrent" class="text-primary">
-        Current password
-      </label>
-      <input
-        id="passwordCurrent"
-        v-model="passwordCurrent"
-        required
-        type="password"
-        name="passwordCurrent"
-        class="form-control"
+        Unsafe password
+      </div>
+      <div
+        v-if="currentPasswordWrong"
+        v-translate
+        class="alert alert-danger"
+        role="alert"
       >
+        Current password is wrong
+      </div>
+      <div class="form-group">
+        <label v-translate for="passwordRepeat" class="text-primary">
+          New password
+        </label>
+        <input
+          id="setPassword"
+          v-model="password"
+          type="password"
+          name="password"
+          class="form-control"
+          :secure-length="7"
+        >
+      </div>
+      <div class="form-group">
+        <label v-translate for="passwordRepeat" class="text-primary">
+          Repeat password
+        </label>
+        <input
+          id="passwordRepeat"
+          v-model="passwordRepeat"
+          required
+          type="password"
+          name="passwordRepeat"
+          class="form-control"
+        >
+      </div>
+      <div class="form-group">
+        <label v-translate for="passwordCurrent" class="text-primary">
+          Current password
+        </label>
+        <input
+          id="passwordCurrent"
+          v-model="passwordCurrent"
+          required
+          type="password"
+          name="passwordCurrent"
+          class="form-control"
+        >
+      </div>
+      <button v-translate class="btn btn-primary" @click="setPassword()">
+        Set password
+      </button>
     </div>
-    <button v-translate class="btn btn-primary" @click="setPassword()">
-      Set password
-    </button>
-  </div>
+  </component>
 </template>
 
 <script>
