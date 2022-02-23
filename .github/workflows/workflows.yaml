@@ -184,12 +184,12 @@ jobs:
           mv libzkgroup_linux_armv7_v0.8.8.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_armv7.so
 
       - name: Build crayfish (armhf)
-        uses: docker://clickable/ci-16.04-armhf:7.0.1
+        uses: docker://clickable/ci-16.04-armhf:7.1.1
         with:
           args: clickable build -a armhf --verbose --libs crayfish
 
       - name: Build click (armhf)
-        uses: docker://clickable/ci-16.04-armhf:7.0.1
+        uses: docker://clickable/ci-16.04-armhf:7.1.1
         env:
           GOPATH: $GITHUB_WORKSPACE/go
         with:
@@ -230,12 +230,12 @@ jobs:
             mv libzkgroup_linux_aarch64_v0.8.8.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_aarch64.so
 
       - name: Build crayfish (arm64)
-        uses: docker://clickable/ci-16.04-arm64:7.0.1
+        uses: docker://clickable/ci-16.04-arm64:7.1.1
         with:
           args: clickable build -a arm64 --verbose --libs crayfish
 
       - name: Build click (arm64)
-        uses: docker://clickable/ci-16.04-arm64:7.0.1
+        uses: docker://clickable/ci-16.04-arm64:7.1.1
         env:
           GOPATH: $GITHUB_WORKSPACE/go
         with:
@@ -276,12 +276,12 @@ jobs:
             mv libzkgroup_linux_x86_64-v0.8.8.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_x86_64.so
 
       - name: Build crayfish (amd64)
-        uses: docker://clickable/ci-16.04-amd64:7.0.1
+        uses: docker://clickable/ci-16.04-amd64:7.1.1
         with:
           args: clickable build -a amd64 --verbose --libs crayfish
 
       - name: Build click (amd64)
-        uses: docker://clickable/ci-16.04-amd64:7.0.1
+        uses: docker://clickable/ci-16.04-amd64:7.1.1
         env:
           GOPATH: $GITHUB_WORKSPACE/go
         with:
