@@ -99,6 +99,13 @@ rustup target add aarch64-unknown-linux-gnu
 rustup target add armv7-unknown-linux-gnueabihf
 ```
 
+Configure cargo with the cross-linker. For gcc:
+
+```bash
+export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc
+export CARGO_TARGET_ARMV7_UNKNOWN_LINUX_GNUEABIHF_LINKER=armv7-unknown-linux-gnueabihf-gcc
+```
+
 To do a cross-compile build, use the following:
 
 ```bash
