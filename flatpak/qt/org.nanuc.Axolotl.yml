@@ -1,16 +1,28 @@
 app-id: org.nanuc.Axolotl
 branch: main
 runtime: org.kde.Platform
-runtime-version: '5.15'
+runtime-version: '5.15-21.08'
 sdk: org.kde.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.golang
-  - org.freedesktop.Sdk.Extension.node14
+  - org.freedesktop.Sdk.Extension.node16
+  - org.freedesktop.Sdk.Extension.rust-stable
 command: axolotl
 base: io.qt.qtwebengine.BaseApp
-base-version: '5.15'
+base-version: '5.15-21.08'
+separate-locales: false
 tags:
   - latest
+build-options:
+  append-path: "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/golang/bin:/usr/lib/sdk/node16/bin"
+  env:
+    CARGO_HOME: ${FLATPAK_BUILDER_BUILDDIR}/.cargo
+    GOBIN: /app/bin
+    GOROOT: /usr/lib/sdk/golang
+    NPM_CONFIG_LOGLEVEL: error
+    DESTDIR: ${FLATPAK_DEST}
+    INSTALL_PREFIX: /bin
+    LIBRARY_PREFIX: /lib
 finish-args:
   # See https://docs.flatpak.org/en/latest/sandbox-permissions-reference.html
   # Write access for the user download folder (to save media)
@@ -38,10 +50,28 @@ finish-args:
   - --env=AXOLOTL_GUI_DIR=/app/share/axolotl/
 
 modules:
+  - name: crayfish
+    buildsystem: simple
+    build-options:
+      build-args:
+        - --share=network
+    build-commands:
+      - make --directory=src/github.com/nanu-c/axolotl build-crayfish
+      - make --directory=src/github.com/nanu-c/axolotl --environment-overrides install-crayfish
+    sources:
+      - type: git
+        url: https://github.com/nanu-c/axolotl
+        tag: main
+        dest: src/github.com/nanu-c/axolotl
+
   - name: zkgroup
     buildsystem: simple
+    build-options:
+      build-args:
+        - --share=network
     build-commands:
-      - "install -Dm 755 src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_${FLATPAK_ARCH}.so ${FLATPAK_DEST}/lib"
+      - cargo build --manifest-path src/github.com/nanu-c/zkgroup/lib/zkgroup/Cargo.toml --release
+      - install -Dm 755 src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release/libzkgroup.so ${FLATPAK_DEST}/lib/libzkgroup_linux_${FLATPAK_ARCH}.so
     sources:
       - type: git
         url: https://github.com/nanu-c/zkgroup
@@ -51,8 +81,6 @@ modules:
   - name: axolotl
     buildsystem: simple
     build-options:
-      prefix: /usr/lib/sdk/golang
-      prepend-path: /usr/lib/sdk/golang/bin
       build-args:
         - --share=network
     build-commands:
@@ -70,8 +98,6 @@ modules:
   - name: axolotl-web
     buildsystem: simple
     build-options:
-      prefix: /usr/lib/sdk/node14
-      prepend-path: /usr/lib/sdk/node14/bin
       build-args:
         - --share=network
     build-commands:

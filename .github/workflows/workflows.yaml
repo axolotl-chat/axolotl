@@ -294,8 +294,8 @@ jobs:
           path: build/x86_64-linux-gnu/app/textsecure.nanuc_*.click
           retention-days: 1
 
-  package-flatpak:
-    name: Package as Flatpak bundle
+  package-flatpak-web:
+    name: Package as Flatpak web bundle
     runs-on: ubuntu-latest
     needs: [build-axolotl, build-axolotl-web, build-crayfish]
     container:
@@ -308,11 +308,31 @@ jobs:
         with:
           submodules: 'true'
 
-      - uses: bilelmoussaoui/flatpak-github-actions@v4
+      - name: Build Flatpak Web version
+        uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v4
         with:
-          bundle: "axolotl.flatpak"
-          manifest-path: "flatpak/web/org.nanuc.Axolotl.yml"
-          branch: "main"
+          bundle: axolotl-web.flatpak
+          manifest-path: flatpak/web/org.nanuc.Axolotl.yml
+
+  package-flatpak-qt:
+    name: Package as Flatpak QT bundle
+    runs-on: ubuntu-latest
+    needs: [build-axolotl, build-axolotl-web, build-crayfish]
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:kde-5.15-21.08
+      options: --privileged
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+
+      - name: Build Flatpak QT version
+        uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v4
+        with:
+          bundle: axolotl-qt.flatpak
+          manifest-path: flatpak/qt/org.nanuc.Axolotl.yml
 
   build-axolotl-deb-arm64:
     name: Build axolotl Debian arm64
