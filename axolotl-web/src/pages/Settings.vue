@@ -33,20 +33,20 @@
         Dark mode
       </label>
     </div>
-    <div class="row g-3 mt-2 align-items-center">
+    <div class="row g-3 mt-1 align-items-center">
       <div class="col-auto">
-        <label v-translate for="loglevel" class="col-form-label">
-          Loglevel:
-        </label>
-      </div>
-      <div class="col-auto">
-        <select class="form-select" aria-label="Loglevel select" @change="setLogLevel($event)">
+        <select v-model="loglevel" class="form-select" aria-label="Loglevel select" @change="setLogLevel($event)">
           <option v-translate value="info">Info</option>
           <option v-translate value="warn">Warnings</option>
           <option v-translate value="error">Errors</option>
           <option v-translate value="panic">No logs</option>
           <option v-translate value="debug">Debugging</option>
         </select>
+      </div>
+      <div class="col-auto">
+        <label v-translate for="loglevel" class="col-form-label">
+          Loglevel
+        </label>
       </div>
     </div>
     <confirmation-modal
@@ -83,12 +83,14 @@ export default {
     return {
       showConfirmationModal: false,
       darkMode: false,
+      loglevel: "info",
     };
   },
   computed: mapState(["config"]),
   mounted() {
     this.$store.dispatch("getConfig");
     this.darkMode = this.getCookie("darkMode") === "true";
+    this.loglevel = this.config.LogLevel;
   },
   methods: {
     unregister() {

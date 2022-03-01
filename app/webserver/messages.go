@@ -54,6 +54,7 @@ type ConfigEnvelope struct {
 	Notifications    bool
 	Encryption       bool
 	Gui              string
+	LogLevel         string
 }
 type Message struct {
 	Type string                 `json:"request"`
