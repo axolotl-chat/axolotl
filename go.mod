@@ -18,7 +18,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/signal-golang/go-vcard v0.1.2
 	github.com/signal-golang/libphonenumber v1.2.2-0.20220127214340-b765372d3707
-	github.com/signal-golang/textsecure v1.10.4-0.20220221223745-501a7914780a
+	github.com/signal-golang/textsecure v1.10.4-0.20220301204135-53684eb9c15b
 	github.com/sirupsen/logrus v1.8.1
 	github.com/ttacon/builder v0.0.0-20170518171403-c099f663e1c2 // indirect
 	github.com/vincent-petithory/dataurl v0.0.0-20191104211930-d1553a71de50
@@ -28,3 +28,5 @@ require (
 	gopkg.in/yaml.v2 v2.4.0
 	launchpad.net/gocheck v0.0.0-20140225173054-000000000087 // indirect
 )
+
+replace github.com/signal-golang/textsecure v1.10.4-0.20220221223745-501a7914780a => /home/nanu/go/src/github.com/signal-golang/textsecure

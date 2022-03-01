@@ -110,8 +110,8 @@ github.com/signal-golang/libphonenumber v1.2.2-0.20220127214340-b765372d3707 h1:
 github.com/signal-golang/libphonenumber v1.2.2-0.20220127214340-b765372d3707/go.mod h1:oW+JXk+4C0R5h8BQzfRA4k/vXuBfBcNSqKWjn7Dgncs=
 github.com/signal-golang/mimemagic v0.0.0-20200821045537-3f613cf2cd3f h1:S17lCk5rcobvgcaLf7XSAoLuNkRPgFyhvgRA9JwDzHc=
 github.com/signal-golang/mimemagic v0.0.0-20200821045537-3f613cf2cd3f/go.mod h1:tU6SWwv50oGkZNPlvTFvmqZvEBp0vWWCC+LCEVlTE5A=
-github.com/signal-golang/textsecure v1.10.4-0.20220221223745-501a7914780a h1:5jSf1dkRKtF3n6bKfj111sJQbtZfEuPNsZ0GAi4EvHo=
-github.com/signal-golang/textsecure v1.10.4-0.20220221223745-501a7914780a/go.mod h1:teNGhh4TcoKEfPta0A8JKq25zerVF+mh1ZYWAelVeGQ=
+github.com/signal-golang/textsecure v1.10.4-0.20220301204135-53684eb9c15b h1:mQuC/qdr91I+KTGdIt+TTbGJZSlz0kOPN71cfkY9sUs=
+github.com/signal-golang/textsecure v1.10.4-0.20220301204135-53684eb9c15b/go.mod h1:teNGhh4TcoKEfPta0A8JKq25zerVF+mh1ZYWAelVeGQ=
 github.com/sirupsen/logrus v1.8.1 h1:dJKuHgqk1NNQlqoA6BTlM1Wf9DOH3NBjQyu0h9+AZZE=
 github.com/sirupsen/logrus v1.8.1/go.mod h1:yWOB1SBYBC5VeMP7gHvWumXLIWorT60ONWic61uBYv0=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
