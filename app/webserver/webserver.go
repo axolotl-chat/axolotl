@@ -393,6 +393,10 @@ func wsReader(conn *websocket.Conn) {
 			if err != nil {
 				ShowError(err.Error())
 			}
+		case "setLogLevel":
+			setLogLevelMessage := SetLogLevelMessage{}
+			json.Unmarshal([]byte(p), &setLogLevelMessage)
+			config.SetLogLevel(setLogLevelMessage.Level)
 		case "toggleNotifications":
 			toggleNotificationsMessage := toggleNotificationsMessage{}
 			json.Unmarshal([]byte(p), &toggleNotificationsMessage)

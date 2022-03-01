@@ -13,7 +13,6 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/nanu-c/axolotl/app/config"
-	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/nanu-c/axolotl/app/push"
 	"github.com/nanu-c/axolotl/app/ui"
 	"github.com/nanu-c/axolotl/app/webserver"
@@ -32,9 +31,7 @@ func init() {
 	flag.StringVar(&config.ElectronFlag, "electron-flag", "", "Specify electron flag. Use no-ozone to disable Ozone/Wayland platform")
 }
 func setup() {
-	helpers.SetupLogging()
 	config.SetupConfig()
-	log.SetLevel(log.DebugLevel)
 	log.Infoln("[axolotl] Starting axolotl version", config.AppVersion)
 }
 func runBackend() {

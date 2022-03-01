@@ -199,3 +199,7 @@ type SetDarkMode struct {
 	Type     string `json:"request"`
 	DarkMode bool   `json:"darkMode"`
 }
+type SetLogLevelMessage struct {
+	Type  string `json:"request"`
+	Level string `json:"level"`
+}

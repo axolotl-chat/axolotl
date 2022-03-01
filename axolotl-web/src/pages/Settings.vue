@@ -21,15 +21,33 @@
     >
       Unregister
     </button>
-    <div class="custom-control custom-switch darkmode-switch">
+    <div class="custom-control form-check custom-switch darkmode-switch g-2">
       <input
         id="darkmode-switch"
         v-model="darkMode"
         type="checkbox"
-        class="custom-control-input"
+        class="form-check-input"
         @change="toggleDarkMode()"
-      >
-      <label v-translate class="custom-control-label" for="darkmode-switch">Dark mode</label>
+      />
+      <label v-translate class="form-check-label" for="darkmode-switch">
+        Dark mode
+      </label>
+    </div>
+    <div class="row g-3 mt-2 align-items-center">
+      <div class="col-auto">
+        <label v-translate for="loglevel" class="col-form-label">
+          Loglevel:
+        </label>
+      </div>
+      <div class="col-auto">
+        <select class="form-select" aria-label="Loglevel select" @change="setLogLevel($event)">
+          <option v-translate value="info">Info</option>
+          <option v-translate value="warn">Warnings</option>
+          <option v-translate value="error">Errors</option>
+          <option v-translate value="panic">No logs</option>
+          <option v-translate value="debug">Debugging</option>
+        </select>
+      </div>
     </div>
     <confirmation-modal
       v-if="showConfirmationModal"
@@ -82,6 +100,9 @@ export default {
       if (this.getCookie("darkMode") === "false") c = true;
       else c = false;
       this.$store.dispatch("setDarkMode", c);
+    },
+    setLogLevel(e) {
+      this.$store.dispatch("setLogLevel", e.target.value);
     },
     getCookie(cname) {
       const name = cname + "=";
