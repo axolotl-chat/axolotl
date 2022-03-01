@@ -475,15 +475,6 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    setLogLevel(state, level) {
-      if (this.state.socket.isConnected) {
-        const message = {
-          "request": "setLogLevel",
-          "level": level
-        }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
-      }
-    },
     resetEncryption() {
       if (this.state.socket.isConnected) {
         const message = {
@@ -763,6 +754,15 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
         this.commit("SET_CAPTCHA_TOKEN_SENT");
 
+      }
+    },
+    setLogLevel(state, level) {
+      if (this.state.socket.isConnected) {
+        const message = {
+          "request": "setLogLevel",
+          level
+        }
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
     setCaptchaToken(state, token) {
