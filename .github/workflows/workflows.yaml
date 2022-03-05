@@ -184,7 +184,7 @@ jobs:
           mv libzkgroup_linux_armv7_v0.8.8.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_armv7.so
 
       - name: Build crayfish (armhf)
-        uses: docker://clickable/ci-16.04-armhf:7.1.1
+        uses: docker://clickable/ci-16.04-armhf:latest
         with:
           args: clickable build -a armhf --verbose --libs crayfish
 
