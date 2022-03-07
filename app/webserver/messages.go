@@ -54,6 +54,7 @@ type ConfigEnvelope struct {
 	Notifications    bool
 	Encryption       bool
 	Gui              string
+	LogLevel         string
 }
 type Message struct {
 	Type string                 `json:"request"`
@@ -198,4 +199,8 @@ type verifyIdentityMessage struct {
 type SetDarkMode struct {
 	Type     string `json:"request"`
 	DarkMode bool   `json:"darkMode"`
+}
+type SetLogLevelMessage struct {
+	Type  string `json:"request"`
+	Level string `json:"level"`
 }

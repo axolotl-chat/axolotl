@@ -28,7 +28,6 @@ type TextsecureAPI struct {
 	ActiveSessionID string
 	PhoneNumber     string
 	UUID            string
-	LogLevel        bool
 }
 
 var Api = &TextsecureAPI{}
@@ -69,24 +68,6 @@ func (Api *TextsecureAPI) AddContact(name, phone, uuid string) {
 		ui.ShowError(err)
 	}
 }
-func (Api *TextsecureAPI) SetLogLevel() {
-	// Api.LogLevel = !Api.LogLevel
-	if !Api.LogLevel {
-		config.Config.LogLevel = "debug"
-		log.SetLevel(log.DebugLevel)
-		settings.SettingsModel.DebugLog = true
-		log.Infof("Set LogLevel to debug")
-		Api.LogLevel = true
-	} else {
-		config.Config.LogLevel = "info"
-		log.SetLevel(log.InfoLevel)
-		settings.SettingsModel.DebugLog = false
-		log.Infof("Set LogLevel to info")
-		Api.LogLevel = false
-	}
-	Api.SaveSettings()
-	// textsecure.WriteConfig(config.ConfigFile, config.Config)
-}
 
 func RunBackend() {
 	log.Debugf("[axolotl] Run Backend")
@@ -110,7 +91,6 @@ func RunBackend() {
 	}
 	sessionStarted = false
 	Api = &TextsecureAPI{}
-	Api.LogLevel = settings.SettingsModel.DebugLog
 	client = &textsecure.Client{
 		GetConfig: config.GetConfig,
 		GetPhoneNumber: func() string {

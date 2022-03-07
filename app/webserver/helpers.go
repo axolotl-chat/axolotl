@@ -421,6 +421,7 @@ func sendConfig() {
 		RegisteredNumber: config.Config.Tel,
 		Version:          config.AppVersion,
 		Gui:              config.Gui,
+		LogLevel:         config.Config.LogLevel,
 	}
 	*message, err = json.Marshal(configEnvelope)
 	if err != nil {
