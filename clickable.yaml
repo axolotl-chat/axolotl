@@ -1,4 +1,4 @@
-clickable_minimum_required: 7.1.1
+clickable_minimum_required: 7.1.2
 
 builder: go
 prebuild: 
