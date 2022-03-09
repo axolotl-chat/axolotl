@@ -4,6 +4,5 @@
   "icon_path_linux": "axolotl-web/public/axolotl.png",
   "version_electron": "17.0.0",
   "version_astilectron":"0.51.0",
-  "output_path": "output",
   "resources_path": "axolotl-web/dist"
 }
