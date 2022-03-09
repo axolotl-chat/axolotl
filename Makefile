@@ -6,15 +6,15 @@
 NPM_VERSION := $(shell npm --version 2>/dev/null)
 NODE_VERSION := $(shell node --version 2>/dev/null)
 GO_VERSION := $(shell go version 2>/dev/null)
-GOOS=$(shell go env GOOS)
-GOARCH=$(shell go env GOARCH)
+GOOS := $(shell go env GOOS)
+GOARCH := $(shell go env GOARCH)
 CARGO_VERSION := $(shell cargo --version 2>/dev/null)
 GIT_VERSION := $(shell git --version 2>/dev/null)
 AXOLOTL_GIT_VERSION := $(shell git tag | tail --lines=1)
 AXOLOTL_VERSION := $(subst v,,$(AXOLOTL_GIT_VERSION))
 UNAME_S := $(shell uname -s)
 HARDWARE_PLATFORM := $(shell uname --machine)
-CURRENT_DIR = $(shell pwd)
+CURRENT_DIR := $(shell pwd)
 
 define APPDATA_TEXT=
 \\t\t\t<release version="$(NEW_VERSION)" date="$(shell date --rfc-3339='date')">\n\
