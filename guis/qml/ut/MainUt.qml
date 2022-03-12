@@ -40,33 +40,34 @@ UITK.Page {
       if (url == "https://signalcaptchas.org/registration/generate.html"){
         console.log("[Axolotl Web View] [JS] run interceptor")
         var  interceptor = `
-              				// override the default onload function
+          // override the default onload function
 				
-				window.onload=function() {
-					var action = 'registration';
-					var isDone = false;
-					var sitekey = '6LfBXs0bAAAAAAjkDyyI1Lk5gBAUWfhI_bIyox5W';
-			
-					var widgetId = grecaptcha.enterprise.render('container', {
-					sitekey: sitekey,
-					size: 'checkbox',
-					callback: function (token) {
-						isDone = true;
-						document.body.removeAttribute('class');
-						window.location = ['http://localhost:9080/?token=signal-recaptcha-v2', sitekey, action, token].join(".");
-					},
-					});
-				}
-				// cleanup
-				var bodyTag = document.getElementsByTagName('body')[0];	
-				bodyTag.innerHTML ='<div id="container"></div>'
-				grecaptcha  = undefined
+          window.onload=function() {
+            var action = 'registration';
+            var isDone = false;
+            var sitekey = '6LfBXs0bAAAAAAjkDyyI1Lk5gBAUWfhI_bIyox5W';
+        
+            var widgetId = grecaptcha.enterprise.render('container', {
+            sitekey: sitekey,
+            size: 'checkbox',
+            callback: function (token) {
+              isDone = true;
+              document.body.removeAttribute('class');
+              window.location = ['http://localhost:9080/?token=signal-recaptcha-v2', sitekey, action, token].join(".");
+            },
+            });
+          }
+          // cleanup
+          var bodyTag = document.getElementsByTagName('body')[0];	
+          bodyTag.innerHTML ='<div id="container"></div>'
+          grecaptcha  = undefined
 
-				// reload recaptcha
-				var script = document.createElement('script');
-				script.type = 'text/javascript';
-				script.src = 'https://www.google.com/recaptcha/enterprise.js?onload=onload&render=explicit';
-				bodyTag.appendChild(script);
+          // reload recaptcha
+          var script = document.createElement('script');
+          script.type = 'text/javascript';
+          script.src = 'https://www.google.com/recaptcha/enterprise.js?onload=onload&render=explicit';
+          bodyTag.appendChild(script);
+        `
         _webView.runJavaScript(interceptor);
     
       }
