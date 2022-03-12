@@ -5,6 +5,7 @@ import (
 	_ "image/jpeg"
 	_ "image/png"
 	"os"
+	"strings"
 	"sync"
 
 	astilectron "github.com/asticode/go-astilectron"
@@ -143,12 +144,50 @@ func runElectron() {
 		return
 	})
 	w.On(astilectron.EventNameWindowEventDidFinishLoad, func(e astilectron.Event) (deleteListener bool) {
-		log.Infoln("[axolotl-electron] Electron App load")
-		w.ExecuteJavaScript("window.onToken = function(token){window.location='http://" + config.ServerHost + ":" + config.ServerPort + "/?token='+token;};")
+		log.Infoln("[axolotl-electron] Page loaded")
 		return
 	})
 	w.On(astilectron.EventNameWindowEventWillNavigate, func(e astilectron.Event) (deleteListener bool) {
-		log.Infoln("[axolotl-electron] Electron navigation")
+		log.Infoln("[axolotl-electron] Electron navigation", e.URL)
+		if strings.Contains(e.URL, "signalcaptchas.org") {
+			log.Infoln("[axolotl-electron] overriding onload", e.URL)
+
+			w.ExecuteJavaScript(
+				`
+				// override the default onload function
+				
+				window.onload=function() {
+					var action = "registration";
+					var isDone = false;
+					var sitekey = "6LfBXs0bAAAAAAjkDyyI1Lk5gBAUWfhI_bIyox5W";
+			
+					var widgetId = grecaptcha.enterprise.render("container", {
+					sitekey: sitekey,
+					size: "checkbox",
+					callback: function (token) {
+						isDone = true;
+						document.body.removeAttribute("class");
+						window.location = ["http://` + config.ServerHost + `:` + config.ServerPort + `/?token=signal-recaptcha-v2", sitekey, action, token].join(".");
+					},
+					});
+				}
+				// cleanup
+				var bodyTag = document.getElementsByTagName('body')[0];	
+				bodyTag.innerHTML ='<div id="container"></div>'
+				grecaptcha  = undefined
+
+				// reload recaptcha
+				var script = document.createElement('script');
+				script.type = 'text/javascript';
+				script.src = "https://www.google.com/recaptcha/enterprise.js?onload=onload&render=explicit";
+				bodyTag.appendChild(script);
+				alert("overriding onload");
+				`)
+		}
+		return
+	})
+	w.On(astilectron.EventNameWindowEventDidGetRedirectRequest, func(e astilectron.Event) (deleteListener bool) {
+		log.Infof("[axolotl-electron] Electron redirect request ", e.URLNew)
 		return
 	})
 	w.On(astilectron.EventNameWindowEventWebContentsExecutedJavaScript, func(e astilectron.Event) (deleteListener bool) {
