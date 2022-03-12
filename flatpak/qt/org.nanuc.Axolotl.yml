@@ -55,9 +55,10 @@ modules:
     build-options:
       build-args:
         - --share=network
+    subdir: src/github.com/nanu-c/axolotl
     build-commands:
-      - make --directory=src/github.com/nanu-c/axolotl build-crayfish
-      - make --directory=src/github.com/nanu-c/axolotl --environment-overrides install-crayfish
+      - make build-crayfish
+      - make --environment-overrides install-crayfish
     sources:
       - type: git
         url: https://github.com/nanu-c/axolotl
@@ -66,12 +67,9 @@ modules:
 
   - name: zkgroup
     buildsystem: simple
-    build-options:
-      build-args:
-        - --share=network
+    subdir: src/github.com/nanu-c/zkgroup/lib
     build-commands:
-      - cargo build --manifest-path src/github.com/nanu-c/zkgroup/lib/zkgroup/Cargo.toml --release
-      - install -Dm 755 src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release/libzkgroup.so ${FLATPAK_DEST}/lib/libzkgroup_linux_${FLATPAK_ARCH}.so
+      - install -Dm 755 libzkgroup_linux_${FLATPAK_ARCH}.so ${FLATPAK_DEST}/lib/libzkgroup_linux_${FLATPAK_ARCH}.so
     sources:
       - type: git
         url: https://github.com/nanu-c/zkgroup
@@ -83,11 +81,11 @@ modules:
     build-options:
       build-args:
         - --share=network
+    subdir: src/github.com/nanu-c/axolotl
     build-commands:
-      - "cd src/github.com/nanu-c/axolotl;
-         go mod download -x;
+      - "go mod download -x;
          go build -v"
-      - "install -Dm 755 src/github.com/nanu-c/axolotl/axolotl ${FLATPAK_DEST}/bin/axolotl"
+      - "install -Dm 755 axolotl ${FLATPAK_DEST}/bin/axolotl"
       - "install -Dm 755 $(which qmlscene) ${FLATPAK_DEST}/bin"
     sources:
       - type: git
@@ -100,17 +98,28 @@ modules:
     build-options:
       build-args:
         - --share=network
+    subdir: src/github.com/nanu-c/axolotl
     build-commands:
-      - "cd src/github.com/nanu-c/axolotl/axolotl-web;
+      - "cd axolotl-web;
          npm ci;
          npm run build"
       - "mkdir -p ${FLATPAK_DEST}/bin/axolotl-web"
-      - "mkdir -p ${FLATPAK_DEST}/share/axolotl"
-      - "cp -r src/github.com/nanu-c/axolotl/axolotl-web/dist ${FLATPAK_DEST}/bin/axolotl-web"
-      - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.png ${FLATPAK_DEST}/usr/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png"
-      - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.appdata.xml ${FLATPAK_DEST}/share/appdata/${FLATPAK_ID}.appdata.xml"
-      - "install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/qt/org.nanuc.Axolotl.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop"
-      - "cp -r src/github.com/nanu-c/axolotl/guis ${FLATPAK_DEST}/share/axolotl/"
+      - "cp -r axolotl-web/dist ${FLATPAK_DEST}/bin/axolotl-web"
+    sources:
+      - type: git
+        url: https://github.com/nanu-c/axolotl
+        tag: main
+        dest: src/github.com/nanu-c/axolotl
+
+  - name: metadata
+    buildsystem: simple
+    subdir: src/github.com/nanu-c/axolotl
+    build-commands:
+      - install -Dm 644 flatpak/org.nanuc.Axolotl.png ${FLATPAK_DEST}/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png
+      - install -Dm 644 flatpak/org.nanuc.Axolotl.appdata.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
+      - install -Dm 644 flatpak/qt/org.nanuc.Axolotl.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
+      - mkdir -p ${FLATPAK_DEST}/share/axolotl
+      - cp -r guis ${FLATPAK_DEST}/share/axolotl/
     sources:
       - type: git
         url: https://github.com/nanu-c/axolotl

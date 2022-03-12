@@ -6,15 +6,15 @@
 NPM_VERSION := $(shell npm --version 2>/dev/null)
 NODE_VERSION := $(shell node --version 2>/dev/null)
 GO_VERSION := $(shell go version 2>/dev/null)
-GOOS=$(shell go env GOOS)
-GOARCH=$(shell go env GOARCH)
+GOOS := $(shell go env GOOS)
+GOARCH := $(shell go env GOARCH)
 CARGO_VERSION := $(shell cargo --version 2>/dev/null)
 GIT_VERSION := $(shell git --version 2>/dev/null)
 AXOLOTL_GIT_VERSION := $(shell git tag | tail --lines=1)
 AXOLOTL_VERSION := $(subst v,,$(AXOLOTL_GIT_VERSION))
 UNAME_S := $(shell uname -s)
 HARDWARE_PLATFORM := $(shell uname --machine)
-CURRENT_DIR = $(shell pwd)
+CURRENT_DIR := $(shell pwd)
 
 define APPDATA_TEXT=
 \\t\t\t<release version="$(NEW_VERSION)" date="$(shell date --rfc-3339='date')">\n\
@@ -23,26 +23,26 @@ define APPDATA_TEXT=
 endef
 export APPDATA_TEXT
 
-NPM=$(shell which npm)
-GO=$(shell which go)
-GIT=$(shell which git)
-CARGO=$(shell which cargo)
-FLATPAK=$(shell which flatpak)
-FLATPAK_BUILDER=$(shell which flatpak-builder)
-SNAPCRAFT=$(shell which snapcraft)
-SNAP=$(shell which snap)
-APT=$(shell which apt)
-WGET=$(shell which wget)
-RUST=$(shell which rustup)
-CROSS=$(shell which cross)
-DOCKER=$(shell which docker)
-ASTILECTRON_BUILDER=$(shell which astilectron-bundler)
+NPM := $(shell which npm 2>/dev/null)
+GO := $(shell which go 2>/dev/null)
+GIT := $(shell which git 2>/dev/null)
+CARGO := $(shell which cargo 2>/dev/null)
+FLATPAK := $(shell which flatpak 2>/dev/null)
+FLATPAK_BUILDER := $(shell which flatpak-builder 2>/dev/null)
+SNAPCRAFT := $(shell which snapcraft 2>/dev/null)
+SNAP := $(shell which snap 2>/dev/null)
+APT := $(shell which apt 2>/dev/null)
+WGET := $(shell which wget 2>/dev/null)
+RUST := $(shell which rustup 2>/dev/null)
+CROSS := $(shell which cross 2>/dev/null)
+DOCKER := $(shell which docker 2>/dev/null)
+ASTILECTRON_BUILDER := $(shell which astilectron-bundler 2>/dev/null)
 
-DESTDIR = /
-INSTALL_PREFIX = usr/bin
-LIBRARY_PREFIX = usr/lib
-SHARE_PREFIX = usr/share
-CARGO_PREFIX = ${HOME}/.cargo/bin
+DESTDIR := /
+INSTALL_PREFIX := usr/bin
+LIBRARY_PREFIX := usr/lib
+SHARE_PREFIX := usr/share
+CARGO_PREFIX := ${HOME}/.cargo/bin
 
 all: clean build
 
@@ -101,9 +101,9 @@ uninstall-axolotl-web:
 build-translation:
 	$(NPM) run translate --prefix axolotl-web
 
-run: build
+run:
 	@echo "Found go with version $(GO_VERSION)"
-	LD_LIBRARY_PATH=$(PWD) $(GO)  run .
+	LD_LIBRARY_PATH=$(PWD) $(GO) run .
 
 clean:
 	rm -f $(CURRENT_DIR)/axolotl
@@ -134,7 +134,7 @@ install-crayfish:
 
 uninstall-crayfish:
 	@echo "Uninstalling crayfish..."
-	@rm -f $(DESTDIR)$(LIBRARY_PREFIX)/crayfish
+	@rm -f $(DESTDIR)$(INSTALL_PREFIX)/crayfish
 
 ## zkgroup
 build-zkgroup:
@@ -198,10 +198,10 @@ build-dependencies-flatpak-qt: build-dependencies-flatpak
 	$(FLATPAK) install io.qt.qtwebengine.BaseApp//5.15-21.08
 
 build-flatpak-web:
-	$(FLATPAK_BUILDER) flatpak/build --verbose --force-clean flatpak/web/org.nanuc.Axolotl.yml
+	$(FLATPAK_BUILDER) flatpak/build --verbose --force-clean --ccache flatpak/web/org.nanuc.Axolotl.yml
 
 build-flatpak-qt:
-	$(FLATPAK_BUILDER) flatpak/build --verbose --force-clean flatpak/qt/org.nanuc.Axolotl.yml
+	$(FLATPAK_BUILDER) flatpak/build --verbose --force-clean --ccache flatpak/qt/org.nanuc.Axolotl.yml
 
 install-flatpak-web:
 	$(FLATPAK_BUILDER) --user --install --force-clean flatpak/build flatpak/web/org.nanuc.Axolotl.yml

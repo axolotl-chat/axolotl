@@ -2,7 +2,7 @@
 
 <!-- https://docs.flatpak.org/en/latest/freedesktop-quick-reference.html#appdata-files -->
 
-<component type="desktop">
+<component type="desktop-application">
     <id>org.nanuc.Axolotl</id>
     <name>Axolotl</name>
     <summary>Axolotl is a crossplattform Signal client</summary>

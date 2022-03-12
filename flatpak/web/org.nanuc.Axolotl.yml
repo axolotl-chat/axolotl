@@ -56,9 +56,10 @@ modules:
     build-options:
       build-args:
         - --share=network
+    subdir: src/github.com/nanu-c/axolotl
     build-commands:
-      - make --directory=src/github.com/nanu-c/axolotl build-crayfish
-      - make --directory=src/github.com/nanu-c/axolotl --environment-overrides install-crayfish
+      - make build-crayfish
+      - make --environment-overrides install-crayfish
     sources:
       - type: git
         url: https://github.com/nanu-c/axolotl
@@ -67,12 +68,9 @@ modules:
 
   - name: zkgroup
     buildsystem: simple
-    build-options:
-      build-args:
-        - --share=network
+    subdir: src/github.com/nanu-c/zkgroup/lib
     build-commands:
-      - cargo build --manifest-path src/github.com/nanu-c/zkgroup/lib/zkgroup/Cargo.toml --release
-      - install -Dm 755 src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release/libzkgroup.so ${FLATPAK_DEST}/lib/libzkgroup_linux_${FLATPAK_ARCH}.so
+      - install -Dm 755 libzkgroup_linux_${FLATPAK_ARCH}.so ${FLATPAK_DEST}/lib/libzkgroup_linux_${FLATPAK_ARCH}.so
     sources:
       - type: git
         url: https://github.com/nanu-c/zkgroup
@@ -84,13 +82,14 @@ modules:
     build-options:
       build-args:
         - --share=network
+    subdir: src/github.com/nanu-c/axolotl
     build-commands:
-      - make --directory=src/github.com/nanu-c/axolotl build-dependencies-axolotl-web
-      - make --directory=src/github.com/nanu-c/axolotl build-axolotl-web
-      - make --directory=src/github.com/nanu-c/axolotl build-dependencies-axolotl
-      - make --directory=src/github.com/nanu-c/axolotl build-dependencies-axolotl-electron-bundle
-      - make --directory=src/github.com/nanu-c/axolotl build-axolotl-electron-bundle
-      - make --directory=src/github.com/nanu-c/axolotl --environment-overrides install-axolotl-electron-bundle
+      - make build-dependencies-axolotl-web
+      - make build-axolotl-web
+      - make build-dependencies-axolotl
+      - make build-dependencies-axolotl-electron-bundle
+      - make build-axolotl-electron-bundle
+      - make --environment-overrides install-axolotl-electron-bundle
     sources:
       - type: git
         url: https://github.com/nanu-c/axolotl
@@ -99,17 +98,22 @@ modules:
 
   - name: metadata
     buildsystem: simple
+    subdir: src/github.com/nanu-c/axolotl
     build-commands:
-      - install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.png ${FLATPAK_DEST}/usr/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png
-      - install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/org.nanuc.Axolotl.appdata.xml ${FLATPAK_DEST}/share/appdata/${FLATPAK_ID}.appdata.xml
-      - install -Dm 644 src/github.com/nanu-c/axolotl/flatpak/web/org.nanuc.Axolotl.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
-      - install -Dm 755 run.sh ${FLATPAK_DEST}${INSTALL_PREFIX}/run.sh
+      - install -Dm 644 flatpak/org.nanuc.Axolotl.png ${FLATPAK_DEST}/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png
+      - install -Dm 644 flatpak/org.nanuc.Axolotl.appdata.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
+      - install -Dm 644 flatpak/web/org.nanuc.Axolotl.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
     sources:
       - type: git
         url: https://github.com/nanu-c/axolotl
         tag: main
         dest: src/github.com/nanu-c/axolotl
-      # Wrapper to launch the app
+
+  - name: run
+    buildsystem: simple
+    build-commands:
+      - install -Dm 755 run.sh ${FLATPAK_DEST}/bin/run.sh
+    sources:
       - type: script
         dest-filename: run.sh
         commands:
