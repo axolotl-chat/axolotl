@@ -1,8 +1,5 @@
 <template>
   <component :is="$route.meta.layout || 'div'">
-    <template #header>
-      huh
-    </template>
     <div class="chat">
       <div
         id="messageList-container"
