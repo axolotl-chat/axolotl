@@ -78,7 +78,9 @@ func GetConfig() (*textsecureConfig.Config, error) {
 	Config.UserAgent = fmt.Sprintf("TextSecure %s for Ubuntu Phone", AppVersion)
 	Config.UnencryptedStorage = true
 
-	Config.LogLevel = "debug"
+	if Config.LogLevel == "" {
+		Config.LogLevel = "info"
+	}
 	Config.CrayfishSupport = true
 	Config.AlwaysTrustPeerID = true
 	rootCA := filepath.Join(ConfigDir, "rootCA.crt")
@@ -180,4 +182,25 @@ func Unregister() {
 		log.Error(err)
 	}
 	os.Exit(1)
+}
+func SetLogLevel(loglevel string) {
+	if loglevel == "debug" {
+		log.SetLevel(log.DebugLevel)
+	} else if loglevel == "info" {
+		log.SetLevel(log.InfoLevel)
+	} else if loglevel == "warn" {
+		log.SetLevel(log.WarnLevel)
+	} else if loglevel == "error" {
+		log.SetLevel(log.ErrorLevel)
+	} else if loglevel == "fatal" {
+		log.SetLevel(log.FatalLevel)
+	} else if loglevel == "panic" {
+		log.SetLevel(log.PanicLevel)
+	} else {
+		log.SetLevel(log.InfoLevel)
+		loglevel = "info"
+	}
+	Config.LogLevel = loglevel
+	textsecure.WriteConfig(ConfigFile, Config)
+	textsecure.RefreshConfig()
 }

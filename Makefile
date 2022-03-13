@@ -193,9 +193,9 @@ build-dependencies-flatpak-web: build-dependencies-flatpak
 	$(FLATPAK) install org.electronjs.Electron2.BaseApp//21.08
 
 build-dependencies-flatpak-qt: build-dependencies-flatpak
-	$(FLATPAK) install org.kde.Platform//5.15
-	$(FLATPAK) install org.kde.Sdk//5.15
-	$(FLATPAK) install io.qt.qtwebengine.BaseApp//5.15
+	$(FLATPAK) install org.kde.Platform//5.15-21.08
+	$(FLATPAK) install org.kde.Sdk//5.15-21.08
+	$(FLATPAK) install io.qt.qtwebengine.BaseApp//5.15-21.08
 
 build-flatpak-web:
 	$(FLATPAK_BUILDER) flatpak/build --verbose --force-clean flatpak/web/org.nanuc.Axolotl.yml

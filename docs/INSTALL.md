@@ -99,6 +99,13 @@ rustup target add aarch64-unknown-linux-gnu
 rustup target add armv7-unknown-linux-gnueabihf
 ```
 
+Configure cargo with the cross-linker. For gcc:
+
+```bash
+export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc
+export CARGO_TARGET_ARMV7_UNKNOWN_LINUX_GNUEABIHF_LINKER=armv7-unknown-linux-gnueabihf-gcc
+```
+
 To do a cross-compile build, use the following:
 
 ```bash
@@ -153,6 +160,7 @@ flatpak install org.freedesktop.Platform//21.08
 flatpak install org.freedesktop.Sdk//21.08
 flatpak install org.freedesktop.Sdk.Extension.golang//21.08
 flatpak install org.freedesktop.Sdk.Extension.node16//21.08
+flatpak install org.freedesktop.Sdk.Extension.rust-stable//21.08
 flatpak install org.electronjs.Electron2.BaseApp//21.08
 ```
 
@@ -186,11 +194,12 @@ To start the application, either search for "Axolotl" in your app drawer or star
 
 The following Flatpak SDKs are required:
 ```
-flatpak install org.kde.Platform//5.15
-flatpak install org.kde.Sdk//5.15
+flatpak install org.kde.Platform//5.15-21.08
+flatpak install org.kde.Sdk//5.15-21.08
 flatpak install org.freedesktop.Sdk.Extension.golang//21.08
 flatpak install org.freedesktop.Sdk.Extension.node16//21.08
-flatpak install io.qt.qtwebengine.BaseApp//5.15
+flatpak install org.freedesktop.Sdk.Extension.rust-stable//21.08
+flatpak install io.qt.qtwebengine.BaseApp//5.15-21.08
 ```
 
 **Build and Install**

@@ -47,7 +47,7 @@ jobs:
 
     steps:
       - name: Setup Node 16
-        uses: actions/setup-node@v2.5.1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -184,12 +184,12 @@ jobs:
           mv libzkgroup_linux_armv7_v0.8.8.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_armv7.so
 
       - name: Build crayfish (armhf)
-        uses: docker://clickable/ci-16.04-armhf:7.0.1
+        uses: docker://clickable/ci-16.04-armhf:latest
         with:
           args: clickable build -a armhf --verbose --libs crayfish
 
       - name: Build click (armhf)
-        uses: docker://clickable/ci-16.04-armhf:7.0.1
+        uses: docker://clickable/ci-16.04-armhf:7.1.1
         env:
           GOPATH: $GITHUB_WORKSPACE/go
         with:
@@ -230,12 +230,12 @@ jobs:
             mv libzkgroup_linux_aarch64_v0.8.8.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_aarch64.so
 
       - name: Build crayfish (arm64)
-        uses: docker://clickable/ci-16.04-arm64:7.0.1
+        uses: docker://clickable/ci-16.04-arm64:7.1.1
         with:
           args: clickable build -a arm64 --verbose --libs crayfish
 
       - name: Build click (arm64)
-        uses: docker://clickable/ci-16.04-arm64:7.0.1
+        uses: docker://clickable/ci-16.04-arm64:7.1.1
         env:
           GOPATH: $GITHUB_WORKSPACE/go
         with:
@@ -276,12 +276,12 @@ jobs:
             mv libzkgroup_linux_x86_64-v0.8.8.so $GITHUB_WORKSPACE/lib/libzkgroup_linux_x86_64.so
 
       - name: Build crayfish (amd64)
-        uses: docker://clickable/ci-16.04-amd64:7.0.1
+        uses: docker://clickable/ci-16.04-amd64:7.1.1
         with:
           args: clickable build -a amd64 --verbose --libs crayfish
 
       - name: Build click (amd64)
-        uses: docker://clickable/ci-16.04-amd64:7.0.1
+        uses: docker://clickable/ci-16.04-amd64:7.1.1
         env:
           GOPATH: $GITHUB_WORKSPACE/go
         with:
@@ -294,8 +294,8 @@ jobs:
           path: build/x86_64-linux-gnu/app/textsecure.nanuc_*.click
           retention-days: 1
 
-  package-flatpak:
-    name: Package as Flatpak bundle
+  package-flatpak-web:
+    name: Package as Flatpak web bundle
     runs-on: ubuntu-latest
     needs: [build-axolotl, build-axolotl-web, build-crayfish]
     container:
@@ -308,11 +308,31 @@ jobs:
         with:
           submodules: 'true'
 
-      - uses: bilelmoussaoui/flatpak-github-actions@v4
+      - name: Build Flatpak Web version
+        uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v4
         with:
-          bundle: "axolotl.flatpak"
-          manifest-path: "flatpak/web/org.nanuc.Axolotl.yml"
-          branch: "main"
+          bundle: axolotl-web.flatpak
+          manifest-path: flatpak/web/org.nanuc.Axolotl.yml
+
+  package-flatpak-qt:
+    name: Package as Flatpak QT bundle
+    runs-on: ubuntu-latest
+    needs: [build-axolotl, build-axolotl-web, build-crayfish]
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:kde-5.15-21.08
+      options: --privileged
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+
+      - name: Build Flatpak QT version
+        uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v4
+        with:
+          bundle: axolotl-qt.flatpak
+          manifest-path: flatpak/qt/org.nanuc.Axolotl.yml
 
   build-axolotl-deb-arm64:
     name: Build axolotl Debian arm64
@@ -351,7 +371,7 @@ jobs:
 
     steps:
       - name: Set up Node 16
-        uses: actions/setup-node@v2.5.1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
 

@@ -5,7 +5,6 @@ import (
 
 	"github.com/nanu-c/axolotl/app/config"
 
-	log "github.com/sirupsen/logrus"
 	yaml "gopkg.in/yaml.v2"
 )
 
@@ -33,12 +32,6 @@ func LoadSettings() (*Settings, error) {
 	err = yaml.Unmarshal(b, s)
 	if err != nil {
 		return s, err
-	}
-	test := &s.DebugLog
-	if test != nil {
-		if s.DebugLog == true {
-			log.SetLevel(log.DebugLevel)
-		}
 	}
 	SettingsModel = s
 
