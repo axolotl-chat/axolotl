@@ -187,7 +187,7 @@ func runElectron() {
 		return
 	})
 	w.On(astilectron.EventNameWindowEventDidGetRedirectRequest, func(e astilectron.Event) (deleteListener bool) {
-		log.Infof("[axolotl-electron] Electron redirect request ", e.URLNew)
+		log.Infoln("[axolotl-electron] Electron redirect request ", e.URLNew)
 		return
 	})
 	w.On(astilectron.EventNameWindowEventWebContentsExecutedJavaScript, func(e astilectron.Event) (deleteListener bool) {
