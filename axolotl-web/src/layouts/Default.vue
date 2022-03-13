@@ -68,8 +68,6 @@ export default {
   padding: 5px 0;
   background-color: #2090ea;
   z-index: 2;
-  -webkit-box-shadow: 0px -11px 14px 7px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px -11px 14px 7px rgba(0, 0, 0, 0.75);
   box-shadow: 0px -11px 14px 7px rgba(0, 0, 0, 0.75);
   min-height: 49px;
 }
