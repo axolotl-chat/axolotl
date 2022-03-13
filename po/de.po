@@ -25,15 +25,15 @@ msgstr "2. Scanne den QR Code mit einem QR Code Scanner"
 msgid "3. Paste the QR code here:"
 msgstr "3. Füge den QR Code hier ein:"
 
-#: src/pages/About.vue:5 src/pages/Register.vue:6
+#: src/pages/About.vue:6 src/pages/Register.vue:7
 msgid "A cross-platform Signal client"
 msgstr "Ein Multi-Plattform Signal-Client"
 
-#: src/pages/Settings.vue:42
+#: src/pages/Settings.vue:61
 msgid "About Axolotl"
 msgstr "Über Axolotl"
 
-#: src/components/AddContactModal.vue:41 src/components/AddContactModal.vue:7
+#: src/components/AddContactModal.vue:40 src/components/AddContactModal.vue:7
 #: src/components/AddDeviceModal.vue:28
 msgid "Add"
 msgstr "Hinzufügen"
@@ -42,7 +42,7 @@ msgstr "Hinzufügen"
 msgid "Add a new device"
 msgstr "Neues Gerät hinzufügen"
 
-#: src/components/Header.vue:162
+#: src/components/LegacyHeader.vue:162
 msgid "Add contact"
 msgstr "Kontakt hinzufügen"
 
@@ -53,6 +53,17 @@ msgstr "Zuerst Kontakte hinzufügen"
 #: src/components/AddGroupMembersModal.vue:6
 msgid "Add members"
 msgstr "Mitglieder hinzufügen"
+
+#: src/components/ImportVcfModal.vue:7
+#, fuzzy
+msgid "Adding contacts"
+msgstr "Kontakt hinzufügen"
+
+#: src/components/AddContactModal.vue:16
+msgid ""
+"After adding a contact, it takes a few seconds for checking if the contact "
+"is registered with signal."
+msgstr ""
 
 #: src/components/AttachmentBar.vue:26
 msgid "Audio"
@@ -74,15 +85,15 @@ msgstr ""
 "Aber sei vorsichtig, wenn du zu viele Kontakte hinzufügst, die nicht bei "
 "Signal sind, kannst du keine weiteren Kontakte hinzufügen."
 
-#: src/pages/Contacts.vue:3
+#: src/pages/Contacts.vue:4
 msgid "Can't change contact list: {{ error }}"
 msgstr "Kann Kontakteliste nicht ändern {{error}}"
 
-#: src/pages/Debug.vue:19
+#: src/pages/Debug.vue:20
 msgid "Clear all localStorage"
 msgstr "Lösche alle Daten auf diesem Gerät"
 
-#: src/pages/Debug.vue:15
+#: src/pages/Debug.vue:16
 msgid "Clear registration from localStorage"
 msgstr "Lösche die Registrierung auf diesem Gerät"
 
@@ -95,7 +106,7 @@ msgstr "Schließen"
 msgid "Confirm"
 msgstr "Bestätigen"
 
-#: src/components/Header.vue:238
+#: src/components/LegacyHeader.vue:238
 msgid "Connect with Signal"
 msgstr "Mit Signal verbinden"
 
@@ -103,56 +114,66 @@ msgstr "Mit Signal verbinden"
 msgid "Contact"
 msgstr "Kontakt"
 
-#: src/pages/Contacts.vue:20
+#: src/pages/Contacts.vue:21
 msgid "Contact list is empty..."
 msgstr "Die Kontaktliste ist leer..."
 
-#: src/components/Header.vue:395
+#: src/pages/ChatList.vue:5
 msgid "Contacts"
 msgstr "Kontakte"
 
-#: src/pages/NewGroup.vue:20
+#: src/components/ImportVcfModal.vue:14
+msgid ""
+"Contacts can be added through a vcf contacts file. If an contact has "
+"multiple numbers, all of them will be added as separate contacts."
+msgstr ""
+
+#: src/pages/NewGroup.vue:21
 msgid "Create group"
 msgstr "Gruppe erstellen"
 
-#: src/pages/NewGroup.vue:44
+#: src/pages/NewGroup.vue:45
 msgid "Creating group"
 msgstr "Erstelle Gruppe"
 
-#: src/pages/SetPassword.vue:59
+#: src/pages/SetPassword.vue:60
 msgid "Current password"
 msgstr "Aktuelles Passwort"
 
-#: src/pages/SetPassword.vue:24
+#: src/pages/SetPassword.vue:25
 msgid "Current password is wrong"
 msgstr "Das aktuelle Passwort ist falsch"
 
-#: src/pages/Debug.vue:14
+#: src/pages/Debug.vue:15
 msgid "Current registration status in $store: {{ registrationStatus }}"
 msgstr "Aktueller Registrierungsstatus in $store: {{ registrationStatus }}"
 
-#: src/pages/Debug.vue:10
+#: src/pages/Debug.vue:11
 msgid ""
 "Current registration status in local storage: {{ localRegistrationStatus }}"
 msgstr "Aktueller lokaler Registrierungsstatus: {{ localRegistrationStatus }}"
 
-#: src/pages/Settings.vue:32
+#: src/pages/Settings.vue:33
 msgid "Dark mode"
 msgstr "Dunkler Modus"
 
-#: src/pages/Debug.vue:3
+#: src/pages/Debug.vue:4
 msgid "Debug screen"
 msgstr "Debug Bildschirm"
 
-#: src/pages/Password.vue:13
+#: src/pages/Settings.vue:44
+msgid "Debugging"
+msgstr ""
+
+#: src/pages/Password.vue:14
 msgid "Decrypt"
 msgstr "Entschlüsseln"
 
-#: src/components/Header.vue:202
+#: src/components/LegacyHeader.vue:202
 msgid "Delete chat"
 msgstr "Chat löschen"
 
-#: src/components/Header.vue:526
+#: src/components/LegacyHeader.vue:489
 msgid "Delete this chat?"
 msgstr "Diesen Chat löschen?"
 
@@ -160,7 +181,7 @@ msgstr "Diesen Chat löschen?"
 msgid "Document"
 msgstr "Dokument"
 
-#: src/pages/Settings.vue:47
+#: src/pages/Settings.vue:66
 msgid ""
 "Due to technical limitations, Axolotl doesn't support push notifications. "
 "Keep the app open to be notified in real time. In Ubuntu Touch, use UT Tweak "
@@ -175,19 +196,19 @@ msgstr ""
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: src/components/Header.vue:174
+#: src/components/LegacyHeader.vue:174
 msgid "Edit contact"
 msgstr "Kontakt bearbeiten"
 
-#: src/components/Header.vue:210 src/components/Header.vue:282
+#: src/components/LegacyHeader.vue:210 src/components/LegacyHeader.vue:282
 msgid "Edit group"
 msgstr "Gruppe bearbeiten"
 
-#: src/components/Header.vue:243
+#: src/components/LegacyHeader.vue:243
 msgid "Enter password"
 msgstr "Passwort eingeben"
 
-#: src/pages/Verification.vue:3
+#: src/pages/Verification.vue:4
 msgid "Enter your registration pin"
 msgstr "Registrierungspin eingeben"
 
@@ -195,11 +216,15 @@ msgstr "Registrierungspin eingeben"
 msgid "Error communicating with Signal servers"
 msgstr "Kommunikationsfehler mit Signal-Server"
 
-#: src/pages/Debug.vue:6
+#: src/pages/Settings.vue:42
+msgid "Errors"
+msgstr ""
+
+#: src/pages/Debug.vue:7
 msgid "Exit"
 msgstr "Schließen"
 
-#: src/pages/Debug.vue:4
+#: src/pages/Debug.vue:5
 msgid "For developers only, use with care!"
 msgstr "Nur für Entwickler, mit Vorsicht verwenden!"
 
@@ -207,7 +232,7 @@ msgstr "Nur für Entwickler, mit Vorsicht verwenden!"
 msgid "Group changed."
 msgstr "Gruppe geändert."
 
-#: src/pages/EditGroup.vue:5 src/pages/NewGroup.vue:5
+#: src/pages/EditGroup.vue:6 src/pages/NewGroup.vue:6
 msgid "Group name"
 msgstr "Gruppenname"
 
@@ -243,7 +268,7 @@ msgstr ""
 "Server-Status fehlerfrei ist, bitte <a href=\"https://github.com/nanu-c/"
 "axolotl/issues\" target=\"_blank\">erstelle einen Fehlerbericht</a>."
 
-#: src/components/Header.vue:350
+#: src/components/LegacyHeader.vue:350
 msgid "Import contacts"
 msgstr "Kontakte importieren"
 
@@ -251,72 +276,86 @@ msgstr "Kontakte importieren"
 msgid "Import contacts feature unavailable"
 msgstr "Kontaktimport nicht verfügbar"
 
-#: src/pages/Contacts.vue:6
+#: src/components/ImportVcfModal.vue:26
+#, fuzzy
+msgid "Import vcf"
+msgstr "Kontakte importieren"
+
+#: src/pages/Contacts.vue:7
 msgid "Importing contacts, head back later"
 msgstr "Kontake werden importiert, komm später zurück"
 
-#: src/pages/SetPassword.vue:3 src/pages/SetUsername.vue:3
+#: src/pages/SetPassword.vue:4 src/pages/Settings.vue:40
+#: src/pages/SetUsername.vue:4
 msgid "Info"
 msgstr "Info"
 
-#: src/pages/About.vue:15
+#: src/pages/About.vue:16
 msgid "issues at the bug tracker"
 msgstr "Fehlerberichten"
 
-#: src/pages/MessageList.vue:71
+#: src/pages/MessageList.vue:74
 msgid "Join"
 msgstr ""
 
-#: src/pages/MessageList.vue:68
+#: src/pages/MessageList.vue:71
 msgid ""
 "Join this group? They won’t know you’ve seen their messages until you accept."
 msgstr ""
 
-#: src/pages/DeviceList.vue:10
+#: src/pages/DeviceList.vue:11
 msgid "Last seen:"
 msgstr "Zuletzt gesehen:"
 
-#: src/pages/Settings.vue:10
+#: src/pages/Settings.vue:11
 msgid "Linked devices"
 msgstr "Verknüpfte Geräte"
 
-#: src/pages/Verification.vue:30
+#: src/pages/Verification.vue:31
 msgid "Loading..."
 msgstr "Laden..."
 
-#: src/pages/EditGroup.vue:17 src/pages/NewGroup.vue:17
+#: src/pages/Settings.vue:48
+msgid "Loglevel"
+msgstr ""
+
+#: src/pages/EditGroup.vue:18 src/pages/NewGroup.vue:18
 msgid "Members"
 msgstr "Gruppenmitglieder"
 
-#: src/components/Header.vue:146
+#: src/components/LegacyHeader.vue:146
 msgid "Mute"
 msgstr "Stumm"
 
-#: src/components/AddContactModal.vue:21
+#: src/components/AddContactModal.vue:20
 msgid "Name"
 msgstr "Name"
 
-#: src/components/Header.vue:275 src/components/Header.vue:398
+#: src/components/LegacyHeader.vue:275 src/pages/ChatList.vue:8
 msgid "New group"
 msgstr "Neue Gruppe"
 
-#: src/pages/SetPassword.vue:33
+#: src/pages/SetPassword.vue:34
 msgid "New password"
 msgstr "Neues Passwort"
 
-#: src/pages/Register.vue:23
+#: src/pages/Register.vue:24
 msgid "Next"
 msgstr "Weiter"
 
-#: src/pages/ChatList.vue:87
+#: src/pages/ChatList.vue:104
 msgid "No chats available"
 msgstr "Keine Chats vorhanden"
 
-#: src/pages/DeviceList.vue:22
+#: src/pages/DeviceList.vue:23
 msgid "No linked devices"
 msgstr "Keine verknüpften Geräte"
 
-#: src/pages/MessageList.vue:61
+#: src/pages/Settings.vue:43
+msgid "No logs"
+msgstr ""
+
+#: src/pages/MessageList.vue:63
 msgid "No messages available."
 msgstr "Keine Nachrichten vorhanden."
 
@@ -324,33 +363,27 @@ msgstr "Keine Nachrichten vorhanden."
 msgid "Not supported mime type:"
 msgstr "Nicht unterstützer Mime-Typ:"
 
-#: src/pages/EditGroup.vue:15 src/pages/NewGroup.vue:15
+#: src/pages/EditGroup.vue:16 src/pages/NewGroup.vue:16
 msgid "Note, you can't add yourself to a group."
 msgstr "Hinweis: du kannst dich nicht selbst zur Gruppe hinzufügen."
 
-#: src/components/AddContactModal.vue:16
-msgid "Only add numbers that you are sure are registered Signal accounts!"
-msgstr ""
-"Füge nur Telefonnummern von Nutzern hinzu von denen du weißt, dass sie bei "
-"Signal registriert sind!"
-
-#: src/pages/About.vue:21
+#: src/pages/About.vue:22
 msgid "or by becoming a"
 msgstr "oder als"
 
-#: src/pages/Verification.vue:8
+#: src/pages/Verification.vue:9
 msgid "or disable it on Android/IOs"
 msgstr "oder deaktivere den Pin in Android/IOs"
 
-#: src/pages/Password.vue:3
+#: src/pages/Password.vue:4
 msgid "Password is wrong"
 msgstr "Das Passwort ist falsch"
 
-#: src/pages/SetPassword.vue:8
+#: src/pages/SetPassword.vue:9
 msgid "Passwords don't match"
 msgstr "Die Passwörter stimmen nicht überein"
 
-#: src/components/AddContactModal.vue:30 src/components/EditContactModal.vue:26
+#: src/components/AddContactModal.vue:29 src/components/EditContactModal.vue:26
 msgid "Phone"
 msgstr "Telefon"
 
@@ -362,31 +395,31 @@ msgstr "Foto"
 msgid "QR code"
 msgstr "QR Code"
 
-#: src/pages/Settings.vue:5
+#: src/pages/Settings.vue:6
 msgid "Registered number"
 msgstr "Registrierte Nummer"
 
-#: src/pages/Debug.vue:9
+#: src/pages/Debug.vue:10
 msgid "Registration data"
 msgstr "Registrierungsdaten"
 
-#: src/pages/SetPassword.vue:46
+#: src/pages/SetPassword.vue:47
 msgid "Repeat password"
 msgstr "Passwort hier wiederholen"
 
-#: src/pages/Register.vue:39
+#: src/pages/Register.vue:40
 msgid "Request code"
 msgstr "Code anfordern"
 
-#: src/components/Header.vue:194
+#: src/components/LegacyHeader.vue:194
 msgid "Reset encryption"
 msgstr "Verschlüsselung neu starten"
 
-#: src/components/Header.vue:512
+#: src/components/LegacyHeader.vue:475
 msgid "Reset secure session?"
 msgstr "Verschlüsselung neu starten?"
 
-#: src/pages/SetPassword.vue:7
+#: src/pages/SetPassword.vue:8
 msgid "Restart is required!"
 msgstr "Neustart erforderlich!"
 
@@ -402,19 +435,19 @@ msgstr "Speichern"
 msgid "Send attachments"
 msgstr "Anhang senden"
 
-#: src/pages/Verification.vue:16
+#: src/pages/Verification.vue:17
 msgid "Send code"
 msgstr "Code senden"
 
-#: src/pages/Verification.vue:10
+#: src/pages/Verification.vue:11
 msgid "Send pin"
 msgstr "Pin senden"
 
-#: src/components/Header.vue:254
+#: src/components/LegacyHeader.vue:254
 msgid "Set encryption password"
 msgstr "Verschlüsselungs-Passwort setzen"
 
-#: src/pages/SetPassword.vue:71 src/pages/Settings.vue:13
+#: src/pages/SetPassword.vue:72 src/pages/Settings.vue:14
 msgid "Set password"
 msgstr "Passwort setzen"
 
@@ -422,45 +455,47 @@ msgstr "Passwort setzen"
 msgid "Set timer for self-destructing messages"
 msgstr "Zeitbegrenzung für verschwindende Nachrichten festlegen"
 
-#: src/pages/SetUsername.vue:19
+#: src/pages/SetUsername.vue:20
 msgid "Set username"
 msgstr "Nutzername festlegen"
 
-#: src/pages/SetPassword.vue:4
+#: src/pages/SetPassword.vue:5
 msgid "Setting a password is not advised on devices short in memory."
 msgstr ""
 "Ein Passwort wird auf Geräten mit wenig Arbeitsspeicher nicht empfohlen."
 
-#: src/pages/SetUsername.vue:4
+#: src/pages/SetUsername.vue:5
 msgid "Setting a username is required. Please choose one."
 msgstr "Ein Nutzername ist erforderlich. Bitte wähle einen aus."
 
-#: src/components/Header.vue:268 src/components/Header.vue:401
+#: src/components/LegacyHeader.vue:268 src/pages/ChatList.vue:11
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: src/components/Header.vue:186
+#: src/components/LegacyHeader.vue:186
 msgid "Show identity"
 msgstr "Kontakt überprüfen"
 
-#: src/pages/About.vue:27
+#: src/pages/About.vue:28
 msgid "sponsor on patreon."
 msgstr "Sponsor auf Patreon."
 
-#: src/components/Header.vue:527
+#: src/components/LegacyHeader.vue:490
 msgid "This chat will be permanently deleted - but only from your device."
 msgstr ""
 "Dadurch wird der gewählte Chat permanent gelöscht - aber nur auf diesem "
 "Gerät."
 
-#: src/pages/About.vue:7
+#: src/pages/About.vue:8
+#, fuzzy
 msgid ""
-"This is a free and open source Signal client written in golang and vuejs."
+"This is a free and open source Signal client written in golang, rust and "
+"vuejs."
 msgstr ""
 "Dies ist ein freier Open Source Signal-Client, geschrieben mit Golang und "
 "Vuejs."
 
-#: src/components/Header.vue:513
+#: src/components/LegacyHeader.vue:476
 msgid ""
 "This may help if you're having encryption problems in this conversation. "
 "Your messages will be kept."
@@ -468,19 +503,19 @@ msgstr ""
 "Hilfreich bei Problemen mit der Verschlüsselung in dieser Unterhaltung. Ihre "
 "Nachrichten bleiben erhalten."
 
-#: src/components/Header.vue:54 src/pages/ChatList.vue:46
+#: src/components/LegacyHeader.vue:54 src/pages/ChatList.vue:58
 msgid "Unknown group"
 msgstr "Unbekannte Gruppe"
 
-#: src/components/Header.vue:154
+#: src/components/LegacyHeader.vue:154
 msgid "Unmute"
 msgstr "Benachrichtigungen ein"
 
-#: src/pages/Password.vue:16 src/pages/Settings.vue:17
+#: src/pages/Password.vue:17 src/pages/Settings.vue:18
 msgid "Unregister"
 msgstr "Registrierung löschen"
 
-#: src/pages/SetPassword.vue:16
+#: src/pages/SetPassword.vue:17
 msgid "Unsafe password"
 msgstr "Unsicheres Passwort"
 
@@ -488,15 +523,15 @@ msgstr "Unsicheres Passwort"
 msgid "Unsupported message type: sticker"
 msgstr "Nicht unterstützter Nachrichtentyp: Sticker"
 
-#: src/pages/EditGroup.vue:20
+#: src/pages/EditGroup.vue:21
 msgid "Update group"
 msgstr "Gruppe aktualisieren"
 
-#: src/pages/EditGroup.vue:54
+#: src/pages/EditGroup.vue:55
 msgid "Updating group"
 msgstr "Gruppe aktualisieren"
 
-#: src/pages/SetUsername.vue:8
+#: src/pages/SetUsername.vue:9
 msgid "Username"
 msgstr "Nutzername"
 
@@ -508,6 +543,10 @@ msgstr "Kontakt überprüfen"
 msgid "Video"
 msgstr "Video"
 
+#: src/pages/Settings.vue:41
+msgid "Warnings"
+msgstr ""
+
 #: src/components/ImportUnavailableModal.vue:11
 msgid ""
 "We are sorry, but due to a change in the Signal protocol, automatic import "
@@ -516,7 +555,7 @@ msgstr ""
 "Wegen Änderungen im Signal-Protokoll ist der automatische Import von "
 "Kontakten momentan leider nicht verfügbar."
 
-#: src/pages/Verification.vue:34
+#: src/pages/Verification.vue:35
 msgid "Wrong code entered. Restart for another try."
 msgstr "Falscher Code eingegeben. Neustarten für einen weiteren Versuch."
 
@@ -524,18 +563,23 @@ msgstr "Falscher Code eingegeben. Neustarten für einen weiteren Versuch."
 msgid "You"
 msgstr "Du"
 
-#: src/pages/About.vue:12
+#: src/pages/About.vue:13
 msgid "You can support the development of Axolotl either by filling"
 msgstr ""
 "Du kannst die Entwicklung von Axolotl unterstützen durch das Erstellen von"
 
-#: src/components/Message.vue:76 src/pages/MessageList.vue:38
+#: src/components/Message.vue:76 src/pages/MessageList.vue:39
 msgid "Your browser does not support the audio element."
 msgstr "Dein Browser unterstützt dieses Audio-Element nicht."
 
 #: src/components/Message.vue:125
 msgid "Your browser does not support the video element."
 msgstr "Dein Browser unterstützt dieses Video-Element nicht."
+
+#~ msgid "Only add numbers that you are sure are registered Signal accounts!"
+#~ msgstr ""
+#~ "Füge nur Telefonnummern von Nutzern hinzu von denen du weißt, dass sie "
+#~ "bei Signal registriert sind!"
 
 #~ msgid ""
 #~ "New conversations are temporarily disabled. You can create a new chat "

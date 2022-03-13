@@ -23,15 +23,15 @@ msgstr ""
 msgid "3. Paste the QR code here:"
 msgstr ""
 
-#: src/pages/About.vue:5 src/pages/Register.vue:6
+#: src/pages/About.vue:6 src/pages/Register.vue:7
 msgid "A cross-platform Signal client"
 msgstr ""
 
-#: src/pages/Settings.vue:42
+#: src/pages/Settings.vue:61
 msgid "About Axolotl"
 msgstr ""
 
-#: src/components/AddContactModal.vue:41 src/components/AddContactModal.vue:7
+#: src/components/AddContactModal.vue:40 src/components/AddContactModal.vue:7
 #: src/components/AddDeviceModal.vue:28
 msgid "Add"
 msgstr ""
@@ -40,7 +40,7 @@ msgstr ""
 msgid "Add a new device"
 msgstr ""
 
-#: src/components/Header.vue:162
+#: src/components/LegacyHeader.vue:162
 msgid "Add contact"
 msgstr ""
 
@@ -52,6 +52,16 @@ msgstr ""
 #, fuzzy
 msgid "Add members"
 msgstr "ಸಮೂಹದ ಸದಸ್ಯರು"
+
+#: src/components/ImportVcfModal.vue:7
+msgid "Adding contacts"
+msgstr ""
+
+#: src/components/AddContactModal.vue:16
+msgid ""
+"After adding a contact, it takes a few seconds for checking if the contact "
+"is registered with signal."
+msgstr ""
 
 #: src/components/AttachmentBar.vue:26
 msgid "Audio"
@@ -69,15 +79,15 @@ msgid ""
 "won't be able to add contacts anymore."
 msgstr ""
 
-#: src/pages/Contacts.vue:3
+#: src/pages/Contacts.vue:4
 msgid "Can't change contact list: {{ error }}"
 msgstr ""
 
-#: src/pages/Debug.vue:19
+#: src/pages/Debug.vue:20
 msgid "Clear all localStorage"
 msgstr ""
 
-#: src/pages/Debug.vue:15
+#: src/pages/Debug.vue:16
 msgid "Clear registration from localStorage"
 msgstr ""
 
@@ -90,7 +100,7 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
-#: src/components/Header.vue:238
+#: src/components/LegacyHeader.vue:238
 msgid "Connect with Signal"
 msgstr ""
 
@@ -98,58 +108,68 @@ msgstr ""
 msgid "Contact"
 msgstr ""
 
-#: src/pages/Contacts.vue:20
+#: src/pages/Contacts.vue:21
 msgid "Contact list is empty..."
 msgstr ""
 
-#: src/components/Header.vue:395
+#: src/pages/ChatList.vue:5
 msgid "Contacts"
 msgstr ""
 
-#: src/pages/NewGroup.vue:20
+#: src/components/ImportVcfModal.vue:14
+msgid ""
+"Contacts can be added through a vcf contacts file. If an contact has "
+"multiple numbers, all of them will be added as separate contacts."
+msgstr ""
+
+#: src/pages/NewGroup.vue:21
 #, fuzzy
 msgid "Create group"
 msgstr "ಸಮೂಹವನ್ನು ಬಿಟ್ಟುಬಿಡಿ"
 
-#: src/pages/NewGroup.vue:44
+#: src/pages/NewGroup.vue:45
 msgid "Creating group"
 msgstr ""
 
-#: src/pages/SetPassword.vue:59
+#: src/pages/SetPassword.vue:60
 msgid "Current password"
 msgstr ""
 
-#: src/pages/SetPassword.vue:24
+#: src/pages/SetPassword.vue:25
 msgid "Current password is wrong"
 msgstr ""
 
-#: src/pages/Debug.vue:14
+#: src/pages/Debug.vue:15
 msgid "Current registration status in $store: {{ registrationStatus }}"
 msgstr ""
 
-#: src/pages/Debug.vue:10
+#: src/pages/Debug.vue:11
 msgid ""
 "Current registration status in local storage: {{ localRegistrationStatus }}"
 msgstr ""
 
-#: src/pages/Settings.vue:32
+#: src/pages/Settings.vue:33
 msgid "Dark mode"
 msgstr ""
 
-#: src/pages/Debug.vue:3
+#: src/pages/Debug.vue:4
 msgid "Debug screen"
 msgstr ""
 
-#: src/pages/Password.vue:13
+#: src/pages/Settings.vue:44
+msgid "Debugging"
+msgstr ""
+
+#: src/pages/Password.vue:14
 msgid "Decrypt"
 msgstr ""
 
-#: src/components/Header.vue:202
+#: src/components/LegacyHeader.vue:202
 #, fuzzy
 msgid "Delete chat"
 msgstr "ಅಳಿಸಿಹಾಕು"
 
-#: src/components/Header.vue:526
+#: src/components/LegacyHeader.vue:489
 msgid "Delete this chat?"
 msgstr ""
 
@@ -157,7 +177,7 @@ msgstr ""
 msgid "Document"
 msgstr ""
 
-#: src/pages/Settings.vue:47
+#: src/pages/Settings.vue:66
 msgid ""
 "Due to technical limitations, Axolotl doesn't support push notifications. "
 "Keep the app open to be notified in real time. In Ubuntu Touch, use UT Tweak "
@@ -168,20 +188,20 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: src/components/Header.vue:174
+#: src/components/LegacyHeader.vue:174
 msgid "Edit contact"
 msgstr ""
 
-#: src/components/Header.vue:210 src/components/Header.vue:282
+#: src/components/LegacyHeader.vue:210 src/components/LegacyHeader.vue:282
 #, fuzzy
 msgid "Edit group"
 msgstr "ಸಮೂಹವನ್ನು ನವೀಕರಿಸಿ"
 
-#: src/components/Header.vue:243
+#: src/components/LegacyHeader.vue:243
 msgid "Enter password"
 msgstr ""
 
-#: src/pages/Verification.vue:3
+#: src/pages/Verification.vue:4
 msgid "Enter your registration pin"
 msgstr ""
 
@@ -189,11 +209,15 @@ msgstr ""
 msgid "Error communicating with Signal servers"
 msgstr ""
 
-#: src/pages/Debug.vue:6
+#: src/pages/Settings.vue:42
+msgid "Errors"
+msgstr ""
+
+#: src/pages/Debug.vue:7
 msgid "Exit"
 msgstr ""
 
-#: src/pages/Debug.vue:4
+#: src/pages/Debug.vue:5
 msgid "For developers only, use with care!"
 msgstr ""
 
@@ -202,7 +226,7 @@ msgstr ""
 msgid "Group changed."
 msgstr "ಸಮೂಹದ ಹೆಸರು"
 
-#: src/pages/EditGroup.vue:5 src/pages/NewGroup.vue:5
+#: src/pages/EditGroup.vue:6 src/pages/NewGroup.vue:6
 msgid "Group name"
 msgstr "ಸಮೂಹದ ಹೆಸರು"
 
@@ -228,7 +252,7 @@ msgid ""
 "nanu-c/axolotl/issues\" target=\"_blank\">opening an issue</a>."
 msgstr ""
 
-#: src/components/Header.vue:350
+#: src/components/LegacyHeader.vue:350
 msgid "Import contacts"
 msgstr ""
 
@@ -236,74 +260,87 @@ msgstr ""
 msgid "Import contacts feature unavailable"
 msgstr ""
 
-#: src/pages/Contacts.vue:6
+#: src/components/ImportVcfModal.vue:26
+msgid "Import vcf"
+msgstr ""
+
+#: src/pages/Contacts.vue:7
 msgid "Importing contacts, head back later"
 msgstr ""
 
-#: src/pages/SetPassword.vue:3 src/pages/SetUsername.vue:3
+#: src/pages/SetPassword.vue:4 src/pages/Settings.vue:40
+#: src/pages/SetUsername.vue:4
 msgid "Info"
 msgstr ""
 
-#: src/pages/About.vue:15
+#: src/pages/About.vue:16
 msgid "issues at the bug tracker"
 msgstr ""
 
-#: src/pages/MessageList.vue:71
+#: src/pages/MessageList.vue:74
 msgid "Join"
 msgstr ""
 
-#: src/pages/MessageList.vue:68
+#: src/pages/MessageList.vue:71
 msgid ""
 "Join this group? They won’t know you’ve seen their messages until you accept."
 msgstr ""
 
-#: src/pages/DeviceList.vue:10
+#: src/pages/DeviceList.vue:11
 msgid "Last seen:"
 msgstr ""
 
-#: src/pages/Settings.vue:10
+#: src/pages/Settings.vue:11
 msgid "Linked devices"
 msgstr ""
 
-#: src/pages/Verification.vue:30
+#: src/pages/Verification.vue:31
 msgid "Loading..."
 msgstr ""
 
-#: src/pages/EditGroup.vue:17 src/pages/NewGroup.vue:17
+#: src/pages/Settings.vue:48
+msgid "Loglevel"
+msgstr ""
+
+#: src/pages/EditGroup.vue:18 src/pages/NewGroup.vue:18
 #, fuzzy
 msgid "Members"
 msgstr "ಸಮೂಹದ ಸದಸ್ಯರು"
 
-#: src/components/Header.vue:146
+#: src/components/LegacyHeader.vue:146
 msgid "Mute"
 msgstr ""
 
-#: src/components/AddContactModal.vue:21
+#: src/components/AddContactModal.vue:20
 msgid "Name"
 msgstr ""
 
-#: src/components/Header.vue:275 src/components/Header.vue:398
+#: src/components/LegacyHeader.vue:275 src/pages/ChatList.vue:8
 msgid "New group"
 msgstr "ಹೋಸ ಸಮೂಹ"
 
-#: src/pages/SetPassword.vue:33
+#: src/pages/SetPassword.vue:34
 #, fuzzy
 msgid "New password"
 msgstr "ಹೊಸ ಸಂದೇಶ"
 
-#: src/pages/Register.vue:23
+#: src/pages/Register.vue:24
 msgid "Next"
 msgstr ""
 
-#: src/pages/ChatList.vue:87
+#: src/pages/ChatList.vue:104
 msgid "No chats available"
 msgstr ""
 
-#: src/pages/DeviceList.vue:22
+#: src/pages/DeviceList.vue:23
 msgid "No linked devices"
 msgstr ""
 
-#: src/pages/MessageList.vue:61
+#: src/pages/Settings.vue:43
+msgid "No logs"
+msgstr ""
+
+#: src/pages/MessageList.vue:63
 msgid "No messages available."
 msgstr ""
 
@@ -311,31 +348,27 @@ msgstr ""
 msgid "Not supported mime type:"
 msgstr ""
 
-#: src/pages/EditGroup.vue:15 src/pages/NewGroup.vue:15
+#: src/pages/EditGroup.vue:16 src/pages/NewGroup.vue:16
 msgid "Note, you can't add yourself to a group."
 msgstr ""
 
-#: src/components/AddContactModal.vue:16
-msgid "Only add numbers that you are sure are registered Signal accounts!"
-msgstr ""
-
-#: src/pages/About.vue:21
+#: src/pages/About.vue:22
 msgid "or by becoming a"
 msgstr ""
 
-#: src/pages/Verification.vue:8
+#: src/pages/Verification.vue:9
 msgid "or disable it on Android/IOs"
 msgstr ""
 
-#: src/pages/Password.vue:3
+#: src/pages/Password.vue:4
 msgid "Password is wrong"
 msgstr ""
 
-#: src/pages/SetPassword.vue:8
+#: src/pages/SetPassword.vue:9
 msgid "Passwords don't match"
 msgstr ""
 
-#: src/components/AddContactModal.vue:30 src/components/EditContactModal.vue:26
+#: src/components/AddContactModal.vue:29 src/components/EditContactModal.vue:26
 msgid "Phone"
 msgstr ""
 
@@ -347,34 +380,34 @@ msgstr ""
 msgid "QR code"
 msgstr ""
 
-#: src/pages/Settings.vue:5
+#: src/pages/Settings.vue:6
 #, fuzzy
 msgid "Registered number"
 msgstr "ನೋಂದಾಯಿಸು"
 
-#: src/pages/Debug.vue:9
+#: src/pages/Debug.vue:10
 msgid "Registration data"
 msgstr ""
 
-#: src/pages/SetPassword.vue:46
+#: src/pages/SetPassword.vue:47
 msgid "Repeat password"
 msgstr ""
 
-#: src/pages/Register.vue:39
+#: src/pages/Register.vue:40
 msgid "Request code"
 msgstr ""
 
-#: src/components/Header.vue:194
+#: src/components/LegacyHeader.vue:194
 #, fuzzy
 msgid "Reset encryption"
 msgstr "ಸುರಕ್ಷಿತ ಸೆಷನ್ ಮರು ಪ್ರಾರಂಭಿಸಿ?"
 
-#: src/components/Header.vue:512
+#: src/components/LegacyHeader.vue:475
 #, fuzzy
 msgid "Reset secure session?"
 msgstr "ಸುರಕ್ಷಿತ ಸೆಷನ್ ಮರು ಪ್ರಾರಂಭಿಸಿ?"
 
-#: src/pages/SetPassword.vue:7
+#: src/pages/SetPassword.vue:8
 msgid "Restart is required!"
 msgstr ""
 
@@ -390,20 +423,20 @@ msgstr "ಉಳಿಸಿ"
 msgid "Send attachments"
 msgstr ""
 
-#: src/pages/Verification.vue:16
+#: src/pages/Verification.vue:17
 msgid "Send code"
 msgstr ""
 
-#: src/pages/Verification.vue:10
+#: src/pages/Verification.vue:11
 msgid "Send pin"
 msgstr ""
 
-#: src/components/Header.vue:254
+#: src/components/LegacyHeader.vue:254
 #, fuzzy
 msgid "Set encryption password"
 msgstr "ಸುರಕ್ಷಿತ ಸೆಷನ್ ಮರು ಪ್ರಾರಂಭಿಸಿ?"
 
-#: src/pages/SetPassword.vue:71 src/pages/Settings.vue:13
+#: src/pages/SetPassword.vue:72 src/pages/Settings.vue:14
 msgid "Set password"
 msgstr ""
 
@@ -411,61 +444,62 @@ msgstr ""
 msgid "Set timer for self-destructing messages"
 msgstr ""
 
-#: src/pages/SetUsername.vue:19
+#: src/pages/SetUsername.vue:20
 msgid "Set username"
 msgstr ""
 
-#: src/pages/SetPassword.vue:4
+#: src/pages/SetPassword.vue:5
 msgid "Setting a password is not advised on devices short in memory."
 msgstr ""
 
-#: src/pages/SetUsername.vue:4
+#: src/pages/SetUsername.vue:5
 msgid "Setting a username is required. Please choose one."
 msgstr ""
 
-#: src/components/Header.vue:268 src/components/Header.vue:401
+#: src/components/LegacyHeader.vue:268 src/pages/ChatList.vue:11
 msgid "Settings"
 msgstr "ಸೆಟ್ಟಿಂಗ್ಗಳು"
 
-#: src/components/Header.vue:186
+#: src/components/LegacyHeader.vue:186
 #, fuzzy
 msgid "Show identity"
 msgstr "ಗುರುತನ್ನು ಪರಿಶೀಲಿಸಿ"
 
-#: src/pages/About.vue:27
+#: src/pages/About.vue:28
 msgid "sponsor on patreon."
 msgstr ""
 
-#: src/components/Header.vue:527
+#: src/components/LegacyHeader.vue:490
 msgid "This chat will be permanently deleted - but only from your device."
 msgstr ""
 
-#: src/pages/About.vue:7
+#: src/pages/About.vue:8
 msgid ""
-"This is a free and open source Signal client written in golang and vuejs."
+"This is a free and open source Signal client written in golang, rust and "
+"vuejs."
 msgstr ""
 
-#: src/components/Header.vue:513
+#: src/components/LegacyHeader.vue:476
 msgid ""
 "This may help if you're having encryption problems in this conversation. "
 "Your messages will be kept."
 msgstr ""
 
-#: src/components/Header.vue:54 src/pages/ChatList.vue:46
+#: src/components/LegacyHeader.vue:54 src/pages/ChatList.vue:58
 #, fuzzy
 msgid "Unknown group"
 msgstr "ಹೋಸ ಸಮೂಹ"
 
-#: src/components/Header.vue:154
+#: src/components/LegacyHeader.vue:154
 msgid "Unmute"
 msgstr ""
 
-#: src/pages/Password.vue:16 src/pages/Settings.vue:17
+#: src/pages/Password.vue:17 src/pages/Settings.vue:18
 #, fuzzy
 msgid "Unregister"
 msgstr "ನೋಂದಣಿಯನ್ನು ರದ್ದುಗೊಳಿಸಲಾಗುತ್ತಿದೆ..."
 
-#: src/pages/SetPassword.vue:16
+#: src/pages/SetPassword.vue:17
 msgid "Unsafe password"
 msgstr ""
 
@@ -473,17 +507,17 @@ msgstr ""
 msgid "Unsupported message type: sticker"
 msgstr ""
 
-#: src/pages/EditGroup.vue:20
+#: src/pages/EditGroup.vue:21
 #, fuzzy
 msgid "Update group"
 msgstr "ಸಮೂಹವನ್ನು ನವೀಕರಿಸಿ"
 
-#: src/pages/EditGroup.vue:54
+#: src/pages/EditGroup.vue:55
 #, fuzzy
 msgid "Updating group"
 msgstr "ಸಮೂಹವನ್ನು ನವೀಕರಿಸಿ"
 
-#: src/pages/SetUsername.vue:8
+#: src/pages/SetUsername.vue:9
 msgid "Username"
 msgstr ""
 
@@ -495,13 +529,17 @@ msgstr "ಗುರುತನ್ನು ಪರಿಶೀಲಿಸಿ"
 msgid "Video"
 msgstr ""
 
+#: src/pages/Settings.vue:41
+msgid "Warnings"
+msgstr ""
+
 #: src/components/ImportUnavailableModal.vue:11
 msgid ""
 "We are sorry, but due to a change in the Signal protocol, automatic import "
 "of contacts is currently unavailable."
 msgstr ""
 
-#: src/pages/Verification.vue:34
+#: src/pages/Verification.vue:35
 msgid "Wrong code entered. Restart for another try."
 msgstr ""
 
@@ -509,11 +547,11 @@ msgstr ""
 msgid "You"
 msgstr ""
 
-#: src/pages/About.vue:12
+#: src/pages/About.vue:13
 msgid "You can support the development of Axolotl either by filling"
 msgstr ""
 
-#: src/components/Message.vue:76 src/pages/MessageList.vue:38
+#: src/components/Message.vue:76 src/pages/MessageList.vue:39
 msgid "Your browser does not support the audio element."
 msgstr ""
 
