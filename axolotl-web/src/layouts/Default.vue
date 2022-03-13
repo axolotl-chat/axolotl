@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     back() {
-      this.$router.go(-1);
+      this.$router.back();
     },
     toggleMenu() {
       this.showMenu = !this.showMenu;

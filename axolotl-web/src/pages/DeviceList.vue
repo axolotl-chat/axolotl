@@ -21,8 +21,6 @@
         </div>
       </div>
       <div v-else v-translate class="no-entries">No linked devices</div>
-      <!-- eslint-enable -->
-
       <button class="btn start-chat" @click="linkDevice">
         <font-awesome-icon icon="plus" />
       </button>

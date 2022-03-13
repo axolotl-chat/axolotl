@@ -8,7 +8,7 @@ import translations from '../translations/translations.json'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import linkifyHTML from 'linkify-html'
-import "bootstrap";
+import 'bootstrap';
 
 import {
   faArrowDown,

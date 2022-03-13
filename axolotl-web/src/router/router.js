@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import store from '../store/store'
-import Legacy from "../layouts/Legacy.vue";
-import Default from "../layouts/Default.vue";
+import store from '@/store/store'
+import Legacy from '@/layouts/Legacy.vue';
+import Default from '@/layouts/Default.vue';
 
 
 export const router = new createRouter({
@@ -140,8 +140,6 @@ export const router = new createRouter({
     },
     {
       path: '/a', redirect: () => {
-        // { path: '/a', redirect: to => {
-        // const { hash, params, query } = to
         return "/ws"
         // the function receives the target route as the argument
         // return redirect path/location here.
