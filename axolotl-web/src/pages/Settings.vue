@@ -14,7 +14,7 @@
       <router-link v-translate class="btn btn-primary" :to="'/setPassword/'">
         Set password
       </router-link>
-
+    </div>
     <button
       v-translate
       class="btn btn-danger"
