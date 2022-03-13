@@ -6,7 +6,7 @@
       <h2 v-translate class="subtitle">A cross-platform Signal client</h2>
       <div class="description">
         <translate>
-          This is a free and open source Signal client written in golang and
+          This is a free and open source Signal client written in golang, rust and
           vuejs.
         </translate>
         <br>
@@ -16,14 +16,14 @@
         <a
           v-translate
           href="https://github.com/nanu-c/axolotl/issues"
-          @click="openExtern($event, 'https://github.com/nanu-c/axolotl/issues')"
+          @click="openExternal($event, 'https://github.com/nanu-c/axolotl/issues')"
         >issues at the bug tracker</a>.
         <br>
         <translate class="mr-1">or by becoming a</translate>
         <a
           href="https://www.patreon.com/bePatron?u=11219559"
           @click="
-            openExtern($event, 'https://www.patreon.com/bePatron?u=11219559')
+            openExternal($event, 'https://www.patreon.com/bePatron?u=11219559')
           "
         ><span v-translate>sponsor on patreon.</span></a><br>
         <br>
@@ -31,7 +31,7 @@
         <br>
         <a
           href="https://axolotl.chat"
-          @click="openExtern($event, 'https://axolotl.chat')"
+          @click="openExternal($event, 'https://axolotl.chat')"
         >https://axolotl.chat</a>
       </div>
     </div>
@@ -50,7 +50,7 @@ export default {
   },
   computed: mapState(["config", "gui"]),
   methods: {
-    openExtern(e, url) {
+    openExternal(e, url) {
       if (this.gui === "ut") {
         e.preventDefault();
         alert(url);
