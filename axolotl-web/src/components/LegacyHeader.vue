@@ -361,39 +361,6 @@
             </div>
           </div>
         </div>
-        <!-- chat list page -->
-        <div v-else-if="route() === 'chatList'" class="settings-container row">
-          <div v-if="errorConnection !== null" class="connection-error" />
-          <div class="dropdown d-flex justify-content-end">
-            <button
-              id="dropdownMenuButton"
-              class="btn"
-              type="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-              @click="toggleSettings"
-            >
-              <font-awesome-icon icon="ellipsis-v" />
-            </button>
-            <div
-              v-if="showSettingsMenu"
-              id="settings-dropdown"
-              class="dropdown-menu"
-              aria-labelledby="dropdownMenuButton"
-            >
-              <router-link v-translate class="dropdown-item" :to="'/contacts/'">
-                Contacts
-              </router-link>
-              <router-link v-translate class="dropdown-item" :to="'/newGroup'">
-                New group
-              </router-link>
-              <router-link v-translate class="dropdown-item" :to="'/settings/'">
-                Settings
-              </router-link>
-            </div>
-          </div>
-        </div>
         <div v-else>
           <!-- <button class="back btn" @click="back()">
             <font-awesome-icon icon="arrow-left" /></button> -->
@@ -614,8 +581,6 @@ export default {
   padding: 5px 0;
   background-color: #2090ea;
   z-index: 2;
-  -webkit-box-shadow: 0px -11px 14px 7px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px -11px 14px 7px rgba(0, 0, 0, 0.75);
   box-shadow: 0px -11px 14px 7px rgba(0, 0, 0, 0.75);
   min-height: 49px;
 }

@@ -1,36 +1,36 @@
 <template>
-  <div class="deviceList">
-    <!-- The first device is the main device and should not be shown -->
-    <div v-if="devices && devices.length > 1">
-      <div v-for="(device, i) in devices" :key="device.id" class="row device">
-        <div class="col-10">
-          <div class="device-name">{{ device.name }}</div>
-          <div class="meta">
-            <span class="lastSeen">
-              <span v-translate>Last seen:</span>
-              {{ humanifyDate(device.lastSeen) }}
-            </span>
+  <component :is="$route.meta.layout || 'div'">
+    <div class="deviceList">
+      <!-- The first device is the main device and should not be shown -->
+      <div v-if="devices && devices.length > 1">
+        <div v-for="(device, i) in devices" :key="device.id" class="row device">
+          <div class="col-10">
+            <div class="device-name">{{ device.name }}</div>
+            <div class="meta">
+              <span class="lastSeen">
+                <span v-translate>Last seen:</span>
+                {{ humanifyDate(device.lastSeen) }}
+              </span>
+            </div>
+          </div>
+          <div v-if="i!== 0" class="col-2 actions">
+            <button class="btn" @click="delDevice(device.id)">
+              <font-awesome-icon icon="trash" />
+            </button>
           </div>
         </div>
-        <div v-if="i!== 0" class="col-2 actions">
-          <button class="btn" @click="delDevice(device.id)">
-            <font-awesome-icon icon="trash" />
-          </button>
-        </div>
       </div>
+      <div v-else v-translate class="no-entries">No linked devices</div>
+      <button class="btn start-chat" @click="linkDevice">
+        <font-awesome-icon icon="plus" />
+      </button>
+      <add-device-modal
+        v-if="showModal"
+        @close="showModal = false"
+        @add="addDevice($event)"
+      />
     </div>
-    <div v-else v-translate class="no-entries">No linked devices</div>
-    <!-- eslint-enable -->
-
-    <button class="btn start-chat" @click="linkDevice">
-      <font-awesome-icon icon="plus" />
-    </button>
-    <add-device-modal
-      v-if="showModal"
-      @close="showModal = false"
-      @add="addDevice($event)"
-    />
-  </div>
+  </component>
 </template>
 
 <script>

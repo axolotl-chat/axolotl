@@ -1,22 +1,24 @@
 <template>
-  <div class="password">
-    <div v-if="error" v-translate class="alert alert-danger">
-      Password is wrong
+  <component :is="$route.meta.layout || 'div'">
+    <div class="password">
+      <div v-if="error" v-translate class="alert alert-danger">
+        Password is wrong
+      </div>
+      <input
+        id="passwordInput"
+        v-model="pw"
+        type="password"
+        class="codeInput form-control"
+        @keydown="checkEnter($event)"
+      >
+      <button v-translate class="btn btn-primary" @click="sendPassword">
+        Decrypt
+      </button>
+      <button v-if="error" v-translate class="btn btn-danger" @click="unregister">
+        Unregister
+      </button>
     </div>
-    <input
-      id="passwordInput"
-      v-model="pw"
-      type="password"
-      class="codeInput form-control"
-      @keydown="checkEnter($event)"
-    >
-    <button v-translate class="btn btn-primary" @click="sendPassword">
-      Decrypt
-    </button>
-    <button v-if="error" v-translate class="btn btn-danger" @click="unregister">
-      Unregister
-    </button>
-  </div>
+  </component>
 </template>
 
 <script>

@@ -24,15 +24,15 @@ msgstr "2. Skannaa QR-koodi QR-koodiskannerilla"
 msgid "3. Paste the QR code here:"
 msgstr "3. Liitä QR-koodi tähän:"
 
-#: src/pages/About.vue:5 src/pages/Register.vue:6
+#: src/pages/About.vue:6 src/pages/Register.vue:7
 msgid "A cross-platform Signal client"
 msgstr "Järjestelmäriippumaton Signal-asiakasohjelma"
 
-#: src/pages/Settings.vue:42
+#: src/pages/Settings.vue:61
 msgid "About Axolotl"
 msgstr "Tietoa Axolotlista"
 
-#: src/components/AddContactModal.vue:41 src/components/AddContactModal.vue:7
+#: src/components/AddContactModal.vue:40 src/components/AddContactModal.vue:7
 #: src/components/AddDeviceModal.vue:28
 msgid "Add"
 msgstr "Lisää"
@@ -42,7 +42,7 @@ msgstr "Lisää"
 msgid "Add a new device"
 msgstr "Lisää uusi laite"
 
-#: src/components/Header.vue:162
+#: src/components/LegacyHeader.vue:162
 #, fuzzy
 msgid "Add contact"
 msgstr "Yhteystieto"
@@ -56,6 +56,17 @@ msgstr "Lisää yhteystiedot ensiksi"
 #, fuzzy
 msgid "Add members"
 msgstr "Lisää jäseniä"
+
+#: src/components/ImportVcfModal.vue:7
+#, fuzzy
+msgid "Adding contacts"
+msgstr "Yhteystieto"
+
+#: src/components/AddContactModal.vue:16
+msgid ""
+"After adding a contact, it takes a few seconds for checking if the contact "
+"is registered with signal."
+msgstr ""
 
 #: src/components/AttachmentBar.vue:26
 msgid "Audio"
@@ -79,15 +90,15 @@ msgstr ""
 "Ole varovainen, jos lisäät liian monta numeroa, jotka eivät ole\n"
 "            Signal-tilejä, et voi enää lisätä yhteystietoja."
 
-#: src/pages/Contacts.vue:3
+#: src/pages/Contacts.vue:4
 msgid "Can't change contact list: {{ error }}"
 msgstr "Ei voida vaihtaa yhteystietolistaa: {{ error }}"
 
-#: src/pages/Debug.vue:19
+#: src/pages/Debug.vue:20
 msgid "Clear all localStorage"
 msgstr ""
 
-#: src/pages/Debug.vue:15
+#: src/pages/Debug.vue:16
 msgid "Clear registration from localStorage"
 msgstr ""
 
@@ -100,7 +111,7 @@ msgstr "Sulje"
 msgid "Confirm"
 msgstr "Varmista"
 
-#: src/components/Header.vue:238
+#: src/components/LegacyHeader.vue:238
 msgid "Connect with Signal"
 msgstr "Yhdistä Signaliin"
 
@@ -108,59 +119,69 @@ msgstr "Yhdistä Signaliin"
 msgid "Contact"
 msgstr "Yhteystieto"
 
-#: src/pages/Contacts.vue:20
+#: src/pages/Contacts.vue:21
 msgid "Contact list is empty..."
 msgstr "Yhteystietolista on tyhjä..."
 
-#: src/components/Header.vue:395
+#: src/pages/ChatList.vue:5
 #, fuzzy
 msgid "Contacts"
 msgstr "Yhteystiedot"
 
-#: src/pages/NewGroup.vue:20
+#: src/components/ImportVcfModal.vue:14
+msgid ""
+"Contacts can be added through a vcf contacts file. If an contact has "
+"multiple numbers, all of them will be added as separate contacts."
+msgstr ""
+
+#: src/pages/NewGroup.vue:21
 #, fuzzy
 msgid "Create group"
 msgstr "Luo ryhmä"
 
-#: src/pages/NewGroup.vue:44
+#: src/pages/NewGroup.vue:45
 msgid "Creating group"
 msgstr "Luodaan ryhmää"
 
-#: src/pages/SetPassword.vue:59
+#: src/pages/SetPassword.vue:60
 msgid "Current password"
 msgstr "Nykyinen salasana"
 
-#: src/pages/SetPassword.vue:24
+#: src/pages/SetPassword.vue:25
 msgid "Current password is wrong"
 msgstr "Nykyinen salasana on väärin"
 
-#: src/pages/Debug.vue:14
+#: src/pages/Debug.vue:15
 msgid "Current registration status in $store: {{ registrationStatus }}"
 msgstr ""
 
-#: src/pages/Debug.vue:10
+#: src/pages/Debug.vue:11
 msgid ""
 "Current registration status in local storage: {{ localRegistrationStatus }}"
 msgstr ""
 
-#: src/pages/Settings.vue:32
+#: src/pages/Settings.vue:33
 msgid "Dark mode"
 msgstr "Dark mode"
 
-#: src/pages/Debug.vue:3
+#: src/pages/Debug.vue:4
 msgid "Debug screen"
 msgstr ""
 
-#: src/pages/Password.vue:13
+#: src/pages/Settings.vue:44
+msgid "Debugging"
+msgstr ""
+
+#: src/pages/Password.vue:14
 msgid "Decrypt"
 msgstr "Pura"
 
-#: src/components/Header.vue:202
+#: src/components/LegacyHeader.vue:202
 #, fuzzy
 msgid "Delete chat"
 msgstr "Poista"
 
-#: src/components/Header.vue:526
+#: src/components/LegacyHeader.vue:489
 msgid "Delete this chat?"
 msgstr ""
 
@@ -168,7 +189,7 @@ msgstr ""
 msgid "Document"
 msgstr "Dokumentti"
 
-#: src/pages/Settings.vue:47
+#: src/pages/Settings.vue:66
 #, fuzzy
 msgid ""
 "Due to technical limitations, Axolotl doesn't support push notifications. "
@@ -184,21 +205,21 @@ msgstr ""
 msgid "Edit"
 msgstr "Muokkaa"
 
-#: src/components/Header.vue:174
+#: src/components/LegacyHeader.vue:174
 #, fuzzy
 msgid "Edit contact"
 msgstr "Yhteystieto"
 
-#: src/components/Header.vue:210 src/components/Header.vue:282
+#: src/components/LegacyHeader.vue:210 src/components/LegacyHeader.vue:282
 #, fuzzy
 msgid "Edit group"
 msgstr "Muokkaa ryhmää"
 
-#: src/components/Header.vue:243
+#: src/components/LegacyHeader.vue:243
 msgid "Enter password"
 msgstr "Anna salasana"
 
-#: src/pages/Verification.vue:3
+#: src/pages/Verification.vue:4
 msgid "Enter your registration pin"
 msgstr "Anna rekisteröitymis-PIN-koodi"
 
@@ -206,11 +227,15 @@ msgstr "Anna rekisteröitymis-PIN-koodi"
 msgid "Error communicating with Signal servers"
 msgstr "Virhe kommunikoitaessa Signal-palvelinten kanssa"
 
-#: src/pages/Debug.vue:6
+#: src/pages/Settings.vue:42
+msgid "Errors"
+msgstr ""
+
+#: src/pages/Debug.vue:7
 msgid "Exit"
 msgstr ""
 
-#: src/pages/Debug.vue:4
+#: src/pages/Debug.vue:5
 msgid "For developers only, use with care!"
 msgstr ""
 
@@ -219,7 +244,7 @@ msgstr ""
 msgid "Group changed."
 msgstr "Ryhmää muutettu."
 
-#: src/pages/EditGroup.vue:5 src/pages/NewGroup.vue:5
+#: src/pages/EditGroup.vue:6 src/pages/NewGroup.vue:6
 msgid "Group name"
 msgstr "Ryhmän nimi"
 
@@ -265,7 +290,7 @@ msgstr ""
 "            <a href=\"https://github.com/nanu-c/axolotl/issues\" target="
 "\"_blank\">luomalla uusi ongelma (issue)</a>."
 
-#: src/components/Header.vue:350
+#: src/components/LegacyHeader.vue:350
 #, fuzzy
 msgid "Import contacts"
 msgstr "Tuo yhteystiedot"
@@ -275,76 +300,90 @@ msgstr "Tuo yhteystiedot"
 msgid "Import contacts feature unavailable"
 msgstr "Yhteystietojen tuonti ei ole saatavilla"
 
-#: src/pages/Contacts.vue:6
+#: src/components/ImportVcfModal.vue:26
+#, fuzzy
+msgid "Import vcf"
+msgstr "Tuo yhteystiedot"
+
+#: src/pages/Contacts.vue:7
 msgid "Importing contacts, head back later"
 msgstr "Tuodaan yhteystietoja, odota hetki"
 
-#: src/pages/SetPassword.vue:3 src/pages/SetUsername.vue:3
+#: src/pages/SetPassword.vue:4 src/pages/Settings.vue:40
+#: src/pages/SetUsername.vue:4
 msgid "Info"
 msgstr "Tietoa"
 
-#: src/pages/About.vue:15
+#: src/pages/About.vue:16
 msgid "issues at the bug tracker"
 msgstr "ongelmia bug-trackerissa"
 
-#: src/pages/MessageList.vue:71
+#: src/pages/MessageList.vue:74
 msgid "Join"
 msgstr ""
 
-#: src/pages/MessageList.vue:68
+#: src/pages/MessageList.vue:71
 msgid ""
 "Join this group? They won’t know you’ve seen their messages until you accept."
 msgstr ""
 
-#: src/pages/DeviceList.vue:10
+#: src/pages/DeviceList.vue:11
 msgid "Last seen:"
 msgstr "Viimeksi nähty:"
 
-#: src/pages/Settings.vue:10
+#: src/pages/Settings.vue:11
 #, fuzzy
 msgid "Linked devices"
 msgstr "Linkitetyt laitteet"
 
-#: src/pages/Verification.vue:30
+#: src/pages/Verification.vue:31
 msgid "Loading..."
 msgstr "Ladataan..."
 
-#: src/pages/EditGroup.vue:17 src/pages/NewGroup.vue:17
+#: src/pages/Settings.vue:48
+msgid "Loglevel"
+msgstr ""
+
+#: src/pages/EditGroup.vue:18 src/pages/NewGroup.vue:18
 #, fuzzy
 msgid "Members"
 msgstr "Ryhmän jäsenet"
 
-#: src/components/Header.vue:146
+#: src/components/LegacyHeader.vue:146
 msgid "Mute"
 msgstr "Hiljennä"
 
-#: src/components/AddContactModal.vue:21
+#: src/components/AddContactModal.vue:20
 msgid "Name"
 msgstr "Nimi"
 
-#: src/components/Header.vue:275 src/components/Header.vue:398
+#: src/components/LegacyHeader.vue:275 src/pages/ChatList.vue:8
 msgid "New group"
 msgstr "Uusi ryhmä"
 
-#: src/pages/SetPassword.vue:33
+#: src/pages/SetPassword.vue:34
 #, fuzzy
 msgid "New password"
 msgstr "Uusi salasana"
 
-#: src/pages/Register.vue:23
+#: src/pages/Register.vue:24
 msgid "Next"
 msgstr "Seuraava"
 
-#: src/pages/ChatList.vue:87
+#: src/pages/ChatList.vue:104
 msgid "No chats available"
 msgstr "Keskusteluja ei saatavilla"
 
-#: src/pages/DeviceList.vue:22
+#: src/pages/DeviceList.vue:23
 #, fuzzy
 msgid "No linked devices"
 msgstr "Ei linkitettyjä laitteita"
 
-#: src/pages/MessageList.vue:61
+#: src/pages/Settings.vue:43
+msgid "No logs"
+msgstr ""
+
+#: src/pages/MessageList.vue:63
 msgid "No messages available."
 msgstr "Viestejä ei saatavilla."
 
@@ -352,33 +391,27 @@ msgstr "Viestejä ei saatavilla."
 msgid "Not supported mime type:"
 msgstr "Mime-tyyppi ei ole tuettu:"
 
-#: src/pages/EditGroup.vue:15 src/pages/NewGroup.vue:15
+#: src/pages/EditGroup.vue:16 src/pages/NewGroup.vue:16
 msgid "Note, you can't add yourself to a group."
 msgstr "Huomio: Et voi lisätä itseäsi ryhmään."
 
-#: src/components/AddContactModal.vue:16
-#, fuzzy
-msgid "Only add numbers that you are sure are registered Signal accounts!"
-msgstr ""
-"Lisää ainoastaan numeroita, jotka ovat varmasti rekisteröity Signaliin!"
-
-#: src/pages/About.vue:21
+#: src/pages/About.vue:22
 msgid "or by becoming a"
 msgstr "tai ryhdy"
 
-#: src/pages/Verification.vue:8
+#: src/pages/Verification.vue:9
 msgid "or disable it on Android/IOs"
 msgstr "tai poista se käytöstä Android-/iOS-laitteesta"
 
-#: src/pages/Password.vue:3
+#: src/pages/Password.vue:4
 msgid "Password is wrong"
 msgstr "Salasana on väärin"
 
-#: src/pages/SetPassword.vue:8
+#: src/pages/SetPassword.vue:9
 msgid "Passwords don't match"
 msgstr "Salasanat eivät täsmää"
 
-#: src/components/AddContactModal.vue:30 src/components/EditContactModal.vue:26
+#: src/components/AddContactModal.vue:29 src/components/EditContactModal.vue:26
 msgid "Phone"
 msgstr "Puhelin"
 
@@ -390,33 +423,33 @@ msgstr "Kuva"
 msgid "QR code"
 msgstr "QR-koodi"
 
-#: src/pages/Settings.vue:5
+#: src/pages/Settings.vue:6
 #, fuzzy
 msgid "Registered number"
 msgstr "Rekisteröity numero"
 
-#: src/pages/Debug.vue:9
+#: src/pages/Debug.vue:10
 msgid "Registration data"
 msgstr ""
 
-#: src/pages/SetPassword.vue:46
+#: src/pages/SetPassword.vue:47
 msgid "Repeat password"
 msgstr "Toista salasana"
 
-#: src/pages/Register.vue:39
+#: src/pages/Register.vue:40
 msgid "Request code"
 msgstr "Pyyntökoodi (Request code)"
 
-#: src/components/Header.vue:194
+#: src/components/LegacyHeader.vue:194
 #, fuzzy
 msgid "Reset encryption"
 msgstr "Resetoi salaus (Alusta suojattu istunto)"
 
-#: src/components/Header.vue:512
+#: src/components/LegacyHeader.vue:475
 msgid "Reset secure session?"
 msgstr "Alusta suojattu istunto?"
 
-#: src/pages/SetPassword.vue:7
+#: src/pages/SetPassword.vue:8
 msgid "Restart is required!"
 msgstr ""
 
@@ -432,20 +465,20 @@ msgstr "Tallenna"
 msgid "Send attachments"
 msgstr "Lähetä liitteet"
 
-#: src/pages/Verification.vue:16
+#: src/pages/Verification.vue:17
 msgid "Send code"
 msgstr "Lähetä koodi"
 
-#: src/pages/Verification.vue:10
+#: src/pages/Verification.vue:11
 msgid "Send pin"
 msgstr "Lähetä pin"
 
-#: src/components/Header.vue:254
+#: src/components/LegacyHeader.vue:254
 #, fuzzy
 msgid "Set encryption password"
 msgstr "Lisää salaussalasana (alusta suojattu istunto)"
 
-#: src/pages/SetPassword.vue:71 src/pages/Settings.vue:13
+#: src/pages/SetPassword.vue:72 src/pages/Settings.vue:14
 msgid "Set password"
 msgstr "Aseta salasana"
 
@@ -453,11 +486,11 @@ msgstr "Aseta salasana"
 msgid "Set timer for self-destructing messages"
 msgstr "Aseta ajastin itsetuhoutuville viesteille"
 
-#: src/pages/SetUsername.vue:19
+#: src/pages/SetUsername.vue:20
 msgid "Set username"
 msgstr "Aseta käyttäjänimi"
 
-#: src/pages/SetPassword.vue:4
+#: src/pages/SetPassword.vue:5
 #, fuzzy
 msgid "Setting a password is not advised on devices short in memory."
 msgstr ""
@@ -465,37 +498,38 @@ msgstr ""
 "muistia.\n"
 "      Uudelleenkäynnistys vaaditaan!"
 
-#: src/pages/SetUsername.vue:4
+#: src/pages/SetUsername.vue:5
 msgid "Setting a username is required. Please choose one."
 msgstr "Käyttäjänimen asettaminen on pakollista."
 
-#: src/components/Header.vue:268 src/components/Header.vue:401
+#: src/components/LegacyHeader.vue:268 src/pages/ChatList.vue:11
 msgid "Settings"
 msgstr "Asetukset"
 
-#: src/components/Header.vue:186
+#: src/components/LegacyHeader.vue:186
 #, fuzzy
 msgid "Show identity"
 msgstr "Näytä identiteetti"
 
-#: src/pages/About.vue:27
+#: src/pages/About.vue:28
 msgid "sponsor on patreon."
 msgstr "sponsoriksi Patreonissa."
 
-#: src/components/Header.vue:527
+#: src/components/LegacyHeader.vue:490
 #, fuzzy
 msgid "This chat will be permanently deleted - but only from your device."
 msgstr "Tämä poistaa pysyvästi kaikki viestit tästä keskustelusta."
 
-#: src/pages/About.vue:7
+#: src/pages/About.vue:8
 #, fuzzy
 msgid ""
-"This is a free and open source Signal client written in golang and vuejs."
+"This is a free and open source Signal client written in golang, rust and "
+"vuejs."
 msgstr ""
 "Tämä on ilmainen ja vapaan lähdekoodin Signal-asiakasohjelma,\n"
 "        kirjoitettu golangilla ja vuejs:llä."
 
-#: src/components/Header.vue:513
+#: src/components/LegacyHeader.vue:476
 msgid ""
 "This may help if you're having encryption problems in this conversation. "
 "Your messages will be kept."
@@ -504,21 +538,21 @@ msgstr ""
 "liittyviä ongelmia. Huom. tämä ei poista eikä muokkaa mitenkään olemassa "
 "olevia viestejä."
 
-#: src/components/Header.vue:54 src/pages/ChatList.vue:46
+#: src/components/LegacyHeader.vue:54 src/pages/ChatList.vue:58
 #, fuzzy
 msgid "Unknown group"
 msgstr "Tuntematon ryhmä"
 
-#: src/components/Header.vue:154
+#: src/components/LegacyHeader.vue:154
 msgid "Unmute"
 msgstr "Poista mykitys"
 
-#: src/pages/Password.vue:16 src/pages/Settings.vue:17
+#: src/pages/Password.vue:17 src/pages/Settings.vue:18
 #, fuzzy
 msgid "Unregister"
 msgstr "Peruuta rekisteröinti"
 
-#: src/pages/SetPassword.vue:16
+#: src/pages/SetPassword.vue:17
 msgid "Unsafe password"
 msgstr "Epäturvallinen salasana"
 
@@ -526,17 +560,17 @@ msgstr "Epäturvallinen salasana"
 msgid "Unsupported message type: sticker"
 msgstr "Ei tuettu viesti: tarra (sticker)"
 
-#: src/pages/EditGroup.vue:20
+#: src/pages/EditGroup.vue:21
 #, fuzzy
 msgid "Update group"
 msgstr "Päivitetään ryhmää"
 
-#: src/pages/EditGroup.vue:54
+#: src/pages/EditGroup.vue:55
 #, fuzzy
 msgid "Updating group"
 msgstr "Päivitetään ryhmää"
 
-#: src/pages/SetUsername.vue:8
+#: src/pages/SetUsername.vue:9
 msgid "Username"
 msgstr "Käyttäjänimi"
 
@@ -548,6 +582,10 @@ msgstr "Varmenna identiteetti"
 msgid "Video"
 msgstr "Video"
 
+#: src/pages/Settings.vue:41
+msgid "Warnings"
+msgstr ""
+
 #: src/components/ImportUnavailableModal.vue:11
 #, fuzzy
 msgid ""
@@ -557,7 +595,7 @@ msgstr ""
 "Signal-protokollan muutoksen vuoksi automaattinen yhteystietojen tuonti\n"
 "            ei ole parhaillaan saatavissa. Pahoittelut."
 
-#: src/pages/Verification.vue:34
+#: src/pages/Verification.vue:35
 msgid "Wrong code entered. Restart for another try."
 msgstr "Väärä koodi. Käynnistä uudelleen yrittääksesi uudestaan."
 
@@ -565,17 +603,22 @@ msgstr "Väärä koodi. Käynnistä uudelleen yrittääksesi uudestaan."
 msgid "You"
 msgstr "Sinä"
 
-#: src/pages/About.vue:12
+#: src/pages/About.vue:13
 msgid "You can support the development of Axolotl either by filling"
 msgstr "Voit tukea Axolotlin kehitystä joko täyttämällä"
 
-#: src/components/Message.vue:76 src/pages/MessageList.vue:38
+#: src/components/Message.vue:76 src/pages/MessageList.vue:39
 msgid "Your browser does not support the audio element."
 msgstr "Selaimesi ei tue audio-elementtejä."
 
 #: src/components/Message.vue:125
 msgid "Your browser does not support the video element."
 msgstr "Selaimesi ei tue video-elementtejä."
+
+#, fuzzy
+#~ msgid "Only add numbers that you are sure are registered Signal accounts!"
+#~ msgstr ""
+#~ "Lisää ainoastaan numeroita, jotka ovat varmasti rekisteröity Signaliin!"
 
 #, fuzzy
 #~ msgid ""

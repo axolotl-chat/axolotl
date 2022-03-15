@@ -1,97 +1,115 @@
 
 <template>
-  <div v-if="chatList" class="chatList">
-    <div v-if="editActive" class="actions-header">
-      <button class="btn hide-actions" @click="delChat($event)">
-        <font-awesome-icon icon="trash" />
-      </button>
-      <button class="btn hide-actions" @click="editDeactivate">
-        <font-awesome-icon icon="times" />
-      </button>
-    </div>
-    <div v-for="chat in chats" :key="chat.id" class="row">
-      <div
-        :id="chat.id"
-        :class="
-          editActive && selectedChat.indexOf(chat.Tel) >= 0
-            ? 'selected col-12 chat-container'
-            : 'col-12 chat-container '
-        "
-        data-long-press-delay="500"
-        @click="enterChat(chat)"
-        @long-press="editChat(chat.ID)"
-      >
-        <div class="row chat-entry">
-          <div class="avatar col-2">
-            <div v-if="chat.IsGroup" class="badge-name">
-              <img
-                class="avatar-img"
-                :src="'http://localhost:9080/avatars?file=' + chat.Tel"
-                alt="Avatar image"
-                @error="onImageError($event)"
-              >
-              <font-awesome-icon icon="user-friends" />
+  <component :is="$route.meta.layout || 'div'">
+    <template #menu>
+      <router-link v-translate class="dropdown-item" :to="'/contacts/'">
+        Contacts
+      </router-link>
+      <router-link v-translate class="dropdown-item" :to="'/newGroup'">
+        New group
+      </router-link>
+      <router-link v-translate class="dropdown-item" :to="'/settings/'">
+        Settings
+      </router-link>
+    </template>
+    <div v-if="chatList" class="chatList">
+      <div v-if="editActive" class="actions-header">
+        <button class="btn hide-actions" @click="delChat($event)">
+          <font-awesome-icon icon="trash" />
+        </button>
+        <button class="btn hide-actions" @click="editDeactivate">
+          <font-awesome-icon icon="times" />
+        </button>
+      </div>
+      <div v-for="chat in chats" :key="chat.id" class="row">
+        <div
+          :id="chat.id"
+          :class="
+            editActive && selectedChat.indexOf(chat.Tel) >= 0
+              ? 'selected col-12 chat-container'
+              : 'col-12 chat-container '
+          "
+          data-long-press-delay="500"
+          @click="enterChat(chat)"
+          @long-press="editChat(chat.ID)"
+        >
+          <div class="row chat-entry">
+            <div class="avatar col-2">
+              <div v-if="chat.IsGroup" class="badge-name">
+                <img
+                  class="avatar-img"
+                  :src="'http://localhost:9080/avatars?file=' + chat.Tel"
+                  alt="Avatar image"
+                  @error="onImageError($event)"
+                />
+                <font-awesome-icon icon="user-friends" />
+              </div>
+              <div v-else class="badge-name">{{ chat.Name[0] }}</div>
             </div>
-            <div v-else class="badge-name">{{ chat.Name[0] }}</div>
-          </div>
-          <div class="meta col-10">
-            <div class="row">
-              <div class="col-9">
-                <div class="name">
-                  <font-awesome-icon
-                    v-if="!chat.Notification"
-                    class="mute"
-                    icon="volume-mute"
-                  />
-                  <div v-if="chat.IsGroup && chat.Name === chat.Tel" v-translate>
-                    Unknown group
-                  </div>
-                  <div v-else>{{ chat.Name }}</div>
-                  <div
-                    v-if="Number(chat.Unread) > 0"
-                    class="counter badge badge-primary"
-                  >
-                    {{ chat.Unread }}
+            <div class="meta col-10">
+              <div class="row">
+                <div class="col-9">
+                  <div class="name">
+                    <font-awesome-icon
+                      v-if="!chat.Notification"
+                      class="mute"
+                      icon="volume-mute"
+                    />
+                    <div
+                      v-if="chat.IsGroup && chat.Name === chat.Tel"
+                      v-translate
+                    >
+                      Unknown group
+                    </div>
+                    <div v-else>{{ chat.Name }}</div>
+                    <div
+                      v-if="Number(chat.Unread) > 0"
+                      class="counter badge badge-primary"
+                    >
+                      {{ chat.Unread }}
+                    </div>
                   </div>
                 </div>
+                <div v-if="!editActive" class="col-3 date-c">
+                  <p
+                    v-if="
+                      chat.Messages &&
+                        chat.Messages !== null &&
+                        chat.Messages[chat.Messages.length - 1].SentAt !== 0
+                    "
+                    class="time"
+                  >
+                    {{
+                      humanifyDate(
+                        chat.Messages[chat.Messages.length - 1].SentAt
+                      )
+                    }}
+                  </p>
+                </div>
               </div>
-              <div v-if="!editActive" class="col-3 date-c">
-                <p
-                  v-if="
-                    chat.Messages &&
-                      chat.Messages !== null &&
-                      chat.Messages[chat.Messages.length - 1].SentAt !== 0
-                  "
-                  class="time"
-                >
-                  {{
-                    humanifyDate(chat.Messages[chat.Messages.length - 1].SentAt)
-                  }}
-                </p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12">
-                <p
-                  v-if="chat.Messages && chat.Messages !== null"
-                  class="preview"
-                >
-                  {{ chat.Messages[chat.Messages.length - 1].Message }}
-                </p>
+              <div class="row">
+                <div class="col-12">
+                  <p
+                    v-if="chat.Messages && chat.Messages !== null"
+                    class="preview"
+                  >
+                    {{ chat.Messages[chat.Messages.length - 1].Message }}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <div v-if="chats.length === 0" v-translate class="no-entries">
+        No chats available
+      </div>
+      <!-- {{chats}} -->
+      <router-link :to="'/contacts/'" class="btn start-chat">
+        <font-awesome-icon icon="pencil-alt" />
+      </router-link>
     </div>
-    <div v-if="chats.length === 0" v-translate class="no-entries">
-      No chats available
-    </div>
-    <!-- {{chats}} -->
-    <router-link :to="'/contacts/'" class="btn start-chat">
-      <font-awesome-icon icon="pencil-alt" />
-    </router-link>
-  </div>
+  </component>
 </template>
 
 <script>

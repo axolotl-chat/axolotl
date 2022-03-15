@@ -1,28 +1,64 @@
 <template>
-  <div class="contact-list">
-    <div v-if="error !== null" v-translate class="alert alert-danger">
-      Can't change contact list: {{ error }}
-    </div>
-    <div v-if="importing" v-translate class="alert alert-warning">
-      Importing contacts, head back later
-    </div>
-    <div v-if="showActions" class="actions-header">
-      <button class="btn" @click="delContact()">
-        <font-awesome-icon icon="trash" />
-      </button>
-      <button class="btn" @click="openEditContactModal()">
-        <font-awesome-icon icon="pencil-alt" />
-      </button>
-      <button class="btn hide-actions">
-        <font-awesome-icon icon="times" @click="closeActionMode()" />
-      </button>
-    </div>
-    <div v-if="contacts.length === 0" v-translate class="empty">
-      Contact list is empty...
-    </div>
-    <div v-if="contactsFilterActive">
+  <component :is="$route.meta.layout || 'div'">
+    <div class="contact-list">
+      <div v-if="error !== null" v-translate class="alert alert-danger">
+        Can't change contact list: {{ error }}
+      </div>
+      <div v-if="importing" v-translate class="alert alert-warning">
+        Importing contacts, head back later
+      </div>
+      <div v-if="showActions" class="actions-header">
+        <button class="btn" @click="delContact()">
+          <font-awesome-icon icon="trash" />
+        </button>
+        <button class="btn" @click="openEditContactModal()">
+          <font-awesome-icon icon="pencil-alt" />
+        </button>
+        <button class="btn hide-actions">
+          <font-awesome-icon icon="times" @click="closeActionMode()" />
+        </button>
+      </div>
+      <div v-if="contacts.length === 0" v-translate class="empty">
+        Contact list is empty...
+      </div>
+      <div v-if="contactsFilterActive">
+        <div
+          v-for="c in contactsFiltered"
+          :key="c.Tel"
+          :class="
+            c === selectedContact
+              ? 'selected btn col-12 chat'
+              : 'btn col-12 chat'
+          "
+        >
+          <div class="row chat-entry">
+            <div
+              :class="'avatar col-3 ' + checkForUUIDClass(c)"
+              @click="contactClick(c)"
+            >
+              <div class="badge-name">
+                {{ c.Name[0] + c.Name[1] }}
+              </div>
+            </div>
+            <div
+              class="meta col-8"
+              @click="contactClick(c)"
+            >
+              <p class="name">{{ c.Name }}</p>
+              <p class="number">{{ c.Tel }}</p>
+            </div>
+            <div
+              class="col-1"
+              @click="showContactAction(c)"
+            >
+              <font-awesome-icon icon="wrench" />
+            </div>
+          </div>
+        </div>
+      </div>
       <div
-        v-for="c in contactsFiltered"
+        v-for="c in contacts"
+        v-else
         :key="c.Tel"
         :class="
           c === selectedContact
@@ -32,12 +68,10 @@
       >
         <div class="row chat-entry">
           <div
-            :class="'avatar col-3 ' + checkForUUIDClass(c)"
+            :class="'avatar col-3 avatar ' + checkForUUIDClass(c)"
             @click="contactClick(c)"
           >
-            <div class="badge-name">
-              {{ c.Name[0] + c.Name[1] }}
-            </div>
+            <div class="badge-name">{{ c.Name[0] + c.Name[1] }}</div>
           </div>
           <div
             class="meta col-8"
@@ -54,57 +88,25 @@
           </div>
         </div>
       </div>
-    </div>
-    <div
-      v-for="c in contacts"
-      v-else
-      :key="c.Tel"
-      :class="
-        c === selectedContact
-          ? 'selected btn col-12 chat'
-          : 'btn col-12 chat'
-      "
-    >
-      <div class="row chat-entry">
-        <div
-          :class="'avatar col-3 avatar ' + checkForUUIDClass(c)"
-          @click="contactClick(c)"
-        >
-          <div class="badge-name">{{ c.Name[0] + c.Name[1] }}</div>
-        </div>
-        <div
-          class="meta col-8"
-          @click="contactClick(c)"
-        >
-          <p class="name">{{ c.Name }}</p>
-          <p class="number">{{ c.Tel }}</p>
-        </div>
-        <div
-          class="col-1"
-          @click="showContactAction(c)"
-        >
-          <font-awesome-icon icon="wrench" />
-        </div>
-      </div>
-    </div>
 
-    <div v-if="addContactModal" class="addContactModal">
-      <add-contact-modal
-        @close="closeAddContactModal()"
-        @add="addContact($event)"
-      />
+      <div v-if="addContactModal" class="addContactModal">
+        <add-contact-modal
+          @close="closeAddContactModal()"
+          @add="addContact($event)"
+        />
+      </div>
+      <div v-if="editContactModal" class="editContactModal">
+        <edit-contact-modal
+          :contact="selectedContact"
+          @close="closeEditContactModal()"
+          @save="saveContact($event)"
+        />
+      </div>
+      <button class="btn add-contact" @click="openAddContactModal()">
+        <font-awesome-icon icon="plus" />
+      </button>
     </div>
-    <div v-if="editContactModal" class="editContactModal">
-      <edit-contact-modal
-        :contact="selectedContact"
-        @close="closeEditContactModal()"
-        @save="saveContact($event)"
-      />
-    </div>
-    <button class="btn add-contact" @click="openAddContactModal()">
-      <font-awesome-icon icon="plus" />
-    </button>
-  </div>
+  </component>
 </template>
 
 <script>

@@ -1,19 +1,20 @@
 <template>
-  <div class="settings">
-    <div class="profile">
-      <div class="avatar" />
-      <div v-translate class="name">Registered number</div>
-      <div class="number">
-        {{ config.RegisteredNumber }}
+  <component :is="$route.meta.layout || 'div'">
+    <div class="settings">
+      <div class="profile">
+        <div class="avatar" />
+        <div v-translate class="name">Registered number</div>
+        <div class="number">
+          {{ config.RegisteredNumber }}
+        </div>
       </div>
+      <router-link v-translate class="btn btn-primary" :to="'/devices/'">
+        Linked devices
+      </router-link>
+      <router-link v-translate class="btn btn-primary" :to="'/setPassword/'">
+        Set password
+      </router-link>
     </div>
-    <router-link v-translate class="btn btn-primary" :to="'/devices/'">
-      Linked devices
-    </router-link>
-    <router-link v-translate class="btn btn-primary" :to="'/setPassword/'">
-      Set password
-    </router-link>
-
     <button
       v-translate
       class="btn btn-danger"
@@ -68,7 +69,7 @@
         Touch, use UT Tweak Tool to set Axolotl on "Prevent app suspension".
       </span>
     </div>
-  </div>
+  </component>
 </template>
 
 <script>
