@@ -352,7 +352,8 @@ export default {
       }
     },
     scrollDown() {
-      document.getElementById("chat-bottom").scrollIntoView();
+      if (this.messages.length !== 0 )
+        document.getElementById("chat-bottom").scrollIntoView();
     },
     recordAudio(){
       var that = this;

@@ -37,7 +37,7 @@
               @click="contactClick(c)"
             >
               <div class="badge-name">
-                {{ c.Name[0] + c.Name[1] }}
+                {{ c.Name[1] ? c.Name[0] + c.Name[1] : c.Name[0] }}
               </div>
             </div>
             <div
@@ -71,7 +71,7 @@
             :class="'avatar col-3 avatar ' + checkForUUIDClass(c)"
             @click="contactClick(c)"
           >
-            <div class="badge-name">{{ c.Name[0] + c.Name[1] }}</div>
+            <div class="badge-name">{{ c.Name[1] ? c.Name[0] + c.Name[1] : c.Name[0] }}</div>
           </div>
           <div
             class="meta col-8"

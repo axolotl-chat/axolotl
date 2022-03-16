@@ -17,10 +17,10 @@
             <button class="btn" @click="back()">
               <font-awesome-icon icon="arrow-left" />
             </button>
-            <div v-if="currentChat !== null" class="row w-100">
+            <div v-if="currentChat !== null && currentChat" class="row w-100">
               <div class="col-2 badge-container">
                 <div
-                  v-if="currentChat !== null && currentChat.IsGroup"
+                  v-if="currentChat.IsGroup"
                   class="badge-name"
                 >
                   <img
@@ -39,14 +39,13 @@
                   <div class="col-12">
                     <div
                       v-if="
-                        currentChat !== null &&
-                          currentChat.IsGroup &&
+                        currentChat.IsGroup &&
                           currentChat.Name === currentChat.Tel
                       "
                       class="header-text-chat"
                     >
                       <div
-                        v-if="currentChat !== null && !currentChat.Notification"
+                        v-if="!currentChat.Notification"
                         class="mute-badge"
                       >
                         <font-awesome-icon class="mute" icon="volume-mute" />
@@ -55,15 +54,14 @@
                     </div>
                     <div v-else class="header-text-chat">
                       <div
-                        v-if="currentChat !== null && !currentChat.Notification"
+                        v-if="!currentChat.Notification"
                         class="mute-badge"
                       >
                         <font-awesome-icon class="mute" icon="volume-mute" />
                       </div>
                       <div
                         v-if="
-                          currentChat !== null &&
-                            currentChat.Name !== currentChat.Tel
+                          currentChat.Name !== currentChat.Tel
                         "
                         class=""
                       >
@@ -74,8 +72,7 @@
                   <div class="col-12">
                     <div
                       v-if="
-                        currentChat !== null &&
-                          currentChat.IsGroup &&
+                        currentChat.IsGroup &&
                           currentGroup !== null &&
                           typeof currentGroup !== 'undefined'
                       "
@@ -87,8 +84,7 @@
                     </div>
                     <div
                       v-if="
-                        currentChat !== null &&
-                          currentChat.IsGroup &&
+                        currentChat.IsGroup &&
                           currentGroup !== null &&
                           typeof currentGroup !== 'undefined'
                       "
@@ -100,8 +96,7 @@
                     </div>
                     <div
                       v-if="
-                        currentChat !== null &&
-                          !currentChat.IsGroup &&
+                        !currentChat.IsGroup &&
                           currentChat.Name === currentChat.Tel
                       "
                       class="number-text"
@@ -444,6 +439,10 @@ export default {
       this.showSettingsMenu = false;
     },
     currentChat: {
+      handler() {
+        this.names = [];
+        this.showSettingsMenu = false;
+      },
       deep: true,
     },
   },
