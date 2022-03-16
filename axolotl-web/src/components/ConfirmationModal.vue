@@ -4,7 +4,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">{{ title }}</h5>
-          <button type="button" class="close" @click="$emit('close')">
+          <button type="button" class="close btn" @click="$emit('close')">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
