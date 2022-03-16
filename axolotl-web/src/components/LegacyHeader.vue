@@ -40,7 +40,7 @@
                     <div
                       v-if="
                         currentChat.IsGroup &&
-                        currentChat.Name === currentChat.Tel
+                          currentChat.Name === currentChat.Tel
                       "
                       class="header-text-chat"
                     >
@@ -73,8 +73,8 @@
                     <div
                       v-if="
                         currentChat.IsGroup &&
-                        currentGroup !== null &&
-                        typeof currentGroup !== 'undefined'
+                          currentGroup !== null &&
+                          typeof currentGroup !== 'undefined'
                       "
                       class="number-text"
                     >
@@ -85,8 +85,8 @@
                     <div
                       v-if="
                         currentChat.IsGroup &&
-                        currentGroup !== null &&
-                        typeof currentGroup !== 'undefined'
+                          currentGroup !== null &&
+                          typeof currentGroup !== 'undefined'
                       "
                       class="number-text"
                     >
@@ -97,7 +97,7 @@
                     <div
                       v-if="
                         !currentChat.IsGroup &&
-                        currentChat.Name === currentChat.Tel
+                          currentChat.Name === currentChat.Tel
                       "
                       class="number-text"
                     >
