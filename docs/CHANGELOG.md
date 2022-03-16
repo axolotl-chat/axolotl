@@ -1,3 +1,18 @@
+1.2.0 (Feb 16 2021)
+------------------------------------
+* Support for the new captcha system @nanu-c
+* Automatically add release artifacts to releases @olof-nord
+* Don't increment unread counter for empty messages @nalysius
+* Make the flatpaks build again! @olof-nord
+* Clean up Makefile @nuehm-arno
+* Introduce a new Layout system @nanu-c
+* Support for Clickable 7.1.2 @jonnius
+* Fix importing contacts @nanu-c
+* The loglevel can now be set from settings @nanu-c
+* Add a new layout system @nanu-c
+* Some minor fixes in the UX @nanu-c
+
+
 1.1.0 (Feb 12 2021)
 ------------------------------------
 * Fix joining groupsv2 @nanu-c
