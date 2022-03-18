@@ -5,7 +5,7 @@ on: workflow_dispatch
 jobs:
   build:
     name: Execute build workflow
-    uses: ./.github/workflows/workflows.yaml
+    uses: ./.github/workflows/build.yaml
 
   package:
     name: Execute package workflow
@@ -13,12 +13,6 @@ jobs:
 
   release:
     name: Create release
-    needs:
-      - package-appimage
-      - package-click-armhf
-      - package-click-arm64
-      - package-click-amd64
-      - package-deb-arm64
     runs-on: ubuntu-latest
 
     steps:

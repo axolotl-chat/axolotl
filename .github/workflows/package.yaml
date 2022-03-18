@@ -1,24 +1,11 @@
 name: Axolotl package pipeline
 
 on:
-  push:
-    branches:
-      - main
-    tags:
-      - 'v*'
-  pull_request:
   workflow_call:
 
 jobs:
-  build:
-    name: Execute build workflow
-    uses: ./.github/workflows/workflows.yaml
-
   package-appimage:
     name: Package as AppImage
-    # This ensures that this job only runs on git tags
-    #if: startsWith(github.ref, 'refs/tags/v')
-    needs: [ build-axolotl, build-axolotl-web, build-crayfish ]
     runs-on: ubuntu-latest
 
     steps:
@@ -69,7 +56,6 @@ jobs:
   package-click-armhf:
     name: Package as click armhf
     runs-on: ubuntu-latest
-    needs: [ build-axolotl-web ]
 
     steps:
       - name: Check out code
@@ -115,7 +101,6 @@ jobs:
   package-click-arm64:
     name: Package as click arm64
     runs-on: ubuntu-latest
-    needs: [ build-axolotl-web ]
 
     steps:
       - name: Check out code
@@ -161,7 +146,6 @@ jobs:
   package-click-amd64:
     name: Package as click amd64
     runs-on: ubuntu-latest
-    needs: [ build-axolotl-web ]
 
     steps:
       - name: Check out code
@@ -207,7 +191,6 @@ jobs:
   package-flatpak-web:
     name: Package as Flatpak web bundle
     runs-on: ubuntu-latest
-    needs: [ build-axolotl, build-axolotl-web, build-crayfish ]
     container:
       image: bilelmoussaoui/flatpak-github-actions:freedesktop-21.08
       options: --privileged
@@ -227,7 +210,6 @@ jobs:
   package-flatpak-qt:
     name: Package as Flatpak QT bundle
     runs-on: ubuntu-latest
-    needs: [ build-axolotl, build-axolotl-web, build-crayfish ]
     container:
       image: bilelmoussaoui/flatpak-github-actions:kde-5.15-21.08
       options: --privileged
@@ -247,7 +229,6 @@ jobs:
 
   package-deb-arm64:
     name: Package as Debian arm64
-    needs: [ build-axolotl-deb-arm64, build-axolotl-web-deb-arm64, build-crayfish-deb-arm64 ]
     runs-on: ubuntu-latest
 
     steps:
