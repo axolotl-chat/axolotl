@@ -15,4 +15,5 @@ jobs:
 
   package:
     name: Execute package workflow
+    needs: build
     uses: ./.github/workflows/package.yaml
