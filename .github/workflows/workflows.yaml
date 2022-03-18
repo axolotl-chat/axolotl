@@ -10,10 +10,8 @@ on:
 
 jobs:
   build:
-    name: Build
     uses: ./.github/workflows/build.yaml
 
   package:
-    name: Package
     needs: build
     uses: ./.github/workflows/package.yaml
