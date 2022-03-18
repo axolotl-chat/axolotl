@@ -81,7 +81,7 @@ func runElectron() {
 		AppIconDefaultPath: "axolotl-web/public/axolotl.png", // If path is relative, it must be relative to the data directory
 		AppIconDarwinPath:  "axolotl-web/public/axolotl.png", // Same here
 		BaseDirectoryPath:  electronPath,
-		VersionElectron:    "17.0.0",
+		VersionElectron:    "17.1.2",
 		VersionAstilectron: "0.51.0",
 		SingleInstance:     true,
 		ElectronSwitches:   electronSwitches,
@@ -155,12 +155,12 @@ func runElectron() {
 			w.ExecuteJavaScript(
 				`
 				// override the default onload function
-				
+
 				window.onload=function() {
 					var action = "registration";
 					var isDone = false;
 					var sitekey = "6LfBXs0bAAAAAAjkDyyI1Lk5gBAUWfhI_bIyox5W";
-			
+
 					var widgetId = grecaptcha.enterprise.render("container", {
 					sitekey: sitekey,
 					size: "checkbox",
@@ -172,7 +172,7 @@ func runElectron() {
 					});
 				}
 				// cleanup
-				var bodyTag = document.getElementsByTagName('body')[0];	
+				var bodyTag = document.getElementsByTagName('body')[0];
 				bodyTag.innerHTML ='<div id="container"></div>'
 				grecaptcha  = undefined
 
