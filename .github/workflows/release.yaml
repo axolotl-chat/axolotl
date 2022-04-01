@@ -1,0 +1,113 @@
+name: Axolotl release pipeline
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yaml
+
+  package:
+    needs: build
+    uses: ./.github/workflows/package.yaml
+
+  release:
+    name: Create release
+    needs: package
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+
+      - name: Get git tag version
+        id: get_version
+        uses: battila7/get-version-action@v2
+
+      - name: Set git tag version
+        run: |
+          echo "VERSION=${{ steps.get_version.outputs.version }}" >> $GITHUB_ENV
+
+      - name: Set package version Debian arm64
+        run: |
+          echo "RELEASE_VERSION=$(echo ${{ env.VERSION }} | sed 's/v//')" >> $GITHUB_ENV
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: build-artifacts
+
+      - name: Get click version
+        id: get_click_version
+        run: |
+          echo "::set-output name=version::$(ls ./build-artifacts/Axolotl-Clickable/*amd64.click | cut --delimiter="_" --fields=2)"
+
+      - name: Set click version
+        run: |
+          echo "CLICKABLE_VERSION=${{ steps.get_click_version.outputs.version }}" >> $GITHUB_ENV
+
+      - name: Create draft GitHub release page
+        id: create_release
+        uses: marvinpinto/action-automatic-releases@v1.2.1
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          title: ${{ env.VERSION }}
+          draft: true
+          prerelease: false
+          files: |
+            **/*.AppImage
+            **/*.click
+            **/*.deb
+
+      - name: Add AppImage to release (x86_64)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build-artifacts/Axolotl-AppImage/Axolotl-x86_64.AppImage
+          asset_name: Axolotl-${{ env.VERSION }}-x86_64.AppImage
+          asset_content_type: application/vnd.appimage
+
+      - name: Add click to release (amd64)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build-artifacts/Axolotl-Clickable/textsecure.nanuc_${{ env.CLICKABLE_VERSION }}_amd64.click
+          asset_name: textsecure.nanuc_${{ env.VERSION }}_amd64.click
+          asset_content_type: application/vnd.debian.binary-package
+
+      - name: Add click to release (arm64)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build-artifacts/Axolotl-Clickable/textsecure.nanuc_${{ env.CLICKABLE_VERSION }}_arm64.click
+          asset_name: textsecure.nanuc_${{ env.VERSION }}_arm64.click
+          asset_content_type: application/vnd.debian.binary-package
+
+      - name: Add click to release (armhf)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build-artifacts/Axolotl-Clickable/textsecure.nanuc_${{ env.CLICKABLE_VERSION }}_armhf.click
+          asset_name: textsecure.nanuc_${{ env.VERSION }}_armhf.click
+          asset_content_type: application/vnd.debian.binary-package
+
+      - name: Add Debian package to release (arm64)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build-artifacts/Axolotl-Debian-arm64
+          asset_name: axolotl_${{ env.RELEASE_VERSION }}-1_arm64.deb
+          asset_content_type: application/deb
+
