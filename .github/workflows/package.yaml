@@ -47,7 +47,7 @@ jobs:
           ./appimagetool-x86_64.AppImage build/AppDir
 
       - name: Upload the built AppImage artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Axolotl-AppImage
           path: Axolotl-x86_64.AppImage
@@ -92,7 +92,7 @@ jobs:
           args: clickable build --verbose -a armhf --app
 
       - name: Upload the built click artifact (armhf)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Axolotl-Clickable
           path: build/arm-linux-gnueabihf/app/textsecure.nanuc_*.click
@@ -137,7 +137,7 @@ jobs:
           args: clickable build --verbose -a arm64 --app
 
       - name: Upload the built click artifact (amd64)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Axolotl-Clickable
           path: build/aarch64-linux-gnu/app/textsecure.nanuc_*.click
@@ -182,7 +182,7 @@ jobs:
           args: clickable build --verbose -a amd64 --app
 
       - name: Upload the built click artifact (amd64)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Axolotl-Clickable
           path: build/x86_64-linux-gnu/app/textsecure.nanuc_*.click
@@ -291,7 +291,7 @@ jobs:
           cd $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }} && debuild -i -us -uc -b -aarm64
 
       - name: Upload the built Debian package artifact (arm64)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Axolotl-Debian-arm64
           path: axolotl_*_arm64.deb
