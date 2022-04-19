@@ -81,7 +81,7 @@ func runElectron() {
 		AppIconDefaultPath: "axolotl-web/public/axolotl.png", // If path is relative, it must be relative to the data directory
 		AppIconDarwinPath:  "axolotl-web/public/axolotl.png", // Same here
 		BaseDirectoryPath:  electronPath,
-		VersionElectron:    "17.1.2",
+		VersionElectron:    "18.0.1",
 		VersionAstilectron: "0.51.0",
 		SingleInstance:     true,
 		ElectronSwitches:   electronSwitches,
