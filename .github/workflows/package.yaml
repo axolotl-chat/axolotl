@@ -206,6 +206,7 @@ jobs:
         with:
           bundle: axolotl-web.flatpak
           manifest-path: flatpak/web/org.nanuc.Axolotl.yml
+          cache-key: flatpak-builder-web-${{ github.sha }}
 
   package-flatpak-qt:
     name: Package as Flatpak QT bundle
@@ -225,7 +226,7 @@ jobs:
         with:
           bundle: axolotl-qt.flatpak
           manifest-path: flatpak/qt/org.nanuc.Axolotl.yml
-
+          cache-key: flatpak-builder-qt-${{ github.sha }}
 
   package-deb-arm64:
     name: Package as Debian arm64
