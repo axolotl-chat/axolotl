@@ -35,7 +35,7 @@ jobs:
           echo "RELEASE_VERSION=$(echo ${{ env.VERSION }} | sed 's/v//')" >> $GITHUB_ENV
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           path: build-artifacts
 
