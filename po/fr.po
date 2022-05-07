@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-01-21 15:35+0100\n"
+"PO-Revision-Date: 2022-03-20 16:19+0100\n"
 "Last-Translator: Anne017\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -54,15 +54,16 @@ msgid "Add members"
 msgstr "Ajouter des membres"
 
 #: src/components/ImportVcfModal.vue:7
-#, fuzzy
 msgid "Adding contacts"
-msgstr "Ajouter un contact"
+msgstr "Ajouter des contacts"
 
 #: src/components/AddContactModal.vue:16
 msgid ""
 "After adding a contact, it takes a few seconds for checking if the contact "
 "is registered with signal."
 msgstr ""
+"Après avoir ajouté des contacts, il faut quelques secondes pour vérifier si "
+"le contact est enregistré avec Signal."
 
 #: src/components/AttachmentBar.vue:26
 msgid "Audio"
@@ -126,6 +127,9 @@ msgid ""
 "Contacts can be added through a vcf contacts file. If an contact has "
 "multiple numbers, all of them will be added as separate contacts."
 msgstr ""
+"Les contacts peuvent être ajoutés via un fichier de contacts VCF. Si un "
+"contact a plusieurs numéros, ils seront tous ajoutés comme des contacts "
+"séparés."
 
 #: src/pages/NewGroup.vue:21
 msgid "Create group"
@@ -164,7 +168,7 @@ msgstr "Écran de débogage"
 
 #: src/pages/Settings.vue:44
 msgid "Debugging"
-msgstr ""
+msgstr "Débogage"
 
 #: src/pages/Password.vue:14
 msgid "Decrypt"
@@ -219,7 +223,7 @@ msgstr "Erreur lors de la communication avec les serveurs de Signal"
 
 #: src/pages/Settings.vue:42
 msgid "Errors"
-msgstr ""
+msgstr "Erreurs"
 
 #: src/pages/Debug.vue:7
 msgid "Exit"
@@ -280,9 +284,8 @@ msgid "Import contacts feature unavailable"
 msgstr "Fonctionnalité d'importation des contacts indisponible"
 
 #: src/components/ImportVcfModal.vue:26
-#, fuzzy
 msgid "Import vcf"
-msgstr "Importer des contacts"
+msgstr "Importer un fichier VCF"
 
 #: src/pages/Contacts.vue:7
 msgid "Importing contacts, head back later"
@@ -322,7 +325,7 @@ msgstr "Chargement..."
 
 #: src/pages/Settings.vue:48
 msgid "Loglevel"
-msgstr ""
+msgstr "Niveau d'enregistrement"
 
 #: src/pages/EditGroup.vue:18 src/pages/NewGroup.vue:18
 msgid "Members"
@@ -358,7 +361,7 @@ msgstr "Aucun appareil lié"
 
 #: src/pages/Settings.vue:43
 msgid "No logs"
-msgstr ""
+msgstr "Aucun journal"
 
 #: src/pages/MessageList.vue:63
 msgid "No messages available."
@@ -493,11 +496,10 @@ msgstr ""
 "appareil."
 
 #: src/pages/About.vue:8
-#, fuzzy
 msgid ""
 "This is a free and open source Signal client written in golang, rust and "
 "vuejs."
-msgstr "Ceci est un client Signal libre écrit en golang et vuejs."
+msgstr "Ceci est un client Signal libre écrit en golang, rust et vuejs."
 
 #: src/components/LegacyHeader.vue:476
 msgid ""
@@ -549,7 +551,7 @@ msgstr "Vidéo"
 
 #: src/pages/Settings.vue:41
 msgid "Warnings"
-msgstr ""
+msgstr "Avertissements"
 
 #: src/components/ImportUnavailableModal.vue:11
 msgid ""
