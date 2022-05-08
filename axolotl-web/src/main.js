@@ -35,7 +35,6 @@ library.add(faArrowLeft, faEllipsisV, faPencilAlt, faPlus, faTrash, faPaperPlane
   faUserFriends, faTimes, faCheck, faVolumeMute, faHeart, faSearch, faArrowDown,
   faMicrophone, faStopCircle, faPlay, faPause, faWrench
   )
-
 const app = createApp(App)
 app.component('FontAwesomeIcon', FontAwesomeIcon)
 app.mixin({
@@ -76,13 +75,16 @@ if (window.location.protocol === "https:") {
 websocketAdress += window.location.host;
 websocketAdress += "/ws";
 
-if (process.env.NODE_ENV === "development") {
-  if (process.env.VUE_APP_WS_ADDRESS) {
-    websocketAdress = 'ws://' + process.env.VUE_APP_WS_ADDRESS + ':9080/ws';
-  } else {
-    websocketAdress = 'ws://localhost:9080/ws';
-  }
-}
+// if (process.env.NODE_ENV === "development") {
+//   console.log(process.env)
+//   if (process.env.VITE_WS_ADDRESS) {
+//     websocketAdress = 'ws://' + process.env.VITE_WS_ADDRESS + ':9080/ws';
+//   } else {
+//     websocketAdress = 'ws://localhost:9080/ws';
+//   }
+// }
+websocketAdress = 'ws://localhost:9080/ws';
+
 // initialise connection to the backend
 app.use(VueNativeSock, websocketAdress,
   {
