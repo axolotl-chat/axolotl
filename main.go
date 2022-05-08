@@ -181,7 +181,6 @@ func runElectron() {
 				script.type = 'text/javascript';
 				script.src = "https://www.google.com/recaptcha/enterprise.js?onload=onload&render=explicit";
 				bodyTag.appendChild(script);
-				alert("overriding onload");
 				`)
 		}
 		return
