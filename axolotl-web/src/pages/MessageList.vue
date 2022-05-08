@@ -64,14 +64,14 @@
         </div>
         <div id="chat-bottom" />
       </div>
-      <div
-        v-if="showAddContactButton"
-        class="messageInputBoxDisabled w-100"
-      >
+      <div v-if="showAddContactButton" class="messageInputBoxDisabled w-100">
         <p v-translate>
-          Join this group? They won’t know you’ve seen their messages until you accept.
+          Join this group? They won’t know you’ve seen their messages until you
+          accept.
         </p>
-        <div v-translate class="btn btn-primary" @click="joinGroupAccept">Join</div>
+        <div v-translate class="btn btn-primary" @click="joinGroupAccept">
+          Join
+        </div>
       </div>
       <div v-else class="bottom-wrapper">
         <div v-if="!voiceNote.recorded" class="messageInputBox">
@@ -90,7 +90,10 @@
               <font-awesome-icon icon="paper-plane" />
             </button>
           </div>
-          <div v-else-if="voiceNote.recording" class="messageInput-btn-container d-flex justify-content-center w-100">
+          <div
+            v-else-if="voiceNote.recording"
+            class="messageInput-btn-container d-flex justify-content-center w-100"
+          >
             <div v-translate class="me-5">Recording...</div>
             <button class="btn send record-stop" @click="stopRecording">
               <font-awesome-icon icon="stop-circle" />
@@ -106,9 +109,17 @@
           </div>
         </div>
         <div v-else class="messageInputBox justify-content-center">
-          <div class="messageInput-btn-container d-flex justify-content-center align-items-center">
-            <div><span>{{ Math.floor(voiceNote.duration) }}</span><span v-translate class="me-2">s</span></div>
-            <button v-if="!voiceNote.playing" class="btn send play me-1" @click="playAudio">
+          <div
+            class="messageInput-btn-container d-flex justify-content-center align-items-center"
+          >
+            <div>
+              <span>{{ Math.floor(voiceNote.duration) }}</span><span v-translate class="me-2">s</span>
+            </div>
+            <button
+              v-if="!voiceNote.playing"
+              class="btn send play me-1"
+              @click="playAudio"
+            >
               <font-awesome-icon icon="play" />
             </button>
             <button v-else class="btn send stop me-1" @click="stopPlayAudio">
@@ -123,7 +134,7 @@
           </div>
         </div>
         <audio
-          v-if="voiceNote.blobUrl!=''"
+          v-if="voiceNote.blobUrl != ''"
           id="voiceNote"
           controls
           :src="voiceNote.blobUrl"
@@ -142,7 +153,11 @@
           style="position: fixed; top: -100em"
           @change="sendDesktopAttachment"
         />
-        <audio id="voiceNote" :src="voiceNote.blobUrl" style="position: fixed; top: -100em" />
+        <audio
+          id="voiceNote"
+          :src="voiceNote.blobUrl"
+          style="position: fixed; top: -100em"
+        />
       </div>
     </div>
   </component>
@@ -154,13 +169,13 @@ import Message from "@/components/Message";
 import AttachmentBar from "@/components/AttachmentBar";
 import DefaultLayout from "@/layouts/Default";
 import { saveAs } from "file-saver";
-import * as MicRecorder from 'mic-recorder-to-mp3';
+import * as MicRecorder from "mic-recorder-to-mp3";
 export default {
   name: "MessageList",
   components: {
     AttachmentBar,
     Message,
-    DefaultLayout
+    DefaultLayout,
   },
   props: {
     chatId: { type: Number, default: -1 },
@@ -176,15 +191,15 @@ export default {
       lastCHeight: 0,
       lastMHeight: 0,
       scrollLocked: false,
-      voiceNote:{
+      voiceNote: {
         recorder: null,
         recording: false,
         recorded: false,
         playing: false,
         blobUrl: "",
         voiceNoteElem: null,
-        duration:0,
-      }
+        duration: 0,
+      },
     };
   },
   computed: {
@@ -192,7 +207,7 @@ export default {
       return this.$store.state.currentChat;
     },
     showAddContactButton() {
-      return this.chat && this.chat.IsGroup && this.chat.GroupJoinStatus !== 0
+      return this.chat && this.chat.IsGroup && this.chat.GroupJoinStatus !== 0;
     },
     messages() {
       return this.$store.state.messageList.Messages;
@@ -237,9 +252,9 @@ export default {
   },
   mounted() {
     this.$store.dispatch("openChat", this.getId());
-    document.getElementById("messageInput").focus();
+    const mi = document.getElementById("messageInput");
+    if (mi) mi.focus();
     setTimeout(this.scrollDown, 600);
-    const that = this;
     this.voiceNote.voiceNoteElem = document.getElementById("voiceNote");
   },
   methods: {
@@ -352,95 +367,94 @@ export default {
       }
     },
     scrollDown() {
-      if (this.messages.length !== 0 )
+      if (this.messages.length !== 0)
         document.getElementById("chat-bottom").scrollIntoView();
     },
-    recordAudio(){
+    recordAudio() {
       var that = this;
-      this.voiceNote.playing =  false;
-       navigator.mediaDevices.getUserMedia({
+      this.voiceNote.playing = false;
+      navigator.mediaDevices
+        .getUserMedia({
           video: false,
-          audio: true
-      }).then(async function() {
-
+          audio: true,
+        })
+        .then(async function () {
           that.voiceNote.recorder = new MicRecorder({
-            bitRate: 128
+            bitRate: 128,
           });
-          that.voiceNote.recorder.start().then(() => {
-            // something else
-            that.voiceNote.recording = true;
-          }).catch((e) => {
-            //skipqc: JS-0002
-            /* eslint-disable no-console */
-            console.error(e);
-          });
-      });
+          that.voiceNote.recorder
+            .start()
+            .then(() => {
+              // something else
+              that.voiceNote.recording = true;
+            })
+            .catch((e) => {
+              //skipqc: JS-0002
+              /* eslint-disable no-console */
+              console.error(e);
+            });
+        });
     },
-    deleteAudio(){
+    deleteAudio() {
       this.stopPlayAudio();
       this.voiceNote.playing = false;
       this.voiceNote.recorded = false;
       this.voiceNote.recorder = null;
     },
-    playAudio(){
+    playAudio() {
       this.voiceNote.playing = true;
       this.voiceNote.voiceNoteElem.play();
-
     },
-    stopPlayAudio(){
+    stopPlayAudio() {
       this.voiceNote.playing = false;
       this.voiceNote.voiceNoteElem.pause();
     },
-    stopRecording(){
+    stopRecording() {
       this.voiceNote.recording = false;
       this.voiceNote.recorded = true;
-      this.voiceNote.recorder.stop()
+      this.voiceNote.recorder.stop();
       this.voiceNote.recorder.getMp3().then(([, blob]) => {
         this.voiceNote.blobUrl = URL.createObjectURL(blob);
         this.voiceNote.blobObj = blob;
         let that = this;
-        setTimeout(function(){
+        setTimeout(function () {
           that.voiceNote.voiceNoteElem = document.getElementById("voiceNote");
           that.voiceNote.duration = that.voiceNote.voiceNoteElem.duration;
         }, 200);
-      })
-
+      });
     },
-    sendVoiceNote(){
+    sendVoiceNote() {
       this.voiceNote.recorded = false;
       let reader = new FileReader();
-      this.voiceNote.voiceNoteElem.pause()
+      this.voiceNote.voiceNoteElem.pause();
       this.voiceNote.playing = false;
       /* eslint-disable no-unused-vars */
       this.voiceNote.recorder.getMp3().then(() => {
-        const file = new File([this.voiceNote.blobObj] , 'voice.mp3', {
+        const file = new File([this.voiceNote.blobObj], "voice.mp3", {
           type: "audio/mpeg",
-          lastModified: Date.now()
+          lastModified: Date.now(),
         });
         reader.readAsDataURL(file); // converts the blob to base64 and calls onload
         var that = this;
-        reader.onload = function() {
-          var r = reader.result
+        reader.onload = function () {
+          var r = reader.result;
           const m = {
-            note:r,
+            note: r,
             to: that.chatId,
-          }
+          };
           that.$store.dispatch("sendVoiceNote", m);
         };
       });
     },
-    handleClick(event){
+    handleClick(event) {
       // If the clicked element doesn't have the right selector, bail
       if (!event.target.matches(".linkified")) return;
-      if (
-        typeof this.config.Gui !== "undefined" &&
-        this.config.Gui === "ut"
-      ) {
+      if (typeof this.config.Gui !== "undefined" && this.config.Gui === "ut") {
         // Don't follow the link
         event.preventDefault();
         alert(event.target.href);
       }
-    }
+    },
   },
 };
 </script>
@@ -555,7 +569,7 @@ input:focus {
 .messageInputBoxDisabled {
   color: red;
 }
-#voiceNote{
+#voiceNote {
   position: fixed;
   top: -100em;
 }
