@@ -3,7 +3,7 @@
     <div v-for="(char, index) in arraySize" :key="'otp_' + index">
       <input
         :key="index"
-        :ref="`otp${index}`"
+        :ref="'otp' + index"
         v-model="arraySize[index]"
         class="inputBox"
         type="tel"
@@ -96,17 +96,17 @@ export default {
     },
     newColor(index) {
       const i = "otp" + index;
-      this.$refs[i].style.boxShadow = ` 0 0 5px  ${this.boxColor} inset`;
-      this.$refs[i].style.border = `1px solid ${this.boxColor}`;
+      this.$refs[i][0].style.boxShadow = ` 0 0 5px  ${this.boxColor} inset`;
+      this.$refs[i][0].style.border = `1px solid ${this.boxColor}`;
     },
     defaultColor(index) {
       const i = "otp" + index;
-      this.$refs[i].style.boxShadow = " 0 0 5px #ccc inset";
-      this.$refs[i].style.border = "solid 1px #ccc";
+      this.$refs[i][0].style.boxShadow = " 0 0 5px #ccc inset";
+      this.$refs[i][0].style.border = "solid 1px #ccc";
     },
     focusElement(index) {
       const i = "otp" + index;
-      this.$refs[i].focus();
+      this.$refs[i][0].focus();
     },
     handleEnterKey(event) {
       if (event.key === "Enter") {
@@ -136,7 +136,7 @@ export default {
         }
       } else if (!event.shiftKey && (key === "ArrowRight" || key === "Right")) {
         if (index < this.arraySize.length - 1) {
-          this.focusNext(index);
+          this.focusElement(index + 1);
         }
       } else if (!event.shiftKey && (key === "ArrowLeft" || key === "Left")) {
         if (index > 0) {
