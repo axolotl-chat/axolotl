@@ -6,14 +6,17 @@ const path = require("path");
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
-  resolve: {
-    extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
+    plugins: [vue()],
+    resolve: {
+        extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
+        alias: {
+            "@": path.resolve(__dirname, "./src"),
+        },
     },
-  },
-  preview: {
-    port: 8080
-  }
+    preview: {
+        port: 8080
+    },
+    optimizeDeps: {
+        include: ['mic-recorder-to-mp3']
+    },
 });
