@@ -40,10 +40,10 @@
     "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^2.3.2",
+    "@vitejs/plugin-vue": "^2.3.3",
     "@vue/compiler-sfc": "^3.2.33",
     "@vue/eslint-config-airbnb": "^6.0.0",
-    "@vue/test-utils": "^2.0.0-rc.21",
+    "@vue/test-utils": "^2.0.0",
     "babel-eslint": "^10.1.0",
     "browserslist": "^4.20.3",
     "chai": "^4.3.6",
@@ -57,7 +57,7 @@
     "jsdom": "^19.0.0",
     "prettier": "^2.6.2",
     "vite": "^2.5.4",
-    "vitest": "^0.12.1"
+    "vitest": "^0.12.9"
   },
   "postcss": {
     "plugins": {
