@@ -57,7 +57,7 @@
     "jsdom": "^19.0.0",
     "prettier": "^2.6.2",
     "vite": "^2.5.4",
-    "vitest": "^0.12.1"
+    "vitest": "^0.12.9"
   },
   "postcss": {
     "plugins": {
