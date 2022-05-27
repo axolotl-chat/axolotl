@@ -19,13 +19,12 @@ type Settings struct {
 	DarkMode        bool   `yaml:"darkMode"`
 }
 
-var SettingsModel *Settings
-
 //Load the Settings
 func LoadSettings() (*Settings, error) {
 	s := &Settings{}
+	settingsFile := config.GetSettingsFile()
 
-	b, err := ioutil.ReadFile(config.SettingsFile)
+	b, err := ioutil.ReadFile(settingsFile)
 	if err != nil {
 		return s, err
 	}
@@ -33,16 +32,16 @@ func LoadSettings() (*Settings, error) {
 	if err != nil {
 		return s, err
 	}
-	SettingsModel = s
 
 	return s, nil
 }
 
-//Save the Settings
-func SaveSettings(s *Settings) error {
+//Save the Settings ** Was SaveSettings( *Settings )
+func (s *Settings) Save() error {
+	settingsFile := config.GetSettingsFile()
 	b, err := yaml.Marshal(s)
 	if err != nil {
 		return err
 	}
-	return ioutil.WriteFile(config.SettingsFile, b, 0600)
+	return ioutil.WriteFile(settingsFile, b, 0600)
 }

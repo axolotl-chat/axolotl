@@ -21,8 +21,8 @@ const (
 	GroupJoinStatusInvited = 1
 )
 
-var AllGroups []*GroupRecord
-var Groups = map[string]*GroupRecord{}
+var AllGroups []*GroupRecord // TODO
+var Groups = map[string]*GroupRecord{} // TODO
 
 func UpdateGroup(g *GroupRecord) (*GroupRecord, error) {
 	res, err := DS.Dbx.NamedExec(groupsUpdate, g)

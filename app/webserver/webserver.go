@@ -11,6 +11,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/gorilla/websocket"
+	"github.com/nanu-c/axolotl/app"
 	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/contact"
 	"github.com/nanu-c/axolotl/app/helpers"
@@ -21,7 +22,7 @@ import (
 	textsecureContacts "github.com/signal-golang/textsecure/contacts"
 )
 
-var (
+var ( // TODO
 	clients                = make(map[*websocket.Conn]bool)
 	activeChat       int64 = -1
 	codeVerification       = false
@@ -34,13 +35,39 @@ var (
 	}
 )
 
+type WsApp struct {
+	App              *app.App
+	Clients          map[*websocket.Conn]bool
+	ActiveChat       int64
+	CodeVerification bool
+	Profile          textsecureContacts.Contact
+	Broadcast        chan []byte
+	RequestChannel   chan string
+	Upgrader         websocket.Upgrader
+}
+
+func NewWsApp(a *app.App) *WsApp {
+	wsApp := &WsApp{
+		App:              a,
+		Clients:          make(map[*websocket.Conn]bool),
+		ActiveChat:       -1,
+		CodeVerification: false,
+		Broadcast:        make(chan []byte, 100),
+		Upgrader: websocket.Upgrader{
+			ReadBufferSize:  1024,
+			WriteBufferSize: 1024,
+		},
+	}
+	return wsApp
+}
+
 // Run runs the webserver and the websocket
-func Run() error {
+func Run(a *app.App) error {
 	log.Printf("[axolotl] Starting axolotl ws")
-	go syncClients()
-	go attachmentServer()
-	go websocketSender()
-	webserver()
+	wsApp := NewWsApp(a)
+	go syncClients(wsApp)
+	go websocketSender(wsApp)
+	webserver(wsApp)
 	return nil
 }
 
@@ -49,42 +76,45 @@ func removeClientFromList(client *websocket.Conn) {
 	delete(clients, client)
 }
 
-func wsEndpoint(w http.ResponseWriter, r *http.Request) {
-	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
+func wsEndpoint(wsApp *WsApp) func(w http.ResponseWriter, r *http.Request) {
+	handler := func(w http.ResponseWriter, r *http.Request) {
+		upgrader.CheckOrigin = func(r *http.Request) bool { return true }
 
-	// upgrade this connection to a WebSocket
-	// connection
+		// upgrade this connection to a WebSocket
+		// connection
 
-	ws, err := upgrader.Upgrade(w, r, nil)
-	clients[ws] = true
-	if err != nil {
-		log.Println(err)
+		ws, err := upgrader.Upgrade(w, r, nil)
+		clients[ws] = true
+		if err != nil {
+			log.Println(err)
+		}
+		log.Println("[axolotl] Client Connected", registered)
+
+		// listen indefinitely for new messages coming
+		// through on our WebSocket connection
+
+		// send configs after establishing websocket connection
+		SetGui(wsApp)
+		SetUiDarkMode(wsApp)
+		sendRegistrationStatus(wsApp)
+
+		if registered {
+			UpdateChatList(wsApp)
+			UpdateContactList(wsApp)
+		}
+		wsReader(ws, wsApp)
 	}
-	log.Println("[axolotl] Client Connected", registered)
-
-	// listen indefinitely for new messages coming
-	// through on our WebSocket connection
-
-	// send configs after establishing websocket connection
-	SetGui()
-	SetUiDarkMode()
-	sendRegistrationStatus()
-
-	if registered {
-		UpdateChatList()
-		UpdateContactList()
-	}
-	wsReader(ws)
+	return handler
 }
 
-func syncClients() {
+func syncClients(wsApp *WsApp) {
 	for {
 		<-time.After(10 * time.Second)
-		UpdateChatList()
-		UpdateContactList()
+		UpdateChatList(wsApp)
+		UpdateContactList(wsApp)
 	}
 }
-func wsReader(conn *websocket.Conn) {
+func wsReader(conn *websocket.Conn, wsApp *WsApp) {
 
 	for {
 		defer func() {
@@ -103,7 +133,7 @@ func wsReader(conn *websocket.Conn) {
 		json.Unmarshal([]byte(p), &incomingMessage)
 		switch incomingMessage.Type {
 		case "getChatList":
-			sendChatList()
+			sendChatList(wsApp)
 		case "getMessageList":
 			getMessageListMessage := GetMessageListMessage{}
 			json.Unmarshal([]byte(p), &getMessageListMessage)
@@ -116,9 +146,9 @@ func wsReader(conn *websocket.Conn) {
 			setDarkMode := SetDarkMode{}
 			json.Unmarshal([]byte(p), &setDarkMode)
 			log.Debugln("[axolotl] SetDarkMode ", setDarkMode.DarkMode)
-			settings.SettingsModel.DarkMode = setDarkMode.DarkMode
-			settings.SaveSettings(settings.SettingsModel)
-			SetUiDarkMode()
+			wsApp.App.Settings.DarkMode = setDarkMode.DarkMode
+			wsApp.App.Settings.Save()
+			SetUiDarkMode(wsApp)
 
 		case "getMoreMessages":
 			getMoreMessages := GetMoreMessages{}
@@ -443,11 +473,11 @@ func wsReader(conn *websocket.Conn) {
 	}
 }
 
-func webserver() {
+func webserver(wsApp *WsApp) {
 	for {
 		defer log.Errorln("[axolotl] webserver error")
 
-		path := config.AxolotlWebDir
+		path := wsApp.App.Config.AxolotlWebDir
 
 		axolotlWebDirEnv := os.Getenv("AXOLOTL_WEB_DIR")
 		if len(axolotlWebDirEnv) > 0 {
@@ -463,9 +493,9 @@ func webserver() {
 		http.Handle("/", http.FileServer(http.Dir(path)))
 		http.HandleFunc("/attachments", attachmentsHandler)
 		http.HandleFunc("/avatars", avatarsHandler)
-		http.HandleFunc("/ws", wsEndpoint)
+		http.HandleFunc("/ws", wsEndpoint(wsApp))
 
-		log.Error("[axolotl] webserver error", http.ListenAndServe(config.ServerHost+":"+config.ServerPort, nil))
+		log.Error("[axolotl] webserver error", http.ListenAndServe(wsApp.App.Config.ServerHost+":"+wsApp.App.Config.ServerPort, nil))
 	}
 
 }

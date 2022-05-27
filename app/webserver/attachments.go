@@ -22,7 +22,8 @@ func attachmentsHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Check if file exists and open
 	filename := strings.Split(Filename, "/")
-	path := config.AttachDir + "/" + filename[len(filename)-1]
+	attachDir := config.GetAttachDir()
+	path := attachDir + "/" + filename[len(filename)-1]
 	log.Debugln("[axolotl] open file: " + path)
 	Openfile, err := os.Open(path)
 	defer Openfile.Close() //Close after function return
@@ -131,6 +132,4 @@ func avatarsHandler(w http.ResponseWriter, r *http.Request) {
 	// Openfile.Seek(0, 0)
 	// io.Copy(w, Openfile) //'Copy' the file to the client
 	// return
-}
-func attachmentServer() {
 }

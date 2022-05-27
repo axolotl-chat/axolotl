@@ -31,7 +31,7 @@ func PhoneFromVCardFile(file string) (string, error) {
 	// 	return cards[0].FormattedName + " " + cards[0].Phone, nil
 	// }
 
-	return "", errors.New("No phone number for contact.")
+	return "", errors.New("no phone number for contact")
 }
 
 var pre = regexp.MustCompile("[^0-9+]")
@@ -48,7 +48,8 @@ func FormatE164(tel string, country string) string {
 	return libphonenumber.Format(num, libphonenumber.E164)
 }
 func GetDesktopContacts() ([]textsecureContacts.Contact, error) {
-	contacts, err := textsecureContacts.ReadContacts(filepath.Join(config.ConfigDir, "contacts.yml"))
+	configDir := config.GetConfigDir()
+	contacts, err := textsecureContacts.ReadContacts(filepath.Join(configDir, "contacts.yml"))
 	if err != nil {
 		log.Error("[axolotl] GetDesktopContacts", err)
 		return nil, err
@@ -65,14 +66,15 @@ func indexOfUuid(uuid string, data []textsecureContacts.Contact) int {
 }
 
 func AddContact(name string, phone string, uuid string) error {
+	contactsFile := config.GetContactsFile()
 	log.Debug("[axolotl] AddContact uuid", name, uuid)
 	if phone[0] == '0' && phone[1] == '0' {
 		phone = "+" + phone[2:]
 	}
-	contacts, err := textsecureContacts.ReadContacts(config.ContactsFile)
+	contacts, err := textsecureContacts.ReadContacts(contactsFile)
 	if err != nil {
 		log.Infoln("[axolotl] AddContact no contacts file found create one", err)
-		os.Create(config.ContactsFile)
+		os.Create(contactsFile)
 	}
 	// check if uuid already exists and if so, update the name and phone, else add a new contact
 	index := -1
@@ -91,17 +93,18 @@ func AddContact(name string, phone string, uuid string) error {
 		contacts = append(contacts, *contact)
 		sort.Slice(contacts, func(i, j int) bool { return contacts[i].Name < contacts[j].Name })
 	}
-	err = textsecureContacts.WriteContacts(config.ContactsFile, contacts)
+	err = textsecureContacts.WriteContacts(contactsFile, contacts)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 func DelContact(c textsecureContacts.Contact) error {
-	contacts, err := textsecureContacts.ReadContacts(config.ContactsFile)
+	contactsFile := config.GetContactsFile()
+	contacts, err := textsecureContacts.ReadContacts(contactsFile)
 	log.Debugln("[axolotl] delete contact ", c)
 	if err != nil {
-		os.Create(config.ContactsFile)
+		os.Create(contactsFile)
 	}
 	newContactList := []textsecureContacts.Contact{}
 	for i := range contacts {
@@ -109,7 +112,7 @@ func DelContact(c textsecureContacts.Contact) error {
 			newContactList = append(newContactList, contacts[i])
 		}
 	}
-	err = textsecureContacts.WriteContacts(config.ContactsFile, newContactList)
+	err = textsecureContacts.WriteContacts(contactsFile, newContactList)
 	// cs, err := textsecureContacts.ReadContacts(config.ContactsFile)
 	if err != nil {
 		return err
@@ -117,20 +120,21 @@ func DelContact(c textsecureContacts.Contact) error {
 	return nil
 }
 func EditContact(cContact textsecureContacts.Contact, editContact textsecureContacts.Contact) error {
-	contacts, err := textsecureContacts.ReadContacts(config.ContactsFile)
+	contactsFile := config.GetContactsFile()
+	contacts, err := textsecureContacts.ReadContacts(contactsFile)
 
 	if err != nil {
-		os.Create(config.ContactsFile)
+		os.Create(contactsFile)
 	}
 	index := indexOfUuid(cContact.UUID, contacts)
 	if index > -1 {
 		contacts[index].Name = editContact.Name
 		contacts[index].Tel = editContact.Tel
 	} else {
-		return errors.New("Contact not found")
+		return errors.New("contact not found")
 	}
 	sort.Slice(contacts, func(i, j int) bool { return contacts[i].Name < contacts[j].Name })
-	err = textsecureContacts.WriteContacts(config.ContactsFile, contacts)
+	err = textsecureContacts.WriteContacts(contactsFile, contacts)
 	if err != nil {
 		return err
 	}
@@ -139,15 +143,21 @@ func EditContact(cContact textsecureContacts.Contact, editContact textsecureCont
 
 // getAddgetAddressBookContactsFromContentHub gets the phone contacts via the content hub
 func GetAddressBookContactsFromContentHub() ([]textsecureContacts.Contact, error) {
-	if helpers.Exists(config.ContactsFile) && config.VcardPath == "" {
-		return textsecureContacts.ReadContacts(config.ContactsFile)
+	cf := config.GetContactsFile()
+	if helpers.Exists(cf) {
+		return textsecureContacts.ReadContacts(cf)
 	}
-	config.VcardPath = strings.TrimPrefix(config.VcardPath, "file://")
-	newContacts, err := getContactsFromVCardFile(config.VcardPath)
+}
+
+// getAddgetAddressBookContactsFromContentHub gets the phone contacts via the content hub
+func GetAddressBookContactsFromContentHubWithFile(vcardPath string) ([]textsecureContacts.Contact, error) {
+	vcardPath = strings.TrimPrefix(vcardPath, "file://")
+	newContacts, err := getContactsFromVCardFile(vcardPath)
 	if err != nil {
 		return nil, err
 	}
-	contacts, err := textsecureContacts.ReadContacts(config.ContactsFile)
+	cf := config.GetContactsFile()
+	contacts, err := textsecureContacts.ReadContacts(config.SetupConfig().ContactsFile)
 	if err != nil {
 		return nil, err
 	}
@@ -166,7 +176,7 @@ func GetAddressBookContactsFromContentHub() ([]textsecureContacts.Contact, error
 	}
 	//sort by name
 	sort.Slice(contacts, func(i, j int) bool { return contacts[i].Name < contacts[j].Name })
-	err = textsecureContacts.WriteContacts(config.ContactsFile, contacts)
+	err = textsecureContacts.WriteContacts(cf, contacts)
 	if err != nil {
 		return nil, err
 	}
@@ -219,6 +229,6 @@ func getContactsFromVCardFile(path string) ([]textsecureContacts.Contact, error)
 }
 
 func defaultCountry() string {
-	num, _ := libphonenumber.Parse(config.Config.Tel, "")
+	num, _ := libphonenumber.Parse(config.TsConfig.Tel, "")
 	return libphonenumber.GetRegionCodeForCountryCode(int(num.GetCountryCode()))
 }

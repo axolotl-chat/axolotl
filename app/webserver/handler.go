@@ -19,7 +19,7 @@ import (
 	"github.com/nanu-c/axolotl/app/store"
 )
 
-var (
+var ( // TODO
 	registered                 = false
 	requestPassword            = false
 	requestSmsVerificationCode = false
@@ -239,8 +239,9 @@ func RandStringBytesMaskImprSrcUnsafe(n int) string {
 }
 func uploadSendAttachment(attachment UploadAttachmentMessage) error {
 	log.Debug("[axolotl] uploadSendAttachment to ", attachment.To)
+	attachDir := config.GetAttachDir()
 
-	file := config.AttachDir + "/" + RandStringBytesMaskImprSrcUnsafe(10)
+	file := attachDir + "/" + RandStringBytesMaskImprSrcUnsafe(10)
 	dataURL, err := dataurl.DecodeString(attachment.Attachment)
 	if err != nil {
 		log.Errorln("[axolotl] uploadSendAttachment", err)
@@ -265,7 +266,8 @@ func uploadSendAttachment(attachment UploadAttachmentMessage) error {
 }
 func uploadSendVoiceNote(voiceNote SendVoiceNoteMessage) error {
 	log.Debug("[axolotl] uploadSendVoiceNote to ", voiceNote.To)
-	file := config.AttachDir + "/" + RandStringBytesMaskImprSrcUnsafe(10) + ".mp3"
+	attachDir := config.GetAttachDir()
+	file := attachDir + "/" + RandStringBytesMaskImprSrcUnsafe(10) + ".mp3"
 	dataURL, err := dataurl.DecodeString(voiceNote.VoiceNote)
 	if err != nil {
 		log.Errorln("[axolotl] voiceNote error:", err)

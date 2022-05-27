@@ -13,7 +13,7 @@ type LinkedDevices struct {
 	Len           int
 }
 
-var LinkedDevicesModel *LinkedDevices = &LinkedDevices{}
+var LinkedDevicesModel *LinkedDevices = &LinkedDevices{} // TODO
 
 func (c *LinkedDevices) GetDevice(i int) textsecure.DeviceInfo {
 	log.Println("[axolotl] get linked devices ", i)

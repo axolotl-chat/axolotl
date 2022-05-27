@@ -24,7 +24,7 @@ type Attachment struct {
 }
 
 func SaveAttachment(a *textsecure.Attachment) (Attachment, error) {
-
+	attachDir := config.GetAttachDir()
 	id := make([]byte, 16)
 	_, err := io.ReadFull(rand.Reader, id)
 	if err != nil {
@@ -49,7 +49,7 @@ func SaveAttachment(a *textsecure.Attachment) (Attachment, error) {
 	}
 	log.Debugln("[axolotl] save attachment to",
 		dt.Format("01-02-2006-15-04-05")+fileName)
-	fn := filepath.Join(config.AttachDir, dt.Format("01-02-2006-15-04-05")+fileName)
+	fn := filepath.Join(attachDir, dt.Format("01-02-2006-15-04-05")+fileName)
 	f, err := os.OpenFile(fn, os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
 		return Attachment{}, err
@@ -67,8 +67,9 @@ func SaveAttachment(a *textsecure.Attachment) (Attachment, error) {
 
 // CopyAttachment makes a copy of a file that is in the volatile content hub cache
 func CopyAttachment(src string) (string, error) {
+	attachDir := config.GetAttachDir()
 	_, b := filepath.Split(src)
-	dest := filepath.Join(config.AttachDir, b)
+	dest := filepath.Join(attachDir, b)
 	input, err := ioutil.ReadFile(src)
 	if err != nil {
 		log.Errorln("[axolotl] CopyAttachment ", err)

@@ -20,10 +20,10 @@ import (
 )
 
 //messageHandler is used on incoming message
-func MessageHandler(msg *textsecure.Message) {
-	buildAndSaveMessage(msg, false)
+func MessageHandler(msg *textsecure.Message, config *config.Config) {
+	buildAndSaveMessage(msg, false, config)
 }
-func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
+func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool, config *config.Config) {
 	var err error
 	var attachments []store.Attachment //should be array
 	mt := ""                           //
@@ -316,8 +316,8 @@ func ReceiptMessageHandler(msg *textsecure.Message) {
 }
 
 // SyncSentHandler handle sync messages from signal desktop
-func SyncSentHandler(msg *textsecure.Message, timestamp uint64) {
+func SyncSentHandler(msg *textsecure.Message, timestamp uint64, config *config.Config) {
 	log.Debugln("[axolotl] handle sync message", msg.Timestamp(), msg.SourceUUID())
 	// use the same routine to save sync messages as incoming messages
-	buildAndSaveMessage(msg, true)
+	buildAndSaveMessage(msg, true, config)
 }

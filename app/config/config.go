@@ -7,7 +7,6 @@ import (
 	"os/user"
 	"path/filepath"
 	"runtime"
-	"strings"
 
 	log "github.com/sirupsen/logrus"
 
@@ -20,10 +19,13 @@ const AppName = "textsecure.nanuc"
 
 const AppVersion = "1.2.0"
 
+const LogFileName = "application-click-" + AppName + "_textsecure_" + AppVersion + ".log"
+
 // Do not allow sending attachments larger than 100M for now
 const MaxAttachmentSize int64 = 100 * 1024 * 1024
 
-var (
+type Config struct {
+	TsConfig               *textsecureConfig.Config
 	IsPhone                bool
 	IsPushHelper           bool
 	MainQml                string
@@ -47,143 +49,132 @@ var (
 	ServerPort             string
 	AxolotlWebDir          string
 	ElectronFlag           string
-)
+}
 
-var Config *textsecureConfig.Config
-
-func GetConfig() (*textsecureConfig.Config, error) {
-	ConfigFile = filepath.Join(ConfigDir, "config.yml")
-	cf := ConfigFile
-	if IsPhone {
-		ConfigDir = filepath.Join("/home/phablet/.config/textsecure.nanuc/")
-		if !helpers.Exists(ConfigFile) {
-			cf = filepath.Join(ConfigDir, "config.yml")
+func (c *Config) GetConfig() (*textsecureConfig.Config, error) {
+	c.ConfigFile = filepath.Join(c.ConfigDir, "config.yml")
+	cf := c.ConfigFile
+	if c.IsPhone {
+		c.ConfigDir = filepath.Join("/home/phablet/.config/textsecure.nanuc/")
+		if !helpers.Exists(c.ConfigFile) {
+			cf = filepath.Join(c.ConfigDir, "config.yml")
 		}
 	}
-	if _, err := os.Stat(ConfigFile); os.IsNotExist(err) {
+	if _, err := os.Stat(c.ConfigFile); os.IsNotExist(err) {
 		log.Debugln("[axolotl] create config file")
-		_, err := os.OpenFile(ConfigFile, os.O_RDONLY|os.O_CREATE, 0600)
+		_, err := os.OpenFile(c.ConfigFile, os.O_RDONLY|os.O_CREATE, 0600)
 		if err != nil {
 			log.Errorln("[axolotl] creating config file", err.Error())
 		}
 	}
 	var err error
 	if helpers.Exists(cf) {
-		Config, err = textsecure.ReadConfig(cf)
+		c.TsConfig, err = textsecure.ReadConfig(cf)
 	} else {
-		Config = &textsecureConfig.Config{}
+		c.TsConfig = &textsecureConfig.Config{}
 	}
-	Config.StorageDir = StorageDir
-	log.Debugln("[axolotl] config path: ", ConfigDir)
-	Config.UserAgent = fmt.Sprintf("TextSecure %s for Ubuntu Phone", AppVersion)
-	Config.UnencryptedStorage = true
+	c.TsConfig.StorageDir = c.StorageDir
+	log.Debugln("[axolotl] config path: ", c.ConfigDir)
+	c.TsConfig.UserAgent = fmt.Sprintf("TextSecure %s for Ubuntu Phone", AppVersion)
+	c.TsConfig.UnencryptedStorage = true
 
-	if Config.LogLevel == "" {
-		Config.LogLevel = "info"
+	if c.TsConfig.LogLevel == "" {
+		c.TsConfig.LogLevel = "info"
 	}
-	Config.CrayfishSupport = true
-	Config.AlwaysTrustPeerID = true
-	rootCA := filepath.Join(ConfigDir, "rootCA.crt")
+	c.TsConfig.CrayfishSupport = true
+	c.TsConfig.AlwaysTrustPeerID = true
+	rootCA := filepath.Join(c.ConfigDir, "rootCA.crt")
 	if helpers.Exists(rootCA) {
-		Config.RootCA = rootCA
+		c.TsConfig.RootCA = rootCA
 	}
-	return Config, err
+	return c.TsConfig, err
 }
-func SetupConfig() {
+func SetupConfig() *Config {
+	c := &Config{}
+
 	log.Debugln("[axolotl] setup config")
 
-	IsPhone = helpers.Exists("/home/phablet")
-	IsPushHelper = filepath.Base(os.Args[0]) == "pushHelper"
+	c.IsPhone = GetIsPhone()
+	c.IsPushHelper = GetIsPushHelper()
+
+	flag.StringVar(&c.MainQml, "qml", "qml/phoneui/main.qml", "The qml file to load.")
+	flag.StringVar(&c.Gui, "e", "", "Specify runtime environment. Use either electron, ut, lorca, qt or server")
+	flag.StringVar(&c.AxolotlWebDir, "axolotlWebDir", "./axolotl-web/dist", "Specify the directory to use for axolotl-web")
+	flag.BoolVar(&c.ElectronDebug, "eDebug", false, "Open electron development console")
+	flag.BoolVar(&c.PrintVersion, "version", false, "Print version info")
+	flag.StringVar(&c.ServerHost, "host", "127.0.0.1", "Host to serve UI from.")
+	flag.StringVar(&c.ServerPort, "port", "9080", "Port to serve UI from.")
+	flag.StringVar(&c.ElectronFlag, "electron-flag", "", "Specify electron flag. Use no-ozone to disable Ozone/Wayland platform")
+
 	flag.Parse()
+
 	if len(flag.Args()) == 1 {
-		TsDeviceURL = flag.Arg(0)
+		c.TsDeviceURL = flag.Arg(0)
 	}
 
-	if PrintVersion {
+	if c.PrintVersion {
 		fmt.Printf("%s %s %s %s %s\n",
 			AppName, AppVersion, runtime.GOOS, runtime.GOARCH, runtime.Version())
 		os.Exit(0)
 	}
 
-	if IsPushHelper || IsPhone {
-		log.Printf("[axolotl] use push helper")
-		HomeDir = "/home/phablet"
-	} else {
-		user, err := user.Current()
-		if err != nil {
-			// log.Fatal(err)
-			HomeDir = "/home/phablet"
-		} else {
-			//if in a snap environment
-			snapPath := os.Getenv("SNAP_USER_DATA")
-			if len(snapPath) > 0 {
-				HomeDir = snapPath
-			} else {
+	c.HomeDir = GetHomeDir()
 
-				HomeDir = user.HomeDir
-			}
-		}
-	}
-	LogFileName := []string{"application-click-", AppName, "_textsecure_", AppVersion, ".log"}
-	ConfigDir = filepath.Join(HomeDir, ".config/", AppName)
-	ContactsFile = filepath.Join(ConfigDir, "contacts.yml")
-	RegisteredContactsFile = filepath.Join(ConfigDir, "registeredContacts.yml")
-	SettingsFile = filepath.Join(ConfigDir, "settings.yml")
-	if _, err := os.Stat(SettingsFile); os.IsNotExist(err) {
-		_, err := os.OpenFile(SettingsFile, os.O_RDONLY|os.O_CREATE, 0600)
+	c.ConfigDir = GetConfigDir()
+	c.ContactsFile = GetContactsFile()
+	c.RegisteredContactsFile = GetRegisteredContactsFile()
+	c.SettingsFile = GetSettingsFile()
+	if _, err := os.Stat(c.SettingsFile); os.IsNotExist(err) {
+		_, err := os.OpenFile(c.SettingsFile, os.O_RDONLY|os.O_CREATE, 0600)
 		if err != nil {
 			log.Errorln("[axolotl] creating settings file", err.Error())
 		}
 	}
-	os.MkdirAll(ConfigDir, 0700)
-	DataDir = filepath.Join(HomeDir, ".local", "share", AppName)
-	if IsPushHelper || IsPhone {
-		LogFile = filepath.Join(HomeDir, ".cache/", "upstart/", strings.Join(LogFileName, ""))
-	} else {
-		LogFile = filepath.Join(DataDir, strings.Join(LogFileName, ""))
+	os.MkdirAll(c.ConfigDir, 0700)
+	c.DataDir = GetDataDir()
+	c.LogFile = GetLogFile()
+	c.AttachDir = GetAttachDir()
+	os.MkdirAll(c.AttachDir, 0700)
+	c.StorageDir = GetStorageDir()
 
-	}
-	AttachDir = filepath.Join(DataDir, "attachments")
-	os.MkdirAll(AttachDir, 0700)
-	StorageDir = filepath.Join(DataDir, ".storage")
-
+	return c
 }
-func Unregister() {
-	err := os.Remove(HomeDir + "/.local/share/textsecure.nanuc/db/db.sql")
+func (c *Config) Unregister() {
+	err := os.Remove(c.HomeDir + "/.local/share/textsecure.nanuc/db/db.sql")
 	if err != nil {
 		log.Error(err)
 	}
-	err = os.Remove(ContactsFile)
+	err = os.Remove(c.ContactsFile)
 	if err != nil {
 		log.Error(err)
 	}
-	err = os.Remove(SettingsFile)
+	err = os.Remove(c.SettingsFile)
 	if err != nil {
 		log.Error(err)
 	}
-	err = os.Remove(ConfigFile)
+	err = os.Remove(c.ConfigFile)
 	if err != nil {
 		log.Error(err)
 	}
-	err = os.RemoveAll(HomeDir + "/.cache/textsecure.nanuc/qmlcache")
+	err = os.RemoveAll(c.HomeDir + "/.cache/textsecure.nanuc/qmlcache")
 	if err != nil {
 		log.Error(err)
 	}
-	err = os.Remove(HomeDir + "/.config/textsecure.nanuc/config.yml")
+	err = os.Remove(c.HomeDir + "/.config/textsecure.nanuc/config.yml")
 	if err != nil {
 		log.Error(err)
 	}
-	err = os.RemoveAll(StorageDir)
+	err = os.RemoveAll(c.StorageDir)
 	if err != nil {
 		log.Error(err)
 	}
-	err = os.RemoveAll(DataDir + AppName)
+	err = os.RemoveAll(c.DataDir + AppName)
 	if err != nil {
 		log.Error(err)
 	}
 	os.Exit(1)
 }
-func SetLogLevel(loglevel string) {
+func (c *Config) SetLogLevel(loglevel string) {
 	if loglevel == "debug" {
 		log.SetLevel(log.DebugLevel)
 	} else if loglevel == "info" {
@@ -200,7 +191,84 @@ func SetLogLevel(loglevel string) {
 		log.SetLevel(log.InfoLevel)
 		loglevel = "info"
 	}
-	Config.LogLevel = loglevel
-	textsecure.WriteConfig(ConfigFile, Config)
+	c.TsConfig.LogLevel = loglevel
+	textsecure.WriteConfig(c.ConfigFile, c.TsConfig)
 	textsecure.RefreshConfig()
+}
+
+func GetIsPhone() bool {
+	return helpers.Exists("/home/phablet")
+}
+
+func GetIsPushHelper() bool {
+	return filepath.Base(os.Args[0]) == "pushHelper"
+}
+
+func GetHomeDir() string {
+	homeDir := ""
+	if GetIsPushHelper() || GetIsPhone() {
+		log.Printf("[axolotl] use push helper")
+		homeDir = "/home/phablet"
+	} else {
+		user, err := user.Current()
+		if err != nil {
+			// log.Fatal(err)
+			homeDir = "/home/phablet"
+		} else {
+			//if in a snap environment
+			snapPath := os.Getenv("SNAP_USER_DATA")
+			if len(snapPath) > 0 {
+				homeDir = snapPath
+			} else {
+				homeDir = user.HomeDir
+			}
+		}
+	}
+
+	return homeDir
+}
+
+func GetConfigDir() string {
+	homeDir := GetHomeDir()
+	return filepath.Join(homeDir, ".config/", AppName)
+}
+
+func GetContactsFile() string {
+	configDir := GetConfigDir()
+	return filepath.Join(configDir, "contacts.yml")
+}
+
+func GetRegisteredContactsFile() string {
+	configDir := GetConfigDir()
+	return filepath.Join(configDir, "registeredContacts.yml")
+}
+
+func GetSettingsFile() string {
+	configDir := GetConfigDir()
+	return filepath.Join(configDir, "settings.yml")
+}
+
+func GetDataDir() string {
+	homeDir := GetHomeDir()
+	return filepath.Join(homeDir, ".local", "share", AppName)
+}
+
+func GetLogFile() string {
+	logFile := ""
+	if GetIsPushHelper() || GetIsPhone() {
+		logFile = filepath.Join(GetHomeDir(), ".cache/", "upstart/", LogFileName)
+	} else {
+		logFile = filepath.Join(GetDataDir(), LogFileName)
+	}
+	return logFile
+}
+
+func GetAttachDir() string {
+	dataDir := GetDataDir()
+	return filepath.Join(dataDir, "attachments")
+}
+
+func GetStorageDir() string {
+	dataDir := GetDataDir()
+	return filepath.Join(dataDir, ".storage")
 }

@@ -17,7 +17,7 @@ type Contacts struct {
 	Len      int
 }
 
-var ContactsModel *Contacts = &Contacts{}
+var ContactsModel *Contacts = &Contacts{} // TODO
 
 func (c *Contacts) GetContact(i int) textsecureContacts.Contact {
 	if i == -1 {
@@ -42,14 +42,15 @@ func GetContactForUUID(uuid string) *textsecureContacts.Contact {
 	return nil
 }
 func RefreshContacts() error {
+	rcf := config.GetRegisteredContactsFile()
 	c, err := textsecure.GetRegisteredContacts()
 	if err != nil {
 		log.Errorln("[axolotl] RefreshContacts", err)
 		// when refresh fails, we load the old contacts
-		c, _ = readRegisteredContacts(config.RegisteredContactsFile)
+		c, _ = readRegisteredContacts(rcf)
 		return err
 	} else {
-		writeRegisteredContacts(config.RegisteredContactsFile, c)
+		writeRegisteredContacts(rcf, c)
 	}
 	log.Debugln("[axolotl] Refresh contacts count: ", len(c))
 	ContactsModel.Contacts = c
@@ -87,7 +88,7 @@ func readRegisteredContacts(fileName string) ([]textsecureContacts.Contact, erro
 	return contacts.Contacts, nil
 }
 
-func TelToName(tel string) string {
+func TelToName(tel string, ourTel string) string {
 	if g, ok := Groups[tel]; ok {
 		return g.Name
 	}
@@ -96,7 +97,7 @@ func TelToName(tel string) string {
 			return c.Name
 		}
 	}
-	if tel == config.Config.Tel {
+	if tel == ourTel {
 		return "Me"
 	}
 	return tel

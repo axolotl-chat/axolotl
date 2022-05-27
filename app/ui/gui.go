@@ -47,9 +47,10 @@ func InitModels() {
 	// textsecure.LinkedDevices()
 	go store.UpdateTimestamps()
 }
-func RunUi(e string) {
+func RunUi(config *config.Config) {
+	e := config.Gui
 	if e == "ut" || e == "me" || e == "qt" {
-		runUIUbuntuTouch(e)
+		runUIUbuntuTouch(e, config)
 	} else if e == "lorca" {
 		fmt.Println("[axolotl] start lorca")
 		ui, err := lorca.New("", "", 480, 720, "--hide-scrollbars")
@@ -76,7 +77,7 @@ func RunUi(e string) {
 		log.Println("[axolotl] exiting...")
 	}
 }
-func runUIUbuntuTouch(e string) {
+func runUIUbuntuTouch(e string, config *config.Config) {
 	var cmd *exec.Cmd
 	log.Infof("[axolotl] Axolotl-gui starting for sys: %v", config.Gui)
 

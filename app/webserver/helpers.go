@@ -11,13 +11,12 @@ import (
 	"github.com/nanu-c/axolotl/app/contact"
 	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/nanu-c/axolotl/app/push"
-	"github.com/nanu-c/axolotl/app/settings"
 	"github.com/nanu-c/axolotl/app/store"
 	"github.com/signal-golang/textsecure"
 	textsecureContacts "github.com/signal-golang/textsecure/contacts"
 )
 
-func websocketSender() {
+func websocketSender(wsApp *WsApp) {
 	for {
 		message := <-broadcast
 		for client := range clients {
@@ -28,7 +27,7 @@ func websocketSender() {
 		}
 	}
 }
-func sendRegistrationStatus() {
+func sendRegistrationStatus(wsApp *WsApp) {
 	log.Debugln("[axolotl-ws] getRegistrationStatus")
 	if requestUsername {
 		sendRequest("getUsername")
@@ -42,7 +41,7 @@ func sendRegistrationStatus() {
 		sendRequest("getPhoneNumber")
 	}
 }
-func sendChatList() {
+func sendChatList(wsApp *WsApp) {
 	var err error
 	chatListEnvelope := &ChatListEnvelope{
 		ChatList: store.SessionsModel.Sess,
@@ -126,8 +125,7 @@ func updateCurrentChat(s *store.Session) {
 }
 func refreshContacts(path string) {
 	var err error
-	config.VcardPath = path
-	contact.GetAddressBookContactsFromContentHub()
+	contact.GetAddressBookContactsFromContentHubWithFile(path)
 	err = store.RefreshContacts()
 	if err != nil {
 		ShowError(err.Error())
@@ -139,7 +137,7 @@ func recoverFromWsPanic(client *websocket.Conn) {
 	removeClientFromList(client)
 
 }
-func sendContactList() {
+func sendContactList(wsApp *WsApp) {
 	defer func() {
 		if err := recover(); err != nil {
 			log.Errorln("[axolotl] sendContactList panic occurred:", err)
@@ -338,18 +336,18 @@ func sendIdentityInfo(fingerprintNumbers []string, fingerprintQRCode []byte) {
 }
 
 // UpdateChatList updates the chatlist if not entered a chat + registered
-func UpdateChatList() {
+func UpdateChatList(wsApp *WsApp) {
 
 	if activeChat == -1 && registered {
-		sendChatList()
+		sendChatList(wsApp)
 	}
 }
 
 // UpdateContactList updates the contactlist if not entered a chat + registered
-func UpdateContactList() {
+func UpdateContactList(wsApp *WsApp) {
 
 	if activeChat == -1 && registered {
-		sendContactList()
+		sendContactList(wsApp)
 	}
 }
 
@@ -372,9 +370,9 @@ type SendGui struct {
 }
 
 // SetGui sets the gui
-func SetGui() {
+func SetGui(wsApp *WsApp) {
 	var err error
-	gui := config.Gui
+	gui := wsApp.App.Config.Gui
 	if gui == "" {
 		gui = "standard"
 	}
@@ -395,11 +393,11 @@ type sendDarkmode struct {
 	DarkMode bool
 }
 
-func SetUiDarkMode() {
-	log.Debugln("[axolotl] send darkmode to client", settings.SettingsModel.DarkMode)
+func SetUiDarkMode(wsApp *WsApp) {
+	log.Debugln("[axolotl] send darkmode to client", wsApp.App.Settings.DarkMode)
 
 	var err error
-	mode := settings.SettingsModel.DarkMode
+	mode := wsApp.App.Settings.DarkMode
 
 	request := &sendDarkmode{
 		DarkMode: mode,
@@ -432,8 +430,7 @@ func sendConfig() {
 }
 
 func importVcf() {
-	config.VcardPath = "import.vcf"
-	contact.GetAddressBookContactsFromContentHub()
+	contact.GetAddressBookContactsFromContentHubWithFile("import.vcf")
 	err := store.RefreshContacts()
 	if err != nil {
 		ShowError(err.Error())

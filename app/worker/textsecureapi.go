@@ -30,10 +30,10 @@ type TextsecureAPI struct {
 	UUID            string
 }
 
-var Api = &TextsecureAPI{}
-var client = &textsecure.Client{}
-var sessionStarted = false
-var isEncrypted = true
+var Api = &TextsecureAPI{} // TODO
+var client = &textsecure.Client{} // TODO
+var sessionStarted = false // TODO
+var isEncrypted = true // TODO
 
 //unregister  signal id
 func (Api *TextsecureAPI) Unregister() {

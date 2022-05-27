@@ -12,7 +12,6 @@ import (
 	"strconv"
 
 	_ "github.com/mutecomm/go-sqlcipher"
-	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/settings"
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/crypto/scrypt"
@@ -98,9 +97,9 @@ func (ds *DataStore) Convert(password string) error {
 	if password == "" {
 		return fmt.Errorf("No password given")
 	}
-	dbDir = filepath.Join(config.DataDir, "db")
-	dbFile = filepath.Join(dbDir, "db.sql")
-	tmp := filepath.Join(dbDir, "tmp.db")
+	dbDir = GetDbDir()
+	dbFile = GetDbFile()
+	tmp := GetDbTmpFile()
 
 	//create tmp file
 	_, err := os.OpenFile(tmp, os.O_RDONLY|os.O_CREATE, 0600)
