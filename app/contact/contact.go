@@ -147,6 +147,7 @@ func GetAddressBookContactsFromContentHub() ([]textsecureContacts.Contact, error
 	if helpers.Exists(cf) {
 		return textsecureContacts.ReadContacts(cf)
 	}
+	return nil, errors.New("contacts file not found")
 }
 
 // getAddgetAddressBookContactsFromContentHub gets the phone contacts via the content hub

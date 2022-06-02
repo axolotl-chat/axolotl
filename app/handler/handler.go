@@ -10,20 +10,18 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/gen2brain/beeep"
-	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/nanu-c/axolotl/app/push"
-	"github.com/nanu-c/axolotl/app/settings"
 	"github.com/nanu-c/axolotl/app/store"
 	"github.com/nanu-c/axolotl/app/webserver"
 	"github.com/signal-golang/textsecure"
 )
 
 //messageHandler is used on incoming message
-func MessageHandler(msg *textsecure.Message, config *config.Config) {
-	buildAndSaveMessage(msg, false, config)
+func MessageHandler(msg *textsecure.Message, wsApp *webserver.WsApp) {
+	buildAndSaveMessage(msg, false, wsApp)
 }
-func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool, config *config.Config) {
+func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool, wsApp *webserver.WsApp) {
 	var err error
 	var attachments []store.Attachment //should be array
 	mt := ""                           //
@@ -93,7 +91,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool, config *conf
 			msgFlags = helpers.MsgFlagGroupUpdate
 		}
 		if gr.Flags == textsecure.GroupLeaveFlag {
-			text = store.TelToName(msg.Source()) + " has left the group."
+			text = store.TelToName(msg.Source(), wsApp.App.Config.TsConfig.Tel) + " has left the group."
 			msgFlags = helpers.MsgFlagGroupLeave
 		}
 	}
@@ -169,7 +167,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool, config *conf
 			store.MigrateMessagesFromSessionToAnotherSession(sessions[1].ID, sessions[0].ID)
 		}
 		session, err = store.SessionsModel.GetByUUID(msgSource)
-		webserver.UpdateChatList()
+		webserver.UpdateChatList(wsApp)
 	}
 	if err != nil && gr == nil && grV2 == nil {
 		// Session could not be found, lets try to find it by E164 aka phone number
@@ -238,13 +236,13 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool, config *conf
 		m.IsRead = true
 	}
 	if session.Notification && !syncMessage && msgFlags != helpers.MsgFlagProfileKeyUpdated {
-		if settings.SettingsModel.EncryptDatabase {
+		if wsApp.App.Settings.EncryptDatabase {
 			text = "Encrypted message"
 		}
 		//only send a notification, when it's not the current chat
 		// if session.ID != store.Sessions.GetActiveChat {
 		if session.ID != store.ActiveSessionID {
-			if config.Gui == "ut" {
+			if wsApp.App.Config.Gui == "ut" {
 				n := push.Nh.NewStandardPushMessage(
 					session.Name,
 					text, "", msgSource)
@@ -265,17 +263,17 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool, config *conf
 	// webserver.UpdateChatList()
 	webserver.MessageHandler(msgSend)
 }
-func CallMessageHandler(msg *textsecure.Message) {
+func CallMessageHandler(msg *textsecure.Message, wsApp *webserver.WsApp) {
 	log.Debugln("[axolotl] CallMessageHandler", msg)
 	session := store.SessionsModel.GetByE164(msg.Source())
 	var f []store.Attachment
 	m := session.Add(msg.Message(), "", f, "", true, store.ActiveSessionID)
 	store.SaveMessage(m)
-	webserver.UpdateChatList()
-	webserver.UpdateChatList()
+	webserver.UpdateChatList(wsApp)
+	webserver.UpdateChatList(wsApp)
 }
-func TypingMessageHandler(msg *textsecure.Message) {
-	webserver.UpdateChatList()
+func TypingMessageHandler(msg *textsecure.Message, wsApp *webserver.WsApp) {
+	webserver.UpdateChatList(wsApp)
 }
 
 // ReceiptHandler handles receipts for outgoing messages
@@ -316,8 +314,8 @@ func ReceiptMessageHandler(msg *textsecure.Message) {
 }
 
 // SyncSentHandler handle sync messages from signal desktop
-func SyncSentHandler(msg *textsecure.Message, timestamp uint64, config *config.Config) {
+func SyncSentHandler(msg *textsecure.Message, timestamp uint64, wsApp *webserver.WsApp) {
 	log.Debugln("[axolotl] handle sync message", msg.Timestamp(), msg.SourceUUID())
 	// use the same routine to save sync messages as incoming messages
-	buildAndSaveMessage(msg, true, config)
+	buildAndSaveMessage(msg, true, wsApp)
 }

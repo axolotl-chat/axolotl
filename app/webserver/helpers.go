@@ -13,35 +13,34 @@ import (
 	"github.com/nanu-c/axolotl/app/push"
 	"github.com/nanu-c/axolotl/app/store"
 	"github.com/signal-golang/textsecure"
-	textsecureContacts "github.com/signal-golang/textsecure/contacts"
 )
 
-func websocketSender(wsApp *WsApp) {
+func (w *WsApp) websocketSender() {
 	for {
-		message := <-broadcast
-		for client := range clients {
+		message := <-w.Broadcast
+		for client := range w.Clients {
 			if err := client.WriteMessage(websocket.TextMessage, message); err != nil {
 				log.Errorln("[axolotl-ws] send message", err)
-				removeClientFromList(client)
+				w.removeClientFromList(client)
 			}
 		}
 	}
 }
-func sendRegistrationStatus(wsApp *WsApp) {
+func (w *WsApp) sendRegistrationStatus() {
 	log.Debugln("[axolotl-ws] getRegistrationStatus")
 	if requestUsername {
-		sendRequest("getUsername")
+		w.sendRequest("getUsername")
 	} else if registered {
-		sendRequest("registrationDone")
+		w.sendRequest("registrationDone")
 	} else if requestPassword {
-		sendRequest("getEncryptionPw")
+		w.sendRequest("getEncryptionPw")
 	} else if requestSmsVerificationCode {
-		sendRequest("getVerificationCode")
+		w.sendRequest("getVerificationCode")
 	} else {
-		sendRequest("getPhoneNumber")
+		w.sendRequest("getPhoneNumber")
 	}
 }
-func sendChatList(wsApp *WsApp) {
+func (w *WsApp) sendChatList() {
 	var err error
 	chatListEnvelope := &ChatListEnvelope{
 		ChatList: store.SessionsModel.Sess,
@@ -52,9 +51,9 @@ func sendChatList(wsApp *WsApp) {
 		log.Errorln("[axolotl] sendRegistrationStatus", err)
 		return
 	}
-	broadcast <- *message
+	w.Broadcast <- *message
 }
-func sendCurrentChat(s *store.Session) {
+func (w *WsApp) sendCurrentChat(s *store.Session) {
 	var (
 		err   error
 		gr    *store.GroupRecord
@@ -75,7 +74,7 @@ func sendCurrentChat(s *store.Session) {
 	currentChatEnvelope := &CurrentChatEnvelope{
 		OpenChat: &OpenChat{
 			CurrentChat: s,
-			Contact:     &profile,
+			Contact:     &w.Profile,
 			Group:       group,
 		},
 	}
@@ -85,59 +84,24 @@ func sendCurrentChat(s *store.Session) {
 		log.Errorln("[axolotl] sendCurrentChat: sendRegistrationStatus", err)
 		return
 	}
-	broadcast <- *message
+	w.Broadcast <- *message
 }
-func updateCurrentChat(s *store.Session) {
-	var (
-		err   error
-		gr    *store.GroupRecord
-		group *Group
-		c     *textsecureContacts.Contact
-	)
-	if s.IsGroup {
-		gr = store.GetGroupById(s.UUID)
-		if gr == nil {
-			log.Errorln("[axolotl] updateCurrentChat: group not found", s.UUID)
-			return
-		}
-		group = &Group{
-			HexId:   gr.GroupID,
-			Name:    gr.Name,
-			Members: strings.Split(gr.Members, ","),
-		}
-	} else {
-		c = store.GetContactForTel(s.Tel)
-	}
-	updateCurrentChatEnvelope := &UpdateCurrentChatEnvelope{
-		UpdateCurrentChat: &UpdateCurrentChat{
-			CurrentChat: s,
-			Contact:     c,
-			Group:       group,
-		},
-	}
-	message := &[]byte{}
-	*message, err = json.Marshal(updateCurrentChatEnvelope)
-	if err != nil {
-		log.Errorln("[axolotl] updateCurrentChat", err)
-		return
-	}
-	broadcast <- *message
-}
-func refreshContacts(path string) {
+
+func (w *WsApp) refreshContacts(path string) {
 	var err error
 	contact.GetAddressBookContactsFromContentHubWithFile(path)
 	err = store.RefreshContacts()
 	if err != nil {
-		ShowError(err.Error())
+		w.ShowError(err.Error())
 	}
-	go sendContactList()
+	go w.sendContactList()
 }
-func recoverFromWsPanic(client *websocket.Conn) {
+func (w *WsApp) recoverFromWsPanic(client *websocket.Conn) {
 	client.Close()
-	removeClientFromList(client)
+	w.removeClientFromList(client)
 
 }
-func sendContactList(wsApp *WsApp) {
+func (w *WsApp) sendContactList() {
 	defer func() {
 		if err := recover(); err != nil {
 			log.Errorln("[axolotl] sendContactList panic occurred:", err)
@@ -153,9 +117,9 @@ func sendContactList(wsApp *WsApp) {
 		log.Errorln("[axolotl] sendContactList ", err)
 		return
 	}
-	broadcast <- *message
+	w.Broadcast <- *message
 }
-func sendDeviceList() {
+func (w *WsApp) sendDeviceList() {
 	var err error
 	devices, err := textsecure.LinkedDevices()
 	if err != nil {
@@ -171,7 +135,7 @@ func sendDeviceList() {
 		log.Errorln("[axolotl] sendDeviceList", err)
 		return
 	}
-	broadcast <- *message
+	w.Broadcast <- *message
 }
 func createChat(uuid string) *store.Session {
 	if uuid == "0" {
@@ -183,15 +147,15 @@ func createChat(uuid string) *store.Session {
 	}
 	return session
 }
-func createGroup(newGroupData CreateGroupMessage) (*store.Session, error) {
+func (w *WsApp) createGroup(newGroupData CreateGroupMessage) (*store.Session, error) {
 	group, err := textsecure.NewGroup(newGroupData.Name, newGroupData.Members)
 	if err != nil {
-		ShowError(err.Error())
+		w.ShowError(err.Error())
 		return nil, err
 	}
 	members := strings.Join(newGroupData.Members, ",")
-	if !strings.Contains(members, config.Config.Tel) {
-		members = members + "," + config.Config.Tel
+	if !strings.Contains(members, w.App.Config.TsConfig.Tel) {
+		members = members + "," + w.App.Config.TsConfig.Tel
 	}
 	store.Groups[group.Hexid] = &store.GroupRecord{
 		GroupID: group.Hexid,
@@ -200,19 +164,19 @@ func createGroup(newGroupData CreateGroupMessage) (*store.Session, error) {
 	}
 	_, err = store.SaveGroup(store.Groups[group.Hexid])
 	if err != nil {
-		ShowError(err.Error())
+		w.ShowError(err.Error())
 		return nil, err
 	}
 	session := store.SessionsModel.CreateSessionForGroup(group)
-	msg := session.Add(store.GroupUpdateMsg(append(newGroupData.Members, config.Config.Tel), newGroupData.Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
+	msg := session.Add(store.GroupUpdateMsg(append(newGroupData.Members, w.App.Config.TsConfig.Tel), newGroupData.Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
 	msg.Flags = helpers.MsgFlagGroupNew
 	store.SaveMessage(msg)
 	return session, nil
 }
-func updateGroup(updateGroupData UpdateGroupMessage) *store.Session {
+func (w *WsApp) updateGroup(updateGroupData UpdateGroupMessage) *store.Session {
 	group, err := textsecure.UpdateGroup(updateGroupData.ID, updateGroupData.Name, updateGroupData.Members)
 	if err != nil {
-		ShowError(err.Error())
+		w.ShowError(err.Error())
 		return nil
 	}
 	members := strings.Join(updateGroupData.Members, ",")
@@ -224,7 +188,7 @@ func updateGroup(updateGroupData UpdateGroupMessage) *store.Session {
 	store.SaveGroup(store.Groups[group.Hexid])
 	session, err := store.SessionsModel.GetByUUID(group.Hexid)
 	if err != nil {
-		ShowError(err.Error())
+		w.ShowError(err.Error())
 		return nil
 	}
 	msg := session.Add(store.GroupUpdateMsg(updateGroupData.Members, updateGroupData.Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
@@ -234,7 +198,7 @@ func updateGroup(updateGroupData UpdateGroupMessage) *store.Session {
 	return session
 
 }
-func joinGroup(joinGroupmessage JoinGroupMessage) *store.Session {
+func (w *WsApp) joinGroup(joinGroupmessage JoinGroupMessage) *store.Session {
 	log.Infoln("[axolotl] joinGroup", joinGroupmessage.ID)
 	group, err := textsecure.JoinGroup(joinGroupmessage.ID)
 	if err != nil {
@@ -270,14 +234,14 @@ func joinGroup(joinGroupmessage JoinGroupMessage) *store.Session {
 		msg := session.Add("You accepted the invitation to the group.", "", []store.Attachment{}, "", true, store.ActiveSessionID)
 		msg.Flags = helpers.MsgFlagGroupJoined
 		store.SaveMessage(msg)
-		MessageHandler(msg)
+		w.MessageHandler(msg)
 	}
 	store.UpdateSession(session)
-	requestEnterChat(store.ActiveSessionID)
-	sendContactList()
+	w.requestEnterChat(store.ActiveSessionID)
+	w.sendContactList()
 	return session
 }
-func sendMessageList(ID int64) {
+func (w *WsApp) sendMessageList(ID int64) {
 	message := &[]byte{}
 	log.Debugln("[axolotl] sendMessageList for conversation", ID)
 	err, messageList := store.SessionsModel.GetMessageList(ID)
@@ -297,11 +261,11 @@ func sendMessageList(ID int64) {
 		log.Errorln("[axolotl] sendMessageList: ", err)
 		return
 	}
-	broadcast <- *message
+	w.Broadcast <- *message
 }
-func sendMoreMessageList(id int64, lastId string) {
+func (w *WsApp) sendMoreMessageList(lastId string) {
 	message := &[]byte{}
-	err, messageList := store.SessionsModel.GetMoreMessageList(id, lastId)
+	err, messageList := store.SessionsModel.GetMoreMessageList(w.ActiveChat, lastId)
 	if err != nil {
 		log.Errorln("[axolotl] sendMoreMessageList: ", err)
 		return
@@ -314,9 +278,9 @@ func sendMoreMessageList(id int64, lastId string) {
 		log.Errorln("[axolotl] sendMoreMessageList: ", err)
 		return
 	}
-	broadcast <- *message
+	w.Broadcast <- *message
 }
-func sendIdentityInfo(fingerprintNumbers []string, fingerprintQRCode []byte) {
+func (w *WsApp) sendIdentityInfo(fingerprintNumbers []string, fingerprintQRCode []byte) {
 	var err error
 	r := make([]int, 0)
 	for _, i := range fingerprintQRCode {
@@ -332,35 +296,22 @@ func sendIdentityInfo(fingerprintNumbers []string, fingerprintQRCode []byte) {
 		log.Errorln("[axolotl] sendIdentityInfo: ", err)
 		return
 	}
-	broadcast <- *message
+	w.Broadcast <- *message
 }
 
 // UpdateChatList updates the chatlist if not entered a chat + registered
-func UpdateChatList(wsApp *WsApp) {
+func (w *WsApp) UpdateChatList() {
 
-	if activeChat == -1 && registered {
-		sendChatList(wsApp)
+	if w.ActiveChat == -1 && registered {
+		w.sendChatList()
 	}
 }
 
 // UpdateContactList updates the contactlist if not entered a chat + registered
-func UpdateContactList(wsApp *WsApp) {
+func (w *WsApp) UpdateContactList() {
 
-	if activeChat == -1 && registered {
-		sendContactList(wsApp)
-	}
-}
-
-// UpdateActiveChat checks if there is an active chat an if yes it updates it on axolotl web
-func UpdateActiveChat() {
-	if activeChat != -1 {
-		// log.Debugln("[axolotl] update activ	e chat")
-		s, err := store.SessionsModel.Get(activeChat)
-		if err != nil {
-			log.Errorln("[axolotl-ws] UpdateActiveChat", err)
-		} else {
-			updateCurrentChat(s)
-		}
+	if w.ActiveChat == -1 && registered {
+		w.sendContactList()
 	}
 }
 
@@ -370,9 +321,9 @@ type SendGui struct {
 }
 
 // SetGui sets the gui
-func SetGui(wsApp *WsApp) {
+func (w *WsApp) SetGui() {
 	var err error
-	gui := wsApp.App.Config.Gui
+	gui := w.App.Config.Gui
 	if gui == "" {
 		gui = "standard"
 	}
@@ -385,7 +336,7 @@ func SetGui(wsApp *WsApp) {
 		log.Errorln("[axolotl] set gui", err)
 		return
 	}
-	broadcast <- *message
+	w.Broadcast <- *message
 	// RemoveClientFromList(client)
 }
 
@@ -393,11 +344,11 @@ type sendDarkmode struct {
 	DarkMode bool
 }
 
-func SetUiDarkMode(wsApp *WsApp) {
-	log.Debugln("[axolotl] send darkmode to client", wsApp.App.Settings.DarkMode)
+func (w *WsApp) SetUiDarkMode() {
+	log.Debugln("[axolotl] send darkmode to client", w.App.Settings.DarkMode)
 
 	var err error
-	mode := wsApp.App.Settings.DarkMode
+	mode := w.App.Settings.DarkMode
 
 	request := &sendDarkmode{
 		DarkMode: mode,
@@ -408,32 +359,32 @@ func SetUiDarkMode(wsApp *WsApp) {
 		log.Errorln("[axolotl] set darkmode", err)
 		return
 	}
-	broadcast <- *message
+	w.Broadcast <- *message
 }
-func sendConfig() {
+func (w *WsApp) sendConfig() {
 	var err error
 
 	message := &[]byte{}
 	configEnvelope := &ConfigEnvelope{
 		Type:             "config",
-		RegisteredNumber: config.Config.Tel,
+		RegisteredNumber: w.App.Config.TsConfig.Tel,
 		Version:          config.AppVersion,
-		Gui:              config.Gui,
-		LogLevel:         config.Config.LogLevel,
+		Gui:              w.App.Config.Gui,
+		LogLevel:         w.App.Config.TsConfig.LogLevel,
 	}
 	*message, err = json.Marshal(configEnvelope)
 	if err != nil {
 		log.Errorln("[axolotl] sendConfig", err)
 		return
 	}
-	broadcast <- *message
+	w.Broadcast <- *message
 }
 
-func importVcf() {
+func (w *WsApp) importVcf() {
 	contact.GetAddressBookContactsFromContentHubWithFile("import.vcf")
 	err := store.RefreshContacts()
 	if err != nil {
-		ShowError(err.Error())
+		w.ShowError(err.Error())
 	}
-	sendContactList()
+	w.sendContactList()
 }

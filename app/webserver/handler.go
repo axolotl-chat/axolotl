@@ -30,7 +30,7 @@ type MessageRecieved struct {
 	MessageRecieved *store.Message
 }
 
-func MessageHandler(msg *store.Message) {
+func (w *WsApp) MessageHandler(msg *store.Message) {
 	messageRecieved := &MessageRecieved{
 		MessageRecieved: msg,
 	}
@@ -52,8 +52,8 @@ func MessageHandler(msg *store.Message) {
 		log.Errorln("[axolotl-ws] messageHandler", err)
 		return
 	}
-	broadcast <- *message
-	UpdateChatList()
+	w.Broadcast <- *message
+	w.UpdateChatList()
 }
 
 type UpdateMessage struct {
@@ -61,8 +61,8 @@ type UpdateMessage struct {
 }
 
 // UpdateMessageHandler sents message receipts to all connected clients for the activeChat
-func UpdateMessageHandler(msg *store.Message) {
-	if msg.SID == activeChat {
+func (w *WsApp) UpdateMessageHandler(msg *store.Message) {
+	if msg.SID == w.ActiveChat {
 		log.Debugln("[axolotl-ws] UpdateMessageHandler ", msg.SentAt)
 		updateMessage := &UpdateMessage{
 			UpdateMessage: msg,
@@ -74,15 +74,15 @@ func UpdateMessageHandler(msg *store.Message) {
 			log.Errorln("[axolotl-ws] UpdateMessageHandler", err)
 			return
 		}
-		broadcast <- *message
-		UpdateChatList()
+		w.Broadcast <- *message
+		w.UpdateChatList()
 	}
 }
 
 // UpdateMessageHandlerWithSource checks if the message belongs to the current chat and if yes
 // triggers an update on axolotl web
-func UpdateMessageHandlerWithSource(msg *store.Message) {
-	if msg.SID == activeChat {
+func (w *WsApp) UpdateMessageHandlerWithSource(msg *store.Message) {
+	if msg.SID == w.ActiveChat {
 		log.Debugln("[axolotl-ws] UpdateMessageHandlerWithSource ", msg.SID, msg.SentAt)
 		updateMessage := &UpdateMessage{
 			UpdateMessage: msg,
@@ -94,8 +94,8 @@ func UpdateMessageHandlerWithSource(msg *store.Message) {
 			log.Errorln("[axolotl-ws] UpdateMessageHandlerWithSource", err)
 			return
 		}
-		broadcast <- *message
-		UpdateChatList()
+		w.Broadcast <- *message
+		w.UpdateChatList()
 	}
 
 }
@@ -104,7 +104,7 @@ type SendRequest struct {
 	Type string
 }
 
-func sendRequest(requestType string) {
+func (w *WsApp) sendRequest(requestType string) {
 	var err error
 	// mu.Lock()
 	// defer mu.Unlock()
@@ -118,13 +118,13 @@ func sendRequest(requestType string) {
 		log.Errorln("[axolotl-ws] SendRequest", err)
 		return
 	}
-	broadcast <- *message
+	w.Broadcast <- *message
 }
 
 // RegistrationDone sets restration status to done and sends registration status to axoltol-web
-func RegistrationDone() {
+func RegistrationDone(wsApp *WsApp) {
 	registered = true
-	sendRequest("registrationDone")
+	wsApp.sendRequest("registrationDone")
 }
 
 type SendEnterChatRequest struct {
@@ -132,7 +132,7 @@ type SendEnterChatRequest struct {
 	Chat int64
 }
 
-func requestEnterChat(chat int64) {
+func (w *WsApp) requestEnterChat(chat int64) {
 	var err error
 	request := &SendEnterChatRequest{
 		Type: "requestEnterChat",
@@ -144,23 +144,23 @@ func requestEnterChat(chat int64) {
 		log.Errorln("[axolotl] requestEnterChat", err)
 		return
 	}
-	activeChat = chat
-	broadcast <- *message
+	w.ActiveChat = chat
+	w.Broadcast <- *message
 }
 
-func RequestInput(request string) string {
+func (w *WsApp) RequestInput(request string) string {
 	if request == "getEncryptionPw" {
 		requestPassword = true
 	} else if request == "getUsername" {
 		requestUsername = true
 	}
-	sendRequest(request)
-	requestChannel = make(chan string)
-	text := <-requestChannel
-	requestChannel = nil
+	w.sendRequest(request)
+	w.RequestChannel = make(chan string)
+	text := <-w.RequestChannel
+	w.RequestChannel = nil
 	return text
 }
-func sendError(client *websocket.Conn, errorMessage string) {
+func (w *WsApp) sendError(client *websocket.Conn, errorMessage string) {
 	var err error
 
 	request := &SendError{
@@ -173,7 +173,7 @@ func sendError(client *websocket.Conn, errorMessage string) {
 		log.Errorln("[axolotl] sendError", err)
 		return
 	}
-	broadcast <- *message
+	w.Broadcast <- *message
 }
 
 type SendError struct {
@@ -181,18 +181,18 @@ type SendError struct {
 	Error string
 }
 
-func ShowError(errorMessage string) {
-	for client := range clients {
-		sendError(client, errorMessage)
+func (w *WsApp) ShowError(errorMessage string) {
+	for client := range w.Clients {
+		w.sendError(client, errorMessage)
 	}
 }
-func ClearError() {
-	for client := range clients {
-		sendError(client, "")
+func (w *WsApp) ClearError() {
+	for client := range w.Clients {
+		w.sendError(client, "")
 	}
 }
 
-func sendAttachment(attachment SendAttachmentMessage) error {
+func (w *WsApp) sendAttachment(attachment SendAttachmentMessage) error {
 	log.Infoln("[axolotl] send attachment ")
 	file := strings.TrimPrefix(attachment.Path, "file://")
 	fi, err := os.Stat(file)
@@ -206,7 +206,7 @@ func sendAttachment(attachment SendAttachmentMessage) error {
 	}
 	m, err := sender.SendMessageHelper(attachment.To, attachment.Message, file, nil, false)
 	if err == nil {
-		go MessageHandler(m)
+		go w.MessageHandler(m)
 	}
 	return nil
 }
@@ -237,7 +237,7 @@ func RandStringBytesMaskImprSrcUnsafe(n int) string {
 
 	return *(*string)(unsafe.Pointer(&b))
 }
-func uploadSendAttachment(attachment UploadAttachmentMessage) error {
+func (w *WsApp) uploadSendAttachment(attachment UploadAttachmentMessage) error {
 	log.Debug("[axolotl] uploadSendAttachment to ", attachment.To)
 	attachDir := config.GetAttachDir()
 
@@ -260,11 +260,11 @@ func uploadSendAttachment(attachment UploadAttachmentMessage) error {
 	}
 	m, err := sender.SendMessageHelper(attachment.To, attachment.Message, file, nil, false)
 	if err == nil {
-		go MessageHandler(m)
+		go w.MessageHandler(m)
 	}
 	return nil
 }
-func uploadSendVoiceNote(voiceNote SendVoiceNoteMessage) error {
+func (w *WsApp) uploadSendVoiceNote(voiceNote SendVoiceNoteMessage) error {
 	log.Debug("[axolotl] uploadSendVoiceNote to ", voiceNote.To)
 	attachDir := config.GetAttachDir()
 	file := attachDir + "/" + RandStringBytesMaskImprSrcUnsafe(10) + ".mp3"
@@ -285,7 +285,7 @@ func uploadSendVoiceNote(voiceNote SendVoiceNoteMessage) error {
 	}
 	m, err := sender.SendMessageHelper(voiceNote.To, "", file, nil, true)
 	if err == nil {
-		go MessageHandler(m)
+		go w.MessageHandler(m)
 	}
 	return nil
 }
