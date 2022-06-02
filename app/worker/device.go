@@ -57,17 +57,17 @@ func interpretQR(img image.Image) {
 	// return result
 
 }
-func (Api *TextsecureAPI) AddDevice() error {
+func (a *TextsecureAPI) AddDevice() error {
 	// log.Println("addDevice")
 	// img := ui.Win.Snapshot()
 	// ReadQr(img)
 	return nil
 }
-func (Api *TextsecureAPI) UnlinkDevice(id int) error {
+func (a *TextsecureAPI) UnlinkDevice(id int) error {
 	textsecure.UnlinkDevice(id)
 	return nil
 }
-func (Api *TextsecureAPI) RefreshDevices() error {
+func (a *TextsecureAPI) RefreshDevices() error {
 	// log.Println("addDevice")
 	store.RefreshDevices()
 	return nil

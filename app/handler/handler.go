@@ -167,7 +167,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool, wsApp *webse
 			store.MigrateMessagesFromSessionToAnotherSession(sessions[1].ID, sessions[0].ID)
 		}
 		session, err = store.SessionsModel.GetByUUID(msgSource)
-		webserver.UpdateChatList(wsApp)
+		wsApp.UpdateChatList()
 	}
 	if err != nil && gr == nil && grV2 == nil {
 		// Session could not be found, lets try to find it by E164 aka phone number
@@ -261,7 +261,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool, wsApp *webse
 	}
 	store.UpdateSession(session)
 	// webserver.UpdateChatList()
-	webserver.MessageHandler(msgSend)
+	wsApp.MessageHandler(msgSend)
 }
 func CallMessageHandler(msg *textsecure.Message, wsApp *webserver.WsApp) {
 	log.Debugln("[axolotl] CallMessageHandler", msg)
@@ -269,15 +269,15 @@ func CallMessageHandler(msg *textsecure.Message, wsApp *webserver.WsApp) {
 	var f []store.Attachment
 	m := session.Add(msg.Message(), "", f, "", true, store.ActiveSessionID)
 	store.SaveMessage(m)
-	webserver.UpdateChatList(wsApp)
-	webserver.UpdateChatList(wsApp)
+	wsApp.UpdateChatList()
+	wsApp.UpdateChatList()
 }
 func TypingMessageHandler(msg *textsecure.Message, wsApp *webserver.WsApp) {
-	webserver.UpdateChatList(wsApp)
+	wsApp.UpdateChatList()
 }
 
 // ReceiptHandler handles receipts for outgoing messages
-func ReceiptHandler(source string, devID uint32, timestamp uint64) {
+func ReceiptHandler(source string, devID uint32, timestamp uint64, wsApp *webserver.WsApp) {
 	m, err := store.FindOutgoingMessage(timestamp)
 	if err != nil {
 		log.Printf("[axolotl] ReceiptHandler: Message with timestamp %d not found\n", timestamp)
@@ -286,13 +286,13 @@ func ReceiptHandler(source string, devID uint32, timestamp uint64) {
 		m.IsSent = true
 		m.Receipt = true
 		store.UpdateMessageReceipt(m)
-		webserver.UpdateMessageHandlerWithSource(m)
+		wsApp.UpdateMessageHandlerWithSource(m)
 		return
 	}
 }
 
 // ReceiptMessageHandler handles outgoing message receipts and marks messages as read
-func ReceiptMessageHandler(msg *textsecure.Message) {
+func ReceiptMessageHandler(msg *textsecure.Message, wsApp *webserver.WsApp) {
 	log.Println("[axolotl] ReceiptMessageHandler for message ", msg.Timestamp())
 	m, err := store.FindOutgoingMessage(msg.Timestamp())
 	if err != nil {
@@ -308,7 +308,7 @@ func ReceiptMessageHandler(msg *textsecure.Message) {
 			m.IsSent = true
 			store.UpdateMessageReceiptSent(m)
 		}
-		webserver.UpdateMessageHandlerWithSource(m)
+		wsApp.UpdateMessageHandlerWithSource(m)
 		return
 	}
 }

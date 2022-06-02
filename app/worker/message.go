@@ -5,11 +5,11 @@ import (
 	"github.com/nanu-c/axolotl/app/store"
 )
 
-func (Api *TextsecureAPI) SendMessage(to int64, message string) error {
+func (a *TextsecureAPI) SendMessage(to int64, message string) error {
 	_, err := sender.SendMessageHelper(to, message, "", nil, false)
 	return err
 }
-func (Api *TextsecureAPI) DeleteMessage(msg *store.Message, tel string) {
+func (a *TextsecureAPI) DeleteMessage(msg *store.Message, tel string) {
 	store.DeleteMessage(msg.ID)
 	s := store.SessionsModel.GetByE164(tel)
 	for i, m := range s.Messages {

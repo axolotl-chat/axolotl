@@ -13,9 +13,9 @@ import (
 	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/nanu-c/axolotl/app/push"
 	"github.com/nanu-c/axolotl/app/sender"
-	"github.com/nanu-c/axolotl/app/settings"
 	"github.com/nanu-c/axolotl/app/store"
 	"github.com/nanu-c/axolotl/app/ui"
+	"github.com/nanu-c/axolotl/app/webserver"
 	"github.com/signal-golang/textsecure"
 	textsecureConfig "github.com/signal-golang/textsecure/config"
 
@@ -28,20 +28,33 @@ type TextsecureAPI struct {
 	ActiveSessionID string
 	PhoneNumber     string
 	UUID            string
+	Client          *textsecure.Client
+	SessionStarted  bool
+	IsEncrypted     bool
+	Websocket       *webserver.WsApp
 }
 
-var Api = &TextsecureAPI{} // TODO
-var client = &textsecure.Client{} // TODO
-var sessionStarted = false // TODO
-var isEncrypted = true // TODO
+// var Api = &TextsecureAPI{}        // TODO
+// var client = &textsecure.Client{} // TODO
+// var sessionStarted = false        // TODO
+// var api.IsEncrypted = true            // TODO
+
+func NewTextsecureAPI() *TextsecureAPI {
+	a := &TextsecureAPI{}
+	a.Client = &textsecure.Client{}
+	a.SessionStarted = false
+	a.IsEncrypted = true
+
+	return a
+}
 
 //unregister  signal id
-func (Api *TextsecureAPI) Unregister() {
-	config.Unregister()
+func (a *TextsecureAPI) Unregister() {
+	a.Websocket.App.Config.Unregister()
 }
 
 //get identitys
-func (Api *TextsecureAPI) IdentityInfo(id string) string {
+func (a *TextsecureAPI) IdentityInfo(id string) string {
 	myID := textsecure.MyIdentityKey()
 	theirID, err := textsecure.ContactIdentityKey(id)
 	if err != nil {
@@ -51,77 +64,78 @@ func (Api *TextsecureAPI) IdentityInfo(id string) string {
 		"Your identity (you read):" + "<br><br>" + fmt.Sprintf("% 0X", myID)
 }
 
-func (Api *TextsecureAPI) ContactsImported(path string) {
-	config.VcardPath = path
+func (a *TextsecureAPI) ContactsImported(path string) {
+	a.Websocket.App.Config.VcardPath = path
 	err := store.RefreshContacts()
 	if err != nil {
-		ui.ShowError(err)
+		ui.ShowError(err, a.Websocket)
 	}
 }
-func (Api *TextsecureAPI) AddContact(name, phone, uuid string) {
+func (a *TextsecureAPI) AddContact(name, phone, uuid string) {
 	err := contact.AddContact(name, phone, uuid)
 	if err != nil {
-		ui.ShowError(err)
+		ui.ShowError(err, a.Websocket)
 	}
 	err = store.RefreshContacts()
 	if err != nil {
-		ui.ShowError(err)
+		ui.ShowError(err, a.Websocket)
 	}
 }
 
-func RunBackend() {
+func RunBackend(wsApp *webserver.WsApp) {
 	log.Debugf("[axolotl] Run Backend")
+	api := NewTextsecureAPI()
+	api.Websocket = wsApp
 	store.DS.SetupDb("")
 	go push.NotificationInit()
-	ui.InitModels()
-	settings.SaveSettings(settings.SettingsModel)
+	ui.InitModels(api.Websocket)
+	api.Websocket.App.Settings.Save()
 
-	isEncrypted = settings.SettingsModel.EncryptDatabase
-	if isEncrypted {
+	api.IsEncrypted = api.Websocket.App.Settings.EncryptDatabase
+	if api.IsEncrypted {
 		pw := ""
 		for {
-			pw = ui.GetEncryptionPw()
+			pw = ui.GetEncryptionPw(api.Websocket)
 			if store.DS.SetupDb(pw) {
 				log.Debugf("[axolotl] DB Encrypted, ready to start")
-				isEncrypted = false
+				api.IsEncrypted = false
 				break
 			}
-			ui.ShowError(errors.New("wrong password"))
+			ui.ShowError(errors.New("wrong password"), api.Websocket)
 		}
 	}
-	sessionStarted = false
-	Api = &TextsecureAPI{}
-	client = &textsecure.Client{
-		GetConfig: config.GetConfig,
+	api.SessionStarted = false
+	api.Client = &textsecure.Client{
+		GetConfig: api.Websocket.App.Config.GetConfig,
 		GetPhoneNumber: func() string {
-			if !settings.SettingsModel.Registered {
-				phoneNumber := ui.GetPhoneNumber()
+			if !api.Websocket.App.Settings.Registered {
+				phoneNumber := ui.GetPhoneNumber(api.Websocket)
 				return phoneNumber
 			}
 			return ""
 		},
 		GetVerificationCode: func() string {
-			if !settings.SettingsModel.Registered {
+			if !api.Websocket.App.Settings.Registered {
 				log.Debugf("settings.SettingsModel.Registered = false")
-				verificationCode := ui.GetVerificationCode()
-				settings.SettingsModel.Registered = true
+				verificationCode := ui.GetVerificationCode(api.Websocket)
+				api.Websocket.App.Settings.Registered = true
 				return verificationCode
 			}
 			return ""
 		},
 		GetPin: func() string {
-			pin := ui.GetPin()
+			pin := ui.GetPin(api.Websocket)
 			return pin
 		},
 		GetCaptchaToken: func() string {
-			captcha := ui.GetCaptchaToken()
+			captcha := ui.GetCaptchaToken(api.Websocket)
 			return captcha
 		},
 		GetStoragePassword: func() string {
-			password := ui.GetStoragePassword()
+			password := ui.GetStoragePassword(api.Websocket)
 			log.Debugf("[axolotl] Asking for password")
 
-			if settings.SettingsModel.EncryptDatabase {
+			if api.Websocket.App.Settings.EncryptDatabase {
 				log.Debugf("[axolotl] Attempting to open encrypted datastore")
 				var err error
 				store.DS, err = store.NewStorage(password)
@@ -130,28 +144,44 @@ func RunBackend() {
 						"error": err,
 					}).Error("[axolotl] Failed to open encrypted database")
 				} else {
-					Api.StartAfterDecryption()
+					api.StartAfterDecryption()
 
 				}
 			}
 			return password
 		},
-		MessageHandler:        handler.MessageHandler,
-		ReceiptHandler:        handler.ReceiptHandler,
-		ReceiptMessageHandler: handler.ReceiptMessageHandler,
-		CallMessageHandler:    handler.CallMessageHandler,
-		TypingMessageHandler:  handler.TypingMessageHandler,
-		SyncSentHandler:       handler.SyncSentHandler,
-		RegistrationDone:      ui.RegistrationDone,
-		GetUsername:           ui.GetUsername,
+		MessageHandler: func(m *textsecure.Message) {
+			handler.MessageHandler(m, api.Websocket)
+		},
+		ReceiptHandler: func(s string, id uint32, ts uint64) {
+			handler.ReceiptHandler(s, id, ts, api.Websocket)
+		},
+		ReceiptMessageHandler: func(m *textsecure.Message) {
+			handler.ReceiptMessageHandler(m, api.Websocket)
+		},
+		CallMessageHandler: func(m *textsecure.Message) {
+			handler.CallMessageHandler(m, api.Websocket)
+		},
+		TypingMessageHandler: func(m *textsecure.Message) {
+			handler.TypingMessageHandler(m, api.Websocket)
+		},
+		SyncSentHandler: func(m *textsecure.Message, i uint64) {
+			handler.SyncSentHandler(m, i, api.Websocket)
+		},
+		RegistrationDone: func() {
+			ui.RegistrationDone(api.Websocket)
+		},
+		GetUsername: func() string {
+			return ui.GetUsername(api.Websocket)
+		},
 	}
 
-	if config.IsPhone {
+	if api.Websocket.App.Config.IsPhone {
 		log.Debugf("[axolotl] IsPhone")
-		client.GetLocalContacts = contact.GetAddressBookContactsFromContentHub
+		api.Client.GetLocalContacts = contact.GetAddressBookContactsFromContentHub
 	} else {
 		log.Debugf("[axolotl] IsDesktop")
-		client.GetLocalContacts = contact.GetDesktopContacts
+		api.Client.GetLocalContacts = contact.GetDesktopContacts
 	}
 
 	//Load Messages
@@ -159,12 +189,12 @@ func RunBackend() {
 	// Make sure to use names not numbers in session titles
 	badHandshake := false
 	for {
-		ui.ClearError()
+		ui.ClearError(api.Websocket)
 		if !badHandshake {
-			if !isEncrypted {
-				if !sessionStarted {
+			if !api.IsEncrypted {
+				if !api.SessionStarted {
 					log.Debugf("[axolotl] Start Session after Decryption")
-					startSession()
+					startSession(api)
 
 				}
 				if err := textsecure.StartListening(); err != nil {
@@ -172,7 +202,7 @@ func RunBackend() {
 					if err.Error() == "websocket: bad handshake" {
 						badHandshake = true
 					}
-					ui.ShowError(err)
+					ui.ShowError(err, api.Websocket)
 				}
 			}
 			time.Sleep(3 * time.Second)
@@ -184,36 +214,37 @@ func RunBackend() {
 
 	}
 }
-func (Api *TextsecureAPI) StartAfterDecryption() {
+func (a *TextsecureAPI) StartAfterDecryption() {
 
 	log.Debugf("[axolotl] DB Encrypted, ready to start")
-	isEncrypted = false
+	a.IsEncrypted = false
 }
 
-func startSession() {
+func startSession(api *TextsecureAPI) {
 	log.Debugf("[axolotl] starting Signal connection")
-	err := textsecure.Setup(client)
+	tel := api.Websocket.App.Config.TsConfig.Tel
+	err := textsecure.Setup(api.Client)
 	if _, ok := err.(*strconv.NumError); ok {
 		log.Errorf("[axolotl] startSession: %s", err)
 		ui.ShowError(fmt.Errorf("[axolotl] switching to unencrypted session store, removing %s\nThis will reset your sessions and reregister your phone.\n", config.StorageDir))
-		os.RemoveAll(config.StorageDir)
+		os.RemoveAll(api.Websocket.App.Config.StorageDir)
 		os.Exit(1)
 	}
 	if err != nil {
-		ui.ShowError(err)
+		ui.ShowError(err, api.Websocket)
 		return
 	}
-	sessionStarted = true
-	Api.PhoneNumber = config.Config.Tel
-	if helpers.Exists(config.ContactsFile) {
-		Api.HasContacts = true
+	api.SessionStarted = true
+	api.PhoneNumber = tel
+	if helpers.Exists(api.Websocket.App.Config.ContactsFile) {
+		api.HasContacts = true
 		store.RefreshContacts()
 	}
-	Api.UUID = config.Config.UUID
-	if !config.Config.AccountCapabilities.Gv2 {
+	api.UUID = api.Websocket.App.Config.TsConfig.UUID
+	if !api.Websocket.App.Config.TsConfig.AccountCapabilities.Gv2 {
 		log.Debugln("[axolotl] gv2 not set, start gv2 migration")
 		// enable gv2 capabilities
-		config.Config.AccountCapabilities = textsecureConfig.AccountCapabilities{
+		api.Websocket.App.Config.TsConfig.AccountCapabilities = textsecureConfig.AccountCapabilities{
 			Gv2:               true,
 			SenderKey:         false,
 			AnnouncementGroup: false,
@@ -224,7 +255,7 @@ func startSession() {
 		if err != nil {
 			log.Debugln("[axolotl] gv2 migration save config: ", err)
 		}
-		textsecure.SetAccountCapabilities(config.Config.AccountCapabilities)
+		textsecure.SetAccountCapabilities(api.Websocket.App.Config.TsConfig.AccountCapabilities)
 		if err != nil {
 			log.Debugln("[axolotl] gv2 migration: ", err)
 		}
@@ -236,30 +267,30 @@ func startSession() {
 
 }
 
-func (Api *TextsecureAPI) SaveSettings() error {
-	return settings.SaveSettings(settings.SettingsModel)
+func (a *TextsecureAPI) SaveSettings() error {
+	return a.Websocket.App.Settings.Save()
 }
 
 // GetActiveSessionID returns the active session id
-func (Api *TextsecureAPI) GetActiveSessionID() int64 {
+func (a *TextsecureAPI) GetActiveSessionID() int64 {
 	return store.ActiveSessionID
 }
 
 // SetActiveSessionID updates the active session id
-func (Api *TextsecureAPI) SetActiveSessionID(ID int64) {
+func (a *TextsecureAPI) SetActiveSessionID(ID int64) {
 	store.ActiveSessionID = ID
 }
 
 // LeaveChat reset the active session id
-func (Api *TextsecureAPI) LeaveChat() {
+func (a *TextsecureAPI) LeaveChat() {
 	store.ActiveSessionID = -1
 }
 
 // TgNotification turns the notification for the currently active chat on/off
-func (Api *TextsecureAPI) TgNotification(notification bool) {
+func (a *TextsecureAPI) TgNotification(notification bool) {
 	sess, err := store.SessionsModel.Get(store.ActiveSessionID)
 	if err != nil {
-		ui.ShowError(err)
+		ui.ShowError(err, a.Websocket)
 		return
 	}
 	sess.ToggleSessionNotification()

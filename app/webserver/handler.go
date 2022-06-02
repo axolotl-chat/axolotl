@@ -122,9 +122,9 @@ func (w *WsApp) sendRequest(requestType string) {
 }
 
 // RegistrationDone sets restration status to done and sends registration status to axoltol-web
-func RegistrationDone(wsApp *WsApp) {
+func (w *WsApp) RegistrationDone() {
 	registered = true
-	wsApp.sendRequest("registrationDone")
+	w.sendRequest("registrationDone")
 }
 
 type SendEnterChatRequest struct {

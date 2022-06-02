@@ -11,7 +11,7 @@ import (
 )
 
 // EndSession resets the current session.
-func (Api *TextsecureAPI) EndSession(ID int64) error {
+func (a *TextsecureAPI) EndSession(ID int64) error {
 	session, err := store.SessionsModel.Get(ID)
 	if err != nil {
 		return err
@@ -24,7 +24,7 @@ func (Api *TextsecureAPI) EndSession(ID int64) error {
 }
 
 // MarkSessionsRead marks one or all sessions as read
-func (Api *TextsecureAPI) MarkSessionRead(ID int64) error {
+func (a *TextsecureAPI) MarkSessionRead(ID int64) error {
 	if ID != -1 {
 		s, err := store.SessionsModel.Get(ID)
 		if err != nil {
@@ -36,13 +36,13 @@ func (Api *TextsecureAPI) MarkSessionRead(ID int64) error {
 	return fmt.Errorf("Session not found %d", ID)
 }
 
-func (Api *TextsecureAPI) DeleteSession(ID int64) {
+func (a *TextsecureAPI) DeleteSession(ID int64) {
 	err := store.DeleteSession(ID)
 	if err != nil {
-		ui.ShowError(err)
+		ui.ShowError(err, a.Websocket)
 	}
 }
-func (Api *TextsecureAPI) FilterSessions(sub string) {
+func (a *TextsecureAPI) FilterSessions(sub string) {
 	sub = strings.ToUpper(sub)
 
 	sm := &store.Sessions{

@@ -28,19 +28,19 @@ func GroupUpdateMsg(tels []string, title string) string {
 
 	return s + "Title is now '" + title + "'."
 }
-func RegistrationDone() {
+func RegistrationDone(wsApp *webserver.WsApp) {
 	log.Infoln("[axolotl] Registered")
 	//textsecure.WriteConfig(config.ConfigFile, config.Config)
-	settings.SettingsModel.Registered = true
-	webserver.RegistrationDone()
+	wsApp.App.Settings.Registered = true
+	wsApp.RegistrationDone()
 }
-func InitModels() {
+func InitModels(wsApp *webserver.WsApp) {
 	var err error
-	settings.SettingsModel, err = settings.LoadSettings()
+	wsApp.App.Settings, err = settings.LoadSettings()
 	if err != nil {
 		log.Errorln("[axolotl] InitModels", err)
 	} else {
-		if settings.SettingsModel.Registered {
+		if wsApp.App.Settings.Registered {
 			log.Debugf("[axolotl] Already registered")
 		}
 	}

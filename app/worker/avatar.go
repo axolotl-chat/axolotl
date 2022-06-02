@@ -4,7 +4,7 @@ import (
 	"github.com/nanu-c/axolotl/app/store"
 )
 
-func (Api *TextsecureAPI) GetAvatarImage(id string) string {
+func (a *TextsecureAPI) GetAvatarImage(id string) string {
 	url := ""
 
 	if c := store.GetContactForTel(id); c != nil {
