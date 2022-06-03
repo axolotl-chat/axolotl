@@ -33,9 +33,9 @@ type Message struct {
 	QuotedMessage *Message
 }
 
-func SaveMessage(m *Message) (error, *Message) {
+func (s *Store) SaveMessage(m *Message) (error, *Message) {
 
-	res, err := DS.Dbx.NamedExec(messagesInsert, m)
+	res, err := s.DS.Dbx.NamedExec(messagesInsert, m)
 	if err != nil {
 		return err, nil
 	}
@@ -49,41 +49,41 @@ func SaveMessage(m *Message) (error, *Message) {
 	return nil, m
 }
 
-func UpdateMessageSent(m *Message) error {
+func (s *Store) UpdateMessageSent(m *Message) error {
 	if m.SendingError {
 		log.Errorln("[axolotl] sending message failed ", m.SentAt)
 	}
-	_, err := DS.Dbx.NamedExec("UPDATE messages SET sentat = :sentat, sendingError = :sendingError,  issent = :issent, expireTimer = :expireTimer  WHERE id = :id", m)
+	_, err := s.DS.Dbx.NamedExec("UPDATE messages SET sentat = :sentat, sendingError = :sendingError,  issent = :issent, expireTimer = :expireTimer  WHERE id = :id", m)
 	if err != nil {
 		return err
 	}
 	return err
 }
 
-func UpdateMessageRead(m *Message) error {
-	_, err := DS.Dbx.NamedExec("UPDATE messages SET isread = :isread, issent = :issent, receipt = :receipt WHERE SendingError = 0 AND Outgoing = 1 AND Source = :source", m)
+func (s *Store) UpdateMessageRead(m *Message) error {
+	_, err := s.DS.Dbx.NamedExec("UPDATE messages SET isread = :isread, issent = :issent, receipt = :receipt WHERE SendingError = 0 AND Outgoing = 1 AND Source = :source", m)
 	if err != nil {
 		return err
 	}
 	return err
 }
-func UpdateMessageReceiptSent(m *Message) error {
-	_, err := DS.Dbx.NamedExec("UPDATE messages SET issent = :issent WHERE id = :id", m)
+func (s *Store) UpdateMessageReceiptSent(m *Message) error {
+	_, err := s.DS.Dbx.NamedExec("UPDATE messages SET issent = :issent WHERE id = :id", m)
 	if err != nil {
 		return err
 	}
 	return err
 }
-func UpdateMessageReceipt(m *Message) error {
-	_, err := DS.Dbx.NamedExec("UPDATE messages SET issent = :issent, receipt = :receipt WHERE id = :id", m)
+func (s *Store) UpdateMessageReceipt(m *Message) error {
+	_, err := s.DS.Dbx.NamedExec("UPDATE messages SET issent = :issent, receipt = :receipt WHERE id = :id", m)
 	if err != nil {
 		return err
 	}
 	return err
 }
-func LoadGroups() error {
+func (s *Store) LoadGroups() error {
 	log.Printf("Loading Groups")
-	err := DS.Dbx.Select(&AllGroups, groupsSelect)
+	err := s.DS.Dbx.Select(&AllGroups, groupsSelect)
 	if err != nil {
 		return err
 	}
@@ -92,40 +92,40 @@ func LoadGroups() error {
 	}
 	return nil
 }
-func LoadMessagesFromDB() error {
-	err := LoadGroups()
+func (s *Store) LoadMessagesFromDB() error {
+	err := s.LoadGroups()
 	if err != nil {
 		return err
 	}
 	log.Printf("Loading Messages")
-	err = DS.Dbx.Select(&AllSessions, sessionsSelect)
+	err = s.DS.Dbx.Select(&s.AllSessions, sessionsSelect)
 	if err != nil {
 		return err
 	}
-	for _, s := range AllSessions {
-		s.When = helpers.HumanizeTimestamp(s.Timestamp)
-		s.Active = !s.IsGroup || (Groups[s.Tel] != nil && Groups[s.Tel].Active)
-		SessionsModel.Sess = append(SessionsModel.Sess, s)
-		SessionsModel.Len++
-		err = DS.Dbx.Select(&s.Messages, messagesSelectWhere, s.ID)
-		s.Len = len(s.Messages)
+	for _, sess := range s.AllSessions {
+		sess.When = helpers.HumanizeTimestamp(sess.Timestamp)
+		sess.Active = !sess.IsGroup || (Groups[sess.Tel] != nil && Groups[sess.Tel].Active)
+		s.Sessions.Sess = append(s.Sessions.Sess, sess)
+		s.Sessions.Len++
+		err = s.DS.Dbx.Select(&sess.Messages, messagesSelectWhere, sess.ID)
+		sess.Len = len(sess.Messages)
 		if err != nil {
 			return err
 		}
-		for _, m := range s.Messages {
+		for _, m := range sess.Messages {
 			m.HTime = helpers.HumanizeTimestamp(m.SentAt)
 		}
 	}
 	return nil
 }
 
-func DeleteMessage(id int64) error {
-	err := deleteAttachmentForMessage(id)
-	if err!=nil{
+func (s *Store) DeleteMessage(id int64) error {
+	err := s.deleteAttachmentForMessage(id)
+	if err != nil {
 		log.Errorln("[axolotl] could not delete attachment", err)
 		return err
 	}
-	_, err = DS.Dbx.Exec("DELETE FROM messages WHERE id = ?", id)
+	_, err = s.DS.Dbx.Exec("DELETE FROM messages WHERE id = ?", id)
 	return err
 }
 
@@ -142,9 +142,9 @@ func (m *Message) GetName() string {
 
 // FindQuotedMessage searches the equivalent message of DataMessage_Quote in our
 // DB and returns the local message id
-func FindQuotedMessage(quote *signalservice.DataMessage_Quote) (error, int64) {
+func (s *Store) FindQuotedMessage(quote *signalservice.DataMessage_Quote) (error, int64) {
 	var quotedMessages = []Message{}
-	err := DS.Dbx.Select(&quotedMessages, "SELECT * FROM messages WHERE sentat = ?", quote.GetId())
+	err := s.DS.Dbx.Select(&quotedMessages, "SELECT * FROM messages WHERE sentat = ?", quote.GetId())
 	if err != nil {
 		return err, -1
 	}
@@ -156,9 +156,9 @@ func FindQuotedMessage(quote *signalservice.DataMessage_Quote) (error, int64) {
 }
 
 // GetMessageById returns a message by it's ID
-func GetMessageById(id int64) ( *Message, error) {
+func (s *Store) GetMessageById(id int64) (*Message, error) {
 	var message = []Message{}
-	err := DS.Dbx.Select(&message, "SELECT * FROM messages WHERE id = ?", id)
+	err := s.DS.Dbx.Select(&message, "SELECT * FROM messages WHERE id = ?", id)
 	if err != nil {
 		return nil, err
 	}
@@ -169,9 +169,9 @@ func GetMessageById(id int64) ( *Message, error) {
 }
 
 // FindOutgoingMessage returns  a message that is found by it's timestamp
-func FindOutgoingMessage(timestamp uint64) (*Message, error) {
+func (s *Store) FindOutgoingMessage(timestamp uint64) (*Message, error) {
 	var message = []Message{}
-	err := DS.Dbx.Select(&message, "SELECT * FROM messages WHERE outgoing = 1 AND sentat = ?", timestamp)
+	err := s.DS.Dbx.Select(&message, "SELECT * FROM messages WHERE outgoing = 1 AND sentat = ?", timestamp)
 	if err != nil {
 		return nil, err
 	}

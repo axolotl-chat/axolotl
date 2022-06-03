@@ -57,15 +57,15 @@ const (
 )
 
 //TODO that hasn't to  be in the db controller
-var AllSessions []*Session // TODO
+// var AllSessions []*Session // TODO
 
-var SessionsModel = &Sessions{ // TODO
-	Sess: make([]*Session, 0),
-}
+// var SessionsModel = &Sessions{ // TODO
+// 	Sess: make([]*Session, 0),
+// }
 
 // SaveSession saves a newly created session in the database
-func SaveSession(s *Session) (*Session, error) {
-	res, err := DS.Dbx.NamedExec(sessionsInsert, s)
+func (s *Store) SaveSession(sess *Session) (*Session, error) {
+	res, err := s.DS.Dbx.NamedExec(sessionsInsert, sess)
 	if err != nil {
 		return nil, err
 	}
@@ -75,13 +75,13 @@ func SaveSession(s *Session) (*Session, error) {
 		return nil, err
 	}
 
-	s.ID = id
-	return s, err
+	sess.ID = id
+	return sess, err
 }
 
 // UpdateSession updates a session in the database
-func UpdateSession(s *Session) error {
-	_, err := DS.Dbx.NamedExec("UPDATE sessions SET name = :name, timestamp = :timestamp, ctype = :ctype, last = :last, unread = :unread, notification = :notification, expireTimer = :expireTimer, uuid = :uuid WHERE id = :id", s)
+func (s *Store) UpdateSession(sess *Session) error {
+	_, err := s.DS.Dbx.NamedExec("UPDATE sessions SET name = :name, timestamp = :timestamp, ctype = :ctype, last = :last, unread = :unread, notification = :notification, expireTimer = :expireTimer, uuid = :uuid WHERE id = :id", sess)
 	if err != nil {
 		return err
 	}
@@ -89,27 +89,27 @@ func UpdateSession(s *Session) error {
 }
 
 // DeleteSession deletes a session in the database
-func DeleteSession(ID int64) error {
+func (s *Store) DeleteSession(ID int64) error {
 	var messagesWithAttachment = []Message{}
 
-	err := DS.Dbx.Select(&messagesWithAttachment, "SELECT * FROM messages WHERE attachment NOT LIKE null AND id = ? ", ID)
+	err := s.DS.Dbx.Select(&messagesWithAttachment, "SELECT * FROM messages WHERE attachment NOT LIKE null AND id = ? ", ID)
 	if err != nil {
 		return err
 	}
 	if len(messagesWithAttachment) > 0 {
 		for _, message := range messagesWithAttachment {
-			err := deleteAttachmentForMessage(message.ID)
+			err := s.deleteAttachmentForMessage(message.ID)
 			if err != nil {
 				return err
 			}
 		}
 	}
 
-	_, err = DS.Dbx.Exec("DELETE FROM messages WHERE sid = ?", ID)
+	_, err = s.DS.Dbx.Exec("DELETE FROM messages WHERE sid = ?", ID)
 	if err != nil {
 		return err
 	}
-	_, err = DS.Dbx.Exec("DELETE FROM sessions WHERE id = ?", ID)
+	_, err = s.DS.Dbx.Exec("DELETE FROM sessions WHERE id = ?", ID)
 	if err != nil {
 		return err
 	}
@@ -124,9 +124,9 @@ func (s *Sessions) GetSession(i int64) *Session {
 }
 
 // GetMessageList returns the message list for the session id
-func (s *Sessions) GetMessageList(ID int64) (error, *MessageList) {
+func (s *Store) GetMessageList(ID int64) (error, *MessageList) {
 	if ID != invalidSession {
-		sess, err := s.Get(ID)
+		sess, err := s.Sessions.Get(ID)
 		if err != nil {
 			log.Errorln("[axolotl] get messagelist", err)
 			return err, nil
@@ -135,7 +135,7 @@ func (s *Sessions) GetMessageList(ID int64) (error, *MessageList) {
 			ID:      ID,
 			Session: sess,
 		}
-		err = DS.Dbx.Select(&messageList.Messages, messagesSelectWhere, ID)
+		err = s.DS.Dbx.Select(&messageList.Messages, messagesSelectWhere, ID)
 		if err != nil {
 			log.Errorln("[axolotl] get messagelist", err)
 			return err, nil
@@ -144,7 +144,7 @@ func (s *Sessions) GetMessageList(ID int64) (error, *MessageList) {
 		for i, m := range messageList.Messages {
 			if m.Flags == helpers.MsgFlagQuote {
 				if m.QuoteID != invalidQuote {
-					qm, err := GetMessageById(m.QuoteID)
+					qm, err := s.GetMessageById(m.QuoteID)
 					if err != nil {
 						log.Debugln("[axolotl] messagelist quoted message: ", err)
 					} else {
@@ -164,9 +164,9 @@ func (s *Sessions) GetMessageList(ID int64) (error, *MessageList) {
 }
 
 // GetMoreMessageList loads more messages from before the lastID
-func (s *Sessions) GetMoreMessageList(ID int64, lastID string) (error, *MessageList) {
+func (s *Store) GetMoreMessageList(ID int64, lastID string) (error, *MessageList) {
 	if ID != -1 {
-		sess, err := s.Get(ID)
+		sess, err := s.Sessions.Get(ID)
 		if err != nil {
 			log.Errorln("[axolotl] GetMoreMessageList", err)
 			return err, nil
@@ -175,7 +175,7 @@ func (s *Sessions) GetMoreMessageList(ID int64, lastID string) (error, *MessageL
 			ID:      ID,
 			Session: sess,
 		}
-		err = DS.Dbx.Select(&messageList.Messages, messagesSelectWhereMore, messageList.Session.ID, lastID)
+		err = s.DS.Dbx.Select(&messageList.Messages, messagesSelectWhereMore, messageList.Session.ID, lastID)
 		if err != nil {
 			log.Errorln("[axolotl] GetMoreMessageList", err)
 			return err, nil
@@ -184,7 +184,7 @@ func (s *Sessions) GetMoreMessageList(ID int64, lastID string) (error, *MessageL
 		for i, m := range messageList.Messages {
 			if m.Flags == helpers.MsgFlagQuote {
 				if m.QuoteID != -1 {
-					qm, err := GetMessageById(m.QuoteID)
+					qm, err := s.GetMessageById(m.QuoteID)
 					if err != nil {
 						log.Debugln("[axolotl] messagelist quoted message: ", err)
 					} else {
@@ -200,7 +200,7 @@ func (s *Sessions) GetMoreMessageList(ID int64, lastID string) (error, *MessageL
 }
 
 // Add message to a session
-func (s *Session) Add(text string, source string, file []Attachment, mimetype string, outgoing bool, sessionID int64) *Message {
+func (s *Session) Add(text string, source string, file []Attachment, mimetype string, outgoing bool, sessionID int64, store *Store) *Message {
 	var files []Attachment
 
 	ctype := helpers.ContentTypeMessage
@@ -238,20 +238,20 @@ func (s *Session) Add(text string, source string, file []Attachment, mimetype st
 	if !outgoing && s.ID != sessionID && text != "" && text != "readReceiptMessage" && text != "deliveryReceiptMessage" {
 		s.Unread++
 	}
-	UpdateSession(s)
+	store.UpdateSession(s)
 
 	s.moveToTop()
 	return message
 }
 
 // MarkRead marks a session as read
-func (s *Session) MarkRead() {
+func (s *Session) MarkRead(store *Store) {
 	s.Unread = 0
-	UpdateSession(s)
+	store.UpdateSession(s)
 }
 
 // ToggleSessionNotification turns on/off notification for a session
-func (s *Session) ToggleSessionNotification() {
+func (s *Session) ToggleSessionNotification(store *Store) {
 	s.Notification = !s.Notification
 	txt := ""
 	if s.Notification {
@@ -261,22 +261,22 @@ func (s *Session) ToggleSessionNotification() {
 
 	}
 	log.Debugln("[axolotl] ToggleSessionNotification ", txt)
-	UpdateSession(s)
+	store.UpdateSession(s)
 }
 
 // UpdateTimestamps keeps the timestamps of the last message of each session
 // updated in human readable form.
-func UpdateTimestamps() {
+func (s *Store) UpdateTimestamps() {
 	for {
 		time.Sleep(1 * time.Minute)
-		for _, s := range SessionsModel.Sess {
-			if s.Len == 0 {
+		for _, sess := range s.Sessions.Sess {
+			if sess.Len == 0 {
 				continue
 			}
-			for _, m := range s.Messages {
+			for _, m := range sess.Messages {
 				m.HTime = helpers.HumanizeTimestamp(m.SentAt)
 			}
-			s.When = s.Messages[len(s.Messages)-1].HTime
+			sess.When = sess.Messages[len(sess.Messages)-1].HTime
 		}
 	}
 }
@@ -314,7 +314,7 @@ func (s *Sessions) GetAllSessionsByE164(tel string) []*Session {
 }
 
 // CreateSessionForE164 creates a new Session for the phone number
-func (s *Sessions) CreateSessionForE164(tel string, UUID string) *Session {
+func (s *Store) CreateSessionForE164(tel string, UUID string) *Session {
 	ses := &Session{Tel: tel,
 		Name:         TelToName(tel),
 		Active:       true,
@@ -323,13 +323,13 @@ func (s *Sessions) CreateSessionForE164(tel string, UUID string) *Session {
 		UUID:         UUID,
 		Type:         SessionTypePrivateChat,
 	}
-	s.Sess = append(s.Sess, ses)
-	s.Len++
-	SaveSession(ses)
+	s.Sessions.Sess = append(s.Sessions.Sess, ses)
+	s.Sessions.Len++
+	s.SaveSession(ses)
 	return ses
 }
 
-func (s *Sessions) CreateSessionForUUID(UUID string) *Session {
+func (s *Store) CreateSessionForUUID(UUID string) *Session {
 	contact := GetContactForUUID(UUID)
 	newSession := &Session{
 		Tel:          contact.Tel,
@@ -339,17 +339,17 @@ func (s *Sessions) CreateSessionForUUID(UUID string) *Session {
 		Notification: true,
 		UUID:         UUID,
 	}
-	if s.Len == 0 {
+	if s.Sessions.Len == 0 {
 		newSession.ID = 1
 	}
-	newSession, err := SaveSession(newSession)
+	newSession, err := s.SaveSession(newSession)
 
 	if err != nil {
 		log.Errorln("[axolotl] CreateSessionForUUID failed:", err)
 		return nil
 	}
-	s.Sess = append(s.Sess, newSession)
-	s.Len = len(s.Sess)
+	s.Sessions.Sess = append(s.Sessions.Sess, newSession)
+	s.Sessions.Len = len(s.Sessions.Sess)
 
 	message := &Message{
 		Message:    "Chat created",
@@ -362,15 +362,15 @@ func (s *Sessions) CreateSessionForUUID(UUID string) *Session {
 		HTime:      "Now",
 		SentAt:     uint64(time.Now().UnixNano() / 1000000),
 	}
-	SaveMessage(message)
+	s.SaveMessage(message)
 	newSession.Messages = append(newSession.Messages, message)
 	newSession.Last = message.Message
-	UpdateSession(newSession)
+	s.UpdateSession(newSession)
 	return newSession
 }
 
 // CreateSessionForGroup creates a session for a group
-func (s *Sessions) CreateSessionForGroup(group *textsecure.Group) *Session {
+func (s *Store) CreateSessionForGroup(group *textsecure.Group) *Session {
 	ses := &Session{Tel: group.Hexid, // for legacy reasons add group id also as Tel number
 		Name:            group.Name,
 		Active:          true,
@@ -380,9 +380,9 @@ func (s *Sessions) CreateSessionForGroup(group *textsecure.Group) *Session {
 		Type:            SessionTypeGroupV1,
 		GroupJoinStatus: 0,
 	}
-	s.Sess = append(s.Sess, ses)
-	s.Len++
-	ses, err := SaveSession(ses)
+	s.Sessions.Sess = append(s.Sessions.Sess, ses)
+	s.Sessions.Len++
+	ses, err := s.SaveSession(ses)
 	if err != nil {
 		log.Errorln("CreateSessionForGroup failed:", err)
 		return nil
@@ -391,7 +391,7 @@ func (s *Sessions) CreateSessionForGroup(group *textsecure.Group) *Session {
 }
 
 // CreateSessionForGroupV2 creates a session for a group
-func (s *Sessions) CreateSessionForGroupV2(group *groupsv2.GroupV2) *Session {
+func (s *Store) CreateSessionForGroupV2(group *groupsv2.GroupV2) *Session {
 	ses := &Session{Tel: group.Hexid, // for legacy reasons add group id also as Tel number
 		Name:            string(group.DecryptedGroup.Title),
 		Active:          true,
@@ -401,9 +401,9 @@ func (s *Sessions) CreateSessionForGroupV2(group *groupsv2.GroupV2) *Session {
 		Type:            SessionTypeGroupV2,
 		GroupJoinStatus: group.JoinStatus,
 	}
-	s.Sess = append(s.Sess, ses)
-	s.Len++
-	ses, err := SaveSession(ses)
+	s.Sessions.Sess = append(s.Sessions.Sess, ses)
+	s.Sessions.Len++
+	ses, err := s.SaveSession(ses)
 	if err != nil {
 		log.Errorln("[axolotl] CreateSessionForGroup failed:", err)
 		return nil
@@ -425,9 +425,9 @@ func (s *Sessions) GetByUUID(UUID string) (*Session, error) {
 }
 
 // UpdateSessionNames updates the non groups with the name from the phone book
-func (s *Sessions) UpdateSessionNames() {
+func (s *Store) UpdateSessionNames() {
 	log.Debugln("[axolotl] update session names + uuids")
-	for _, ses := range s.Sess {
+	for _, ses := range s.Sessions.Sess {
 		if ses.IsGroup == false {
 			ses.Name = TelToName(ses.Tel)
 			if ses.UUID == "" || ses.UUID == "0" {
@@ -444,7 +444,7 @@ func (s *Sessions) UpdateSessionNames() {
 				}
 			}
 
-			UpdateSession(ses)
+			s.UpdateSession(ses)
 		}
 	}
 }
@@ -461,23 +461,23 @@ func (s *Sessions) GetIndex(ID int64) int {
 
 var topSession int64 // TODO
 
-func (s *Session) moveToTop() {
+func (s *Session) moveToTop(store *Store) {
 	if topSession == s.ID {
 		return
 	}
 
-	index := SessionsModel.GetIndex(s.ID)
-	SessionsModel.Sess = append([]*Session{s}, append(SessionsModel.Sess[:index], SessionsModel.Sess[index+1:]...)...)
+	index := store.Sessions.GetIndex(s.ID)
+	store.Sessions.Sess = append([]*Session{s}, append(store.Sessions.Sess[:index], store.Sessions.Sess[index+1:]...)...)
 
 	// force a length change update
-	SessionsModel.Len--
-	SessionsModel.Len++
+	store.Sessions.Len--
+	store.Sessions.Len++
 
 	topSession = s.ID
 }
-func LoadChats() error {
+func (s *Store) LoadChats() error {
 	log.Printf("[axolotl] Loading Chats")
-	err := DS.Dbx.Select(&AllGroups, groupsSelect)
+	err := s.DS.Dbx.Select(&AllGroups, groupsSelect)
 	if err != nil {
 		return err
 	}
@@ -489,28 +489,28 @@ func LoadChats() error {
 	}
 
 	// Reset session model
-	SessionsModel.Sess = make([]*Session, 0)
-	SessionsModel.Len = 0
-	AllSessions = []*Session{}
+	s.Sessions.Sess = make([]*Session, 0)
+	s.Sessions.Len = 0
+	s.AllSessions = []*Session{}
 	for _, g := range AllGroups {
 		Groups[g.GroupID] = g
 	}
 
-	err = DS.Dbx.Select(&AllSessions, sessionsSelect)
+	err = s.DS.Dbx.Select(&s.AllSessions, sessionsSelect)
 	if err != nil {
 		return err
 	}
-	for _, s := range AllSessions {
-		s.When = helpers.HumanizeTimestamp(s.Timestamp)
-		s.Active = !s.IsGroup || (Groups[s.Tel] != nil && Groups[s.Tel].Active)
-		SessionsModel.Sess = append(SessionsModel.Sess, s)
-		SessionsModel.Len++
-		err = DS.Dbx.Select(&s.Messages, messagesSelectWhereLastMessage, s.ID)
+	for _, sess := range s.AllSessions {
+		sess.When = helpers.HumanizeTimestamp(sess.Timestamp)
+		sess.Active = !sess.IsGroup || (Groups[sess.Tel] != nil && Groups[sess.Tel].Active)
+		s.Sessions.Sess = append(s.Sessions.Sess, sess)
+		s.Sessions.Len++
+		err = s.DS.Dbx.Select(&sess.Messages, messagesSelectWhereLastMessage, sess.ID)
 		// s.Len = len(s.Messages)
 		if err != nil {
 			return err
 		}
-		for _, m := range s.Messages {
+		for _, m := range sess.Messages {
 			m.HTime = helpers.HumanizeTimestamp(m.SentAt)
 		}
 	}

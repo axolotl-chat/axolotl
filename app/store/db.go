@@ -12,7 +12,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-var DS *DataStore // TODO
+//var DS *DataStore // TODO
 
 type DataStore struct {
 	Dbx *sqlx.DB

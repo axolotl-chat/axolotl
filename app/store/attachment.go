@@ -83,8 +83,8 @@ func CopyAttachment(src string) (string, error) {
 	}
 	return dest, nil
 }
-func deleteAttachmentForMessage(id int64) error {
-	m, err := GetMessageById(id)
+func (s *Store) deleteAttachmentForMessage(id int64) error {
+	m, err := s.GetMessageById(id)
 	if err != nil {
 		return err
 	}

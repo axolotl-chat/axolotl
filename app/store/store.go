@@ -8,5 +8,6 @@ type Store struct {
 	Groups          map[string]*GroupRecord
 	LinkedDevices   *LinkedDevices
 	AllSessions     []*Session
-	topSession      int64
+	Sessions        *Sessions
+	TopSession      int64
 }

@@ -21,11 +21,11 @@ const (
 	GroupJoinStatusInvited = 1
 )
 
-var AllGroups []*GroupRecord // TODO
+var AllGroups []*GroupRecord           // TODO
 var Groups = map[string]*GroupRecord{} // TODO
 
-func UpdateGroup(g *GroupRecord) (*GroupRecord, error) {
-	res, err := DS.Dbx.NamedExec(groupsUpdate, g)
+func (s *Store) UpdateGroup(g *GroupRecord) (*GroupRecord, error) {
+	res, err := s.DS.Dbx.NamedExec(groupsUpdate, g)
 	if err != nil {
 		return nil, err
 	}
@@ -38,13 +38,13 @@ func UpdateGroup(g *GroupRecord) (*GroupRecord, error) {
 }
 
 // DeleteGroup deletes a group from the database
-func DeleteGroup(hexid string) error {
-	_, err := DS.Dbx.Exec(groupsDelete, hexid)
+func (s *Store) DeleteGroup(hexid string) error {
+	_, err := s.DS.Dbx.Exec(groupsDelete, hexid)
 	return err
 }
-func SaveGroup(g *GroupRecord) (*GroupRecord, error) {
+func (s *Store) SaveGroup(g *GroupRecord) (*GroupRecord, error) {
 	log.Debugln("[axolotl] saveGroup ", g.Uuid)
-	res, err := DS.Dbx.NamedExec(groupsInsert, g)
+	res, err := s.DS.Dbx.NamedExec(groupsInsert, g)
 	if err != nil {
 		return nil, err
 	}
