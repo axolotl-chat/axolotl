@@ -42,19 +42,19 @@ func GetContactForUUID(uuid string) *textsecureContacts.Contact {
 	return nil
 }
 func RefreshContacts() error {
-	rcf := config.GetRegisteredContactsFile()
-	c, err := textsecure.GetRegisteredContacts()
+	registeredContactsFile := config.GetRegisteredContactsFile()
+	contacts, err := textsecure.GetRegisteredContacts()
 	if err != nil {
 		log.Errorln("[axolotl] RefreshContacts", err)
 		// when refresh fails, we load the old contacts
-		c, _ = readRegisteredContacts(rcf)
+		contacts, _ = readRegisteredContacts(registeredContactsFile)
 		return err
 	} else {
-		writeRegisteredContacts(rcf, c)
+		writeRegisteredContacts(registeredContactsFile, contacts)
 	}
-	log.Debugln("[axolotl] Refresh contacts count: ", len(c))
-	ContactsModel.Contacts = c
-	ContactsModel.Len = len(c)
+	log.Debugln("[axolotl] Refresh contacts count: ", len(contacts))
+	ContactsModel.Contacts = contacts
+	ContactsModel.Len = len(contacts)
 	SessionsModel.UpdateSessionNames()
 	if err != nil {
 		return err
@@ -88,7 +88,7 @@ func readRegisteredContacts(fileName string) ([]textsecureContacts.Contact, erro
 	return contacts.Contacts, nil
 }
 
-func TelToName(tel string, ourTel string) string {
+func TelToName(tel string) string {
 	if g, ok := Groups[tel]; ok {
 		return g.Name
 	}
@@ -97,7 +97,8 @@ func TelToName(tel string, ourTel string) string {
 			return c.Name
 		}
 	}
-	if tel == ourTel {
+	config := &config.Config{} // TODO - wire through config
+	if tel == config.GetMyNumber() {
 		return "Me"
 	}
 	return tel

@@ -210,17 +210,17 @@ func runWebserver(a *app.App) {
 var wg sync.WaitGroup
 
 func main() {
-	a := setup()
+	app := setup()
 	wg.Add(1)
-	go runBackend(a)
+	go runBackend(app)
 	log.Println("[axolotl] Setup completed")
 	wg.Add(1)
-	go runWebserver(a)
-	if a.Config.Gui != "server" {
+	go runWebserver(app)
+	if app.Config.Gui != "server" {
 		wg.Add(1)
-		go runUI(a)
+		go runUI(app)
 	} else {
-		log.Printf("[axolotl] Axolotl frontend is at http://" + a.Config.ServerHost + ":" + a.Config.ServerPort + "/")
+		log.Printf("[axolotl] Axolotl frontend is at http://" + app.Config.ServerHost + ":" + app.Config.ServerPort + "/")
 	}
 
 	wg.Wait()

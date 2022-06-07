@@ -143,9 +143,9 @@ func EditContact(cContact textsecureContacts.Contact, editContact textsecureCont
 
 // getAddgetAddressBookContactsFromContentHub gets the phone contacts via the content hub
 func GetAddressBookContactsFromContentHub() ([]textsecureContacts.Contact, error) {
-	cf := config.GetContactsFile()
-	if helpers.Exists(cf) {
-		return textsecureContacts.ReadContacts(cf)
+	contactsFile := config.GetContactsFile()
+	if helpers.Exists(contactsFile) {
+		return textsecureContacts.ReadContacts(contactsFile)
 	}
 	return nil, errors.New("contacts file not found")
 }
@@ -157,7 +157,7 @@ func GetAddressBookContactsFromContentHubWithFile(vcardPath string) ([]textsecur
 	if err != nil {
 		return nil, err
 	}
-	cf := config.GetContactsFile()
+	contactsFile := config.GetContactsFile()
 	contacts, err := textsecureContacts.ReadContacts(config.SetupConfig().ContactsFile)
 	if err != nil {
 		return nil, err
@@ -177,7 +177,7 @@ func GetAddressBookContactsFromContentHubWithFile(vcardPath string) ([]textsecur
 	}
 	//sort by name
 	sort.Slice(contacts, func(i, j int) bool { return contacts[i].Name < contacts[j].Name })
-	err = textsecureContacts.WriteContacts(cf, contacts)
+	err = textsecureContacts.WriteContacts(contactsFile, contacts)
 	if err != nil {
 		return nil, err
 	}

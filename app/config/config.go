@@ -196,6 +196,10 @@ func (c *Config) SetLogLevel(loglevel string) {
 	textsecure.RefreshConfig()
 }
 
+func (c *Config) GetMyNumber() string {
+	return c.TsConfig.Tel
+}
+
 func GetIsPhone() bool {
 	return helpers.Exists("/home/phablet")
 }
