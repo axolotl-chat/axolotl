@@ -10,7 +10,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-var qr = false // TODO
+var qr = false // TODO: WIP 831
 
 func ReadQr(img image.Image) {
 	if !qr {

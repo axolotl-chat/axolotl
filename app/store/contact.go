@@ -17,7 +17,7 @@ type Contacts struct {
 	Len      int
 }
 
-var ContactsModel *Contacts = &Contacts{} // TODO
+var ContactsModel *Contacts = &Contacts{} // TODO: WIP 831
 
 func (c *Contacts) GetContact(i int) textsecureContacts.Contact {
 	if i == -1 {
@@ -97,7 +97,7 @@ func TelToName(tel string) string {
 			return c.Name
 		}
 	}
-	config := &config.Config{} // TODO - wire through config
+	config := &config.Config{} // TODO: WIP 831: wire through config
 	if tel == config.GetMyNumber() {
 		return "Me"
 	}

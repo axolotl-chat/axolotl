@@ -34,10 +34,10 @@ type TextsecureAPI struct {
 	Websocket       *webserver.WsApp
 }
 
-// var Api = &TextsecureAPI{}        // TODO
-// var client = &textsecure.Client{} // TODO
-// var sessionStarted = false        // TODO
-// var api.IsEncrypted = true            // TODO
+// var Api = &TextsecureAPI{}        // TODO: WIP 831
+// var client = &textsecure.Client{} // TODO: WIP 831
+// var sessionStarted = false        // TODO: WIP 831
+// var api.IsEncrypted = true            // TODO: WIP 831
 
 func NewTextsecureAPI() *TextsecureAPI {
 	a := &TextsecureAPI{}

@@ -57,9 +57,9 @@ const (
 )
 
 //TODO that hasn't to  be in the db controller
-// var AllSessions []*Session // TODO
+// var AllSessions []*Session // TODO: WIP 831
 
-// var SessionsModel = &Sessions{ // TODO
+// var SessionsModel = &Sessions{ // TODO: WIP 831
 // 	Sess: make([]*Session, 0),
 // }
 
@@ -459,7 +459,7 @@ func (s *Sessions) GetIndex(ID int64) int {
 	return -1
 }
 
-var topSession int64 // TODO
+var topSession int64 // TODO: WIP 831
 
 func (s *Session) moveToTop(store *Store) {
 	if topSession == s.ID {

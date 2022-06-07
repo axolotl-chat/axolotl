@@ -1,4 +1,4 @@
 package store
 
 // ActiveSessionID  represents the currently opend chat
-var ActiveSessionID int64 // TODO
+var ActiveSessionID int64 // TODO: WIP 831

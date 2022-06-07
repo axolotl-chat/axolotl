@@ -12,16 +12,16 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-//var DS *DataStore // TODO
+//var DS *DataStore // TODO: WIP 831
 
 type DataStore struct {
 	Dbx *sqlx.DB
 }
 
 var (
-	dbDir    string // TODO
-	dbFile   string // TODO
-	saltFile string // TODO
+	dbDir    string // TODO: WIP 831
+	dbFile   string // TODO: WIP 831
+	saltFile string // TODO: WIP 831
 
 	sessionsSchema = "CREATE TABLE IF NOT EXISTS sessions (id INTEGER PRIMARY KEY, name text, tel text, isgroup boolean, last string, timestamp integer, ctype integer, unread integer default 0, notification boolean default 1, expireTimer integer default 0, type integer NOT NULL DEFAULT 0, uuid string  NOT NULL DEFAULT 0, groupJoinStatus integer NOT NULL DEFAULT 0)"
 	sessionsInsert = "INSERT OR REPLACE INTO sessions (name, tel, isgroup, last, ctype, timestamp, notification, expireTimer, type, uuid, groupJoinStatus ) VALUES ( :name, :tel, :isgroup, :last, :ctype, :timestamp, :notification, :expireTimer, :type, :uuid, :groupJoinStatus)"

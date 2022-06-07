@@ -19,7 +19,7 @@ import (
 	"github.com/nanu-c/axolotl/app/store"
 )
 
-var ( // TODO
+var ( // TODO: WIP 831
 	registered                 = false
 	requestPassword            = false
 	requestSmsVerificationCode = false
