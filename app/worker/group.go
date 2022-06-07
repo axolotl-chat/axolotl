@@ -29,7 +29,7 @@ func (a *TextsecureAPI) NewGroup(name string, members string) error {
 		ui.ShowError(err, a.Websocket)
 		return err
 	}
-	tel := a.Websocket.App.Config.TsConfig.Tel
+	tel := a.Websocket.App.Config.TextsecureConfig.Tel
 
 	members = members + "," + tel
 	store.Groups[group.Hexid] = &store.GroupRecord{

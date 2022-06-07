@@ -91,7 +91,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool, wsApp *webse
 			msgFlags = helpers.MsgFlagGroupUpdate
 		}
 		if gr.Flags == textsecure.GroupLeaveFlag {
-			text = store.TelToName(msg.Source(), wsApp.App.Config.TsConfig.Tel) + " has left the group."
+			text = store.TelToName(msg.Source(), wsApp.App.Config.TextsecureConfig.Tel) + " has left the group."
 			msgFlags = helpers.MsgFlagGroupLeave
 		}
 	}

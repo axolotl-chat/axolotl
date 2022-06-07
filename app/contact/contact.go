@@ -230,6 +230,6 @@ func getContactsFromVCardFile(path string) ([]textsecureContacts.Contact, error)
 }
 
 func defaultCountry() string {
-	num, _ := libphonenumber.Parse(config.TsConfig.Tel, "")
+	num, _ := libphonenumber.Parse(config.TextsecureConfig.Tel, "")
 	return libphonenumber.GetRegionCodeForCountryCode(int(num.GetCountryCode()))
 }

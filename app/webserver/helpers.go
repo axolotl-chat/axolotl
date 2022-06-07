@@ -154,8 +154,8 @@ func (w *WsApp) createGroup(newGroupData CreateGroupMessage) (*store.Session, er
 		return nil, err
 	}
 	members := strings.Join(newGroupData.Members, ",")
-	if !strings.Contains(members, w.App.Config.TsConfig.Tel) {
-		members = members + "," + w.App.Config.TsConfig.Tel
+	if !strings.Contains(members, w.App.Config.TextsecureConfig.Tel) {
+		members = members + "," + w.App.Config.TextsecureConfig.Tel
 	}
 	store.Groups[group.Hexid] = &store.GroupRecord{
 		GroupID: group.Hexid,
@@ -168,7 +168,7 @@ func (w *WsApp) createGroup(newGroupData CreateGroupMessage) (*store.Session, er
 		return nil, err
 	}
 	session := store.SessionsModel.CreateSessionForGroup(group)
-	msg := session.Add(store.GroupUpdateMsg(append(newGroupData.Members, w.App.Config.TsConfig.Tel), newGroupData.Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
+	msg := session.Add(store.GroupUpdateMsg(append(newGroupData.Members, w.App.Config.TextsecureConfig.Tel), newGroupData.Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
 	msg.Flags = helpers.MsgFlagGroupNew
 	store.SaveMessage(msg)
 	return session, nil
@@ -367,10 +367,10 @@ func (w *WsApp) sendConfig() {
 	message := &[]byte{}
 	configEnvelope := &ConfigEnvelope{
 		Type:             "config",
-		RegisteredNumber: w.App.Config.TsConfig.Tel,
+		RegisteredNumber: w.App.Config.TextsecureConfig.Tel,
 		Version:          config.AppVersion,
 		Gui:              w.App.Config.Gui,
-		LogLevel:         w.App.Config.TsConfig.LogLevel,
+		LogLevel:         w.App.Config.TextsecureConfig.LogLevel,
 	}
 	*message, err = json.Marshal(configEnvelope)
 	if err != nil {

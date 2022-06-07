@@ -222,7 +222,7 @@ func (a *TextsecureAPI) StartAfterDecryption() {
 
 func startSession(api *TextsecureAPI) {
 	log.Debugf("[axolotl] starting Signal connection")
-	tel := api.Websocket.App.Config.TsConfig.Tel
+	tel := api.Websocket.App.Config.TextsecureConfig.Tel
 	err := textsecure.Setup(api.Client)
 	if _, ok := err.(*strconv.NumError); ok {
 		log.Errorf("[axolotl] startSession: %s", err)
@@ -240,11 +240,11 @@ func startSession(api *TextsecureAPI) {
 		api.HasContacts = true
 		store.RefreshContacts()
 	}
-	api.UUID = api.Websocket.App.Config.TsConfig.UUID
-	if !api.Websocket.App.Config.TsConfig.AccountCapabilities.Gv2 {
+	api.UUID = api.Websocket.App.Config.TextsecureConfig.UUID
+	if !api.Websocket.App.Config.TextsecureConfig.AccountCapabilities.Gv2 {
 		log.Debugln("[axolotl] gv2 not set, start gv2 migration")
 		// enable gv2 capabilities
-		api.Websocket.App.Config.TsConfig.AccountCapabilities = textsecureConfig.AccountCapabilities{
+		api.Websocket.App.Config.TextsecureConfig.AccountCapabilities = textsecureConfig.AccountCapabilities{
 			Gv2:               true,
 			SenderKey:         false,
 			AnnouncementGroup: false,
@@ -255,7 +255,7 @@ func startSession(api *TextsecureAPI) {
 		if err != nil {
 			log.Debugln("[axolotl] gv2 migration save config: ", err)
 		}
-		textsecure.SetAccountCapabilities(api.Websocket.App.Config.TsConfig.AccountCapabilities)
+		textsecure.SetAccountCapabilities(api.Websocket.App.Config.TextsecureConfig.AccountCapabilities)
 		if err != nil {
 			log.Debugln("[axolotl] gv2 migration: ", err)
 		}

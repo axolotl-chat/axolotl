@@ -25,7 +25,7 @@ const LogFileName = "application-click-" + AppName + "_textsecure_" + AppVersion
 const MaxAttachmentSize int64 = 100 * 1024 * 1024
 
 type Config struct {
-	TsConfig               *textsecureConfig.Config
+	TextsecureConfig       *textsecureConfig.Config
 	IsPhone                bool
 	IsPushHelper           bool
 	MainQml                string
@@ -69,25 +69,25 @@ func (c *Config) GetConfig() (*textsecureConfig.Config, error) {
 	}
 	var err error
 	if helpers.Exists(cf) {
-		c.TsConfig, err = textsecure.ReadConfig(cf)
+		c.TextsecureConfig, err = textsecure.ReadConfig(cf)
 	} else {
-		c.TsConfig = &textsecureConfig.Config{}
+		c.TextsecureConfig = &textsecureConfig.Config{}
 	}
-	c.TsConfig.StorageDir = c.StorageDir
+	c.TextsecureConfig.StorageDir = c.StorageDir
 	log.Debugln("[axolotl] config path: ", c.ConfigDir)
-	c.TsConfig.UserAgent = fmt.Sprintf("TextSecure %s for Ubuntu Phone", AppVersion)
-	c.TsConfig.UnencryptedStorage = true
+	c.TextsecureConfig.UserAgent = fmt.Sprintf("TextSecure %s for Ubuntu Phone", AppVersion)
+	c.TextsecureConfig.UnencryptedStorage = true
 
-	if c.TsConfig.LogLevel == "" {
-		c.TsConfig.LogLevel = "info"
+	if c.TextsecureConfig.LogLevel == "" {
+		c.TextsecureConfig.LogLevel = "info"
 	}
-	c.TsConfig.CrayfishSupport = true
-	c.TsConfig.AlwaysTrustPeerID = true
+	c.TextsecureConfig.CrayfishSupport = true
+	c.TextsecureConfig.AlwaysTrustPeerID = true
 	rootCA := filepath.Join(c.ConfigDir, "rootCA.crt")
 	if helpers.Exists(rootCA) {
-		c.TsConfig.RootCA = rootCA
+		c.TextsecureConfig.RootCA = rootCA
 	}
-	return c.TsConfig, err
+	return c.TextsecureConfig, err
 }
 func SetupConfig() *Config {
 	c := &Config{}
@@ -191,13 +191,13 @@ func (c *Config) SetLogLevel(loglevel string) {
 		log.SetLevel(log.InfoLevel)
 		loglevel = "info"
 	}
-	c.TsConfig.LogLevel = loglevel
-	textsecure.WriteConfig(c.ConfigFile, c.TsConfig)
+	c.TextsecureConfig.LogLevel = loglevel
+	textsecure.WriteConfig(c.ConfigFile, c.TextsecureConfig)
 	textsecure.RefreshConfig()
 }
 
 func (c *Config) GetMyNumber() string {
-	return c.TsConfig.Tel
+	return c.TextsecureConfig.Tel
 }
 
 func GetIsPhone() bool {
