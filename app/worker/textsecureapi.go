@@ -86,7 +86,8 @@ func RunBackend(wsApp *webserver.WsApp) {
 	log.Debugf("[axolotl] Run Backend")
 	api := NewTextsecureAPI()
 	api.Websocket = wsApp
-	store.DS.SetupDb("")
+	wsApp.App.Store.DS.SetupDb("")
+	wsApp.App.Store.LoadChats()
 	go push.NotificationInit()
 	ui.InitModels(api.Websocket)
 	api.Websocket.App.Settings.Save()
@@ -96,8 +97,9 @@ func RunBackend(wsApp *webserver.WsApp) {
 		pw := ""
 		for {
 			pw = ui.GetEncryptionPw(api.Websocket)
-			if store.DS.SetupDb(pw) {
+			if wsApp.App.Store.DS.SetupDb(pw) {
 				log.Debugf("[axolotl] DB Encrypted, ready to start")
+				wsApp.App.Store.LoadChats()
 				api.IsEncrypted = false
 				break
 			}

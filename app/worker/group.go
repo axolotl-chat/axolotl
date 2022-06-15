@@ -48,6 +48,8 @@ func (a *TextsecureAPI) NewGroup(name string, members string) error {
 		return err
 	}
 	msg := session.Add(GroupUpdateMsg(append(m, tel), name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
+	// store.UpdateSession(session) // TODO: WIP 831
+	// store.Sessions.MoveToTop(session.ID)
 	msg.Flags = helpers.MsgFlagGroupNew
 	store.SaveMessage(msg)
 
@@ -79,6 +81,8 @@ func (a *TextsecureAPI) UpdateGroup(hexid, name string, members string) error {
 		return err
 	}
 	msg := session.Add(ui.GroupUpdateMsg(dm, name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
+	// store.UpdateSession(session) // TODO: WIP 831
+	// store.Sessions.MoveToTop(session.ID)
 	msg.Flags = helpers.MsgFlagGroupUpdate
 	store.SaveMessage(msg)
 	session.Name = name
@@ -100,6 +104,8 @@ func (a *TextsecureAPI) LeaveGroup(hexid string) error {
 		return err
 	}
 	msg := session.Add("You have left the group.", "", []store.Attachment{}, "", true, store.ActiveSessionID)
+	// store.UpdateSession(session) // TODO: WIP 831
+	// store.Sessions.MoveToTop(session.ID)
 	msg.Flags = helpers.MsgFlagGroupLeave
 	store.SaveMessage(msg)
 	session.Active = false

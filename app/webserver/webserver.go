@@ -20,7 +20,7 @@ import (
 	textsecureContacts "github.com/signal-golang/textsecure/contacts"
 )
 
-// var ( // TODO
+// var ( // TODO: WIP 831
 // 	clients                = make(map[*websocket.Conn]bool)
 // 	activeChat       int64 = -1
 // 	codeVerification = false
@@ -166,7 +166,7 @@ func (w *WsApp) wsReader(conn *websocket.Conn) {
 			json.Unmarshal([]byte(p), &openChatMessage)
 
 			log.Println("[axolotl] Open chat with id: ", openChatMessage.Id)
-			s, err := store.SessionsModel.Get(openChatMessage.Id)
+			s, err := w.App.Store.Sessions.Get(openChatMessage.Id)
 			if err != nil {
 				log.Errorln("[axolotl] Open chat with id: ", openChatMessage.Id, "failed", err)
 			} else {
@@ -236,7 +236,7 @@ func (w *WsApp) wsReader(conn *websocket.Conn) {
 			deleteMessageMessage := DelMessageMessage{}
 			json.Unmarshal([]byte(p), &deleteMessageMessage)
 			log.Println("[axolotl] delete message ", deleteMessageMessage.ID)
-			store.DeleteMessage(deleteMessageMessage.ID)
+			w.App.Store.DeleteMessage(deleteMessageMessage.ID)
 		case "getContacts":
 			go w.sendContactList()
 		case "addContact":
@@ -247,7 +247,7 @@ func (w *WsApp) wsReader(conn *websocket.Conn) {
 			if err != nil {
 				log.Errorln("[axolotl] Add contact failed: ", err)
 			}
-			err = store.RefreshContacts()
+			err = w.App.Store.RefreshContacts()
 			if err != nil {
 				log.Errorln("[axolotl] Refresh contacts failed: ", err)
 				w.ShowError(err.Error())
@@ -301,13 +301,15 @@ func (w *WsApp) wsReader(conn *websocket.Conn) {
 			json.Unmarshal([]byte(p), &setPasswordMessage)
 			log.Infoln("[axolotl] set password")
 			// TODO: proof current password is correct
-			// if settings.SettingsModel.EncryptDatabase {
+			// if w.App.Settings.EncryptDatabase {
 			// 	if !store.DS.DecryptDb(setPasswordMessage.CurrentPw) {
 			// 		// setError(i18n.tr("Incorrect old passphrase!"))
-			// 	}
+			// 	} else {
+			//		w.App.Settings.EncryptDatabase = false
+			//  }
 			// }
 			if setPasswordMessage.Pw != "" {
-				store.DS.EncryptDb(setPasswordMessage.Pw)
+				w.App.Store.DS.EncryptDb(setPasswordMessage.Pw)
 				w.App.Settings.EncryptDatabase = true
 			} else {
 				w.App.Settings.EncryptDatabase = false
@@ -371,7 +373,7 @@ func (w *WsApp) wsReader(conn *websocket.Conn) {
 			log.Println("[axolotl] delete contact", delContactMessage.ID)
 			tmpContact := store.GetContactForTel(delContactMessage.ID)
 			contact.DelContact(*tmpContact)
-			err = store.RefreshContacts()
+			err = w.App.Store.RefreshContacts()
 			if err != nil {
 				w.ShowError(err.Error())
 			}
@@ -387,7 +389,7 @@ func (w *WsApp) wsReader(conn *websocket.Conn) {
 			log.Debugln("[axolotl] editContact", editContactMessage.Name)
 			contact.EditContact(store.ContactsModel.GetContact(editContactMessage.ID), replaceContact)
 			// todo: dont refresh contacts when only the name is changed to avoid hitting the server limit
-			err = store.RefreshContacts()
+			err = w.App.Store.RefreshContacts()
 			if err != nil {
 				w.ShowError(err.Error())
 			}
@@ -396,7 +398,7 @@ func (w *WsApp) wsReader(conn *websocket.Conn) {
 			delChatMessage := DelChatMessage{}
 			json.Unmarshal([]byte(p), &delChatMessage)
 			log.Debugln("[axolotl] deleteSession", delChatMessage.ID)
-			store.DeleteSession(delChatMessage.ID)
+			w.App.Store.DeleteSession(delChatMessage.ID)
 			if err != nil {
 				w.ShowError(err.Error())
 			}
@@ -429,7 +431,7 @@ func (w *WsApp) wsReader(conn *websocket.Conn) {
 			toggleNotificationsMessage := toggleNotificationsMessage{}
 			json.Unmarshal([]byte(p), &toggleNotificationsMessage)
 			log.Debugln("[axolotl] toggle notification for: ", toggleNotificationsMessage.Chat)
-			s, err := store.SessionsModel.Get(toggleNotificationsMessage.Chat)
+			s, err := w.App.Store.Sessions.Get(toggleNotificationsMessage.Chat)
 			if err != nil {
 				w.ShowError(err.Error())
 			}
@@ -440,20 +442,22 @@ func (w *WsApp) wsReader(conn *websocket.Conn) {
 			resetEncryptionMessage := ResetEncryptionMessage{}
 			json.Unmarshal([]byte(p), &resetEncryptionMessage)
 			log.Debugln("[axolotl] reset encryption for: ", resetEncryptionMessage.Chat)
-			s, err := store.SessionsModel.Get(resetEncryptionMessage.Chat)
+			s, err := w.App.Store.Sessions.Get(resetEncryptionMessage.Chat)
 			if err != nil {
 				w.ShowError(err.Error())
 			}
-			m := s.Add("Secure session reset.", "", []store.Attachment{}, "", true, store.ActiveSessionID)
+			m := s.Add("Secure session reset.", "", []store.Attachment{}, "", true, w.App.Store.ActiveSessionID, w.App.Store) // TODO: WIP 831 - remove Store from args
+			// store.UpdateSession(session) // TODO: WIP 831
+			// store.Sessions.MoveToTop(session.ID)
 			m.Flags = helpers.MsgFlagResetSession
-			store.SaveMessage(m)
+			w.App.Store.SaveMessage(m)
 			go sender.SendMessage(s, m, false)
 			w.sendChatList()
 		case "verifyIdentity":
 			verifyIdentityMessage := verifyIdentityMessage{}
 			json.Unmarshal([]byte(p), &verifyIdentityMessage)
 			log.Debugln("[axolotl] identity information for: ", verifyIdentityMessage.Chat)
-			s, err := store.SessionsModel.Get(verifyIdentityMessage.Chat)
+			s, err := w.App.Store.Sessions.Get(verifyIdentityMessage.Chat)
 			if err != nil {
 				w.ShowError(err.Error())
 			}

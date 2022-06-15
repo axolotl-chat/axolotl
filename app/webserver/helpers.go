@@ -169,6 +169,8 @@ func (w *WsApp) createGroup(newGroupData CreateGroupMessage) (*store.Session, er
 	}
 	session := store.SessionsModel.CreateSessionForGroup(group)
 	msg := session.Add(store.GroupUpdateMsg(append(newGroupData.Members, w.App.Config.TextsecureConfig.Tel), newGroupData.Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
+	// store.UpdateSession(session) // TODO: WIP 831
+	// store.Sessions.MoveToTop(session.ID)
 	msg.Flags = helpers.MsgFlagGroupNew
 	store.SaveMessage(msg)
 	return session, nil
@@ -192,6 +194,8 @@ func (w *WsApp) updateGroup(updateGroupData UpdateGroupMessage) *store.Session {
 		return nil
 	}
 	msg := session.Add(store.GroupUpdateMsg(updateGroupData.Members, updateGroupData.Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
+	// store.UpdateSession(session) // TODO: WIP 831
+	// store.Sessions.MoveToTop(session.ID)
 	msg.Flags = helpers.MsgFlagGroupUpdate
 	store.SaveMessage(msg)
 
@@ -232,6 +236,8 @@ func (w *WsApp) joinGroup(joinGroupmessage JoinGroupMessage) *store.Session {
 	// Add a join message to the session when the group is joined
 	if group.JoinStatus == store.GroupJoinStatusJoined {
 		msg := session.Add("You accepted the invitation to the group.", "", []store.Attachment{}, "", true, store.ActiveSessionID)
+		// store.UpdateSession(session) // TODO: WIP 831
+		// store.Sessions.MoveToTop(session.ID)
 		msg.Flags = helpers.MsgFlagGroupJoined
 		store.SaveMessage(msg)
 		w.MessageHandler(msg)

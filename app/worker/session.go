@@ -17,6 +17,8 @@ func (a *TextsecureAPI) EndSession(ID int64) error {
 		return err
 	}
 	m := session.Add("Secure session reset.", "", []store.Attachment{}, "", true, store.ActiveSessionID)
+	// store.UpdateSession(session) // TODO: WIP 831
+	// store.Sessions.MoveToTop(session.ID)
 	m.Flags = helpers.MsgFlagResetSession
 	store.SaveMessage(m)
 	go sender.SendMessage(session, m, false)

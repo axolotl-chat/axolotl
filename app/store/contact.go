@@ -17,7 +17,7 @@ type Contacts struct {
 	Len      int
 }
 
-var ContactsModel *Contacts = &Contacts{} // TODO: WIP 831
+// var ContactsModel *Contacts = &Contacts{} // TODO: WIP 831
 
 func (c *Contacts) GetContact(i int) textsecureContacts.Contact {
 	if i == -1 {
@@ -25,23 +25,23 @@ func (c *Contacts) GetContact(i int) textsecureContacts.Contact {
 	}
 	return c.Contacts[i]
 }
-func GetContactForTel(tel string) *textsecureContacts.Contact {
-	for _, c := range ContactsModel.Contacts {
-		if c.Tel == tel {
-			return &c
+func (c *Contacts) GetContactForTel(tel string) *textsecureContacts.Contact {
+	for _, contact := range c.Contacts {
+		if contact.Tel == tel {
+			return &contact
 		}
 	}
 	return nil
 }
-func GetContactForUUID(uuid string) *textsecureContacts.Contact {
-	for _, c := range ContactsModel.Contacts {
-		if c.UUID == uuid {
-			return &c
+func (c *Contacts) GetContactForUUID(uuid string) *textsecureContacts.Contact {
+	for _, contact := range c.Contacts {
+		if contact.UUID == uuid {
+			return &contact
 		}
 	}
 	return nil
 }
-func RefreshContacts() error {
+func (s *Store) RefreshContacts() error {
 	registeredContactsFile := config.GetRegisteredContactsFile()
 	contacts, err := textsecure.GetRegisteredContacts()
 	if err != nil {
@@ -53,9 +53,9 @@ func RefreshContacts() error {
 		writeRegisteredContacts(registeredContactsFile, contacts)
 	}
 	log.Debugln("[axolotl] Refresh contacts count: ", len(contacts))
-	ContactsModel.Contacts = contacts
-	ContactsModel.Len = len(contacts)
-	SessionsModel.UpdateSessionNames()
+	s.Contacts.Contacts = contacts
+	s.Contacts.Len = len(contacts)
+	s.UpdateSessionNames()
 	if err != nil {
 		return err
 	}
@@ -88,11 +88,11 @@ func readRegisteredContacts(fileName string) ([]textsecureContacts.Contact, erro
 	return contacts.Contacts, nil
 }
 
-func TelToName(tel string) string {
+func (c *Contacts) TelToName(tel string) string {
 	if g, ok := Groups[tel]; ok {
 		return g.Name
 	}
-	for _, c := range ContactsModel.Contacts {
+	for _, c := range c.Contacts {
 		if c.Tel == tel {
 			return c.Name
 		}

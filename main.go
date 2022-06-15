@@ -15,6 +15,7 @@ import (
 	"github.com/nanu-c/axolotl/app"
 	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/push"
+	"github.com/nanu-c/axolotl/app/store"
 	"github.com/nanu-c/axolotl/app/ui"
 	"github.com/nanu-c/axolotl/app/webserver"
 	"github.com/nanu-c/axolotl/app/worker"
@@ -26,6 +27,7 @@ func setup() *app.App {
 
 	// Flags parsed in app/config/config.go
 	a.Config = config.SetupConfig()
+	a.Store = &store.Store{}
 
 	log.Infoln("[axolotl] Starting axolotl version", config.AppVersion)
 	return a

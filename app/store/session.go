@@ -40,10 +40,11 @@ type MessageList struct {
 	Messages []*Message
 }
 type Sessions struct {
-	Sess       []*Session
-	ActiveChat string
-	Len        int
-	Type       string
+	Sess         []*Session
+	ActiveChat   string
+	TopSessionID int64
+	Len          int
+	Type         string
 }
 
 // SessionTypes
@@ -114,7 +115,7 @@ func (s *Store) DeleteSession(ID int64) error {
 		return err
 	}
 
-	LoadChats()
+	s.LoadChats()
 	return nil
 }
 
@@ -199,8 +200,8 @@ func (s *Store) GetMoreMessageList(ID int64, lastID string) (error, *MessageList
 	return errors.New("wrong index"), nil
 }
 
-// Add message to a session
-func (s *Session) Add(text string, source string, file []Attachment, mimetype string, outgoing bool, sessionID int64, store *Store) *Message {
+// Add message to a session // TODO: WIP 831 - remove Store from args
+func (s *Session) Add(text string, source string, file []Attachment, mimetype string, outgoing bool, sessionID int64) *Message {
 	var files []Attachment
 
 	ctype := helpers.ContentTypeMessage
@@ -238,9 +239,7 @@ func (s *Session) Add(text string, source string, file []Attachment, mimetype st
 	if !outgoing && s.ID != sessionID && text != "" && text != "readReceiptMessage" && text != "deliveryReceiptMessage" {
 		s.Unread++
 	}
-	store.UpdateSession(s)
 
-	s.moveToTop()
 	return message
 }
 
@@ -292,8 +291,8 @@ func (s *Sessions) Get(id int64) (*Session, error) {
 }
 
 // GetByE164 returns the session by the telephone number and creates it if it doesn't exists
-func (s *Sessions) GetByE164(tel string) *Session {
-	for _, ses := range s.Sess {
+func (s *Store) GetByE164(tel string) *Session {
+	for _, ses := range s.Sessions.Sess {
 		if ses.Tel == tel {
 			return ses
 		}
@@ -316,7 +315,7 @@ func (s *Sessions) GetAllSessionsByE164(tel string) []*Session {
 // CreateSessionForE164 creates a new Session for the phone number
 func (s *Store) CreateSessionForE164(tel string, UUID string) *Session {
 	ses := &Session{Tel: tel,
-		Name:         TelToName(tel),
+		Name:         s.Contacts.TelToName(tel),
 		Active:       true,
 		IsGroup:      false,
 		Notification: true,
@@ -330,7 +329,7 @@ func (s *Store) CreateSessionForE164(tel string, UUID string) *Session {
 }
 
 func (s *Store) CreateSessionForUUID(UUID string) *Session {
-	contact := GetContactForUUID(UUID)
+	contact := s.Contacts.GetContactForUUID(UUID)
 	newSession := &Session{
 		Tel:          contact.Tel,
 		Name:         contact.Name,
@@ -429,9 +428,9 @@ func (s *Store) UpdateSessionNames() {
 	log.Debugln("[axolotl] update session names + uuids")
 	for _, ses := range s.Sessions.Sess {
 		if ses.IsGroup == false {
-			ses.Name = TelToName(ses.Tel)
+			ses.Name = s.Contacts.TelToName(ses.Tel)
 			if ses.UUID == "" || ses.UUID == "0" {
-				c := GetContactForTel(ses.Tel)
+				c := s.Contacts.GetContactForTel(ses.Tel)
 				if c != nil && c.UUID != "" && c.UUID != "0" && (c.UUID[0] != 0 || c.UUID[len(c.UUID)-1] != 0) {
 					uuid := c.UUID
 					log.Debugln("[axolotl] update session from tel to uuid", ses.Tel, uuid)
@@ -459,22 +458,22 @@ func (s *Sessions) GetIndex(ID int64) int {
 	return -1
 }
 
-var topSession int64 // TODO: WIP 831
-
-func (s *Session) moveToTop(store *Store) {
-	if topSession == s.ID {
+func (s *Sessions) MoveToTop(sessionID int64) {
+	if s.TopSessionID == sessionID {
 		return
 	}
 
-	index := store.Sessions.GetIndex(s.ID)
-	store.Sessions.Sess = append([]*Session{s}, append(store.Sessions.Sess[:index], store.Sessions.Sess[index+1:]...)...)
+	index := s.GetIndex(sessionID)
+	session := s.GetSession(sessionID)
+	s.Sess = append([]*Session{session}, append(s.Sess[:index], s.Sess[index+1:]...)...)
 
 	// force a length change update
-	store.Sessions.Len--
-	store.Sessions.Len++
+	s.Len--
+	s.Len++
 
-	topSession = s.ID
+	s.TopSessionID = sessionID
 }
+
 func (s *Store) LoadChats() error {
 	log.Printf("[axolotl] Loading Chats")
 	err := s.DS.Dbx.Select(&AllGroups, groupsSelect)

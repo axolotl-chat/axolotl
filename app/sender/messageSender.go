@@ -102,6 +102,8 @@ func SendMessageHelper(ID int64, message, file string,
 			}
 		}
 		m := session.Add(message, "", attachments, "", true, ID)
+		// store.UpdateSession(session) // TODO: WIP 831
+		// store.Sessions.MoveToTop(session.ID)
 		m.Source = session.Tel
 		m.SourceUUID = session.UUID
 		m.ExpireTimer = session.ExpireTimer

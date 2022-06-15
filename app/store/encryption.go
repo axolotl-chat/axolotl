@@ -9,10 +9,8 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"strconv"
 
 	_ "github.com/mutecomm/go-sqlcipher"
-	"github.com/nanu-c/axolotl/app/settings"
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/crypto/scrypt"
 )
@@ -53,7 +51,7 @@ func getKey(saltPath, password string) ([]byte, error) {
 }
 func (ds *DataStore) Encrypt(dbFile string, password string) error {
 	log.Debugf("Encrypt Database")
-	err := DS.Dbx.Ping()
+	err := ds.Dbx.Ping()
 	if err != nil {
 		log.Errorf(err.Error())
 	}
@@ -67,87 +65,88 @@ func (ds *DataStore) Encrypt(dbFile string, password string) error {
 
 	query := fmt.Sprintf("ATTACH DATABASE '%s' AS encrypted KEY \"x'%X'\"", dbFile, key)
 	log.Debugf("Encrypt db file: " + dbFile)
-	_, err = DS.Dbx.Exec(query)
+	_, err = ds.Dbx.Exec(query)
 	if err != nil {
 		log.Errorf("firstError")
 		return err
 	}
 
-	_, err = DS.Dbx.Exec("PRAGMA encrypted.cipher_page_size = 4096;")
+	_, err = ds.Dbx.Exec("PRAGMA encrypted.cipher_page_size = 4096;")
 	if err != nil {
 		return err
 	}
 
-	_, err = DS.Dbx.Exec("SELECT sqlcipher_export('encrypted');")
+	_, err = ds.Dbx.Exec("SELECT sqlcipher_export('encrypted');")
 	if err != nil {
 		return err
 	}
 
-	_, err = DS.Dbx.Exec("DETACH DATABASE encrypted;")
+	_, err = ds.Dbx.Exec("DETACH DATABASE encrypted;")
 	if err != nil {
 		return err
 	}
-	settings.SettingsModel.EncryptDatabase = true
-	DS.Dbx = nil
+	//settings.SettingsModel.EncryptDatabase = true
+	ds.Dbx = nil
 
 	return nil
 }
-func (ds *DataStore) Convert(password string) error {
-	log.Debugf("Convert Data Storage")
-	if password == "" {
-		return fmt.Errorf("No password given")
-	}
-	dbDir = GetDbDir()
-	dbFile = GetDbFile()
-	tmp := GetDbTmpFile()
 
-	//create tmp file
-	_, err := os.OpenFile(tmp, os.O_RDONLY|os.O_CREATE, 0600)
-	if err != nil {
-		return err
-	}
-	saltFile = filepath.Join(dbDir, "salt")
+// func (ds *DataStore) Convert(password string) error {
+// 	log.Debugf("Convert Data Storage")
+// 	if password == "" {
+// 		return fmt.Errorf("No password given")
+// 	}
+// 	dbDir = GetDbDir()
+// 	dbFile = GetDbFile()
+// 	tmp := GetDbTmpFile()
 
-	encrypted := settings.SettingsModel.EncryptDatabase
-	log.Debugf("Encrypt: " + strconv.FormatBool(encrypted))
+// 	//create tmp file
+// 	_, err := os.OpenFile(tmp, os.O_RDONLY|os.O_CREATE, 0600)
+// 	if err != nil {
+// 		return err
+// 	}
+// 	saltFile = filepath.Join(dbDir, "salt")
 
-	if !encrypted {
-		log.Debugf("Convert: Encrypting database..")
+// 	encrypted := settings.SettingsModel.EncryptDatabase
+// 	log.Debugf("Encrypt: " + strconv.FormatBool(encrypted))
 
-		ds, err := NewStorage("")
-		if err != nil {
-			return err
-		}
+// 	if !encrypted {
+// 		log.Debugf("Convert: Encrypting database..")
 
-		err = ds.Encrypt(tmp, password)
-		if err != nil {
-			log.Errorf("encrypting db: " + err.Error())
+// 		ds, err := NewStorage("")
+// 		if err != nil {
+// 			return err
+// 		}
 
-			return err
-		}
-	} else {
-		log.Info("Convert: Decrypting database..")
+// 		err = ds.Encrypt(tmp, password)
+// 		if err != nil {
+// 			log.Errorf("encrypting db: " + err.Error())
 
-		ds, err := NewStorage(password)
-		if err != nil {
-			return err
-		}
+// 			return err
+// 		}
+// 	} else {
+// 		log.Info("Convert: Decrypting database..")
 
-		err = ds.Decrypt(tmp)
-		if err != nil {
-			return err
-		}
-	}
+// 		ds, err := NewStorage(password)
+// 		if err != nil {
+// 			return err
+// 		}
 
-	err = os.Rename(tmp, dbFile)
-	if err != nil {
-		return err
-	}
+// 		err = ds.Decrypt(tmp)
+// 		if err != nil {
+// 			return err
+// 		}
+// 	}
 
-	settings.SettingsModel.EncryptDatabase = !encrypted
-	// settings.Sync()
-	return nil
-}
+// 	err = os.Rename(tmp, dbFile)
+// 	if err != nil {
+// 		return err
+// 	}
+
+// 	settings.SettingsModel.EncryptDatabase = !encrypted
+// 	// settings.Sync()
+// 	return nil
+// }
 
 //https://github.com/mutecomm/go-sqlcipher/blob/master/sqlcipher.go#L15
 var sqlite3Header = []byte("SQLite format 3\000")

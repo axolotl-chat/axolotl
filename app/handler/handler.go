@@ -197,9 +197,13 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool, wsApp *webse
 	var m *store.Message
 	if syncMessage {
 		m = session.Add(text, "", attachments, mt, true, store.ActiveSessionID)
+		// store.UpdateSession(session) // TODO: WIP 831
+		// store.Sessions.MoveToTop(session.ID)
 		m.IsSent = true
 	} else {
 		m = session.Add(text, msg.Source(), attachments, mt, false, store.ActiveSessionID)
+		// store.UpdateSession(session) // TODO: WIP 831
+		// store.Sessions.MoveToTop(session.ID)
 	}
 	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
 	m.SentAt = msg.Timestamp()
@@ -215,6 +219,8 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool, wsApp *webse
 		if err != nil || id == -1 {
 			// create quoted message
 			quoteMessage := session.Add(text, msg.Quote().GetAuthorE164(), nil, msg.Quote().GetText(), false, store.ActiveSessionID)
+			// store.UpdateSession(session) // TODO: WIP 831
+			// store.Sessions.MoveToTop(session.ID)
 			quoteMessage.Flags = helpers.MsgFlagHiddenQuote
 			err, savedQuoteMessage := store.SaveMessage(quoteMessage)
 			id = savedQuoteMessage.ID
@@ -268,6 +274,8 @@ func CallMessageHandler(msg *textsecure.Message, wsApp *webserver.WsApp) {
 	session := store.SessionsModel.GetByE164(msg.Source())
 	var f []store.Attachment
 	m := session.Add(msg.Message(), "", f, "", true, store.ActiveSessionID)
+	// store.UpdateSession(session) // TODO: WIP 831
+	// store.Sessions.MoveToTop(session.ID)
 	store.SaveMessage(m)
 	wsApp.UpdateChatList()
 	wsApp.UpdateChatList()

@@ -8,7 +8,6 @@ import (
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mutecomm/go-sqlcipher"
 	"github.com/nanu-c/axolotl/app/config"
-	"github.com/nanu-c/axolotl/app/settings"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -48,31 +47,31 @@ var (
 func (ds *DataStore) Decrypt(dbPath string) error {
 	log.Debugf("[axolotl] Decrypt Db")
 	query := fmt.Sprintf("ATTACH DATABASE '%s' AS plaintext KEY '';", dbPath)
-	if DS.Dbx == nil {
+	if ds.Dbx == nil {
 		log.Errorf("Dbx is nil")
 	}
-	_, err := DS.Dbx.Exec(query)
+	_, err := ds.Dbx.Exec(query)
 	if err != nil {
 		return err
 	}
 
-	_, err = DS.Dbx.Exec("SELECT sqlcipher_export('plaintext');")
+	_, err = ds.Dbx.Exec("SELECT sqlcipher_export('plaintext');")
 	if err != nil {
 		return err
 	}
 
-	_, err = DS.Dbx.Exec("DETACH DATABASE plaintext;")
+	_, err = ds.Dbx.Exec("DETACH DATABASE plaintext;")
 	if err != nil {
 		return err
 	}
-	settings.SettingsModel.EncryptDatabase = false
-	DS.Dbx = nil
+	// settings.SettingsModel.EncryptDatabase = false
+	ds.Dbx = nil
 
 	return nil
 }
 
 func (ds *DataStore) DBX() *sqlx.DB {
-	return DS.Dbx
+	return ds.Dbx
 }
 
 // SetupDb tries to decrypt the database and runs the migrations
@@ -86,24 +85,19 @@ func (ds *DataStore) SetupDb(password string) bool {
 		log.Debugln("[axolotl] setupDb: Couldn't make dir: " + err.Error())
 		return false
 	}
-	DS, err = NewStorage(password)
+	ds, err = NewStorage(password)
 	if err != nil {
 		log.Debugln("[axolotl] setupDb: Couldn't open db: " + err.Error())
 		return false
 	}
-	UpdateSessionTable()
-	UpdateMessagesTable_v_0_7_8()
-	UpdateSessionTable_v_0_7_8()
-	UpdateSessionTable_v_0_9_0()
-	UpdateSessionTable_v_0_9_5()
-	updateGroupTable_v_0_9_10()
-	updateSessionTable_joinStatus_v_0_9_10()
+	ds.UpdateSessionTable()
+	ds.UpdateMessagesTable_v_0_7_8()
+	ds.UpdateSessionTable_v_0_7_8()
+	ds.UpdateSessionTable_v_0_9_0()
+	ds.UpdateSessionTable_v_0_9_5()
+	ds.updateGroupTable_v_0_9_10()
+	ds.updateSessionTable_joinStatus_v_0_9_10()
 
-	err = LoadChats()
-	if err != nil {
-		log.Errorln("[axolotl]  SetupDB: ", err)
-
-	}
 	//qml.Changed(SessionsModel, &SessionsModel.Len)
 	log.Printf("[axolotl] Db setup finished")
 
@@ -118,7 +112,8 @@ func (ds *DataStore) ResetDb() {
 	if err != nil {
 		log.Errorf(err.Error())
 	}
-	settings.SettingsModel.EncryptDatabase = false
+	// if we ever need to use this function, modify settings at a higher level
+	// settings.SettingsModel.EncryptDatabase = false
 
 }
 func (ds *DataStore) DecryptDb(password string) bool {
@@ -148,11 +143,9 @@ func (ds *DataStore) DecryptDb(password string) bool {
 		log.Errorf(err.Error())
 		return true
 	}
-	settings.SettingsModel.EncryptDatabase = false
-	settings.SaveSettings(settings.SettingsModel)
 
-	DS.Dbx = nil
-	DS, err = NewStorage("")
+	ds.Dbx = nil
+	ds, err = NewStorage("")
 	if err != nil {
 		log.Debugf("Couldn't open db: " + err.Error())
 		return false
@@ -193,10 +186,9 @@ func (ds *DataStore) EncryptDb(password string) bool {
 
 		return true
 	}
-	settings.SettingsModel.EncryptDatabase = true
-	settings.SaveSettings(settings.SettingsModel)
-	DS.Dbx = nil
-	DS.SetupDb(password)
+
+	ds.Dbx = nil
+	ds.SetupDb(password)
 	return false
 }
 
