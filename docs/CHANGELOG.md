@@ -1,4 +1,14 @@
-1.2.0 (Feb 16 2021)
+1.3.0 (Feb 19 2022)
+------------------------------------
+* fix register for electron @kpenfound
+* switch to vite -> reduces app size a lot @nanu-c
+* Fix flatpack ci @olof-nord
+* Update translations @fitojb and @Anne017
+* Split out ci workflow @olof-nord
+* Update electron version @olof-nord
+
+
+1.2.0 (Feb 16 2022)
 ------------------------------------
 * Support for the new captcha system @nanu-c
 * Automatically add release artifacts to releases @olof-nord
@@ -13,7 +23,7 @@
 * Some minor fixes in the UX @nanu-c
 
 
-1.1.0 (Feb 12 2021)
+1.1.0 (Feb 12 2022)
 ------------------------------------
 * Fix joining groupsv2 @nanu-c
 * Fix receiving messages for armhf devices @nanu-c
@@ -32,7 +42,7 @@
 * Improve the startup message @olof-nord
 * Automatically add release artifacts to releases @olof-nord
 
-1.0.9 (Jan 6 2021)
+1.0.9 (Jan 6 2022)
 ------------------------------------
 * Fix 'Verifiy Identity' @blackoverflow
 * Fix option to mute groups @blackoverflow
