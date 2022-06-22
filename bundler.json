@@ -3,6 +3,6 @@
   "icon_path_darwin": "axolotl-web/public/axolotl.png",
   "icon_path_linux": "axolotl-web/public/axolotl.png",
   "version_electron": "18.0.1",
-  "version_astilectron":"0.51.0",
+  "version_astilectron":"0.55.0",
   "resources_path": "axolotl-web/dist"
 }
