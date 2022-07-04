@@ -45,7 +45,7 @@
     "@vue/eslint-config-airbnb": "^6.0.0",
     "@vue/test-utils": "^2.0.0",
     "babel-eslint": "^10.1.0",
-    "browserslist": "^4.20.3",
+    "browserslist": "^4.21.1",
     "chai": "^4.3.6",
     "depcheck": "^1.4.3",
     "eslint": "^8.14.0",
