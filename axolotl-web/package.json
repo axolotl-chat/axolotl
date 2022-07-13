@@ -56,7 +56,7 @@
     "eslint-plugin-vue": "^8.7.1",
     "jsdom": "^19.0.0",
     "prettier": "^2.6.2",
-    "vite": "^2.5.4",
+    "vite": "^2.9.14",
     "vitest": "^0.12.9"
   },
   "postcss": {
