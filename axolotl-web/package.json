@@ -40,11 +40,11 @@
     "vuex": "^4.0.2"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.18.2",
     "@vitejs/plugin-vue": "^2.3.3",
     "@vue/compiler-sfc": "^3.2.33",
     "@vue/eslint-config-airbnb": "^6.0.0",
     "@vue/test-utils": "^2.0.0",
-    "babel-eslint": "^10.1.0",
     "browserslist": "^4.20.3",
     "chai": "^4.3.6",
     "depcheck": "^1.4.3",

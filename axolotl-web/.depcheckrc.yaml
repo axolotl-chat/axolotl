@@ -2,7 +2,7 @@ ignores:
   - "sass-loader"
   - "bootstrap"
   - "@vue/cli-plugin-eslint"
-  - "babel-eslint"
+  - "@babel/eslint-parser"
   - "@vue/cli-plugin-babel"
   - "browserslist"
   - "vue3-gettext"
