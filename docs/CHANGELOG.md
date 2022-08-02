@@ -1,4 +1,10 @@
-1.3.0 (Feb 19 2022)
+1.3.1 (Aug 2 2022)
+------------------------------------
+* fix for ssh+git links in package-lock.json /fixes flatpack build @nanu-c
+* update dependencies @olof-nord + @nanu-c
+
+
+1.3.0 (Jul 19 2022)
 ------------------------------------
 * fix register for electron @kpenfound
 * switch to vite -> reduces app size a lot @nanu-c
