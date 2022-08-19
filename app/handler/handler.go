@@ -3,7 +3,7 @@ package handler
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"strings"
 	"time"
 
@@ -68,7 +68,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		av := []byte{}
 
 		if gr.Avatar != nil {
-			av, err = ioutil.ReadAll(bytes.NewReader(gr.Avatar))
+			av, err = io.ReadAll(bytes.NewReader(gr.Avatar))
 			if err != nil {
 				log.Println("[axolotl] avatar", err)
 				return
