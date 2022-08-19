@@ -1,4 +1,6 @@
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
+github.com/Blackoverflow/gcmsiv v0.0.0-20201031155123-20af2af977ff h1:l3WopnX/gWnDItXZdr2Ygq0+4ZwXCSyozyPNR8jdb8I=
+github.com/Blackoverflow/gcmsiv v0.0.0-20201031155123-20af2af977ff/go.mod h1:t1lmwOv+IYxaUkr2qIKXEfn90t4GgocS0qy8jkDonbg=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/PuerkitoBio/goquery v1.5.1/go.mod h1:GsLWisAFVj4WgDibEWF4pvYnkVQBpKBKeU+7zCJoLcc=
 github.com/akavel/rsrc v0.8.0 h1:zjWn7ukO9Kc5Q62DOJCcxGpXC18RawVtYAGdz2aLlfw=
@@ -110,8 +112,8 @@ github.com/signal-golang/libphonenumber v1.2.2-0.20220127214340-b765372d3707 h1:
 github.com/signal-golang/libphonenumber v1.2.2-0.20220127214340-b765372d3707/go.mod h1:oW+JXk+4C0R5h8BQzfRA4k/vXuBfBcNSqKWjn7Dgncs=
 github.com/signal-golang/mimemagic v0.0.0-20200821045537-3f613cf2cd3f h1:S17lCk5rcobvgcaLf7XSAoLuNkRPgFyhvgRA9JwDzHc=
 github.com/signal-golang/mimemagic v0.0.0-20200821045537-3f613cf2cd3f/go.mod h1:tU6SWwv50oGkZNPlvTFvmqZvEBp0vWWCC+LCEVlTE5A=
-github.com/signal-golang/textsecure v1.11.0 h1:l8dtRCrPrtyWX27HN32GuYLBlCazSLJtrMJlPzj2SDw=
-github.com/signal-golang/textsecure v1.11.0/go.mod h1:teNGhh4TcoKEfPta0A8JKq25zerVF+mh1ZYWAelVeGQ=
+github.com/signal-golang/textsecure v1.12.1 h1:OXFyTbSMBh4SwiOQufhNzVyqxtCI+DJ5AmEvs7vJUEE=
+github.com/signal-golang/textsecure v1.12.1/go.mod h1:sna5yQxNwY/F54q/K4xxP90VgWMSBgm3L8zbWOkF2mk=
 github.com/sirupsen/logrus v1.8.1/go.mod h1:yWOB1SBYBC5VeMP7gHvWumXLIWorT60ONWic61uBYv0=
 github.com/sirupsen/logrus v1.9.0 h1:trlNQbNUG3OdDrDil03MCb1H2o9nJ1x4/5LYw7byDE0=
 github.com/sirupsen/logrus v1.9.0/go.mod h1:naHLuLoDiP4jHNo9R0sCBMtWGeIprob74mVsIT4qYEQ=
