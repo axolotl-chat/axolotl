@@ -1,3 +1,8 @@
+1.4.0 (Aug 19 2022)
+------------------------------------
+* update axolotl-web depencies to latest versions @nanu-c
+* update protobufs @nanu-c
+
 1.3.1 (Aug 2 2022)
 ------------------------------------
 * fix for ssh+git links in package-lock.json /fixes flatpack build @nanu-c
