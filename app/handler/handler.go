@@ -216,7 +216,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		err, id := store.FindQuotedMessage(msg.Quote())
 		if err != nil || id == -1 {
 			// create quoted message
-			quoteMessage := session.Add(text, msg.Quote().GetAuthorE164(), nil, msg.Quote().GetText(), false, store.ActiveSessionID)
+			quoteMessage := session.Add(text, msg.Quote().GetAuthorUuid(), nil, msg.Quote().GetText(), false, store.ActiveSessionID)
 			quoteMessage.Flags = helpers.MsgFlagHiddenQuote
 			err, savedQuoteMessage := store.SaveMessage(quoteMessage)
 			id = savedQuoteMessage.ID

@@ -1,6 +1,8 @@
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/PuerkitoBio/goquery v1.5.1/go.mod h1:GsLWisAFVj4WgDibEWF4pvYnkVQBpKBKeU+7zCJoLcc=
+github.com/agl/gcmsiv v0.0.0-20190418185415-e8dcd2f151dc h1:MB338WDPuyQ8qXRiSRK2NVTv0EmLYsHXZAevEiQO1+c=
+github.com/agl/gcmsiv v0.0.0-20190418185415-e8dcd2f151dc/go.mod h1:5joDAvk82M2Cx1X8mAL5Orvhy5lfW4BjrTCW65wbvRo=
 github.com/akavel/rsrc v0.8.0 h1:zjWn7ukO9Kc5Q62DOJCcxGpXC18RawVtYAGdz2aLlfw=
 github.com/akavel/rsrc v0.8.0/go.mod h1:uLoCtb9J+EyAqh+26kdrTgmzRBFPGOolLWKpdxkKq+c=
 github.com/andybalholm/cascadia v1.1.0/go.mod h1:GsXiBklL0woXo1j/WYWtSYYC4ouU9PqHO0sqidkEA4Y=
@@ -110,8 +112,8 @@ github.com/signal-golang/libphonenumber v1.2.2-0.20220127214340-b765372d3707 h1:
 github.com/signal-golang/libphonenumber v1.2.2-0.20220127214340-b765372d3707/go.mod h1:oW+JXk+4C0R5h8BQzfRA4k/vXuBfBcNSqKWjn7Dgncs=
 github.com/signal-golang/mimemagic v0.0.0-20200821045537-3f613cf2cd3f h1:S17lCk5rcobvgcaLf7XSAoLuNkRPgFyhvgRA9JwDzHc=
 github.com/signal-golang/mimemagic v0.0.0-20200821045537-3f613cf2cd3f/go.mod h1:tU6SWwv50oGkZNPlvTFvmqZvEBp0vWWCC+LCEVlTE5A=
-github.com/signal-golang/textsecure v1.11.0 h1:l8dtRCrPrtyWX27HN32GuYLBlCazSLJtrMJlPzj2SDw=
-github.com/signal-golang/textsecure v1.11.0/go.mod h1:teNGhh4TcoKEfPta0A8JKq25zerVF+mh1ZYWAelVeGQ=
+github.com/signal-golang/textsecure v1.12.0 h1:/onp9Hryqn6yM+uOHNgdjTCkqERJDy2kmAZZwBiY1K0=
+github.com/signal-golang/textsecure v1.12.0/go.mod h1:V7znRVK96xLrC2YjSV7sDKMg7puC23YvqzRXNH1u8iU=
 github.com/sirupsen/logrus v1.8.1/go.mod h1:yWOB1SBYBC5VeMP7gHvWumXLIWorT60ONWic61uBYv0=
 github.com/sirupsen/logrus v1.9.0 h1:trlNQbNUG3OdDrDil03MCb1H2o9nJ1x4/5LYw7byDE0=
 github.com/sirupsen/logrus v1.9.0/go.mod h1:naHLuLoDiP4jHNo9R0sCBMtWGeIprob74mVsIT4qYEQ=
