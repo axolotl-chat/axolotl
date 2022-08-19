@@ -15,6 +15,7 @@ ignores:
   - "sass"
   - "@vue/cli-plugin-unit-mocha"
   - "@vue/compiler-sfc"
+  - "autoprefixer"
 specials:
   - "bin"
   - "eslint"
