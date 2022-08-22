@@ -135,7 +135,7 @@ To build the application, use the following command from the root of this reposi
 
 To install the built snap, use snap:
 
-`sudo snap install axolotl_1.4.0_amd64.snap --dangerous`
+`sudo snap install axolotl_1.5.0_amd64.snap --dangerous`
 
 **Run**
 

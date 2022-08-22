@@ -1,6 +1,12 @@
+1.5.0 (Aug 22 2022)
+------------------------------------
+* update crayfish to a more recent libsignal version @nanu-c + @jonnius
+* fix rust build in ci @jonnius
+* fix names in groups @nanu-c
+
 1.4.0 (Aug 19 2022)
 ------------------------------------
-* update axolotl-web depencies to latest versions @nanu-c
+* update axolotl-web dependencies to latest versions @nanu-c
 * update protobufs @nanu-c
 
 1.3.1 (Aug 2 2022)

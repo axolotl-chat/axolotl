@@ -17,9 +17,9 @@ HARDWARE_PLATFORM := $(shell uname --machine)
 CURRENT_DIR := $(shell pwd)
 
 define APPDATA_TEXT=
-\\t\t\t<release version="$(NEW_VERSION)" date="$(shell date --rfc-3339='date')">\n\
-\t\t\t\t\t<url>https://github.com/nanu-c/axolotl/releases/tag/v$(NEW_VERSION)</url>\n\
-\t\t\t</release>
+\\t\t<release version="$(NEW_VERSION)" date="$(shell date --rfc-3339='date')">\n\
+\t\t\t\t<url>https://github.com/nanu-c/axolotl/releases/tag/v$(NEW_VERSION)</url>\n\
+\t\t</release>
 endef
 export APPDATA_TEXT
 
@@ -118,6 +118,7 @@ else
 	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' manifest.json
 	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' app/config/config.go
 	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' snap/snapcraft.yaml
+	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' docs/INSTALL.md
 	@sed -i "32i $$APPDATA_TEXT" appimage/AppDir/axolotl.appdata.xml
 	@sed -i "32i $$APPDATA_TEXT" flatpak/org.nanuc.Axolotl.appdata.xml
 	@echo "Update complete"
