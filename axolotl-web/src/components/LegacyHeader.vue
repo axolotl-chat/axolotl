@@ -618,9 +618,10 @@ export default {
 
 #settings-dropdown {
   display: block !important;
-  border-radius: 0px;
+  border-radius: 3px;
   right: 5px;
   left: auto;
+  border: 1px solid #2090ea;
 }
 
 .back {

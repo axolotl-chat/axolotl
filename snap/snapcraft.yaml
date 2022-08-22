@@ -61,6 +61,7 @@ parts:
   crayfish:
     source-type: git
     plugin: rust
+    rust-channel: 1.63.0
     override-build: |
       apt update
       apt install -y libstdc++6-armhf-cross libstdc++6-arm64-cross protobuf-compiler libstdc++6
