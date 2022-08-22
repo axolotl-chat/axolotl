@@ -432,12 +432,12 @@ export default {
         reader.readAsDataURL(file); // converts the blob to base64 and calls onload
         var that = this;
         reader.onload = function () {
-          var r = reader.result;
-          const m = {
-            note: r,
+          var result = reader.result;
+          const message = {
+            note: result,
             to: that.chatId,
           };
-          that.$store.dispatch("sendVoiceNote", m);
+          that.$store.dispatch("sendVoiceNote", message);
         };
       });
     },
