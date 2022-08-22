@@ -33,10 +33,12 @@
               <source
                 :src="
                   'http://localhost:9080/attachments?file=' +
-                    showFullscreenVideoSrc
+                  showFullscreenVideoSrc
                 "
               />
-              <span v-translate>Your browser does not support the audio element.</span>
+              <span v-translate
+                >Your browser does not support the audio element.</span
+              >
             </video>
             <button
               class="btn btn-secondary close"
@@ -53,7 +55,6 @@
             :key="message.ID"
             :message="message"
             :is-group="isGroup"
-            :names="names"
             @show-fullscreen-img="showFullscreenImg($event)"
             @show-fullscreen-video="showFullscreenVideo($event)"
             @click="handleClick($event)"
@@ -113,7 +114,8 @@
             class="messageInput-btn-container d-flex justify-content-center align-items-center"
           >
             <div>
-              <span>{{ Math.floor(voiceNote.duration) }}</span><span v-translate class="me-2">s</span>
+              <span>{{ Math.floor(voiceNote.duration) }}</span
+              ><span v-translate class="me-2">s</span>
             </div>
             <button
               v-if="!voiceNote.playing"
@@ -230,14 +232,7 @@ export default {
     },
     contacts() {
       if (this.contacts !== null) {
-        Object.keys(this.names).forEach((i) => {
-          const contact = this.contacts.find(function (element) {
-            return element.Tel === i;
-          });
-          if (typeof contact !== "undefined") {
-            this.names[i] = contact.Name;
-          }
-        });
+        this.propagateNames();
       }
     },
     messages: {

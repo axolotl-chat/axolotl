@@ -22,37 +22,49 @@
   >
     <div v-if="verifySelfDestruction(message)" class="message">
       <div v-if="isSenderNameDisplayed" class="sender">
-        <div v-if="names[message.Source]">
-          {{ names[message.Source] }}
+        <div v-if="name !== ''">
+          {{ name }}
         </div>
-        <div v-else>{{ getName(message.Source) }}</div>
+        <div v-else>{{ getName(message.SourceUUID) }}</div>
       </div>
       <blockquote v-if="message.QuotedMessage !== null">
         <cite v-if="message.QuotedMessage.Outgoing" v-translate>You</cite>
-        <cite v-else>{{ getName(message.QuotedMessage.Source) }}</cite>
+        <cite v-else>{{ getName(message.QuotedMessage.SourceUUID) }}</cite>
         <p>{{ message.QuotedMessage.Message }}</p>
       </blockquote>
       <div v-if="message.Attachment !== ''" class="attachment">
         <div v-if="isAttachmentArray(message.Attachment)" class="gallery">
-          <div
-            v-for="m in isAttachmentArray(message.Attachment)"
-            :key="m.File"
-          >
+          <div v-for="m in isAttachmentArray(message.Attachment)" :key="m.File">
             <div v-if="m.CType === 2" class="attachment-img">
               <img
                 :src="'http://localhost:9080/attachments?file=' + m.File"
                 alt="Fullscreen image"
                 @click="$emit('show-fullscreen-img', m.File)"
-              >
+              />
             </div>
             <div v-else-if="m.CType === 3" class="attachment-audio">
               <div class="audio-player-container d-flex">
                 <button id="play-icon">
-                  <font-awesome-icon v-if="!isPlaying" class="play" icon="play" @click="play" />
-                  <font-awesome-icon v-if="isPlaying" class="pause" icon="pause" @click="pause" />
+                  <font-awesome-icon
+                    v-if="!isPlaying"
+                    class="play"
+                    icon="play"
+                    @click="play"
+                  />
+                  <font-awesome-icon
+                    v-if="isPlaying"
+                    class="pause"
+                    icon="pause"
+                    @click="pause"
+                  />
                 </button>
-                <span v-if="!isPlaying" id="duration" class="time">{{ humanifyTimePeriod(duration) }}</span>
-                <span v-if="isPlaying" id="currentTime" class="time">{{ humanifyTimePeriod(currentTime) }} / {{ humanifyTimePeriod(duration) }}</span>
+                <span v-if="!isPlaying" id="duration" class="time">{{
+                  humanifyTimePeriod(duration)
+                }}</span>
+                <span v-if="isPlaying" id="currentTime" class="time"
+                  >{{ humanifyTimePeriod(currentTime) }} /
+                  {{ humanifyTimePeriod(duration) }}</span
+                >
               </div>
             </div>
             <div
@@ -62,7 +74,8 @@
               <a
                 :href="'http://localhost:9080/attachments?file=' + m.File"
                 @click="shareAttachment(m.File, $event)"
-              >{{ m.FileName ? m.FileName : m.File }}</a>
+                >{{ m.FileName ? m.FileName : m.File }}</a
+              >
             </div>
             <div
               v-else-if="m.CType === 5"
@@ -72,10 +85,16 @@
               <video>
                 <source
                   :src="'http://localhost:9080/attachments?file=' + m.File"
+                />
+                <span v-translate
+                  >Your browser does not support the audio element.</span
                 >
-                <span v-translate>Your browser does not support the audio element.</span>
               </video>
-              <img class="play-button" src="../assets/images/play.svg" alt="Play image">
+              <img
+                class="play-button"
+                src="../assets/images/play.svg"
+                alt="Play image"
+              />
             </div>
             <div v-else-if="m.File !== ''" class="attachment">
               <span v-translate>Not supported mime type:</span> {{ m.CType }}
@@ -90,16 +109,31 @@
             "
             alt="Fullscreen image"
             @click="$emit('show-fullscreen-img', message.Attachment)"
-          >
+          />
         </div>
         <div v-else-if="message.CType === 3" class="attachment-audio">
           <div class="audio-player-container d-flex">
             <button id="play-icon">
-              <font-awesome-icon v-if="!isPlaying" class="play" icon="play" @click="play" />
-              <font-awesome-icon v-if="isPlaying" class="pause" icon="pause" @click="pause" />
+              <font-awesome-icon
+                v-if="!isPlaying"
+                class="play"
+                icon="play"
+                @click="play"
+              />
+              <font-awesome-icon
+                v-if="isPlaying"
+                class="pause"
+                icon="pause"
+                @click="pause"
+              />
             </button>
-            <span v-if="!isPlaying" id="duration" class="time">{{ humanifyTimePeriod(duration) }}</span>
-            <span v-if="isPlaying" id="currentTime" class="time">{{ humanifyTimePeriod(currentTime) }} / {{ humanifyTimePeriod(duration) }}</span>
+            <span v-if="!isPlaying" id="duration" class="time">{{
+              humanifyTimePeriod(duration)
+            }}</span>
+            <span v-if="isPlaying" id="currentTime" class="time"
+              >{{ humanifyTimePeriod(currentTime) }} /
+              {{ humanifyTimePeriod(duration) }}</span
+            >
           </div>
         </div>
         <div
@@ -111,7 +145,8 @@
             :href="
               'http://localhost:9080/attachments?file=' + message.Attachment
             "
-          >File</a>
+            >File</a
+          >
         </div>
         <div
           v-else-if="message.CType === 5"
@@ -120,9 +155,13 @@
         >
           <video>
             <source
-              :src="'http://localhost:9080/attachments?file=' + message.Attachment"
+              :src="
+                'http://localhost:9080/attachments?file=' + message.Attachment
+              "
+            />
+            <span v-translate
+              >Your browser does not support the video element.</span
             >
-            <span v-translate>Your browser does not support the video element.</span>
           </video>
         </div>
 
@@ -132,13 +171,17 @@
       </div>
       <div class="message-text">
         <!-- eslint-disable-next-line vue/no-v-html -->
-        <div class="message-text-content" data-test="message-text" v-html="linkify(sanitize(message.Message))" />
-        <div v-if="message.Flags===17" v-translate>Group changed.</div>
+        <div
+          class="message-text-content"
+          data-test="message-text"
+          v-html="linkify(sanitize(message.Message))"
+        />
+        <div v-if="message.Flags === 17" v-translate>Group changed.</div>
         <div
           v-if="
             message.Attachment.includes('null') &&
-              message.Message === '' &&
-              message.Flags === 0
+            message.Message === '' &&
+            message.Flags === 0
           "
           class="status-message"
         >
@@ -203,16 +246,12 @@ export default {
   props: {
     message: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     isGroup: {
       type: Boolean,
       default: false,
     },
-    names: {
-      type: Object,
-      default: () => {}
-    }
   },
   emits: ["show-fullscreen-img", "show-fullscreen-video"],
   data() {
@@ -222,6 +261,7 @@ export default {
       duration: 0.0,
       currentTime: 0.0,
       isPlaying: false,
+      name: "",
     };
   },
   computed: {
@@ -232,23 +272,25 @@ export default {
         this.isGroup &&
         (this.message.Flags === 0 || this.message.Flags === 14)
       ); // #14 is the flag for quoting messages
-	    // see this list for all message types: https://github.com/nanu-c/axolotl/blob/main/app/helpers/models.go#L15
+      // see this list for all message types: https://github.com/nanu-c/axolotl/blob/main/app/helpers/models.go#L15
     },
   },
   mounted() {
     if (this.message.Attachment !== "" && this.message.Attachment !== null) {
       const attachment = JSON.parse(this.message.Attachment);
-      if (attachment&&attachment.length>0 && attachment[0].CType === 3) {
-        this.audio = new Audio("http://localhost:9080/attachments?file=" + attachment[0].File);
+      if (attachment && attachment.length > 0 && attachment[0].CType === 3) {
+        this.audio = new Audio(
+          "http://localhost:9080/attachments?file=" + attachment[0].File
+        );
         var that = this;
-        this.audio.onloadedmetadata = function(){
+        this.audio.onloadedmetadata = function () {
           that.duration = that.audio.duration.toFixed(2);
         };
-        this.audio.onended = function(){
+        this.audio.onended = function () {
           that.audio.currentTime = 0;
           that.isPlaying = false;
         };
-        this.audio.ontimeupdate = function(){
+        this.audio.ontimeupdate = function () {
           that.currentTime = that.audio.currentTime.toFixed(2);
         };
       }
@@ -259,26 +301,21 @@ export default {
       decoder = decoder || document.createElement("div");
       decoder.textContent = msg;
       let result = decoder.innerHTML;
-      decoder.textContent = result;//escapes twice in order to negate v-html's unescaping
+      decoder.textContent = result; //escapes twice in order to negate v-html's unescaping
       result = decoder.innerHTML;
       return result;
     },
-    getName(tel) {
+    getName(uuid) {
       if (this.contacts !== null) {
-        if (typeof this.names[tel] === "undefined") {
-          const contact = this.contacts.find(function (element) {
-            return element.Tel === tel;
-          });
-          if (typeof contact !== "undefined") {
-            this.names[tel] = contact.Name;
-            return contact.Name;
-          } else {
-            this.names[tel] = tel;
-            return tel;
-          }
-        } else return this.names[tel];
+        const contact = this.contacts.find(function (element) {
+          return element.UUID === uuid;
+        });
+        if (typeof contact !== "undefined") {
+          this.name = contact.Name;
+          return contact.Name;
+        }
       }
-      return tel;
+      return uuid;
     },
     isAttachmentArray(input) {
       try {
@@ -306,8 +343,7 @@ export default {
       if (percentage < 1) {
         const fullCircle = 179;
         return fullCircle * percentage;
-      }
-      else return 0;
+      } else return 0;
     },
     verifySelfDestruction(m) {
       if (m.ExpireTimer !== 0) {
@@ -344,17 +380,16 @@ export default {
       else if (time < 60 * 60 * 24) return time / 60 / 60 / 24 + " d";
       return time;
     },
-    play(){
+    play() {
       this.audio.play();
       this.isPlaying = true;
     },
-    pause(){
-      if(this.audio && this.audio.currentTime>0){
+    pause() {
+      if (this.audio && this.audio.currentTime > 0) {
         this.audio.pause();
         this.isPlaying = false;
       }
-
-    }
+    },
   },
 };
 </script>
@@ -530,7 +565,7 @@ blockquote {
   font-style: italic;
   margin-left: 2px;
 }
-.hidden{
+.hidden {
   display: none;
 }
 button {
@@ -560,5 +595,4 @@ button {
     margin: 20px 2.5% 20px 2.5%;
   }
 }
-
 </style>
