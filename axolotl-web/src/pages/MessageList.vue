@@ -281,11 +281,11 @@ export default {
       }
     },
     sendDesktopAttachment(evt) {
-      const f = evt.target.files[0];
-      if (f) {
-        const r = new FileReader();
+      const file = evt.target.files[0];
+      if (file) {
+        const reader = new FileReader();
         const that = this;
-        r.onload = function (e) {
+        reader.onload = function (e) {
           const attachment = e.target.result;
           that.$store.dispatch("uploadAttachment", {
             attachment: attachment,
@@ -293,7 +293,7 @@ export default {
             message: this.messageInput,
           });
         };
-        r.readAsDataURL(f);
+        reader.readAsDataURL(file);
       } else {
         alert("Failed to load file");
       }
