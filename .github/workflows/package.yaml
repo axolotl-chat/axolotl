@@ -202,7 +202,7 @@ jobs:
           submodules: 'true'
 
       - name: Install build dependencies
-        run: dnf -y install protobuf-lite
+        run: dnf -y install protobuf-lite-devel
 
       - name: Build Flatpak Web version
         uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v4
@@ -225,7 +225,7 @@ jobs:
           submodules: 'true'
 
       - name: Install build dependencies
-        run: dnf -y install protobuf-lite
+        run: dnf -y install protobuf-lite-devel
 
       - name: Build Flatpak QT version
         uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v4
