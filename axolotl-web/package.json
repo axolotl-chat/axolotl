@@ -31,7 +31,7 @@
     "linkifyjs": "^3.0.4",
     "mic-recorder-to-mp3": "https://git@github.com/NikolaBalaban/mic-recorder-to-mp3.git",
     "moment": "^2.29.4",
-    "qrcode": "1.4.4 || ^1.5.1",
+    "qrcode": "1.5.1",
     "vue": "^3.2.37",
     "vue-native-websocket-vue3": "^3.1.6",
     "vue-router": "^4.1.3",
