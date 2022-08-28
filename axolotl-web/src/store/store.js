@@ -6,6 +6,8 @@ import app from "../main";
 export default createStore({
   state: {
     chatList: [],
+    lastMessages: {},
+    sessionNames: {},
     messageList: {},
     request: '',
     contacts: [],
@@ -80,6 +82,20 @@ export default createStore({
     },
     SET_CHATLIST(state, chatList) {
       state.chatList = chatList;
+    },
+    SET_LASTMESSAGES(state, lastMessages) {
+      let sorted = {};
+      for (let i = 0; i < lastMessages.length; i++) {
+        sorted[lastMessages[i].SID] = lastMessages[i];
+      }
+      state.lastMessages = sorted;
+    },
+    SET_SESSIONNAMES(state, sessionNames) {
+      let sorted = {};
+      for (let i = 0; i < sessionNames.length; i++) {
+        sorted[sessionNames[i].ID] = sessionNames[i];
+      }
+      state.sessionNames = sorted;
     },
     SET_CURRENT_CHAT(state, chat) {
       state.currentChat = chat;
@@ -160,39 +176,39 @@ export default createStore({
       // this.dispatch("requestCode", "+123456")
     },
     SET_MESSAGELIST(state, messageList) {
-      state.messageList = messageList;
+      state.messageList = messageList.reverse();
     },
     SET_MORE_MESSAGELIST(state, messageList) {
-      if (messageList.Messages !== null) {
-        state.messageList.Messages = state.messageList.Messages.concat(messageList.Messages);
+      if (messageList !== null) {
+        state.messageList = state.messageList.concat(messageList);
       }
     },
     SET_MESSAGE_RECIEVED(state, message) {
-      if (state.messageList.ID === message.SID) {
-        const tmpList = state.messageList.Messages;
+      if (state.currentChat !== null && state.currentChat.ID === message.SID) {
+        const tmpList = state.messageList;
         tmpList.push(message);
         tmpList.sort(function (a, b) {
-          return b.ID - a.ID
+          return a.ID - b.ID
         })
-        state.messageList.Messages = tmpList;
+        state.messageList = tmpList;
       }
       state.chatList.forEach((chat, i) => {
-        if (chat.Tel === message.ChatID) {
+        if (chat.ID === message.SID) {
           state.chatList[i].Messages = [message]
         }
       })
     },
     SET_MESSAGE_UPDATE(state, message) {
-      if (state.messageList.ID === message.SID) {
-        const index = state.messageList.Messages.findIndex(m => {
+      if (state.currentChat.ID === message.SID) {
+        const index = state.messageList.findIndex(m => {
           return m.ID === message.ID;
         });
         // check if message exists
         if (index !== -1) {
-          const tmpList = JSON.parse(JSON.stringify(state.messageList.Messages));
+          const tmpList = JSON.parse(JSON.stringify(state.messageList));
           tmpList[index] = message;
           tmpList.sort(function (a, b) {
-            return b.ID - a.ID
+            return a.ID - b.ID
           })
           // mark all as read if it's a is read update
           if (message.IsRead) {
@@ -203,10 +219,10 @@ export default createStore({
               }
             })
           }
-          state.messageList.Messages = tmpList;
+          state.messageList = tmpList;
         } else {
           // add message to message list
-          state.messageList.Messages.unshift(message)
+          state.messageList.unshift(message)
         }
       }
     },
@@ -274,6 +290,8 @@ export default createStore({
     SOCKET_ONERROR() {
       // console.error(state, event)
     },
+    SOCKET_RECONNECT(state, count) {
+    },
     SOCKET_RECONNECT_ERROR(state) {
       state.socket.reconnectError = true;
     },
@@ -286,7 +304,17 @@ export default createStore({
           this.commit("SET_ERROR", messageData["Error"]);
         }
         if (Object.keys(messageData)[0] === "ChatList") {
-          this.commit("SET_CHATLIST", messageData["ChatList"]);
+          let chats = messageData["ChatList"]
+          //   .filter((e) => e.Messages !== null)
+          //   .sort(function (a, b) {
+          //     return (
+          //       b.Messages[b.Messages.length - 1].SentAt -
+          //       a.Messages[a.Messages.length - 1].SentAt
+          //     );
+          //   });
+          this.commit("SET_CHATLIST", chats);
+          this.commit("SET_LASTMESSAGES", messageData["LastMessages"]);
+          this.commit("SET_SESSIONNAMES", messageData["SessionNames"]);
         }
         else if (Object.keys(messageData)[0] === "MessageList") {
           this.commit("SET_MESSAGELIST", messageData["MessageList"]);
@@ -410,7 +438,7 @@ export default createStore({
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
     },
-    openChat({dispatch}, chatId) {
+    openChat({ dispatch }, chatId) {
       if (this.state.socket.isConnected) {
         const message = {
           "request": "openChat",
@@ -506,15 +534,15 @@ export default createStore({
       state.rateLimitError = null;
       if (this.state.socket.isConnected
         && contact.name !== "" && contact.phone !== "") {
-          if(this.state.currentChat !== null
-            && this.state.currentChat.Tel === contact.phone){
-            this.commit("SET_CURRENT_CHAT_NAME", contact.name);
-          }
+        if (this.state.currentChat !== null
+          && this.state.currentChat.Tel === contact.phone) {
+          this.commit("SET_CURRENT_CHAT_NAME", contact.name);
+        }
         const message = {
           "request": "addContact",
           "name": contact.name,
           "phone": contact.phone,
-          "uuid":contact.uuid
+          "uuid": contact.uuid
         }
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
@@ -582,8 +610,8 @@ export default createStore({
     editContact(state, data) {
       state.rateLimitError = null;
       if (this.state.socket.isConnected) {
-        if(this.state.currentChat !== null
-          && this.state.currentChat.Tel === data.contact.Tel){
+        if (this.state.currentChat !== null
+          && this.state.currentChat.Tel === data.contact.Tel) {
           this.commit("SET_CURRENT_CHAT_NAME", data.contact.Name);
         }
         const message = {

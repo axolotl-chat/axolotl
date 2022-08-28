@@ -10,12 +10,11 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
+	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/nanu-c/axolotl/app/store"
 	"github.com/signal-golang/textsecure"
 )
-
-const emptyUUID = "0"
 
 // SendMessageHelper sends the message and returns the updated message
 func SendMessageHelper(ID int64, message, file string,
@@ -51,66 +50,42 @@ func SendMessageHelper(ID int64, message, file string,
 			}
 
 		}
-		session, err := store.SessionsModel.Get(ID)
+		session, err := store.SessionsV2Model.GetSessionByID(ID)
 		if err != nil {
-			log.Errorln("[axolotl] SendMessageHelper:" + err.Error())
+			log.Errorln("[axolotl] SendMessageHelper: get session " + err.Error())
 			return nil, err
 		}
-		// sessions fix bug in 1.9.4 could be deleted later
-		if !session.IsGroup && len(session.Tel) > 0 && session.Tel[0] != '+' {
-			// check for 00 international countries
-			if session.Tel[0] != '0' && session.Tel[1] != '0' {
-				session.IsGroup = true
-				store.UpdateSession(session)
-			}
+		fJSON, ctype, err := prepareAttachment(attachments)
+		if err != nil {
+			log.Errorln("[axolotl] SendMessageHelper: attachment " + err.Error())
+			return nil, err
 		}
-		if !session.IsGroup && strings.Index(session.UUID, "-") == -1 {
-			contact := store.GetContactForTel(session.Tel)
-			if strings.Index(contact.UUID, "-") != -1 {
-				session.UUID = contact.UUID
-				store.SaveSession(session)
-			}
+		// m := session.Add(message, "", attachments, "", true, ID)
+		m := &store.Message{Message: message,
+			SID:         session.ID,
+			Outgoing:    true,
+			Source:      "",
+			SourceUUID:  config.Config.UUID,
+			CType:       ctype,
+			Attachment:  string(fJSON),
+			HTime:       "Now",
+			SentAt:      uint64(time.Now().UnixNano() / 1000000),
+			ExpireTimer: uint32(session.ExpireTimer),
 		}
-		if !session.IsGroup {
-			// deduplicate sessions fix bug in 1.9.4 could be deleted later
-			sessions := store.SessionsModel.GetAllSessionsByE164(session.Tel)
-			if len(sessions) > 1 {
-				log.Println("[axolotl] MessageHandler update private session duplicate", sessions[0].ID, sessions[1].ID)
-				err := store.MigrateMessagesFromSessionToAnotherSession(sessions[0].ID, sessions[1].ID)
-				if err != nil {
-					log.Debugln("[axolotl] error migrating session", err)
-				}
-				session = store.SessionsModel.GetByE164(session.Tel)
-				ID = session.ID
-			}
+		savedM, err := store.SaveMessage(m)
+		if err != nil {
+			log.Errorln("[axolotl] SendMessageHelper: save Message" + err.Error())
+			return nil, err
 		}
-		if session.IsGroup {
-			// deduplicate sessions fix bug in 1.9.4 could be deleted later
-			log.Println("[axolotl] MessageHandler update group session uuid", session.IsGroup)
-
-			sessions := store.SessionsModel.GetAllSessionsByE164(session.Tel)
-			if len(sessions) > 1 {
-				log.Println("[axolotl] MessageHandler update group session uuid")
-				if len(sessions[0].UUID) < 32 {
-					store.MigrateMessagesFromSessionToAnotherSession(sessions[0].ID, sessions[1].ID)
-				} else {
-					store.MigrateMessagesFromSessionToAnotherSession(sessions[1].ID, sessions[0].ID)
-				}
-				session = store.SessionsModel.GetByE164(session.Tel)
-				ID = session.ID
-
-			}
-		}
-		m := session.Add(message, "", attachments, "", true, ID)
-		m.Source = session.Tel
-		m.SourceUUID = session.UUID
-		m.ExpireTimer = session.ExpireTimer
-		_, savedM := store.SaveMessage(m)
 
 		go func() {
-			mNew, _ := SendMessage(session, m, voiceMessage)
-			if updateMessageChannel != nil {
-				updateMessageChannel <- mNew
+			mNew, err := SendMessage(session, m, voiceMessage)
+			if err != nil {
+				log.Errorln("[axolotl] SendMessageHelper: send message" + err.Error())
+			} else {
+				if updateMessageChannel != nil {
+					updateMessageChannel <- mNew
+				}
 			}
 		}()
 		return savedM, nil
@@ -119,7 +94,28 @@ func SendMessageHelper(ID int64, message, file string,
 	return nil, errors.New("send to is empty")
 }
 
-func SendMessage(s *store.Session, m *store.Message, isVoiceMessage bool) (*store.Message, error) {
+// prepareAttachment prepares the attachment for sending
+func prepareAttachment(file []store.Attachment) ([]byte, int, error) {
+	var files []store.Attachment
+
+	ctype := helpers.ContentTypeMessage
+	if len(file) > 0 {
+		for _, fi := range file {
+			f, _ := os.Open(fi.File)
+			if fi.CType == 0 {
+				ctype = helpers.ContentType(f, "")
+			} else {
+				ctype = fi.CType
+			}
+			files = append(files, store.Attachment{File: fi.File, CType: ctype, FileName: fi.FileName})
+		}
+	}
+	fJson, err := json.Marshal(files)
+	return fJson, ctype, err
+
+}
+
+func SendMessage(s *store.SessionV2, m *store.Message, isVoiceMessage bool) (*store.Message, error) {
 	var att io.Reader
 	var err error
 	if len(m.Attachment) > 0 && m.Attachment != "null" {
@@ -136,29 +132,22 @@ func SendMessage(s *store.Session, m *store.Message, isVoiceMessage bool) (*stor
 	}
 	var recipient string
 	// check if user uuid exists and if yes send it to the uuid instead of the phone number
-	if s.UUID != emptyUUID && s.UUID != "" {
-		recipient = s.UUID
-		// If it's not a group session, check that recipient does not contain '-'
-		// If it does not, convert recipient value to a valid UUID
-		index := strings.Index(recipient, "-")
-		if !s.IsGroup && index == -1 {
-			recipient = helpers.HexToUUID(recipient)
-		}
+	if s.IsGroup() {
+		recipient = s.GroupV2ID
 	} else {
-		log.Debugln("[axolotl] send message: empty uuid")
-		recipient = s.Tel
-		// If it's not a group session, check that recipient does not begin with '+' or contain '-'
-		// If it does not, convert it to a valid UUID
-		index := strings.Index(recipient, "-")
-		if recipient[0] != '+' && !s.IsGroup && index == -1 {
-			recipient = helpers.HexToUUID(recipient)
+		r := store.RecipientsModel.GetRecipientById(s.DirectMessageRecipientID)
+		if r == nil {
+			return nil, errors.New("recipient not found")
+		}
+		if r.UUID != "" {
+			recipient = r.UUID
+		} else {
+			recipient = r.E164
 		}
 	}
-	ts := SendMessageLoop(recipient, m.Message, s.IsGroup, att, m.Flags, s.ExpireTimer, isVoiceMessage)
+	ts := SendMessageLoop(recipient, m.Message, s.IsGroup(), att, m.Flags, uint32(s.ExpireTimer), isVoiceMessage)
 	log.Debugln("[axolotl] SendMessage", recipient, ts)
 	m.SentAt = ts
-	m.ExpireTimer = s.ExpireTimer
-	s.Timestamp = m.SentAt
 	m.IsSent = true
 	if ts == 0 {
 		m.SendingError = true
@@ -167,9 +156,7 @@ func SendMessage(s *store.Session, m *store.Message, isVoiceMessage bool) (*stor
 		m.ExpireTimer = 0
 	}
 	m.HTime = helpers.HumanizeTimestamp(m.SentAt)
-	s.When = m.HTime
 	store.UpdateMessageSent(m)
-	store.UpdateSession(s)
 	if m.SendingError {
 		return m, errors.New("message sending failed")
 	}
@@ -185,10 +172,6 @@ func SendMessageLoop(to, message string, group bool, att io.Reader, flags int, t
 		err = nil
 		if flags == helpers.MsgFlagResetSession {
 			ts, err = textsecure.EndSession(to, "TERMINATE")
-		} else if flags == helpers.MsgFlagGroupLeave {
-			err = textsecure.LeaveGroup(to)
-		} else if flags == helpers.MsgFlagGroupUpdate {
-			_, err = textsecure.UpdateGroup(to, store.Groups[to].Name, strings.Split(store.Groups[to].Members, ","))
 		} else if att == nil {
 			if group {
 				ts, err = textsecure.SendGroupMessage(to, message, timer)
@@ -236,7 +219,7 @@ func SendMessageLoop(to, message string, group bool, att io.Reader, flags int, t
 	return ts
 }
 func SendUnsentMessages() {
-	// for _, s := range store.SessionsModel.Sess {
+	// for _, s := range store.SessionsV2Model.Sess {
 	// 	for _, m := range s.Messages {
 	// 		if m.Outgoing && !m.IsSent {
 	// 			go SendMessage(s, m)

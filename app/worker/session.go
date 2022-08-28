@@ -2,7 +2,6 @@ package worker
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/nanu-c/axolotl/app/helpers"
 	"github.com/nanu-c/axolotl/app/sender"
@@ -12,12 +11,15 @@ import (
 
 // EndSession resets the current session.
 func (Api *TextsecureAPI) EndSession(ID int64) error {
-	session, err := store.SessionsModel.Get(ID)
+	session, err := store.SessionsV2Model.GetSessionByID(ID)
 	if err != nil {
 		return err
 	}
-	m := session.Add("Secure session reset.", "", []store.Attachment{}, "", true, store.ActiveSessionID)
-	m.Flags = helpers.MsgFlagResetSession
+	m := &store.Message{
+		Message: "Secure session reset",
+		SID:     store.ActiveSessionID,
+		Flags:   helpers.MsgFlagResetSession,
+	}
 	store.SaveMessage(m)
 	go sender.SendMessage(session, m, false)
 	return nil
@@ -26,7 +28,7 @@ func (Api *TextsecureAPI) EndSession(ID int64) error {
 // MarkSessionsRead marks one or all sessions as read
 func (Api *TextsecureAPI) MarkSessionRead(ID int64) error {
 	if ID != -1 {
-		s, err := store.SessionsModel.Get(ID)
+		s, err := store.SessionsV2Model.GetSessionByID(ID)
 		if err != nil {
 			return err
 		}
@@ -41,20 +43,4 @@ func (Api *TextsecureAPI) DeleteSession(ID int64) {
 	if err != nil {
 		ui.ShowError(err)
 	}
-}
-func (Api *TextsecureAPI) FilterSessions(sub string) {
-	sub = strings.ToUpper(sub)
-
-	sm := &store.Sessions{
-		Sess: make([]*store.Session, 0),
-	}
-
-	for _, s := range store.SessionsModel.Sess {
-		if strings.Contains(strings.ToUpper(store.TelToName(s.Tel)), sub) {
-			sm.Sess = append(sm.Sess, s)
-			sm.Len++
-		}
-	}
-
-	// ui.Engine.Context().SetVar("sessionsModel", sm)
 }

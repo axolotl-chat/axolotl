@@ -7,13 +7,15 @@ import (
 )
 
 type MessageListEnvelope struct {
-	MessageList *store.MessageList
+	MessageList []*store.Message
 }
 type MoreMessageListEnvelope struct {
 	MoreMessageList *store.MessageList
 }
 type ChatListEnvelope struct {
-	ChatList []*store.Session
+	ChatList     []*store.SessionV2
+	LastMessages []store.Message
+	SessionNames []store.SessionV2Name
 }
 type ContactListEnvelope struct {
 	ContactList []textsecureContacts.Contact
@@ -24,10 +26,10 @@ type DeviceListEnvelope struct {
 type Group struct {
 	HexId   string
 	Name    string
-	Members []string
+	Members []*store.Recipient
 }
 type OpenChat struct {
-	CurrentChat *store.Session
+	CurrentChat *store.SessionV2
 	Contact     *textsecureContacts.Contact
 	Group       *Group
 }
@@ -35,8 +37,8 @@ type CurrentChatEnvelope struct {
 	OpenChat *OpenChat
 }
 type UpdateCurrentChat struct {
-	CurrentChat *store.Session
-	Contact     *textsecureContacts.Contact
+	CurrentChat *store.SessionV2
+	Contact     *store.Recipient
 	Group       *Group
 }
 type UpdateCurrentChatEnvelope struct {
@@ -154,12 +156,6 @@ type OpenChatMessage struct {
 type CreateGroupMessage struct {
 	Type    string   `json:"request"`
 	Name    string   `json:"name"`
-	Members []string `json:"members"`
-}
-type UpdateGroupMessage struct {
-	Type    string   `json:"request"`
-	Name    string   `json:"name"`
-	ID      string   `json:"id"`
 	Members []string `json:"members"`
 }
 type JoinGroupMessage struct {

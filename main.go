@@ -36,9 +36,14 @@ func setup() {
 	log.Infoln("[axolotl] Starting axolotl version", config.AppVersion)
 }
 func runBackend() {
-	go worker.RunBackend()
+	errorChannel := make(chan error)
+	go worker.RunBackend(errorChannel)
 	if config.IsPushHelper {
-		push.PushHelperProcess()
+		go push.PushHelperProcess()
+	}
+	err := <-errorChannel
+	if err != nil {
+		os.Exit(1)
 	}
 }
 func runUI() error {

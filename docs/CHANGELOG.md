@@ -1,8 +1,8 @@
-1.5.0 (Aug 22 2022)
-------------------------------------
-* update crayfish to a more recent libsignal version @nanu-c + @jonnius
-* fix rust build in ci @jonnius
-* fix names in groups @nanu-c
+  1.5.0 (Aug 22 2022)
+  ------------------------------------
+  * update crayfish to a more recent libsignal version @nanu-c + @jonnius
+  * fix rust build in ci @jonnius
+  * fix names in groups @nanu-c
 
 1.4.0 (Aug 19 2022)
 ------------------------------------

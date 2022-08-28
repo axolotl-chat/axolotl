@@ -22,6 +22,7 @@ package push
 
 import (
 	"encoding/json"
+	"strconv"
 	"time"
 
 	dbus "github.com/z3ntu/go-dbus"
@@ -70,8 +71,8 @@ func NewLegacyHandler(conn *dbus.Connection, application string) *NotificationHa
 		application: application,
 	}
 }
-func (n *NotificationHandler) Clear(tag string) error {
-	_, err := n.dbusObject.Call(dbusInterface, dbusClearMethod, "textsecure.nanuc_textsecure", tag)
+func (n *NotificationHandler) Clear(tag int64) error {
+	_, err := n.dbusObject.Call(dbusInterface, dbusClearMethod, "textsecure.nanuc_textsecure", strconv.FormatInt(tag, 10))
 	return err
 }
 

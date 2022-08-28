@@ -265,7 +265,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["contacts", "config"]),
+    ...mapState(["currentGroup", "config"]),
     isSenderNameDisplayed() {
       return (
         !this.message.Outgoing &&
@@ -306,13 +306,13 @@ export default {
       return result;
     },
     getName(uuid) {
-      if (this.contacts !== null) {
-        const contact = this.contacts.find(function (element) {
+      if (this.currentGroup.Members !== null) {
+        const contact = this.currentGroup.Members.find(function (element) {
           return element.UUID === uuid;
         });
         if (typeof contact !== "undefined") {
-          this.name = contact.Name;
-          return contact.Name;
+          this.name = contact.Username;
+          return contact.Username;
         }
       }
       return uuid;

@@ -51,7 +51,7 @@
             </button>
           </div>
           <message
-            v-for="message in messageList.Messages.slice().reverse()"
+            v-for="message in messageList"
             :key="message.ID"
             :message="message"
             :is-group="isGroup"
@@ -212,10 +212,10 @@ export default {
       return this.chat && this.chat.IsGroup && this.chat.GroupJoinStatus !== 0;
     },
     messages() {
-      return this.$store.state.messageList.Messages;
+      return this.$store.state.messageList;
     },
     isGroup() {
-      return this.$store.state.messageList.Session.IsGroup;
+      return this.$store.state.currentChat.GroupV2ID!=="" || this.$store.state.currentChat.GroupV1ID !== ""?true:false;
     },
     ...mapState(["contacts", "config", "messageList"]),
   },
@@ -362,7 +362,7 @@ export default {
       }
     },
     scrollDown() {
-      if (this.messages.length !== 0)
+      if (this.messages && this.messages.length !== 0)
         document.getElementById("chat-bottom").scrollIntoView();
     },
     recordAudio() {

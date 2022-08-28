@@ -128,7 +128,7 @@ func wsReader(conn *websocket.Conn) {
 			createChatMessage := CreateChatMessage{}
 			json.Unmarshal([]byte(p), &createChatMessage)
 			log.Println("[axolotl] Create chat for ", createChatMessage.UUID)
-			newChat := createChat(createChatMessage.UUID)
+			newChat := createDirectRecipientChat(createChatMessage.UUID)
 			activeChat = newChat.ID
 			store.ActiveSessionID = activeChat
 			requestEnterChat(activeChat)
@@ -138,16 +138,11 @@ func wsReader(conn *websocket.Conn) {
 			json.Unmarshal([]byte(p), &openChatMessage)
 
 			log.Println("[axolotl] Open chat with id: ", openChatMessage.Id)
-			s, err := store.SessionsModel.Get(openChatMessage.Id)
+			s, err := store.SessionsV2Model.GetSessionByID(openChatMessage.Id)
 			if err != nil {
 				log.Errorln("[axolotl] Open chat with id: ", openChatMessage.Id, "failed", err)
 			} else {
 				activeChat = openChatMessage.Id
-				// TODO: Avatar and profile handling for private chats, decryption is not yet done on the textsecure part
-				// if !s.IsGroup {
-				// p, _ := textsecure.GetProfile(s.Tel)
-				// profile = p
-				// }
 				store.ActiveSessionID = activeChat
 				sendCurrentChat(s)
 			}
@@ -168,19 +163,11 @@ func wsReader(conn *websocket.Conn) {
 				requestEnterChat(activeChat)
 				sendContactList()
 			}
-
-		case "updateGroup":
-			updateGroupMessage := UpdateGroupMessage{}
-			json.Unmarshal([]byte(p), &updateGroupMessage)
-			log.Println("[axolotl] Update group ", updateGroupMessage.ID)
-			updateGroup(updateGroupMessage)
-			requestEnterChat(store.ActiveSessionID)
-			sendContactList()
 		case "joinGroup":
 			joinGroupMessage := JoinGroupMessage{}
 			json.Unmarshal([]byte(p), &joinGroupMessage)
 			log.Println("[axolotl] Join group ", joinGroupMessage.ID)
-			go joinGroup(joinGroupMessage)
+			go joinGroupV2(joinGroupMessage)
 		case "sendMessage":
 			sendMessageMessage := SendMessageMessage{}
 			json.Unmarshal([]byte(p), &sendMessageMessage)
@@ -188,6 +175,7 @@ func wsReader(conn *websocket.Conn) {
 			updateMessageChannel := make(chan *store.Message)
 			m, err := sender.SendMessageHelper(sendMessageMessage.To,
 				sendMessageMessage.Message, "", updateMessageChannel, false)
+
 			if err != nil || m == nil {
 				log.Errorln("[axolotl] send message: ", err)
 			} else {
@@ -196,8 +184,10 @@ func wsReader(conn *websocket.Conn) {
 				}
 				// catch status
 				go func() {
-					m := <-updateMessageChannel
-					go UpdateMessageHandlerWithSource(m)
+					updateMessage := <-updateMessageChannel
+					fmt.Printf("[axolotl] send message updateMessage: %v\n", updateMessage)
+
+					go UpdateMessageHandlerWithSource(updateMessage)
 				}()
 			}
 		case "sendVoiceNote":
@@ -401,35 +391,44 @@ func wsReader(conn *websocket.Conn) {
 			toggleNotificationsMessage := toggleNotificationsMessage{}
 			json.Unmarshal([]byte(p), &toggleNotificationsMessage)
 			log.Debugln("[axolotl] toggle notification for: ", toggleNotificationsMessage.Chat)
-			s, err := store.SessionsModel.Get(toggleNotificationsMessage.Chat)
+			s, err := store.SessionsV2Model.GetSessionByID(toggleNotificationsMessage.Chat)
 			if err != nil {
 				ShowError(err.Error())
 			}
-			s.ToggleSessionNotification()
+			s.NotificationsToggle()
 			sendCurrentChat(s)
 			sendChatList()
 		case "resetEncryption":
 			resetEncryptionMessage := ResetEncryptionMessage{}
 			json.Unmarshal([]byte(p), &resetEncryptionMessage)
 			log.Debugln("[axolotl] reset encryption for: ", resetEncryptionMessage.Chat)
-			s, err := store.SessionsModel.Get(resetEncryptionMessage.Chat)
+			s, err := store.SessionsV2Model.GetSessionByID(resetEncryptionMessage.Chat)
 			if err != nil {
 				ShowError(err.Error())
 			}
-			m := s.Add("Secure session reset.", "", []store.Attachment{}, "", true, store.ActiveSessionID)
-			m.Flags = helpers.MsgFlagResetSession
-			store.SaveMessage(m)
+			m, err := store.SaveMessage(&store.Message{
+				SID:     s.ID,
+				Message: "Secure session reset.",
+				Flags:   helpers.MsgFlagResetSession,
+			})
+			if err != nil {
+				ShowError(err.Error())
+			}
 			go sender.SendMessage(s, m, false)
 			sendChatList()
 		case "verifyIdentity":
 			verifyIdentityMessage := verifyIdentityMessage{}
 			json.Unmarshal([]byte(p), &verifyIdentityMessage)
 			log.Debugln("[axolotl] identity information for: ", verifyIdentityMessage.Chat)
-			s, err := store.SessionsModel.Get(verifyIdentityMessage.Chat)
+			s, err := store.SessionsV2Model.GetSessionByID(verifyIdentityMessage.Chat)
 			if err != nil {
 				ShowError(err.Error())
 			}
-			fingerprintNumbers, fingerprintQRCode, err := textsecure.GetFingerprint(s.UUID, s.Tel)
+			recipient := store.RecipientsModel.GetRecipientById(s.DirectMessageRecipientID)
+			if recipient == nil {
+				ShowError("Recipient not found")
+			}
+			fingerprintNumbers, fingerprintQRCode, err := textsecure.GetFingerprint(recipient.UUID, recipient.E164)
 			if err != nil {
 				log.Debugln("[axolotl] identity information ", err)
 			}

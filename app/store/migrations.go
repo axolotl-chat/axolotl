@@ -6,87 +6,6 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// This is needed for version .26
-
-func UpdateSessionTable() error {
-	statement, err := DS.Dbx.Prepare("SELECT * FROM sessions limit 1")
-	if err != nil {
-		return err
-	}
-	res, err := statement.Query()
-	if err != nil {
-		return err
-	}
-
-	col, err := res.Columns()
-	if len(col) == 8 {
-		log.Infof("[axolotl] Update session schema")
-		_, err := DS.Dbx.Exec("ALTER TABLE sessions ADD COLUMN notification bool NOT NULL DEFAULT 1")
-		if err != nil {
-			return err
-		}
-	}
-
-	return err
-}
-
-// fix v.0.7.8 add SendingError + expireTimer
-func UpdateMessagesTable_v_0_7_8() error {
-	statement, err := DS.Dbx.Prepare("SELECT * FROM messages limit 1")
-	if err != nil {
-		return err
-	}
-	res, err := statement.Query()
-	if err != nil {
-		return err
-	}
-
-	col, err := res.Columns()
-	if len(col) == 12 {
-		log.Infoln("[axolotl] Update messages schema for v0.7.8")
-		_, err := DS.Dbx.Exec("ALTER TABLE messages ADD COLUMN sendingError bool DEFAULT 0")
-		if err != nil {
-			return err
-		}
-		_, err = DS.Dbx.Exec("ALTER TABLE messages ADD COLUMN expireTimer integer DEFAULT 0")
-		if err != nil {
-			return err
-		}
-		_, err = DS.Dbx.Exec("ALTER TABLE messages ADD COLUMN receipt bool DEFAULT 0")
-		if err != nil {
-			return err
-		}
-		_, err = DS.Dbx.Exec("ALTER TABLE messages ADD COLUMN statusMessage bool DEFAULT 0")
-		if err != nil {
-			return err
-		}
-	}
-
-	return err
-}
-
-func UpdateSessionTable_v_0_7_8() error {
-	statement, err := DS.Dbx.Prepare("SELECT * FROM sessions limit 1")
-	if err != nil {
-		return err
-	}
-	res, err := statement.Query()
-	if err != nil {
-		return err
-	}
-
-	col, err := res.Columns()
-	if len(col) == 9 {
-		log.Infof("[axolotl] Update session schema v_0_7_8")
-		_, err := DS.Dbx.Exec("ALTER TABLE sessions ADD COLUMN expireTimer bool NOT NULL DEFAULT 0")
-		if err != nil {
-			return err
-		}
-	}
-
-	return err
-}
-
 // add support for quoted messages
 func UpdateSessionTable_v_0_9_0() error {
 	statement, err := DS.Dbx.Prepare("SELECT * FROM messages limit 1")
@@ -219,6 +138,84 @@ func updateSessionTable_joinStatus_v_0_9_10() error {
 		_, err := DS.Dbx.Exec("ALTER TABLE sessions ADD COLUMN groupJoinStatus integer NOT NULL DEFAULT 0")
 		if err != nil {
 			return err
+		}
+	}
+	return nil
+}
+
+func update_v_1_6_0() error {
+	log.Infoln("[axolotl] update schema v_1_6_0")
+	_, err := DS.Dbx.Exec(groupsV2Schema)
+	if err != nil {
+		return err
+	}
+	_, err = DS.Dbx.Exec(groupV2MembersSchema)
+	if err != nil {
+		return err
+	}
+	_, err = DS.Dbx.Exec(recipientsSchema)
+	if err != nil {
+		return err
+	}
+	_, err = DS.Dbx.Exec(sessionsV2Schema)
+	if err != nil {
+		return err
+	}
+	var Groups []*GroupRecord
+	err = DS.Dbx.Select(&Groups, groupsSelect)
+	if err != nil {
+		return fmt.Errorf("error loading groups: %s", err)
+	}
+	var sessions []*Session
+	err = DS.Dbx.Select(&sessions, sessionsSelect)
+	if err != nil {
+		return fmt.Errorf("error loading sessions: %s", err)
+	}
+	for _, session := range sessions {
+		if session.IsGroup && session.Type == SessionTypeGroupV2 {
+
+			_, err = GroupV2sModel.Create(&GroupV2{
+				Id:         session.UUID,
+				Name:       session.Name,
+				JoinStatus: session.GroupJoinStatus,
+			})
+			if err != nil {
+				return fmt.Errorf("error creating group v2: %s", err)
+			}
+			_, err = SessionsV2Model.SaveSession(&SessionV2{
+				ID:                       session.ID,
+				DirectMessageRecipientID: int64(GroupRecipientsID),
+				GroupV2ID:                session.UUID,
+			})
+			if err != nil {
+				return fmt.Errorf("error creating session groupv2: %s", err)
+
+			}
+		} else if session.IsGroup && session.Type == SessionTypeGroupV1 {
+			_, err = SessionsV2Model.SaveSession(&SessionV2{
+				ID:                       session.ID,
+				GroupV1ID:                session.UUID,
+				DirectMessageRecipientID: int64(GroupRecipientsID),
+			})
+			if err != nil {
+				return err
+			}
+		} else if session.Type == SessionTypePrivateChat {
+			recipient, err := RecipientsModel.CreateRecipient(&Recipient{
+				UUID:     session.UUID,
+				Username: session.Name,
+				E164:     session.Tel,
+			})
+			if err != nil {
+				return err
+			}
+			_, err = SessionsV2Model.SaveSession(&SessionV2{
+				ID:                       session.ID,
+				DirectMessageRecipientID: recipient.Id,
+			})
+			if err != nil {
+				return err
+			}
 		}
 	}
 	return nil

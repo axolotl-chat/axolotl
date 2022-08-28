@@ -33,20 +33,20 @@ type Message struct {
 	QuotedMessage *Message
 }
 
-func SaveMessage(m *Message) (error, *Message) {
+func SaveMessage(m *Message) (*Message, error) {
 
 	res, err := DS.Dbx.NamedExec(messagesInsert, m)
 	if err != nil {
-		return err, nil
+		return nil, err
 	}
 
 	id, err := res.LastInsertId()
 	if err != nil {
-		return err, nil
+		return nil, err
 	}
 
 	m.ID = id
-	return nil, m
+	return m, nil
 }
 
 func UpdateMessageSent(m *Message) error {
@@ -121,7 +121,7 @@ func LoadMessagesFromDB() error {
 
 func DeleteMessage(id int64) error {
 	err := deleteAttachmentForMessage(id)
-	if err!=nil{
+	if err != nil {
 		log.Errorln("[axolotl] could not delete attachment", err)
 		return err
 	}
@@ -156,7 +156,7 @@ func FindQuotedMessage(quote *signalservice.DataMessage_Quote) (error, int64) {
 }
 
 // GetMessageById returns a message by it's ID
-func GetMessageById(id int64) ( *Message, error) {
+func GetMessageById(id int64) (*Message, error) {
 	var message = []Message{}
 	err := DS.Dbx.Select(&message, "SELECT * FROM messages WHERE id = ?", id)
 	if err != nil {
@@ -171,6 +171,7 @@ func GetMessageById(id int64) ( *Message, error) {
 // FindOutgoingMessage returns  a message that is found by it's timestamp
 func FindOutgoingMessage(timestamp uint64) (*Message, error) {
 	var message = []Message{}
+	log.Debugln("[axolotl] searching for outgoing message ", timestamp)
 	err := DS.Dbx.Select(&message, "SELECT * FROM messages WHERE outgoing = 1 AND sentat = ?", timestamp)
 	if err != nil {
 		return nil, err
@@ -179,4 +180,43 @@ func FindOutgoingMessage(timestamp uint64) (*Message, error) {
 		return nil, errors.New("Message not found " + fmt.Sprint(timestamp))
 	}
 	return &message[0], nil
+}
+
+// GetUnreadMessagesCounterForSession returns an int for the unread messages for a session
+func GetUnreadMessageCounterForSession(id int64) (int64, error) {
+	var message = []Message{}
+	err := DS.Dbx.Select(&message, "SELECT * FROM messages WHERE isread = 0 AND sessionid = ?", id)
+	if err != nil {
+		return 0, err
+	}
+	return int64(len(message)), nil
+}
+
+// GetLastMessageForSession returns the last message in a session
+func GetLastMessageForSession(id int64) (*Message, error) {
+	var message = []Message{}
+	err := DS.Dbx.Select(&message, "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT 1", id)
+	if err != nil {
+		return nil, err
+	}
+	if len(message) == 0 {
+		return nil, errors.New("Message not found " + fmt.Sprint(id))
+	}
+	return &message[0], nil
+}
+func GetLastMessagesForAllSessions() ([]Message, error) {
+	var messages = []Message{}
+	var sessions = []Session{}
+	err := DS.Dbx.Select(&sessions, "SELECT * FROM sessions ORDER BY timestamp DESC")
+	if err != nil {
+		return nil, err
+	}
+	for _, s := range sessions {
+		m, err := GetLastMessageForSession(s.ID)
+		if err != nil {
+			return nil, err
+		}
+		messages = append(messages, *m)
+	}
+	return messages, nil
 }

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/nanu-c/axolotl/app/config"
@@ -35,12 +36,12 @@ var client = &textsecure.Client{}
 var sessionStarted = false
 var isEncrypted = true
 
-//unregister  signal id
+// unregister  signal id
 func (Api *TextsecureAPI) Unregister() {
 	config.Unregister()
 }
 
-//get identitys
+// get identitys
 func (Api *TextsecureAPI) IdentityInfo(id string) string {
 	myID := textsecure.MyIdentityKey()
 	theirID, err := textsecure.ContactIdentityKey(id)
@@ -69,9 +70,17 @@ func (Api *TextsecureAPI) AddContact(name, phone, uuid string) {
 	}
 }
 
-func RunBackend() {
+func RunBackend(errorChannel chan error) error {
 	log.Debugf("[axolotl] Run Backend")
-	store.DS.SetupDb("")
+	co, err := config.GetConfig()
+	if err != nil {
+		log.Error("[axolotl] RunBackend: could not load config", err)
+	} else {
+		if strings.ToUpper(co.LogLevel) == "DEBUG" {
+			log.SetLevel(log.DebugLevel)
+		}
+	}
+
 	go push.NotificationInit()
 	ui.InitModels()
 	settings.SaveSettings(settings.SettingsModel)
@@ -87,6 +96,12 @@ func RunBackend() {
 				break
 			}
 			ui.ShowError(errors.New("wrong password"))
+		}
+	} else {
+		log.Debugf("[axolotl] DB not encrypted, ready to start")
+		if !store.DS.SetupDb("") {
+			log.Errorln("[axolotl] RunBackend: could not setup db")
+			errorChannel <- errors.New("could not setup db")
 		}
 	}
 	sessionStarted = false
@@ -229,9 +244,6 @@ func startSession() {
 			log.Debugln("[axolotl] gv2 migration: ", err)
 		}
 	}
-	for _, s := range store.SessionsModel.Sess {
-		s.Name = store.TelToName(s.Tel)
-	}
 	sender.SendUnsentMessages()
 
 }
@@ -253,14 +265,4 @@ func (Api *TextsecureAPI) SetActiveSessionID(ID int64) {
 // LeaveChat reset the active session id
 func (Api *TextsecureAPI) LeaveChat() {
 	store.ActiveSessionID = -1
-}
-
-// TgNotification turns the notification for the currently active chat on/off
-func (Api *TextsecureAPI) TgNotification(notification bool) {
-	sess, err := store.SessionsModel.Get(store.ActiveSessionID)
-	if err != nil {
-		ui.ShowError(err)
-		return
-	}
-	sess.ToggleSessionNotification()
 }

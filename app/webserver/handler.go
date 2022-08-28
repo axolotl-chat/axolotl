@@ -82,19 +82,24 @@ func UpdateMessageHandler(msg *store.Message) {
 // UpdateMessageHandlerWithSource checks if the message belongs to the current chat and if yes
 // triggers an update on axolotl web
 func UpdateMessageHandlerWithSource(msg *store.Message) {
+	if msg == nil {
+		return
+	}
 	if msg.SID == activeChat {
 		log.Debugln("[axolotl-ws] UpdateMessageHandlerWithSource ", msg.SID, msg.SentAt)
 		updateMessage := &UpdateMessage{
 			UpdateMessage: msg,
 		}
+		log.Debugln("[axolotl-ws] UpdateMessageHandlerWithSource ", updateMessage)
 		var err error
-		message := &[]byte{}
-		*message, err = json.Marshal(updateMessage)
+		message, err := json.Marshal(updateMessage)
+		log.Debugln("[axolotl-ws] UpdateMessageHandlerWithSource ", message)
+
 		if err != nil {
 			log.Errorln("[axolotl-ws] UpdateMessageHandlerWithSource", err)
 			return
 		}
-		broadcast <- *message
+		broadcast <- message
 		UpdateChatList()
 	}
 

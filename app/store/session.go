@@ -2,7 +2,6 @@ package store
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"os"
 	"strings"
@@ -36,7 +35,7 @@ type Session struct {
 }
 type MessageList struct {
 	ID       int64
-	Session  *Session
+	Session  *SessionV2
 	Messages []*Message
 }
 type Sessions struct {
@@ -56,7 +55,7 @@ const (
 	SessionTypeGroupV2Invited int32 = 3
 )
 
-//TODO that hasn't to  be in the db controller
+// TODO that hasn't to  be in the db controller
 var AllSessions []*Session
 
 var SessionsModel = &Sessions{
@@ -124,80 +123,44 @@ func (s *Sessions) GetSession(i int64) *Session {
 }
 
 // GetMessageList returns the message list for the session id
-func (s *Sessions) GetMessageList(ID int64) (error, *MessageList) {
-	if ID != invalidSession {
-		sess, err := s.Get(ID)
-		if err != nil {
-			log.Errorln("[axolotl] get messagelist", err)
-			return err, nil
-		}
-		messageList := &MessageList{
-			ID:      ID,
-			Session: sess,
-		}
-		err = DS.Dbx.Select(&messageList.Messages, messagesSelectWhere, ID)
-		if err != nil {
-			log.Errorln("[axolotl] get messagelist", err)
-			return err, nil
-		}
-		// attach the quoted messages
-		for i, m := range messageList.Messages {
-			if m.Flags == helpers.MsgFlagQuote {
-				if m.QuoteID != invalidQuote {
-					qm, err := GetMessageById(m.QuoteID)
-					if err != nil {
-						log.Debugln("[axolotl] messagelist quoted message: ", err)
-					} else {
-						m.QuotedMessage = qm
-						messageList.Messages[i] = m
-					}
-				}
-			}
-		}
-		if err != nil {
-			log.Errorln("[axolotl] GetMessageList ", err)
-			return err, nil
-		}
-		return nil, messageList
-	}
-	return errors.New("wrong index"), nil
-}
-
-// GetMoreMessageList loads more messages from before the lastID
-func (s *Sessions) GetMoreMessageList(ID int64, lastID string) (error, *MessageList) {
-	if ID != -1 {
-		sess, err := s.Get(ID)
-		if err != nil {
-			log.Errorln("[axolotl] GetMoreMessageList", err)
-			return err, nil
-		}
-		messageList := &MessageList{
-			ID:      ID,
-			Session: sess,
-		}
-		err = DS.Dbx.Select(&messageList.Messages, messagesSelectWhereMore, messageList.Session.ID, lastID)
-		if err != nil {
-			log.Errorln("[axolotl] GetMoreMessageList", err)
-			return err, nil
-		}
-		// attach the quoted messages
-		for i, m := range messageList.Messages {
-			if m.Flags == helpers.MsgFlagQuote {
-				if m.QuoteID != -1 {
-					qm, err := GetMessageById(m.QuoteID)
-					if err != nil {
-						log.Debugln("[axolotl] messagelist quoted message: ", err)
-					} else {
-						m.QuotedMessage = qm
-						messageList.Messages[i] = m
-					}
-				}
-			}
-		}
-		return nil, messageList
-	}
-	return errors.New("wrong index"), nil
-}
+// func (s *Sessions) GetMessageList(ID int64) (error, *MessageList) {
+// 	if ID != invalidSession {
+// 		sess, err := s.Get(ID)
+// 		if err != nil {
+// 			log.Errorln("[axolotl] get messagelist", err)
+// 			return err, nil
+// 		}
+// 		messageList := &MessageList{
+// 			ID:      ID,
+// 			Session: sess,
+// 		}
+// 		err = DS.Dbx.Select(&messageList.Messages, messagesSelectWhere, ID)
+// 		if err != nil {
+// 			log.Errorln("[axolotl] get messagelist", err)
+// 			return err, nil
+// 		}
+// 		// attach the quoted messages
+// 		for i, m := range messageList.Messages {
+// 			if m.Flags == helpers.MsgFlagQuote {
+// 				if m.QuoteID != invalidQuote {
+// 					qm, err := GetMessageById(m.QuoteID)
+// 					if err != nil {
+// 						log.Debugln("[axolotl] messagelist quoted message: ", err)
+// 					} else {
+// 						m.QuotedMessage = qm
+// 						messageList.Messages[i] = m
+// 					}
+// 				}
+// 			}
+// 		}
+// 		if err != nil {
+// 			log.Errorln("[axolotl] GetMessageList ", err)
+// 			return err, nil
+// 		}
+// 		return nil, messageList
+// 	}
+// 	return errors.New("wrong index"), nil
+// }
 
 // Add message to a session
 func (s *Session) Add(text string, source string, file []Attachment, mimetype string, outgoing bool, sessionID int64) *Message {
