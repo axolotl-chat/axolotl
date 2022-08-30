@@ -16,13 +16,10 @@ tags:
 build-options:
   append-path: "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/golang/bin:/usr/lib/sdk/node16/bin"
   env:
-    CARGO_HOME: ${FLATPAK_BUILDER_BUILDDIR}/.cargo
+    RUST_BACKTRACE: 1
     GOBIN: /app/bin
     GOROOT: /usr/lib/sdk/golang
     NPM_CONFIG_LOGLEVEL: error
-    DESTDIR: ${FLATPAK_DEST}
-    INSTALL_PREFIX: /bin
-    LIBRARY_PREFIX: /lib
 cleanup:
   - /app/bin/astilectron-bundler
 finish-args:
@@ -56,15 +53,14 @@ modules:
     build-options:
       build-args:
         - --share=network
-    subdir: src/github.com/nanu-c/axolotl
+      env:
+        CARGO_HOME: /run/build/crayfish/cargo
     build-commands:
       - make build-crayfish
-      - make --environment-overrides install-crayfish
+      - make install-crayfish DESTDIR=${FLATPAK_DEST} INSTALL_PREFIX=/bin
     sources:
-      - type: git
-        url: https://github.com/nanu-c/axolotl
-        tag: update_crayfish_flatpak #TODO This is temporary as to ensure that we are using the PR branch
-        dest: src/github.com/nanu-c/axolotl
+      - type: dir
+        path: ../../
 
   - name: zkgroup
     buildsystem: simple
@@ -82,32 +78,26 @@ modules:
     build-options:
       build-args:
         - --share=network
-    subdir: src/github.com/nanu-c/axolotl
     build-commands:
       - make build-dependencies-axolotl-web
       - make build-axolotl-web
       - make build-dependencies-axolotl
       - make build-dependencies-axolotl-electron-bundle
       - make build-axolotl-electron-bundle
-      - make --environment-overrides install-axolotl-electron-bundle
+      - make install-axolotl-electron-bundle DESTDIR=${FLATPAK_DEST} INSTALL_PREFIX=/bin
     sources:
-      - type: git
-        url: https://github.com/nanu-c/axolotl
-        tag: main
-        dest: src/github.com/nanu-c/axolotl
+      - type: dir
+        path: ../../
 
   - name: metadata
     buildsystem: simple
-    subdir: src/github.com/nanu-c/axolotl
     build-commands:
       - install -Dm 644 flatpak/org.nanuc.Axolotl.png ${FLATPAK_DEST}/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png
       - install -Dm 644 flatpak/org.nanuc.Axolotl.appdata.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
       - install -Dm 644 flatpak/web/org.nanuc.Axolotl.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
     sources:
-      - type: git
-        url: https://github.com/nanu-c/axolotl
-        tag: main
-        dest: src/github.com/nanu-c/axolotl
+      - type: dir
+        path: ../../
 
   - name: run
     buildsystem: simple
