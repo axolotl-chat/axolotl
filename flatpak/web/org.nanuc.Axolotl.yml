@@ -63,7 +63,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/nanu-c/axolotl
-        tag: main
+        tag: update_crayfish_flatpak #TODO This is temporary as to ensure that we are using the PR branch
         dest: src/github.com/nanu-c/axolotl
 
   - name: zkgroup
