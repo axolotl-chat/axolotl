@@ -76,7 +76,7 @@ func (g GroupV2s) GetGroupById(id string) (*GroupV2, error) {
 }
 
 // GetGroupMembers returns all members of a group
-func (g GroupV2) GetGroupMembers() ([]GroupV2Member, error) {
+func (g *GroupV2) GetGroupMembers() ([]GroupV2Member, error) {
 	var members []GroupV2Member
 	err := DS.Dbx.Select(&members, "SELECT * FROM groupsv2members WHERE group_v2_id = :group_v2_id", g.Id)
 	if err != nil {
@@ -86,7 +86,7 @@ func (g GroupV2) GetGroupMembers() ([]GroupV2Member, error) {
 }
 
 // GetGroupMembers as recipients for a group
-func (g GroupV2) GetGroupMembersAsRecipients() ([]*Recipient, error) {
+func (g *GroupV2) GetGroupMembersAsRecipients() ([]*Recipient, error) {
 	members, err := g.GetGroupMembers()
 	if err != nil {
 		return nil, err
@@ -113,7 +113,7 @@ func (g GroupV2s) GetGroups() ([]GroupV2, error) {
 }
 
 // UpdateGroup updates a group
-func (g GroupV2) UpdateGroup() error {
+func (g *GroupV2) UpdateGroup() error {
 	_, err := DS.Dbx.NamedExec(groupV2Insert, g)
 	if err != nil {
 		return err
@@ -122,7 +122,7 @@ func (g GroupV2) UpdateGroup() error {
 }
 
 // UpdateGroupMembers updates all group members
-func (g GroupV2) UpdateGroupMembers(members []GroupV2Member) error {
+func (g *GroupV2) UpdateGroupMembers(members []GroupV2Member) error {
 	//delete all old members
 	err := g.DeleteMembers()
 	if err != nil {
@@ -136,7 +136,7 @@ func (g GroupV2) UpdateGroupMembers(members []GroupV2Member) error {
 	}
 	return nil
 }
-func (g GroupV2) AddGroupMembers(members []*signalservice.DecryptedMember) error {
+func (g *GroupV2) AddGroupMembers(members []*signalservice.DecryptedMember) error {
 	for _, member := range members {
 		var err error
 		id, err := uuid.FromBytes(member.Uuid)
@@ -167,7 +167,7 @@ func (g GroupV2) AddGroupMembers(members []*signalservice.DecryptedMember) error
 }
 
 // DeleteGroup deletes a group
-func (g GroupV2) Delete() error {
+func (g *GroupV2) Delete() error {
 	err := g.DeleteMembers()
 	if err != nil {
 		return err
@@ -181,7 +181,7 @@ func (g GroupV2) Delete() error {
 }
 
 // DeleteMembers deletes all members of a group
-func (g GroupV2) DeleteMembers() error {
+func (g *GroupV2) DeleteMembers() error {
 	//delete all old members
 	_, err := DS.Dbx.Exec("DELETE FROM groupsv2members WHERE group_v2_id = :group_v2_id", g.Id)
 	if err != nil {
@@ -191,7 +191,7 @@ func (g GroupV2) DeleteMembers() error {
 }
 
 // UpdateGroupAction updates a group with a new action
-func (g GroupV2) UpdateGroupAction(action *signalservice.DecryptedGroupChange) error {
+func (g *GroupV2) UpdateGroupAction(action *signalservice.DecryptedGroupChange) error {
 	log.Infoln("[axolotl] UpdateGroupAction to ", action.GetRevision())
 	g.Revision = int(action.GetRevision())
 	if action.GetNewTitle() != nil {
@@ -226,7 +226,7 @@ func (g GroupV2) UpdateGroupAction(action *signalservice.DecryptedGroupChange) e
 }
 
 // AddRecipient adds a recipient to a group
-func (g GroupV2) AddMember(recipient *Recipient) error {
+func (g *GroupV2) AddMember(recipient *Recipient) error {
 	_, err := DS.Dbx.NamedExec(groupV2MemberInsert, GroupV2Member{
 		GroupV2Id:        g.Id,
 		RecipientId:      int(recipient.Id),
@@ -240,7 +240,7 @@ func (g GroupV2) AddMember(recipient *Recipient) error {
 }
 
 // DeleteMember deletes a member from a group
-func (g GroupV2) DeleteMember(recipient *Recipient) error {
+func (g *GroupV2) DeleteMember(recipient *Recipient) error {
 	_, err := DS.Dbx.Exec("DELETE FROM groupsv2members WHERE group_v2_id = :group_v2_id AND recipient_id = :recipient_id", g.Id, int(recipient.Id))
 	if err != nil {
 		return err
@@ -249,7 +249,7 @@ func (g GroupV2) DeleteMember(recipient *Recipient) error {
 }
 
 // IsMember returns true if the user is a member of the group
-func (g GroupV2) IsMember(recipient *Recipient) bool {
+func (g *GroupV2) IsMember(recipient *Recipient) bool {
 	var count int
 	err := DS.Dbx.Get(&count, "SELECT COUNT(*) FROM groupsv2members WHERE group_v2_id = :group_v2_id AND recipient_id = :recipient_id", g.Id, int(recipient.Id))
 	if err != nil {
