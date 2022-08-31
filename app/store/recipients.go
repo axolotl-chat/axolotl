@@ -1,9 +1,8 @@
 package store
 
 import (
-	"fmt"
-
 	"github.com/signal-golang/textsecure"
+	"github.com/signal-golang/textsecure/profiles"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -53,7 +52,6 @@ var RecipientsModel = &Recipients{
 func (r *Recipients) CreateRecipient(recipient *Recipient) (*Recipient, error) {
 	log.Debugln("[axolotl] Creating recipient", recipient.UUID)
 	storedRecipeit := r.GetRecipientByUUID(recipient.UUID)
-	fmt.Printf("[axolotl] Stored recipient: %v\n", storedRecipeit)
 	if storedRecipeit != nil {
 		return storedRecipeit, nil
 	}
@@ -110,7 +108,17 @@ func (r *Recipient) SaveRecipient() error {
 
 // UpdateProfile updates a recipient's profile
 func (r *Recipient) UpdateProfile() error {
-	profile, err := textsecure.GetProfileAndCredential(r.UUID, r.ProfileKey)
+	log.Debugln("[axolotl] Updating profile for recipient", r.UUID)
+	var profile *profiles.Profile
+	var err error
+	if r.ProfileKey == nil {
+		profile, err = textsecure.GetProfileByUUID(r.UUID)
+		if err != nil {
+			return err
+		}
+		r.ProfileKey = []byte(profile.IdentityKey)
+	}
+	profile, err = textsecure.GetProfileAndCredential(r.UUID, r.ProfileKey)
 	if err != nil {
 		return err
 	}

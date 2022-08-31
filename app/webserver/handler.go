@@ -90,11 +90,8 @@ func UpdateMessageHandlerWithSource(msg *store.Message) {
 		updateMessage := &UpdateMessage{
 			UpdateMessage: msg,
 		}
-		log.Debugln("[axolotl-ws] UpdateMessageHandlerWithSource ", updateMessage)
 		var err error
 		message, err := json.Marshal(updateMessage)
-		log.Debugln("[axolotl-ws] UpdateMessageHandlerWithSource ", message)
-
 		if err != nil {
 			log.Errorln("[axolotl-ws] UpdateMessageHandlerWithSource", err)
 			return
