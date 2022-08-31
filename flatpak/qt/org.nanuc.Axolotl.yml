@@ -16,13 +16,8 @@ tags:
 build-options:
   append-path: "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/golang/bin:/usr/lib/sdk/node16/bin"
   env:
-    CARGO_HOME: ${FLATPAK_BUILDER_BUILDDIR}/.cargo
-    GOBIN: /app/bin
-    GOROOT: /usr/lib/sdk/golang
+    RUST_BACKTRACE: 1
     NPM_CONFIG_LOGLEVEL: error
-    DESTDIR: ${FLATPAK_DEST}
-    INSTALL_PREFIX: /bin
-    LIBRARY_PREFIX: /lib
 finish-args:
   # See https://docs.flatpak.org/en/latest/sandbox-permissions-reference.html
   # Write access for the user download folder (to save media)
@@ -55,15 +50,14 @@ modules:
     build-options:
       build-args:
         - --share=network
-    subdir: src/github.com/nanu-c/axolotl
+      env:
+        CARGO_HOME: /run/build/crayfish/cargo
     build-commands:
       - make build-crayfish
-      - make --environment-overrides install-crayfish
+      - make install-crayfish DESTDIR=${FLATPAK_DEST} INSTALL_PREFIX=/bin
     sources:
-      - type: git
-        url: https://github.com/nanu-c/axolotl
-        tag: main
-        dest: src/github.com/nanu-c/axolotl
+      - type: dir
+        path: ../../
 
   - name: zkgroup
     buildsystem: simple
@@ -81,24 +75,22 @@ modules:
     build-options:
       build-args:
         - --share=network
-    subdir: src/github.com/nanu-c/axolotl
+      env:
+        GOBIN: /app/bin
     build-commands:
       - "go mod download -x;
          go build -v"
       - "install -Dm 755 axolotl ${FLATPAK_DEST}/bin/axolotl"
       - "install -Dm 755 $(which qmlscene) ${FLATPAK_DEST}/bin"
     sources:
-      - type: git
-        url: https://github.com/nanu-c/axolotl
-        tag: main
-        dest: src/github.com/nanu-c/axolotl
+      - type: dir
+        path: ../../
 
   - name: axolotl-web
     buildsystem: simple
     build-options:
       build-args:
         - --share=network
-    subdir: src/github.com/nanu-c/axolotl
     build-commands:
       - "cd axolotl-web;
          npm ci;
@@ -106,14 +98,11 @@ modules:
       - "mkdir -p ${FLATPAK_DEST}/bin/axolotl-web"
       - "cp -r axolotl-web/dist ${FLATPAK_DEST}/bin/axolotl-web"
     sources:
-      - type: git
-        url: https://github.com/nanu-c/axolotl
-        tag: main
-        dest: src/github.com/nanu-c/axolotl
+      - type: dir
+        path: ../../
 
   - name: metadata
     buildsystem: simple
-    subdir: src/github.com/nanu-c/axolotl
     build-commands:
       - install -Dm 644 flatpak/org.nanuc.Axolotl.png ${FLATPAK_DEST}/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png
       - install -Dm 644 flatpak/org.nanuc.Axolotl.appdata.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
@@ -121,7 +110,5 @@ modules:
       - mkdir -p ${FLATPAK_DEST}/share/axolotl
       - cp -r guis ${FLATPAK_DEST}/share/axolotl/
     sources:
-      - type: git
-        url: https://github.com/nanu-c/axolotl
-        tag: main
-        dest: src/github.com/nanu-c/axolotl
+      - type: dir
+        path: ../../
