@@ -17,8 +17,6 @@ build-options:
   append-path: "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/golang/bin:/usr/lib/sdk/node16/bin"
   env:
     RUST_BACKTRACE: 1
-    GOBIN: /app/bin
-    GOROOT: /usr/lib/sdk/golang
     NPM_CONFIG_LOGLEVEL: error
 cleanup:
   - /app/bin/astilectron-bundler
@@ -78,6 +76,10 @@ modules:
     build-options:
       build-args:
         - --share=network
+      env:
+        GOBIN: /app/bin
+        GO111MODULE: off
+        GOPATH: /run/build/axolotl-electron-bundle
     build-commands:
       - make build-dependencies-axolotl-web
       - make build-axolotl-web
