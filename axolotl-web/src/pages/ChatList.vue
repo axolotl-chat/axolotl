@@ -1,4 +1,3 @@
-
 <template>
   <component :is="$route.meta.layout || 'div'">
     <template #menu>
@@ -22,10 +21,11 @@
         </button>
       </div>
       <div v-for="chat in chatList" :key="chat.id" class="row">
+        <!-- chat entry -->
         <div
-          :id="chat.id"
+          :id="chat.ID"
           :class="
-            editActive && selectedChat.indexOf(chat.Tel) >= 0
+            editActive && selectedChat.indexOf(chat.ID) >= 0
               ? 'selected col-12 chat-container'
               : 'col-12 chat-container '
           "
@@ -35,16 +35,18 @@
         >
           <div class="row chat-entry">
             <div class="avatar col-2">
-              <div v-if=" isGroupCheck(chat)" class="badge-name">
+              <div v-if="!isGroupCheck(chat)" class="badge-name">
                 <img
                   class="avatar-img"
-                  :src="'http://localhost:9080/avatars?file=' + chat.Tel"
+                  :src="'http://localhost:9080/avatars?session=' + chat.ID"
                   alt="Avatar image"
                   @error="onImageError($event)"
                 />
+                {{ chat.ID[0] }}
+              </div>
+              <div v-else class="badge-name">
                 <font-awesome-icon icon="user-friends" />
               </div>
-              <div v-else class="badge-name">{{ chat.ID[0] }}</div>
             </div>
             <div class="meta col-10">
               <div class="row">
@@ -56,12 +58,18 @@
                       icon="volume-mute"
                     />
                     <div
-                      v-if=" isGroupCheck(chat)&& sessionNames[chat.ID]== chat.Tel"
+                      v-if="
+                        isGroupCheck(chat) &&
+                        sessionNames &&
+                        sessionNames[chat.ID] == null
+                      "
                       v-translate
                     >
                       Unknown group
                     </div>
-                    <div v-else>{{ sessionNames[chat.ID].Name }}</div>
+                    <div v-else>
+                      {{ sessionNames ? sessionNames[chat.ID].Name : "" }}
+                    </div>
                     <div
                       v-if="Number(chat.UnreadCounter) > 0"
                       class="counter badge badge-primary"
@@ -177,8 +185,8 @@ export default {
       event.target.style.display = "none";
     },
     isGroupCheck(e) {
-      if (e.DirectMessageRecipientID==-1) {
-        return true
+      if (e.DirectMessageRecipientID === -1) {
+        return true;
       } else {
         return false;
       }

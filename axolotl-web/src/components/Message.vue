@@ -18,9 +18,31 @@
         (message.Attachment.includes('null') && message.Message === ''),
       hidden: message.Flags === 18,
       error: message.SentAt === 0 || message.SendingError,
+      row: isGroup,
     }"
   >
-    <div v-if="verifySelfDestruction(message)" class="message">
+    <div
+      :class="{ avatar: true, 'col-1': isGroup }"
+      v-if="!message.Outgoing && isGroup"
+    >
+      <div class="badge-name">
+        <div v-if="id !== -1">
+          <img
+          
+          class="avatar-img"
+          :src="'http://localhost:9080/avatars?recipient=' + id"
+          @error="onImageError($event)"
+        />
+        </div>
+        <div v-if="name !== ''">
+          {{ name[0] }}
+        </div>
+      </div>
+    </div>
+    <div
+      v-if="verifySelfDestruction(message)"
+      :class="{ message: true, 'col-8': isGroup }"
+    >
       <div v-if="isSenderNameDisplayed" class="sender">
         <div v-if="name !== ''">
           {{ name }}
@@ -262,6 +284,7 @@ export default {
       currentTime: 0.0,
       isPlaying: false,
       name: "",
+      id: -1,
     };
   },
   computed: {
@@ -305,12 +328,17 @@ export default {
       result = decoder.innerHTML;
       return result;
     },
+    onImageError(event) {
+      event.target.style.display = "none";
+    },
     getName(uuid) {
       if (this.currentGroup.Members !== null) {
         const contact = this.currentGroup.Members.find(function (element) {
           return element.UUID === uuid;
         });
+        console.log(contact);
         if (typeof contact !== "undefined") {
+          this.id = contact.Id;
           this.name = contact.Username;
           return contact.Username;
         }

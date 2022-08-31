@@ -2,6 +2,7 @@ package store
 
 import (
 	"io/ioutil"
+	"os"
 
 	log "github.com/sirupsen/logrus"
 
@@ -74,7 +75,7 @@ func writeRegisteredContacts(filename string, contacts []textsecureContacts.Cont
 	return ioutil.WriteFile(filename, b, 0600)
 }
 func readRegisteredContacts(fileName string) ([]textsecureContacts.Contact, error) {
-	b, err := ioutil.ReadFile(fileName)
+	b, err := os.ReadFile(fileName)
 	if err != nil {
 		return nil, err
 	}

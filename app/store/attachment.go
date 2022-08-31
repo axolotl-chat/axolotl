@@ -69,7 +69,7 @@ func SaveAttachment(a *textsecure.Attachment) (Attachment, error) {
 func CopyAttachment(src string) (string, error) {
 	_, b := filepath.Split(src)
 	dest := filepath.Join(config.AttachDir, b)
-	input, err := ioutil.ReadFile(src)
+	input, err := os.ReadFile(src)
 	if err != nil {
 		log.Errorln("[axolotl] CopyAttachment ", err)
 		return "", err

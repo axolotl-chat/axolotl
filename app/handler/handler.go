@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	log "github.com/sirupsen/logrus"
@@ -51,6 +52,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 	}
 	var session *store.SessionV2
 	//GroupV2 Message
+	var recipient *store.Recipient
 	grV2 := msg.GroupV2()
 	if grV2 != nil {
 		group, err := store.GroupV2sModel.GetGroupById(grV2.Hexid)
@@ -84,7 +86,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 			log.Println("[axolotl] SessionsV2Model.GetSessionByGroupV2ID", err)
 		}
 		// check if recipient exists and is in group
-		recipient := store.RecipientsModel.GetRecipientByUUID(msg.SourceUUID())
+		recipient = store.RecipientsModel.GetRecipientByUUID(msg.SourceUUID())
 		log.Debugln("[axolotl] GroupV2 Message ", msg.SourceUUID(), grV2.Hexid)
 		if recipient == nil {
 			log.Debugln("[axolotl] Recipient not found, creating new one for " + msg.SourceUUID())
@@ -103,9 +105,14 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 				return
 			}
 		}
-
+		if recipient.Username == "" {
+			err = recipient.UpdateProfile()
+			if err != nil {
+				log.Errorln("[axolotl] Recipient.UpdateProfile", err)
+			}
+		}
 	} else {
-		recipient := store.RecipientsModel.GetRecipientByUUID(msg.SourceUUID())
+		recipient = store.RecipientsModel.GetRecipientByUUID(msg.SourceUUID())
 		if recipient == nil {
 			// todo get recipient profile from signal server
 			recipient, err = store.RecipientsModel.CreateRecipient(&store.Recipient{
@@ -127,6 +134,12 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		}
 		if err != nil {
 			log.Println("[axolotl] SessionsModel.GetSessionByID", err)
+		}
+		if recipient.Username == "" {
+			recipient.UpdateProfile()
+			if err != nil {
+				log.Errorln("[axolotl] Recipient.UpdateProfile", err)
+			}
 		}
 	}
 
@@ -201,25 +214,53 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 			if err != nil {
 				log.Println("[axolotl] session.getName", err)
 			}
+			var icon string
+			if recipient != nil {
+				avatar, err := textsecure.GetAvatarPath(recipient.UUID)
+				if err == nil && avatar != "" {
+					icon = avatar
+				}
+			} else {
+				path := config.AxolotlWebDir
+				axolotlWebDirEnv := os.Getenv("AXOLOTL_WEB_DIR")
+				if len(axolotlWebDirEnv) > 0 {
+					path = axolotlWebDirEnv
+				}
+
+				snapEnv := os.Getenv("SNAP")
+				if len(snapEnv) > 0 && !strings.Contains(snapEnv, "/snap/go/") {
+					path = os.Getenv("SNAP") + "/bin/axolotl-web/"
+				}
+
+				icon = path + "/public/axolotl.png"
+			}
 			if config.Gui == "ut" {
 				n := push.Nh.NewStandardPushMessage(
 					name,
-					text, "", strconv.FormatInt(session.ID, 10))
+					text, icon, strconv.FormatInt(session.ID, 10))
 				push.Nh.Send(n)
 			} else {
-				err := beeep.Notify("Axolotl: "+name, text, "axolotl-web/dist/public/axolotl.png")
+
+				err := beeep.Notify("Axolotl: "+name, text, icon)
 				if err != nil {
 					log.Errorln("[axolotl] notification ", err)
 				}
 			}
 		}
 	}
-	msgSend, err := store.SaveMessage(m)
-	if err != nil {
-		log.Printf("[axolotl] MessageHandler: Error saving message: %s\n", err.Error())
+	// for now ignore empty messages and profile key updates
+	log.Debugf("[axolotl] message: %+v", m)
+	if (m.Message != "" || m.Attachment != "") && !syncMessage && helpers.MsgFlagProfileKeyUpdated != msgFlags {
+
+		msgSend, err := store.SaveMessage(m)
+		if err != nil {
+			log.Printf("[axolotl] MessageHandler: Error saving message: %s\n", err.Error())
+		}
+		webserver.UpdateChatList()
+		webserver.MessageHandler(msgSend)
+	} else {
+		log.Println("[axolotl] MessageHandler: Empty message")
 	}
-	webserver.UpdateChatList()
-	webserver.MessageHandler(msgSend)
 }
 func prepareAttachment(file []store.Attachment) ([]byte, int, error) {
 	var files []store.Attachment

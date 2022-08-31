@@ -22,7 +22,7 @@ func getSalt(path string) ([]byte, error) {
 	salt := make([]byte, 8)
 
 	if _, err := os.Stat(path); err == nil {
-		salt, err = ioutil.ReadFile(path)
+		salt, err = os.ReadFile(path)
 		if err != nil {
 			return nil, err
 		}
@@ -150,7 +150,7 @@ func (ds *DataStore) Convert(password string) error {
 	return nil
 }
 
-//https://github.com/mutecomm/go-sqlcipher/blob/master/sqlcipher.go#L15
+// https://github.com/mutecomm/go-sqlcipher/blob/master/sqlcipher.go#L15
 var sqlite3Header = []byte("SQLite format 3\000")
 
 // IsEncrypted returns true, if the database with the given filename is

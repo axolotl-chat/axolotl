@@ -2,6 +2,7 @@ package settings
 
 import (
 	"io/ioutil"
+	"os"
 
 	"github.com/nanu-c/axolotl/app/config"
 
@@ -21,11 +22,11 @@ type Settings struct {
 
 var SettingsModel *Settings
 
-//Load the Settings
+// Load the Settings
 func LoadSettings() (*Settings, error) {
 	s := &Settings{}
 
-	b, err := ioutil.ReadFile(config.SettingsFile)
+	b, err := os.ReadFile(config.SettingsFile)
 	if err != nil {
 		return s, err
 	}
@@ -38,7 +39,7 @@ func LoadSettings() (*Settings, error) {
 	return s, nil
 }
 
-//Save the Settings
+// Save the Settings
 func SaveSettings(s *Settings) error {
 	b, err := yaml.Marshal(s)
 	if err != nil {

@@ -38,7 +38,6 @@ var (
 func Run() error {
 	log.Printf("[axolotl] Starting axolotl ws")
 	go syncClients()
-	go attachmentServer()
 	go websocketSender()
 	webserver()
 	return nil
@@ -46,7 +45,11 @@ func Run() error {
 
 func removeClientFromList(client *websocket.Conn) {
 	log.Debugln("[axolotl-ws] remove client")
-	delete(clients, client)
+	if clients != nil {
+		delete(clients, client)
+	} else {
+		clients = make(map[*websocket.Conn]bool)
+	}
 }
 
 func wsEndpoint(w http.ResponseWriter, r *http.Request) {

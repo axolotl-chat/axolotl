@@ -116,10 +116,10 @@ func (n *NotificationHandler) NewStandardPushMessage(summary, body, icon string,
 		Message: summary,
 		Notification: Notification{
 			Card: &Card{
-				Summary: summary,
-				Body:    body,
-				Actions: []string{"appid://textsecure.nanuc/textsecure/current-user-version"},
-				// Icon:    icon,
+				Summary:   summary,
+				Body:      body,
+				Actions:   []string{"appid://textsecure.nanuc/textsecure/current-user-version"},
+				Icon:      icon,
 				Popup:     true,
 				Persist:   true,
 				Timestamp: time.Now().Unix(),
@@ -163,7 +163,7 @@ type Card struct {
 	// Actions provides actions for the bubble's snap decissions.
 	Actions []string `json:"actions,omitempty"`
 	// Icon is a path to an icon to display with the notification bubble.
-	// Icon string `json:"icon,omitempty"`
+	Icon string `json:"icon,omitempty"`
 	// Whether to show in notification centre.
 	Persist   bool  `json:"persist,omitempty"`
 	Timestamp int64 `json:"timestamp"`

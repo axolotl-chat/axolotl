@@ -3,12 +3,12 @@ package worker
 import (
 	"bytes"
 	"encoding/json"
-	"io/ioutil"
 	"net/http"
+	"os"
 	"regexp"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/nanu-c/axolotl/app/config"
+	log "github.com/sirupsen/logrus"
 )
 
 type entry struct {
@@ -37,7 +37,7 @@ func filterLogs(logs string) string {
 }
 
 func (Api *TextsecureAPI) SubmitDebugLog() (string, error) {
-	b, err := ioutil.ReadFile(config.LogFile)
+	b, err := os.ReadFile(config.LogFile)
 	if err != nil {
 		return "", err
 	}

@@ -70,6 +70,27 @@ func (r *Recipients) CreateRecipient(recipient *Recipient) (*Recipient, error) {
 	return recipient, err
 }
 
+// this is only used in the v1.6.0 migration because we migrate before we initialize the signal server
+func (r *Recipients) CreateRecipientWithoutProfileUpdate(recipient *Recipient) (*Recipient, error) {
+	log.Debugln("[axolotl] Creating recipient", recipient.UUID)
+	storedRecipeit := r.GetRecipientByUUID(recipient.UUID)
+	if storedRecipeit != nil {
+		return storedRecipeit, nil
+	}
+	res, err := DS.Dbx.NamedExec(recipientInsert, recipient)
+	if err != nil {
+		return nil, err
+	}
+
+	id, err := res.LastInsertId()
+	if err != nil {
+		return nil, err
+	}
+
+	recipient.Id = id
+	return recipient, err
+}
+
 // GetRecipientById returns a recipient by id
 func (r *Recipients) GetRecipientById(id int64) *Recipient {
 	recipient := &Recipient{}
@@ -118,11 +139,13 @@ func (r *Recipient) UpdateProfile() error {
 		}
 		r.ProfileKey = []byte(profile.IdentityKey)
 	}
-	profile, err = textsecure.GetProfileAndCredential(r.UUID, r.ProfileKey)
+	// profile, err = textsecure.GetProfileAndCredential(r.UUID, r.ProfileKey)
 	if err != nil {
 		return err
 	}
-	r.Username = profile.Name
+	if len(profile.Name) > 0 {
+		r.Username = profile.Name
+	}
 	r.SaveRecipient()
 	return nil
 }

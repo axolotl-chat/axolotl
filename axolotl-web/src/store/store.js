@@ -84,11 +84,7 @@ export default createStore({
       state.chatList = chatList;
     },
     SET_LASTMESSAGES(state, lastMessages) {
-      let sorted = {};
-      for (let i = 0; i < lastMessages.length; i++) {
-        sorted[lastMessages[i].SID] = lastMessages[i];
-      }
-      state.lastMessages = sorted;
+      state.lastMessages = lastMessages;
     },
     SET_SESSIONNAMES(state, sessionNames) {
       let sorted = {};
@@ -305,17 +301,30 @@ export default createStore({
         }
         if (Object.keys(messageData)[0] === "ChatList") {
           let chats = messageData["ChatList"]
-          //   .filter((e) => e.Messages !== null)
-          //   .sort(function (a, b) {
-          //     return (
-          //       b.Messages[b.Messages.length - 1].SentAt -
-          //       a.Messages[a.Messages.length - 1].SentAt
-          //     );
-          //   });
-          this.commit("SET_CHATLIST", chats);
-          this.commit("SET_LASTMESSAGES", messageData["LastMessages"]);
+          if (messageData["LastMessages"] !== undefined) {
+            let lastMessages = {};
+            for (let i = 0; i < messageData["LastMessages"].length; i++) {
+              lastMessages[messageData["LastMessages"][i].SID] = messageData["LastMessages"][i];
+            }
+            chats.sort((a, b) => {
+              if (lastMessages[a.ID].SentAt < lastMessages[b.ID].SentAt) {
+                return 1;
+              }
+              if (lastMessages[a.ID].SentAt > lastMessages[b.ID].SentAt) {
+                return -1;
+              }
+              return 0;
+            }
+            );
+            this.commit("SET_CHATLIST", chats);
+            this.commit("SET_LASTMESSAGES", lastMessages);
+          } else {
+            this.commit("SET_CHATLIST", chats);
+            this.commit("SET_LASTMESSAGES", messageData["LastMessages"]);
+          }
           this.commit("SET_SESSIONNAMES", messageData["SessionNames"]);
         }
+
         else if (Object.keys(messageData)[0] === "MessageList") {
           this.commit("SET_MESSAGELIST", messageData["MessageList"]);
         }

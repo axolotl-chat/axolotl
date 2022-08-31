@@ -176,6 +176,7 @@ func FindOutgoingMessage(timestamp uint64) (*Message, error) {
 	if err != nil {
 		return nil, err
 	}
+	log.Debugf("[axolotl] found ", len(message), " messages %+v \n", message)
 	if len(message) == 0 {
 		return nil, errors.New("Message not found " + fmt.Sprint(timestamp))
 	}

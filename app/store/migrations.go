@@ -201,7 +201,7 @@ func update_v_1_6_0() error {
 				return err
 			}
 		} else if session.Type == SessionTypePrivateChat {
-			recipient, err := RecipientsModel.CreateRecipient(&Recipient{
+			recipient, err := RecipientsModel.CreateRecipientWithoutProfileUpdate(&Recipient{
 				UUID:     session.UUID,
 				Username: session.Name,
 				E164:     session.Tel,
