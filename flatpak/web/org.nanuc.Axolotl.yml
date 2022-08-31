@@ -78,7 +78,6 @@ modules:
         - --share=network
       env:
         GOBIN: /app/bin
-        GOPATH: /run/build/axolotl-electron-bundle
     build-commands:
       - make build-dependencies-axolotl-web
       - make build-axolotl-web
