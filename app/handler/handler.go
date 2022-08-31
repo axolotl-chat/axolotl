@@ -153,7 +153,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		Message:    text,
 		Attachment: string(mAttachment),
 		CType:      ctype,
-		SID:        store.ActiveSessionID,
+		SID:        session.ID,
 	}
 	if syncMessage {
 		m.Outgoing = true
@@ -174,7 +174,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		err, id := store.FindQuotedMessage(msg.Quote())
 		if err != nil || id == -1 {
 			// create quoted message
-			//TODO implement quoted message
+			//TODO implement quoted message when not exists
 			// quoteMessage := session.Add(text, msg.Quote().GetAuthorUuid(), nil, msg.Quote().GetText(), false, store.ActiveSessionID)
 			// quoteMessage.Flags = helpers.MsgFlagHiddenQuote
 			// err, savedQuoteMessage := store.SaveMessage(quoteMessage)
