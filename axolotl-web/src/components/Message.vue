@@ -22,7 +22,7 @@
     }"
   >
     <div :class="{ avatar: true, 'col-2': isGroup && message.Flags === 0 }" v-if="!message.Outgoing && isGroup">
-      <div class="badge-name">
+      <div class="badge-name" @click="openProfileForRecipient(id)">
         <div v-if="id !== -1">
           <img
             class="avatar-img"
@@ -229,6 +229,7 @@
 <script>
 import moment from "moment";
 import { mapState } from "vuex";
+import { router } from "@/router/router";
 let decoder;
 
 export default {
@@ -298,6 +299,9 @@ export default {
     },
     onImageError(event) {
       event.target.style.display = "none";
+    },
+    openProfileForRecipient(recipient){
+      router.push("/profile/" + recipient);
     },
     getName(uuid) {
       if (this.currentGroup.Members !== null) {

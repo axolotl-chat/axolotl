@@ -9,6 +9,7 @@ export default createStore({
     lastMessages: {},
     sessionNames: {},
     messageList: {},
+    profile:{},
     request: '',
     contacts: [],
     contactsFiltered: [],
@@ -225,6 +226,9 @@ export default createStore({
     CLEAR_MESSAGELIST(state) {
       state.messageList = {};
     },
+    SET_PROFILE(state, profile) {
+      state.profile = profile;
+    },
     SET_CONTACTS(state, contacts) {
       if (contacts !== null) {
         contacts = contacts.sort((a, b) => a.Name.localeCompare(b.Name));
@@ -371,6 +375,9 @@ export default createStore({
         else if (Object.keys(messageData)[0] === "UpdateCurrentChat") {
           this.commit("UPDATE_CURRENT_CHAT", messageData["UpdateCurrentChat"]);
         }
+        else if (Object.keys(messageData)[0] === "ProfileMessage") {
+          this.commit("SET_PROFILE", messageData["ProfileMessage"]);
+        }
         else {
           // console.log("unkown message ", Object.keys(messageData)[0]);
         }
@@ -446,6 +453,15 @@ export default createStore({
         const message = {
           "request": "getMessageList",
           "id": chatId
+        }
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
+      }
+    },
+    getProfile(state, id) {
+      if (this.state.socket.isConnected) {
+        const message = {
+          "request": "getProfile",
+          "id": id
         }
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }

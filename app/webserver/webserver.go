@@ -222,6 +222,12 @@ func wsReader(conn *websocket.Conn) {
 				ShowError(err.Error())
 			}
 			go sendContactList()
+		case "getProfile":
+			getProfileMessage := GetProfileMessage{}
+			json.Unmarshal([]byte(p), &getProfileMessage)
+			log.Infoln("[axolotl] Get profile", getProfileMessage.ID)
+			go sendProfile(getProfileMessage.ID)
+
 		case "requestCode":
 			if requestChannel != nil {
 				requestCodeMessage := RequestCodeMessage{}

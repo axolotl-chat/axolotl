@@ -200,3 +200,37 @@ type SetLogLevelMessage struct {
 	Type  string `json:"request"`
 	Level string `json:"level"`
 }
+type GetProfileMessage struct {
+	Type string `json:"request"`
+	ID   int64  `json:"id"`
+}
+type UpdateMessage struct {
+	UpdateMessage *store.Message
+}
+
+type ProfileMessage struct {
+	Recipient *store.Recipient
+	Contact   *textsecureContacts.Contact
+}
+
+type ProfileMessageEnvelope struct {
+	ProfileMessage *ProfileMessage
+}
+
+type SendEnterChatRequest struct {
+	Type string
+	Chat int64
+}
+
+type SendRequest struct {
+	Type string
+}
+
+type SendError struct {
+	Type  string
+	Error string
+}
+
+type MessageRecieved struct {
+	MessageRecieved *store.Message
+}

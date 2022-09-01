@@ -9,6 +9,7 @@ import (
 	"time"
 	"unsafe"
 
+	"github.com/signal-golang/textsecure/contacts"
 	log "github.com/sirupsen/logrus"
 	"github.com/vincent-petithory/dataurl"
 
@@ -25,10 +26,6 @@ var (
 	requestSmsVerificationCode = false
 	requestUsername            = false
 )
-
-type MessageRecieved struct {
-	MessageRecieved *store.Message
-}
 
 func MessageHandler(msg *store.Message) {
 	messageRecieved := &MessageRecieved{
@@ -54,10 +51,6 @@ func MessageHandler(msg *store.Message) {
 	}
 	broadcast <- *message
 	UpdateChatList()
-}
-
-type UpdateMessage struct {
-	UpdateMessage *store.Message
 }
 
 // UpdateMessageHandler sents message receipts to all connected clients for the activeChat
@@ -102,10 +95,6 @@ func UpdateMessageHandlerWithSource(msg *store.Message) {
 
 }
 
-type SendRequest struct {
-	Type string
-}
-
 func sendRequest(requestType string) {
 	var err error
 	// mu.Lock()
@@ -127,11 +116,6 @@ func sendRequest(requestType string) {
 func RegistrationDone() {
 	registered = true
 	sendRequest("registrationDone")
-}
-
-type SendEnterChatRequest struct {
-	Type string
-	Chat int64
 }
 
 func requestEnterChat(chat int64) {
@@ -176,11 +160,6 @@ func sendError(client *websocket.Conn, errorMessage string) {
 		return
 	}
 	broadcast <- *message
-}
-
-type SendError struct {
-	Type  string
-	Error string
 }
 
 func ShowError(errorMessage string) {
@@ -288,4 +267,31 @@ func uploadSendVoiceNote(voiceNote SendVoiceNoteMessage) error {
 		go MessageHandler(m)
 	}
 	return nil
+}
+
+func sendProfile(id int64) {
+	recipient := store.RecipientsModel.GetRecipientById(id)
+	if recipient == nil {
+		return
+	}
+	var contact *contacts.Contact
+	if recipient.E164 != "" {
+		contact = store.GetContactForTel(recipient.E164)
+	}
+	profileMessage := &ProfileMessage{
+		Recipient: recipient,
+		Contact:   contact,
+	}
+	profileMessageEnvelope := &ProfileMessageEnvelope{
+		ProfileMessage: profileMessage,
+	}
+	var err error
+	message := &[]byte{}
+	*message, err = json.Marshal(profileMessageEnvelope)
+	if err != nil {
+		log.Errorln("[axolotl-ws] UpdateMessageHandler", err)
+		return
+	}
+	broadcast <- *message
+
 }
