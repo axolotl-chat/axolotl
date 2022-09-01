@@ -204,6 +204,11 @@ type GetProfileMessage struct {
 	Type string `json:"request"`
 	ID   int64  `json:"id"`
 }
+type UpdateProfileNameMessage struct {
+	Type string `json:"request"`
+	Name string `json:"name"`
+	ID   int64  `json:"id"`
+}
 type UpdateMessage struct {
 	UpdateMessage *store.Message
 }

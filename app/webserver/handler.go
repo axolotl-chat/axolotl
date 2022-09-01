@@ -9,7 +9,9 @@ import (
 	"time"
 	"unsafe"
 
+	"github.com/nanu-c/axolotl/app/contact"
 	"github.com/signal-golang/textsecure/contacts"
+
 	log "github.com/sirupsen/logrus"
 	"github.com/vincent-petithory/dataurl"
 
@@ -294,4 +296,20 @@ func sendProfile(id int64) {
 	}
 	broadcast <- *message
 
+}
+func updateProfileName(id int64, name string) {
+	recipient := store.RecipientsModel.GetRecipientById(id)
+	if recipient == nil {
+		return
+	}
+	recipient.ProfileGivenName = name
+	recipient.SaveRecipient()
+	if recipient.E164 != "" {
+		contactForTel := store.GetContactForTel(recipient.E164)
+		if contactForTel != nil {
+			contactForTel.Name = name
+			contact.EditContact(store.ContactsModel.GetContact(int(id)), *contactForTel)
+		}
+	}
+	sendProfile(id)
 }

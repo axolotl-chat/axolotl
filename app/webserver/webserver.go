@@ -227,6 +227,14 @@ func wsReader(conn *websocket.Conn) {
 			json.Unmarshal([]byte(p), &getProfileMessage)
 			log.Infoln("[axolotl] Get profile", getProfileMessage.ID)
 			go sendProfile(getProfileMessage.ID)
+		case "updateProfileName":
+			updateProfileNameMessage := UpdateProfileNameMessage{}
+			err = json.Unmarshal([]byte(p), &updateProfileNameMessage)
+			if err != nil {
+				log.Errorln("[axolotl] Update profile name failed: ", err)
+			}
+			log.Infoln("[axolotl] Update profile name for", updateProfileNameMessage.ID)
+			go updateProfileName(updateProfileNameMessage.ID, updateProfileNameMessage.Name)
 
 		case "requestCode":
 			if requestChannel != nil {

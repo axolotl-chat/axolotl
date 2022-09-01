@@ -574,7 +574,16 @@ export default createStore({
         }
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
-
+    },
+    updateProfileName(state, data) {
+      if (this.state.socket.isConnected) {
+        const message = {
+          "request": "updateProfileName",
+          "name": data.name,
+          "id": data.id
+        }
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
+      }
     },
     filterContacts(state, filter) {
       this.commit("SET_CONTACTS_FILTER", filter);

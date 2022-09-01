@@ -11,7 +11,7 @@
     </template>
     <template #menu>
       <div class="ms-2">
-        <!-- <div v-translate>Edit Contact</div> -->
+        <div v-translate @click="editContact()">Edit Contact</div>
       </div>
     </template>
     <div class="profile" v-if="profile.Recipient">
@@ -48,21 +48,25 @@ export default {
   props: {
     profileId: Number,
   },
+  data: () => ({
+    hasProfileImage: true,
+  }),
   computed: {
     profile() {
       return this.$store.state.profile;
     },
   },
-  data: () => ({
-    profile: {},
-    hasProfileImage: true,
-  }),
   mounted() {
     this.$store.dispatch("getProfile", this.profileId);
   },
   methods: {
     onImageError(event) {
       this.hasProfileImage = false;
+    },
+    editContact() {
+      this.$router.push({
+        name: "editContact",
+      });
     },
   },
 };
@@ -108,7 +112,7 @@ span {
   font-size: 18px;
   padding: 0;
 }
-.infos{
-    text-align: center;
+.infos {
+  text-align: center;
 }
 </style>

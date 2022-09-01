@@ -43,6 +43,15 @@ export const router = new createRouter({
       component: () => import("@/pages/Profile.vue")
     },
     {
+      path: "/editContact",
+      name: "editContact",
+      meta: {
+        layout: Default,
+        hasBackButton: true,
+      },
+      component: () => import("@/pages/EditContact.vue")
+    },
+    {
       // register page is where the registration starts
       path: "/register",
       name: "register",
