@@ -181,6 +181,15 @@ func (r *Recipient) UpdateProfile() error {
 				r.Username = profile.Name
 			}
 		}
+	} else if r.Username == "" {
+		profile, err = textsecure.GetProfile(r.UUID, r.ProfileKey)
+		if err != nil {
+			return err
+		}
+		if profile != nil && len(profile.Name) > 0 {
+			log.Debug("[axolotl] New profile name:", profile.Name)
+			r.Username = profile.Name
+		}
 	}
 	r.SaveRecipient()
 	return nil

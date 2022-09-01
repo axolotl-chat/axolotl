@@ -306,8 +306,10 @@ export default {
         });
         if (typeof contact !== "undefined") {
           this.id = contact.Id;
-          this.name = contact.Username;
-          return contact.Username;
+          if (contact.ProfileGivenName!=="")
+          this.name = contact.ProfileGivenName;
+          else this.name = contact.Username;
+          return this.name;
         }
       }
       return uuid;
