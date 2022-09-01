@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/nanu-c/axolotl/app/helpers"
 	signalservice "github.com/signal-golang/textsecure/protobuf"
 	log "github.com/sirupsen/logrus"
 )
@@ -89,32 +88,6 @@ func LoadGroups() error {
 	}
 	for _, g := range AllGroups {
 		Groups[g.GroupID] = g
-	}
-	return nil
-}
-func LoadMessagesFromDB() error {
-	err := LoadGroups()
-	if err != nil {
-		return err
-	}
-	log.Printf("Loading Messages")
-	err = DS.Dbx.Select(&AllSessions, sessionsSelect)
-	if err != nil {
-		return err
-	}
-	for _, s := range AllSessions {
-		s.When = helpers.HumanizeTimestamp(s.Timestamp)
-		s.Active = !s.IsGroup || (Groups[s.Tel] != nil && Groups[s.Tel].Active)
-		SessionsModel.Sess = append(SessionsModel.Sess, s)
-		SessionsModel.Len++
-		err = DS.Dbx.Select(&s.Messages, messagesSelectWhere, s.ID)
-		s.Len = len(s.Messages)
-		if err != nil {
-			return err
-		}
-		for _, m := range s.Messages {
-			m.HTime = helpers.HumanizeTimestamp(m.SentAt)
-		}
 	}
 	return nil
 }

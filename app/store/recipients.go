@@ -137,14 +137,14 @@ func (r *Recipient) UpdateProfile() error {
 		if err != nil {
 			return err
 		}
-		r.ProfileKey = []byte(profile.IdentityKey)
-	}
-	// profile, err = textsecure.GetProfileAndCredential(r.UUID, r.ProfileKey)
-	if err != nil {
-		return err
-	}
-	if len(profile.Name) > 0 {
-		r.Username = profile.Name
+		if profile != nil {
+			if profile.IdentityKey != "" {
+				r.ProfileKey = []byte(profile.IdentityKey)
+			}
+			if profile != nil && len(profile.Name) > 0 {
+				r.Username = profile.Name
+			}
+		}
 	}
 	r.SaveRecipient()
 	return nil

@@ -81,7 +81,7 @@
                 <div v-if="!editActive" class="col-3 date-c">
                   <p
                     v-if="
-                      lastMessages[chat.ID] !== null &&
+                      lastMessages[chat.ID] !== undefined &&
                       lastMessages[chat.ID].SentAt !== 0
                     "
                     class="time"
@@ -92,7 +92,7 @@
               </div>
               <div class="row">
                 <div class="col-12">
-                  <p class="preview">
+                  <p class="preview" v-if="lastMessages[chat.ID] !== undefined">
                     {{ lastMessages[chat.ID].Message }}
                   </p>
                 </div>

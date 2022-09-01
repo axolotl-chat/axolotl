@@ -18,21 +18,17 @@
         (message.Attachment.includes('null') && message.Message === ''),
       hidden: message.Flags === 18,
       error: message.SentAt === 0 || message.SendingError,
-      row: isGroup,
+      row: isGroup && message.Flags === 0,
     }"
   >
-    <div
-      :class="{ avatar: true, 'col-1': isGroup }"
-      v-if="!message.Outgoing && isGroup"
-    >
+    <div :class="{ avatar: true, 'col-2': isGroup && message.Flags === 0 }" v-if="!message.Outgoing && isGroup">
       <div class="badge-name">
         <div v-if="id !== -1">
           <img
-          
-          class="avatar-img"
-          :src="'http://localhost:9080/avatars?recipient=' + id"
-          @error="onImageError($event)"
-        />
+            class="avatar-img"
+            :src="'http://localhost:9080/avatars?recipient=' + id"
+            @error="onImageError($event)"
+          />
         </div>
         <div v-if="name !== ''">
           {{ name[0] }}
@@ -41,7 +37,7 @@
     </div>
     <div
       v-if="verifySelfDestruction(message)"
-      :class="{ message: true, 'col-8': isGroup }"
+      :class="{ message: true, 'col-8': isGroup && message.Flags === 0 }"
     >
       <div v-if="isSenderNameDisplayed" class="sender">
         <div v-if="name !== ''">
@@ -89,10 +85,7 @@
                 >
               </div>
             </div>
-            <div
-              v-else-if="m.File !== '' && m.CType === 0"
-              class="attachment-file"
-            >
+            <div v-else-if="m.File !== '' && m.CType === 0" class="attachment-file">
               <a
                 :href="'http://localhost:9080/attachments?file=' + m.File"
                 @click="shareAttachment(m.File, $event)"
@@ -105,18 +98,10 @@
               @click="$emit('show-fullscreen-video', m.File)"
             >
               <video>
-                <source
-                  :src="'http://localhost:9080/attachments?file=' + m.File"
-                />
-                <span v-translate
-                  >Your browser does not support the audio element.</span
-                >
+                <source :src="'http://localhost:9080/attachments?file=' + m.File" />
+                <span v-translate>Your browser does not support the audio element.</span>
               </video>
-              <img
-                class="play-button"
-                src="../assets/images/play.svg"
-                alt="Play image"
-              />
+              <img class="play-button" src="../assets/images/play.svg" alt="Play image" />
             </div>
             <div v-else-if="m.File !== ''" class="attachment">
               <span v-translate>Not supported mime type:</span> {{ m.CType }}
@@ -126,9 +111,7 @@
         <!-- this is legacy code -->
         <div v-else-if="message.CType === 2" class="attachment-img">
           <img
-            :src="
-              'http://localhost:9080/attachments?file=' + message.Attachment
-            "
+            :src="'http://localhost:9080/attachments?file=' + message.Attachment"
             alt="Fullscreen image"
             @click="$emit('show-fullscreen-img', message.Attachment)"
           />
@@ -163,10 +146,7 @@
           class="attachment-file"
         >
           {{ message.Attachment }}
-          <a
-            :href="
-              'http://localhost:9080/attachments?file=' + message.Attachment
-            "
+          <a :href="'http://localhost:9080/attachments?file=' + message.Attachment"
             >File</a
           >
         </div>
@@ -177,13 +157,9 @@
         >
           <video>
             <source
-              :src="
-                'http://localhost:9080/attachments?file=' + message.Attachment
-              "
+              :src="'http://localhost:9080/attachments?file=' + message.Attachment"
             />
-            <span v-translate
-              >Your browser does not support the video element.</span
-            >
+            <span v-translate>Your browser does not support the video element.</span>
           </video>
         </div>
 
@@ -219,32 +195,24 @@
           <span @click="showDate = !showDate">{{
             humanifyDateFromNow(message.SentAt)
           }}</span>
-          <span v-if="showDate" class="fullDate">{{
-            humanifyDate(message.SentAt)
-          }}</span>
+          <span v-if="showDate" class="fullDate">{{ humanifyDate(message.SentAt) }}</span>
         </div>
         <div v-if="message.ExpireTimer > 0">
           <div class="circle-wrap">
             <div class="circle">
               <div
                 class="mask full"
-                :style="
-                  'transform: rotate(' + timerPercentage(message) + 'deg)'
-                "
+                :style="'transform: rotate(' + timerPercentage(message) + 'deg)'"
               >
                 <div
                   class="fill"
-                  :style="
-                    'transform: rotate(' + timerPercentage(message) + 'deg)'
-                  "
+                  :style="'transform: rotate(' + timerPercentage(message) + 'deg)'"
                 />
               </div>
               <div class="mask half">
                 <div
                   class="fill"
-                  :style="
-                    'transform: rotate(' + timerPercentage(message) + 'deg)'
-                  "
+                  :style="'transform: rotate(' + timerPercentage(message) + 'deg)'"
                 />
               </div>
               <div class="inside-circle" />
@@ -336,7 +304,6 @@ export default {
         const contact = this.currentGroup.Members.find(function (element) {
           return element.UUID === uuid;
         });
-        console.log(contact);
         if (typeof contact !== "undefined") {
           this.id = contact.Id;
           this.name = contact.Username;
@@ -358,16 +325,12 @@ export default {
         e.preventDefault();
         alert("[oD]" + file);
         // this.showAttachmentsBar=true
-      } else {
-        // alert(file)
-        // console.log(file)
       }
     },
     timerPercentage(m) {
       const recieved = moment(m.ReceivedAt);
       const duration = moment.duration(recieved.diff(moment.now()));
-      const percentage =
-        1 - (m.ExpireTimer + duration.asSeconds()) / m.ExpireTimer;
+      const percentage = 1 - (m.ExpireTimer + duration.asSeconds()) / m.ExpireTimer;
       if (percentage < 1) {
         const fullCircle = 179;
         return fullCircle * percentage;
@@ -375,7 +338,6 @@ export default {
     },
     verifySelfDestruction(m) {
       if (m.ExpireTimer !== 0) {
-        // console.log(m.ExpireTimer,m.SentAt, m.ReceivedAt, Date.now())
         if (m.ReceivedAt !== 0) {
           // hide destructed messages but not timer settings
           const recieved = moment(m.ReceivedAt);

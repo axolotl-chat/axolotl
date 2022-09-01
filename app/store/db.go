@@ -129,13 +129,6 @@ func (ds *DataStore) SetupDb(password string) bool {
 		log.Errorln("[axolotl] setupDb: Couldn't migrate db: " + err.Error())
 		return false
 	}
-
-	err = LoadChats()
-	if err != nil {
-		log.Errorln("[axolotl]  SetupDB: ", err)
-		return false
-
-	}
 	//qml.Changed(SessionsModel, &SessionsModel.Len)
 	log.Printf("[axolotl] Db setup finished")
 

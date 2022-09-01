@@ -35,12 +35,20 @@ func (Api *TextsecureAPI) MarkSessionRead(ID int64) error {
 		s.MarkRead()
 		return nil
 	}
-	return fmt.Errorf("Session not found %d", ID)
+	return fmt.Errorf("session not found %d", ID)
 }
 
-func (Api *TextsecureAPI) DeleteSession(ID int64) {
-	err := store.DeleteSession(ID)
-	if err != nil {
-		ui.ShowError(err)
+func (Api *TextsecureAPI) DeleteSession(ID int64) error {
+	if ID != -1 {
+		session, err := store.SessionsV2Model.GetSessionByID(ID)
+		if err != nil {
+			return err
+		}
+		err = store.SessionsV2Model.DeleteSession(session)
+		if err != nil {
+			ui.ShowError(err)
+		}
+		return nil
 	}
+	return fmt.Errorf("session not found %d", ID)
 }

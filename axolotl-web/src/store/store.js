@@ -307,6 +307,9 @@ export default createStore({
               lastMessages[messageData["LastMessages"][i].SID] = messageData["LastMessages"][i];
             }
             chats.sort((a, b) => {
+              if (lastMessages[a.ID] === undefined || lastMessages[b.ID] === undefined) {
+                return 0;
+              }
               if (lastMessages[a.ID].SentAt < lastMessages[b.ID].SentAt) {
                 return 1;
               }

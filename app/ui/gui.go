@@ -44,8 +44,6 @@ func InitModels() {
 			log.Debugf("[axolotl] Already registered")
 		}
 	}
-	// textsecure.LinkedDevices()
-	go store.UpdateTimestamps()
 }
 func RunUi(e string) {
 	if e == "ut" || e == "me" || e == "qt" {

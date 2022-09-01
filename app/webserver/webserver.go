@@ -361,7 +361,11 @@ func wsReader(conn *websocket.Conn) {
 			delChatMessage := DelChatMessage{}
 			json.Unmarshal([]byte(p), &delChatMessage)
 			log.Debugln("[axolotl] deleteSession", delChatMessage.ID)
-			store.DeleteSession(delChatMessage.ID)
+			session, err := store.SessionsV2Model.GetSessionByID(delChatMessage.ID)
+			if err != nil {
+				ShowError(err.Error())
+			}
+			err = store.SessionsV2Model.DeleteSession(session)
 			if err != nil {
 				ShowError(err.Error())
 			}

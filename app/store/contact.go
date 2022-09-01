@@ -55,7 +55,6 @@ func RefreshContacts() error {
 	log.Debugln("[axolotl] Refresh contacts count: ", len(c))
 	ContactsModel.Contacts = c
 	ContactsModel.Len = len(c)
-	SessionsModel.UpdateSessionNames()
 	if err != nil {
 		return err
 	}
