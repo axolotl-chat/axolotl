@@ -40,7 +40,10 @@
     </div>
     <div
       v-if="verifySelfDestruction(message)"
-      :class="{ message: true, 'col-8': isGroup && message.Flags === 0 }"
+      :class="{
+        message: true,
+        'col-7': isGroup && message.Flags === 0 && !message.Outgoing,
+      }"
     >
       <div v-if="isSenderNameDisplayed" class="sender">
         <div v-if="name !== ''">
@@ -88,10 +91,7 @@
                 >
               </div>
             </div>
-            <div
-              v-else-if="m.File !== '' && m.CType === 0"
-              class="attachment-file"
-            >
+            <div v-else-if="m.File !== '' && m.CType === 0" class="attachment-file">
               <a
                 :href="'http://localhost:9080/attachments?file=' + m.File"
                 @click="shareAttachment(m.File, $event)"
@@ -104,18 +104,10 @@
               @click="$emit('show-fullscreen-video', m.File)"
             >
               <video>
-                <source
-                  :src="'http://localhost:9080/attachments?file=' + m.File"
-                />
-                <span v-translate
-                  >Your browser does not support the audio element.</span
-                >
+                <source :src="'http://localhost:9080/attachments?file=' + m.File" />
+                <span v-translate>Your browser does not support the audio element.</span>
               </video>
-              <img
-                class="play-button"
-                src="../assets/images/play.svg"
-                alt="Play image"
-              />
+              <img class="play-button" src="../assets/images/play.svg" alt="Play image" />
             </div>
             <div v-else-if="m.File !== ''" class="attachment">
               <span v-translate>Not supported mime type:</span> {{ m.CType }}
@@ -125,9 +117,7 @@
         <!-- this is legacy code -->
         <div v-else-if="message.CType === 2" class="attachment-img">
           <img
-            :src="
-              'http://localhost:9080/attachments?file=' + message.Attachment
-            "
+            :src="'http://localhost:9080/attachments?file=' + message.Attachment"
             alt="Fullscreen image"
             @click="$emit('show-fullscreen-img', message.Attachment)"
           />
@@ -162,10 +152,7 @@
           class="attachment-file"
         >
           {{ message.Attachment }}
-          <a
-            :href="
-              'http://localhost:9080/attachments?file=' + message.Attachment
-            "
+          <a :href="'http://localhost:9080/attachments?file=' + message.Attachment"
             >File</a
           >
         </div>
@@ -176,13 +163,9 @@
         >
           <video>
             <source
-              :src="
-                'http://localhost:9080/attachments?file=' + message.Attachment
-              "
+              :src="'http://localhost:9080/attachments?file=' + message.Attachment"
             />
-            <span v-translate
-              >Your browser does not support the video element.</span
-            >
+            <span v-translate>Your browser does not support the video element.</span>
           </video>
         </div>
 
@@ -218,32 +201,24 @@
           <span @click="showDate = !showDate">{{
             humanifyDateFromNow(message.SentAt)
           }}</span>
-          <span v-if="showDate" class="fullDate">{{
-            humanifyDate(message.SentAt)
-          }}</span>
+          <span v-if="showDate" class="fullDate">{{ humanifyDate(message.SentAt) }}</span>
         </div>
         <div v-if="message.ExpireTimer > 0">
           <div class="circle-wrap">
             <div class="circle">
               <div
                 class="mask full"
-                :style="
-                  'transform: rotate(' + timerPercentage(message) + 'deg)'
-                "
+                :style="'transform: rotate(' + timerPercentage(message) + 'deg)'"
               >
                 <div
                   class="fill"
-                  :style="
-                    'transform: rotate(' + timerPercentage(message) + 'deg)'
-                  "
+                  :style="'transform: rotate(' + timerPercentage(message) + 'deg)'"
                 />
               </div>
               <div class="mask half">
                 <div
                   class="fill"
-                  :style="
-                    'transform: rotate(' + timerPercentage(message) + 'deg)'
-                  "
+                  :style="'transform: rotate(' + timerPercentage(message) + 'deg)'"
                 />
               </div>
               <div class="inside-circle" />
@@ -350,8 +325,7 @@ export default {
         });
         if (typeof contact !== "undefined") {
           this.id = contact.Id;
-          if (contact.ProfileGivenName !== "")
-            this.name = contact.ProfileGivenName;
+          if (contact.ProfileGivenName !== "") this.name = contact.ProfileGivenName;
           else this.name = contact.Username;
           return this.name;
         }
@@ -377,8 +351,7 @@ export default {
     timerPercentage(m) {
       const recieved = moment(m.ReceivedAt);
       const duration = moment.duration(recieved.diff(moment.now()));
-      const percentage =
-        1 - (m.ExpireTimer + duration.asSeconds()) / m.ExpireTimer;
+      const percentage = 1 - (m.ExpireTimer + duration.asSeconds()) / m.ExpireTimer;
       if (percentage < 1) {
         const fullCircle = 179;
         return fullCircle * percentage;

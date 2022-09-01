@@ -180,7 +180,7 @@ func GetLastMessageForSession(id int64) (*Message, error) {
 func GetLastMessagesForAllSessions() ([]Message, error) {
 	var messages = []Message{}
 	var sessions = []Session{}
-	err := DS.Dbx.Select(&sessions, "SELECT * FROM sessions ORDER BY timestamp DESC")
+	err := DS.Dbx.Select(&sessions, "SELECT id FROM sessionsv2")
 	if err != nil {
 		return nil, err
 	}
