@@ -209,6 +209,19 @@ type UpdateProfileNameMessage struct {
 	Name string `json:"name"`
 	ID   int64  `json:"id"`
 }
+type CreateChatForRecipientMessage struct {
+	Type string `json:"request"`
+	ID   int64  `json:"id"`
+}
+type CreateRecipientMessage struct {
+	Type      string `json:"request"`
+	Recipient string `json:"recipient"`
+}
+type CreateRecipientAndAddToGroupMessage struct {
+	Type      string `json:"request"`
+	Recipient string `json:"recipient"`
+	Group     string `json:"group"`
+}
 type UpdateMessage struct {
 	UpdateMessage *store.Message
 }

@@ -38,6 +38,9 @@
         <div v-if="profile.Recipient.Username != ''" class="number">
           {{ profile.Recipient.Username }}
         </div>
+        <div class="btn btn-primary create-chat mt-4" @click="createChat()">
+          <div v-translate>Create chat</div>
+        </div>
       </div>
     </div>
   </component>
@@ -45,6 +48,7 @@
 
 <script>
 export default {
+    name: "ProfilePage",
   props: {
     profileId: Number,
   },
@@ -66,6 +70,11 @@ export default {
     editContact() {
       this.$router.push({
         name: "editContact",
+      });
+    },
+    createChat() {
+      this.$store.dispatch("createChatForRecipient", {
+        id: this.profile.Recipient.Id,
       });
     },
   },
@@ -114,5 +123,8 @@ span {
 }
 .infos {
   text-align: center;
+}
+.create-chat {
+  color: #fff;
 }
 </style>

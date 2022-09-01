@@ -1,6 +1,7 @@
 package webserver
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -65,7 +66,7 @@ func avatarsHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "File not found.", 404)
 		}
 		w.Header().Set("Content-Type", "image/png")
-		w.Header().Set("Content-Disposition", "attachment; filename="+string(sessionId)+".png")
+		w.Header().Set("Content-Disposition", "attachment; filename="+fmt.Sprint(sessionId)+".png")
 
 		w.Header().Set("Content-Length", strconv.Itoa(len(avatar)))
 		w.Write(avatar)
@@ -79,7 +80,7 @@ func avatarsHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "File not found.", 404)
 		}
 		w.Header().Set("Content-Type", "image/png")
-		w.Header().Set("Content-Disposition", "attachment; filename="+string(recipientId)+".png")
+		w.Header().Set("Content-Disposition", "attachment; filename="+fmt.Sprint(recipientId)+".png")
 		w.Header().Set("Content-Length", strconv.Itoa(len(avatar)))
 		w.Write(avatar)
 		return

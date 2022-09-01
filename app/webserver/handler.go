@@ -313,3 +313,44 @@ func updateProfileName(id int64, name string) {
 	}
 	sendProfile(id)
 }
+func createChatForRecipient(id int64) {
+	recipient := store.RecipientsModel.GetRecipientById(id)
+	if recipient == nil {
+		return
+	}
+	newChat, err := store.SessionsV2Model.GetOrCreateSessionForDirectMessageRecipient(recipient.Id)
+	if err != nil {
+		log.Errorln("[axolotl] Create chat error:", err)
+	} else {
+
+		activeChat = newChat.ID
+		store.ActiveSessionID = activeChat
+		requestEnterChat(newChat.ID)
+		sendChatList()
+	}
+}
+
+func createRecipient(uuid string) {
+	recipient := store.RecipientsModel.GetOrCreateRecipient(uuid)
+	if recipient == nil {
+		return
+	}
+}
+func createRecipientAndAddToGroup(uuid string, groupId string) {
+	recipient := store.RecipientsModel.GetOrCreateRecipient(uuid)
+	if recipient == nil {
+		return
+	}
+	group, err := store.GroupV2sModel.GetGroupById(groupId)
+	if err != nil {
+		log.Errorln("[axolotl] Create recipient and add to group error:", err)
+		return
+	}
+	err = group.AddMember(recipient)
+	if err != nil {
+		log.Errorln("[axolotl] Create recipient and add to group error:", err)
+		return
+	}
+	requestEnterChat(store.ActiveSessionID)
+
+}

@@ -229,6 +229,9 @@ export default createStore({
     SET_PROFILE(state, profile) {
       state.profile = profile;
     },
+    CLEAR_PROFILE(state) {
+      state.profile = {};
+    },
     SET_CONTACTS(state, contacts) {
       if (contacts !== null) {
         contacts = contacts.sort((a, b) => a.Name.localeCompare(b.Name));
@@ -458,10 +461,30 @@ export default createStore({
       }
     },
     getProfile(state, id) {
+      this.commit("CLEAR_PROFILE");
       if (this.state.socket.isConnected) {
         const message = {
           "request": "getProfile",
           "id": id
+        }
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
+      }
+    },
+    createRecipient(state, recipient) {
+      if (this.state.socket.isConnected) {
+        const message = {
+          "request": "createRecipient",
+          "recipient": recipient
+        }
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
+      }
+    },
+    createRecipientAndAddToGroup(state, data) {
+      if (this.state.socket.isConnected) {
+        const message = {
+          "request": "createRecipientAndAddToGroup",
+          "recipient": data.id,
+          "group": data.group
         }
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
@@ -581,6 +604,15 @@ export default createStore({
           "request": "updateProfileName",
           "name": data.name,
           "id": data.id
+        }
+        app.config.globalProperties.$socket.send(JSON.stringify(message))
+      }
+    },
+    createChatForRecipient(state, data) {
+      if (this.state.socket.isConnected) {
+        const message = {
+          "request": "createChatForRecipient",
+          "id": data.id,
         }
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }

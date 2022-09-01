@@ -235,7 +235,21 @@ func wsReader(conn *websocket.Conn) {
 			}
 			log.Infoln("[axolotl] Update profile name for", updateProfileNameMessage.ID)
 			go updateProfileName(updateProfileNameMessage.ID, updateProfileNameMessage.Name)
-
+		case "createChatForRecipient":
+			createChatForRecipientMessage := CreateChatForRecipientMessage{}
+			json.Unmarshal([]byte(p), &createChatForRecipientMessage)
+			log.Infoln("[axolotl] Create chat for", createChatForRecipientMessage.ID)
+			go createChatForRecipient(createChatForRecipientMessage.ID)
+		case "createRecipient":
+			createRecipientMessage := CreateRecipientMessage{}
+			json.Unmarshal([]byte(p), &createRecipientMessage)
+			log.Infoln("[axolotl] Create recipient", createRecipientMessage.Recipient)
+			go createRecipient(createRecipientMessage.Recipient)
+		case "createRecipientAndAddToGroup":
+			createRecipientAndAddToGroupMessage := CreateRecipientAndAddToGroupMessage{}
+			json.Unmarshal([]byte(p), &createRecipientAndAddToGroupMessage)
+			log.Infoln("[axolotl] Create recipient and add to group", createRecipientAndAddToGroupMessage.Recipient)
+			go createRecipientAndAddToGroup(createRecipientAndAddToGroupMessage.Recipient, createRecipientAndAddToGroupMessage.Group)
 		case "requestCode":
 			if requestChannel != nil {
 				requestCodeMessage := RequestCodeMessage{}
