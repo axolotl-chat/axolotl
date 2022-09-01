@@ -130,12 +130,16 @@ func wsReader(conn *websocket.Conn) {
 		case "createChat":
 			createChatMessage := CreateChatMessage{}
 			json.Unmarshal([]byte(p), &createChatMessage)
-			log.Println("[axolotl] Create chat for ", createChatMessage.UUID)
-			newChat := createDirectRecipientChat(createChatMessage.UUID)
-			activeChat = newChat.ID
-			store.ActiveSessionID = activeChat
-			requestEnterChat(activeChat)
-			sendChatList()
+			log.Println("[axolotl] Create chat for", createChatMessage.UUID)
+			newChat, err := createDirectRecipientChat(createChatMessage.UUID)
+			if err != nil {
+				log.Errorln("[axolotl] Create chat error:", err)
+			} else {
+				activeChat = newChat.ID
+				store.ActiveSessionID = activeChat
+				requestEnterChat(activeChat)
+				sendChatList()
+			}
 		case "openChat":
 			openChatMessage := OpenChatMessage{}
 			json.Unmarshal([]byte(p), &openChatMessage)

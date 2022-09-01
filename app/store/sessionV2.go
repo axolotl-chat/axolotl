@@ -3,13 +3,15 @@ package store
 import (
 	"errors"
 	"fmt"
+	"time"
 
+	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/helpers"
 	log "github.com/sirupsen/logrus"
 )
 
 var (
-	sessionsV2Schema             = "CREATE TABLE IF NOT EXISTS sessionsv2 (id INTEGER PRIMARY KEY, directMessageRecipientId INTEGER,unreadCounter integer default 0, expireTimer integer default 0, isArchived boolean NOT NULL DEFAULT 0,isBlocked boolean NOT NULL DEFAULT 0,isPinned boolean NOT NULL DEFAULT 0,isSilenced boolean NOT NULL DEFAULT 0,isMuted boolean NOT NULL DEFAULT 0,draft text DEFAULT '',groupV2Id text,groupV1Id text);"
+	sessionsV2Schema             = "CREATE TABLE IF NOT EXISTS sessionsv2 (id INTEGER PRIMARY KEY AUTOINCREMENT, directMessageRecipientId INTEGER,unreadCounter integer default 0, expireTimer integer default 0, isArchived boolean NOT NULL DEFAULT 0,isBlocked boolean NOT NULL DEFAULT 0,isPinned boolean NOT NULL DEFAULT 0,isSilenced boolean NOT NULL DEFAULT 0,isMuted boolean NOT NULL DEFAULT 0,draft text DEFAULT '',groupV2Id text,groupV1Id text);"
 	sessionsV2Insert             = "INSERT or REPLACE INTO sessionsv2 (id, directMessageRecipientId,expireTimer,groupV2Id,groupV1Id) VALUES (:id, :directMessageRecipientId, :expireTimer, :groupV2Id, :groupV1Id);"
 	sessionV2UpdateUnreadCounter = "UPDATE sessionsv2 SET unreadCounter = :unreadCounter WHERE id = :id;"
 	GroupRecipientsID            = -1
@@ -46,7 +48,7 @@ func (s *SessionsV2) CreateSessionForGroupV2(group string) (*SessionV2, error) {
 	ses := &SessionV2{
 		GroupV2ID: group,
 	}
-	ses, err := s.SaveSession(ses)
+	ses, err := s.CreateSession(ses)
 	if err != nil {
 		log.Errorln("[axolotl] CreateSessionForGroupv2 failed:", err)
 		return nil, err
@@ -59,10 +61,39 @@ func (s *SessionsV2) CreateSessionForGroup(group string) (*SessionV2, error) {
 	ses := &SessionV2{
 		GroupV1ID: group,
 	}
-	ses, err := s.SaveSession(ses)
+	ses, err := s.CreateSession(ses)
 	if err != nil {
 		log.Errorln("[axolotl] CreateSessionForGroupv1 failed:", err)
 		return nil, err
+	}
+	return ses, nil
+}
+
+// GetOrCreateSessionForGroupV2ID returns a session for a group v2 id
+func (s *SessionsV2) GetOrCreateSessionForGroupV2ID(group string) (*SessionV2, error) {
+	ses, err := s.GetSessionByGroupV2ID(group)
+	if err != nil {
+		if err == helpers.ErrNoRows {
+			ses, err := s.CreateSessionForGroupV2(group)
+			if err != nil {
+				return nil, err
+			}
+			return ses, nil
+		}
+		return nil, err
+	}
+	return ses, nil
+}
+
+// GetOrCreateSessionForDirectMessageRecipient returns a session for a direct message (one to one)
+func (s *SessionsV2) GetOrCreateSessionForDirectMessageRecipient(recipient int64) (*SessionV2, error) {
+	ses, err := s.GetSessionByDirectMessageRecipientID(recipient)
+	if err != nil {
+		ses, err := s.CreateSessionForDirectMessageRecipient(recipient)
+		if err != nil {
+			return nil, err
+		}
+		return ses, nil
 	}
 	return ses, nil
 }
@@ -72,12 +103,25 @@ func (s *SessionsV2) CreateSessionForDirectMessageRecipient(recipient int64) (*S
 	ses := &SessionV2{
 		DirectMessageRecipientID: recipient,
 	}
-	ses, err := s.SaveSession(ses)
+	ses, err := s.CreateSession(ses)
 	if err != nil {
 		log.Errorln("[axolotl] CreateSessionForDirectMesssageRecipient failed:", err)
 		return nil, err
 	}
 	return ses, nil
+}
+
+// CreateSession
+func (s *SessionsV2) CreateSession(session *SessionV2) (*SessionV2, error) {
+	// ensure unique id
+	var lastId int64
+	err := DS.Dbx.Get(&lastId, "SELECT id FROM sessionsv2 ORDER BY id DESC LIMIT 1;")
+	if err != nil {
+		return nil, err
+	}
+	session.ID = lastId + 1
+	s.SaveSession(session)
+	return session, nil
 }
 
 // SaveSession saves a session to the database
@@ -221,6 +265,20 @@ func (s *SessionV2) GetMessageList(limit int, offset int) ([]*Message, error) {
 	if err != nil {
 		return nil, err
 	}
+	if len(messages) == 0 {
+		m := &Message{Message: "New chat created",
+			SID:         s.ID,
+			Outgoing:    true,
+			Source:      "",
+			SourceUUID:  config.Config.UUID,
+			HTime:       "Now",
+			SentAt:      uint64(time.Now().UnixNano() / 1000000),
+			ExpireTimer: uint32(s.ExpireTimer),
+			Flags:       helpers.MsgFlagChatCreated,
+		}
+		SaveMessage(m)
+		return s.GetMessageList(limit, offset)
+	}
 	return messages, nil
 }
 
@@ -283,7 +341,14 @@ func (s *SessionV2) NotificationsToggle() error {
 func (s *SessionV2) GetName() (string, error) {
 	if s.DirectMessageRecipientID != int64(GroupRecipientsID) {
 		recipient := RecipientsModel.GetRecipientById(s.DirectMessageRecipientID)
-		return recipient.Username, nil
+		if recipient != nil {
+			if recipient.ProfileGivenName != "" {
+				return recipient.ProfileGivenName, nil
+			}
+			return recipient.Username, nil
+		}
+
+		return "", errors.New("recipient not found")
 	} else {
 		group, err := GroupV2sModel.GetGroupById(s.GroupV2ID)
 		if err != nil {

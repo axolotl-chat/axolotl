@@ -2,7 +2,9 @@ package webserver
 
 import (
 	"encoding/json"
+	"fmt"
 	"strings"
+	"time"
 
 	log "github.com/sirupsen/logrus"
 
@@ -207,27 +209,43 @@ func sendDeviceList() {
 	}
 	broadcast <- *message
 }
-func createDirectRecipientChat(uuid string) *store.SessionV2 {
+func createDirectRecipientChat(uuid string) (*store.SessionV2, error) {
 	var err error
 	if uuid == "0" {
-		return nil
+		return nil, fmt.Errorf("createDirectRecipientChat: uuid is 0")
 	}
-	recipient := store.RecipientsModel.GetRecipientByUUID(uuid)
+	contact := store.GetContactForUUID(uuid)
+
+	recipient := store.RecipientsModel.GetOrCreateRecipientForContact(contact)
 	if recipient == nil {
 		recipient, err = store.RecipientsModel.CreateRecipient(&store.Recipient{
 			UUID: uuid,
 		})
 		if err != nil {
 			log.Errorln("[axolotl] createDirectRecipientChat", err)
-			return nil
+			return nil, err
 		}
 	}
-	session, err := store.SessionsV2Model.CreateSessionForDirectMessageRecipient(recipient.Id)
+	session, err := store.SessionsV2Model.GetOrCreateSessionForDirectMessageRecipient(recipient.Id)
 	if err != nil {
 		log.Errorln("[axolotl] createDirectRecipientChat", err)
-		return nil
+		return nil, err
 	}
-	return session
+	// ensure that a message exists
+	messages, err := session.GetMessageList(1, 0)
+	if err != nil || len(messages) == 0 {
+		m := &store.Message{Message: "New chat created",
+			SID:         session.ID,
+			Outgoing:    true,
+			Source:      "",
+			SourceUUID:  config.Config.UUID,
+			HTime:       "Now",
+			SentAt:      uint64(time.Now().UnixNano() / 1000000),
+			ExpireTimer: uint32(session.ExpireTimer),
+		}
+		go MessageHandler(m)
+	}
+	return session, nil
 }
 
 // createGroup creates a group chat session and returns the session id. -> Deprectated

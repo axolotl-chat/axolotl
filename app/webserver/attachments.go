@@ -84,6 +84,18 @@ func avatarsHandler(w http.ResponseWriter, r *http.Request) {
 		w.Write(avatar)
 		return
 	}
+	recipientE164 := r.URL.Query().Get("e164")
+	if recipientE164 != "" {
+		avatar, err := getAvatarForE164("+" + strings.Replace(recipientE164, " ", "", -1))
+		if err != nil {
+			http.Error(w, "File not found.", 404)
+		}
+		w.Header().Set("Content-Type", "image/png")
+		w.Header().Set("Content-Disposition", "attachment; filename="+recipientE164+".png")
+		w.Header().Set("Content-Length", strconv.Itoa(len(avatar)))
+		w.Write(avatar)
+		return
+	}
 
 	Filename := r.URL.Query().Get("group")
 
@@ -123,6 +135,25 @@ func getAvatarForSession(sessionId int64) ([]byte, error) {
 
 func getAvatarForRecipient(recipientId int64) ([]byte, error) {
 	recipient := store.RecipientsModel.GetRecipientById(recipientId)
+	if recipient == nil {
+		return nil, nil
+	}
+	avatar, err := textsecure.GetAvatar(recipient.UUID)
+	if err != nil {
+		return nil, err
+	}
+	if avatar == nil {
+		return nil, nil
+	}
+	avatarBytes, err := io.ReadAll(avatar)
+	if err != nil {
+		return nil, err
+	}
+	return avatarBytes, nil
+}
+
+func getAvatarForE164(e164 string) ([]byte, error) {
+	recipient := store.RecipientsModel.GetRecipientByE164(e164)
 	if recipient == nil {
 		return nil, nil
 	}

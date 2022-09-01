@@ -2,13 +2,15 @@ package store
 
 import (
 	"github.com/signal-golang/textsecure"
+	"github.com/signal-golang/textsecure/contacts"
 	"github.com/signal-golang/textsecure/profiles"
 	log "github.com/sirupsen/logrus"
 )
 
 var (
-	recipientsSchema   = "CREATE TABLE IF NOT EXISTS recipients (id integer PRIMARY KEY,e164 text,uuid text,username text,email text,is_blocked Bool,profile_key blob,profile_key_credential blob,profile_given_name text,profile_family_name text,profile_joined_name text,signal_profile_avatar text,profile_sharing_enabled Bool,last_profile_fetch DATETIME DEFAULT CURRENT_TIMESTAMP,unidentified_access_mode Bool,storage_service_id blob,storage_proto blob,capabilities integer,last_session_reset DATETIME DEFAULT CURRENT_TIMESTAMP);"
-	recipientInsert    = "INSERT or REPLACE INTO recipients (id, e164, uuid, username, email, is_blocked, profile_key, profile_key_credential, profile_given_name, profile_family_name, profile_joined_name, signal_profile_avatar, profile_sharing_enabled, last_profile_fetch, unidentified_access_mode, storage_service_id, storage_proto, capabilities, last_session_reset) VALUES (:id, :e164, :uuid, :username, :email, :is_blocked, :profile_key, :profile_key_credential, :profile_given_name, :profile_family_name, :profile_joined_name, :signal_profile_avatar, :profile_sharing_enabled, :last_profile_fetch, :unidentified_access_mode, :storage_service_id, :storage_proto, :capabilities, :last_session_reset)"
+	recipientsSchema   = "CREATE TABLE IF NOT EXISTS recipients (id integer PRIMARY KEY AUTOINCREMENT,e164 text,uuid text,username text,email text,is_blocked Bool,profile_key blob,profile_key_credential blob,profile_given_name text,profile_family_name text,profile_joined_name text,signal_profile_avatar text,profile_sharing_enabled Bool,last_profile_fetch DATETIME DEFAULT CURRENT_TIMESTAMP,unidentified_access_mode Bool,storage_service_id blob,storage_proto blob,capabilities integer,last_session_reset DATETIME DEFAULT CURRENT_TIMESTAMP);"
+	recipientInsert    = "INSERT INTO recipients (id, e164, uuid, username, email, is_blocked, profile_key, profile_key_credential, profile_given_name, profile_family_name, profile_joined_name, signal_profile_avatar, profile_sharing_enabled, last_profile_fetch, unidentified_access_mode, storage_service_id, storage_proto, capabilities, last_session_reset) VALUES (:id, :e164, :uuid, :username, :email, :is_blocked, :profile_key, :profile_key_credential, :profile_given_name, :profile_family_name, :profile_joined_name, :signal_profile_avatar, :profile_sharing_enabled, :last_profile_fetch, :unidentified_access_mode, :storage_service_id, :storage_proto, :capabilities, :last_session_reset)"
+	recipientUpdate    = "REPLACE INTO recipients (id, e164, uuid, username, email, is_blocked, profile_key, profile_key_credential, profile_given_name, profile_family_name, profile_joined_name, signal_profile_avatar, profile_sharing_enabled, last_profile_fetch, unidentified_access_mode, storage_service_id, storage_proto, capabilities, last_session_reset) VALUES (:id, :e164, :uuid, :username, :email, :is_blocked, :profile_key, :profile_key_credential, :profile_given_name, :profile_family_name, :profile_joined_name, :signal_profile_avatar, :profile_sharing_enabled, :last_profile_fetch, :unidentified_access_mode, :storage_service_id, :storage_proto, :capabilities, :last_session_reset)"
 	recipientGetById   = "SELECT * FROM recipients WHERE id = ?"
 	recipientGetByUUID = "SELECT * FROM recipients WHERE uuid = ?"
 	recipientGetByE164 = "SELECT * FROM recipients WHERE e164 = ?"
@@ -55,6 +57,13 @@ func (r *Recipients) CreateRecipient(recipient *Recipient) (*Recipient, error) {
 	if storedRecipeit != nil {
 		return storedRecipeit, nil
 	}
+	//get last inserted recipient id
+	var lastId int64
+	err := DS.Dbx.Get(&lastId, "SELECT id FROM recipients ORDER BY id DESC LIMIT 1;")
+	if err != nil {
+		return nil, err
+	}
+	recipient.Id = lastId + 1
 	res, err := DS.Dbx.NamedExec(recipientInsert, recipient)
 	if err != nil {
 		return nil, err
@@ -68,6 +77,32 @@ func (r *Recipients) CreateRecipient(recipient *Recipient) (*Recipient, error) {
 	recipient.Id = id
 	recipient.UpdateProfile()
 	return recipient, err
+}
+
+// GetOrCreateRecipient returns a recipient by uuid or creates a new one
+func (r *Recipients) GetOrCreateRecipient(uuid string) *Recipient {
+	recipient := r.GetRecipientByUUID(uuid)
+	if recipient == nil {
+		recipient = &Recipient{
+			UUID: uuid,
+		}
+		recipient, _ = r.CreateRecipient(recipient)
+	}
+	return recipient
+}
+
+// GetOrCreateRecipientForContact returns a recipient for a contact
+func (r *Recipients) GetOrCreateRecipientForContact(contact *contacts.Contact) *Recipient {
+	recipient := r.GetRecipientByUUID(contact.UUID)
+	if recipient == nil {
+		recipient = &Recipient{
+			UUID:             contact.UUID,
+			ProfileGivenName: contact.Name,
+			E164:             contact.Tel,
+		}
+		recipient, _ = r.CreateRecipient(recipient)
+	}
+	return recipient
 }
 
 // this is only used in the v1.6.0 migration because we migrate before we initialize the signal server
@@ -123,7 +158,7 @@ func (r *Recipients) GetRecipientByUUID(uuid string) *Recipient {
 
 // SaveRecipient saves a recipient
 func (r *Recipient) SaveRecipient() error {
-	_, err := DS.Dbx.NamedExec(recipientInsert, r)
+	_, err := DS.Dbx.NamedExec(recipientUpdate, r)
 	return err
 }
 
@@ -142,6 +177,7 @@ func (r *Recipient) UpdateProfile() error {
 				r.ProfileKey = []byte(profile.IdentityKey)
 			}
 			if profile != nil && len(profile.Name) > 0 {
+				log.Debug("[axolotl] New profile name:", profile.Name)
 				r.Username = profile.Name
 			}
 		}
