@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	sessionsV2Schema             = "CREATE TABLE IF NOT EXISTS sessionsv2 (id INTEGER PRIMARY KEY AUTOINCREMENT, directMessageRecipientId INTEGER,unreadCounter integer default 0, expireTimer integer default 0, isArchived boolean NOT NULL DEFAULT 0,isBlocked boolean NOT NULL DEFAULT 0,isPinned boolean NOT NULL DEFAULT 0,isSilenced boolean NOT NULL DEFAULT 0,isMuted boolean NOT NULL DEFAULT 0,draft text DEFAULT '',groupV2Id text,groupV1Id text);"
+	sessionsV2Schema             = "CREATE TABLE IF NOT EXISTS sessionsv2 (id INTEGER PRIMARY KEY, directMessageRecipientId INTEGER,unreadCounter integer default 0, expireTimer integer default 0, isArchived boolean NOT NULL DEFAULT 0,isBlocked boolean NOT NULL DEFAULT 0,isPinned boolean NOT NULL DEFAULT 0,isSilenced boolean NOT NULL DEFAULT 0,isMuted boolean NOT NULL DEFAULT 0,draft text DEFAULT '',groupV2Id text,groupV1Id text);"
 	sessionsV2Insert             = "INSERT or REPLACE INTO sessionsv2 (id, directMessageRecipientId,expireTimer,groupV2Id,groupV1Id) VALUES (:id, :directMessageRecipientId, :expireTimer, :groupV2Id, :groupV1Id);"
 	sessionV2UpdateUnreadCounter = "UPDATE sessionsv2 SET unreadCounter = :unreadCounter WHERE id = :id;"
 	GroupRecipientsID            = -1
