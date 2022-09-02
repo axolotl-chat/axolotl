@@ -250,7 +250,8 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 	}
 	// for now ignore empty messages and profile key updates
 	log.Debugf("[axolotl] message: %+v", m)
-	if (m.Message != "" || m.Attachment != "") && !syncMessage && helpers.MsgFlagProfileKeyUpdated != msgFlags {
+
+	if helpers.MsgFlagProfileKeyUpdated != msgFlags && (syncMessage || m.Message != "" || m.Attachment != "") {
 
 		msgSend, err := store.SaveMessage(m)
 		if err != nil {
