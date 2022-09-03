@@ -33,7 +33,7 @@ type Message struct {
 }
 
 func SaveMessage(m *Message) (*Message, error) {
-	//get last messageid
+	// get last messageid
 	var lastMessageID = []Message{}
 	err := DS.Dbx.Select(&lastMessageID, "SELECT id FROM messages ORDER BY id DESC LIMIT 1")
 	if err == nil {
@@ -110,7 +110,7 @@ func DeleteMessage(id int64) error {
 }
 
 func (s *Session) GetMessages(i int) *Message {
-	//FIXME when is index -1 ?
+	// FIXME when is index -1 ?
 	if i == -1 || i >= len(s.Messages) {
 		return &Message{}
 	}

@@ -35,7 +35,6 @@ func (c *LinkedDevices) RefreshDevices() error {
 	}
 	LinkedDevicesModel.LinkedDevices = d[:]
 	LinkedDevicesModel.Len = len(d)
-	//qml.Changed(LinkedDevicesModel, &LinkedDevicesModel.Len)
 	return nil
 }
 func (c *LinkedDevices) UnlinkDevice(id int) error {
@@ -60,7 +59,6 @@ func RefreshDevices() (*LinkedDevices, error) {
 
 	LinkedDevicesModel.LinkedDevices = d[:]
 	LinkedDevicesModel.Len = len(d)
-	//qml.Changed(LinkedDevicesModel, &LinkedDevicesModel.Len)
 	return LinkedDevicesModel, nil
 }
 func AddDevice(url string) error {

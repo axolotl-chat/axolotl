@@ -214,6 +214,7 @@ func startSession() {
 		os.RemoveAll(config.StorageDir)
 		os.Exit(1)
 	}
+	err = store.Migrate()
 	if err != nil {
 		ui.ShowError(err)
 		return

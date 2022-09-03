@@ -134,18 +134,23 @@ func update_v_1_6_0() error {
 	_, err := DS.Dbx.Prepare("SELECT * FROM sessionsv2 limit 1")
 	if err != nil {
 		log.Infoln("[axolotl] update schema v_1_6_0")
+		log.Infoln("[axolotl][update v_1_6_0] create groupsv2 table")
 		_, err = DS.Dbx.Exec(groupsV2Schema)
 		if err != nil {
 			return err
 		}
+		log.Infoln("[axolotl][update v_1_6_0] create groupv2 member table")
 		_, err = DS.Dbx.Exec(groupV2MembersSchema)
 		if err != nil {
 			return err
 		}
+		log.Infoln("[axolotl][update v_1_6_0] create recipients table")
 		_, err = DS.Dbx.Exec(recipientsSchema)
 		if err != nil {
 			return err
 		}
+		log.Infoln("[axolotl][update v_1_6_0] create sessionsv2 table")
+
 		_, err = DS.Dbx.Exec(sessionsV2Schema)
 		if err != nil {
 			return err
@@ -161,6 +166,7 @@ func update_v_1_6_0() error {
 			return fmt.Errorf("error loading sessions: %s", err)
 		}
 		// copy contacts to recipients
+		log.Infoln("[axolotl][update v_1_6_0] create recipients for contacts")
 		registeredContacts, _ := readRegisteredContacts(config.RegisteredContactsFile)
 		for _, contact := range registeredContacts {
 			if contact.UUID != "" {
@@ -172,8 +178,10 @@ func update_v_1_6_0() error {
 				RecipientsModel.GetOrCreateRecipientForContact(c)
 			}
 		}
+		log.Infoln("[axolotl][update v_1_6_0] migrate sessionsv1 to sessionsv2")
 		for _, session := range sessions {
 			if session.IsGroup && session.Type == SessionTypeGroupV2 {
+				log.Infoln("[axolotl][update v_1_6_0] migrate groupv2 session")
 
 				group, err := GroupV2sModel.Create(&GroupV2{
 					Id:         session.UUID,
@@ -191,13 +199,19 @@ func update_v_1_6_0() error {
 				if err != nil {
 					return fmt.Errorf("error creating session groupv2: %s", err)
 				}
+				log.Infoln("[axolotl][update v_1_6_0] migrate groupv2 session: members")
 				groupMembers, err := textsecure.GetGroupV2MembersForGroup(session.UUID)
 				if err != nil {
-					log.Errorf("error getting group members: %s", err)
+					log.Errorf("[axolotl][update v_1_6_0] error getting group members: %s", err)
+				} else {
+					err = group.AddGroupMembers(groupMembers)
+					if err != nil {
+						log.Errorf("[axolotl][update v_1_6_0] error adding group members: %s", err)
+					}
 				}
-				group.AddGroupMembers(groupMembers)
-
 			} else if session.IsGroup && session.Type == SessionTypeGroupV1 {
+				log.Infoln("[axolotl][update v_1_6_0] migrate groupv1 session")
+
 				_, err = SessionsV2Model.SaveSession(&SessionV2{
 					ID:                       session.ID,
 					GroupV1ID:                session.UUID,
@@ -207,6 +221,8 @@ func update_v_1_6_0() error {
 					return err
 				}
 			} else if session.Type == SessionTypePrivateChat {
+				log.Infoln("[axolotl][update v_1_6_0] migrate private chat session")
+
 				recipient, err := RecipientsModel.CreateRecipientWithoutProfileUpdate(&Recipient{
 					UUID:             session.UUID,
 					ProfileGivenName: session.Name,

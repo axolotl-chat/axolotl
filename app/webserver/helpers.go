@@ -275,7 +275,7 @@ func createGroup(newGroupData CreateGroupMessage) (*store.SessionV2, error) {
 		ShowError(err.Error())
 		return nil, err
 	}
-	//TODO:
+	// TODO:
 	// msg := session.Add(store.GroupUpdateMsg(append(newGroupData.Members, config.Config.Tel), newGroupData.Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
 	// msg.Flags = helpers.MsgFlagGroupNew
 	// store.SaveMessage(msg)
@@ -317,7 +317,7 @@ func joinGroupV2(joinGroupmessage JoinGroupMessage) *store.SessionV2 {
 			return nil
 		}
 	} else {
-		//update GroupV2
+		// update GroupV2
 		groupV2.JoinStatus = group.JoinStatus
 		groupV2.Name = group.DecryptedGroup.Title
 		err = groupV2.UpdateGroup()

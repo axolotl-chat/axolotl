@@ -1,12 +1,8 @@
 <template>
   <component :is="$route.meta.layout || 'div'">
     <template #header>
-      <div class="profile-header" v-if="profile.Recipient">
-        <span>{{
-          profile.Recipient.ProfileGivenName !== ""
-            ? profile.Recipient.ProfileGivenName
-            : profile.Recipient.Username
-        }}</span>
+      <div v-if="profile.Recipient" class="profile-header">
+        <span>{{name}}</span>
       </div>
     </template>
     <template #menu>
@@ -14,7 +10,7 @@
         <div v-translate @click="editContact()">Edit Contact</div>
       </div>
     </template>
-    <div class="profile" v-if="profile.Recipient">
+    <div v-if="profile.Recipient" class="profile">
       <div class="profile-image">
         <img
           v-if="hasProfileImage"
@@ -25,9 +21,7 @@
         />
         <div v-else class="profile-name">
           <span>{{
-            profile.Recipient.ProfileGivenName !== ""
-              ? profile.Recipient.ProfileGivenName[0]
-              : profile.Recipient.Username[0]
+            name[0]
           }}</span>
         </div>
       </div>
@@ -38,8 +32,17 @@
         <div v-if="profile.Recipient.Username != ''" class="number">
           {{ profile.Recipient.Username }}
         </div>
+        <div v-if="profile.Recipient.UUID != ''" class="number">
+          {{ profile.Recipient.UUID }}
+        </div>
+        <div v-if="profile.Recipient.About != ''" class="number">
+          {{ profile.Recipient.About }}
+        </div>
+        <div v-if="profile.Recipient.AboutEmoji != ''" class="number">
+          {{ profile.Recipient.AboutEmoji }}
+        </div>
         <div class="btn btn-primary create-chat mt-4" @click="createChat()">
-          <div v-translate>Create chat</div>
+          <div v-translate>Create private chat with {{name}}</div>
         </div>
       </div>
     </div>
@@ -59,6 +62,11 @@ export default {
     profile() {
       return this.$store.state.profile;
     },
+    name(){
+      return      this.profile.Recipient.ProfileGivenName !== ""
+            ? this.profile.Recipient.ProfileGivenName
+            : this.profile.Recipient.Username?this.profile.Recipient.Username:"Unknow user"
+    }
   },
   mounted() {
     this.$store.dispatch("getProfile", this.profileId);
@@ -95,7 +103,6 @@ export default {
   border-radius: 50px;
 }
 .profile-name {
-  font-size: 1.5rem;
   font-weight: bold;
   text-align: center;
   max-width: 80vw;
@@ -103,12 +110,16 @@ export default {
   height: 150px;
   border-radius: 50px;
   background-color: rgb(240, 240, 240);
-
+  
   display: flex;
   justify-content: center;
   align-items: center;
-  color: blue;
 }
+.profile-name span{
+  font-size: 3.5rem;
+  color: #5fb5ea
+}
+
 .profile-header {
   height: 100%;
   display: flex;

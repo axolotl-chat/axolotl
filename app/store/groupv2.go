@@ -64,7 +64,7 @@ func (g GroupV2s) Create(group *GroupV2) (*GroupV2, error) {
 	if err != nil {
 		return nil, err
 	}
-	return nil, nil
+	return group, nil
 }
 
 // GetGroupById returns a group by id
@@ -125,7 +125,7 @@ func (g *GroupV2) UpdateGroup() error {
 
 // UpdateGroupMembers updates all group members
 func (g *GroupV2) UpdateGroupMembers(members []GroupV2Member) error {
-	//delete all old members
+	// delete all old members
 	err := g.DeleteMembers()
 	if err != nil {
 		return err
@@ -173,7 +173,7 @@ func (g *GroupV2) Delete() error {
 	if err != nil {
 		return err
 	}
-	//delete all old members
+	// delete all old members
 	_, err = DS.Dbx.Exec("DELETE FROM groupsv2 WHERE id = :id", g.Id)
 	if err != nil {
 		return err
@@ -183,7 +183,7 @@ func (g *GroupV2) Delete() error {
 
 // DeleteMembers deletes all members of a group
 func (g *GroupV2) DeleteMembers() error {
-	//delete all old members
+	// delete all old members
 	_, err := DS.Dbx.Exec("DELETE FROM groupsv2members WHERE group_v2_id = :group_v2_id", g.Id)
 	if err != nil {
 		return err
@@ -202,15 +202,11 @@ func (g *GroupV2) UpdateGroupAction(action *signalservice.DecryptedGroupChange) 
 		g.InviteLinkPassword = string(action.GetNewInviteLinkPassword())
 	}
 	if len(action.NewMembers) > 0 {
-		log.Debug("1")
 		err := g.AddGroupMembers(action.NewMembers)
 		if err != nil {
 			return err
 		}
-		log.Debug("2")
-
 		for i := range action.NewMembers {
-			log.Debug("3")
 
 			member := action.NewMembers[i]
 			memberUUID := uuid.FromBytesOrNil(member.Uuid)
@@ -240,7 +236,7 @@ func (g *GroupV2) UpdateGroupAction(action *signalservice.DecryptedGroupChange) 
 			}
 		}
 	}
-	//Todo: update other fields
+	// Todo: update other fields
 	g.UpdateGroup()
 	return nil
 }

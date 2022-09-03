@@ -356,7 +356,7 @@ func wsReader(conn *websocket.Conn) {
 				if err != nil {
 					log.Errorln("[axolotl] import vcf ", err)
 				} else {
-					//non blocking vcf import
+					// non blocking vcf import
 					go importVcf()
 				}
 

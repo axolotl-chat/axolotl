@@ -124,12 +124,7 @@ func (ds *DataStore) SetupDb(password string) bool {
 	UpdateSessionTable_v_0_9_5()
 	updateGroupTable_v_0_9_10()
 	updateSessionTable_joinStatus_v_0_9_10()
-	err = update_v_1_6_0()
-	if err != nil {
-		log.Errorln("[axolotl] setupDb: Couldn't migrate db: " + err.Error())
-		return false
-	}
-	//qml.Changed(SessionsModel, &SessionsModel.Len)
+
 	log.Printf("[axolotl] Db setup finished")
 
 	return true
@@ -313,4 +308,13 @@ func NewDataStore(dbPath, saltPath, password string) (*DataStore, error) {
 	log.Debugf("[axolotl] NewDataStore finished")
 
 	return &DataStore{Dbx: db}, nil
+}
+
+func Migrate() error {
+	err := update_v_1_6_0()
+	if err != nil {
+		log.Errorln("[axolotl] setupDb: Couldn't migrate db: " + err.Error())
+		return err
+	}
+	return nil
 }

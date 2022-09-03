@@ -12,7 +12,7 @@
             </button>
             <div v-if="currentChat !== null && currentChat" class="row w-100">
               <div class="col-2 badge-container">
-                <div v-if="!isGroup" class="badge-name">
+                <div v-if="!isGroup" class="badge-name" @click="openProfileForRecipient(currentChat.DirectMessageRecipientID)">
                   <img
                     class="avatar-img"
                     :src="'http://localhost:9080/avatars?session=' + currentChat.ID"
@@ -530,6 +530,11 @@ export default {
       this.showActions = false;
       this.editContactId = "";
       this.$store.dispatch("editContact", data);
+    },
+    openProfileForRecipient(recipient) {
+      if (recipient !== -1) {
+        this.$updaterouter.push("/profile/" + recipient);
+      }
     },
   },
 };

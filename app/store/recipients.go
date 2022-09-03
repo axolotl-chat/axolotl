@@ -1,6 +1,8 @@
 package store
 
 import (
+	"time"
+
 	"github.com/signal-golang/textsecure"
 	"github.com/signal-golang/textsecure/contacts"
 	"github.com/signal-golang/textsecure/profiles"
@@ -12,7 +14,7 @@ var (
 	recipientInsert    = "INSERT INTO recipients (id, e164, uuid, username, email, is_blocked, profile_key, profile_key_credential, profile_given_name, profile_family_name, profile_joined_name, signal_profile_avatar, profile_sharing_enabled, last_profile_fetch, unidentified_access_mode, storage_service_id, storage_proto, capabilities, last_session_reset, about, about_emoji) VALUES (:id, :e164, :uuid, :username, :email, :is_blocked, :profile_key, :profile_key_credential, :profile_given_name, :profile_family_name, :profile_joined_name, :signal_profile_avatar, :profile_sharing_enabled, :last_profile_fetch, :unidentified_access_mode, :storage_service_id, :storage_proto, :capabilities, :last_session_reset, :about, :about_emoji)"
 	recipientUpdate    = "REPLACE INTO recipients (id, e164, uuid, username, email, is_blocked, profile_key, profile_key_credential, profile_given_name, profile_family_name, profile_joined_name, signal_profile_avatar, profile_sharing_enabled, last_profile_fetch, unidentified_access_mode, storage_service_id, storage_proto, capabilities, last_session_reset, about, about_emoji) VALUES (:id, :e164, :uuid, :username, :email, :is_blocked, :profile_key, :profile_key_credential, :profile_given_name, :profile_family_name, :profile_joined_name, :signal_profile_avatar, :profile_sharing_enabled, :last_profile_fetch, :unidentified_access_mode, :storage_service_id, :storage_proto, :capabilities, :last_session_reset, :about, :about_emoji)"
 	recipientGetById   = "SELECT * FROM recipients WHERE id = ?"
-	recipientGetByUUID = "SELECT * FROM recipients WHERE uuid = ?"
+	recipientGetByUUID = "SELECT * FROM recipients WHERE uuid = ? Limit 1"
 	recipientGetByE164 = "SELECT * FROM recipients WHERE e164 = ?"
 )
 
@@ -53,9 +55,10 @@ func (r *Recipients) CreateRecipient(recipient *Recipient) (*Recipient, error) {
 	log.Debugln("[axolotl] Creating recipient", recipient.UUID)
 	storedRecipeit := r.GetRecipientByUUID(recipient.UUID)
 	if storedRecipeit != nil {
+		log.Debugln("[axolotl] CreateRecipient: Recipient already exists", recipient.UUID)
 		return storedRecipeit, nil
 	}
-	//get last inserted recipient id
+	// get last inserted recipient id
 	var lastId int64
 	err := DS.Dbx.Get(&lastId, "SELECT id FROM recipients ORDER BY id DESC LIMIT 1;")
 	if err != nil {
@@ -114,59 +117,60 @@ func (r *Recipients) GetOrCreateRecipientForContact(contact *contacts.Contact) *
 // this is only used in the v1.6.0 migration because we migrate before we initialize the signal server
 func (r *Recipients) CreateRecipientWithoutProfileUpdate(recipient *Recipient) (*Recipient, error) {
 	log.Debugln("[axolotl] Creating recipient without profile update", recipient.UUID)
-	storedRecipeit := r.GetRecipientByUUID(recipient.UUID)
-	if storedRecipeit != nil {
-		return storedRecipeit, nil
-	}
-	//get last inserted recipient id
-	var lastId int64
-	err := DS.Dbx.Get(&lastId, "SELECT id FROM recipients ORDER BY id DESC LIMIT 1;")
-	if err != nil {
-		lastId = 0
-	}
-	recipient.Id = lastId + 1
-	res, err := DS.Dbx.NamedExec(recipientInsert, recipient)
-	if err != nil {
-		return nil, err
+	storedRecipient := r.GetRecipientByUUID(recipient.UUID)
+
+	if storedRecipient != nil {
+		log.Debug("[axolotl] Recipient already exists")
+		recipient.Id = storedRecipient.Id
+		err := recipient.SaveRecipient()
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		// get last inserted recipient id
+		var lastId int64
+		err := DS.Dbx.Get(&lastId, "SELECT id FROM recipients ORDER BY id DESC LIMIT 1;")
+		if err != nil {
+			lastId = 0
+		}
+		recipient.Id = lastId + 1
+		_, err = DS.Dbx.NamedExec(recipientInsert, recipient)
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	id, err := res.LastInsertId()
-	if err != nil {
-		return nil, err
-	}
-
-	recipient.Id = id
-	return recipient, err
+	return recipient, nil
 }
 
 // GetRecipientById returns a recipient by id
 func (r *Recipients) GetRecipientById(id int64) *Recipient {
-	recipient := &Recipient{}
-	err := DS.Dbx.Get(recipient, recipientGetById, id)
+	recipient := Recipient{}
+	err := DS.Dbx.Get(&recipient, recipientGetById, id)
 	if err != nil {
 		return nil
 	}
-	return recipient
+	return &recipient
 }
 
 // GetRecipientByE164 returns a recipient by e164
 func (r *Recipients) GetRecipientByE164(e164 string) *Recipient {
-	recipient := &Recipient{}
-	err := DS.Dbx.Get(recipient, recipientGetByE164, e164)
+	recipient := Recipient{}
+	err := DS.Dbx.Get(&recipient, recipientGetByE164, e164)
 	if err != nil {
 		return nil
 	}
-	return recipient
+	return &recipient
 }
 
 // GetRecipientByUUID returns a recipient by uuid
 func (r *Recipients) GetRecipientByUUID(uuid string) *Recipient {
-	recipient := &Recipient{}
-	err := DS.Dbx.Get(recipient, recipientGetByUUID, uuid)
+	recipient := Recipient{}
+	err := DS.Dbx.Get(&recipient, recipientGetByUUID, uuid)
 	if err != nil {
 		return nil
 	}
-	return recipient
+	return &recipient
 }
 
 // SaveRecipient saves a recipient
@@ -178,6 +182,11 @@ func (r *Recipient) SaveRecipient() error {
 // UpdateProfile updates a recipient's profile
 func (r *Recipient) UpdateProfile() error {
 	log.Debugln("[axolotl] Updating profile for recipient", r.UUID)
+	// update profile only once an hour max
+	lastFetch, _ := time.Parse("1970-01-01 00:00:00 +0000 UTC", r.LastProfileFetch)
+	if lastFetch.Unix() < time.Now().Unix()-86400 {
+		return nil
+	}
 	var profile *profiles.Profile
 	var err error
 	if r.ProfileKey == nil {
@@ -220,6 +229,7 @@ func (r *Recipient) UpdateProfile() error {
 			}
 		}
 	}
+	r.LastProfileFetch = time.Now().Format("1970-01-01 00:00:00 +0000 UTC")
 	r.SaveRecipient()
 	return nil
 }
