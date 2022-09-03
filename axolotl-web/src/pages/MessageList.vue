@@ -65,7 +65,7 @@
         </div>
         <div id="chat-bottom" />
       </div>
-      <div v-if="showAddContactButton" class="messageInputBoxDisabled w-100">
+      <div v-if="isGroup && currentGroup&& currentGroup.JoinStatus == 1" class="messageInputBoxDisabled w-100">
         <p v-translate>
           Join this group? They won’t know you’ve seen their messages until you
           accept.
@@ -73,6 +73,11 @@
         <div v-translate class="btn btn-primary" @click="joinGroupAccept">
           Join
         </div>
+      </div>
+      <div v-else-if="isGroup && currentGroup&& currentGroup.JoinStatus == 2" class="messageInputBoxDisabled w-100">
+        <p v-translate>
+          You have been removed from this group.
+        </p>
       </div>
       <div v-else class="bottom-wrapper">
         <div v-if="!voiceNote.recorded" class="messageInputBox">
@@ -208,16 +213,13 @@ export default {
     chat() {
       return this.$store.state.currentChat;
     },
-    showAddContactButton() {
-      return this.chat && this.chat.IsGroup && this.chat.GroupJoinStatus !== 0;
-    },
     messages() {
       return this.$store.state.messageList;
     },
     isGroup() {
       return this.$store.state.currentChat.GroupV2ID!=="" || this.$store.state.currentChat.GroupV1ID !== ""?true:false;
     },
-    ...mapState(["contacts", "config", "messageList"]),
+    ...mapState(["contacts", "config", "messageList", "currentGroup"]),
   },
   watch: {
     messageInput() {

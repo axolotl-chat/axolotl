@@ -94,9 +94,10 @@ func sendCurrentChat(s *store.SessionV2) {
 			return
 		}
 		group = &Group{
-			HexId:   s.GroupV2ID,
-			Name:    gr.Name,
-			Members: members,
+			HexId:      s.GroupV2ID,
+			Name:       gr.Name,
+			Members:    members,
+			JoinStatus: gr.JoinStatus,
 		}
 	}
 	currentChatEnvelope := &CurrentChatEnvelope{

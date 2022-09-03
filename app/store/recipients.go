@@ -8,9 +8,9 @@ import (
 )
 
 var (
-	recipientsSchema   = "CREATE TABLE IF NOT EXISTS recipients (id integer PRIMARY KEY,e164 text,uuid text,username text,email text,is_blocked Bool,profile_key blob,profile_key_credential blob,profile_given_name text,profile_family_name text,profile_joined_name text,signal_profile_avatar text,profile_sharing_enabled Bool,last_profile_fetch DATETIME DEFAULT CURRENT_TIMESTAMP,unidentified_access_mode Bool,storage_service_id blob,storage_proto blob,capabilities integer,last_session_reset DATETIME DEFAULT CURRENT_TIMESTAMP);"
-	recipientInsert    = "INSERT INTO recipients (id, e164, uuid, username, email, is_blocked, profile_key, profile_key_credential, profile_given_name, profile_family_name, profile_joined_name, signal_profile_avatar, profile_sharing_enabled, last_profile_fetch, unidentified_access_mode, storage_service_id, storage_proto, capabilities, last_session_reset) VALUES (:id, :e164, :uuid, :username, :email, :is_blocked, :profile_key, :profile_key_credential, :profile_given_name, :profile_family_name, :profile_joined_name, :signal_profile_avatar, :profile_sharing_enabled, :last_profile_fetch, :unidentified_access_mode, :storage_service_id, :storage_proto, :capabilities, :last_session_reset)"
-	recipientUpdate    = "REPLACE INTO recipients (id, e164, uuid, username, email, is_blocked, profile_key, profile_key_credential, profile_given_name, profile_family_name, profile_joined_name, signal_profile_avatar, profile_sharing_enabled, last_profile_fetch, unidentified_access_mode, storage_service_id, storage_proto, capabilities, last_session_reset) VALUES (:id, :e164, :uuid, :username, :email, :is_blocked, :profile_key, :profile_key_credential, :profile_given_name, :profile_family_name, :profile_joined_name, :signal_profile_avatar, :profile_sharing_enabled, :last_profile_fetch, :unidentified_access_mode, :storage_service_id, :storage_proto, :capabilities, :last_session_reset)"
+	recipientsSchema   = "CREATE TABLE IF NOT EXISTS recipients (id integer PRIMARY KEY,e164 text,uuid text,username text,email text,is_blocked Bool,profile_key blob,profile_key_credential blob,profile_given_name text,profile_family_name text,profile_joined_name text,signal_profile_avatar text,profile_sharing_enabled Bool,last_profile_fetch DATETIME DEFAULT CURRENT_TIMESTAMP,unidentified_access_mode Bool,storage_service_id blob,storage_proto blob,capabilities integer,last_session_reset DATETIME DEFAULT CURRENT_TIMESTAMP, about text, about_emoji text);"
+	recipientInsert    = "INSERT INTO recipients (id, e164, uuid, username, email, is_blocked, profile_key, profile_key_credential, profile_given_name, profile_family_name, profile_joined_name, signal_profile_avatar, profile_sharing_enabled, last_profile_fetch, unidentified_access_mode, storage_service_id, storage_proto, capabilities, last_session_reset, about, about_emoji) VALUES (:id, :e164, :uuid, :username, :email, :is_blocked, :profile_key, :profile_key_credential, :profile_given_name, :profile_family_name, :profile_joined_name, :signal_profile_avatar, :profile_sharing_enabled, :last_profile_fetch, :unidentified_access_mode, :storage_service_id, :storage_proto, :capabilities, :last_session_reset, :about, :about_emoji)"
+	recipientUpdate    = "REPLACE INTO recipients (id, e164, uuid, username, email, is_blocked, profile_key, profile_key_credential, profile_given_name, profile_family_name, profile_joined_name, signal_profile_avatar, profile_sharing_enabled, last_profile_fetch, unidentified_access_mode, storage_service_id, storage_proto, capabilities, last_session_reset, about, about_emoji) VALUES (:id, :e164, :uuid, :username, :email, :is_blocked, :profile_key, :profile_key_credential, :profile_given_name, :profile_family_name, :profile_joined_name, :signal_profile_avatar, :profile_sharing_enabled, :last_profile_fetch, :unidentified_access_mode, :storage_service_id, :storage_proto, :capabilities, :last_session_reset, :about, :about_emoji)"
 	recipientGetById   = "SELECT * FROM recipients WHERE id = ?"
 	recipientGetByUUID = "SELECT * FROM recipients WHERE uuid = ?"
 	recipientGetByE164 = "SELECT * FROM recipients WHERE e164 = ?"
@@ -36,10 +36,8 @@ type Recipient struct {
 	StorageProto           []byte `db:"storage_proto"`
 	Capabilities           int    `db:"capabilities"`
 	LastSessionReset       string `db:"last_session_reset"`
-	//todo add fields for profile
-	// Avatar                  string `db:"avatar"`
-	// About                  string `db:"about"`
-	// AboutEmoji             string `db:"about_emoji"`
+	About                  string `db:"about"`
+	AboutEmoji             string `db:"about_emoji"`
 }
 
 type Recipients struct {
@@ -191,9 +189,17 @@ func (r *Recipient) UpdateProfile() error {
 			if profile.IdentityKey != "" {
 				r.ProfileKey = []byte(profile.IdentityKey)
 			}
-			if profile != nil && len(profile.Name) > 0 {
-				log.Debug("[axolotl] New profile name:", profile.Name)
-				r.Username = profile.Name
+			if profile != nil {
+				if len(profile.Name) > 0 {
+					log.Debug("[axolotl] New profile name:", profile.Name)
+					r.Username = profile.Name
+				}
+				if len(profile.About) > 0 {
+					r.About = profile.About
+				}
+				if len(profile.AboutEmoji) > 0 {
+					r.AboutEmoji = profile.AboutEmoji
+				}
 			}
 		}
 	} else if r.Username == "" {
@@ -201,9 +207,17 @@ func (r *Recipient) UpdateProfile() error {
 		if err != nil {
 			return err
 		}
-		if profile != nil && len(profile.Name) > 0 {
-			log.Debug("[axolotl] New profile name:", profile.Name)
-			r.Username = profile.Name
+		if profile != nil {
+			if len(profile.Name) > 0 {
+				log.Debug("[axolotl] New profile name:", profile.Name)
+				r.Username = profile.Name
+			}
+			if len(profile.About) > 0 {
+				r.About = profile.About
+			}
+			if len(profile.AboutEmoji) > 0 {
+				r.AboutEmoji = profile.AboutEmoji
+			}
 		}
 	}
 	r.SaveRecipient()

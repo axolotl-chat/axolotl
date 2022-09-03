@@ -23,7 +23,7 @@
   >
     <div
       :class="{ avatar: true, 'col-2': isGroup && message.Flags === 0 }"
-      v-if="!message.Outgoing && isGroup"
+      v-if="!message.Outgoing && isGroup && message.Flags === 0 "
     >
       <div class="badge-name" @click="openProfileForRecipient(id)">
         <div v-if="id !== -1">
@@ -176,6 +176,7 @@
       <div class="message-text">
         <!-- eslint-disable-next-line vue/no-v-html -->
         <div
+        v-if="message.Flags !== 17" 
           class="message-text-content"
           data-test="message-text"
           v-html="linkify(sanitize(message.Message))"

@@ -24,9 +24,10 @@ type DeviceListEnvelope struct {
 	DeviceList []textsecure.DeviceInfo
 }
 type Group struct {
-	HexId   string
-	Name    string
-	Members []*store.Recipient
+	HexId      string
+	Name       string
+	Members    []*store.Recipient
+	JoinStatus int
 }
 type OpenChat struct {
 	CurrentChat *store.SessionV2

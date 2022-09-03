@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/nanu-c/axolotl/app/config"
+	"github.com/signal-golang/textsecure"
 	"github.com/signal-golang/textsecure/contacts"
 	log "github.com/sirupsen/logrus"
 )
@@ -159,10 +160,22 @@ func update_v_1_6_0() error {
 		if err != nil {
 			return fmt.Errorf("error loading sessions: %s", err)
 		}
+		// copy contacts to recipients
+		registeredContacts, _ := readRegisteredContacts(config.RegisteredContactsFile)
+		for _, contact := range registeredContacts {
+			if contact.UUID != "" {
+				c := &contacts.Contact{
+					UUID: contact.UUID,
+					Name: contact.Name,
+					Tel:  contact.Tel,
+				}
+				RecipientsModel.GetOrCreateRecipientForContact(c)
+			}
+		}
 		for _, session := range sessions {
 			if session.IsGroup && session.Type == SessionTypeGroupV2 {
 
-				_, err = GroupV2sModel.Create(&GroupV2{
+				group, err := GroupV2sModel.Create(&GroupV2{
 					Id:         session.UUID,
 					Name:       session.Name,
 					JoinStatus: session.GroupJoinStatus,
@@ -178,6 +191,12 @@ func update_v_1_6_0() error {
 				if err != nil {
 					return fmt.Errorf("error creating session groupv2: %s", err)
 				}
+				groupMembers, err := textsecure.GetGroupV2MembersForGroup(session.UUID)
+				if err != nil {
+					log.Errorf("error getting group members: %s", err)
+				}
+				group.AddGroupMembers(groupMembers)
+
 			} else if session.IsGroup && session.Type == SessionTypeGroupV1 {
 				_, err = SessionsV2Model.SaveSession(&SessionV2{
 					ID:                       session.ID,
@@ -205,18 +224,7 @@ func update_v_1_6_0() error {
 				}
 			}
 		}
-		// copy contacts to recipients
-		registeredContacts, _ := readRegisteredContacts(config.RegisteredContactsFile)
-		for _, contact := range registeredContacts {
-			if contact.UUID != "" {
-				c := &contacts.Contact{
-					UUID: contact.UUID,
-					Name: contact.Name,
-					Tel:  contact.Tel,
-				}
-				RecipientsModel.GetOrCreateRecipientForContact(c)
-			}
-		}
+
 	}
 	return nil
 }

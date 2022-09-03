@@ -1,6 +1,7 @@
 package store
 
 import (
+	"github.com/nanu-c/axolotl/app/config"
 	uuid "github.com/satori/go.uuid"
 	log "github.com/sirupsen/logrus"
 
@@ -20,11 +21,12 @@ var (
 		access_required_for_attributes INTEGER,
 		access_required_for_members INTEGER,
 		join_status INTEGER DEFAULT 0);`
-	groupV2Insert = "INSERT OR REPLACE INTO groupsv2 (id, name, master_key, revision, invite_link_password, access_required_for_attributes, access_required_for_members) VALUES (:id, :name, :master_key, :revision, :invite_link_password, :access_required_for_attributes, :access_required_for_members)"
+	groupV2Insert = "INSERT OR REPLACE INTO groupsv2 (id, name, master_key, revision, invite_link_password, access_required_for_attributes, access_required_for_members, join_status) VALUES (:id, :name, :master_key, :revision, :invite_link_password, :access_required_for_attributes, :access_required_for_members, :join_status)"
 )
 var (
 	GroupJoinStatusJoined  = 0
 	GroupJoinStatusInvited = 1
+	GroupJoinStatusDeleted = 2
 )
 
 // GroupV2 is a group, groupsv1 are deprecated
@@ -143,7 +145,6 @@ func (g *GroupV2) AddGroupMembers(members []*signalservice.DecryptedMember) erro
 		if err != nil {
 			return err
 		}
-		log.Debug(member.Pni)
 		recipient := RecipientsModel.GetRecipientByUUID(id.String())
 		if recipient == nil {
 			recipient, err = RecipientsModel.CreateRecipient(&Recipient{
@@ -201,13 +202,28 @@ func (g *GroupV2) UpdateGroupAction(action *signalservice.DecryptedGroupChange) 
 		g.InviteLinkPassword = string(action.GetNewInviteLinkPassword())
 	}
 	if len(action.NewMembers) > 0 {
+		log.Debug("1")
 		err := g.AddGroupMembers(action.NewMembers)
 		if err != nil {
 			return err
 		}
+		log.Debug("2")
+
+		for i := range action.NewMembers {
+			log.Debug("3")
+
+			member := action.NewMembers[i]
+			memberUUID := uuid.FromBytesOrNil(member.Uuid)
+			log.Debugln("[axolotl] New member", memberUUID.String())
+			if memberUUID.String() == config.Config.UUID {
+				log.Debugln("[axolotl] I was added to group ", g.Id)
+				g.JoinStatus = GroupJoinStatusJoined
+			}
+		}
 	}
 	if len(action.DeleteMembers) > 0 {
-		for _, member := range action.DeleteMembers {
+		for i := range action.DeleteMembers {
+			member := action.DeleteMembers[i]
 			memberUUID := uuid.FromBytesOrNil(member)
 			recipient := RecipientsModel.GetRecipientByUUID(memberUUID.String())
 			if recipient == nil {
@@ -217,6 +233,10 @@ func (g *GroupV2) UpdateGroupAction(action *signalservice.DecryptedGroupChange) 
 				if err != nil {
 					return err
 				}
+			}
+			if memberUUID.String() == config.Config.UUID {
+				log.Debugln("[axolotl] I was removed from group ", g.Id)
+				g.JoinStatus = GroupJoinStatusDeleted
 			}
 		}
 	}

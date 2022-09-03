@@ -77,7 +77,10 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		}
 
 		if grV2.GroupAction != nil && msg.Message() == "" {
-			group.UpdateGroupAction(grV2.GroupAction)
+			err = group.UpdateGroupAction(grV2.GroupAction)
+			if err != nil {
+				log.Println("[axolotl] GroupV2sModel.UpdateGroupAction", err)
+			}
 			text = "Group was updated"
 			msgFlags = helpers.MsgFlagGroupV2Change
 		}
@@ -249,8 +252,6 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		}
 	}
 	// for now ignore empty messages and profile key updates
-	log.Debugf("[axolotl] message: %+v", m)
-
 	if helpers.MsgFlagProfileKeyUpdated != msgFlags && (syncMessage || m.Message != "" || m.Attachment != "") {
 
 		msgSend, err := store.SaveMessage(m)
