@@ -114,7 +114,7 @@ func SetupConfig() {
 			// log.Fatal(err)
 			HomeDir = "/home/phablet"
 		} else {
-			//if in a snap environment
+			// if in a snap environment
 			snapPath := os.Getenv("SNAP_USER_DATA")
 			if len(snapPath) > 0 {
 				HomeDir = snapPath

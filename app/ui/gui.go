@@ -30,7 +30,6 @@ func GroupUpdateMsg(tels []string, title string) string {
 }
 func RegistrationDone() {
 	log.Infoln("[axolotl] Registered")
-	//textsecure.WriteConfig(config.ConfigFile, config.Config)
 	settings.SettingsModel.Registered = true
 	webserver.RegistrationDone()
 }

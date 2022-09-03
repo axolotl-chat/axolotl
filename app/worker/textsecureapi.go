@@ -169,7 +169,7 @@ func RunBackend(errorChannel chan error) error {
 		client.GetLocalContacts = contact.GetDesktopContacts
 	}
 
-	//Load Messages
+	// Load Messages
 
 	// Make sure to use names not numbers in session titles
 	badHandshake := false

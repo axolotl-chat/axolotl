@@ -82,10 +82,17 @@ func SendMessageHelper(ID int64, message, file string,
 			mNew, err := SendMessage(session, m, voiceMessage)
 			if err != nil {
 				log.Errorln("[axolotl] SendMessageHelper: send message" + err.Error())
-			} else {
-				if updateMessageChannel != nil {
-					updateMessageChannel <- mNew
+				mNew.IsSent = false
+				mNew.SendingError = true
+				mNew, err = store.SaveMessage(mNew)
+				if err != nil {
+					log.Errorln("[axolotl] SendMessageHelper: save message" + err.Error())
+					return
 				}
+
+			}
+			if updateMessageChannel != nil {
+				updateMessageChannel <- mNew
 			}
 		}()
 		return savedM, nil
@@ -207,7 +214,7 @@ func SendMessageLoop(to, message string, group bool, att io.Reader, flags int, t
 			break
 		}
 		log.Println("[axolotl]", err)
-		//If sending failed, try again after a while
+		// If sending failed, try again after a while
 		time.Sleep(3 * time.Second)
 		count++
 		if count == 2 {

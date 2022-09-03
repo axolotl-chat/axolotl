@@ -38,7 +38,6 @@ var (
 
 func NotificationInit() {
 	if sessionBus, err = dbus.Connect(dbus.SessionBus); err != nil {
-		//log.Fatal("Connection error: ", err)
 		useNotifications = false
 	} else {
 		useNotifications = true
@@ -81,7 +80,7 @@ func (n *NotificationHandler) Send(m *PushMessage) error {
 	if useNotifications {
 		var pushMessage string
 		// check if there was a notification in the same chat less than 10s and
-		//if yes just replace the notification but don't trigger a popup
+		// if yes just replace the notification but don't trigger a popup
 		if timestamp, found := lastNotifications[m.Notification.Tag]; found {
 
 			if m.Notification.Card.Timestamp-timestamp < 10 {

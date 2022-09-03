@@ -151,7 +151,7 @@ func GetAddressBookContactsFromContentHub() ([]textsecureContacts.Contact, error
 	if err != nil {
 		return nil, err
 	}
-	//check for duplicates in the old contact list
+	// check for duplicates in the old contact list
 	for _, c := range newContacts {
 		found := false
 		for i := range contacts {
@@ -164,7 +164,7 @@ func GetAddressBookContactsFromContentHub() ([]textsecureContacts.Contact, error
 			contacts = append(contacts, c)
 		}
 	}
-	//sort by name
+	// sort by name
 	sort.Slice(contacts, func(i, j int) bool { return contacts[i].Name < contacts[j].Name })
 	err = textsecureContacts.WriteContacts(config.ContactsFile, contacts)
 	if err != nil {
