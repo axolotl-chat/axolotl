@@ -15,15 +15,22 @@
           message.Flags !== 13 &&
           message.Flags !== 14) ||
         message.StatusMessage ||
-        (message.Attachment.includes('null') && message.Message === ''),
+        (message.Attachment &&
+          message.Attachment.includes('null') &&
+          message.Message === ''),
       hidden: message.Flags === 18,
       error: message.SentAt === 0 || message.SendingError,
-      row: isGroup && message.Flags === 0,
+      'group-message':
+        isGroup && (message.Flags === 0 || message.Flags === 12 || message.Flags === 13),
     }"
   >
     <div
-      :class="{ avatar: true, 'col-2': isGroup && message.Flags === 0 }"
-      v-if="!message.Outgoing && isGroup && message.Flags === 0 "
+      class="avatar"
+      v-if="
+        !message.Outgoing &&
+        isGroup &&
+        (message.Flags === 0 || message.Flags === 12 || message.Flags === 13)
+      "
     >
       <div class="badge-name" @click="openProfileForRecipient(id)">
         <div v-if="id !== -1">
@@ -42,7 +49,10 @@
       v-if="verifySelfDestruction(message)"
       :class="{
         message: true,
-        'col-7': isGroup && message.Flags === 0 && !message.Outgoing,
+        'col-7':
+          isGroup &&
+          (message.Flags === 0 || message.Flags === 12 || message.Flags === 13) &&
+          !message.Outgoing,
       }"
     >
       <div v-if="isSenderNameDisplayed" class="sender">
@@ -51,7 +61,7 @@
         </div>
         <div v-else>{{ getName(message.SourceUUID) }}</div>
       </div>
-      <blockquote v-if="message.QuotedMessage !== null">
+      <blockquote v-if="message.QuotedMessage">
         <cite v-if="message.QuotedMessage.Outgoing" v-translate>You</cite>
         <cite v-else>{{ getName(message.QuotedMessage.SourceUUID) }}</cite>
         <p>{{ message.QuotedMessage.Message }}</p>
@@ -176,7 +186,7 @@
       <div class="message-text">
         <!-- eslint-disable-next-line vue/no-v-html -->
         <div
-        v-if="message.Flags !== 17" 
+          v-if="message.Flags !== 17"
           class="message-text-content"
           data-test="message-text"
           v-html="linkify(sanitize(message.Message))"
@@ -184,6 +194,7 @@
         <div v-if="message.Flags === 17" v-translate>Group changed.</div>
         <div
           v-if="
+            message.Attachment &&
             message.Attachment.includes('null') &&
             message.Message === '' &&
             message.Flags === 0
@@ -275,7 +286,11 @@ export default {
     },
   },
   mounted() {
-    if (this.message.Attachment !== "" && this.message.Attachment !== null) {
+    if (
+      this.message.Attachment &&
+      this.message.Attachment !== "" &&
+      this.message.Attachment !== null
+    ) {
       const attachment = JSON.parse(this.message.Attachment);
       if (attachment && attachment.length > 0 && attachment[0].CType === 3) {
         this.audio = new Audio(
@@ -294,6 +309,7 @@ export default {
         };
       }
     }
+    this.getName(this.message.SourceUUID);
   },
   methods: {
     sanitize(msg) {
@@ -605,6 +621,12 @@ button {
   }
   #play-icon {
     margin: 20px 2.5% 20px 2.5%;
+  }
+}
+.incoming.group-message {
+  display: flex;
+  .badge-name {
+    margin-right: 10px;
   }
 }
 </style>

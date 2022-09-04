@@ -65,7 +65,10 @@
         </div>
         <div id="chat-bottom" />
       </div>
-      <div v-if="isGroup && currentGroup&& currentGroup.JoinStatus == 1" class="messageInputBoxDisabled w-100">
+      <div
+        v-if="isGroup && currentGroup && currentGroup.JoinStatus == 1"
+        class="messageInputBoxDisabled w-100"
+      >
         <p v-translate>
           Join this group? They won’t know you’ve seen their messages until you
           accept.
@@ -74,10 +77,11 @@
           Join
         </div>
       </div>
-      <div v-else-if="isGroup && currentGroup&& currentGroup.JoinStatus == 2" class="messageInputBoxDisabled w-100">
-        <p v-translate>
-          You have been removed from this group.
-        </p>
+      <div
+        v-else-if="isGroup && currentGroup && currentGroup.JoinStatus == 2"
+        class="messageInputBoxDisabled w-100"
+      >
+        <p v-translate>You have been removed from this group.</p>
       </div>
       <div v-else class="bottom-wrapper">
         <div v-if="!voiceNote.recorded" class="messageInputBox">
@@ -206,6 +210,7 @@ export default {
         blobUrl: "",
         voiceNoteElem: null,
         duration: 0,
+        firstScroll: true,
       },
     };
   },
@@ -217,7 +222,10 @@ export default {
       return this.$store.state.messageList;
     },
     isGroup() {
-      return this.$store.state.currentChat.GroupV2ID!=="" || this.$store.state.currentChat.GroupV1ID !== ""?true:false;
+      return this.$store.state.currentChat.GroupV2ID !== "" ||
+        this.$store.state.currentChat.GroupV1ID !== ""
+        ? true
+        : false;
     },
     ...mapState(["contacts", "config", "messageList", "currentGroup"]),
   },
@@ -242,7 +250,12 @@ export default {
       deep: true,
       handler() {
         if (!this.$data.scrollLocked) setTimeout(this.scrollDown, 600);
-        this.$data.scrollLocked = false;
+        if(!this.$data.firstScroll){
+        setTimeout(this.$data.scrollLocked = false, 1000);
+
+        }else this.$data.scrollLocked = false;
+        
+        this.$data.firstScroll = false;
         // this.scrollDown();
       },
     },
@@ -331,7 +344,7 @@ export default {
           to: this.chatId,
           message: this.messageInput,
         });
-        if (this.$store.state.messageList.Messages === null) {
+        if (this.$store.state.messageList === null) {
           this.$store.dispatch("getMessageList", this.getId());
         }
         this.messageInput = "";
@@ -346,8 +359,7 @@ export default {
         !this.$data.scrollLocked &&
         event.target.scrollTop < 80 &&
         this.$store.state.messageList &&
-        this.$store.state.messageList.Messages &&
-        this.$store.state.messageList.Messages.length > 19
+        this.$store.state.messageList.length > 19
       ) {
         this.$data.scrollLocked = true;
         this.$store.dispatch("getMoreMessages");

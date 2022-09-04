@@ -50,7 +50,7 @@ export default createStore({
   getters: {
     // Here we will create a getter
     getMessages: state => {
-      return state.messageList.Messages;
+      return state.messageList;
     }
   },
 
@@ -107,13 +107,13 @@ export default createStore({
     },
     UPDATE_CURRENT_CHAT(state, data) {
       state.currentChat = data.CurrentChat;
-      if (typeof state.messageList.Messages === "undefined") {
-        state.messageList.Messages = []
+      if (typeof state.messageList === "undefined") {
+        state.messageList = []
       }
-      const prepare = state.messageList.Messages.map(e => e.ID)
+      const prepare = state.messageList.map(e => e.ID)
       if (data.CurrentChat.Messages !== null) {
         data.CurrentChat.Messages.forEach(m => {
-          state.messageList.Messages[prepare.indexOf(m.ID)] = m;
+          state.messageList[prepare.indexOf(m.ID)] = m;
         });
       }
     },
@@ -176,8 +176,9 @@ export default createStore({
       state.messageList = messageList.reverse();
     },
     SET_MORE_MESSAGELIST(state, messageList) {
-      if (messageList !== null) {
-        state.messageList = state.messageList.concat(messageList);
+      if (messageList.Messages !== null) {
+        messageList.Messages.reverse()
+        state.messageList = messageList.Messages.concat(state.messageList);
       }
     },
     SET_MESSAGE_RECIEVED(state, message) {
@@ -500,12 +501,12 @@ export default createStore({
       }
     },
     getMoreMessages() {
-      if (this.state.socket.isConnected && typeof this.state.messageList.Messages !== "undefined"
-        && this.state.messageList.Messages !== null
-        && this.state.messageList.Messages.length > 19 && this.state.messageList.Messages.slice(-1)[0].ID > 1) {
+      if (this.state.socket.isConnected && typeof this.state.messageList !== "undefined"
+        && this.state.messageList !== null
+        && this.state.messageList.length > 19 && this.state.messageList[0].ID > 1) {
         const message = {
           "request": "getMoreMessages",
-          "lastId": String(this.state.messageList.Messages.slice(-1)[0].ID)
+          "lastId": String(this.state.messageList[0].ID)
         }
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
