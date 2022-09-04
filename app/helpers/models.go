@@ -106,7 +106,7 @@ func ContentType(att io.Reader, mt string) int {
 }
 
 func RandomString(length int) string {
-	//Lowercase and Uppercase Both
+	// Lowercase and Uppercase Both
 	charSet := "abcdedfghijklmnopqrstABCDEFGHIJKLMNOP"
 	var output strings.Builder
 	for i := 0; i < length; i++ {

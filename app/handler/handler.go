@@ -51,7 +51,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		msgFlags = helpers.MsgFlagProfileKeyUpdated
 	}
 	var session *store.SessionV2
-	//GroupV2 Message
+	// GroupV2 Message
 	var recipient *store.Recipient
 	grV2 := msg.GroupV2()
 	if grV2 != nil {
@@ -61,7 +61,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 			return
 		}
 		if group == nil {
-			//create new group
+			// create new group
 			name := "Unknown group"
 			if grV2.DecryptedGroup != nil {
 				name = string(grV2.DecryptedGroup.Title)
@@ -190,7 +190,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		err, id := store.FindQuotedMessage(msg.Quote())
 		if err != nil || id == -1 {
 			// create quoted message
-			//TODO implement quoted message when not exists
+			// TODO implement quoted message when not exists
 			// quoteMessage := session.Add(text, msg.Quote().GetAuthorUuid(), nil, msg.Quote().GetText(), false, store.ActiveSessionID)
 			// quoteMessage.Flags = helpers.MsgFlagHiddenQuote
 			// err, savedQuoteMessage := store.SaveMessage(quoteMessage)
@@ -211,7 +211,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		if settings.SettingsModel.EncryptDatabase {
 			text = "Encrypted message"
 		}
-		//only send a notification, when it's not the current chat
+		// only send a notification, when it's not the current chat
 		if session.ID != store.ActiveSessionID {
 			name, err := session.GetName()
 			if err != nil {
