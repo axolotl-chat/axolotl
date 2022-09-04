@@ -144,7 +144,7 @@ func (r *Recipients) CreateRecipientWithoutProfileUpdate(recipient *Recipient) (
 }
 
 // GetRecipientById returns a recipient by id
-func (_ *Recipients) GetRecipientById(id int64) *Recipient {
+func (*Recipients) GetRecipientById(id int64) *Recipient {
 	recipient := Recipient{}
 	err := DS.Dbx.Get(&recipient, recipientGetById, id)
 	if err != nil {
@@ -154,7 +154,7 @@ func (_ *Recipients) GetRecipientById(id int64) *Recipient {
 }
 
 // GetRecipientByE164 returns a recipient by e164
-func (_ *Recipients) GetRecipientByE164(e164 string) *Recipient {
+func (*Recipients) GetRecipientByE164(e164 string) *Recipient {
 	recipient := Recipient{}
 	err := DS.Dbx.Get(&recipient, recipientGetByE164, e164)
 	if err != nil {
@@ -164,7 +164,7 @@ func (_ *Recipients) GetRecipientByE164(e164 string) *Recipient {
 }
 
 // GetRecipientByUUID returns a recipient by uuid
-func (_ *Recipients) GetRecipientByUUID(uuid string) *Recipient {
+func (*Recipients) GetRecipientByUUID(uuid string) *Recipient {
 	recipient := Recipient{}
 	err := DS.Dbx.Get(&recipient, recipientGetByUUID, uuid)
 	if err != nil {

@@ -58,7 +58,7 @@ var GroupV2sModel = GroupV2s{
 	Groups: []GroupV2{},
 }
 
-func (_ GroupV2s) Create(group *GroupV2) (*GroupV2, error) {
+func (GroupV2s) Create(group *GroupV2) (*GroupV2, error) {
 	_, err := DS.Dbx.NamedExec(groupV2Insert, group)
 	if err != nil {
 		return nil, err
@@ -104,7 +104,7 @@ func (g *GroupV2) GetGroupMembersAsRecipients() ([]*Recipient, error) {
 }
 
 // Get all groups
-func (_ GroupV2s) GetGroups() ([]GroupV2, error) {
+func (GroupV2s) GetGroups() ([]GroupV2, error) {
 	var groups []GroupV2
 	err := DS.Dbx.Select(&groups, "SELECT * FROM groupsv2")
 	if err != nil {

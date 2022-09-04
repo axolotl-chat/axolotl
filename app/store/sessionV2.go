@@ -125,7 +125,7 @@ func (s *SessionsV2) CreateSession(session *SessionV2) (*SessionV2, error) {
 }
 
 // SaveSession saves a session to the database
-func (_ *SessionsV2) SaveSession(session *SessionV2) (*SessionV2, error) {
+func (*SessionsV2) SaveSession(session *SessionV2) (*SessionV2, error) {
 	res, err := DS.Dbx.NamedExec(sessionsV2Insert, session)
 	if err != nil {
 		return nil, err
@@ -141,7 +141,7 @@ func (_ *SessionsV2) SaveSession(session *SessionV2) (*SessionV2, error) {
 }
 
 // GetSessionByID returns a session by id
-func (_ *SessionsV2) GetSessionByID(id int64) (*SessionV2, error) {
+func (*SessionsV2) GetSessionByID(id int64) (*SessionV2, error) {
 	ses := &SessionV2{}
 	err := DS.Dbx.Get(ses, "SELECT * FROM sessionsv2 WHERE id = ?", id)
 	if err != nil {
@@ -151,7 +151,7 @@ func (_ *SessionsV2) GetSessionByID(id int64) (*SessionV2, error) {
 }
 
 // GetSessionByGroupV2ID returns a session by group v2 id
-func (_ *SessionsV2) GetSessionByGroupV2ID(group string) (*SessionV2, error) {
+func (*SessionsV2) GetSessionByGroupV2ID(group string) (*SessionV2, error) {
 	ses := &SessionV2{}
 	err := DS.Dbx.Get(ses, "SELECT * FROM sessionsv2 WHERE groupV2Id = ?", group)
 	if err != nil {
@@ -161,7 +161,7 @@ func (_ *SessionsV2) GetSessionByGroupV2ID(group string) (*SessionV2, error) {
 }
 
 // GetSessionByGroupV1ID returns a session by group v1 id
-func (_ *SessionsV2) GetSessionByGroupV1ID(group string) (*SessionV2, error) {
+func (*SessionsV2) GetSessionByGroupV1ID(group string) (*SessionV2, error) {
 	ses := &SessionV2{}
 	err := DS.Dbx.Get(ses, "SELECT * FROM sessionsv2 WHERE groupV1Id = ?", group)
 	if err != nil {
@@ -171,7 +171,7 @@ func (_ *SessionsV2) GetSessionByGroupV1ID(group string) (*SessionV2, error) {
 }
 
 // GetSessionByDirectMessageRecipientID returns a session by direct message recipient id
-func (_ *SessionsV2) GetSessionByDirectMessageRecipientID(recipient int64) (*SessionV2, error) {
+func (*SessionsV2) GetSessionByDirectMessageRecipientID(recipient int64) (*SessionV2, error) {
 	ses := &SessionV2{}
 	err := DS.Dbx.Get(ses, "SELECT * FROM sessionsv2 WHERE directMessageRecipientId = ?", recipient)
 	if err != nil {
@@ -181,7 +181,7 @@ func (_ *SessionsV2) GetSessionByDirectMessageRecipientID(recipient int64) (*Ses
 }
 
 // GetAllSessions returns all sessions
-func (_ *SessionsV2) GetAllSessions() ([]*SessionV2, error) {
+func (*SessionsV2) GetAllSessions() ([]*SessionV2, error) {
 	ses := make([]*SessionV2, 0)
 	err := DS.Dbx.Select(&ses, "SELECT * FROM sessionsv2")
 	if err != nil {
@@ -191,19 +191,19 @@ func (_ *SessionsV2) GetAllSessions() ([]*SessionV2, error) {
 }
 
 // DeleteSession deletes a session
-func (_ *SessionsV2) DeleteSession(session *SessionV2) error {
+func (*SessionsV2) DeleteSession(session *SessionV2) error {
 	_, err := DS.Dbx.NamedExec("DELETE FROM sessionsv2 WHERE id = :id", session)
 	return err
 }
 
 // DeleteAllSessions deletes all sessions
-func (_ *SessionsV2) DeleteAllSessions() error {
+func (*SessionsV2) DeleteAllSessions() error {
 	_, err := DS.Dbx.Exec("DELETE FROM sessionsv2")
 	return err
 }
 
 // UpdateUnreadCounterForSession updates the unread counter for a session
-func (_ *SessionsV2) UpdateUnreadCounterForSession(session *SessionV2) error {
+func (*SessionsV2) UpdateUnreadCounterForSession(session *SessionV2) error {
 	unreadCounter, err := GetUnreadMessageCounterForSession(session.ID)
 	if err != nil {
 		return err
