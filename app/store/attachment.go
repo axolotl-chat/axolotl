@@ -4,7 +4,6 @@ import (
 	"crypto/rand"
 	"encoding/json"
 	"io"
-	"io/ioutil"
 	"mime"
 	"os"
 	"path/filepath"
@@ -75,7 +74,7 @@ func CopyAttachment(src string) (string, error) {
 		return "", err
 	}
 
-	err = ioutil.WriteFile(dest, input, 0644)
+	err = os.WriteFile(dest, input, 0600)
 	if err != nil {
 		log.Errorln("[axolotl] CopyAttachment Error creating ", dest, err)
 		return "", err

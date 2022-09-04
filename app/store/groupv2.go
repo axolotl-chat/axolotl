@@ -9,10 +9,9 @@ import (
 )
 
 var (
-	groupV2MembersSchema            = "CREATE TABLE IF NOT EXISTS groupsv2members (id INTEGER PRIMARY KEY,group_v2_id TEXT,recipient_id INTEGER,member_since DATETIME DEFAULT CURRENT_TIMESTAMP,joined_at_revision INTEGER,role INTEGER)"
-	groupV2MemberInsert             = "INSERT INTO groupsV2Members (group_v2_id, recipient_id, member_since, joined_at_revision, role) VALUES (:group_v2_id, :recipient_id, :member_since, :joined_at_revision, :role)"
-	groupV2MemberGetMembersForGroup = "SELECT * FROM groupsv2members WHERE group_v2_id = :id"
-	groupsV2Schema                  = `CREATE TABLE IF NOT EXISTS groupsv2 (
+	groupV2MembersSchema = "CREATE TABLE IF NOT EXISTS groupsv2members (id INTEGER PRIMARY KEY,group_v2_id TEXT,recipient_id INTEGER,member_since DATETIME DEFAULT CURRENT_TIMESTAMP,joined_at_revision INTEGER,role INTEGER)"
+	groupV2MemberInsert  = "INSERT INTO groupsV2Members (group_v2_id, recipient_id, member_since, joined_at_revision, role) VALUES (:group_v2_id, :recipient_id, :member_since, :joined_at_revision, :role)"
+	groupsV2Schema       = `CREATE TABLE IF NOT EXISTS groupsv2 (
 		id TEXT PRIMARY KEY,
 		name TEXT,
 		master_key TEXT,
@@ -59,7 +58,7 @@ var GroupV2sModel = GroupV2s{
 	Groups: []GroupV2{},
 }
 
-func (g GroupV2s) Create(group *GroupV2) (*GroupV2, error) {
+func (_ GroupV2s) Create(group *GroupV2) (*GroupV2, error) {
 	_, err := DS.Dbx.NamedExec(groupV2Insert, group)
 	if err != nil {
 		return nil, err
@@ -105,7 +104,7 @@ func (g *GroupV2) GetGroupMembersAsRecipients() ([]*Recipient, error) {
 }
 
 // Get all groups
-func (g GroupV2s) GetGroups() ([]GroupV2, error) {
+func (_ GroupV2s) GetGroups() ([]GroupV2, error) {
 	var groups []GroupV2
 	err := DS.Dbx.Select(&groups, "SELECT * FROM groupsv2")
 	if err != nil {

@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -31,7 +30,7 @@ func getSalt(path string) ([]byte, error) {
 			return nil, err
 		}
 
-		err = ioutil.WriteFile(path, salt, 0600)
+		err = os.WriteFile(path, salt, 0600)
 		if err != nil {
 			return nil, err
 		}
@@ -102,7 +101,7 @@ func (ds *DataStore) Convert(password string) error {
 	dbFile = filepath.Join(dbDir, "db.sql")
 	tmp := filepath.Join(dbDir, "tmp.db")
 
-	//create tmp file
+	// create tmp file
 	_, err := os.OpenFile(tmp, os.O_RDONLY|os.O_CREATE, 0600)
 	if err != nil {
 		return err

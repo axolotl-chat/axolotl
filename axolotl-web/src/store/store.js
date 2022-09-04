@@ -9,7 +9,7 @@ export default createStore({
     lastMessages: {},
     sessionNames: {},
     messageList: {},
-    profile:{},
+    profile: {},
     request: '',
     contacts: [],
     contactsFiltered: [],
@@ -88,7 +88,7 @@ export default createStore({
       state.lastMessages = lastMessages;
     },
     SET_SESSIONNAMES(state, sessionNames) {
-      let sorted = {};
+      const sorted = {};
       for (let i = 0; i < sessionNames.length; i++) {
         sorted[sessionNames[i].ID] = sessionNames[i];
       }
@@ -160,7 +160,7 @@ export default createStore({
         this.commit("SET_REGISTRATION_STATUS", "registered");
         router.push("/")
       } else if (type === "requestEnterChat") {
-        router.push("/chat/" + request["Chat"])
+        router.push("/chat/" + request.Chat)
         this.dispatch("getChatList")
       } else if (type === "config") {
         this.commit("SET_CONFIG", request)
@@ -294,7 +294,8 @@ export default createStore({
     SOCKET_ONERROR() {
       // console.error(state, event)
     },
-    SOCKET_RECONNECT(state, count) {
+    SOCKET_RECONNECT() {
+      // do nothing
     },
     SOCKET_RECONNECT_ERROR(state) {
       state.socket.reconnectError = true;
@@ -305,84 +306,83 @@ export default createStore({
       if (message.data !== "Hi Client!") {
         const messageData = JSON.parse(message.data);
         if (typeof messageData.Error !== "undefined") {
-          this.commit("SET_ERROR", messageData["Error"]);
+          this.commit("SET_ERROR", messageData.Error);
         }
-        if (Object.keys(messageData)[0] === "ChatList") {
-          let chats = messageData["ChatList"]
-          if (messageData["LastMessages"] !== undefined) {
-            let lastMessages = {};
-            for (let i = 0; i < messageData["LastMessages"].length; i++) {
-              lastMessages[messageData["LastMessages"][i].SID] = messageData["LastMessages"][i];
-            }
-            chats.sort((a, b) => {
-              if (lastMessages[a.ID] === undefined || lastMessages[b.ID] === undefined) {
+        switch (Object.keys(messageData)[0]) {
+          case "ChatList":
+            const chats = messageData.ChatList
+            if (messageData.LastMessages !== undefined) {
+              const lastMessages = {};
+              for (let i = 0; i < messageData.LastMessages.length; i++) {
+                lastMessages[messageData.LastMessages[i].SID] = messageData.LastMessages[i];
+              }
+              chats.sort((a, b) => {
+                if (typeof lastMessages[a.ID] === "undefined" || typeof lastMessages[b.ID] === "undefined") {
+                  return 0;
+                }
+                if (lastMessages[a.ID].SentAt < lastMessages[b.ID].SentAt) {
+                  return 1;
+                }
+                if (lastMessages[a.ID].SentAt > lastMessages[b.ID].SentAt) {
+                  return -1;
+                }
                 return 0;
               }
-              if (lastMessages[a.ID].SentAt < lastMessages[b.ID].SentAt) {
-                return 1;
-              }
-              if (lastMessages[a.ID].SentAt > lastMessages[b.ID].SentAt) {
-                return -1;
-              }
-              return 0;
+              );
+              this.commit("SET_CHATLIST", chats);
+              this.commit("SET_LASTMESSAGES", lastMessages);
+            } else {
+              this.commit("SET_CHATLIST", chats);
+              this.commit("SET_LASTMESSAGES", messageData.LastMessages);
             }
-            );
-            this.commit("SET_CHATLIST", chats);
-            this.commit("SET_LASTMESSAGES", lastMessages);
-          } else {
-            this.commit("SET_CHATLIST", chats);
-            this.commit("SET_LASTMESSAGES", messageData["LastMessages"]);
-          }
-          this.commit("SET_SESSIONNAMES", messageData["SessionNames"]);
-        }
-
-        else if (Object.keys(messageData)[0] === "MessageList") {
-          this.commit("SET_MESSAGELIST", messageData["MessageList"]);
-        }
-
-        else if (Object.keys(messageData)[0] === "ContactList") {
-          this.commit("SET_CONTACTS", messageData["ContactList"]);
-        }
-        else if (Object.keys(messageData)[0] === "MoreMessageList") {
-          this.commit("SET_MORE_MESSAGELIST", messageData["MoreMessageList"]);
-        }
-        else if (Object.keys(messageData)[0] === "DeviceList") {
-          this.commit("SET_DEVICELIST", messageData["DeviceList"]);
-        }
-        else if (Object.keys(messageData)[0] === "MessageRecieved") {
-          this.commit("SET_MESSAGE_RECIEVED", messageData["MessageRecieved"]);
-        }
-        else if (Object.keys(messageData)[0] === "UpdateMessage") {
-          this.commit("SET_MESSAGE_UPDATE", messageData["UpdateMessage"]);
-        }
-        else if (Object.keys(messageData)[0] === "Gui") {
-          this.commit("SET_CONFIG_GUI", messageData["Gui"]);
-        }
-        else if (Object.keys(messageData)[0] === "DarkMode") {
-          this.commit("SET_CONFIG_DARK_MODE", messageData["DarkMode"]);
-        }
-        else if (Object.keys(messageData)[0] === "CurrentChat") {
-          this.commit("SET_CURRENT_CHAT", messageData["CurrentChat"]);
-        }
-        else if (Object.keys(messageData)[0] === "Type") {
-          this.commit("SET_REQUEST", messageData);
-        }
-        else if (Object.keys(messageData)[0] === "FingerprintNumbers") {
-          this.commit("SET_FINGERPRINT", messageData);
-        }
-        else if (Object.keys(messageData)[0] === "Error") {
-          this.commit("SET_ERROR", messageData.Errorx);
-        }
-        else if (Object.keys(messageData)[0] === "OpenChat") {
-          this.commit("OPEN_CHAT", messageData["OpenChat"]);
-        }
-        else if (Object.keys(messageData)[0] === "UpdateCurrentChat") {
-          this.commit("UPDATE_CURRENT_CHAT", messageData["UpdateCurrentChat"]);
-        }
-        else if (Object.keys(messageData)[0] === "ProfileMessage") {
-          this.commit("SET_PROFILE", messageData["ProfileMessage"]);
-        }
-        else {
+            this.commit("SET_SESSIONNAMES", messageData.SessionNames);
+            break;
+          case "MessageList":
+            this.commit("SET_MESSAGELIST", messageData.MessageList);
+            break;
+          case "ContactList":
+            this.commit("SET_CONTACTS", messageData.ContactList);
+            break;
+          case "MoreMessageList":
+            this.commit("SET_MORE_MESSAGELIST", messageData.MoreMessageList);
+            break;
+          case "DeviceList":
+            this.commit("SET_DEVICELIST", messageData.DeviceList);
+            break;
+          case "MessageRecieved":
+            this.commit("SET_MESSAGE_RECIEVED", messageData.MessageRecieved);
+            break;
+          case "UpdateMessage":
+            this.commit("SET_MESSAGE_UPDATE", messageData.UpdateMessage);
+            break;
+          case "Gui":
+            this.commit("SET_CONFIG_GUI", messageData.Gui);
+            break;
+          case "DarkMode":
+            this.commit("SET_CONFIG_DARK_MODE", messageData.DarkMode);
+            break;
+          case "CurrentChat":
+            this.commit("SET_CURRENT_CHAT", messageData.CurrentChat);
+            break;
+          case "Type":
+            this.commit("SET_REQUEST", messageData);
+            break;
+          case "FingerprintNumbers":
+            this.commit("SET_FINGERPRINT", messageData);
+            break;
+          case "Error":
+            this.commit("SET_ERROR", messageData.Errorx);
+            break;
+          case "OpenChat":
+            this.commit("OPEN_CHAT", messageData.OpenChat);
+            break;
+          case "UpdateCurrentChat":
+            this.commit("UPDATE_CURRENT_CHAT", messageData.UpdateCurrentChat);
+            break;
+          case "ProfileMessage":
+            this.commit("SET_PROFILE", messageData.ProfileMessage);
+            break;
+          default:
           // console.log("unkown message ", Object.keys(messageData)[0]);
         }
         this.commit("SET_SOCKET_MESSAGE_DATA", message.data)
@@ -466,7 +466,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "getProfile",
-          "id": id
+          id
         }
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }
@@ -475,7 +475,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "createRecipient",
-          "recipient": recipient
+          recipient
         }
         app.config.globalProperties.$socket.send(JSON.stringify(message))
       }

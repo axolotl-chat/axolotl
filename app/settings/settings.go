@@ -1,7 +1,6 @@
 package settings
 
 import (
-	"io/ioutil"
 	"os"
 
 	"github.com/nanu-c/axolotl/app/config"
@@ -45,5 +44,5 @@ func SaveSettings(s *Settings) error {
 	if err != nil {
 		return err
 	}
-	return ioutil.WriteFile(config.SettingsFile, b, 0600)
+	return os.WriteFile(config.SettingsFile, b, 0600)
 }

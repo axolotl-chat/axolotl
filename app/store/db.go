@@ -40,16 +40,11 @@ var (
 	)
 `
 
-	sessionsInsert = "INSERT OR REPLACE INTO sessions (name, last, ctype, timestamp, notification, expireTimer, type, uuid, groupJoinStatus ) VALUES ( :name, :tel, :isgroup, :last, :ctype, :timestamp, :notification, :expireTimer, :type, :uuid, :groupJoinStatus)"
 	sessionsSelect = "SELECT * FROM sessions ORDER BY timestamp DESC"
 
-	messagesSchema                 = "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, sid integer, source text, srcUUID string NOT NULL DEFAULT 0, message text, outgoing boolean, sentat integer, receivedat integer, ctype integer, attachment string, issent boolean, isread boolean, flags integer default 0, sendingError boolean, expireTimer integer default 0, receipt boolean default 0, statusMessage boolean default 0, quoteId integer NOT NULL default -1)"
-	messagesInsert                 = "INSERT INTO messages (sid, source, srcUUID, message, outgoing, sentat, receivedat, ctype, attachment, issent, isread, flags, sendingError, expireTimer, statusMessage, quoteID) VALUES (:sid, :source, :srcUUID, :message, :outgoing, :sentat, :receivedat, :ctype, :attachment, :issent, :isread, :flags, :sendingError, :expireTimer, :statusMessage, :quoteId)"
-	messagesSelectWhere            = "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT 20"
-	messagesSelectWhereMore        = "SELECT * FROM messages WHERE sid = ? AND id< ? ORDER BY sentat DESC LIMIT 20"
-	messagesSelectWhereLastMessage = "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT 1"
-	messagesDelete                 = "DELETE FROM messages WHERE id = ?"
-	messagesReceiptSent            = "UPDATE messages SET isSent=1 WHERE sentat = ?"
+	messagesSchema          = "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, sid integer, source text, srcUUID string NOT NULL DEFAULT 0, message text, outgoing boolean, sentat integer, receivedat integer, ctype integer, attachment string, issent boolean, isread boolean, flags integer default 0, sendingError boolean, expireTimer integer default 0, receipt boolean default 0, statusMessage boolean default 0, quoteId integer NOT NULL default -1)"
+	messagesInsert          = "INSERT INTO messages (sid, source, srcUUID, message, outgoing, sentat, receivedat, ctype, attachment, issent, isread, flags, sendingError, expireTimer, statusMessage, quoteID) VALUES (:sid, :source, :srcUUID, :message, :outgoing, :sentat, :receivedat, :ctype, :attachment, :issent, :isread, :flags, :sendingError, :expireTimer, :statusMessage, :quoteId)"
+	messagesSelectWhereMore = "SELECT * FROM messages WHERE sid = ? AND id< ? ORDER BY sentat DESC LIMIT 20"
 
 	groupsSchema = `CREATE TABLE IF NOT EXISTS groups (
 		id INTEGER PRIMARY KEY, 
@@ -66,7 +61,6 @@ var (
 		joinStatus INTEGER DEFAULT 1
 	)`
 	groupsInsert = "INSERT OR REPLACE INTO groups (groupid, name, members, avatar, type) VALUES (:groupid, :name, :members, :avatar, :type)"
-	groupsUpdate = "UPDATE groups SET members = :members, name = :name, avatar = :avatar, active = :active,  type = :type WHERE groupid = :groupid"
 	groupsSelect = "SELECT groupid, name, members, avatar, active FROM groups"
 	groupsDelete = "DELETE FROM groups WHERE groupid = ?"
 )

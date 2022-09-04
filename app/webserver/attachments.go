@@ -87,7 +87,8 @@ func avatarsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	recipientE164 := r.URL.Query().Get("e164")
 	if recipientE164 != "" {
-		avatar, err := getAvatarForE164("+" + strings.Replace(recipientE164, " ", "", -1))
+		e164 := "+" + strings.Replace(recipientE164, " ", "", -1)
+		avatar, err := getAvatarForE164(e164)
 		if err != nil {
 			http.Error(w, "File not found.", 404)
 		}

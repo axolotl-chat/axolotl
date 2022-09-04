@@ -502,8 +502,15 @@ func webserver() {
 		http.HandleFunc("/attachments", attachmentsHandler)
 		http.HandleFunc("/avatars", avatarsHandler)
 		http.HandleFunc("/ws", wsEndpoint)
+		server := &http.Server{
+			Addr:              config.ServerHost + ":" + config.ServerPort,
+			ReadHeaderTimeout: 3 * time.Second,
+		}
 
-		log.Error("[axolotl] webserver error", http.ListenAndServe(config.ServerHost+":"+config.ServerPort, nil))
+		err := server.ListenAndServe()
+		if err != nil {
+			log.Error("[axolotl] webserver error", err)
+		}
 	}
 
 }

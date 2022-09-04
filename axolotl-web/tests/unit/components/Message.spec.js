@@ -23,9 +23,6 @@ config.global = {
 }
 
 describe('Message.vue', () => {
-  const actions = {
-    doAction: vi.fn(),
-  }
   const mockStore = createStore({
     state: {
       config: {},

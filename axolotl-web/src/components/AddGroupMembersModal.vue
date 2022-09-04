@@ -141,7 +141,7 @@ export default {
         const found = this.alreadyAdded.find((element) => {
           return element.Tel === c.Tel;
         });
-        return found === undefined;
+        return typeof found === "undefined";
       });
     },
   },

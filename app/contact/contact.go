@@ -61,7 +61,7 @@ func indexOfUuid(uuid string, data []textsecureContacts.Contact) int {
 			return k
 		}
 	}
-	return -1 //not found.
+	return -1 // not found.
 }
 
 func AddContact(name string, phone string, uuid string) error {

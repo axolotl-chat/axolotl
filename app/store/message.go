@@ -191,7 +191,8 @@ func GetLastMessagesForAllSessions() ([]Message, error) {
 	if err != nil {
 		return nil, err
 	}
-	for _, s := range sessions {
+	for i := range sessions {
+		s := sessions[i]
 		m, err := GetLastMessageForSession(s.ID)
 		if err == nil {
 			messages = append(messages, *m)

@@ -168,7 +168,8 @@ func update_v_1_6_0() error {
 		// copy contacts to recipients
 		log.Infoln("[axolotl][update v_1_6_0] create recipients for contacts")
 		registeredContacts, _ := readRegisteredContacts(config.RegisteredContactsFile)
-		for _, contact := range registeredContacts {
+		for i := range registeredContacts {
+			contact := registeredContacts[i]
 			if contact.UUID != "" {
 				c := &contacts.Contact{
 					UUID: contact.UUID,

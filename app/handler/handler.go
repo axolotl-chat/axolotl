@@ -25,7 +25,7 @@ func MessageHandler(msg *textsecure.Message) {
 }
 func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 	var err error
-	var attachments []store.Attachment //should be array
+	var attachments []store.Attachment // should be array
 	if len(msg.Attachments()) > 0 {
 		for _, a := range msg.Attachments() {
 			file, err := store.SaveAttachment(a)

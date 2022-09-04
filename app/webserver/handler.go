@@ -2,7 +2,6 @@ package webserver
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"math/rand"
 	"os"
 	"strings"
@@ -229,7 +228,7 @@ func uploadSendAttachment(attachment UploadAttachmentMessage) error {
 		log.Errorln("[axolotl] uploadSendAttachment", err)
 
 	}
-	ioutil.WriteFile(file, dataURL.Data, 0644)
+	os.WriteFile(file, dataURL.Data, 0600)
 
 	fi, err := os.Stat(file)
 	if err != nil {
@@ -253,7 +252,7 @@ func uploadSendVoiceNote(voiceNote SendVoiceNoteMessage) error {
 	if err != nil {
 		log.Errorln("[axolotl] voiceNote error:", err)
 	}
-	ioutil.WriteFile(file, dataURL.Data, 0644)
+	os.WriteFile(file, dataURL.Data, 0600)
 
 	fi, err := os.Stat(file)
 	if err != nil {

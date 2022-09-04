@@ -75,10 +75,8 @@ func RunBackend(errorChannel chan error) error {
 	co, err := config.GetConfig()
 	if err != nil {
 		log.Error("[axolotl] RunBackend: could not load config", err)
-	} else {
-		if strings.ToUpper(co.LogLevel) == "DEBUG" {
-			log.SetLevel(log.DebugLevel)
-		}
+	} else if strings.ToUpper(co.LogLevel) == "DEBUG" {
+		log.SetLevel(log.DebugLevel)
 	}
 
 	go push.NotificationInit()
