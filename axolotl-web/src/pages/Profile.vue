@@ -2,7 +2,7 @@
   <component :is="$route.meta.layout || 'div'">
     <template #header>
       <div v-if="profile.Recipient" class="profile-header">
-        <span>{{name}}</span>
+        <span>{{ name }}</span>
       </div>
     </template>
     <template #menu>
@@ -42,7 +42,7 @@
           {{ profile.Recipient.AboutEmoji }}
         </div>
         <div class="btn btn-primary create-chat mt-4" @click="createChat()">
-          <div v-translate>Create private chat with {{name}}</div>
+          <div v-translate>Create private chat with {{ name }}</div>
         </div>
       </div>
     </div>
@@ -53,7 +53,11 @@
 export default {
     name: "ProfilePage",
   props: {
-    profileId: Number,
+    profileId:{
+      type: Number,
+      required: true,
+      default: -1
+    },
   },
   data: () => ({
     hasProfileImage: true,

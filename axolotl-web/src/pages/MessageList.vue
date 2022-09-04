@@ -33,12 +33,10 @@
               <source
                 :src="
                   'http://localhost:9080/attachments?file=' +
-                  showFullscreenVideoSrc
+                    showFullscreenVideoSrc
                 "
               />
-              <span v-translate
-                >Your browser does not support the audio element.</span
-              >
+              <span v-translate>Your browser does not support the audio element.</span>
             </video>
             <button
               class="btn btn-secondary close"
@@ -123,8 +121,7 @@
             class="messageInput-btn-container d-flex justify-content-center align-items-center"
           >
             <div>
-              <span>{{ Math.floor(voiceNote.duration) }}</span
-              ><span v-translate class="me-2">s</span>
+              <span>{{ Math.floor(voiceNote.duration) }}</span><span v-translate class="me-2">s</span>
             </div>
             <button
               v-if="!voiceNote.playing"

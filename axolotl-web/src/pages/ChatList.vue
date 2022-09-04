@@ -60,8 +60,8 @@
                     <div
                       v-if="
                         isGroupCheck(chat) &&
-                        sessionNames &&
-                        sessionNames[chat.ID] == null
+                          sessionNames &&
+                          sessionNames[chat.ID] == null
                       "
                       v-translate
                     >
@@ -82,7 +82,7 @@
                   <p
                     v-if="
                       lastMessages[chat.ID] !== undefined &&
-                      lastMessages[chat.ID].SentAt !== 0
+                        lastMessages[chat.ID].SentAt !== 0
                     "
                     class="time"
                   >
@@ -92,7 +92,7 @@
               </div>
               <div class="row">
                 <div class="col-12">
-                  <p class="preview" v-if="lastMessages[chat.ID] !== undefined">
+                  <p v-if="lastMessages[chat.ID] !== undefined" class="preview">
                     {{ lastMessages[chat.ID].Message }}
                   </p>
                 </div>

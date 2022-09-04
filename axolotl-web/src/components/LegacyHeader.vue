@@ -30,7 +30,7 @@
                     <div
                       v-if="
                         isGroup &&
-                        sessionNames[currentChat.ID].Name === currentChat.Tel
+                          sessionNames[currentChat.ID].Name === currentChat.Tel
                       "
                       class="header-text-chat"
                     >
@@ -55,8 +55,8 @@
                     <div
                       v-if="
                         isGroup &&
-                        currentGroup !== null &&
-                        typeof currentGroup !== 'undefined'
+                          currentGroup !== null &&
+                          typeof currentGroup !== 'undefined'
                       "
                       class="number-text"
                     >
@@ -67,8 +67,8 @@
                     <div
                       v-if="
                         isGroup &&
-                        currentGroup !== null &&
-                        typeof currentGroup !== 'undefined'
+                          currentGroup !== null &&
+                          typeof currentGroup !== 'undefined'
                       "
                       class="number-text"
                     >
@@ -79,7 +79,7 @@
                     <div
                       v-if="
                         !isGroup &&
-                        sessionNames[currentChat.ID].Name === currentChat.Tel
+                          sessionNames[currentChat.ID].Name === currentChat.Tel
                       "
                       class="number-text"
                     >
@@ -112,8 +112,8 @@
                 <button
                   v-if="
                     currentChat !== null &&
-                    !isGroup &&
-                    sessionNames[currentChat.ID].Name !== currentChat.Tel
+                      !isGroup &&
+                      sessionNames[currentChat.ID].Name !== currentChat.Tel
                   "
                   class="dropdown-item"
                   @click="callNumber(currentChat.Tel)"
@@ -139,8 +139,8 @@
                 <button
                   v-if="
                     currentChat !== null &&
-                    !isGroup &&
-                    sessionNames[currentChat.ID].Name === currentChat.Tel
+                      !isGroup &&
+                      sessionNames[currentChat.ID].Name === currentChat.Tel
                   "
                   v-translate
                   class="dropdown-item"
@@ -151,8 +151,8 @@
                 <button
                   v-if="
                     currentChat !== null &&
-                    !isGroup &&
-                    sessionNames[currentChat.ID].Name !== currentChat.Tel
+                      !isGroup &&
+                      sessionNames[currentChat.ID].Name !== currentChat.Tel
                   "
                   v-translate
                   class="dropdown-item"

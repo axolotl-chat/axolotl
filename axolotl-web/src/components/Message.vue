@@ -25,12 +25,12 @@
     }"
   >
     <div
-      class="avatar"
       v-if="
         !message.Outgoing &&
-        isGroup &&
-        (message.Flags === 0 || message.Flags === 12 || message.Flags === 13)
+          isGroup &&
+          (message.Flags === 0 || message.Flags === 12 || message.Flags === 13)
       "
+      class="avatar"
     >
       <div class="badge-name" @click="openProfileForRecipient(id)">
         <div v-if="id !== -1">
@@ -95,18 +95,15 @@
                 <span v-if="!isPlaying" id="duration" class="time">{{
                   humanifyTimePeriod(duration)
                 }}</span>
-                <span v-if="isPlaying" id="currentTime" class="time"
-                  >{{ humanifyTimePeriod(currentTime) }} /
-                  {{ humanifyTimePeriod(duration) }}</span
-                >
+                <span v-if="isPlaying" id="currentTime" class="time">{{ humanifyTimePeriod(currentTime) }} /
+                  {{ humanifyTimePeriod(duration) }}</span>
               </div>
             </div>
             <div v-else-if="m.File !== '' && m.CType === 0" class="attachment-file">
               <a
                 :href="'http://localhost:9080/attachments?file=' + m.File"
                 @click="shareAttachment(m.File, $event)"
-                >{{ m.FileName ? m.FileName : m.File }}</a
-              >
+              >{{ m.FileName ? m.FileName : m.File }}</a>
             </div>
             <div
               v-else-if="m.CType === 5"
@@ -151,10 +148,8 @@
             <span v-if="!isPlaying" id="duration" class="time">{{
               humanifyTimePeriod(duration)
             }}</span>
-            <span v-if="isPlaying" id="currentTime" class="time"
-              >{{ humanifyTimePeriod(currentTime) }} /
-              {{ humanifyTimePeriod(duration) }}</span
-            >
+            <span v-if="isPlaying" id="currentTime" class="time">{{ humanifyTimePeriod(currentTime) }} /
+              {{ humanifyTimePeriod(duration) }}</span>
           </div>
         </div>
         <div
@@ -162,9 +157,7 @@
           class="attachment-file"
         >
           {{ message.Attachment }}
-          <a :href="'http://localhost:9080/attachments?file=' + message.Attachment"
-            >File</a
-          >
+          <a :href="'http://localhost:9080/attachments?file=' + message.Attachment">File</a>
         </div>
         <div
           v-else-if="message.CType === 5"
@@ -195,9 +188,9 @@
         <div
           v-if="
             message.Attachment &&
-            message.Attachment.includes('null') &&
-            message.Message === '' &&
-            message.Flags === 0
+              message.Attachment.includes('null') &&
+              message.Message === '' &&
+              message.Flags === 0
           "
           class="status-message"
         >
