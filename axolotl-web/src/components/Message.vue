@@ -190,7 +190,8 @@
             message.Attachment &&
               message.Attachment.includes('null') &&
               message.Message === '' &&
-              message.Flags === 0
+              message.Flags === 0 &&
+              !isGroup
           "
           class="status-message"
         >
