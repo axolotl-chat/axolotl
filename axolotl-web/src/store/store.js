@@ -303,91 +303,89 @@ export default createStore({
     // default handler called for all methods
     SOCKET_ONMESSAGE(state, message) {
       state.socket.message = message;
-      if (message.data !== "Hi Client!") {
-        const messageData = JSON.parse(message.data);
-        if (typeof messageData.Error !== "undefined") {
-          this.commit("SET_ERROR", messageData.Error);
-        }
-        switch (Object.keys(messageData)[0]) {
-          case "ChatList":
-            const chats = messageData.ChatList
-            if (messageData.LastMessages !== undefined) {
-              const lastMessages = {};
-              for (let i = 0; i < messageData.LastMessages.length; i++) {
-                lastMessages[messageData.LastMessages[i].SID] = messageData.LastMessages[i];
-              }
-              chats.sort((a, b) => {
-                if (typeof lastMessages[a.ID] === "undefined" || typeof lastMessages[b.ID] === "undefined") {
-                  return 0;
-                }
-                if (lastMessages[a.ID].SentAt < lastMessages[b.ID].SentAt) {
-                  return 1;
-                }
-                if (lastMessages[a.ID].SentAt > lastMessages[b.ID].SentAt) {
-                  return -1;
-                }
+      const messageData = JSON.parse(message.data);
+      if (messageData.Error) {
+        this.commit("SET_ERROR", messageData.Error);
+      }
+      switch (Object.keys(messageData)[0]) {
+        case "ChatList":
+          const chats = messageData.ChatList
+          if (messageData.LastMessages) {
+            const lastMessages = {};
+            for (let i = 0; i < messageData.LastMessages.length; i++) {
+              lastMessages[messageData.LastMessages[i].SID] = messageData.LastMessages[i];
+            }
+            chats.sort((a, b) => {
+              if (typeof lastMessages[a.ID] === "undefined" || typeof lastMessages[b.ID] === "undefined") {
                 return 0;
               }
-              );
-              this.commit("SET_CHATLIST", chats);
-              this.commit("SET_LASTMESSAGES", lastMessages);
-            } else {
-              this.commit("SET_CHATLIST", chats);
-              this.commit("SET_LASTMESSAGES", messageData.LastMessages);
+              if (lastMessages[a.ID].SentAt < lastMessages[b.ID].SentAt) {
+                return 1;
+              }
+              if (lastMessages[a.ID].SentAt > lastMessages[b.ID].SentAt) {
+                return -1;
+              }
+              return 0;
             }
-            this.commit("SET_SESSIONNAMES", messageData.SessionNames);
-            break;
-          case "MessageList":
-            this.commit("SET_MESSAGELIST", messageData.MessageList);
-            break;
-          case "ContactList":
-            this.commit("SET_CONTACTS", messageData.ContactList);
-            break;
-          case "MoreMessageList":
-            this.commit("SET_MORE_MESSAGELIST", messageData.MoreMessageList);
-            break;
-          case "DeviceList":
-            this.commit("SET_DEVICELIST", messageData.DeviceList);
-            break;
-          case "MessageRecieved":
-            this.commit("SET_MESSAGE_RECIEVED", messageData.MessageRecieved);
-            break;
-          case "UpdateMessage":
-            this.commit("SET_MESSAGE_UPDATE", messageData.UpdateMessage);
-            break;
-          case "Gui":
-            this.commit("SET_CONFIG_GUI", messageData.Gui);
-            break;
-          case "DarkMode":
-            this.commit("SET_CONFIG_DARK_MODE", messageData.DarkMode);
-            break;
-          case "CurrentChat":
-            this.commit("SET_CURRENT_CHAT", messageData.CurrentChat);
-            break;
-          case "Type":
-            this.commit("SET_REQUEST", messageData);
-            break;
-          case "FingerprintNumbers":
-            this.commit("SET_FINGERPRINT", messageData);
-            break;
-          case "Error":
-            this.commit("SET_ERROR", messageData.Errorx);
-            break;
-          case "OpenChat":
-            this.commit("OPEN_CHAT", messageData.OpenChat);
-            break;
-          case "UpdateCurrentChat":
-            this.commit("UPDATE_CURRENT_CHAT", messageData.UpdateCurrentChat);
-            break;
-          case "ProfileMessage":
-            this.commit("SET_PROFILE", messageData.ProfileMessage);
-            break;
-          default:
-          // console.log("unkown message ", Object.keys(messageData)[0]);
-        }
-        this.commit("SET_SOCKET_MESSAGE_DATA", message.data)
-
+            );
+            this.commit("SET_CHATLIST", chats);
+            this.commit("SET_LASTMESSAGES", lastMessages);
+          } else {
+            this.commit("SET_CHATLIST", chats);
+            this.commit("SET_LASTMESSAGES", messageData.LastMessages);
+          }
+          this.commit("SET_SESSIONNAMES", messageData.SessionNames);
+          break;
+        case "MessageList":
+          this.commit("SET_MESSAGELIST", messageData.MessageList);
+          break;
+        case "ContactList":
+          this.commit("SET_CONTACTS", messageData.ContactList);
+          break;
+        case "MoreMessageList":
+          this.commit("SET_MORE_MESSAGELIST", messageData.MoreMessageList);
+          break;
+        case "DeviceList":
+          this.commit("SET_DEVICELIST", messageData.DeviceList);
+          break;
+        case "MessageRecieved":
+          this.commit("SET_MESSAGE_RECIEVED", messageData.MessageRecieved);
+          break;
+        case "UpdateMessage":
+          this.commit("SET_MESSAGE_UPDATE", messageData.UpdateMessage);
+          break;
+        case "Gui":
+          this.commit("SET_CONFIG_GUI", messageData.Gui);
+          break;
+        case "DarkMode":
+          this.commit("SET_CONFIG_DARK_MODE", messageData.DarkMode);
+          break;
+        case "CurrentChat":
+          this.commit("SET_CURRENT_CHAT", messageData.CurrentChat);
+          break;
+        case "Type":
+          this.commit("SET_REQUEST", messageData);
+          break;
+        case "FingerprintNumbers":
+          this.commit("SET_FINGERPRINT", messageData);
+          break;
+        case "Error":
+          this.commit("SET_ERROR", messageData.Errorx);
+          break;
+        case "OpenChat":
+          this.commit("OPEN_CHAT", messageData.OpenChat);
+          break;
+        case "UpdateCurrentChat":
+          this.commit("UPDATE_CURRENT_CHAT", messageData.UpdateCurrentChat);
+          break;
+        case "ProfileMessage":
+          this.commit("SET_PROFILE", messageData.ProfileMessage);
+          break;
+        default:
+        // console.log("unkown message ", Object.keys(messageData)[0]);
       }
+      this.commit("SET_SOCKET_MESSAGE_DATA", message.data)
+
     },
     SET_SOCKET_MESSAGE_DATA(state, data) {
       state.socket.message = data
@@ -414,7 +412,7 @@ export default createStore({
           "request": "addDevice",
           "url": url,
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     delDevice(state, id) {
@@ -423,7 +421,7 @@ export default createStore({
           "request": "delDevice",
           "id": id,
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     getDevices() {
@@ -431,7 +429,7 @@ export default createStore({
         const message = {
           "request": "getDevices",
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     getChatList() {
@@ -439,7 +437,7 @@ export default createStore({
         const message = {
           "request": "getChatList",
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     delChat(id) {
@@ -448,7 +446,7 @@ export default createStore({
           "request": "delChat",
           "id": this.state.currentChat.ID
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     getMessageList(state, chatId) {
@@ -458,7 +456,7 @@ export default createStore({
           "request": "getMessageList",
           "id": chatId
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     getProfile(state, id) {
@@ -468,7 +466,7 @@ export default createStore({
           "request": "getProfile",
           id
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     createRecipient(state, recipient) {
@@ -477,7 +475,7 @@ export default createStore({
           "request": "createRecipient",
           recipient
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     createRecipientAndAddToGroup(state, data) {
@@ -487,7 +485,7 @@ export default createStore({
           "recipient": data.id,
           "group": data.group
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     openChat({ dispatch }, chatId) {
@@ -496,7 +494,7 @@ export default createStore({
           "request": "openChat",
           "id": chatId
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
         dispatch("getMessageList", chatId);
       }
     },
@@ -508,7 +506,7 @@ export default createStore({
           "request": "getMoreMessages",
           "lastId": String(this.state.messageList[0].ID)
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     clearMessageList() {
@@ -523,7 +521,7 @@ export default createStore({
         const message = {
           "request": "leaveChat",
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     createChat(state, uuid) {
@@ -532,7 +530,7 @@ export default createStore({
           "request": "createChat",
           "uuid": uuid
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
       this.commit("CREATE_CHAT", uuid);
     },
@@ -543,7 +541,7 @@ export default createStore({
           "to": messageContainer.to,
           "message": messageContainer.message
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     toggleNotifications() {
@@ -552,7 +550,7 @@ export default createStore({
           "request": "toggleNotifications",
           "chat": this.state.currentChat.ID
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     resetEncryption() {
@@ -561,7 +559,7 @@ export default createStore({
           "request": "resetEncryption",
           "chat": this.state.currentChat.ID
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     verifyIdentity() {
@@ -570,7 +568,7 @@ export default createStore({
           "request": "verifyIdentity",
           "chat": this.state.currentChat.ID
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     getContacts(state) {
@@ -579,7 +577,7 @@ export default createStore({
         const message = {
           "request": "getContacts",
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     addContact(state, contact) {
@@ -596,7 +594,7 @@ export default createStore({
           "phone": contact.phone,
           "uuid": contact.uuid
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     updateProfileName(state, data) {
@@ -606,7 +604,7 @@ export default createStore({
           "name": data.name,
           "id": data.id
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     createChatForRecipient(state, data) {
@@ -615,7 +613,7 @@ export default createStore({
           "request": "createChatForRecipient",
           "id": data.id,
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     filterContacts(state, filter) {
@@ -635,7 +633,7 @@ export default createStore({
           "request": "uploadVcf",
           "vcf": vcf
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     uploadAttachment(state, attachment) {
@@ -645,7 +643,7 @@ export default createStore({
           "attachment": attachment.attachment,
           "to": attachment.to,
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     refreshContacts(state, chUrl) {
@@ -655,7 +653,7 @@ export default createStore({
           "request": "refreshContacts",
           "url": chUrl
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     delContact(state, id) {
@@ -665,7 +663,7 @@ export default createStore({
           "request": "delContact",
           "id": id,
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     deleteSelfDestructingMessage(state, m) {
@@ -674,7 +672,7 @@ export default createStore({
           "request": "delMessage",
           "id": m.ID
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     editContact(state, data) {
@@ -691,7 +689,7 @@ export default createStore({
           "uuid": data.contact.UUID,
           "id": data.id
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     // registration functions
@@ -702,7 +700,7 @@ export default createStore({
           "request": "requestCode",
           "tel": tel,
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     sendCode(state, code) {
@@ -711,7 +709,7 @@ export default createStore({
           "request": "sendCode",
           "code": code,
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     setUsername(state, username) {
@@ -720,7 +718,7 @@ export default createStore({
           "request": "sendUsername",
           "username": username,
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
       this.commit("SET_REGISTRATION_STATUS", "");
       router.push("/")
@@ -731,7 +729,7 @@ export default createStore({
           "request": "sendPin",
           "pin": pin,
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     sendPassword(state, password) {
@@ -740,7 +738,7 @@ export default createStore({
           "request": "sendPassword",
           "pw": password,
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     setPassword(state, password) {
@@ -750,7 +748,7 @@ export default createStore({
           "pw": password.pw,
           "currentPw": password.cPw
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
         router.push("/chatList")
       }
     },
@@ -759,7 +757,7 @@ export default createStore({
         const message = {
           "request": "getRegistrationStatus",
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     unregister() {
@@ -767,7 +765,7 @@ export default createStore({
         const message = {
           "request": "unregister",
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
 
       }
     },
@@ -776,7 +774,7 @@ export default createStore({
         const message = {
           "request": "getConfig",
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     createNewGroup(state, data) {
@@ -786,7 +784,7 @@ export default createStore({
           "name": data.name,
           "members": data.members,
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
 
       }
     },
@@ -798,7 +796,7 @@ export default createStore({
           "id": data.id,
           "members": data.members,
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     joinGroup(state, data) {
@@ -807,7 +805,7 @@ export default createStore({
           "request": "joinGroup",
           "id": data,
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     sendAttachment(state, data) {
@@ -819,7 +817,7 @@ export default createStore({
           "to": data.to,
           "message": data.message,
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
 
       }
     },
@@ -830,7 +828,7 @@ export default createStore({
           "voiceNote": voiceNote.note,
           "to": voiceNote.to,
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     setDarkMode(state, darkMode) {
@@ -839,7 +837,7 @@ export default createStore({
           "request": "setDarkMode",
           "darkMode": darkMode,
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
         this.state.DarkMode = darkMode;
       }
     },
@@ -849,7 +847,7 @@ export default createStore({
           "request": "sendCaptchaToken",
           "token": this.state.captchaToken,
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
         this.commit("SET_CAPTCHA_TOKEN_SENT");
 
       }
@@ -860,7 +858,7 @@ export default createStore({
           "request": "setLogLevel",
           level
         }
-        app.config.globalProperties.$socket.send(JSON.stringify(message))
+        socketSend(message);
       }
     },
     setCaptchaToken(state, token) {
@@ -868,3 +866,7 @@ export default createStore({
     }
   }
 });
+
+function socketSend(message) {
+  app.config.globalProperties.$socket.send(JSON.stringify(message))
+}

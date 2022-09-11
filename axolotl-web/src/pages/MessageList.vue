@@ -220,9 +220,7 @@ export default {
     },
     isGroup() {
       return this.$store.state.currentChat.GroupV2ID !== "" ||
-        this.$store.state.currentChat.GroupV1ID !== ""
-        ? true
-        : false;
+        this.$store.state.currentChat.GroupV1ID !== "";
     },
     ...mapState(["contacts", "config", "messageList", "currentGroup"]),
   },
@@ -235,11 +233,6 @@ export default {
       } else {
         textarea.style.height = 0; // Set height to 0 to reset scrollHeight to its minimum
         textarea.style.height = textarea.scrollHeight + 5 + "px";
-      }
-    },
-    contacts() {
-      if (this.contacts !== null) {
-        this.propagateNames();
       }
     },
     messages: {

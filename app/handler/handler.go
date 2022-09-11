@@ -35,6 +35,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 			attachments = append(attachments, file)
 		}
 	}
+	mAttachment, ctype, err := prepareAttachment(attachments)
 
 	msgFlags := 0
 
@@ -52,7 +53,17 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 	}
 	var session *store.SessionV2
 	// GroupV2 Message
-	var recipient *store.Recipient
+	recipient := store.RecipientsModel.GetRecipientByUUID(msg.SourceUUID())
+	if recipient == nil {
+		// todo get recipient profile from signal server
+		recipient, err = store.RecipientsModel.CreateRecipient(&store.Recipient{
+			UUID: msg.SourceUUID(),
+		})
+		if err != nil {
+			log.Println("[axolotl] RecipientsModel.Create", err)
+			return
+		}
+	}
 	grV2 := msg.GroupV2()
 	if grV2 != nil {
 		group, err := store.GroupV2sModel.GetGroupById(grV2.Hexid)
@@ -89,18 +100,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 			log.Println("[axolotl] SessionsV2Model.GetSessionByGroupV2ID", err)
 		}
 		// check if recipient exists and is in group
-		recipient = store.RecipientsModel.GetRecipientByUUID(msg.SourceUUID())
 		log.Debugln("[axolotl] GroupV2 Message ", msg.SourceUUID(), grV2.Hexid)
-		if recipient == nil {
-			log.Debugln("[axolotl] Recipient not found, creating new one for " + msg.SourceUUID())
-			recipient, err = store.RecipientsModel.CreateRecipient(&store.Recipient{
-				UUID: msg.SourceUUID(),
-			})
-			if err != nil {
-				log.Errorln("[axolotl] RecipientsModel.Create", err)
-				return
-			}
-		}
 		if !group.IsMember(recipient) {
 			err = group.AddMember(recipient)
 			if err != nil {
@@ -115,35 +115,13 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 			}
 		}
 	} else {
-		recipient = store.RecipientsModel.GetRecipientByUUID(msg.SourceUUID())
-		if recipient == nil {
-			// todo get recipient profile from signal server
-			recipient, err = store.RecipientsModel.CreateRecipient(&store.Recipient{
-				UUID: msg.SourceUUID(),
-			})
-			if err != nil {
-				log.Println("[axolotl] RecipientsModel.Create", err)
-				return
-			}
-			session, err = store.SessionsV2Model.CreateSessionForDirectMessageRecipient(recipient.Id)
-			if err != nil {
-				log.Println("[axolotl] SessionsV2Model.CreateSessionForDirectMessageRecipient", err)
-			}
-		} else {
-			session, err = store.SessionsV2Model.GetSessionByDirectMessageRecipientID(recipient.Id)
-			if err != nil {
-				log.Println("[axolotl] SessionsV2Model.GetSessionByRecipientID", err)
-			}
-		}
+		log.Debugf("[axolotl] MessageHandler %+v", msg)
+		session, err = store.SessionsV2Model.GetOrCreateSessionForDirectMessageRecipient(recipient.Id)
 		if err != nil {
-			log.Println("[axolotl] SessionsModel.GetSessionByID", err)
+			log.Debugln("[axolotl] SessionsV2Model.CreateSessionForDirectMessageRecipient", err)
 		}
-		if recipient.Username == "" {
-			recipient.UpdateProfile()
-			if err != nil {
-				log.Errorln("[axolotl] Recipient.UpdateProfile", err)
-			}
-		}
+		//  Extract the expiration timer from the message
+		session.ExpireTimer = int64(msg.ExpireTimer())
 	}
 
 	if msg.Sticker() != nil {
@@ -159,7 +137,6 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		msgFlags = helpers.MsgFlagReaction
 		text = msg.Reaction().GetEmoji()
 	}
-	mAttachment, ctype, err := prepareAttachment(attachments)
 	if err != nil {
 		log.Println("[axolotl] prepareAttachment", err)
 		return
@@ -181,7 +158,6 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 	m.ReceivedAt = uint64(time.Now().UnixNano() / 1000000)
 	m.SentAt = msg.Timestamp()
 	m.SourceUUID = msg.SourceUUID()
-	session.ExpireTimer = int64(msg.ExpireTimer())
 	m.ExpireTimer = msg.ExpireTimer()
 	m.HTime = helpers.HumanizeTimestamp(m.SentAt)
 	if msg.Quote() != nil {
@@ -189,12 +165,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		text = msg.Message()
 		err, id := store.FindQuotedMessage(msg.Quote())
 		if err != nil || id == -1 {
-			// create quoted message
 			// TODO implement quoted message when not exists
-			// quoteMessage := session.Add(text, msg.Quote().GetAuthorUuid(), nil, msg.Quote().GetText(), false, store.ActiveSessionID)
-			// quoteMessage.Flags = helpers.MsgFlagHiddenQuote
-			// err, savedQuoteMessage := store.SaveMessage(quoteMessage)
-			// id = savedQuoteMessage.ID
 			if err != nil {
 				log.Debugln("[axolotl] Error saving quote message", err)
 			}
@@ -264,6 +235,9 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		log.Println("[axolotl] MessageHandler: Empty message")
 	}
 }
+
+// prepareAttachment prepares the attachment for the message by detecting the file type and converting it to a json
+// TODO: refactor this function by adding an attachment table to the database
 func prepareAttachment(file []store.Attachment) ([]byte, int, error) {
 	var files []store.Attachment
 
@@ -284,7 +258,7 @@ func prepareAttachment(file []store.Attachment) ([]byte, int, error) {
 
 }
 func CallMessageHandler(msg *textsecure.Message) {
-	// TODO
+	// TODO add a message, that a call happend
 	// log.Debugln("[axolotl] CallMessageHandler", msg)
 	// session := store.SessionsV2Model.GetSessionBy(msg.SourceUUID())
 	// var f []store.Attachment

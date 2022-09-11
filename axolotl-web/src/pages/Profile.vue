@@ -29,16 +29,16 @@
         <div v-if="profile.Recipient.E164" class="number">
           {{ profile.Recipient.E164 }}
         </div>
-        <div v-if="profile.Recipient.Username != ''" class="number">
+        <div v-if="profile.Recipient.Username != ''" class="username">
           {{ profile.Recipient.Username }}
         </div>
-        <div v-if="profile.Recipient.UUID != ''" class="number">
+        <div v-if="profile.Recipient.UUID != ''" class="uuid">
           {{ profile.Recipient.UUID }}
         </div>
-        <div v-if="profile.Recipient.About != ''" class="number">
+        <div v-if="profile.Recipient.About != ''" class="about">
           {{ profile.Recipient.About }}
         </div>
-        <div v-if="profile.Recipient.AboutEmoji != ''" class="number">
+        <div v-if="profile.Recipient.AboutEmoji != ''" class="about-emoji">
           {{ profile.Recipient.AboutEmoji }}
         </div>
         <div class="btn btn-primary create-chat mt-4" @click="createChat()">

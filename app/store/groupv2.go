@@ -172,7 +172,6 @@ func (g *GroupV2) Delete() error {
 	if err != nil {
 		return err
 	}
-	// delete all old members
 	_, err = DS.Dbx.Exec("DELETE FROM groupsv2 WHERE id = :id", g.Id)
 	if err != nil {
 		return err
