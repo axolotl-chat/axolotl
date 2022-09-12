@@ -18,6 +18,8 @@ var (
 	recipientGetByE164 = "SELECT * FROM recipients WHERE e164 = ?"
 )
 
+const TIME_FORMAT = "2006-01-02 15:04:05 -0700 MST"
+
 type Recipient struct {
 	Id                     int64  `db:"id"`
 	E164                   string `db:"e164"`
@@ -183,7 +185,7 @@ func (r *Recipient) SaveRecipient() error {
 func (r *Recipient) UpdateProfile() error {
 	log.Debugln("[axolotl] Updating profile for recipient", r.UUID)
 	// update profile only once an hour max
-	lastFetch, _ := time.Parse("1970-01-01 00:00:00 +0000 UTC", r.LastProfileFetch)
+	lastFetch, _ := time.Parse(TIME_FORMAT, r.LastProfileFetch)
 	if lastFetch.Unix() < time.Now().Unix()-86400 {
 		return nil
 	}
@@ -229,7 +231,7 @@ func (r *Recipient) UpdateProfile() error {
 			}
 		}
 	}
-	r.LastProfileFetch = time.Now().Format("1970-01-01 00:00:00 +0000 UTC")
+	r.LastProfileFetch = time.Now().Format(TIME_FORMAT)
 	r.SaveRecipient()
 	return nil
 }
