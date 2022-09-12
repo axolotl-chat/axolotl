@@ -56,7 +56,7 @@ func (s *SessionsV2) CreateSessionForGroupV2(group string) (*SessionV2, error) {
 	return ses, nil
 }
 
-// CreateSessionForGroupV1 creates a session for a group v1
+// CreateSessionForGroup creates a session for a group v1
 func (s *SessionsV2) CreateSessionForGroup(group string) (*SessionV2, error) {
 	ses := &SessionV2{
 		GroupV1ID: group,
@@ -111,7 +111,7 @@ func (s *SessionsV2) CreateSessionForDirectMessageRecipient(recipient int64) (*S
 	return ses, nil
 }
 
-// CreateSession
+// CreateSession inserts this session into the database
 func (s *SessionsV2) CreateSession(session *SessionV2) (*SessionV2, error) {
 	// ensure unique id
 	var lastId int64
@@ -250,7 +250,7 @@ func (s *SessionsV2) GetSessionNames() ([]SessionV2Name, error) {
 	return names, nil
 }
 
-// isGroup returns true if the session is a group session
+// IsGroup returns true if the session is a group session
 func (s *SessionV2) IsGroup() bool {
 	if s.GroupV1ID != "" || s.GroupV2ID != "" {
 		return true
@@ -330,7 +330,7 @@ func (s *SessionsV2) GetMoreMessageList(ID int64, lastID string) (*MessageList, 
 	return nil, errors.New("wrong index")
 }
 
-// NotificationsToggletoggles the notifications for a session
+// NotificationsToggle toggles the notifications for a session
 func (s *SessionV2) NotificationsToggle() error {
 	toggle := !s.IsMuted
 	_, err := DS.Dbx.Exec("UPDATE sessionsv2 SET notifications = ? WHERE id = ?", toggle, s.ID)

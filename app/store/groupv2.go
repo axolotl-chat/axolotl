@@ -86,7 +86,7 @@ func (g *GroupV2) GetGroupMembers() ([]GroupV2Member, error) {
 	return members, nil
 }
 
-// GetGroupMembers as recipients for a group
+// GetGroupMembersAsRecipients returns the recipient records for all group members
 func (g *GroupV2) GetGroupMembersAsRecipients() ([]*Recipient, error) {
 	members, err := g.GetGroupMembers()
 	if err != nil {
@@ -103,7 +103,7 @@ func (g *GroupV2) GetGroupMembersAsRecipients() ([]*Recipient, error) {
 	return recipients, nil
 }
 
-// Get all groups
+// GetGroups returns all groups
 func (GroupV2s) GetGroups() ([]GroupV2, error) {
 	var groups []GroupV2
 	err := DS.Dbx.Select(&groups, "SELECT * FROM groupsv2")
@@ -166,7 +166,7 @@ func (g *GroupV2) AddGroupMembers(members []*signalservice.DecryptedMember) erro
 	return nil
 }
 
-// DeleteGroup deletes a group
+// Delete deletes a group
 func (g *GroupV2) Delete() error {
 	err := g.DeleteMembers()
 	if err != nil {
@@ -239,7 +239,7 @@ func (g *GroupV2) UpdateGroupAction(action *signalservice.DecryptedGroupChange) 
 	return nil
 }
 
-// AddRecipient adds a recipient to a group
+// AddMember adds a new member to a group for this recipient
 func (g *GroupV2) AddMember(recipient *Recipient) error {
 	_, err := DS.Dbx.NamedExec(groupV2MemberInsert, GroupV2Member{
 		GroupV2Id:        g.Id,

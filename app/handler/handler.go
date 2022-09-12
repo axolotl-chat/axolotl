@@ -19,7 +19,7 @@ import (
 	"github.com/signal-golang/textsecure"
 )
 
-// messageHandler is used on incoming message
+// MessageHandler is used on incoming message
 func MessageHandler(msg *textsecure.Message) {
 	buildAndSaveMessage(msg, false)
 }

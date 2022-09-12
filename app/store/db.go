@@ -211,7 +211,6 @@ func (ds *DataStore) EncryptDb(password string) bool {
 	return false
 }
 
-// NewStorage
 func NewStorage(password string) (*DataStore, error) {
 	// Set more restrictive umask to ensure database files are created 0600
 	// syscall.Umask(0077)

@@ -137,7 +137,7 @@ func EditContact(cContact textsecureContacts.Contact, editContact textsecureCont
 	return nil
 }
 
-// getAddgetAddressBookContactsFromContentHub gets the phone contacts via the content hub
+// GetAddressBookContactsFromContentHub gets the phone contacts via the content hub
 func GetAddressBookContactsFromContentHub() ([]textsecureContacts.Contact, error) {
 	if helpers.Exists(config.ContactsFile) && config.VcardPath == "" {
 		return textsecureContacts.ReadContacts(config.ContactsFile)

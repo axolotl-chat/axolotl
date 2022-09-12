@@ -116,7 +116,7 @@ func (r *Recipients) GetOrCreateRecipientForContact(contact *contacts.Contact) *
 	return recipient
 }
 
-// this is only used in the v1.6.0 migration because we migrate before we initialize the signal server
+// CreateRecipientWithoutProfileUpdate is only used in the v1.6.0 migration because we migrate before we initialize the signal server
 func (r *Recipients) CreateRecipientWithoutProfileUpdate(recipient *Recipient) (*Recipient, error) {
 	log.Debugln("[axolotl] Creating recipient without profile update", recipient.UUID)
 	storedRecipient := r.GetRecipientByUUID(recipient.UUID)
