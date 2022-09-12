@@ -378,7 +378,7 @@ func sendMessageList(ID int64) {
 }
 func sendMoreMessageList(id int64, lastId string) {
 	message := &[]byte{}
-	err, messageList := store.SessionsV2Model.GetMoreMessageList(id, lastId)
+	messageList, err := store.SessionsV2Model.GetMoreMessageList(id, lastId)
 	if err != nil {
 		log.Errorln("[axolotl] sendMoreMessageList: ", err)
 		return

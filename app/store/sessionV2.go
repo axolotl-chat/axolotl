@@ -295,12 +295,12 @@ func (s *SessionV2) MarkRead() error {
 }
 
 // GetMoreMessageList loads more messages from before the lastID
-func (s *SessionsV2) GetMoreMessageList(ID int64, lastID string) (error, *MessageList) {
+func (s *SessionsV2) GetMoreMessageList(ID int64, lastID string) (*MessageList, error) {
 	if ID != -1 {
 		sess, err := s.GetSessionByID(ID)
 		if err != nil {
 			log.Errorln("[axolotl] GetMoreMessageList", err)
-			return err, nil
+			return nil, err
 		}
 		messageList := &MessageList{
 			ID:      ID,
@@ -309,7 +309,7 @@ func (s *SessionsV2) GetMoreMessageList(ID int64, lastID string) (error, *Messag
 		err = DS.Dbx.Select(&messageList.Messages, messagesSelectWhereMore, messageList.Session.ID, lastID)
 		if err != nil {
 			log.Errorln("[axolotl] GetMoreMessageList", err)
-			return err, nil
+			return nil, err
 		}
 		// attach the quoted messages
 		for i, m := range messageList.Messages {
@@ -325,9 +325,9 @@ func (s *SessionsV2) GetMoreMessageList(ID int64, lastID string) (error, *Messag
 				}
 			}
 		}
-		return nil, messageList
+		return messageList, nil
 	}
-	return errors.New("wrong index"), nil
+	return nil, errors.New("wrong index")
 }
 
 // NotificationsToggletoggles the notifications for a session
