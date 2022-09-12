@@ -67,7 +67,7 @@ func (GroupV2s) Create(group *GroupV2) (*GroupV2, error) {
 }
 
 // GetGroupById returns a group by id
-func (g GroupV2s) GetGroupById(id string) (*GroupV2, error) {
+func (GroupV2s) GetGroupById(id string) (*GroupV2, error) {
 	var group GroupV2
 	err := DS.Dbx.Get(&group, "SELECT * FROM groupsv2 WHERE id = :id", id)
 	if err != nil {

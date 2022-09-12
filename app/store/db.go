@@ -19,23 +19,20 @@ type DataStore struct {
 }
 
 var (
-	dbDir          string
-	dbFile         string
-	saltFile       string
 	sessionsSchema = `
 	CREATE TABLE IF NOT EXISTS sessions (
-		id INTEGER PRIMARY KEY, 
-		name text, 
-		tel text, 
-		isgroup boolean, 
-		last string, 
-		timestamp integer, 
-		ctype integer, 
-		unread integer default 0, 
-		notification boolean default 1, 
-		expireTimer integer default 0, 
-		type integer NOT NULL DEFAULT 0, 
-		uuid string  NOT NULL DEFAULT 0, 
+		id INTEGER PRIMARY KEY,
+		name text,
+		tel text,
+		isgroup boolean,
+		last string,
+		timestamp integer,
+		ctype integer,
+		unread integer default 0,
+		notification boolean default 1,
+		expireTimer integer default 0,
+		type integer NOT NULL DEFAULT 0,
+		uuid string  NOT NULL DEFAULT 0,
 		groupJoinStatus integer NOT NULL DEFAULT 0
 	)
 `
@@ -47,17 +44,17 @@ var (
 	messagesSelectWhereMore = "SELECT * FROM messages WHERE sid = ? AND id< ? ORDER BY sentat DESC LIMIT 20"
 
 	groupsSchema = `CREATE TABLE IF NOT EXISTS groups (
-		id INTEGER PRIMARY KEY, 
-		groupid TEXT, 
-		name TEXT, 
-		members TEXT, 
-		avatar BLOB, 
-		avatarid INTEGER, 
-		avatar_key BLOB, 
-		avatar_content_type TEXT, 
-		relay TEXT, 
-		active INTEGER DEFAULT 1, 
-		type INTEGER DEFAULT 1, 
+		id INTEGER PRIMARY KEY,
+		groupid TEXT,
+		name TEXT,
+		members TEXT,
+		avatar BLOB,
+		avatarid INTEGER,
+		avatar_key BLOB,
+		avatar_content_type TEXT,
+		relay TEXT,
+		active INTEGER DEFAULT 1,
+		type INTEGER DEFAULT 1,
 		joinStatus INTEGER DEFAULT 1
 	)`
 	groupsInsert = "INSERT OR REPLACE INTO groups (groupid, name, members, avatar, type) VALUES (:groupid, :name, :members, :avatar, :type)"
@@ -101,7 +98,7 @@ func (ds *DataStore) DBX() *sqlx.DB {
 // SetupDb tries to decrypt the database and runs the migrations
 func (ds *DataStore) SetupDb(password string) bool {
 	var err error
-	dbDir = filepath.Join(config.DataDir, "db")
+	dbDir := filepath.Join(config.DataDir, "db")
 	log.Debugln("[axolotl] openDb: " + dbDir)
 
 	err = os.MkdirAll(dbDir, 0700)
@@ -126,8 +123,8 @@ func (ds *DataStore) SetupDb(password string) bool {
 
 // ResetDb removes the database file and resets the config for encrypted database.
 func (ds *DataStore) ResetDb() {
-	dbDir = filepath.Join(config.DataDir, "db")
-	dbFile = filepath.Join(dbDir, "db.sql")
+	dbDir := filepath.Join(config.DataDir, "db")
+	dbFile := filepath.Join(dbDir, "db.sql")
 	err := os.Remove(dbFile)
 	if err != nil {
 		log.Errorf(err.Error())
@@ -137,8 +134,8 @@ func (ds *DataStore) ResetDb() {
 }
 func (ds *DataStore) DecryptDb(password string) bool {
 	log.Info("DecryptDb: Decrypting database..")
-	dbDir = filepath.Join(config.DataDir, "db")
-	dbFile = filepath.Join(dbDir, "db.sql")
+	dbDir := filepath.Join(config.DataDir, "db")
+	dbFile := filepath.Join(dbDir, "db.sql")
 	tmp := filepath.Join(dbDir, "tmp.db")
 
 	ds, err := NewStorage(password)
@@ -175,8 +172,8 @@ func (ds *DataStore) DecryptDb(password string) bool {
 }
 func (ds *DataStore) EncryptDb(password string) bool {
 	log.Info("[axolotl] EncryptDb: Encrypting database..")
-	dbDir = filepath.Join(config.DataDir, "db")
-	dbFile = filepath.Join(dbDir, "db.sql")
+	dbDir := filepath.Join(config.DataDir, "db")
+	dbFile := filepath.Join(dbDir, "db.sql")
 	tmp := filepath.Join(dbDir, "tmp.db")
 
 	ds, err := NewStorage("")
@@ -219,7 +216,7 @@ func NewStorage(password string) (*DataStore, error) {
 	// Set more restrictive umask to ensure database files are created 0600
 	// syscall.Umask(0077)
 
-	dbDir = filepath.Join(config.DataDir, "db")
+	dbDir := filepath.Join(config.DataDir, "db")
 	err := os.MkdirAll(dbDir, 0700)
 	if err != nil {
 		log.Debugln("[axolotl] error open db ", err.Error())
