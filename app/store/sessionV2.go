@@ -259,7 +259,7 @@ func (s *SessionV2) IsGroup() bool {
 }
 
 // GetMessageList returns a list of messages for a session
-func (s *SessionV2) GetMessageList(limit int, offset int) ([]*Message, error) {
+func (s *SessionV2) GetMessageList(limit, offset int) ([]*Message, error) {
 	messages := make([]*Message, 0)
 	err := DS.Dbx.Select(&messages, "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT ? OFFSET ?", s.ID, limit, offset)
 	if err != nil {
