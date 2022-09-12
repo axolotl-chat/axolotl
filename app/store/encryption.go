@@ -161,10 +161,14 @@ func IsEncrypted(filename string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	defer db.Close()
 	// read header
 	var header [16]byte
 	n, err := db.Read(header[:])
+	if err != nil {
+		return false, err
+	}
+	// close file
+	err = db.Close()
 	if err != nil {
 		return false, err
 	}

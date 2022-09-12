@@ -184,7 +184,6 @@ func getContactsFromVCardFile(path string) ([]textsecureContacts.Contact, error)
 		log.Error("[axolotl] opening vcf file failed", err)
 		return nil, err
 	}
-	defer f.Close()
 
 	dec := vcard.NewDecoder(f)
 	var contacts []textsecureContacts.Contact
@@ -195,7 +194,6 @@ func getContactsFromVCardFile(path string) ([]textsecureContacts.Contact, error)
 			break
 		} else if err != nil {
 			return nil, err
-
 		}
 		name := card.PreferredValue(vcard.FieldFormattedName)
 		log.Debugln("[axolotl] Import contact: " + name)
@@ -214,6 +212,10 @@ func getContactsFromVCardFile(path string) ([]textsecureContacts.Contact, error)
 				contacts = append(contacts, tmp)
 			}
 		}
+	}
+	err = f.Close()
+	if err != nil {
+		return nil, err
 	}
 	return contacts, nil
 }
