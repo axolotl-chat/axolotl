@@ -167,7 +167,7 @@ export default createStore({
         state.messageList.Messages = state.messageList.Messages.concat(messageList.Messages);
       }
     },
-    SET_MESSAGE_RECIEVED(state, message) {
+    SET_MESSAGE_RECEIVED(state, message) {
       if (state.messageList.ID === message.SID) {
         const tmpList = state.messageList.Messages;
         tmpList.push(message);
@@ -301,8 +301,8 @@ export default createStore({
         else if (Object.keys(messageData)[0] === "DeviceList") {
           this.commit("SET_DEVICELIST", messageData["DeviceList"]);
         }
-        else if (Object.keys(messageData)[0] === "MessageRecieved") {
-          this.commit("SET_MESSAGE_RECIEVED", messageData["MessageRecieved"]);
+        else if (Object.keys(messageData)[0] === "MessageReceived") {
+          this.commit("SET_MESSAGE_RECEIVED", messageData["MessageReceived"]);
         }
         else if (Object.keys(messageData)[0] === "UpdateMessage") {
           this.commit("SET_MESSAGE_UPDATE", messageData["UpdateMessage"]);

@@ -336,8 +336,8 @@ export default {
       }
     },
     timerPercentage(m) {
-      const recieved = moment(m.ReceivedAt);
-      const duration = moment.duration(recieved.diff(moment.now()));
+      const received = moment(m.ReceivedAt);
+      const duration = moment.duration(received.diff(moment.now()));
       const percentage =
         1 - (m.ExpireTimer + duration.asSeconds()) / m.ExpireTimer;
       if (percentage < 1) {
@@ -350,8 +350,8 @@ export default {
         // console.log(m.ExpireTimer,m.SentAt, m.ReceivedAt, Date.now())
         if (m.ReceivedAt !== 0) {
           // hide destructed messages but not timer settings
-          const recieved = moment(m.ReceivedAt);
-          const duration = moment.duration(recieved.diff(moment.now()));
+          const received = moment(m.ReceivedAt);
+          const duration = moment.duration(received.diff(moment.now()));
           if (duration.asSeconds() + m.ExpireTimer < 0) {
             this.$store.dispatch("deleteSelfDestructingMessage", m);
             return false;
