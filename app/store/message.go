@@ -109,13 +109,6 @@ func DeleteMessage(id int64) error {
 	return err
 }
 
-func (s *Session) GetMessages(i int) *Message {
-	// FIXME when is index -1 ?
-	if i == -1 || i >= len(s.Messages) {
-		return &Message{}
-	}
-	return s.Messages[i]
-}
 func (m *Message) GetName() string {
 	return TelToName(m.Source)
 }
@@ -165,7 +158,7 @@ func FindOutgoingMessage(timestamp uint64) (*Message, error) {
 // GetUnreadMessagesCounterForSession returns an int for the unread messages for a session
 func GetUnreadMessageCounterForSession(id int64) (int64, error) {
 	var message = []Message{}
-	err := DS.Dbx.Select(&message, "SELECT * FROM messages WHERE isread = 0 AND sessionid = ?", id)
+	err := DS.Dbx.Select(&message, "SELECT id FROM messages WHERE isread = 0 AND sessionid = ?", id)
 	if err != nil {
 		return 0, err
 	}
@@ -175,7 +168,7 @@ func GetUnreadMessageCounterForSession(id int64) (int64, error) {
 // GetLastMessageForSession returns the last message in a session
 func GetLastMessageForSession(id int64) (*Message, error) {
 	var message = []Message{}
-	err := DS.Dbx.Select(&message, "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT 1", id)
+	err := DS.Dbx.Select(&message, "SELECT id FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT 1", id)
 	if err != nil {
 		return nil, err
 	}
@@ -183,20 +176,4 @@ func GetLastMessageForSession(id int64) (*Message, error) {
 		return nil, errors.New("Message not found " + fmt.Sprint(id))
 	}
 	return &message[0], nil
-}
-func GetLastMessagesForAllSessions() ([]Message, error) {
-	var messages = []Message{}
-	var sessions = []Session{}
-	err := DS.Dbx.Select(&sessions, "SELECT id FROM sessionsv2")
-	if err != nil {
-		return nil, err
-	}
-	for i := range sessions {
-		s := sessions[i]
-		m, err := GetLastMessageForSession(s.ID)
-		if err == nil {
-			messages = append(messages, *m)
-		}
-	}
-	return messages, nil
 }

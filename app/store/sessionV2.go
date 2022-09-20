@@ -249,6 +249,22 @@ func (s *SessionsV2) GetSessionNames() ([]SessionV2Name, error) {
 	}
 	return names, nil
 }
+func (s *SessionsV2) GetLastMessagesForAllSessions() ([]Message, error) {
+	var messages = []Message{}
+	var sessions = []Session{}
+	err := DS.Dbx.Select(&sessions, "SELECT id FROM sessionsv2")
+	if err != nil {
+		return nil, err
+	}
+	for i := range sessions {
+		s := sessions[i]
+		m, err := GetLastMessageForSession(s.ID)
+		if err == nil {
+			messages = append(messages, *m)
+		}
+	}
+	return messages, nil
+}
 
 // isGroup returns true if the session is a group session
 func (s *SessionV2) IsGroup() bool {

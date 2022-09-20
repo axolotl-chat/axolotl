@@ -50,7 +50,7 @@ func sendChatList() {
 		log.Errorln("[axolotl] sendChatList1", err)
 		return
 	}
-	lastMessages, err := store.GetLastMessagesForAllSessions()
+	lastMessages, err := store.SessionsV2Model.GetLastMessagesForAllSessions()
 	if err != nil {
 		log.Errorln("[axolotl] sendChatList2", err)
 		return
