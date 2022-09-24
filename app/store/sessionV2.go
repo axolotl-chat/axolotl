@@ -170,6 +170,9 @@ func (*SessionsV2) GetSessionByGroupV1ID(group string) (*SessionV2, error) {
 
 // GetSessionByDirectMessageRecipientID returns a session by direct message recipient id
 func (*SessionsV2) GetSessionByDirectMessageRecipientID(recipient int64) (*SessionV2, error) {
+	if recipient == -1 {
+		return nil, helpers.ErrNoRows
+	}
 	ses := &SessionV2{}
 	err := DS.Dbx.Get(ses, "SELECT * FROM sessionsv2 WHERE directMessageRecipientId = ?", recipient)
 	if err != nil {
