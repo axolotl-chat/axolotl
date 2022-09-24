@@ -3,9 +3,7 @@ package store
 import (
 	"errors"
 	"fmt"
-	"time"
 
-	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/helpers"
 	log "github.com/sirupsen/logrus"
 )
@@ -57,7 +55,7 @@ func (s *SessionsV2) CreateSessionForGroupV2(groupID string) (*SessionV2, error)
 }
 
 // CreateSessionForGroupV1 creates a session for a group v1
-func (s *SessionsV2) CreateSessionForGroup(group string) (*SessionV2, error) {
+func (s *SessionsV2) CreateSessionForGroupV1(group string) (*SessionV2, error) {
 	ses := &SessionV2{
 		GroupV1ID: group,
 	}
@@ -276,26 +274,8 @@ func (s *SessionV2) IsGroup() bool {
 
 // GetMessageList returns a list of messages for a session
 func (s *SessionV2) GetMessageList(limit int, offset int) ([]*Message, error) {
-	messages := make([]*Message, 0)
-	err := DS.Dbx.Select(&messages, "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT ? OFFSET ?", s.ID, limit, offset)
-	if err != nil {
-		return nil, err
-	}
-	if len(messages) == 0 {
-		m := &Message{Message: "New chat created",
-			SID:         s.ID,
-			Outgoing:    true,
-			Source:      "",
-			SourceUUID:  config.Config.UUID,
-			HTime:       "Now",
-			SentAt:      uint64(time.Now().UnixNano() / 1000000),
-			ExpireTimer: uint32(s.ExpireTimer),
-			Flags:       helpers.MsgFlagChatCreated,
-		}
-		SaveMessage(m)
-		return s.GetMessageList(limit, offset)
-	}
-	return messages, nil
+
+	return getMessagesForSession(s.ID, limit, offset)
 }
 
 // MarkRead marks a session as read
@@ -328,19 +308,19 @@ func (s *SessionsV2) GetMoreMessageList(ID int64, lastID string) (error, *Messag
 			return err, nil
 		}
 		// attach the quoted messages
-		for i, m := range messageList.Messages {
-			if m.Flags == helpers.MsgFlagQuote {
-				if m.QuoteID != -1 {
-					qm, err := GetMessageById(m.QuoteID)
-					if err != nil {
-						log.Debugln("[axolotl] messagelist quoted message: ", err)
-					} else {
-						m.QuotedMessage = qm
-						messageList.Messages[i] = m
-					}
-				}
-			}
-		}
+		// for i, m := range messageList.Messages {
+		// 	if m.Flags == helpers.MsgFlagQuote {
+		// 		if m.QuoteID != -1 {
+		// 			qm, err := GetMessageById(m.QuoteID)
+		// 			if err != nil {
+		// 				log.Debugln("[axolotl] messagelist quoted message: ", err)
+		// 			} else {
+		// 				m.QuotedMessage = qm
+		// 				messageList.Messages[i] = m
+		// 			}
+		// 		}
+		// 	}
+		// }
 		return nil, messageList
 	}
 	return errors.New("wrong index"), nil
@@ -355,7 +335,7 @@ func (s *SessionV2) NotificationsToggle() error {
 
 // GetName returns the name of the session
 func (s *SessionV2) GetName() (string, error) {
-	if s.DirectMessageRecipientID != int64(GroupRecipientsID) {
+	if s.IsGroup() {
 		recipient := RecipientsModel.GetRecipientById(s.DirectMessageRecipientID)
 		if recipient != nil {
 			if recipient.ProfileGivenName != "" {

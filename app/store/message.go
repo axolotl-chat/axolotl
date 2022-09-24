@@ -3,7 +3,10 @@ package store
 import (
 	"errors"
 	"fmt"
+	"time"
 
+	"github.com/nanu-c/axolotl/app/config"
+	"github.com/nanu-c/axolotl/app/helpers"
 	signalservice "github.com/signal-golang/textsecure/protobuf"
 	log "github.com/sirupsen/logrus"
 )
@@ -176,4 +179,27 @@ func GetLastMessageForSession(id int64) (*Message, error) {
 		return nil, errors.New("Message not found " + fmt.Sprint(id))
 	}
 	return &message[0], nil
+}
+
+func getMessagesForSession(id int64, limit, offset int) ([]*Message, error) {
+	var messages = []*Message{}
+	err := DS.Dbx.Select(&messages, "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT ? OFFSET ?", id, limit, offset)
+	if err != nil {
+		return nil, err
+	}
+	if len(messages) == 0 {
+		m := &Message{Message: "New chat created",
+			SID:         id,
+			Outgoing:    true,
+			Source:      "",
+			SourceUUID:  config.Config.UUID,
+			HTime:       "Now",
+			SentAt:      uint64(time.Now().UnixNano() / 1000000),
+			ExpireTimer: uint32(0),
+			Flags:       helpers.MsgFlagChatCreated,
+		}
+		SaveMessage(m)
+		messages = append(messages, m)
+	}
+	return messages, nil
 }

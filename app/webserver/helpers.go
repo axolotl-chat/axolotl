@@ -270,7 +270,7 @@ func createGroup(newGroupData CreateGroupMessage) (*store.SessionV2, error) {
 		ShowError(err.Error())
 		return nil, err
 	}
-	session, err := store.SessionsV2Model.CreateSessionForGroup(group.Hexid)
+	session, err := store.SessionsV2Model.CreateSessionForGroupV1(group.Hexid)
 	if err != nil {
 		ShowError(err.Error())
 		return nil, err
