@@ -44,9 +44,9 @@ type SessionV2Name struct {
 }
 
 // CreateSessionForGroupV2 creates a session for a group v2
-func (s *SessionsV2) CreateSessionForGroupV2(group string) (*SessionV2, error) {
+func (s *SessionsV2) CreateSessionForGroupV2(groupID string) (*SessionV2, error) {
 	ses := &SessionV2{
-		GroupV2ID: group,
+		GroupV2ID: groupID,
 	}
 	ses, err := s.CreateSession(ses)
 	if err != nil {
