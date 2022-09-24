@@ -203,6 +203,10 @@ func (g *GroupV2) DeleteGroupMembers(members [][]byte) error {
 				return err
 			}
 		}
+		if id.String() == config.Config.UUID {
+			log.Debugln("[axolotl] I was removed from group ", g.Id)
+			g.JoinStatus = GroupJoinStatusDeleted
+		}
 	}
 	return nil
 }

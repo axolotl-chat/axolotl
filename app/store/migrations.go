@@ -155,11 +155,6 @@ func update_v_1_6_0() error {
 		if err != nil {
 			return err
 		}
-		var Groups []*GroupRecord
-		err = DS.Dbx.Select(&Groups, groupsSelect)
-		if err != nil {
-			return fmt.Errorf("error loading groups: %s", err)
-		}
 		var sessions []*Session
 		err = DS.Dbx.Select(&sessions, sessionsSelect)
 		if err != nil {

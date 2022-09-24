@@ -233,6 +233,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		webserver.MessageHandler(msgSend)
 	} else {
 		log.Println("[axolotl] MessageHandler: Empty message")
+		log.Debugln("[axolotl] MessageHandler: Empty message", msg)
 	}
 }
 
