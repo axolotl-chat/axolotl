@@ -37,13 +37,12 @@ type Message struct {
 
 func SaveMessage(m *Message) (*Message, error) {
 	// get last messageid
-	var lastMessageID = []Message{}
-	err := DS.Dbx.Select(&lastMessageID, "SELECT id FROM messages ORDER BY id DESC LIMIT 1")
-	if err == nil {
-		m.ID = lastMessageID[0].ID + 1
-	} else {
-		m.ID = 0
+	var lastId int64
+	err := DS.Dbx.Get(&lastId, "SELECT id FROM messages ORDER BY id DESC LIMIT 1")
+	if err != nil {
+		lastId = 0
 	}
+	m.ID = lastId + 1
 	res, err := DS.Dbx.NamedExec(messagesInsert, m)
 	if err != nil {
 		return nil, err

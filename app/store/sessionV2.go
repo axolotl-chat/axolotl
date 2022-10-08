@@ -115,7 +115,7 @@ func (s *SessionsV2) CreateSession(session *SessionV2) (*SessionV2, error) {
 	var lastId int64
 	err := DS.Dbx.Get(&lastId, "SELECT id FROM sessionsv2 ORDER BY id DESC LIMIT 1;")
 	if err != nil {
-		return nil, err
+		lastId = 0
 	}
 	session.ID = lastId + 1
 	s.SaveSession(session)
