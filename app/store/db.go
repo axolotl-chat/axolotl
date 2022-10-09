@@ -24,18 +24,18 @@ var (
 	saltFile       string
 	sessionsSchema = `
 	CREATE TABLE IF NOT EXISTS sessions (
-		id INTEGER PRIMARY KEY, 
-		name text, 
-		tel text, 
-		isgroup boolean, 
-		last string, 
-		timestamp integer, 
-		ctype integer, 
-		unread integer default 0, 
-		notification boolean default 1, 
-		expireTimer integer default 0, 
-		type integer NOT NULL DEFAULT 0, 
-		uuid string  NOT NULL DEFAULT 0, 
+		id INTEGER PRIMARY KEY,
+		name text,
+		tel text,
+		isgroup boolean,
+		last string,
+		timestamp integer,
+		ctype integer,
+		unread integer default 0,
+		notification boolean default 1,
+		expireTimer integer default 0,
+		type integer NOT NULL DEFAULT 0,
+		uuid string  NOT NULL DEFAULT 0,
 		groupJoinStatus integer NOT NULL DEFAULT 0
 	)
 `
@@ -44,20 +44,20 @@ var (
 
 	messagesSchema          = "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, sid integer, source text, srcUUID string NOT NULL DEFAULT 0, message text, outgoing boolean, sentat integer, receivedat integer, ctype integer, attachment string, issent boolean, isread boolean, flags integer default 0, sendingError boolean, expireTimer integer default 0, receipt boolean default 0, statusMessage boolean default 0, quoteId integer NOT NULL default -1)"
 	messagesInsert          = "INSERT INTO messages (sid, source, srcUUID, message, outgoing, sentat, receivedat, ctype, attachment, issent, isread, flags, sendingError, expireTimer, statusMessage, quoteID) VALUES (:sid, :source, :srcUUID, :message, :outgoing, :sentat, :receivedat, :ctype, :attachment, :issent, :isread, :flags, :sendingError, :expireTimer, :statusMessage, :quoteId)"
-	messagesSelectWhereMore = "SELECT * FROM messages WHERE sid = ? AND id< ? ORDER BY sentat DESC LIMIT 20"
+	messagesSelectWhereMore = "SELECT * FROM messages WHERE sid = ? AND sentat < ? ORDER BY sentat DESC LIMIT 20"
 
 	groupsSchema = `CREATE TABLE IF NOT EXISTS groups (
-		id INTEGER PRIMARY KEY, 
-		groupid TEXT, 
-		name TEXT, 
-		members TEXT, 
-		avatar BLOB, 
-		avatarid INTEGER, 
-		avatar_key BLOB, 
-		avatar_content_type TEXT, 
-		relay TEXT, 
-		active INTEGER DEFAULT 1, 
-		type INTEGER DEFAULT 1, 
+		id INTEGER PRIMARY KEY,
+		groupid TEXT,
+		name TEXT,
+		members TEXT,
+		avatar BLOB,
+		avatarid INTEGER,
+		avatar_key BLOB,
+		avatar_content_type TEXT,
+		relay TEXT,
+		active INTEGER DEFAULT 1,
+		type INTEGER DEFAULT 1,
 		joinStatus INTEGER DEFAULT 1
 	)`
 	groupsInsert = "INSERT OR REPLACE INTO groups (groupid, name, members, avatar, type) VALUES (:groupid, :name, :members, :avatar, :type)"
