@@ -1,8 +1,16 @@
-  1.5.0 (Aug 22 2022)
-  ------------------------------------
-  * update crayfish to a more recent libsignal version @nanu-c + @jonnius
-  * fix rust build in ci @jonnius
-  * fix names in groups @nanu-c
+1.5.1 (Sep 20 2022)
+------------------------------------
+* fix mic-recorder-to-mp3 dependency @olof-nord
+* update astilectron @olof-nord
+* update crayfish @olof-nord
+* many small fixes to allow flathub builds @olof-nord
+* fix snap building @nanu-c
+
+1.5.0 (Aug 22 2022)
+------------------------------------
+* update crayfish to a more recent libsignal version @nanu-c + @jonnius
+* fix rust build in ci @jonnius
+* fix names in groups @nanu-c
 
 1.4.0 (Aug 19 2022)
 ------------------------------------
