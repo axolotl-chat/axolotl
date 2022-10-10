@@ -181,7 +181,7 @@ export default createStore({
         state.messageList = messageList.Messages.concat(state.messageList);
       }
     },
-    SET_MESSAGE_RECIEVED(state, message) {
+    SET_MESSAGE_RECEIVED(state, message) {
       if (state.currentChat !== null && state.currentChat.ID === message.SID) {
         const tmpList = state.messageList;
         tmpList.push(message);
@@ -348,8 +348,8 @@ export default createStore({
         case "DeviceList":
           this.commit("SET_DEVICELIST", messageData.DeviceList);
           break;
-        case "MessageRecieved":
-          this.commit("SET_MESSAGE_RECIEVED", messageData.MessageRecieved);
+        case "MessageReceived":
+          this.commit("SET_MESSAGE_RECEIVED", messageData.MessageReceived);
           break;
         case "UpdateMessage":
           this.commit("SET_MESSAGE_UPDATE", messageData.UpdateMessage);

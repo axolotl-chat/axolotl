@@ -250,6 +250,6 @@ type SendError struct {
 	Error string
 }
 
-type MessageRecieved struct {
-	MessageRecieved *store.Message
+type MessageReceived struct {
+	MessageReceived *store.Message
 }

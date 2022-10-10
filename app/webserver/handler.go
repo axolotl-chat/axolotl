@@ -29,8 +29,8 @@ var (
 )
 
 func MessageHandler(msg *store.Message) {
-	messageRecieved := &MessageRecieved{
-		MessageRecieved: msg,
+	messageReceived := &MessageReceived{
+		MessageReceived: msg,
 	}
 	// fetch attached message
 	if msg.Flags == helpers.MsgFlagQuote {
@@ -45,7 +45,7 @@ func MessageHandler(msg *store.Message) {
 	}
 	var err error
 	message := &[]byte{}
-	*message, err = json.Marshal(messageRecieved)
+	*message, err = json.Marshal(messageReceived)
 	if err != nil {
 		log.Errorln("[axolotl-ws] messageHandler", err)
 		return
