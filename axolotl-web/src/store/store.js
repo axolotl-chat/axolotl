@@ -186,6 +186,7 @@ export default createStore({
         for (var i = state.messageList.length - 1; i >= 0; i--) {
           if(state.messageList[i].SentAt < message.SentAt) {
             state.messageList.splice(i+1, 0, message)
+            break
           }
         }
       }
