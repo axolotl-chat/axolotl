@@ -240,6 +240,7 @@ func (s *SessionsV2) GetSessionNames() ([]SessionV2Name, error) {
 	for _, session := range ses {
 		name, err := session.GetName()
 		if err != nil {
+			log.Errorln("[axolotl] GetSessionNames failed:", err)
 			name = "Unknown"
 		}
 
@@ -339,23 +340,32 @@ func (s *SessionV2) NotificationsToggle() error {
 // GetName returns the name of the session
 func (s *SessionV2) GetName() (string, error) {
 	if s.IsGroup() {
-		recipient := RecipientsModel.GetRecipientById(s.DirectMessageRecipientID)
-		if recipient != nil {
-			if recipient.ProfileGivenName != "" {
-				return recipient.ProfileGivenName, nil
-			}
-			return recipient.Username, nil
-		}
-
-		return "", errors.New("recipient not found")
+		return s.getGroupName()
 	} else {
-		group, err := GroupV2sModel.GetGroupById(s.GroupV2ID)
-		if err != nil {
-			return "", fmt.Errorf("GetSessionNames failed group: %s", err)
-		}
-		if group != nil {
-			return group.Name, nil
-		}
+		return s.getDirectChatName()
 	}
 	return "", fmt.Errorf("GetSessionNames failed")
+}
+
+func (s *SessionV2) getDirectChatName() (string, error) {
+	recipient := RecipientsModel.GetRecipientById(s.DirectMessageRecipientID)
+	if recipient != nil {
+		if recipient.ProfileGivenName != "" {
+			return recipient.ProfileGivenName, nil
+		}
+		return recipient.Username, nil
+	}
+
+	return "", errors.New("recipient not found")
+}
+
+func (s *SessionV2) getGroupName() (string, error) {
+	group, err := GroupV2sModel.GetGroupById(s.GroupV2ID)
+	if err != nil {
+		return "", fmt.Errorf("GetSessionNames failed group: %s", err)
+	}
+	if group != nil {
+		return group.Name, nil
+	}
+	return "", errors.New("group not found")
 }
