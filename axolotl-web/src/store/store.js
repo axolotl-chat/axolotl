@@ -88,11 +88,11 @@ export default createStore({
       state.lastMessages = lastMessages;
     },
     SET_SESSIONNAMES(state, sessionNames) {
-      const sorted = {};
+      const sessionNamesMap = {};
       for (let i = 0; i < sessionNames.length; i++) {
-        sorted[sessionNames[i].ID] = sessionNames[i];
+        sessionNamesMap[sessionNames[i].ID] = sessionNames[i];
       }
-      state.sessionNames = sorted;
+      state.sessionNames = sessionNamesMap;
     },
     SET_CURRENT_CHAT(state, chat) {
       state.currentChat = chat;
@@ -183,18 +183,13 @@ export default createStore({
     },
     SET_MESSAGE_RECEIVED(state, message) {
       if (state.currentChat !== null && state.currentChat.ID === message.SID) {
-        const tmpList = state.messageList;
-        tmpList.push(message);
-        tmpList.sort(function (a, b) {
-          return a.ID - b.ID
-        })
-        state.messageList = tmpList;
-      }
-      state.chatList.forEach((chat, i) => {
-        if (chat.ID === message.SID) {
-          state.chatList[i].Messages = [message]
+        for (var i = state.messageList.length - 1; i >= 0; i--) {
+          if(state.messageList[i].SentAt < message.SentAt) {
+            state.messageList.splice(i+1, 0, message)
+          }
         }
-      })
+      }
+      state.lastMessages[message.SID] = message
     },
     SET_MESSAGE_UPDATE(state, message) {
       if (state.currentChat.ID === message.SID) {
@@ -332,7 +327,7 @@ export default createStore({
             this.commit("SET_LASTMESSAGES", lastMessages);
           } else {
             this.commit("SET_CHATLIST", chats);
-            this.commit("SET_LASTMESSAGES", messageData.LastMessages);
+            this.commit("SET_LASTMESSAGES", {});
           }
           this.commit("SET_SESSIONNAMES", messageData.SessionNames);
           break;
