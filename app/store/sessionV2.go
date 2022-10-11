@@ -293,8 +293,8 @@ func (s *SessionV2) MarkRead() error {
 	return err
 }
 
-// GetMoreMessageList loads more messages from before the timestamp sentat
-func (s *SessionsV2) GetMoreMessageList(ID int64, sentat uint64) (error, *MessageList) {
+// GetMoreMessageList loads more messages from before the timestamp sentAt
+func (s *SessionsV2) GetMoreMessageList(ID int64, sentAt uint64) (error, *MessageList) {
 	if ID != -1 {
 		sess, err := s.GetSessionByID(ID)
 		if err != nil {
@@ -305,7 +305,7 @@ func (s *SessionsV2) GetMoreMessageList(ID int64, sentat uint64) (error, *Messag
 			ID:      ID,
 			Session: sess,
 		}
-		err = DS.Dbx.Select(&messageList.Messages, messagesSelectWhereMore, ID, sentat)
+		err = DS.Dbx.Select(&messageList.Messages, messagesSelectWhereMore, ID, sentAt)
 		if err != nil {
 			log.Errorln("[axolotl] GetMoreMessageList", err)
 			return err, nil
