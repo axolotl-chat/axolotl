@@ -3,6 +3,9 @@ import { router } from '../router/router';
 import { validateUUID } from '@/helpers/uuidCheck'
 import app from "../main";
 
+/**
+ * This plugin provides the socketSend funktion to the store.
+ */
 const socketSendPlugin = store => {
   store.socketSend = function(message) {
     if (store.state.socket.isConnected) {
@@ -212,9 +215,7 @@ export default createStore({
         if (index !== -1) {
           const tmpList = JSON.parse(JSON.stringify(state.messageList));
           tmpList[index] = message;
-          tmpList.sort(function (a, b) {
-            return a.ID - b.ID
-          })
+          tmpList.sort((a, b) => return a.ID - b.ID)
           // mark all as read if it's a is read update
           if (message.IsRead) {
             tmpList.forEach((m, i) => {
@@ -248,20 +249,24 @@ export default createStore({
     },
     SET_CONTACTS_FILTER(state, filter) {
       const lowerFilter = filter.toLowerCase()
-      const f = state.contacts.filter(c => c.Name.toLowerCase().includes(lowerFilter));
-      state.contactsFiltered = f;
+      const filtered = state.contacts.filter(
+        contact => contact.Name.toLowerCase().includes(lowerFilter)
+      );
+      state.contactsFiltered = filtered;
       state.contactsFilterActive = true;
     },
     SET_CONTACTS_FOR_GROUP_FILTER(state, filter) {
       const lowerFilter = filter.toLowerCase()
-      let f = state.contacts.filter(
-        c => validateUUID(c.UUID) &&
-        c.Name.toLowerCase().includes(lowerFilter)
+      let filtered = state.contacts.filter(
+        contact => validateUUID(contact.UUID) &&
+        contact.Name.toLowerCase().includes(lowerFilter)
       )
       if (state.currentGroup !== null){
-        f = f.filter(c => state.currentGroup.Members.indexOf(c.UUID) === -1);
+        filtered = filtered.filter(
+          contact => state.currentGroup.Members.indexOf(contact.UUID) === -1
+        );
       }
-      state.contactsFiltered = f;
+      state.contactsFiltered = filtered;
       state.contactsFilterActive = true;
     },
     SET_CLEAR_CONTACTS_FILTER(state) {
