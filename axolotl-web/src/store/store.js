@@ -6,7 +6,6 @@ import app from "../main";
 const socketSendPlugin = store => {
   store.socketSend = function(message) {
     if (store.state.socket.isConnected) {
-      console.log("sending message", message)
       app.config.globalProperties.$socket.send(JSON.stringify(message))
       return true
     }
