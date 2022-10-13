@@ -25,7 +25,6 @@ if (window.getCookie("darkMode") === "true") {
 } else {
   import("./assets/light.scss");
 }
-import { router } from "./router/router";
 import ErrorModal from "@/components/ErrorModal.vue";
 
 export default {
@@ -48,7 +47,7 @@ export default {
   watch: {
     nbTappedForDebug() {
       if (this.nbTappedForDebug >= 9) {
-        router.push("/debug");
+        this.$router.push("/debug");
       }
     },
   },

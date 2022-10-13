@@ -241,7 +241,6 @@
 <script>
 import moment from "moment";
 import { mapState } from "vuex";
-import { router } from "@/router/router";
 let decoder;
 
 export default {
@@ -319,7 +318,7 @@ export default {
     },
     openProfileForRecipient(recipient) {
       if (recipient !== -1) {
-        router.push("/profile/" + recipient);
+        this.$router.push("/profile/" + recipient);
       } else {
         // name == uuid of the recipient
         // this.$store.dispatch("createRecipient", this.name);
