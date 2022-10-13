@@ -202,7 +202,7 @@ export default createStore({
         }
       }
       const lastMessage = state.lastMessages[message.SID]
-      if(lastMessage !== null && lastMessage.SentAt < message.SentAt) {
+      if(lastMessage && lastMessage.SentAt < message.SentAt) {
         state.lastMessages[message.SID] = message
       }
     },
@@ -215,7 +215,7 @@ export default createStore({
         if (index !== -1) {
           const tmpList = JSON.parse(JSON.stringify(state.messageList));
           tmpList[index] = message;
-          tmpList.sort((a, b) => return a.ID - b.ID)
+          tmpList.sort((a, b) => a.ID - b.ID)
           // mark all as read if it's a is read update
           if (message.IsRead) {
             tmpList.forEach((m, i) => {
