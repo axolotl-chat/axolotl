@@ -11,6 +11,21 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+const (
+	lastMessageIdQuery                = "SELECT id FROM messages ORDER BY id DESC LIMIT 1"
+	updateMessageSentQuery            = "UPDATE messages SET sentat = :sentat, sendingError = :sendingError,  issent = :issent, expireTimer = :expireTimer  WHERE id = :id"
+	updateMessageReadQuery            = "UPDATE messages SET isread = :isread, issent = :issent, receipt = :receipt WHERE SendingError = 0 AND Outgoing = 1 AND Source = :source"
+	updateMessageReceiptSentQuery     = "UPDATE messages SET issent = :issent WHERE id = :id"
+	updateMessageReceiptQuery         = "UPDATE messages SET issent = :issent, receipt = :receipt WHERE id = :id"
+	deleteMessageQuery                = "DELETE FROM messages WHERE id = ?"
+	findMessageBySentAtQuery          = "SELECT * FROM messages WHERE sentat = ?"
+	findMessageByIdQuery              = "SELECT * FROM messages WHERE id = ?"
+	findOutgoingMessageBySendAtQuery  = "SELECT * FROM messages WHERE outgoing = 1 AND sentat = ?"
+	findUnreadMessagesForSessionQuery = "SELECT id FROM messages WHERE isread = 0 AND sessionid = ?"
+	findLastMessageForSessionQuery    = "SELECT id FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT 1"
+	findMessagesForSession            = "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT ? OFFSET ?"
+)
+
 type Message struct {
 	ID            int64 `db:"id"`
 	SID           int64
@@ -38,7 +53,7 @@ type Message struct {
 func SaveMessage(m *Message) (*Message, error) {
 	// get last messageid
 	var lastId int64
-	err := DS.Dbx.Get(&lastId, "SELECT id FROM messages ORDER BY id DESC LIMIT 1")
+	err := DS.Dbx.Get(&lastId, lastMessageIdQuery)
 	if err != nil {
 		lastId = 0
 	}
@@ -61,7 +76,7 @@ func UpdateMessageSent(m *Message) error {
 	if m.SendingError {
 		log.Errorln("[axolotl] sending message failed ", m.SentAt)
 	}
-	_, err := DS.Dbx.NamedExec("UPDATE messages SET sentat = :sentat, sendingError = :sendingError,  issent = :issent, expireTimer = :expireTimer  WHERE id = :id", m)
+	_, err := DS.Dbx.NamedExec(updateMessageSentQuery, m)
 	if err != nil {
 		return err
 	}
@@ -69,21 +84,21 @@ func UpdateMessageSent(m *Message) error {
 }
 
 func UpdateMessageRead(m *Message) error {
-	_, err := DS.Dbx.NamedExec("UPDATE messages SET isread = :isread, issent = :issent, receipt = :receipt WHERE SendingError = 0 AND Outgoing = 1 AND Source = :source", m)
+	_, err := DS.Dbx.NamedExec(updateMessageReadQuery, m)
 	if err != nil {
 		return err
 	}
 	return err
 }
 func UpdateMessageReceiptSent(m *Message) error {
-	_, err := DS.Dbx.NamedExec("UPDATE messages SET issent = :issent WHERE id = :id", m)
+	_, err := DS.Dbx.NamedExec(updateMessageReceiptSentQuery, m)
 	if err != nil {
 		return err
 	}
 	return err
 }
 func UpdateMessageReceipt(m *Message) error {
-	_, err := DS.Dbx.NamedExec("UPDATE messages SET issent = :issent, receipt = :receipt WHERE id = :id", m)
+	_, err := DS.Dbx.NamedExec(updateMessageReceiptQuery, m)
 	if err != nil {
 		return err
 	}
@@ -107,7 +122,7 @@ func DeleteMessage(id int64) error {
 		log.Errorln("[axolotl] could not delete attachment", err)
 		return err
 	}
-	_, err = DS.Dbx.Exec("DELETE FROM messages WHERE id = ?", id)
+	_, err = DS.Dbx.Exec(deleteMessageQuery, id)
 	return err
 }
 
@@ -119,7 +134,7 @@ func (m *Message) GetName() string {
 // DB and returns the local message id
 func FindQuotedMessage(quote *signalservice.DataMessage_Quote) (error, int64) {
 	var quotedMessages = []Message{}
-	err := DS.Dbx.Select(&quotedMessages, "SELECT * FROM messages WHERE sentat = ?", quote.GetId())
+	err := DS.Dbx.Select(&quotedMessages, findMessageBySentAtQuery, quote.GetId())
 	if err != nil {
 		return err, -1
 	}
@@ -133,7 +148,7 @@ func FindQuotedMessage(quote *signalservice.DataMessage_Quote) (error, int64) {
 // GetMessageById returns a message by it's ID
 func GetMessageById(id int64) (*Message, error) {
 	var message = []Message{}
-	err := DS.Dbx.Select(&message, "SELECT * FROM messages WHERE id = ?", id)
+	err := DS.Dbx.Select(&message, findMessageByIdQuery, id)
 	if err != nil {
 		return nil, err
 	}
@@ -147,7 +162,7 @@ func GetMessageById(id int64) (*Message, error) {
 func FindOutgoingMessage(timestamp uint64) (*Message, error) {
 	var message = []Message{}
 	log.Debugln("[axolotl] searching for outgoing message ", timestamp)
-	err := DS.Dbx.Select(&message, "SELECT * FROM messages WHERE outgoing = 1 AND sentat = ?", timestamp)
+	err := DS.Dbx.Select(&message, findOutgoingMessageBySendAtQuery, timestamp)
 	if err != nil {
 		return nil, err
 	}
@@ -160,7 +175,7 @@ func FindOutgoingMessage(timestamp uint64) (*Message, error) {
 // GetUnreadMessagesCounterForSession returns an int for the unread messages for a session
 func GetUnreadMessageCounterForSession(id int64) (int64, error) {
 	var message = []Message{}
-	err := DS.Dbx.Select(&message, "SELECT id FROM messages WHERE isread = 0 AND sessionid = ?", id)
+	err := DS.Dbx.Select(&message, findUnreadMessagesForSessionQuery, id)
 	if err != nil {
 		return 0, err
 	}
@@ -170,7 +185,7 @@ func GetUnreadMessageCounterForSession(id int64) (int64, error) {
 // GetLastMessageForSession returns the last message in a session
 func GetLastMessageForSession(id int64) (*Message, error) {
 	var message = []Message{}
-	err := DS.Dbx.Select(&message, "SELECT id FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT 1", id)
+	err := DS.Dbx.Select(&message, findLastMessageForSessionQuery, id)
 	if err != nil {
 		return nil, err
 	}
@@ -182,7 +197,7 @@ func GetLastMessageForSession(id int64) (*Message, error) {
 
 func getMessagesForSession(id int64, limit, offset int) ([]*Message, error) {
 	var messages = []*Message{}
-	err := DS.Dbx.Select(&messages, "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT ? OFFSET ?", id, limit, offset)
+	err := DS.Dbx.Select(&messages, findMessagesForSession, id, limit, offset)
 	if err != nil {
 		return nil, err
 	}
