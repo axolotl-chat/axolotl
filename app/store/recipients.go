@@ -53,10 +53,10 @@ var RecipientsModel = &Recipients{
 // CreateRecipient creates a recipient
 func (r *Recipients) CreateRecipient(recipient *Recipient) (*Recipient, error) {
 	log.Debugln("[axolotl] Creating recipient", recipient.UUID)
-	storedRecipeit := r.GetRecipientByUUID(recipient.UUID)
-	if storedRecipeit != nil {
+	storedRecipient := r.GetRecipientByUUID(recipient.UUID)
+	if storedRecipient != nil {
 		log.Debugln("[axolotl] CreateRecipient: Recipient already exists", recipient.UUID)
-		return storedRecipeit, nil
+		return storedRecipient, nil
 	}
 	// get last inserted recipient id
 	var lastId int64
