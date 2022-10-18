@@ -373,7 +373,7 @@ Bugfixes:
 
 0.7.2.1 (Dez 3 2019)
 --------------------
-* qUICK FIX FOr handling recieved messages
+* qUICK FIX FOr handling received messages
 
 0.7.2 (Dez 2 2019) Axolotl-Beta: second beta version
 --------------------
