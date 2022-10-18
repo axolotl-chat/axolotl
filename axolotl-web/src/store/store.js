@@ -3,6 +3,10 @@ import { router } from '../router/router';
 import { validateUUID } from '@/helpers/uuidCheck'
 import app from "../main";
 
+function socketSend(message) {
+  app.config.globalProperties.$socket.send(JSON.stringify(message))
+}
+
 export default createStore({
   state: {
     chatList: [],
@@ -64,7 +68,7 @@ export default createStore({
       else if (error === "wrong password") {
         state.loginError = error;
       } else if (error.includes("Rate")) {
-        state.rateLimitError = error + ". Try again later!";
+        state.rateLimitError = `${error}. Try again later!`;
       } else if (error.includes("no such host") || error.includes("timeout")) {
         state.errorConnection = error;
       } else if (error.includes("Your registration is faulty")) {
@@ -160,7 +164,7 @@ export default createStore({
         this.commit("SET_REGISTRATION_STATUS", "registered");
         router.push("/")
       } else if (type === "requestEnterChat") {
-        router.push("/chat/" + request.Chat)
+        router.push(`/chat/${request.Chat}`)
         this.dispatch("getChatList")
       } else if (type === "config") {
         this.commit("SET_CONFIG", request)
@@ -398,7 +402,7 @@ export default createStore({
         const d = new Date();
         d.setTime(d.getTime() + (300 * 24 * 60 * 60 * 1000));
         const expires = `expires=${d.toUTCString()}`;
-        document.cookie = "darkMode" + "=" + darkMode + ";" + expires + ";path=/";
+        document.cookie = `darkMode=${darkMode};${expires};path=/`;
         state.darkMode = darkMode;
         window.location.replace("/")
       }
@@ -867,7 +871,3 @@ export default createStore({
     }
   }
 });
-
-function socketSend(message) {
-  app.config.globalProperties.$socket.send(JSON.stringify(message))
-}
