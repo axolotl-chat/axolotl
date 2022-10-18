@@ -8,7 +8,7 @@ export default createStore({
     chatList: [],
     lastMessages: {},
     sessionNames: {},
-    messageList: {},
+    messageList: [],
     profile: {},
     request: '',
     contacts: [],
@@ -225,7 +225,7 @@ export default createStore({
       }
     },
     CLEAR_MESSAGELIST(state) {
-      state.messageList = {};
+      state.messageList = [];
     },
     SET_PROFILE(state, profile) {
       state.profile = profile;
@@ -501,10 +501,11 @@ export default createStore({
     getMoreMessages() {
       if (this.state.socket.isConnected && typeof this.state.messageList !== "undefined"
         && this.state.messageList !== null
-        && this.state.messageList.length > 19 && this.state.messageList[0].ID > 1) {
+        && this.state.messageList.length > 0 && this.state.messageList[0].SentAt > 0) {
+        const firstMessage = this.state.messageList[0]
         const message = {
           "request": "getMoreMessages",
-          "lastId": String(this.state.messageList[0].ID)
+          "sentAt": firstMessage.SentAt
         }
         socketSend(message);
       }
