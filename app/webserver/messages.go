@@ -73,7 +73,7 @@ type GetMessageListMessage struct {
 }
 type GetMoreMessages struct {
 	Type   string `json:"request"`
-	LastID string `json:"lastId"`
+	SentAt uint64 `json:"sentAt"`
 }
 type SendMessageMessage struct {
 	Type    string `json:"request"`
@@ -250,6 +250,6 @@ type SendError struct {
 	Error string
 }
 
-type MessageRecieved struct {
-	MessageRecieved *store.Message
+type MessageReceived struct {
+	MessageReceived *store.Message
 }

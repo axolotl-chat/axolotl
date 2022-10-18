@@ -161,7 +161,6 @@ func (g *GroupV2) AddGroupMembers(members []*signalservice.DecryptedMember) erro
 				return err
 			}
 		}
-
 	}
 	return nil
 }
@@ -188,6 +187,29 @@ func (g *GroupV2) DeleteMembers() error {
 	}
 	return nil
 }
+func (g *GroupV2) DeleteGroupMembers(members [][]byte) error {
+	for _, member := range members {
+		id, err := uuid.FromBytes(member)
+		if err != nil {
+			return err
+		}
+		recipient := RecipientsModel.GetRecipientByUUID(id.String())
+		if recipient == nil {
+			continue
+		}
+		if g.IsMember(recipient) {
+			err = g.DeleteMember(recipient)
+			if err != nil {
+				return err
+			}
+		}
+		if id.String() == config.Config.UUID {
+			log.Debugln("[axolotl] I was removed from group ", g.Id)
+			g.JoinStatus = GroupJoinStatusDeleted
+		}
+	}
+	return nil
+}
 
 // UpdateGroupAction updates a group with a new action
 func (g *GroupV2) UpdateGroupAction(action *signalservice.DecryptedGroupChange) error {
@@ -205,7 +227,6 @@ func (g *GroupV2) UpdateGroupAction(action *signalservice.DecryptedGroupChange) 
 			return err
 		}
 		for i := range action.NewMembers {
-
 			member := action.NewMembers[i]
 			memberUUID := uuid.FromBytesOrNil(member.Uuid)
 			log.Debugln("[axolotl] New member", memberUUID.String())
@@ -216,28 +237,13 @@ func (g *GroupV2) UpdateGroupAction(action *signalservice.DecryptedGroupChange) 
 		}
 	}
 	if len(action.DeleteMembers) > 0 {
-		for i := range action.DeleteMembers {
-			member := action.DeleteMembers[i]
-			memberUUID := uuid.FromBytesOrNil(member)
-			recipient := RecipientsModel.GetRecipientByUUID(memberUUID.String())
-			if recipient == nil {
-				log.Debugln("[axolotl] Recipient not found:", memberUUID)
-			} else {
-				err := g.DeleteMember(recipient)
-				if err != nil {
-					return err
-				}
-			}
-			if memberUUID.String() == config.Config.UUID {
-				log.Debugln("[axolotl] I was removed from group ", g.Id)
-				g.JoinStatus = GroupJoinStatusDeleted
-			}
-		}
+		g.DeleteGroupMembers(action.DeleteMembers)
 	}
 	// Todo: update other fields
 	g.UpdateGroup()
 	return nil
 }
+
 
 // AddMember adds a new member to a group for this recipient
 func (g *GroupV2) AddMember(recipient *Recipient) error {

@@ -270,7 +270,7 @@ func createGroup(newGroupData CreateGroupMessage) (*store.SessionV2, error) {
 		ShowError(err.Error())
 		return nil, err
 	}
-	session, err := store.SessionsV2Model.CreateSessionForGroup(group.Hexid)
+	session, err := store.SessionsV2Model.CreateSessionForGroupV1(group.Hexid)
 	if err != nil {
 		ShowError(err.Error())
 		return nil, err
@@ -376,9 +376,9 @@ func sendMessageList(ID int64) {
 	}
 	broadcast <- *message
 }
-func sendMoreMessageList(id int64, lastId string) {
+func sendMoreMessageList(id int64, sentAt uint64) {
 	message := &[]byte{}
-	messageList, err := store.SessionsV2Model.GetMoreMessageList(id, lastId)
+	err, messageList := store.SessionsV2Model.GetMoreMessageList(id, sentAt)
 	if err != nil {
 		log.Errorln("[axolotl] sendMoreMessageList: ", err)
 		return

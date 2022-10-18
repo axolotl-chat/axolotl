@@ -8,7 +8,7 @@ export default createStore({
     chatList: [],
     lastMessages: {},
     sessionNames: {},
-    messageList: {},
+    messageList: [],
     profile: {},
     request: '',
     contacts: [],
@@ -181,7 +181,7 @@ export default createStore({
         state.messageList = messageList.Messages.concat(state.messageList);
       }
     },
-    SET_MESSAGE_RECIEVED(state, message) {
+    SET_MESSAGE_RECEIVED(state, message) {
       if (state.currentChat !== null && state.currentChat.ID === message.SID) {
         const tmpList = state.messageList;
         tmpList.push(message);
@@ -225,7 +225,7 @@ export default createStore({
       }
     },
     CLEAR_MESSAGELIST(state) {
-      state.messageList = {};
+      state.messageList = [];
     },
     SET_PROFILE(state, profile) {
       state.profile = profile;
@@ -348,8 +348,8 @@ export default createStore({
         case "DeviceList":
           this.commit("SET_DEVICELIST", messageData.DeviceList);
           break;
-        case "MessageRecieved":
-          this.commit("SET_MESSAGE_RECIEVED", messageData.MessageRecieved);
+        case "MessageReceived":
+          this.commit("SET_MESSAGE_RECEIVED", messageData.MessageReceived);
           break;
         case "UpdateMessage":
           this.commit("SET_MESSAGE_UPDATE", messageData.UpdateMessage);
@@ -501,10 +501,11 @@ export default createStore({
     getMoreMessages() {
       if (this.state.socket.isConnected && typeof this.state.messageList !== "undefined"
         && this.state.messageList !== null
-        && this.state.messageList.length > 19 && this.state.messageList[0].ID > 1) {
+        && this.state.messageList.length > 0 && this.state.messageList[0].SentAt > 0) {
+        const firstMessage = this.state.messageList[0]
         const message = {
           "request": "getMoreMessages",
-          "lastId": String(this.state.messageList[0].ID)
+          "sentAt": firstMessage.SentAt
         }
         socketSend(message);
       }

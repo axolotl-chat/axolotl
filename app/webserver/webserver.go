@@ -126,7 +126,7 @@ func wsReader(conn *websocket.Conn) {
 		case "getMoreMessages":
 			getMoreMessages := GetMoreMessages{}
 			json.Unmarshal([]byte(p), &getMoreMessages)
-			sendMoreMessageList(activeChat, getMoreMessages.LastID)
+			sendMoreMessageList(activeChat, getMoreMessages.SentAt)
 		case "createChat":
 			createChatMessage := CreateChatMessage{}
 			json.Unmarshal([]byte(p), &createChatMessage)

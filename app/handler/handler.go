@@ -36,6 +36,10 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		}
 	}
 	mAttachment, ctype, err := prepareAttachment(attachments)
+	if err != nil {
+		log.Println("[axolotl] prepareAttachment", err)
+		return
+	}
 
 	msgFlags := 0
 
@@ -52,10 +56,8 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		msgFlags = helpers.MsgFlagProfileKeyUpdated
 	}
 	var session *store.SessionV2
-	// GroupV2 Message
 	recipient := store.RecipientsModel.GetRecipientByUUID(msg.SourceUUID())
 	if recipient == nil {
-		// todo get recipient profile from signal server
 		recipient, err = store.RecipientsModel.CreateRecipient(&store.Recipient{
 			UUID: msg.SourceUUID(),
 		})
@@ -64,6 +66,13 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 			return
 		}
 	}
+	if recipient.Username == "" {
+		err = recipient.UpdateProfile()
+		if err != nil {
+			log.Errorln("[axolotl] Recipient.UpdateProfile", err)
+		}
+	}
+	// GroupV2 Message
 	grV2 := msg.GroupV2()
 	if grV2 != nil {
 		group, err := store.GroupV2sModel.GetGroupById(grV2.Hexid)
@@ -108,21 +117,15 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 				return
 			}
 		}
-		if recipient.Username == "" {
-			err = recipient.UpdateProfile()
-			if err != nil {
-				log.Errorln("[axolotl] Recipient.UpdateProfile", err)
-			}
-		}
 	} else {
 		log.Debugf("[axolotl] MessageHandler %+v", msg)
 		session, err = store.SessionsV2Model.GetOrCreateSessionForDirectMessageRecipient(recipient.Id)
 		if err != nil {
 			log.Debugln("[axolotl] SessionsV2Model.CreateSessionForDirectMessageRecipient", err)
 		}
-		//  Extract the expiration timer from the message
-		session.ExpireTimer = int64(msg.ExpireTimer())
 	}
+	//  Extract the expiration timer from the message
+	session.ExpireTimer = int64(msg.ExpireTimer())
 
 	if msg.Sticker() != nil {
 		msgFlags = helpers.MsgFlagSticker
@@ -136,10 +139,6 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 	if msg.Reaction() != nil {
 		msgFlags = helpers.MsgFlagReaction
 		text = msg.Reaction().GetEmoji()
-	}
-	if err != nil {
-		log.Println("[axolotl] prepareAttachment", err)
-		return
 	}
 
 	var m = &store.Message{
@@ -233,6 +232,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		webserver.MessageHandler(msgSend)
 	} else {
 		log.Println("[axolotl] MessageHandler: Empty message")
+		log.Debugln("[axolotl] MessageHandler: Empty message", msg)
 	}
 }
 

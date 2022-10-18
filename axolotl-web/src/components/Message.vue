@@ -330,7 +330,7 @@ export default {
       }
     },
     getName(uuid) {
-      if (this.currentGroup.Members !== null) {
+      if (this.currentGroup !== null && this.currentGroup.Members !== null) {
         const contact = this.currentGroup.Members.find(function (element) {
           return element.UUID === uuid;
         });

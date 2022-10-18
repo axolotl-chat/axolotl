@@ -3,9 +3,7 @@ package store
 import (
 	"errors"
 	"fmt"
-	"time"
 
-	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/helpers"
 	log "github.com/sirupsen/logrus"
 )
@@ -44,9 +42,9 @@ type SessionV2Name struct {
 }
 
 // CreateSessionForGroupV2 creates a session for a group v2
-func (s *SessionsV2) CreateSessionForGroupV2(group string) (*SessionV2, error) {
+func (s *SessionsV2) CreateSessionForGroupV2(groupID string) (*SessionV2, error) {
 	ses := &SessionV2{
-		GroupV2ID: group,
+		GroupV2ID: groupID,
 	}
 	ses, err := s.CreateSession(ses)
 	if err != nil {
@@ -56,8 +54,8 @@ func (s *SessionsV2) CreateSessionForGroupV2(group string) (*SessionV2, error) {
 	return ses, nil
 }
 
-// CreateSessionForGroup creates a session for a group v1
-func (s *SessionsV2) CreateSessionForGroup(group string) (*SessionV2, error) {
+// CreateSessionForGroupV1 creates a session for a group v1
+func (s *SessionsV2) CreateSessionForGroupV1(group string) (*SessionV2, error) {
 	ses := &SessionV2{
 		GroupV1ID: group,
 	}
@@ -117,7 +115,7 @@ func (s *SessionsV2) CreateSession(session *SessionV2) (*SessionV2, error) {
 	var lastId int64
 	err := DS.Dbx.Get(&lastId, "SELECT id FROM sessionsv2 ORDER BY id DESC LIMIT 1;")
 	if err != nil {
-		return nil, err
+		lastId = 0
 	}
 	session.ID = lastId + 1
 	s.SaveSession(session)
@@ -172,6 +170,9 @@ func (*SessionsV2) GetSessionByGroupV1ID(group string) (*SessionV2, error) {
 
 // GetSessionByDirectMessageRecipientID returns a session by direct message recipient id
 func (*SessionsV2) GetSessionByDirectMessageRecipientID(recipient int64) (*SessionV2, error) {
+	if recipient == -1 {
+		return nil, helpers.ErrNoRows
+	}
 	ses := &SessionV2{}
 	err := DS.Dbx.Get(ses, "SELECT * FROM sessionsv2 WHERE directMessageRecipientId = ?", recipient)
 	if err != nil {
@@ -239,6 +240,7 @@ func (s *SessionsV2) GetSessionNames() ([]SessionV2Name, error) {
 	for _, session := range ses {
 		name, err := session.GetName()
 		if err != nil {
+			log.Errorln("[axolotl] GetSessionNames failed:", err)
 			name = "Unknown"
 		}
 
@@ -259,27 +261,8 @@ func (s *SessionV2) IsGroup() bool {
 }
 
 // GetMessageList returns a list of messages for a session
-func (s *SessionV2) GetMessageList(limit, offset int) ([]*Message, error) {
-	messages := make([]*Message, 0)
-	err := DS.Dbx.Select(&messages, "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT ? OFFSET ?", s.ID, limit, offset)
-	if err != nil {
-		return nil, err
-	}
-	if len(messages) == 0 {
-		m := &Message{Message: "New chat created",
-			SID:         s.ID,
-			Outgoing:    true,
-			Source:      "",
-			SourceUUID:  config.Config.UUID,
-			HTime:       "Now",
-			SentAt:      uint64(time.Now().UnixNano() / 1000000),
-			ExpireTimer: uint32(s.ExpireTimer),
-			Flags:       helpers.MsgFlagChatCreated,
-		}
-		SaveMessage(m)
-		return s.GetMessageList(limit, offset)
-	}
-	return messages, nil
+func (s *SessionV2) GetMessageList(limit int, offset int) ([]*Message, error) {
+	return getMessagesForSession(s.ID, limit, offset)
 }
 
 // MarkRead marks a session as read
@@ -294,8 +277,8 @@ func (s *SessionV2) MarkRead() error {
 	return err
 }
 
-// GetMoreMessageList loads more messages from before the lastID
-func (s *SessionsV2) GetMoreMessageList(ID int64, lastID string) (*MessageList, error) {
+// GetMoreMessageList loads more messages from before the timestamp sentAt
+func (s *SessionsV2) GetMoreMessageList(ID int64, sentAt uint64) (error, *MessageList) {
 	if ID != -1 {
 		sess, err := s.GetSessionByID(ID)
 		if err != nil {
@@ -306,7 +289,7 @@ func (s *SessionsV2) GetMoreMessageList(ID int64, lastID string) (*MessageList, 
 			ID:      ID,
 			Session: sess,
 		}
-		err = DS.Dbx.Select(&messageList.Messages, messagesSelectWhereMore, messageList.Session.ID, lastID)
+		err = DS.Dbx.Select(&messageList.Messages, messagesSelectWhereMore, ID, sentAt)
 		if err != nil {
 			log.Errorln("[axolotl] GetMoreMessageList", err)
 			return nil, err
@@ -339,24 +322,33 @@ func (s *SessionV2) NotificationsToggle() error {
 
 // GetName returns the name of the session
 func (s *SessionV2) GetName() (string, error) {
-	if s.DirectMessageRecipientID != int64(GroupRecipientsID) {
-		recipient := RecipientsModel.GetRecipientById(s.DirectMessageRecipientID)
-		if recipient != nil {
-			if recipient.ProfileGivenName != "" {
-				return recipient.ProfileGivenName, nil
-			}
-			return recipient.Username, nil
-		}
-
-		return "", errors.New("recipient not found")
+	if s.IsGroup() {
+		return s.getGroupName()
 	} else {
-		group, err := GroupV2sModel.GetGroupById(s.GroupV2ID)
-		if err != nil {
-			return "", fmt.Errorf("GetSessionNames failed group: %s", err)
-		}
-		if group != nil {
-			return group.Name, nil
-		}
+		return s.getDirectChatName()
 	}
 	return "", fmt.Errorf("GetSessionNames failed")
+}
+
+func (s *SessionV2) getDirectChatName() (string, error) {
+	recipient := RecipientsModel.GetRecipientById(s.DirectMessageRecipientID)
+	if recipient != nil {
+		if recipient.ProfileGivenName != "" {
+			return recipient.ProfileGivenName, nil
+		}
+		return recipient.Username, nil
+	}
+
+	return "", errors.New("recipient not found")
+}
+
+func (s *SessionV2) getGroupName() (string, error) {
+	group, err := GroupV2sModel.GetGroupById(s.GroupV2ID)
+	if err != nil {
+		return "", fmt.Errorf("GetSessionNames failed group: %s", err)
+	}
+	if group != nil {
+		return group.Name, nil
+	}
+	return "", errors.New("group not found")
 }
