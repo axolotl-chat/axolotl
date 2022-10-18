@@ -72,6 +72,7 @@ func SendMessageHelper(ID int64, message, file string,
 			SentAt:      uint64(time.Now().UnixNano() / 1000000),
 			ExpireTimer: uint32(session.ExpireTimer),
 		}
+		log.Debugln("[axolotl] SendMessageHelper sentAt ", m.SentAt)
 		savedM, err := store.SaveMessage(m)
 		if err != nil {
 			log.Errorln("[axolotl] SendMessageHelper: save Message" + err.Error())
@@ -191,6 +192,7 @@ func SendMessageLoop(to, message string, group bool, att io.Reader, flags int, t
 				if err != nil {
 					log.Errorln("[axolotl] send message error", err.Error(), ts)
 				}
+				log.Debugln("[axolotl] send message sent", ts)
 
 			}
 		} else {

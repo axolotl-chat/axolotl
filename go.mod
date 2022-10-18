@@ -19,7 +19,7 @@ require (
 	github.com/satori/go.uuid v1.2.0
 	github.com/signal-golang/go-vcard v0.1.2
 	github.com/signal-golang/libphonenumber v1.2.2-0.20220127214340-b765372d3707
-	github.com/signal-golang/textsecure v1.16.1-0.20220903213930-c29016f26788
+	github.com/signal-golang/textsecure v1.17.0
 	github.com/sirupsen/logrus v1.9.0
 	github.com/ttacon/builder v0.0.0-20170518171403-c099f663e1c2 // indirect
 	github.com/vincent-petithory/dataurl v1.0.0

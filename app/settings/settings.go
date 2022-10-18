@@ -21,7 +21,7 @@ type Settings struct {
 
 var SettingsModel *Settings
 
-// Load the Settings
+// LoadSettings loads the Settings
 func LoadSettings() (*Settings, error) {
 	s := &Settings{}
 
@@ -38,7 +38,7 @@ func LoadSettings() (*Settings, error) {
 	return s, nil
 }
 
-// Save the Settings
+// SaveSettings saves the Settings
 func SaveSettings(s *Settings) error {
 	b, err := yaml.Marshal(s)
 	if err != nil {

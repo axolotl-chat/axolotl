@@ -53,12 +53,15 @@ func SaveAttachment(a *textsecure.Attachment) (Attachment, error) {
 	if err != nil {
 		return Attachment{}, err
 	}
-	defer f.Close()
 
 	_, err = io.Copy(f, a.R)
 	if err != nil {
 		return Attachment{}, err
+	}
 
+	err = f.Close()
+	if err != nil {
+		return Attachment{}, err
 	}
 
 	return Attachment{File: fn, FileName: a.FileName}, nil

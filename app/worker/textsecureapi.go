@@ -36,12 +36,12 @@ var client = &textsecure.Client{}
 var sessionStarted = false
 var isEncrypted = true
 
-// unregister  signal id
+// Unregister signal id
 func (Api *TextsecureAPI) Unregister() {
 	config.Unregister()
 }
 
-// get identitys
+// IdentityInfo gets identity keys of you and your peer
 func (Api *TextsecureAPI) IdentityInfo(id string) string {
 	myID := textsecure.MyIdentityKey()
 	theirID, err := textsecure.ContactIdentityKey(id)

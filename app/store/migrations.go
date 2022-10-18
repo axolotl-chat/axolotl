@@ -9,7 +9,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// add support for quoted messages
+// UpdateSessionTable_v_0_9_0 adds support for quoted messages
 func UpdateSessionTable_v_0_9_0() error {
 	statement, err := DS.Dbx.Prepare("SELECT * FROM messages limit 1")
 	if err != nil {
@@ -32,7 +32,7 @@ func UpdateSessionTable_v_0_9_0() error {
 	return err
 }
 
-// add support uuids
+// UpdateSessionTable_v_0_9_5 adds support uuids
 func UpdateSessionTable_v_0_9_5() error {
 	// add uuid column to sessions table
 	statement, err := DS.Dbx.Prepare("SELECT * FROM sessions limit 1")
@@ -81,6 +81,7 @@ func UpdateSessionTable_v_0_9_5() error {
 	return err
 }
 
+// updateGroupTable_v_0_9_10 adds support for group types
 func updateGroupTable_v_0_9_10() error {
 	statement, err := DS.Dbx.Prepare("SELECT * FROM groups limit 1")
 	if err != nil {
@@ -105,6 +106,7 @@ func updateGroupTable_v_0_9_10() error {
 	return nil
 }
 
+// updateSessionTable_joinStatus_v_0_9_10 adds support for groupJoinStatus
 func updateSessionTable_joinStatus_v_0_9_10() error {
 	statement, err := DS.Dbx.Prepare("SELECT * FROM sessions limit 1")
 	if err != nil {
@@ -129,6 +131,7 @@ func updateSessionTable_joinStatus_v_0_9_10() error {
 	return nil
 }
 
+// update_v_1_6_0 introduces the new data structure with sessionsv2, groupsv2, recipients
 func update_v_1_6_0() error {
 	// check if table exists and only migrate if it does not
 	_, err := DS.Dbx.Prepare("SELECT * FROM sessionsv2 limit 1")
