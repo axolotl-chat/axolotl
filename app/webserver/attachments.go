@@ -64,6 +64,7 @@ func avatarsHandler(w http.ResponseWriter, r *http.Request) {
 		avatar, err := getAvatarForSession(sessionId)
 		if err != nil {
 			http.Error(w, "File not found.", 404)
+			return
 		}
 		w.Header().Set("Content-Type", "image/png")
 		w.Header().Set("Content-Disposition", "attachment; filename="+fmt.Sprint(sessionId)+".png")
@@ -78,6 +79,7 @@ func avatarsHandler(w http.ResponseWriter, r *http.Request) {
 		avatar, err := getAvatarForRecipient(recipientId)
 		if err != nil {
 			http.Error(w, "File not found.", 404)
+			return
 		}
 		w.Header().Set("Content-Type", "image/png")
 		w.Header().Set("Content-Disposition", "attachment; filename="+fmt.Sprint(recipientId)+".png")
@@ -87,10 +89,11 @@ func avatarsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	recipientE164 := r.URL.Query().Get("e164")
 	if recipientE164 != "" {
-		e164 := "+" + strings.Replace(recipientE164, " ", "", -1)
+		e164 := "+" + strings.ReplaceAll(recipientE164, " ", "")
 		avatar, err := getAvatarForE164(e164)
 		if err != nil {
 			http.Error(w, "File not found.", 404)
+			return
 		}
 		w.Header().Set("Content-Type", "image/png")
 		w.Header().Set("Content-Disposition", "attachment; filename="+recipientE164+".png")
@@ -124,7 +127,6 @@ func avatarsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.Error(w, "File not found.", 404)
-
 }
 
 func getAvatarForSession(sessionId int64) ([]byte, error) {

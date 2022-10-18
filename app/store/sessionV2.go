@@ -109,7 +109,7 @@ func (s *SessionsV2) CreateSessionForDirectMessageRecipient(recipient int64) (*S
 	return ses, nil
 }
 
-// CreateSession
+// CreateSession inserts this session into the database
 func (s *SessionsV2) CreateSession(session *SessionV2) (*SessionV2, error) {
 	// ensure unique id
 	var lastId int64
@@ -252,7 +252,7 @@ func (s *SessionsV2) GetSessionNames() ([]SessionV2Name, error) {
 	return names, nil
 }
 
-// isGroup returns true if the session is a group session
+// IsGroup returns true if the session is a group session
 func (s *SessionV2) IsGroup() bool {
 	if s.GroupV1ID != "" || s.GroupV2ID != "" {
 		return true
@@ -262,7 +262,6 @@ func (s *SessionV2) IsGroup() bool {
 
 // GetMessageList returns a list of messages for a session
 func (s *SessionV2) GetMessageList(limit int, offset int) ([]*Message, error) {
-
 	return getMessagesForSession(s.ID, limit, offset)
 }
 
@@ -279,12 +278,12 @@ func (s *SessionV2) MarkRead() error {
 }
 
 // GetMoreMessageList loads more messages from before the timestamp sentAt
-func (s *SessionsV2) GetMoreMessageList(ID int64, sentAt uint64) (error, *MessageList) {
+func (s *SessionsV2) GetMoreMessageList(ID int64, sentAt uint64) (*MessageList, error) {
 	if ID != -1 {
 		sess, err := s.GetSessionByID(ID)
 		if err != nil {
 			log.Errorln("[axolotl] GetMoreMessageList", err)
-			return err, nil
+			return nil, err
 		}
 		messageList := &MessageList{
 			ID:      ID,
@@ -293,28 +292,28 @@ func (s *SessionsV2) GetMoreMessageList(ID int64, sentAt uint64) (error, *Messag
 		err = DS.Dbx.Select(&messageList.Messages, messagesSelectWhereMore, ID, sentAt)
 		if err != nil {
 			log.Errorln("[axolotl] GetMoreMessageList", err)
-			return err, nil
+			return nil, err
 		}
 		// attach the quoted messages
-		// for i, m := range messageList.Messages {
-		// 	if m.Flags == helpers.MsgFlagQuote {
-		// 		if m.QuoteID != -1 {
-		// 			qm, err := GetMessageById(m.QuoteID)
-		// 			if err != nil {
-		// 				log.Debugln("[axolotl] messagelist quoted message: ", err)
-		// 			} else {
-		// 				m.QuotedMessage = qm
-		// 				messageList.Messages[i] = m
-		// 			}
-		// 		}
-		// 	}
-		// }
-		return nil, messageList
+		for i, m := range messageList.Messages {
+			if m.Flags == helpers.MsgFlagQuote {
+				if m.QuoteID != -1 {
+					qm, err := GetMessageById(m.QuoteID)
+					if err != nil {
+						log.Debugln("[axolotl] messagelist quoted message: ", err)
+					} else {
+						m.QuotedMessage = qm
+						messageList.Messages[i] = m
+					}
+				}
+			}
+		}
+		return messageList, nil
 	}
-	return errors.New("wrong index"), nil
+	return nil, errors.New("wrong index")
 }
 
-// NotificationsToggletoggles the notifications for a session
+// NotificationsToggle toggles the notifications for a session
 func (s *SessionV2) NotificationsToggle() error {
 	toggle := !s.IsMuted
 	_, err := DS.Dbx.Exec("UPDATE sessionsv2 SET notifications = ? WHERE id = ?", toggle, s.ID)

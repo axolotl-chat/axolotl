@@ -159,7 +159,7 @@ func FindOutgoingMessage(timestamp uint64) (*Message, error) {
 	return &message[0], nil
 }
 
-// GetUnreadMessagesCounterForSession returns an int for the unread messages for a session
+// GetUnreadMessageCounterForSession returns an int for the unread messages for a session
 func GetUnreadMessageCounterForSession(id int64) (int64, error) {
 	var message = []Message{}
 	err := DS.Dbx.Select(&message, "SELECT id FROM messages WHERE isread = 0 AND sessionid = ?", id)
