@@ -174,6 +174,7 @@ export default {
       const code =
         clipboardData.getData("Text") || clipboardData.getData("text/plain");
       this.fillCode(code);
+      this.emitInput();
     },
     fillCode(code) {
       code = code.trim();
