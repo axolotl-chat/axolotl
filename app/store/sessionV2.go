@@ -278,7 +278,7 @@ func (s *SessionV2) MarkRead() error {
 }
 
 // GetMoreMessageList loads more messages from before the timestamp sentAt
-func (s *SessionsV2) GetMoreMessageList(ID int64, sentAt uint64) (error, *MessageList) {
+func (s *SessionsV2) GetMoreMessageList(ID int64, sentAt uint64) (*MessageList, error) {
 	if ID != -1 {
 		sess, err := s.GetSessionByID(ID)
 		if err != nil {
