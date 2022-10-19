@@ -20,7 +20,7 @@ const AppName = "textsecure.nanuc"
 
 const AppVersion = "1.5.1"
 
-// Do not allow sending attachments larger than 100M for now
+// MaxAttachmentSize does not allow sending attachments larger than 100M for now
 const MaxAttachmentSize int64 = 100 * 1024 * 1024
 
 var (
@@ -114,7 +114,7 @@ func SetupConfig() {
 			// log.Fatal(err)
 			HomeDir = "/home/phablet"
 		} else {
-			//if in a snap environment
+			// if in a snap environment
 			snapPath := os.Getenv("SNAP_USER_DATA")
 			if len(snapPath) > 0 {
 				HomeDir = snapPath

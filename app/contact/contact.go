@@ -61,7 +61,7 @@ func indexOfUuid(uuid string, data []textsecureContacts.Contact) int {
 			return k
 		}
 	}
-	return -1 //not found.
+	return -1 // not found.
 }
 
 func AddContact(name string, phone string, uuid string) error {
@@ -137,7 +137,7 @@ func EditContact(cContact textsecureContacts.Contact, editContact textsecureCont
 	return nil
 }
 
-// getAddgetAddressBookContactsFromContentHub gets the phone contacts via the content hub
+// GetAddressBookContactsFromContentHub gets the phone contacts via the content hub
 func GetAddressBookContactsFromContentHub() ([]textsecureContacts.Contact, error) {
 	if helpers.Exists(config.ContactsFile) && config.VcardPath == "" {
 		return textsecureContacts.ReadContacts(config.ContactsFile)
@@ -151,7 +151,7 @@ func GetAddressBookContactsFromContentHub() ([]textsecureContacts.Contact, error
 	if err != nil {
 		return nil, err
 	}
-	//check for duplicates in the old contact list
+	// check for duplicates in the old contact list
 	for _, c := range newContacts {
 		found := false
 		for i := range contacts {
@@ -164,7 +164,7 @@ func GetAddressBookContactsFromContentHub() ([]textsecureContacts.Contact, error
 			contacts = append(contacts, c)
 		}
 	}
-	//sort by name
+	// sort by name
 	sort.Slice(contacts, func(i, j int) bool { return contacts[i].Name < contacts[j].Name })
 	err = textsecureContacts.WriteContacts(config.ContactsFile, contacts)
 	if err != nil {
@@ -184,7 +184,6 @@ func getContactsFromVCardFile(path string) ([]textsecureContacts.Contact, error)
 		log.Error("[axolotl] opening vcf file failed", err)
 		return nil, err
 	}
-	defer f.Close()
 
 	dec := vcard.NewDecoder(f)
 	var contacts []textsecureContacts.Contact
@@ -195,7 +194,6 @@ func getContactsFromVCardFile(path string) ([]textsecureContacts.Contact, error)
 			break
 		} else if err != nil {
 			return nil, err
-
 		}
 		name := card.PreferredValue(vcard.FieldFormattedName)
 		log.Debugln("[axolotl] Import contact: " + name)
@@ -214,6 +212,10 @@ func getContactsFromVCardFile(path string) ([]textsecureContacts.Contact, error)
 				contacts = append(contacts, tmp)
 			}
 		}
+	}
+	err = f.Close()
+	if err != nil {
+		return nil, err
 	}
 	return contacts, nil
 }

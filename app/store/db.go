@@ -19,25 +19,45 @@ type DataStore struct {
 }
 
 var (
-	dbDir    string
-	dbFile   string
-	saltFile string
+	sessionsSchema = `
+	CREATE TABLE IF NOT EXISTS sessions (
+		id INTEGER PRIMARY KEY,
+		name text,
+		tel text,
+		isgroup boolean,
+		last string,
+		timestamp integer,
+		ctype integer,
+		unread integer default 0,
+		notification boolean default 1,
+		expireTimer integer default 0,
+		type integer NOT NULL DEFAULT 0,
+		uuid string  NOT NULL DEFAULT 0,
+		groupJoinStatus integer NOT NULL DEFAULT 0
+	)
+`
 
-	sessionsSchema = "CREATE TABLE IF NOT EXISTS sessions (id INTEGER PRIMARY KEY, name text, tel text, isgroup boolean, last string, timestamp integer, ctype integer, unread integer default 0, notification boolean default 1, expireTimer integer default 0, type integer NOT NULL DEFAULT 0, uuid string  NOT NULL DEFAULT 0, groupJoinStatus integer NOT NULL DEFAULT 0)"
-	sessionsInsert = "INSERT OR REPLACE INTO sessions (name, tel, isgroup, last, ctype, timestamp, notification, expireTimer, type, uuid, groupJoinStatus ) VALUES ( :name, :tel, :isgroup, :last, :ctype, :timestamp, :notification, :expireTimer, :type, :uuid, :groupJoinStatus)"
 	sessionsSelect = "SELECT * FROM sessions ORDER BY timestamp DESC"
 
-	messagesSchema                 = "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, sid integer, source text, srcUUID string NOT NULL DEFAULT 0, message text, outgoing boolean, sentat integer, receivedat integer, ctype integer, attachment string, issent boolean, isread boolean, flags integer default 0, sendingError boolean, expireTimer integer default 0, receipt boolean default 0, statusMessage boolean default 0, quoteId integer NOT NULL default -1)"
-	messagesInsert                 = "INSERT INTO messages (sid, source, srcUUID, message, outgoing, sentat, receivedat, ctype, attachment, issent, isread, flags, sendingError, expireTimer, statusMessage, quoteID) VALUES (:sid, :source, :srcUUID, :message, :outgoing, :sentat, :receivedat, :ctype, :attachment, :issent, :isread, :flags, :sendingError, :expireTimer, :statusMessage, :quoteId)"
-	messagesSelectWhere            = "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT 20"
-	messagesSelectWhereMore        = "SELECT * FROM messages WHERE sid = ? AND id< ? ORDER BY sentat DESC LIMIT 20"
-	messagesSelectWhereLastMessage = "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT 1"
-	messagesDelete                 = "DELETE FROM messages WHERE id = ?"
-	messagesReceiptSent            = "UPDATE messages SET isSent=1 WHERE sentat = ?"
+	messagesSchema          = "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, sid integer, source text, srcUUID string NOT NULL DEFAULT 0, message text, outgoing boolean, sentat integer, receivedat integer, ctype integer, attachment string, issent boolean, isread boolean, flags integer default 0, sendingError boolean, expireTimer integer default 0, receipt boolean default 0, statusMessage boolean default 0, quoteId integer NOT NULL default -1)"
+	messagesInsert          = "INSERT INTO messages (sid, source, srcUUID, message, outgoing, sentat, receivedat, ctype, attachment, issent, isread, flags, sendingError, expireTimer, statusMessage, quoteID) VALUES (:sid, :source, :srcUUID, :message, :outgoing, :sentat, :receivedat, :ctype, :attachment, :issent, :isread, :flags, :sendingError, :expireTimer, :statusMessage, :quoteId)"
+	messagesSelectWhereMore = "SELECT * FROM messages WHERE sid = ? AND sentat < ? ORDER BY sentat DESC LIMIT 20"
 
-	groupsSchema = "CREATE TABLE IF NOT EXISTS groups (id INTEGER PRIMARY KEY, groupid TEXT, name TEXT, members TEXT, avatar BLOB, avatarid INTEGER, avatar_key BLOB, avatar_content_type TEXT, relay TEXT, active INTEGER DEFAULT 1, type INTEGER DEFAULT 1, joinStatus INTEGER DEFAULT 1)"
+	groupsSchema = `CREATE TABLE IF NOT EXISTS groups (
+		id INTEGER PRIMARY KEY,
+		groupid TEXT,
+		name TEXT,
+		members TEXT,
+		avatar BLOB,
+		avatarid INTEGER,
+		avatar_key BLOB,
+		avatar_content_type TEXT,
+		relay TEXT,
+		active INTEGER DEFAULT 1,
+		type INTEGER DEFAULT 1,
+		joinStatus INTEGER DEFAULT 1
+	)`
 	groupsInsert = "INSERT OR REPLACE INTO groups (groupid, name, members, avatar, type) VALUES (:groupid, :name, :members, :avatar, :type)"
-	groupsUpdate = "UPDATE groups SET members = :members, name = :name, avatar = :avatar, active = :active,  type = :type WHERE groupid = :groupid"
 	groupsSelect = "SELECT groupid, name, members, avatar, active FROM groups"
 	groupsDelete = "DELETE FROM groups WHERE groupid = ?"
 )
@@ -78,33 +98,24 @@ func (ds *DataStore) DBX() *sqlx.DB {
 // SetupDb tries to decrypt the database and runs the migrations
 func (ds *DataStore) SetupDb(password string) bool {
 	var err error
-	dbDir = filepath.Join(config.DataDir, "db")
+	dbDir := filepath.Join(config.DataDir, "db")
 	log.Debugln("[axolotl] openDb: " + dbDir)
 
 	err = os.MkdirAll(dbDir, 0700)
 	if err != nil {
-		log.Debugln("[axolotl] setupDb: Couldn't make dir: " + err.Error())
+		log.Errorln("[axolotl] setupDb: Couldn't make dir: " + err.Error())
 		return false
 	}
 	DS, err = NewStorage(password)
 	if err != nil {
-		log.Debugln("[axolotl] setupDb: Couldn't open db: " + err.Error())
+		log.Errorln("[axolotl] setupDb: Couldn't open db: " + err.Error())
 		return false
 	}
-	UpdateSessionTable()
-	UpdateMessagesTable_v_0_7_8()
-	UpdateSessionTable_v_0_7_8()
 	UpdateSessionTable_v_0_9_0()
 	UpdateSessionTable_v_0_9_5()
 	updateGroupTable_v_0_9_10()
 	updateSessionTable_joinStatus_v_0_9_10()
 
-	err = LoadChats()
-	if err != nil {
-		log.Errorln("[axolotl]  SetupDB: ", err)
-
-	}
-	//qml.Changed(SessionsModel, &SessionsModel.Len)
 	log.Printf("[axolotl] Db setup finished")
 
 	return true
@@ -112,8 +123,8 @@ func (ds *DataStore) SetupDb(password string) bool {
 
 // ResetDb removes the database file and resets the config for encrypted database.
 func (ds *DataStore) ResetDb() {
-	dbDir = filepath.Join(config.DataDir, "db")
-	dbFile = filepath.Join(dbDir, "db.sql")
+	dbDir := filepath.Join(config.DataDir, "db")
+	dbFile := filepath.Join(dbDir, "db.sql")
 	err := os.Remove(dbFile)
 	if err != nil {
 		log.Errorf(err.Error())
@@ -123,8 +134,8 @@ func (ds *DataStore) ResetDb() {
 }
 func (ds *DataStore) DecryptDb(password string) bool {
 	log.Info("DecryptDb: Decrypting database..")
-	dbDir = filepath.Join(config.DataDir, "db")
-	dbFile = filepath.Join(dbDir, "db.sql")
+	dbDir := filepath.Join(config.DataDir, "db")
+	dbFile := filepath.Join(dbDir, "db.sql")
 	tmp := filepath.Join(dbDir, "tmp.db")
 
 	ds, err := NewStorage(password)
@@ -161,8 +172,8 @@ func (ds *DataStore) DecryptDb(password string) bool {
 }
 func (ds *DataStore) EncryptDb(password string) bool {
 	log.Info("[axolotl] EncryptDb: Encrypting database..")
-	dbDir = filepath.Join(config.DataDir, "db")
-	dbFile = filepath.Join(dbDir, "db.sql")
+	dbDir := filepath.Join(config.DataDir, "db")
+	dbFile := filepath.Join(dbDir, "db.sql")
 	tmp := filepath.Join(dbDir, "tmp.db")
 
 	ds, err := NewStorage("")
@@ -200,12 +211,11 @@ func (ds *DataStore) EncryptDb(password string) bool {
 	return false
 }
 
-// NewStorage
 func NewStorage(password string) (*DataStore, error) {
 	// Set more restrictive umask to ensure database files are created 0600
 	// syscall.Umask(0077)
 
-	dbDir = filepath.Join(config.DataDir, "db")
+	dbDir := filepath.Join(config.DataDir, "db")
 	err := os.MkdirAll(dbDir, 0700)
 	if err != nil {
 		log.Debugln("[axolotl] error open db ", err.Error())
@@ -267,14 +277,34 @@ func NewDataStore(dbPath, saltPath, password string) (*DataStore, error) {
 
 	_, err = db.Exec(sessionsSchema)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("%w; sessionsSchema", err)
 	}
-
 	_, err = db.Exec(groupsSchema)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("%w; groupSchema", err)
+	}
+	_, err = db.Exec(groupsV2Schema)
+	if err != nil {
+		return nil, fmt.Errorf("%w; groupV2Schema", err)
+	}
+	_, err = db.Exec(groupV2MembersSchema)
+	if err != nil {
+		return nil, fmt.Errorf("%w; groupV2MemberSchema", err)
+	}
+	_, err = db.Exec(recipientsSchema)
+	if err != nil {
+		return nil, fmt.Errorf("%w; recipientsSchema", err)
 	}
 	log.Debugf("[axolotl] NewDataStore finished")
 
 	return &DataStore{Dbx: db}, nil
+}
+
+func Migrate() error {
+	err := update_v_1_6_0()
+	if err != nil {
+		log.Errorln("[axolotl] setupDb: Couldn't migrate db: " + err.Error())
+		return err
+	}
+	return nil
 }

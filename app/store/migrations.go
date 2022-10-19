@@ -3,91 +3,13 @@ package store
 import (
 	"fmt"
 
+	"github.com/nanu-c/axolotl/app/config"
+	"github.com/signal-golang/textsecure"
+	"github.com/signal-golang/textsecure/contacts"
 	log "github.com/sirupsen/logrus"
 )
 
-// This is needed for version .26
-
-func UpdateSessionTable() error {
-	statement, err := DS.Dbx.Prepare("SELECT * FROM sessions limit 1")
-	if err != nil {
-		return err
-	}
-	res, err := statement.Query()
-	if err != nil {
-		return err
-	}
-
-	col, err := res.Columns()
-	if len(col) == 8 {
-		log.Infof("[axolotl] Update session schema")
-		_, err := DS.Dbx.Exec("ALTER TABLE sessions ADD COLUMN notification bool NOT NULL DEFAULT 1")
-		if err != nil {
-			return err
-		}
-	}
-
-	return err
-}
-
-// fix v.0.7.8 add SendingError + expireTimer
-func UpdateMessagesTable_v_0_7_8() error {
-	statement, err := DS.Dbx.Prepare("SELECT * FROM messages limit 1")
-	if err != nil {
-		return err
-	}
-	res, err := statement.Query()
-	if err != nil {
-		return err
-	}
-
-	col, err := res.Columns()
-	if len(col) == 12 {
-		log.Infoln("[axolotl] Update messages schema for v0.7.8")
-		_, err := DS.Dbx.Exec("ALTER TABLE messages ADD COLUMN sendingError bool DEFAULT 0")
-		if err != nil {
-			return err
-		}
-		_, err = DS.Dbx.Exec("ALTER TABLE messages ADD COLUMN expireTimer integer DEFAULT 0")
-		if err != nil {
-			return err
-		}
-		_, err = DS.Dbx.Exec("ALTER TABLE messages ADD COLUMN receipt bool DEFAULT 0")
-		if err != nil {
-			return err
-		}
-		_, err = DS.Dbx.Exec("ALTER TABLE messages ADD COLUMN statusMessage bool DEFAULT 0")
-		if err != nil {
-			return err
-		}
-	}
-
-	return err
-}
-
-func UpdateSessionTable_v_0_7_8() error {
-	statement, err := DS.Dbx.Prepare("SELECT * FROM sessions limit 1")
-	if err != nil {
-		return err
-	}
-	res, err := statement.Query()
-	if err != nil {
-		return err
-	}
-
-	col, err := res.Columns()
-	if len(col) == 9 {
-		log.Infof("[axolotl] Update session schema v_0_7_8")
-		_, err := DS.Dbx.Exec("ALTER TABLE sessions ADD COLUMN expireTimer bool NOT NULL DEFAULT 0")
-		if err != nil {
-			return err
-		}
-	}
-
-	return err
-}
-
-// add support for quoted messages
+// UpdateSessionTable_v_0_9_0 adds support for quoted messages
 func UpdateSessionTable_v_0_9_0() error {
 	statement, err := DS.Dbx.Prepare("SELECT * FROM messages limit 1")
 	if err != nil {
@@ -110,7 +32,7 @@ func UpdateSessionTable_v_0_9_0() error {
 	return err
 }
 
-// add support uuids
+// UpdateSessionTable_v_0_9_5 adds support uuids
 func UpdateSessionTable_v_0_9_5() error {
 	// add uuid column to sessions table
 	statement, err := DS.Dbx.Prepare("SELECT * FROM sessions limit 1")
@@ -159,23 +81,7 @@ func UpdateSessionTable_v_0_9_5() error {
 	return err
 }
 
-// MigrateMessagesFromSessionToAnotherSession copies the messages from the
-// old session to the new session and then deletes the oldSession
-func MigrateMessagesFromSessionToAnotherSession(oldSession int64, newSession int64) error {
-	log.Infoln("[axolotl] migrate messages to ", newSession)
-
-	query := fmt.Sprintf("UPDATE messages SET sid=%d WHERE sid = %d;", newSession, oldSession)
-
-	_, err := DS.Dbx.Exec(query)
-	if err != nil {
-		return err
-	}
-	DeleteSession(oldSession)
-	if err != nil {
-		return err
-	}
-	return nil
-}
+// updateGroupTable_v_0_9_10 adds support for group types
 func updateGroupTable_v_0_9_10() error {
 	statement, err := DS.Dbx.Prepare("SELECT * FROM groups limit 1")
 	if err != nil {
@@ -200,6 +106,7 @@ func updateGroupTable_v_0_9_10() error {
 	return nil
 }
 
+// updateSessionTable_joinStatus_v_0_9_10 adds support for groupJoinStatus
 func updateSessionTable_joinStatus_v_0_9_10() error {
 	statement, err := DS.Dbx.Prepare("SELECT * FROM sessions limit 1")
 	if err != nil {
@@ -220,6 +127,119 @@ func updateSessionTable_joinStatus_v_0_9_10() error {
 		if err != nil {
 			return err
 		}
+	}
+	return nil
+}
+
+// update_v_1_6_0 introduces the new data structure with sessionsv2, groupsv2, recipients
+func update_v_1_6_0() error {
+	// check if table exists and only migrate if it does not
+	_, err := DS.Dbx.Prepare("SELECT * FROM sessionsv2 limit 1")
+	if err != nil {
+		log.Infoln("[axolotl] update schema v_1_6_0")
+		log.Infoln("[axolotl][update v_1_6_0] create groupsv2 table")
+		_, err = DS.Dbx.Exec(groupsV2Schema)
+		if err != nil {
+			return err
+		}
+		log.Infoln("[axolotl][update v_1_6_0] create groupv2 member table")
+		_, err = DS.Dbx.Exec(groupV2MembersSchema)
+		if err != nil {
+			return err
+		}
+		log.Infoln("[axolotl][update v_1_6_0] create recipients table")
+		_, err = DS.Dbx.Exec(recipientsSchema)
+		if err != nil {
+			return err
+		}
+		log.Infoln("[axolotl][update v_1_6_0] create sessionsv2 table")
+
+		_, err = DS.Dbx.Exec(sessionsV2Schema)
+		if err != nil {
+			return err
+		}
+		var sessions []*Session
+		err = DS.Dbx.Select(&sessions, sessionsSelect)
+		if err != nil {
+			return fmt.Errorf("error loading sessions: %s", err)
+		}
+		// copy contacts to recipients
+		log.Infoln("[axolotl][update v_1_6_0] create recipients for contacts")
+		registeredContacts, _ := readRegisteredContacts(config.RegisteredContactsFile)
+		for i := range registeredContacts {
+			contact := registeredContacts[i]
+			if contact.UUID != "" {
+				c := &contacts.Contact{
+					UUID: contact.UUID,
+					Name: contact.Name,
+					Tel:  contact.Tel,
+				}
+				RecipientsModel.GetOrCreateRecipientForContact(c)
+			}
+		}
+		log.Infoln("[axolotl][update v_1_6_0] migrate sessionsv1 to sessionsv2")
+		for _, session := range sessions {
+			if session.IsGroup && session.Type == SessionTypeGroupV2 {
+				log.Infoln("[axolotl][update v_1_6_0] migrate groupv2 session")
+
+				group, err := GroupV2sModel.Create(&GroupV2{
+					Id:         session.UUID,
+					Name:       session.Name,
+					JoinStatus: session.GroupJoinStatus,
+				})
+				if err != nil {
+					return fmt.Errorf("error creating group v2: %s", err)
+				}
+				_, err = SessionsV2Model.SaveSession(&SessionV2{
+					ID:                       session.ID,
+					DirectMessageRecipientID: int64(GroupRecipientsID),
+					GroupV2ID:                session.UUID,
+				})
+				if err != nil {
+					return fmt.Errorf("error creating session groupv2: %s", err)
+				}
+				log.Infoln("[axolotl][update v_1_6_0] migrate groupv2 session: members")
+				groupMembers, err := textsecure.GetGroupV2MembersForGroup(session.UUID)
+				if err != nil {
+					log.Errorf("[axolotl][update v_1_6_0] error getting group members: %s", err)
+				} else {
+					err = group.AddGroupMembers(groupMembers)
+					if err != nil {
+						log.Errorf("[axolotl][update v_1_6_0] error adding group members: %s", err)
+					}
+				}
+			} else if session.IsGroup && session.Type == SessionTypeGroupV1 {
+				log.Infoln("[axolotl][update v_1_6_0] migrate groupv1 session")
+
+				_, err = SessionsV2Model.SaveSession(&SessionV2{
+					ID:                       session.ID,
+					GroupV1ID:                session.UUID,
+					DirectMessageRecipientID: int64(GroupRecipientsID),
+				})
+				if err != nil {
+					return err
+				}
+			} else if session.Type == SessionTypePrivateChat {
+				log.Infoln("[axolotl][update v_1_6_0] migrate private chat session")
+
+				recipient, err := RecipientsModel.CreateRecipientWithoutProfileUpdate(&Recipient{
+					UUID:             session.UUID,
+					ProfileGivenName: session.Name,
+					E164:             session.Tel,
+				})
+				if err != nil {
+					return err
+				}
+				_, err = SessionsV2Model.SaveSession(&SessionV2{
+					ID:                       session.ID,
+					DirectMessageRecipientID: recipient.Id,
+				})
+				if err != nil {
+					return err
+				}
+			}
+		}
+
 	}
 	return nil
 }

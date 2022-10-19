@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -22,7 +21,7 @@ func getSalt(path string) ([]byte, error) {
 	salt := make([]byte, 8)
 
 	if _, err := os.Stat(path); err == nil {
-		salt, err = ioutil.ReadFile(path)
+		salt, err = os.ReadFile(path)
 		if err != nil {
 			return nil, err
 		}
@@ -31,7 +30,7 @@ func getSalt(path string) ([]byte, error) {
 			return nil, err
 		}
 
-		err = ioutil.WriteFile(path, salt, 0600)
+		err = os.WriteFile(path, salt, 0600)
 		if err != nil {
 			return nil, err
 		}
@@ -98,16 +97,15 @@ func (ds *DataStore) Convert(password string) error {
 	if password == "" {
 		return fmt.Errorf("No password given")
 	}
-	dbDir = filepath.Join(config.DataDir, "db")
-	dbFile = filepath.Join(dbDir, "db.sql")
+	dbDir := filepath.Join(config.DataDir, "db")
+	dbFile := filepath.Join(dbDir, "db.sql")
 	tmp := filepath.Join(dbDir, "tmp.db")
 
-	//create tmp file
+	// create tmp file
 	_, err := os.OpenFile(tmp, os.O_RDONLY|os.O_CREATE, 0600)
 	if err != nil {
 		return err
 	}
-	saltFile = filepath.Join(dbDir, "salt")
 
 	encrypted := settings.SettingsModel.EncryptDatabase
 	log.Debugf("Encrypt: " + strconv.FormatBool(encrypted))
@@ -150,7 +148,7 @@ func (ds *DataStore) Convert(password string) error {
 	return nil
 }
 
-//https://github.com/mutecomm/go-sqlcipher/blob/master/sqlcipher.go#L15
+// https://github.com/mutecomm/go-sqlcipher/blob/master/sqlcipher.go#L15
 var sqlite3Header = []byte("SQLite format 3\000")
 
 // IsEncrypted returns true, if the database with the given filename is
@@ -163,10 +161,14 @@ func IsEncrypted(filename string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	defer db.Close()
 	// read header
 	var header [16]byte
 	n, err := db.Read(header[:])
+	if err != nil {
+		return false, err
+	}
+	// close file
+	err = db.Close()
 	if err != nil {
 		return false, err
 	}

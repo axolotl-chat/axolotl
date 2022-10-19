@@ -38,7 +38,6 @@ var (
 func Run() error {
 	log.Printf("[axolotl] Starting axolotl ws")
 	go syncClients()
-	go attachmentServer()
 	go websocketSender()
 	webserver()
 	return nil
@@ -46,7 +45,11 @@ func Run() error {
 
 func removeClientFromList(client *websocket.Conn) {
 	log.Debugln("[axolotl-ws] remove client")
-	delete(clients, client)
+	if clients != nil {
+		delete(clients, client)
+	} else {
+		clients = make(map[*websocket.Conn]bool)
+	}
 }
 
 func wsEndpoint(w http.ResponseWriter, r *http.Request) {
@@ -119,16 +122,19 @@ func wsReader(conn *websocket.Conn) {
 			settings.SettingsModel.DarkMode = setDarkMode.DarkMode
 			settings.SaveSettings(settings.SettingsModel)
 			SetUiDarkMode()
-
 		case "getMoreMessages":
 			getMoreMessages := GetMoreMessages{}
 			json.Unmarshal([]byte(p), &getMoreMessages)
-			sendMoreMessageList(activeChat, getMoreMessages.LastID)
+			sendMoreMessageList(activeChat, getMoreMessages.SentAt)
 		case "createChat":
 			createChatMessage := CreateChatMessage{}
 			json.Unmarshal([]byte(p), &createChatMessage)
-			log.Println("[axolotl] Create chat for ", createChatMessage.UUID)
-			newChat := createChat(createChatMessage.UUID)
+			log.Println("[axolotl] Create chat for", createChatMessage.UUID)
+			newChat, err := createDirectRecipientChat(createChatMessage.UUID)
+			if err != nil {
+				log.Errorln("[axolotl] Create chat error:", err)
+				break
+			}
 			activeChat = newChat.ID
 			store.ActiveSessionID = activeChat
 			requestEnterChat(activeChat)
@@ -138,19 +144,14 @@ func wsReader(conn *websocket.Conn) {
 			json.Unmarshal([]byte(p), &openChatMessage)
 
 			log.Println("[axolotl] Open chat with id: ", openChatMessage.Id)
-			s, err := store.SessionsModel.Get(openChatMessage.Id)
+			s, err := store.SessionsV2Model.GetSessionByID(openChatMessage.Id)
 			if err != nil {
 				log.Errorln("[axolotl] Open chat with id: ", openChatMessage.Id, "failed", err)
-			} else {
-				activeChat = openChatMessage.Id
-				// TODO: Avatar and profile handling for private chats, decryption is not yet done on the textsecure part
-				// if !s.IsGroup {
-				// p, _ := textsecure.GetProfile(s.Tel)
-				// profile = p
-				// }
-				store.ActiveSessionID = activeChat
-				sendCurrentChat(s)
+				break
 			}
+			activeChat = openChatMessage.Id
+			store.ActiveSessionID = activeChat
+			sendCurrentChat(s)
 		case "leaveChat":
 			activeChat = -1
 			store.ActiveSessionID = -1
@@ -161,26 +162,17 @@ func wsReader(conn *websocket.Conn) {
 			group, err := createGroup(createGroupMessage)
 			if err != nil {
 				log.Errorln("[axolotl] Create chat failed: ", err)
-
-			} else {
-				activeChat = group.ID
-				store.ActiveSessionID = activeChat
-				requestEnterChat(activeChat)
-				sendContactList()
+				break
 			}
-
-		case "updateGroup":
-			updateGroupMessage := UpdateGroupMessage{}
-			json.Unmarshal([]byte(p), &updateGroupMessage)
-			log.Println("[axolotl] Update group ", updateGroupMessage.ID)
-			updateGroup(updateGroupMessage)
-			requestEnterChat(store.ActiveSessionID)
+			activeChat = group.ID
+			store.ActiveSessionID = activeChat
+			requestEnterChat(activeChat)
 			sendContactList()
 		case "joinGroup":
 			joinGroupMessage := JoinGroupMessage{}
 			json.Unmarshal([]byte(p), &joinGroupMessage)
 			log.Println("[axolotl] Join group ", joinGroupMessage.ID)
-			go joinGroup(joinGroupMessage)
+			go joinGroupV2(joinGroupMessage)
 		case "sendMessage":
 			sendMessageMessage := SendMessageMessage{}
 			json.Unmarshal([]byte(p), &sendMessageMessage)
@@ -188,18 +180,20 @@ func wsReader(conn *websocket.Conn) {
 			updateMessageChannel := make(chan *store.Message)
 			m, err := sender.SendMessageHelper(sendMessageMessage.To,
 				sendMessageMessage.Message, "", updateMessageChannel, false)
+
 			if err != nil || m == nil {
 				log.Errorln("[axolotl] send message: ", err)
-			} else {
-				if err == nil {
-					go MessageHandler(m)
-				}
-				// catch status
-				go func() {
-					m := <-updateMessageChannel
-					go UpdateMessageHandlerWithSource(m)
-				}()
+				break
 			}
+			if err == nil {
+				go MessageHandler(m)
+			}
+			// catch status
+			go func() {
+				updateMessage := <-updateMessageChannel
+				fmt.Printf("[axolotl] send message updateMessage: %v\n", updateMessage)
+				go UpdateMessageHandlerWithSource(updateMessage)
+			}()
 		case "sendVoiceNote":
 			sendVoiceNoteMessage := SendVoiceNoteMessage{}
 			json.Unmarshal([]byte(p), &sendVoiceNoteMessage)
@@ -218,13 +212,44 @@ func wsReader(conn *websocket.Conn) {
 			err = contact.AddContact(addContactMessage.Name, addContactMessage.Phone, addContactMessage.UUID)
 			if err != nil {
 				log.Errorln("[axolotl] Add contact failed: ", err)
+				break
 			}
 			err = store.RefreshContacts()
 			if err != nil {
 				log.Errorln("[axolotl] Refresh contacts failed: ", err)
 				ShowError(err.Error())
+				break
 			}
 			go sendContactList()
+		case "getProfile":
+			getProfileMessage := GetProfileMessage{}
+			json.Unmarshal([]byte(p), &getProfileMessage)
+			log.Infoln("[axolotl] Get profile", getProfileMessage.ID)
+			go sendProfile(getProfileMessage.ID)
+		case "updateProfileName":
+			updateProfileNameMessage := UpdateProfileNameMessage{}
+			err = json.Unmarshal([]byte(p), &updateProfileNameMessage)
+			if err != nil {
+				log.Errorln("[axolotl] Update profile name failed: ", err)
+				break
+			}
+			log.Infoln("[axolotl] Update profile name for", updateProfileNameMessage.ID)
+			go updateProfileName(updateProfileNameMessage.ID, updateProfileNameMessage.Name)
+		case "createChatForRecipient":
+			createChatForRecipientMessage := CreateChatForRecipientMessage{}
+			json.Unmarshal([]byte(p), &createChatForRecipientMessage)
+			log.Infoln("[axolotl] Create chat for", createChatForRecipientMessage.ID)
+			go createChatForRecipient(createChatForRecipientMessage.ID)
+		case "createRecipient":
+			createRecipientMessage := CreateRecipientMessage{}
+			json.Unmarshal([]byte(p), &createRecipientMessage)
+			log.Infoln("[axolotl] Create recipient", createRecipientMessage.Recipient)
+			go createRecipient(createRecipientMessage.Recipient)
+		case "createRecipientAndAddToGroup":
+			createRecipientAndAddToGroupMessage := CreateRecipientAndAddToGroupMessage{}
+			json.Unmarshal([]byte(p), &createRecipientAndAddToGroupMessage)
+			log.Infoln("[axolotl] Create recipient and add to group", createRecipientAndAddToGroupMessage.Recipient)
+			go createRecipientAndAddToGroup(createRecipientAndAddToGroupMessage.Recipient, createRecipientAndAddToGroupMessage.Group)
 		case "requestCode":
 			if requestChannel != nil {
 				requestCodeMessage := RequestCodeMessage{}
@@ -252,7 +277,6 @@ func wsReader(conn *websocket.Conn) {
 				sendCaptchaTokenMessage := SendCaptchaTokenMessage{}
 				json.Unmarshal([]byte(p), &sendCaptchaTokenMessage)
 				log.Debugln("[axolotl] got captcha2", sendCaptchaTokenMessage.Token)
-
 				requestChannel <- sendCaptchaTokenMessage.Token
 			}
 		case "sendUsername":
@@ -320,23 +344,22 @@ func wsReader(conn *websocket.Conn) {
 			f, err := os.Create("import.vcf")
 			if err != nil {
 				log.Debugln("[axolotl] import vcf ", err)
-			} else {
-				l, err := f.WriteString(uploadVcf.Vcf)
-				if err != nil {
-					log.Errorln("[axolotl] import vcf ", err)
-					f.Close()
-				}
-				log.Debugln("[axolotl] import vcf bytes written successfully", l)
-				err = f.Close()
-				if err != nil {
-					log.Errorln("[axolotl] import vcf ", err)
-				} else {
-					//non blocking vcf import
-					go importVcf()
-				}
-
+				break
 			}
-
+			l, err := f.WriteString(uploadVcf.Vcf)
+			if err != nil {
+				log.Errorln("[axolotl] import vcf ", err)
+				f.Close()
+				break
+			}
+			log.Debugln("[axolotl] import vcf bytes written successfully", l)
+			err = f.Close()
+			if err != nil {
+				log.Errorln("[axolotl] import vcf ", err)
+				break
+			}
+			// non blocking vcf import
+			go importVcf()
 		case "delContact":
 			delContactMessage := DelContactMessage{}
 			json.Unmarshal([]byte(p), &delContactMessage)
@@ -346,6 +369,7 @@ func wsReader(conn *websocket.Conn) {
 			err = store.RefreshContacts()
 			if err != nil {
 				ShowError(err.Error())
+				break
 			}
 			go sendContactList()
 		case "editContact":
@@ -362,15 +386,22 @@ func wsReader(conn *websocket.Conn) {
 			err = store.RefreshContacts()
 			if err != nil {
 				ShowError(err.Error())
+				break
 			}
 			go sendContactList()
 		case "delChat":
 			delChatMessage := DelChatMessage{}
 			json.Unmarshal([]byte(p), &delChatMessage)
 			log.Debugln("[axolotl] deleteSession", delChatMessage.ID)
-			store.DeleteSession(delChatMessage.ID)
+			session, err := store.SessionsV2Model.GetSessionByID(delChatMessage.ID)
 			if err != nil {
 				ShowError(err.Error())
+				break
+			}
+			err = store.SessionsV2Model.DeleteSession(session)
+			if err != nil {
+				ShowError(err.Error())
+				break
 			}
 			sendChatList()
 		case "sendAttachment":
@@ -401,37 +432,52 @@ func wsReader(conn *websocket.Conn) {
 			toggleNotificationsMessage := toggleNotificationsMessage{}
 			json.Unmarshal([]byte(p), &toggleNotificationsMessage)
 			log.Debugln("[axolotl] toggle notification for: ", toggleNotificationsMessage.Chat)
-			s, err := store.SessionsModel.Get(toggleNotificationsMessage.Chat)
+			s, err := store.SessionsV2Model.GetSessionByID(toggleNotificationsMessage.Chat)
 			if err != nil {
 				ShowError(err.Error())
+				break
 			}
-			s.ToggleSessionNotification()
+			s.NotificationsToggle()
 			sendCurrentChat(s)
 			sendChatList()
 		case "resetEncryption":
 			resetEncryptionMessage := ResetEncryptionMessage{}
 			json.Unmarshal([]byte(p), &resetEncryptionMessage)
 			log.Debugln("[axolotl] reset encryption for: ", resetEncryptionMessage.Chat)
-			s, err := store.SessionsModel.Get(resetEncryptionMessage.Chat)
+			s, err := store.SessionsV2Model.GetSessionByID(resetEncryptionMessage.Chat)
 			if err != nil {
 				ShowError(err.Error())
+				break
 			}
-			m := s.Add("Secure session reset.", "", []store.Attachment{}, "", true, store.ActiveSessionID)
-			m.Flags = helpers.MsgFlagResetSession
-			store.SaveMessage(m)
+			m, err := store.SaveMessage(&store.Message{
+				SID:     s.ID,
+				Message: "Secure session reset.",
+				Flags:   helpers.MsgFlagResetSession,
+			})
+			if err != nil {
+				ShowError(err.Error())
+				break
+			}
 			go sender.SendMessage(s, m, false)
 			sendChatList()
 		case "verifyIdentity":
 			verifyIdentityMessage := verifyIdentityMessage{}
 			json.Unmarshal([]byte(p), &verifyIdentityMessage)
 			log.Debugln("[axolotl] identity information for: ", verifyIdentityMessage.Chat)
-			s, err := store.SessionsModel.Get(verifyIdentityMessage.Chat)
+			s, err := store.SessionsV2Model.GetSessionByID(verifyIdentityMessage.Chat)
 			if err != nil {
 				ShowError(err.Error())
+				break
 			}
-			fingerprintNumbers, fingerprintQRCode, err := textsecure.GetFingerprint(s.UUID, s.Tel)
+			recipient := store.RecipientsModel.GetRecipientById(s.DirectMessageRecipientID)
+			if recipient == nil {
+				ShowError("Recipient not found")
+				break
+			}
+			fingerprintNumbers, fingerprintQRCode, err := textsecure.GetFingerprint(recipient.UUID, recipient.E164)
 			if err != nil {
 				log.Debugln("[axolotl] identity information ", err)
+				break
 			}
 			sendIdentityInfo(fingerprintNumbers, fingerprintQRCode)
 		default:
@@ -464,8 +510,15 @@ func webserver() {
 		http.HandleFunc("/attachments", attachmentsHandler)
 		http.HandleFunc("/avatars", avatarsHandler)
 		http.HandleFunc("/ws", wsEndpoint)
+		server := &http.Server{
+			Addr:              config.ServerHost + ":" + config.ServerPort,
+			ReadHeaderTimeout: 3 * time.Second,
+		}
 
-		log.Error("[axolotl] webserver error", http.ListenAndServe(config.ServerHost+":"+config.ServerPort, nil))
+		err := server.ListenAndServe()
+		if err != nil {
+			log.Error("[axolotl] webserver error", err)
+		}
 	}
 
 }

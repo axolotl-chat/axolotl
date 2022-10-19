@@ -37,20 +37,20 @@
               @click="contactClick(c)"
             >
               <div class="badge-name">
-                {{ c.Name[1] ? c.Name[0] + c.Name[1] : c.Name[0] }}
+                <img
+                  class="avatar-img"
+                  :src="'http://localhost:9080/avatars?e164=' + c.Tel"
+                  alt="Avatar image"
+                  @error="onImageError($event)"
+                />
+                {{ c.Name[0] ? c.Name[0] + c.Name[1] : c.Name[0] }}
               </div>
             </div>
-            <div
-              class="meta col-8"
-              @click="contactClick(c)"
-            >
+            <div class="meta col-8" @click="contactClick(c)">
               <p class="name">{{ c.Name }}</p>
               <p class="number">{{ c.Tel }}</p>
             </div>
-            <div
-              class="col-1"
-              @click="showContactAction(c)"
-            >
+            <div class="col-1" @click="showContactAction(c)">
               <font-awesome-icon icon="wrench" />
             </div>
           </div>
@@ -61,9 +61,7 @@
         v-else
         :key="c.Tel"
         :class="
-          c === selectedContact
-            ? 'selected btn col-12 chat'
-            : 'btn col-12 chat'
+          c === selectedContact ? 'selected btn col-12 chat' : 'btn col-12 chat'
         "
       >
         <div class="row chat-entry">
@@ -71,19 +69,21 @@
             :class="'avatar col-3 avatar ' + checkForUUIDClass(c)"
             @click="contactClick(c)"
           >
-            <div class="badge-name">{{ c.Name[1] ? c.Name[0] + c.Name[1] : c.Name[0] }}</div>
+            <div class="badge-name">
+              <img
+                class="avatar-img"
+                :src="'http://localhost:9080/avatars?e164=' + c.Tel"
+                alt="Avatar image"
+                @error="onImageError($event)"
+              />
+              {{ c.Name[0] ? c.Name[0] + c.Name[1] : c.Name[0] }}
+            </div>
           </div>
-          <div
-            class="meta col-8"
-            @click="contactClick(c)"
-          >
+          <div class="meta col-8" @click="contactClick(c)">
             <p class="name">{{ c.Name }}</p>
             <p class="number">{{ c.Tel }}</p>
           </div>
-          <div
-            class="col-1"
-            @click="showContactAction(c)"
-          >
+          <div class="col-1" @click="showContactAction(c)">
             <font-awesome-icon icon="wrench" />
           </div>
         </div>
@@ -152,10 +152,10 @@ export default {
   methods: {
     validateUUID,
     openAddContactModal() {
-      this.addContactModal = true
+      this.addContactModal = true;
     },
     closeAddContactModal() {
-      this.addContactModal = false
+      this.addContactModal = false;
     },
     addContact(data) {
       this.$store.dispatch("addContact", data);
@@ -171,26 +171,29 @@ export default {
     },
     delContact() {
       this.$store.dispatch("delContact", this.selectedContact.Tel);
-      this.closeActionMode()
+      this.closeActionMode();
+    },
+    onImageError(event) {
+      event.target.style.display = "none";
     },
     openEditContactModal() {
       this.editContactModal = true;
       this.showActions = false;
     },
     closeEditContactModal() {
-      this.editContactModal = false
-      this.closeActionMode()
+      this.editContactModal = false;
+      this.closeActionMode();
     },
     saveContact(data) {
       this.$store.dispatch("editContact", data);
-      this.closeEditContactModal()
+      this.closeEditContactModal();
     },
     contactClick(contact) {
       if (!this.showActions) {
         if (this.validateUUID(contact.UUID))
           this.$store.dispatch("createChat", contact.UUID);
       } else {
-        this.closeActionMode()
+        this.closeActionMode();
       }
     },
     checkForUUIDClass(contact) {

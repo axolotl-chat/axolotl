@@ -22,6 +22,7 @@ package push
 
 import (
 	"encoding/json"
+	"strconv"
 	"time"
 
 	dbus "github.com/z3ntu/go-dbus"
@@ -37,7 +38,6 @@ var (
 
 func NotificationInit() {
 	if sessionBus, err = dbus.Connect(dbus.SessionBus); err != nil {
-		//log.Fatal("Connection error: ", err)
 		useNotifications = false
 	} else {
 		useNotifications = true
@@ -70,8 +70,8 @@ func NewLegacyHandler(conn *dbus.Connection, application string) *NotificationHa
 		application: application,
 	}
 }
-func (n *NotificationHandler) Clear(tag string) error {
-	_, err := n.dbusObject.Call(dbusInterface, dbusClearMethod, "textsecure.nanuc_textsecure", tag)
+func (n *NotificationHandler) Clear(tag int64) error {
+	_, err := n.dbusObject.Call(dbusInterface, dbusClearMethod, "textsecure.nanuc_textsecure", strconv.FormatInt(tag, 10))
 	return err
 }
 
@@ -80,7 +80,7 @@ func (n *NotificationHandler) Send(m *PushMessage) error {
 	if useNotifications {
 		var pushMessage string
 		// check if there was a notification in the same chat less than 10s and
-		//if yes just replace the notification but don't trigger a popup
+		// if yes just replace the notification but don't trigger a popup
 		if timestamp, found := lastNotifications[m.Notification.Tag]; found {
 
 			if m.Notification.Card.Timestamp-timestamp < 10 {
@@ -115,10 +115,10 @@ func (n *NotificationHandler) NewStandardPushMessage(summary, body, icon string,
 		Message: summary,
 		Notification: Notification{
 			Card: &Card{
-				Summary: summary,
-				Body:    body,
-				Actions: []string{"appid://textsecure.nanuc/textsecure/current-user-version"},
-				// Icon:    icon,
+				Summary:   summary,
+				Body:      body,
+				Actions:   []string{"appid://textsecure.nanuc/textsecure/current-user-version"},
+				Icon:      icon,
 				Popup:     true,
 				Persist:   true,
 				Timestamp: time.Now().Unix(),
@@ -162,7 +162,7 @@ type Card struct {
 	// Actions provides actions for the bubble's snap decissions.
 	Actions []string `json:"actions,omitempty"`
 	// Icon is a path to an icon to display with the notification bubble.
-	// Icon string `json:"icon,omitempty"`
+	Icon string `json:"icon,omitempty"`
 	// Whether to show in notification centre.
 	Persist   bool  `json:"persist,omitempty"`
 	Timestamp int64 `json:"timestamp"`

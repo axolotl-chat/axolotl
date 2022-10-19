@@ -13,7 +13,7 @@
             <canvas id="qrcode" />
           </div>
           <b><span v-translate>Safety numbers of you and</span>
-            {{ currentChat.Name }}:</b>
+            {{ SessionNames[currentChat.ID].Name }}:</b>
           <div class="row fingerprint">
             <div
               v-for="(part, i) in fingerprint.numbers"
@@ -51,7 +51,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["fingerprint"]),
+    ...mapState(["fingerprint", "SessionNames"]),
     currentChat() {
       return this.$store.state.currentChat;
     },

@@ -16,6 +16,7 @@ module.exports = {
       "sk", "sl", "sr", "sv", "ta", "tr", "vi", "zh-rCN"
     ],
     flat: true,
-    linguas: true
+    linguas: true,
+    silent: true
   },
 };

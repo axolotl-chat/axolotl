@@ -43,7 +43,7 @@ func Exists(path string) bool {
 	return err == nil
 }
 
-// membersDiffAndUnion returns a set diff and union of two contact sets represented as
+// MembersDiffAndUnion returns a set diff and union of two contact sets represented as
 // comma separated strings.
 func MembersDiffAndUnion(aa, bb string) ([]string, string) {
 
@@ -106,7 +106,7 @@ func ContentType(att io.Reader, mt string) int {
 }
 
 func RandomString(length int) string {
-	//Lowercase and Uppercase Both
+	// Lowercase and Uppercase Both
 	charSet := "abcdedfghijklmnopqrstABCDEFGHIJKLMNOP"
 	var output strings.Builder
 	for i := 0; i < length; i++ {

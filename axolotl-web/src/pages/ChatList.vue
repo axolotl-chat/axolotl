@@ -1,4 +1,3 @@
-
 <template>
   <component :is="$route.meta.layout || 'div'">
     <template #menu>
@@ -21,11 +20,12 @@
           <font-awesome-icon icon="times" />
         </button>
       </div>
-      <div v-for="chat in chats" :key="chat.id" class="row">
+      <div v-for="chat in chatList" :key="chat.id" class="row">
+        <!-- chat entry -->
         <div
-          :id="chat.id"
+          :id="chat.ID"
           :class="
-            editActive && selectedChat.indexOf(chat.Tel) >= 0
+            editActive && selectedChat.indexOf(chat.ID) >= 0
               ? 'selected col-12 chat-container'
               : 'col-12 chat-container '
           "
@@ -35,65 +35,65 @@
         >
           <div class="row chat-entry">
             <div class="avatar col-2">
-              <div v-if="chat.IsGroup" class="badge-name">
+              <div v-if="!isGroupCheck(chat)" class="badge-name">
                 <img
                   class="avatar-img"
-                  :src="'http://localhost:9080/avatars?file=' + chat.Tel"
+                  :src="'http://localhost:9080/avatars?session=' + chat.ID"
                   alt="Avatar image"
                   @error="onImageError($event)"
                 />
+                {{ chat.ID[0] }}
+              </div>
+              <div v-else class="badge-name">
                 <font-awesome-icon icon="user-friends" />
               </div>
-              <div v-else class="badge-name">{{ chat.Name[0] }}</div>
             </div>
             <div class="meta col-10">
               <div class="row">
                 <div class="col-9">
                   <div class="name">
                     <font-awesome-icon
-                      v-if="!chat.Notification"
+                      v-if="chat.IsMuted"
                       class="mute"
                       icon="volume-mute"
                     />
                     <div
-                      v-if="chat.IsGroup && chat.Name === chat.Tel"
+                      v-if="
+                        isGroupCheck(chat) &&
+                          sessionNames &&
+                          sessionNames[chat.ID] == null
+                      "
                       v-translate
                     >
                       Unknown group
                     </div>
-                    <div v-else>{{ chat.Name }}</div>
+                    <div v-else>
+                      {{ sessionNames ? sessionNames[chat.ID].Name : "" }}
+                    </div>
                     <div
-                      v-if="Number(chat.Unread) > 0"
+                      v-if="Number(chat.UnreadCounter) > 0"
                       class="counter badge badge-primary"
                     >
-                      {{ chat.Unread }}
+                      {{ chat.UnreadCounter }}
                     </div>
                   </div>
                 </div>
                 <div v-if="!editActive" class="col-3 date-c">
                   <p
                     v-if="
-                      chat.Messages &&
-                        chat.Messages !== null &&
-                        chat.Messages[chat.Messages.length - 1].SentAt !== 0
+                      lastMessages[chat.ID] !== undefined &&
+                        lastMessages[chat.ID].SentAt !== 0
                     "
                     class="time"
                   >
-                    {{
-                      humanifyDate(
-                        chat.Messages[chat.Messages.length - 1].SentAt
-                      )
-                    }}
+                    {{ humanifyDate(lastMessages[chat.ID].SentAt) }}
                   </p>
                 </div>
               </div>
               <div class="row">
                 <div class="col-12">
-                  <p
-                    v-if="chat.Messages && chat.Messages !== null"
-                    class="preview"
-                  >
-                    {{ chat.Messages[chat.Messages.length - 1].Message }}
+                  <p v-if="lastMessages[chat.ID] !== undefined" class="preview">
+                    {{ lastMessages[chat.ID].Message }}
                   </p>
                 </div>
               </div>
@@ -101,7 +101,7 @@
           </div>
         </div>
       </div>
-      <div v-if="chats.length === 0" v-translate class="no-entries">
+      <div v-if="chatList.length === 0" v-translate class="no-entries">
         No chats available
       </div>
       <!-- {{chats}} -->
@@ -125,13 +125,12 @@ export default {
       editActive: false,
       editWasActive: false,
       selectedChat: [],
-      chats: [],
     };
   },
-  computed: mapState(["chatList"]),
-  watch: {
-    chatList() {
-      this.sortChats();
+  computed: {
+    ...mapState(["chatList", "lastMessages", "sessionNames"]),
+    chats() {
+      return this.chatList;
     },
   },
   created() {},
@@ -139,7 +138,6 @@ export default {
     this.$store.dispatch("getChatList");
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
-    this.sortChats();
     this.$language.current = navigator.language || navigator.userLanguage;
     this.$store.dispatch("leaveChat");
     this.$store.dispatch("clearMessageList");
@@ -186,6 +184,13 @@ export default {
     onImageError(event) {
       event.target.style.display = "none";
     },
+    isGroupCheck(e) {
+      if (e.DirectMessageRecipientID === -1) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     enterChat(chat) {
       if (!this.editActive) {
         this.$store.dispatch("setCurrentChat", chat);
@@ -193,16 +198,6 @@ export default {
       } else {
         this.selectedChat.push(chat.Tel);
       }
-    },
-    sortChats() {
-      this.chats = this.$store.state.chatList
-        .filter((e) => e.Messages !== null)
-        .sort(function (a, b) {
-          return (
-            b.Messages[b.Messages.length - 1].SentAt -
-            a.Messages[a.Messages.length - 1].SentAt
-          );
-        });
     },
   },
 };

@@ -23,3 +23,6 @@ dist
 axolotl.code-workspace
 libzkgroup.so
 libzkgroup*.so
+*.log
+*.sql*
+*.gz

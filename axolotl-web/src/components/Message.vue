@@ -15,19 +15,53 @@
           message.Flags !== 13 &&
           message.Flags !== 14) ||
         message.StatusMessage ||
-        (message.Attachment.includes('null') && message.Message === ''),
+        (message.Attachment &&
+          message.Attachment.includes('null') &&
+          message.Message === ''),
       hidden: message.Flags === 18,
       error: message.SentAt === 0 || message.SendingError,
+      'group-message':
+        isGroup && (message.Flags === 0 || message.Flags === 12 || message.Flags === 13),
     }"
   >
-    <div v-if="verifySelfDestruction(message)" class="message">
+    <div
+      v-if="
+        !message.Outgoing &&
+          isGroup &&
+          (message.Flags === 0 || message.Flags === 12 || message.Flags === 13)
+      "
+      class="avatar"
+    >
+      <div class="badge-name" @click="openProfileForRecipient(id)">
+        <div v-if="id !== -1">
+          <img
+            class="avatar-img"
+            :src="'http://localhost:9080/avatars?recipient=' + id"
+            @error="onImageError($event)"
+          />
+        </div>
+        <div v-if="name !== ''">
+          {{ name[0] }}
+        </div>
+      </div>
+    </div>
+    <div
+      v-if="verifySelfDestruction(message)"
+      :class="{
+        message: true,
+        'col-7':
+          isGroup &&
+          (message.Flags === 0 || message.Flags === 12 || message.Flags === 13) &&
+          !message.Outgoing,
+      }"
+    >
       <div v-if="isSenderNameDisplayed" class="sender">
         <div v-if="name !== ''">
           {{ name }}
         </div>
         <div v-else>{{ getName(message.SourceUUID) }}</div>
       </div>
-      <blockquote v-if="message.QuotedMessage !== null">
+      <blockquote v-if="message.QuotedMessage">
         <cite v-if="message.QuotedMessage.Outgoing" v-translate>You</cite>
         <cite v-else>{{ getName(message.QuotedMessage.SourceUUID) }}</cite>
         <p>{{ message.QuotedMessage.Message }}</p>
@@ -61,21 +95,15 @@
                 <span v-if="!isPlaying" id="duration" class="time">{{
                   humanifyTimePeriod(duration)
                 }}</span>
-                <span v-if="isPlaying" id="currentTime" class="time"
-                  >{{ humanifyTimePeriod(currentTime) }} /
-                  {{ humanifyTimePeriod(duration) }}</span
-                >
+                <span v-if="isPlaying" id="currentTime" class="time">{{ humanifyTimePeriod(currentTime) }} /
+                  {{ humanifyTimePeriod(duration) }}</span>
               </div>
             </div>
-            <div
-              v-else-if="m.File !== '' && m.CType === 0"
-              class="attachment-file"
-            >
+            <div v-else-if="m.File !== '' && m.CType === 0" class="attachment-file">
               <a
                 :href="'http://localhost:9080/attachments?file=' + m.File"
                 @click="shareAttachment(m.File, $event)"
-                >{{ m.FileName ? m.FileName : m.File }}</a
-              >
+              >{{ m.FileName ? m.FileName : m.File }}</a>
             </div>
             <div
               v-else-if="m.CType === 5"
@@ -83,18 +111,10 @@
               @click="$emit('show-fullscreen-video', m.File)"
             >
               <video>
-                <source
-                  :src="'http://localhost:9080/attachments?file=' + m.File"
-                />
-                <span v-translate
-                  >Your browser does not support the audio element.</span
-                >
+                <source :src="'http://localhost:9080/attachments?file=' + m.File" />
+                <span v-translate>Your browser does not support the audio element.</span>
               </video>
-              <img
-                class="play-button"
-                src="../assets/images/play.svg"
-                alt="Play image"
-              />
+              <img class="play-button" src="../assets/images/play.svg" alt="Play image" />
             </div>
             <div v-else-if="m.File !== ''" class="attachment">
               <span v-translate>Not supported mime type:</span> {{ m.CType }}
@@ -104,9 +124,7 @@
         <!-- this is legacy code -->
         <div v-else-if="message.CType === 2" class="attachment-img">
           <img
-            :src="
-              'http://localhost:9080/attachments?file=' + message.Attachment
-            "
+            :src="'http://localhost:9080/attachments?file=' + message.Attachment"
             alt="Fullscreen image"
             @click="$emit('show-fullscreen-img', message.Attachment)"
           />
@@ -130,10 +148,8 @@
             <span v-if="!isPlaying" id="duration" class="time">{{
               humanifyTimePeriod(duration)
             }}</span>
-            <span v-if="isPlaying" id="currentTime" class="time"
-              >{{ humanifyTimePeriod(currentTime) }} /
-              {{ humanifyTimePeriod(duration) }}</span
-            >
+            <span v-if="isPlaying" id="currentTime" class="time">{{ humanifyTimePeriod(currentTime) }} /
+              {{ humanifyTimePeriod(duration) }}</span>
           </div>
         </div>
         <div
@@ -141,12 +157,7 @@
           class="attachment-file"
         >
           {{ message.Attachment }}
-          <a
-            :href="
-              'http://localhost:9080/attachments?file=' + message.Attachment
-            "
-            >File</a
-          >
+          <a :href="'http://localhost:9080/attachments?file=' + message.Attachment">File</a>
         </div>
         <div
           v-else-if="message.CType === 5"
@@ -155,13 +166,9 @@
         >
           <video>
             <source
-              :src="
-                'http://localhost:9080/attachments?file=' + message.Attachment
-              "
+              :src="'http://localhost:9080/attachments?file=' + message.Attachment"
             />
-            <span v-translate
-              >Your browser does not support the video element.</span
-            >
+            <span v-translate>Your browser does not support the video element.</span>
           </video>
         </div>
 
@@ -172,6 +179,7 @@
       <div class="message-text">
         <!-- eslint-disable-next-line vue/no-v-html -->
         <div
+          v-if="message.Flags !== 17"
           class="message-text-content"
           data-test="message-text"
           v-html="linkify(sanitize(message.Message))"
@@ -179,9 +187,11 @@
         <div v-if="message.Flags === 17" v-translate>Group changed.</div>
         <div
           v-if="
-            message.Attachment.includes('null') &&
-            message.Message === '' &&
-            message.Flags === 0
+            message.Attachment &&
+              message.Attachment.includes('null') &&
+              message.Message === '' &&
+              message.Flags === 0 &&
+              !isGroup
           "
           class="status-message"
         >
@@ -197,32 +207,24 @@
           <span @click="showDate = !showDate">{{
             humanifyDateFromNow(message.SentAt)
           }}</span>
-          <span v-if="showDate" class="fullDate">{{
-            humanifyDate(message.SentAt)
-          }}</span>
+          <span v-if="showDate" class="fullDate">{{ humanifyDate(message.SentAt) }}</span>
         </div>
         <div v-if="message.ExpireTimer > 0">
           <div class="circle-wrap">
             <div class="circle">
               <div
                 class="mask full"
-                :style="
-                  'transform: rotate(' + timerPercentage(message) + 'deg)'
-                "
+                :style="'transform: rotate(' + timerPercentage(message) + 'deg)'"
               >
                 <div
                   class="fill"
-                  :style="
-                    'transform: rotate(' + timerPercentage(message) + 'deg)'
-                  "
+                  :style="'transform: rotate(' + timerPercentage(message) + 'deg)'"
                 />
               </div>
               <div class="mask half">
                 <div
                   class="fill"
-                  :style="
-                    'transform: rotate(' + timerPercentage(message) + 'deg)'
-                  "
+                  :style="'transform: rotate(' + timerPercentage(message) + 'deg)'"
                 />
               </div>
               <div class="inside-circle" />
@@ -239,6 +241,7 @@
 <script>
 import moment from "moment";
 import { mapState } from "vuex";
+import { router } from "@/router/router";
 let decoder;
 
 export default {
@@ -262,10 +265,11 @@ export default {
       currentTime: 0.0,
       isPlaying: false,
       name: "",
+      id: -1,
     };
   },
   computed: {
-    ...mapState(["contacts", "config"]),
+    ...mapState(["currentGroup", "config"]),
     isSenderNameDisplayed() {
       return (
         !this.message.Outgoing &&
@@ -276,7 +280,11 @@ export default {
     },
   },
   mounted() {
-    if (this.message.Attachment !== "" && this.message.Attachment !== null) {
+    if (
+      this.message.Attachment &&
+      this.message.Attachment !== "" &&
+      this.message.Attachment !== null
+    ) {
       const attachment = JSON.parse(this.message.Attachment);
       if (attachment && attachment.length > 0 && attachment[0].CType === 3) {
         this.audio = new Audio(
@@ -295,6 +303,7 @@ export default {
         };
       }
     }
+    this.getName(this.message.SourceUUID);
   },
   methods: {
     sanitize(msg) {
@@ -305,16 +314,34 @@ export default {
       result = decoder.innerHTML;
       return result;
     },
+    onImageError(event) {
+      event.target.style.display = "none";
+    },
+    openProfileForRecipient(recipient) {
+      if (recipient !== -1) {
+        router.push("/profile/" + recipient);
+      } else {
+        // name == uuid of the recipient
+        // this.$store.dispatch("createRecipient", this.name);
+        this.$store.dispatch("createRecipientAndAddToGroup", {
+          id: this.message.SourceUUID,
+          group: this.currentGroup.HexId,
+        });
+      }
+    },
     getName(uuid) {
-      if (this.contacts !== null) {
-        const contact = this.contacts.find(function (element) {
+      if (this.currentGroup !== null && this.currentGroup.Members !== null) {
+        const contact = this.currentGroup.Members.find(function (element) {
           return element.UUID === uuid;
         });
         if (typeof contact !== "undefined") {
-          this.name = contact.Name;
-          return contact.Name;
+          this.id = contact.Id;
+          if (contact.ProfileGivenName !== "") this.name = contact.ProfileGivenName;
+          else this.name = contact.Username;
+          return this.name;
         }
       }
+      this.name = uuid;
       return uuid;
     },
     isAttachmentArray(input) {
@@ -330,16 +357,12 @@ export default {
         e.preventDefault();
         alert("[oD]" + file);
         // this.showAttachmentsBar=true
-      } else {
-        // alert(file)
-        // console.log(file)
       }
     },
     timerPercentage(m) {
-      const recieved = moment(m.ReceivedAt);
-      const duration = moment.duration(recieved.diff(moment.now()));
-      const percentage =
-        1 - (m.ExpireTimer + duration.asSeconds()) / m.ExpireTimer;
+      const received = moment(m.ReceivedAt);
+      const duration = moment.duration(received.diff(moment.now()));
+      const percentage = 1 - (m.ExpireTimer + duration.asSeconds()) / m.ExpireTimer;
       if (percentage < 1) {
         const fullCircle = 179;
         return fullCircle * percentage;
@@ -347,11 +370,10 @@ export default {
     },
     verifySelfDestruction(m) {
       if (m.ExpireTimer !== 0) {
-        // console.log(m.ExpireTimer,m.SentAt, m.ReceivedAt, Date.now())
         if (m.ReceivedAt !== 0) {
           // hide destructed messages but not timer settings
-          const recieved = moment(m.ReceivedAt);
-          const duration = moment.duration(recieved.diff(moment.now()));
+          const received = moment(m.ReceivedAt);
+          const duration = moment.duration(received.diff(moment.now()));
           if (duration.asSeconds() + m.ExpireTimer < 0) {
             this.$store.dispatch("deleteSelfDestructingMessage", m);
             return false;
@@ -593,6 +615,12 @@ button {
   }
   #play-icon {
     margin: 20px 2.5% 20px 2.5%;
+  }
+}
+.incoming.group-message {
+  display: flex;
+  .badge-name {
+    margin-right: 10px;
   }
 }
 </style>

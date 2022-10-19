@@ -33,12 +33,10 @@
               <source
                 :src="
                   'http://localhost:9080/attachments?file=' +
-                  showFullscreenVideoSrc
+                    showFullscreenVideoSrc
                 "
               />
-              <span v-translate
-                >Your browser does not support the audio element.</span
-              >
+              <span v-translate>Your browser does not support the audio element.</span>
             </video>
             <button
               class="btn btn-secondary close"
@@ -51,7 +49,7 @@
             </button>
           </div>
           <message
-            v-for="message in messageList.Messages.slice().reverse()"
+            v-for="message in messageList"
             :key="message.ID"
             :message="message"
             :is-group="isGroup"
@@ -65,7 +63,10 @@
         </div>
         <div id="chat-bottom" />
       </div>
-      <div v-if="showAddContactButton" class="messageInputBoxDisabled w-100">
+      <div
+        v-if="isGroup && currentGroup && currentGroup.JoinStatus == 1"
+        class="messageInputBoxDisabled w-100"
+      >
         <p v-translate>
           Join this group? They won’t know you’ve seen their messages until you
           accept.
@@ -73,6 +74,12 @@
         <div v-translate class="btn btn-primary" @click="joinGroupAccept">
           Join
         </div>
+      </div>
+      <div
+        v-else-if="isGroup && currentGroup && currentGroup.JoinStatus == 2"
+        class="messageInputBoxDisabled w-100"
+      >
+        <p v-translate>You have been removed from this group.</p>
       </div>
       <div v-else class="bottom-wrapper">
         <div v-if="!voiceNote.recorded" class="messageInputBox">
@@ -114,8 +121,7 @@
             class="messageInput-btn-container d-flex justify-content-center align-items-center"
           >
             <div>
-              <span>{{ Math.floor(voiceNote.duration) }}</span
-              ><span v-translate class="me-2">s</span>
+              <span>{{ Math.floor(voiceNote.duration) }}</span><span v-translate class="me-2">s</span>
             </div>
             <button
               v-if="!voiceNote.playing"
@@ -201,6 +207,7 @@ export default {
         blobUrl: "",
         voiceNoteElem: null,
         duration: 0,
+        firstScroll: true,
       },
     };
   },
@@ -208,16 +215,14 @@ export default {
     chat() {
       return this.$store.state.currentChat;
     },
-    showAddContactButton() {
-      return this.chat && this.chat.IsGroup && this.chat.GroupJoinStatus !== 0;
-    },
     messages() {
-      return this.$store.state.messageList.Messages;
+      return this.$store.state.messageList;
     },
     isGroup() {
-      return this.$store.state.messageList.Session.IsGroup;
+      return this.$store.state.currentChat.GroupV2ID !== "" ||
+        this.$store.state.currentChat.GroupV1ID !== "";
     },
-    ...mapState(["contacts", "config", "messageList"]),
+    ...mapState(["contacts", "config", "messageList", "currentGroup"]),
   },
   watch: {
     messageInput() {
@@ -230,17 +235,17 @@ export default {
         textarea.style.height = textarea.scrollHeight + 5 + "px";
       }
     },
-    contacts() {
-      if (this.contacts !== null) {
-        this.propagateNames();
-      }
-    },
     messages: {
       // This will let Vue know to look inside the array
       deep: true,
       handler() {
         if (!this.$data.scrollLocked) setTimeout(this.scrollDown, 600);
-        this.$data.scrollLocked = false;
+        if(!this.$data.firstScroll){
+        setTimeout(this.$data.scrollLocked = false, 1000);
+
+        }else this.$data.scrollLocked = false;
+        
+        this.$data.firstScroll = false;
         // this.scrollDown();
       },
     },
@@ -329,7 +334,7 @@ export default {
           to: this.chatId,
           message: this.messageInput,
         });
-        if (this.$store.state.messageList.Messages === null) {
+        if (this.$store.state.messageList === null) {
           this.$store.dispatch("getMessageList", this.getId());
         }
         this.messageInput = "";
@@ -344,8 +349,7 @@ export default {
         !this.$data.scrollLocked &&
         event.target.scrollTop < 80 &&
         this.$store.state.messageList &&
-        this.$store.state.messageList.Messages &&
-        this.$store.state.messageList.Messages.length > 19
+        this.$store.state.messageList.length > 19
       ) {
         this.$data.scrollLocked = true;
         this.$store.dispatch("getMoreMessages");
@@ -362,7 +366,7 @@ export default {
       }
     },
     scrollDown() {
-      if (this.messages.length !== 0)
+      if (this.messages && this.messages.length !== 0)
         document.getElementById("chat-bottom").scrollIntoView();
     },
     recordAudio() {

@@ -3,11 +3,15 @@ package store
 import (
 	"errors"
 	"fmt"
+	"time"
 
+	"github.com/nanu-c/axolotl/app/config"
 	"github.com/nanu-c/axolotl/app/helpers"
 	signalservice "github.com/signal-golang/textsecure/protobuf"
 	log "github.com/sirupsen/logrus"
 )
+
+const getLastMessagesQuery = "SELECT *, max(sentat) FROM messages GROUP BY sid ORDER BY sentat DESC"
 
 type Message struct {
 	ID            int64 `db:"id"`
@@ -33,20 +37,26 @@ type Message struct {
 	QuotedMessage *Message
 }
 
-func SaveMessage(m *Message) (error, *Message) {
-
+func SaveMessage(m *Message) (*Message, error) {
+	// get last messageid
+	var lastId int64
+	err := DS.Dbx.Get(&lastId, "SELECT id FROM messages ORDER BY id DESC LIMIT 1")
+	if err != nil {
+		lastId = 0
+	}
+	m.ID = lastId + 1
 	res, err := DS.Dbx.NamedExec(messagesInsert, m)
 	if err != nil {
-		return err, nil
+		return nil, err
 	}
 
 	id, err := res.LastInsertId()
 	if err != nil {
-		return err, nil
+		return nil, err
 	}
 
 	m.ID = id
-	return nil, m
+	return m, nil
 }
 
 func UpdateMessageSent(m *Message) error {
@@ -92,36 +102,10 @@ func LoadGroups() error {
 	}
 	return nil
 }
-func LoadMessagesFromDB() error {
-	err := LoadGroups()
-	if err != nil {
-		return err
-	}
-	log.Printf("Loading Messages")
-	err = DS.Dbx.Select(&AllSessions, sessionsSelect)
-	if err != nil {
-		return err
-	}
-	for _, s := range AllSessions {
-		s.When = helpers.HumanizeTimestamp(s.Timestamp)
-		s.Active = !s.IsGroup || (Groups[s.Tel] != nil && Groups[s.Tel].Active)
-		SessionsModel.Sess = append(SessionsModel.Sess, s)
-		SessionsModel.Len++
-		err = DS.Dbx.Select(&s.Messages, messagesSelectWhere, s.ID)
-		s.Len = len(s.Messages)
-		if err != nil {
-			return err
-		}
-		for _, m := range s.Messages {
-			m.HTime = helpers.HumanizeTimestamp(m.SentAt)
-		}
-	}
-	return nil
-}
 
 func DeleteMessage(id int64) error {
 	err := deleteAttachmentForMessage(id)
-	if err!=nil{
+	if err != nil {
 		log.Errorln("[axolotl] could not delete attachment", err)
 		return err
 	}
@@ -129,13 +113,6 @@ func DeleteMessage(id int64) error {
 	return err
 }
 
-func (s *Session) GetMessages(i int) *Message {
-	//FIXME when is index -1 ?
-	if i == -1 || i >= len(s.Messages) {
-		return &Message{}
-	}
-	return s.Messages[i]
-}
 func (m *Message) GetName() string {
 	return TelToName(m.Source)
 }
@@ -156,7 +133,7 @@ func FindQuotedMessage(quote *signalservice.DataMessage_Quote) (error, int64) {
 }
 
 // GetMessageById returns a message by it's ID
-func GetMessageById(id int64) ( *Message, error) {
+func GetMessageById(id int64) (*Message, error) {
 	var message = []Message{}
 	err := DS.Dbx.Select(&message, "SELECT * FROM messages WHERE id = ?", id)
 	if err != nil {
@@ -171,6 +148,7 @@ func GetMessageById(id int64) ( *Message, error) {
 // FindOutgoingMessage returns  a message that is found by it's timestamp
 func FindOutgoingMessage(timestamp uint64) (*Message, error) {
 	var message = []Message{}
+	log.Debugln("[axolotl] searching for outgoing message ", timestamp)
 	err := DS.Dbx.Select(&message, "SELECT * FROM messages WHERE outgoing = 1 AND sentat = ?", timestamp)
 	if err != nil {
 		return nil, err
@@ -179,4 +157,47 @@ func FindOutgoingMessage(timestamp uint64) (*Message, error) {
 		return nil, errors.New("Message not found " + fmt.Sprint(timestamp))
 	}
 	return &message[0], nil
+}
+
+// GetUnreadMessageCounterForSession returns an int for the unread messages for a session
+func GetUnreadMessageCounterForSession(id int64) (int64, error) {
+	var message = []Message{}
+	err := DS.Dbx.Select(&message, "SELECT id FROM messages WHERE isread = 0 AND sessionid = ?", id)
+	if err != nil {
+		return 0, err
+	}
+	return int64(len(message)), nil
+}
+
+func GetLastMessagesForAllSessions() ([]Message, error) {
+	var messages = []Message{}
+	unsafeDbx := DS.Dbx.Unsafe() // needed, because max(sentat) has no destination
+	err := unsafeDbx.Select(&messages, getLastMessagesQuery)
+	if err != nil {
+		return nil, err
+	}
+	return messages, nil
+}
+
+func getMessagesForSession(id int64, limit, offset int) ([]*Message, error) {
+	var messages = []*Message{}
+	err := DS.Dbx.Select(&messages, "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT ? OFFSET ?", id, limit, offset)
+	if err != nil {
+		return nil, err
+	}
+	if len(messages) == 0 {
+		m := &Message{Message: "New chat created",
+			SID:         id,
+			Outgoing:    true,
+			Source:      "",
+			SourceUUID:  config.Config.UUID,
+			HTime:       "Now",
+			SentAt:      uint64(time.Now().UnixNano() / 1000000),
+			ExpireTimer: uint32(0),
+			Flags:       helpers.MsgFlagChatCreated,
+		}
+		SaveMessage(m)
+		messages = append(messages, m)
+	}
+	return messages, nil
 }

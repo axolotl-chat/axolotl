@@ -2,7 +2,9 @@ package webserver
 
 import (
 	"encoding/json"
+	"fmt"
 	"strings"
+	"time"
 
 	log "github.com/sirupsen/logrus"
 
@@ -14,7 +16,6 @@ import (
 	"github.com/nanu-c/axolotl/app/settings"
 	"github.com/nanu-c/axolotl/app/store"
 	"github.com/signal-golang/textsecure"
-	textsecureContacts "github.com/signal-golang/textsecure/contacts"
 )
 
 func websocketSender() {
@@ -44,8 +45,25 @@ func sendRegistrationStatus() {
 }
 func sendChatList() {
 	var err error
+	sessions, err := store.SessionsV2Model.GetAllSessions()
+	if err != nil {
+		log.Errorln("[axolotl] sendChatList1", err)
+		return
+	}
+	lastMessages, err := store.GetLastMessagesForAllSessions()
+	if err != nil {
+		log.Errorln("[axolotl] sendChatList2", err)
+		return
+	}
+	sessionNames, err := store.SessionsV2Model.GetSessionNames()
+	if err != nil {
+		log.Errorln("[axolotl] sendChatList3", err)
+		return
+	}
 	chatListEnvelope := &ChatListEnvelope{
-		ChatList: store.SessionsModel.Sess,
+		ChatList:     sessions,
+		LastMessages: lastMessages,
+		SessionNames: sessionNames,
 	}
 	message := &[]byte{}
 	*message, err = json.Marshal(chatListEnvelope)
@@ -55,22 +73,31 @@ func sendChatList() {
 	}
 	broadcast <- *message
 }
-func sendCurrentChat(s *store.Session) {
+func sendCurrentChat(s *store.SessionV2) {
 	var (
 		err   error
-		gr    *store.GroupRecord
 		group *Group
 	)
-	if s.IsGroup {
-		gr = store.GetGroupById(s.UUID)
+	if s.IsGroup() {
+		gr, err := store.GroupV2sModel.GetGroupById(s.GroupV2ID)
+		if err != nil {
+			log.Errorln("[axolotl] sendCurrentChat: get group ", err)
+			return
+		}
 		if gr == nil {
-			log.Errorln("[axolotl] sendCurrentChat: group not found", s.UUID)
+			log.Errorln("[axolotl] sendCurrentChat: group not found", s.GroupV2ID)
+			return
+		}
+		members, err := gr.GetGroupMembersAsRecipients()
+		if err != nil {
+			log.Errorln("[axolotl] sendCurrentChat: get members ", err)
 			return
 		}
 		group = &Group{
-			HexId:   gr.GroupID,
-			Name:    gr.Name,
-			Members: strings.Split(gr.Members, ","),
+			HexId:      s.GroupV2ID,
+			Name:       gr.Name,
+			Members:    members,
+			JoinStatus: gr.JoinStatus,
 		}
 	}
 	currentChatEnvelope := &CurrentChatEnvelope{
@@ -88,26 +115,34 @@ func sendCurrentChat(s *store.Session) {
 	}
 	broadcast <- *message
 }
-func updateCurrentChat(s *store.Session) {
+func updateCurrentChat(s *store.SessionV2) {
 	var (
 		err   error
-		gr    *store.GroupRecord
 		group *Group
-		c     *textsecureContacts.Contact
+		c     *store.Recipient
 	)
-	if s.IsGroup {
-		gr = store.GetGroupById(s.UUID)
+	if s.IsGroup() {
+		gr, err := store.GroupV2sModel.GetGroupById(s.GroupV2ID)
+		if err != nil {
+			log.Errorln("[axolotl] updateCurrentChat: ", err)
+			return
+		}
 		if gr == nil {
-			log.Errorln("[axolotl] updateCurrentChat: group not found", s.UUID)
+			log.Errorln("[axolotl] updateCurrentChat: group not found", s.GroupV2ID)
+			return
+		}
+		members, err := gr.GetGroupMembersAsRecipients()
+		if err != nil {
+			log.Errorln("[axolotl] updateCurrentChat: ", err)
 			return
 		}
 		group = &Group{
-			HexId:   gr.GroupID,
+			HexId:   gr.Id,
 			Name:    gr.Name,
-			Members: strings.Split(gr.Members, ","),
+			Members: members,
 		}
 	} else {
-		c = store.GetContactForTel(s.Tel)
+		c = store.RecipientsModel.GetRecipientById(s.DirectMessageRecipientID)
 	}
 	updateCurrentChatEnvelope := &UpdateCurrentChatEnvelope{
 		UpdateCurrentChat: &UpdateCurrentChat{
@@ -175,17 +210,47 @@ func sendDeviceList() {
 	}
 	broadcast <- *message
 }
-func createChat(uuid string) *store.Session {
+func createDirectRecipientChat(uuid string) (*store.SessionV2, error) {
+	var err error
 	if uuid == "0" {
-		return nil
+		return nil, fmt.Errorf("createDirectRecipientChat: uuid is 0")
 	}
-	session, err := store.SessionsModel.GetByUUID(uuid)
+	contact := store.GetContactForUUID(uuid)
+
+	recipient := store.RecipientsModel.GetOrCreateRecipientForContact(contact)
+	if recipient == nil {
+		recipient, err = store.RecipientsModel.CreateRecipient(&store.Recipient{
+			UUID: uuid,
+		})
+		if err != nil {
+			log.Errorln("[axolotl] createDirectRecipientChat", err)
+			return nil, err
+		}
+	}
+	session, err := store.SessionsV2Model.GetOrCreateSessionForDirectMessageRecipient(recipient.Id)
 	if err != nil {
-		session = store.SessionsModel.CreateSessionForUUID(uuid)
+		log.Errorln("[axolotl] createDirectRecipientChat", err)
+		return nil, err
 	}
-	return session
+	// ensure that a message exists
+	messages, err := session.GetMessageList(1, 0)
+	if err != nil || len(messages) == 0 {
+		m := &store.Message{Message: "New chat created",
+			SID:         session.ID,
+			Outgoing:    true,
+			Source:      "",
+			SourceUUID:  config.Config.UUID,
+			HTime:       "Now",
+			SentAt:      uint64(time.Now().UnixNano() / 1000000),
+			ExpireTimer: uint32(session.ExpireTimer),
+		}
+		go MessageHandler(m)
+	}
+	return session, nil
 }
-func createGroup(newGroupData CreateGroupMessage) (*store.Session, error) {
+
+// createGroup creates a group chat session and returns the session id. -> Deprectated
+func createGroup(newGroupData CreateGroupMessage) (*store.SessionV2, error) {
 	group, err := textsecure.NewGroup(newGroupData.Name, newGroupData.Members)
 	if err != nil {
 		ShowError(err.Error())
@@ -205,38 +270,18 @@ func createGroup(newGroupData CreateGroupMessage) (*store.Session, error) {
 		ShowError(err.Error())
 		return nil, err
 	}
-	session := store.SessionsModel.CreateSessionForGroup(group)
-	msg := session.Add(store.GroupUpdateMsg(append(newGroupData.Members, config.Config.Tel), newGroupData.Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
-	msg.Flags = helpers.MsgFlagGroupNew
-	store.SaveMessage(msg)
+	session, err := store.SessionsV2Model.CreateSessionForGroupV1(group.Hexid)
+	if err != nil {
+		ShowError(err.Error())
+		return nil, err
+	}
+	// TODO:
+	// msg := session.Add(store.GroupUpdateMsg(append(newGroupData.Members, config.Config.Tel), newGroupData.Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
+	// msg.Flags = helpers.MsgFlagGroupNew
+	// store.SaveMessage(msg)
 	return session, nil
 }
-func updateGroup(updateGroupData UpdateGroupMessage) *store.Session {
-	group, err := textsecure.UpdateGroup(updateGroupData.ID, updateGroupData.Name, updateGroupData.Members)
-	if err != nil {
-		ShowError(err.Error())
-		return nil
-	}
-	members := strings.Join(updateGroupData.Members, ",")
-	store.Groups[updateGroupData.ID] = &store.GroupRecord{
-		GroupID: updateGroupData.ID,
-		Name:    updateGroupData.Name,
-		Members: members,
-	}
-	store.SaveGroup(store.Groups[group.Hexid])
-	session, err := store.SessionsModel.GetByUUID(group.Hexid)
-	if err != nil {
-		ShowError(err.Error())
-		return nil
-	}
-	msg := session.Add(store.GroupUpdateMsg(updateGroupData.Members, updateGroupData.Name), "", []store.Attachment{}, "", true, store.ActiveSessionID)
-	msg.Flags = helpers.MsgFlagGroupUpdate
-	store.SaveMessage(msg)
-
-	return session
-
-}
-func joinGroup(joinGroupmessage JoinGroupMessage) *store.Session {
+func joinGroupV2(joinGroupmessage JoinGroupMessage) *store.SessionV2 {
 	log.Infoln("[axolotl] joinGroup", joinGroupmessage.ID)
 	group, err := textsecure.JoinGroup(joinGroupmessage.ID)
 	if err != nil {
@@ -247,34 +292,59 @@ func joinGroup(joinGroupmessage JoinGroupMessage) *store.Session {
 		}
 		// in this case the group is already joined. Its join status has to be updated
 	}
-	members := ""
 	// members cannot be read if the group is not yet joined
 	if group.JoinStatus == store.GroupJoinStatusJoined {
 		log.Infoln("[axolotl] joining group was successful", group.Hexid)
 		for _, member := range group.DecryptedGroup.Members {
-			members = members + string(member.Uuid) + ","
+			// todo: add recipients and store them as group members
+			log.Debugln("[axolotl] member", member)
 		}
 	}
-
-	storeGroup := &store.GroupRecord{
-		GroupID:    group.Hexid,
-		Name:       group.DecryptedGroup.Title,
-		Members:    members,
-		JoinStatus: group.JoinStatus,
+	groupV2, err := store.GroupV2sModel.GetGroupById(group.Hexid)
+	if err != nil {
+		log.Errorln("[axolotl] joinGroup", err)
+		return nil
 	}
-	store.Groups[group.Hexid] = storeGroup
-	store.SaveGroup(storeGroup)
-	session, _ := store.SessionsModel.GetByUUID(group.Hexid)
-	session.Name = group.DecryptedGroup.Title
-	session.GroupJoinStatus = group.JoinStatus
+	// create groupV2 if it doesn't exist
+	if groupV2 == nil {
+		groupV2, err = store.GroupV2sModel.Create(&store.GroupV2{
+			Id:         group.Hexid,
+			Name:       group.DecryptedGroup.Title,
+			JoinStatus: group.JoinStatus,
+		})
+		if err != nil {
+			log.Errorln("[axolotl] joinGroup", err)
+			return nil
+		}
+	} else {
+		// update GroupV2
+		groupV2.JoinStatus = group.JoinStatus
+		groupV2.Name = group.DecryptedGroup.Title
+		err = groupV2.UpdateGroup()
+		if err != nil {
+			log.Errorln("[axolotl] joinGroup", err)
+			return nil
+		}
+	}
+	// Create or get session for group
+	session, _ := store.SessionsV2Model.GetSessionByGroupV2ID(group.Hexid)
+	if session == nil {
+		session, _ = store.SessionsV2Model.CreateSessionForGroupV2(groupV2.Id)
+	}
+
 	// Add a join message to the session when the group is joined
 	if group.JoinStatus == store.GroupJoinStatusJoined {
-		msg := session.Add("You accepted the invitation to the group.", "", []store.Attachment{}, "", true, store.ActiveSessionID)
-		msg.Flags = helpers.MsgFlagGroupJoined
-		store.SaveMessage(msg)
+		msg, err := store.SaveMessage(&store.Message{
+			Message: "You accepted the invitation to the group.",
+			Flags:   helpers.MsgFlagGroupJoined,
+			SID:     session.ID,
+		})
+		if err != nil {
+			log.Errorln("[axolotl] joinGroup", err)
+			return nil
+		}
 		MessageHandler(msg)
 	}
-	store.UpdateSession(session)
 	requestEnterChat(store.ActiveSessionID)
 	sendContactList()
 	return session
@@ -282,14 +352,19 @@ func joinGroup(joinGroupmessage JoinGroupMessage) *store.Session {
 func sendMessageList(ID int64) {
 	message := &[]byte{}
 	log.Debugln("[axolotl] sendMessageList for conversation", ID)
-	err, messageList := store.SessionsModel.GetMessageList(ID)
+	session, err := store.SessionsV2Model.GetSessionByID(ID)
+	if err != nil {
+		log.Errorln("[axolotl] sendMessageList", err)
+		return
+	}
+	messageList, err := session.GetMessageList(20, 0)
 	if err != nil {
 		log.Errorln("[axolotl] sendMessageList: ", err)
 		return
 	}
-	messageList.Session.MarkRead()
+	session.MarkRead()
 	if push.Nh != nil {
-		push.Nh.Clear(messageList.Session.Tel)
+		push.Nh.Clear(session.ID)
 	}
 	chatListEnvelope := &MessageListEnvelope{
 		MessageList: messageList,
@@ -301,9 +376,9 @@ func sendMessageList(ID int64) {
 	}
 	broadcast <- *message
 }
-func sendMoreMessageList(id int64, lastId string) {
+func sendMoreMessageList(id int64, sentAt uint64) {
 	message := &[]byte{}
-	err, messageList := store.SessionsModel.GetMoreMessageList(id, lastId)
+	messageList, err := store.SessionsV2Model.GetMoreMessageList(id, sentAt)
 	if err != nil {
 		log.Errorln("[axolotl] sendMoreMessageList: ", err)
 		return
@@ -357,7 +432,7 @@ func UpdateContactList() {
 func UpdateActiveChat() {
 	if activeChat != -1 {
 		// log.Debugln("[axolotl] update activ	e chat")
-		s, err := store.SessionsModel.Get(activeChat)
+		s, err := store.SessionsV2Model.GetSessionByID(activeChat)
 		if err != nil {
 			log.Errorln("[axolotl-ws] UpdateActiveChat", err)
 		} else {

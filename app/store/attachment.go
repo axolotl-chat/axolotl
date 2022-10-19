@@ -4,7 +4,6 @@ import (
 	"crypto/rand"
 	"encoding/json"
 	"io"
-	"io/ioutil"
 	"mime"
 	"os"
 	"path/filepath"
@@ -54,12 +53,15 @@ func SaveAttachment(a *textsecure.Attachment) (Attachment, error) {
 	if err != nil {
 		return Attachment{}, err
 	}
-	defer f.Close()
 
 	_, err = io.Copy(f, a.R)
 	if err != nil {
 		return Attachment{}, err
+	}
 
+	err = f.Close()
+	if err != nil {
+		return Attachment{}, err
 	}
 
 	return Attachment{File: fn, FileName: a.FileName}, nil
@@ -69,13 +71,13 @@ func SaveAttachment(a *textsecure.Attachment) (Attachment, error) {
 func CopyAttachment(src string) (string, error) {
 	_, b := filepath.Split(src)
 	dest := filepath.Join(config.AttachDir, b)
-	input, err := ioutil.ReadFile(src)
+	input, err := os.ReadFile(src)
 	if err != nil {
 		log.Errorln("[axolotl] CopyAttachment ", err)
 		return "", err
 	}
 
-	err = ioutil.WriteFile(dest, input, 0644)
+	err = os.WriteFile(dest, input, 0600)
 	if err != nil {
 		log.Errorln("[axolotl] CopyAttachment Error creating ", dest, err)
 		return "", err

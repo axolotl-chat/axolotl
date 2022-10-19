@@ -30,6 +30,28 @@ export const router = new createRouter({
       component: () => import("@/pages/MessageList.vue")
     },
     {
+      path: "/profile/:id",
+      name: "profile",
+      meta: {
+        layout: Default,
+        hasMenu: true,
+        hasBackButton: true,
+      },
+      props: route => ({
+        profileId: Number(route.params.id),
+      }),
+      component: () => import("@/pages/Profile.vue")
+    },
+    {
+      path: "/editContact",
+      name: "editContact",
+      meta: {
+        layout: Default,
+        hasBackButton: true,
+      },
+      component: () => import("@/pages/EditContact.vue")
+    },
+    {
       // register page is where the registration starts
       path: "/register",
       name: "register",

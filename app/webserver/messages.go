@@ -7,13 +7,15 @@ import (
 )
 
 type MessageListEnvelope struct {
-	MessageList *store.MessageList
+	MessageList []*store.Message
 }
 type MoreMessageListEnvelope struct {
 	MoreMessageList *store.MessageList
 }
 type ChatListEnvelope struct {
-	ChatList []*store.Session
+	ChatList     []*store.SessionV2
+	LastMessages []store.Message
+	SessionNames []store.SessionV2Name
 }
 type ContactListEnvelope struct {
 	ContactList []textsecureContacts.Contact
@@ -22,12 +24,13 @@ type DeviceListEnvelope struct {
 	DeviceList []textsecure.DeviceInfo
 }
 type Group struct {
-	HexId   string
-	Name    string
-	Members []string
+	HexId      string
+	Name       string
+	Members    []*store.Recipient
+	JoinStatus int
 }
 type OpenChat struct {
-	CurrentChat *store.Session
+	CurrentChat *store.SessionV2
 	Contact     *textsecureContacts.Contact
 	Group       *Group
 }
@@ -35,8 +38,8 @@ type CurrentChatEnvelope struct {
 	OpenChat *OpenChat
 }
 type UpdateCurrentChat struct {
-	CurrentChat *store.Session
-	Contact     *textsecureContacts.Contact
+	CurrentChat *store.SessionV2
+	Contact     *store.Recipient
 	Group       *Group
 }
 type UpdateCurrentChatEnvelope struct {
@@ -70,7 +73,7 @@ type GetMessageListMessage struct {
 }
 type GetMoreMessages struct {
 	Type   string `json:"request"`
-	LastID string `json:"lastId"`
+	SentAt uint64 `json:"sentAt"`
 }
 type SendMessageMessage struct {
 	Type    string `json:"request"`
@@ -156,12 +159,6 @@ type CreateGroupMessage struct {
 	Name    string   `json:"name"`
 	Members []string `json:"members"`
 }
-type UpdateGroupMessage struct {
-	Type    string   `json:"request"`
-	Name    string   `json:"name"`
-	ID      string   `json:"id"`
-	Members []string `json:"members"`
-}
 type JoinGroupMessage struct {
 	Type string `json:"request"`
 	ID   string `json:"id"`
@@ -203,4 +200,56 @@ type SetDarkMode struct {
 type SetLogLevelMessage struct {
 	Type  string `json:"request"`
 	Level string `json:"level"`
+}
+type GetProfileMessage struct {
+	Type string `json:"request"`
+	ID   int64  `json:"id"`
+}
+type UpdateProfileNameMessage struct {
+	Type string `json:"request"`
+	Name string `json:"name"`
+	ID   int64  `json:"id"`
+}
+type CreateChatForRecipientMessage struct {
+	Type string `json:"request"`
+	ID   int64  `json:"id"`
+}
+type CreateRecipientMessage struct {
+	Type      string `json:"request"`
+	Recipient string `json:"recipient"`
+}
+type CreateRecipientAndAddToGroupMessage struct {
+	Type      string `json:"request"`
+	Recipient string `json:"recipient"`
+	Group     string `json:"group"`
+}
+type UpdateMessage struct {
+	UpdateMessage *store.Message
+}
+
+type ProfileMessage struct {
+	Recipient *store.Recipient
+	Contact   *textsecureContacts.Contact
+}
+
+type ProfileMessageEnvelope struct {
+	ProfileMessage *ProfileMessage
+}
+
+type SendEnterChatRequest struct {
+	Type string
+	Chat int64
+}
+
+type SendRequest struct {
+	Type string
+}
+
+type SendError struct {
+	Type  string
+	Error string
+}
+
+type MessageReceived struct {
+	MessageReceived *store.Message
 }

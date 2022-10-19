@@ -2,12 +2,14 @@ package webserver
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"math/rand"
 	"os"
 	"strings"
 	"time"
 	"unsafe"
+
+	"github.com/nanu-c/axolotl/app/contact"
+	"github.com/signal-golang/textsecure/contacts"
 
 	log "github.com/sirupsen/logrus"
 	"github.com/vincent-petithory/dataurl"
@@ -26,13 +28,9 @@ var (
 	requestUsername            = false
 )
 
-type MessageRecieved struct {
-	MessageRecieved *store.Message
-}
-
 func MessageHandler(msg *store.Message) {
-	messageRecieved := &MessageRecieved{
-		MessageRecieved: msg,
+	messageReceived := &MessageReceived{
+		MessageReceived: msg,
 	}
 	// fetch attached message
 	if msg.Flags == helpers.MsgFlagQuote {
@@ -47,17 +45,13 @@ func MessageHandler(msg *store.Message) {
 	}
 	var err error
 	message := &[]byte{}
-	*message, err = json.Marshal(messageRecieved)
+	*message, err = json.Marshal(messageReceived)
 	if err != nil {
 		log.Errorln("[axolotl-ws] messageHandler", err)
 		return
 	}
 	broadcast <- *message
 	UpdateChatList()
-}
-
-type UpdateMessage struct {
-	UpdateMessage *store.Message
 }
 
 // UpdateMessageHandler sents message receipts to all connected clients for the activeChat
@@ -82,26 +76,24 @@ func UpdateMessageHandler(msg *store.Message) {
 // UpdateMessageHandlerWithSource checks if the message belongs to the current chat and if yes
 // triggers an update on axolotl web
 func UpdateMessageHandlerWithSource(msg *store.Message) {
+	if msg == nil {
+		return
+	}
 	if msg.SID == activeChat {
 		log.Debugln("[axolotl-ws] UpdateMessageHandlerWithSource ", msg.SID, msg.SentAt)
 		updateMessage := &UpdateMessage{
 			UpdateMessage: msg,
 		}
 		var err error
-		message := &[]byte{}
-		*message, err = json.Marshal(updateMessage)
+		message, err := json.Marshal(updateMessage)
 		if err != nil {
 			log.Errorln("[axolotl-ws] UpdateMessageHandlerWithSource", err)
 			return
 		}
-		broadcast <- *message
+		broadcast <- message
 		UpdateChatList()
 	}
 
-}
-
-type SendRequest struct {
-	Type string
 }
 
 func sendRequest(requestType string) {
@@ -125,11 +117,6 @@ func sendRequest(requestType string) {
 func RegistrationDone() {
 	registered = true
 	sendRequest("registrationDone")
-}
-
-type SendEnterChatRequest struct {
-	Type string
-	Chat int64
 }
 
 func requestEnterChat(chat int64) {
@@ -174,11 +161,6 @@ func sendError(client *websocket.Conn, errorMessage string) {
 		return
 	}
 	broadcast <- *message
-}
-
-type SendError struct {
-	Type  string
-	Error string
 }
 
 func ShowError(errorMessage string) {
@@ -246,7 +228,7 @@ func uploadSendAttachment(attachment UploadAttachmentMessage) error {
 		log.Errorln("[axolotl] uploadSendAttachment", err)
 
 	}
-	ioutil.WriteFile(file, dataURL.Data, 0644)
+	os.WriteFile(file, dataURL.Data, 0600)
 
 	fi, err := os.Stat(file)
 	if err != nil {
@@ -270,7 +252,7 @@ func uploadSendVoiceNote(voiceNote SendVoiceNoteMessage) error {
 	if err != nil {
 		log.Errorln("[axolotl] voiceNote error:", err)
 	}
-	ioutil.WriteFile(file, dataURL.Data, 0644)
+	os.WriteFile(file, dataURL.Data, 0600)
 
 	fi, err := os.Stat(file)
 	if err != nil {
@@ -286,4 +268,88 @@ func uploadSendVoiceNote(voiceNote SendVoiceNoteMessage) error {
 		go MessageHandler(m)
 	}
 	return nil
+}
+
+func sendProfile(id int64) {
+	recipient := store.RecipientsModel.GetRecipientById(id)
+	if recipient == nil {
+		return
+	}
+	var contact *contacts.Contact
+	if recipient.E164 != "" {
+		contact = store.GetContactForTel(recipient.E164)
+	}
+	profileMessage := &ProfileMessage{
+		Recipient: recipient,
+		Contact:   contact,
+	}
+	profileMessageEnvelope := &ProfileMessageEnvelope{
+		ProfileMessage: profileMessage,
+	}
+	var err error
+	message := &[]byte{}
+	*message, err = json.Marshal(profileMessageEnvelope)
+	if err != nil {
+		log.Errorln("[axolotl-ws] UpdateMessageHandler", err)
+		return
+	}
+	broadcast <- *message
+
+}
+func updateProfileName(id int64, name string) {
+	recipient := store.RecipientsModel.GetRecipientById(id)
+	if recipient == nil {
+		return
+	}
+	recipient.ProfileGivenName = name
+	recipient.SaveRecipient()
+	if recipient.E164 != "" {
+		contactForTel := store.GetContactForTel(recipient.E164)
+		if contactForTel != nil {
+			contactForTel.Name = name
+			contact.EditContact(store.ContactsModel.GetContact(int(id)), *contactForTel)
+		}
+	}
+	sendProfile(id)
+}
+func createChatForRecipient(id int64) {
+	recipient := store.RecipientsModel.GetRecipientById(id)
+	if recipient == nil {
+		return
+	}
+	newChat, err := store.SessionsV2Model.GetOrCreateSessionForDirectMessageRecipient(recipient.Id)
+	if err != nil {
+		log.Errorln("[axolotl] Create chat error:", err)
+	} else {
+
+		activeChat = newChat.ID
+		store.ActiveSessionID = activeChat
+		requestEnterChat(newChat.ID)
+		sendChatList()
+	}
+}
+
+func createRecipient(uuid string) {
+	recipient := store.RecipientsModel.GetOrCreateRecipient(uuid)
+	if recipient == nil {
+		return
+	}
+}
+func createRecipientAndAddToGroup(uuid, groupId string) {
+	recipient := store.RecipientsModel.GetOrCreateRecipient(uuid)
+	if recipient == nil {
+		return
+	}
+	group, err := store.GroupV2sModel.GetGroupById(groupId)
+	if err != nil {
+		log.Errorln("[axolotl] Create recipient and add to group error:", err)
+		return
+	}
+	err = group.AddMember(recipient)
+	if err != nil {
+		log.Errorln("[axolotl] Create recipient and add to group error:", err)
+		return
+	}
+	requestEnterChat(store.ActiveSessionID)
+
 }

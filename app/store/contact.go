@@ -1,7 +1,7 @@
 package store
 
 import (
-	"io/ioutil"
+	"os"
 
 	log "github.com/sirupsen/logrus"
 
@@ -54,7 +54,6 @@ func RefreshContacts() error {
 	log.Debugln("[axolotl] Refresh contacts count: ", len(c))
 	ContactsModel.Contacts = c
 	ContactsModel.Len = len(c)
-	SessionsModel.UpdateSessionNames()
 	if err != nil {
 		return err
 	}
@@ -71,10 +70,10 @@ func writeRegisteredContacts(filename string, contacts []textsecureContacts.Cont
 	if err != nil {
 		return err
 	}
-	return ioutil.WriteFile(filename, b, 0600)
+	return os.WriteFile(filename, b, 0600)
 }
 func readRegisteredContacts(fileName string) ([]textsecureContacts.Contact, error) {
-	b, err := ioutil.ReadFile(fileName)
+	b, err := os.ReadFile(fileName)
 	if err != nil {
 		return nil, err
 	}

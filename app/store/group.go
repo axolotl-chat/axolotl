@@ -17,25 +17,10 @@ type GroupRecord struct {
 const (
 	GroupRecordTypeGroupv1 = 0
 	GroupRecordTypeGroupv2 = 1
-	GroupJoinStatusJoined  = 0
-	GroupJoinStatusInvited = 1
 )
 
 var AllGroups []*GroupRecord
 var Groups = map[string]*GroupRecord{}
-
-func UpdateGroup(g *GroupRecord) (*GroupRecord, error) {
-	res, err := DS.Dbx.NamedExec(groupsUpdate, g)
-	if err != nil {
-		return nil, err
-	}
-	id, err := res.LastInsertId()
-	if err != nil {
-		return nil, err
-	}
-	g.ID = id
-	return g, err
-}
 
 // DeleteGroup deletes a group from the database
 func DeleteGroup(hexid string) error {
@@ -54,9 +39,6 @@ func SaveGroup(g *GroupRecord) (*GroupRecord, error) {
 	}
 	g.ID = id
 	return g, nil
-}
-func FetchAllGroups() error {
-	return nil
 }
 func GetGroupById(hexid string) *GroupRecord {
 	return Groups[hexid]
