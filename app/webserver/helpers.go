@@ -50,7 +50,7 @@ func sendChatList() {
 		log.Errorln("[axolotl] sendChatList1", err)
 		return
 	}
-	lastMessages, err := store.SessionsV2Model.GetLastMessagesForAllSessions()
+	lastMessages, err := store.GetLastMessagesForAllSessions()
 	if err != nil {
 		log.Errorln("[axolotl] sendChatList2", err)
 		return
@@ -376,9 +376,9 @@ func sendMessageList(ID int64) {
 	}
 	broadcast <- *message
 }
-func sendMoreMessageList(id int64, lastId string) {
+func sendMoreMessageList(id int64, sentAt uint64) {
 	message := &[]byte{}
-	err, messageList := store.SessionsV2Model.GetMoreMessageList(id, lastId)
+	messageList, err := store.SessionsV2Model.GetMoreMessageList(id, sentAt)
 	if err != nil {
 		log.Errorln("[axolotl] sendMoreMessageList: ", err)
 		return

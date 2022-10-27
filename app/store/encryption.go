@@ -97,8 +97,8 @@ func (ds *DataStore) Convert(password string) error {
 	if password == "" {
 		return fmt.Errorf("No password given")
 	}
-	dbDir = filepath.Join(config.DataDir, "db")
-	dbFile = filepath.Join(dbDir, "db.sql")
+	dbDir := filepath.Join(config.DataDir, "db")
+	dbFile := filepath.Join(dbDir, "db.sql")
 	tmp := filepath.Join(dbDir, "tmp.db")
 
 	// create tmp file
@@ -106,7 +106,6 @@ func (ds *DataStore) Convert(password string) error {
 	if err != nil {
 		return err
 	}
-	saltFile = filepath.Join(dbDir, "salt")
 
 	encrypted := settings.SettingsModel.EncryptDatabase
 	log.Debugf("Encrypt: " + strconv.FormatBool(encrypted))
@@ -162,10 +161,14 @@ func IsEncrypted(filename string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	defer db.Close()
 	// read header
 	var header [16]byte
 	n, err := db.Read(header[:])
+	if err != nil {
+		return false, err
+	}
+	// close file
+	err = db.Close()
 	if err != nil {
 		return false, err
 	}

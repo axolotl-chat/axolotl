@@ -25,7 +25,7 @@ func (Api *TextsecureAPI) EndSession(ID int64) error {
 	return nil
 }
 
-// MarkSessionsRead marks one or all sessions as read
+// MarkSessionRead marks the session with this id as read
 func (Api *TextsecureAPI) MarkSessionRead(ID int64) error {
 	if ID != -1 {
 		s, err := store.SessionsV2Model.GetSessionByID(ID)

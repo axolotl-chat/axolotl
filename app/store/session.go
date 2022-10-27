@@ -1,7 +1,7 @@
 package store
 
-// Deprecated: use store.SessionsV2Model instead
-// Session defines how a session looks like
+// Session is Deprecated: use store.SessionsV2Model instead
+// It used to define how a session looks like
 type Session struct {
 	ID              int64
 	UUID            string `db:"uuid"`

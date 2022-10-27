@@ -18,6 +18,8 @@ var (
 	recipientGetByE164 = "SELECT * FROM recipients WHERE e164 = ? Limit 1"
 )
 
+const TIME_FORMAT = "2006-01-02 15:04:05 -0700 MST"
+
 type Recipient struct {
 	Id                     int64  `db:"id"`
 	E164                   string `db:"e164"`
@@ -53,10 +55,10 @@ var RecipientsModel = &Recipients{
 // CreateRecipient creates a recipient
 func (r *Recipients) CreateRecipient(recipient *Recipient) (*Recipient, error) {
 	log.Debugln("[axolotl] Creating recipient", recipient.UUID)
-	storedRecipeit := r.GetRecipientByUUID(recipient.UUID)
-	if storedRecipeit != nil {
+	storedRecipient := r.GetRecipientByUUID(recipient.UUID)
+	if storedRecipient != nil {
 		log.Debugln("[axolotl] CreateRecipient: Recipient already exists", recipient.UUID)
-		return storedRecipeit, nil
+		return storedRecipient, nil
 	}
 	// get last inserted recipient id
 	var lastId int64
@@ -114,7 +116,7 @@ func (r *Recipients) GetOrCreateRecipientForContact(contact *contacts.Contact) *
 	return recipient
 }
 
-// this is only used in the v1.6.0 migration because we migrate before we initialize the signal server
+// CreateRecipientWithoutProfileUpdate is only used in the v1.6.0 migration because we migrate before we initialize the signal server
 func (r *Recipients) CreateRecipientWithoutProfileUpdate(recipient *Recipient) (*Recipient, error) {
 	log.Debugln("[axolotl] Creating recipient without profile update", recipient.UUID)
 	storedRecipient := r.GetRecipientByUUID(recipient.UUID)
@@ -183,7 +185,7 @@ func (r *Recipient) SaveRecipient() error {
 func (r *Recipient) UpdateProfile() error {
 	log.Debugln("[axolotl] Updating profile for recipient", r.UUID)
 	// update profile only once an hour max
-	lastFetch, _ := time.Parse("1970-01-01 00:00:00 +0000 UTC", r.LastProfileFetch)
+	lastFetch, _ := time.Parse(TIME_FORMAT, r.LastProfileFetch)
 	if lastFetch.Unix() < time.Now().Unix()-86400 {
 		return nil
 	}
@@ -229,7 +231,7 @@ func (r *Recipient) UpdateProfile() error {
 			}
 		}
 	}
-	r.LastProfileFetch = time.Now().Format("1970-01-01 00:00:00 +0000 UTC")
+	r.LastProfileFetch = time.Now().Format(TIME_FORMAT)
 	r.SaveRecipient()
 	return nil
 }

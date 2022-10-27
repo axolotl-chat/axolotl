@@ -22,8 +22,8 @@ const (
 	findMessageByIdQuery              = "SELECT * FROM messages WHERE id = ?"
 	findOutgoingMessageBySendAtQuery  = "SELECT * FROM messages WHERE outgoing = 1 AND sentat = ?"
 	findUnreadMessagesForSessionQuery = "SELECT id FROM messages WHERE isread = 0 AND sessionid = ?"
-	findLastMessageForSessionQuery    = "SELECT id FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT 1"
 	findMessagesForSession            = "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT ? OFFSET ?"
+	getLastMessagesQuery              = "SELECT *, max(sentat) FROM messages GROUP BY sid ORDER BY sentat DESC"
 )
 
 type Message struct {
@@ -172,7 +172,7 @@ func FindOutgoingMessage(timestamp uint64) (*Message, error) {
 	return &message[0], nil
 }
 
-// GetUnreadMessagesCounterForSession returns an int for the unread messages for a session
+// GetUnreadMessageCounterForSession returns an int for the unread messages for a session
 func GetUnreadMessageCounterForSession(id int64) (int64, error) {
 	var message = []Message{}
 	err := DS.Dbx.Select(&message, findUnreadMessagesForSessionQuery, id)
@@ -182,17 +182,14 @@ func GetUnreadMessageCounterForSession(id int64) (int64, error) {
 	return int64(len(message)), nil
 }
 
-// GetLastMessageForSession returns the last message in a session
-func GetLastMessageForSession(id int64) (*Message, error) {
-	var message = []Message{}
-	err := DS.Dbx.Select(&message, findLastMessageForSessionQuery, id)
+func GetLastMessagesForAllSessions() ([]Message, error) {
+	var messages = []Message{}
+	unsafeDbx := DS.Dbx.Unsafe() // needed, because max(sentat) has no destination
+	err := unsafeDbx.Select(&messages, getLastMessagesQuery)
 	if err != nil {
 		return nil, err
 	}
-	if len(message) == 0 {
-		return nil, errors.New("Message not found " + fmt.Sprint(id))
-	}
-	return &message[0], nil
+	return messages, nil
 }
 
 func getMessagesForSession(id int64, limit, offset int) ([]*Message, error) {

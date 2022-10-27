@@ -335,7 +335,7 @@ func createRecipient(uuid string) {
 		return
 	}
 }
-func createRecipientAndAddToGroup(uuid string, groupId string) {
+func createRecipientAndAddToGroup(uuid, groupId string) {
 	recipient := store.RecipientsModel.GetOrCreateRecipient(uuid)
 	if recipient == nil {
 		return
