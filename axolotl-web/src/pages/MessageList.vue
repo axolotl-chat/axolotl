@@ -177,7 +177,7 @@ import Message from "@/components/Message";
 import AttachmentBar from "@/components/AttachmentBar";
 import DefaultLayout from "@/layouts/Default";
 import { saveAs } from "file-saver";
-import * as MicRecorder from "@jmd01/mic-recorder-to-mp3";
+import MicRecorder from "@jmd01/mic-recorder-to-mp3";
 export default {
   name: "MessageList",
   components: {
