@@ -1,3 +1,13 @@
+1.6.0 (Oct 27 2022)
+------------------------------------
+* rewrite the internal data structure @nanu-c @Blackoverflow
+* fix attachments upload @Blackoverflow
+* update root ca @nuehm-arno
+* Add Profiles @nanu-c
+* Add support for profile images @nanu-c
+* update electron @olof-nord
+* update various dependencies @nanu-c
+
 1.5.1 (Sep 20 2022)
 ------------------------------------
 * fix mic-recorder-to-mp3 dependency @olof-nord
