@@ -185,7 +185,7 @@ install-axolotl-electron-bundle:
 ## Flatpak
 build-dependencies-flatpak:
 	$(FLATPAK) install org.freedesktop.Sdk.Extension.golang//21.08
-	$(FLATPAK) install org.freedesktop.Sdk.Extension.node16//21.08
+	$(FLATPAK) install org.freedesktop.Sdk.Extension.node18//21.08
 	$(FLATPAK) install org.freedesktop.Sdk.Extension.rust-stable//21.08
 
 build-dependencies-flatpak-web: build-dependencies-flatpak

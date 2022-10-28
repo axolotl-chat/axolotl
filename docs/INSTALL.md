@@ -159,7 +159,7 @@ The following Flatpak SDKs are required:
 flatpak install org.freedesktop.Platform//21.08
 flatpak install org.freedesktop.Sdk//21.08
 flatpak install org.freedesktop.Sdk.Extension.golang//21.08
-flatpak install org.freedesktop.Sdk.Extension.node16//21.08
+flatpak install org.freedesktop.Sdk.Extension.node18//21.08
 flatpak install org.freedesktop.Sdk.Extension.rust-stable//21.08
 flatpak install org.electronjs.Electron2.BaseApp//21.08
 ```
@@ -197,7 +197,7 @@ The following Flatpak SDKs are required:
 flatpak install org.kde.Platform//5.15-21.08
 flatpak install org.kde.Sdk//5.15-21.08
 flatpak install org.freedesktop.Sdk.Extension.golang//21.08
-flatpak install org.freedesktop.Sdk.Extension.node16//21.08
+flatpak install org.freedesktop.Sdk.Extension.node18//21.08
 flatpak install org.freedesktop.Sdk.Extension.rust-stable//21.08
 flatpak install io.qt.qtwebengine.BaseApp//5.15-21.08
 ```
