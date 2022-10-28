@@ -20,7 +20,14 @@ var (
 		access_required_for_attributes INTEGER,
 		access_required_for_members INTEGER,
 		join_status INTEGER DEFAULT 0);`
-	groupV2Insert = "INSERT OR REPLACE INTO groupsv2 (id, name, master_key, revision, invite_link_password, access_required_for_attributes, access_required_for_members, join_status) VALUES (:id, :name, :master_key, :revision, :invite_link_password, :access_required_for_attributes, :access_required_for_members, :join_status)"
+	groupV2Insert                                   = "INSERT OR REPLACE INTO groupsv2 (id, name, master_key, revision, invite_link_password, access_required_for_attributes, access_required_for_members, join_status) VALUES (:id, :name, :master_key, :revision, :invite_link_password, :access_required_for_attributes, :access_required_for_members, :join_status)"
+	findGroupByIdQuery                              = "SELECT * FROM groupsv2 WHERE id = :id"
+	findAllGroupsQuery                              = "SELECT * FROM groupsv2"
+	deleteGroupByIdQuery                            = "DELETE FROM groupsv2 WHERE id = :id"
+	findGroupMembersByGroupV2IdQuery                = "SELECT * FROM groupsv2members WHERE group_v2_id = :group_v2_id"
+	deleteGroupMembersByGroupV2IdQuery              = "DELETE FROM groupsv2members WHERE group_v2_id = :group_v2_id"
+	deleteGroupMemberByGroupV2IdAndRecipientIdQuery = "DELETE FROM groupsv2members WHERE group_v2_id = :group_v2_id AND recipient_id = :recipient_id"
+	countGroupMembersByGroupV2IdAndRecipientIdQuery = "SELECT COUNT(*) FROM groupsv2members WHERE group_v2_id = :group_v2_id AND recipient_id = :recipient_id"
 )
 var (
 	GroupJoinStatusJoined  = 0
@@ -69,7 +76,7 @@ func (GroupV2s) Create(group *GroupV2) (*GroupV2, error) {
 // GetGroupById returns a group by id
 func (GroupV2s) GetGroupById(id string) (*GroupV2, error) {
 	var group GroupV2
-	err := DS.Dbx.Get(&group, "SELECT * FROM groupsv2 WHERE id = :id", id)
+	err := DS.Dbx.Get(&group, findGroupByIdQuery, id)
 	if err != nil {
 		return nil, err
 	}
@@ -79,7 +86,7 @@ func (GroupV2s) GetGroupById(id string) (*GroupV2, error) {
 // GetGroupMembers returns all members of a group
 func (g *GroupV2) GetGroupMembers() ([]GroupV2Member, error) {
 	var members []GroupV2Member
-	err := DS.Dbx.Select(&members, "SELECT * FROM groupsv2members WHERE group_v2_id = :group_v2_id", g.Id)
+	err := DS.Dbx.Select(&members, findGroupMembersByGroupV2IdQuery, g.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -106,7 +113,7 @@ func (g *GroupV2) GetGroupMembersAsRecipients() ([]*Recipient, error) {
 // GetGroups returns all groups
 func (GroupV2s) GetGroups() ([]GroupV2, error) {
 	var groups []GroupV2
-	err := DS.Dbx.Select(&groups, "SELECT * FROM groupsv2")
+	err := DS.Dbx.Select(&groups, findAllGroupsQuery)
 	if err != nil {
 		return nil, err
 	}
@@ -171,7 +178,7 @@ func (g *GroupV2) Delete() error {
 	if err != nil {
 		return err
 	}
-	_, err = DS.Dbx.Exec("DELETE FROM groupsv2 WHERE id = :id", g.Id)
+	_, err = DS.Dbx.Exec(deleteGroupByIdQuery, g.Id)
 	if err != nil {
 		return err
 	}
@@ -181,7 +188,7 @@ func (g *GroupV2) Delete() error {
 // DeleteMembers deletes all members of a group
 func (g *GroupV2) DeleteMembers() error {
 	// delete all old members
-	_, err := DS.Dbx.Exec("DELETE FROM groupsv2members WHERE group_v2_id = :group_v2_id", g.Id)
+	_, err := DS.Dbx.Exec(deleteGroupMembersByGroupV2IdQuery, g.Id)
 	if err != nil {
 		return err
 	}
@@ -244,7 +251,6 @@ func (g *GroupV2) UpdateGroupAction(action *signalservice.DecryptedGroupChange) 
 	return nil
 }
 
-
 // AddMember adds a new member to a group for this recipient
 func (g *GroupV2) AddMember(recipient *Recipient) error {
 	_, err := DS.Dbx.NamedExec(groupV2MemberInsert, GroupV2Member{
@@ -261,7 +267,7 @@ func (g *GroupV2) AddMember(recipient *Recipient) error {
 
 // DeleteMember deletes a member from a group
 func (g *GroupV2) DeleteMember(recipient *Recipient) error {
-	_, err := DS.Dbx.Exec("DELETE FROM groupsv2members WHERE group_v2_id = :group_v2_id AND recipient_id = :recipient_id", g.Id, int(recipient.Id))
+	_, err := DS.Dbx.Exec(deleteGroupMemberByGroupV2IdAndRecipientIdQuery, g.Id, int(recipient.Id))
 	if err != nil {
 		return err
 	}
@@ -271,7 +277,7 @@ func (g *GroupV2) DeleteMember(recipient *Recipient) error {
 // IsMember returns true if the user is a member of the group
 func (g *GroupV2) IsMember(recipient *Recipient) bool {
 	var count int
-	err := DS.Dbx.Get(&count, "SELECT COUNT(*) FROM groupsv2members WHERE group_v2_id = :group_v2_id AND recipient_id = :recipient_id", g.Id, int(recipient.Id))
+	err := DS.Dbx.Get(&count, countGroupMembersByGroupV2IdAndRecipientIdQuery, g.Id, int(recipient.Id))
 	if err != nil {
 		return false
 	}
