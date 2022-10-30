@@ -244,7 +244,7 @@ func update_v_1_6_0() error {
 	return nil
 }
 
-// update_v_1_6_1 fixes the message histroy by introducing the new column sv2id in messages
+// update_v_1_6_1 fixes the message histroy by introducing the renaming column sid to sv1id an reintrodrucing column sid in messages
 func update_v_1_6_1() error {
 	err := sessionsV1toSessionsV2()
 	if err != nil {
@@ -255,28 +255,33 @@ func update_v_1_6_1() error {
 
 func migrateMessageIds() error {
 	// check if new column exists and only migrate if it does not
-	_, err := DS.Dbx.Prepare("SELECT sv2id FROM messages limit 1")
+	_, err := DS.Dbx.Prepare("SELECT sv1id FROM messages limit 1")
 	if err == nil {
 		return nil
 	}
-	log.Infoln("[axolotl][update v_1_6_1] add column sv2id")
-	_, err = DS.Dbx.Exec("ALTER TABLE messages ADD sv2id integer;")
+	log.Infoln("[axolotl][update v_1_6_1] rename column sid to sv1id")
+	_, err = DS.Dbx.Exec("ALTER TABLE messages RENAME COLUMN sid TO sv1id;")
+	if err != nil {
+		return err
+	}
+	log.Infoln("[axolotl][update v_1_6_1] add column sid again")
+	_, err = DS.Dbx.Exec("ALTER TABLE messages ADD sid integer;")
 	if err != nil {
 		return err
 	}
 
-	log.Infoln("[axolotl][update v_1_6_1] set sv2id for group messages")
-	_, err = DS.Dbx.Exec("UPDATE messages SET sV2id = (SELECT v2.ID from sessions v1 JOIN sessionsv2 v2 ON v1.uuid = v2.groupV2Id where v1.ID = messages.sid) WHERE sv2id IS null;")
+	log.Infoln("[axolotl][update v_1_6_1] set sid for group messages")
+	_, err = DS.Dbx.Exec("UPDATE messages SET sid = (SELECT v2.ID from sessions v1 JOIN sessionsv2 v2 ON v1.uuid = v2.groupV2Id where v1.ID = messages.sv1id) WHERE sid IS null;")
 	if err != nil {
 		return err
 	}
-	log.Infoln("[axolotl][update v_1_6_1] set sv2id for direct messages")
-	_, err = DS.Dbx.Exec("UPDATE messages SET sv2id = (SELECT ID from sessionsv2 WHERE directMessageRecipientId = (SELECT r.id from recipients r JOIN sessions v1 ON r.uuid = v1.uuid WHERE v1.id = messages.sid)) WHERE sv2id IS null;")
+	log.Infoln("[axolotl][update v_1_6_1] set sid for direct messages")
+	_, err = DS.Dbx.Exec("UPDATE messages SET sid = (SELECT ID from sessionsv2 WHERE directMessageRecipientId = (SELECT r.id from recipients r JOIN sessions v1 ON r.uuid = v1.uuid WHERE v1.id = messages.sv1id)) WHERE sid IS null;")
 	if err != nil {
 		return err
 	}
-	log.Infoln("[axolotl][update v_1_6_1] set sv2id for messages of newly created sessions")
-	_, err = DS.Dbx.Exec("UPDATE messages SET sV2id = sid WHERE sv2id IS null;")
+	log.Infoln("[axolotl][update v_1_6_1] set sid for messages of new sessions")
+	_, err = DS.Dbx.Exec("UPDATE messages SET sid = sv1id WHERE sid IS null;")
 	return err
 }
 
