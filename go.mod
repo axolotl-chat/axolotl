@@ -31,3 +31,5 @@ require (
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 	launchpad.net/gocheck v0.0.0-20140225173054-000000000087 // indirect
 )
+
+replace github.com/signal-golang/textsecure v1.18.0 => github.com/Blackoverflow/textsecure v1.4.3-0.20221029211627-ba3c0a915b70

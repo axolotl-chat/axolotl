@@ -39,7 +39,7 @@ var (
 
 	sessionsSelect = "SELECT * FROM sessions ORDER BY timestamp DESC"
 
-	messagesSchema          = "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, sid integer, source text, srcUUID string NOT NULL DEFAULT 0, message text, outgoing boolean, sentat integer, receivedat integer, ctype integer, attachment string, issent boolean, isread boolean, flags integer default 0, sendingError boolean, expireTimer integer default 0, receipt boolean default 0, statusMessage boolean default 0, quoteId integer NOT NULL default -1)"
+	messagesSchema          = "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, sv2id integer, source text, srcUUID string NOT NULL DEFAULT 0, message text, outgoing boolean, sentat integer, receivedat integer, ctype integer, attachment string, issent boolean, isread boolean, flags integer default 0, sendingError boolean, expireTimer integer default 0, receipt boolean default 0, statusMessage boolean default 0, quoteId integer NOT NULL default -1)"
 	messagesInsert          = "INSERT INTO messages (sid, source, srcUUID, message, outgoing, sentat, receivedat, ctype, attachment, issent, isread, flags, sendingError, expireTimer, statusMessage, quoteID) VALUES (:sid, :source, :srcUUID, :message, :outgoing, :sentat, :receivedat, :ctype, :attachment, :issent, :isread, :flags, :sendingError, :expireTimer, :statusMessage, :quoteId)"
 	messagesSelectWhereMore = "SELECT * FROM messages WHERE sid = ? AND sentat < ? ORDER BY sentat DESC LIMIT 20"
 
@@ -304,6 +304,11 @@ func Migrate() error {
 	err := update_v_1_6_0()
 	if err != nil {
 		log.Errorln("[axolotl] setupDb: Couldn't migrate db: " + err.Error())
+		return err
+	}
+	err = update_v_1_6_1()
+	if err != nil {
+		log.Errorln("[axolotl] Couldn't migrate sessions: " + err.Error())
 		return err
 	}
 	return nil

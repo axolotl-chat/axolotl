@@ -1,6 +1,10 @@
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 github.com/Blackoverflow/gcmsiv v0.0.0-20201031155123-20af2af977ff h1:l3WopnX/gWnDItXZdr2Ygq0+4ZwXCSyozyPNR8jdb8I=
 github.com/Blackoverflow/gcmsiv v0.0.0-20201031155123-20af2af977ff/go.mod h1:t1lmwOv+IYxaUkr2qIKXEfn90t4GgocS0qy8jkDonbg=
+github.com/Blackoverflow/textsecure v1.4.3-0.20221028183342-5dd575a18460 h1:ZPUbXWULhddzbWI9AnpKdbKGY317FatHsAyTQzJg3Xs=
+github.com/Blackoverflow/textsecure v1.4.3-0.20221028183342-5dd575a18460/go.mod h1:sna5yQxNwY/F54q/K4xxP90VgWMSBgm3L8zbWOkF2mk=
+github.com/Blackoverflow/textsecure v1.4.3-0.20221029211627-ba3c0a915b70 h1:uAVKek9XGhmBDU9FHs41IlY3GfJRtBaEuFcspouhLts=
+github.com/Blackoverflow/textsecure v1.4.3-0.20221029211627-ba3c0a915b70/go.mod h1:sna5yQxNwY/F54q/K4xxP90VgWMSBgm3L8zbWOkF2mk=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/PuerkitoBio/goquery v1.5.1/go.mod h1:GsLWisAFVj4WgDibEWF4pvYnkVQBpKBKeU+7zCJoLcc=
 github.com/akavel/rsrc v0.8.0 h1:zjWn7ukO9Kc5Q62DOJCcxGpXC18RawVtYAGdz2aLlfw=

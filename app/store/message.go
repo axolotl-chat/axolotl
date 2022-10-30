@@ -11,11 +11,12 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-const getLastMessagesQuery = "SELECT *, max(sentat) FROM messages GROUP BY sid ORDER BY sentat DESC"
+const getLastMessagesQuery = "SELECT *, max(sentat) FROM messages GROUP BY sv2id ORDER BY sentat DESC"
 
 type Message struct {
-	ID            int64 `db:"id"`
-	SID           int64
+	ID            int64  `db:"id"`
+	SID           int64  `db:"sv2id"`
+	SV1ID         *int64 `db:"sid"`
 	ChatID        string
 	Source        string `db:"source"`
 	SourceUUID    string `db:"srcUUID"`
@@ -181,7 +182,7 @@ func GetLastMessagesForAllSessions() ([]Message, error) {
 
 func getMessagesForSession(id int64, limit, offset int) ([]*Message, error) {
 	var messages = []*Message{}
-	err := DS.Dbx.Select(&messages, "SELECT * FROM messages WHERE sid = ? ORDER BY sentat DESC LIMIT ? OFFSET ?", id, limit, offset)
+	err := DS.Dbx.Select(&messages, "SELECT * FROM messages WHERE sv2id = ? ORDER BY sentat DESC LIMIT ? OFFSET ?", id, limit, offset)
 	if err != nil {
 		return nil, err
 	}

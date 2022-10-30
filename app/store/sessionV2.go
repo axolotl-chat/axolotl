@@ -324,10 +324,8 @@ func (s *SessionV2) NotificationsToggle() error {
 func (s *SessionV2) GetName() (string, error) {
 	if s.IsGroup() {
 		return s.getGroupName()
-	} else {
-		return s.getDirectChatName()
 	}
-	return "", fmt.Errorf("GetSessionNames failed")
+	return s.getDirectChatName()
 }
 
 func (s *SessionV2) getDirectChatName() (string, error) {
