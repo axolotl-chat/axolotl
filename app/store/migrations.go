@@ -259,17 +259,21 @@ func migrateMessageIds() error {
 	if err == nil {
 		return nil
 	}
-	log.Infoln("[axolotl][update v_1_6_1] rename column sid to sv1id")
-	_, err = DS.Dbx.Exec("ALTER TABLE messages RENAME COLUMN sid TO sv1id;")
+	log.Infoln("[axolotl][update v_1_6_1] add column sv1id")
+	_, err = DS.Dbx.Exec("ALTER TABLE messages ADD sv1id integer;")
 	if err != nil {
 		return err
 	}
-	log.Infoln("[axolotl][update v_1_6_1] add column sid again")
-	_, err = DS.Dbx.Exec("ALTER TABLE messages ADD sid integer;")
+	log.Infoln("[axolotl][update v_1_6_1] copy sid into sv1id")
+	_, err = DS.Dbx.Exec("UPDATE messages SET sv1id = sid;")
 	if err != nil {
 		return err
 	}
-
+	log.Infoln("[axolotl][update v_1_6_1] delete sid of all messages")
+	_, err = DS.Dbx.Exec("UPDATE messages SET sid = null;")
+	if err != nil {
+		return err
+	}
 	log.Infoln("[axolotl][update v_1_6_1] set sid for group messages")
 	_, err = DS.Dbx.Exec("UPDATE messages SET sid = (SELECT v2.ID from sessions v1 JOIN sessionsv2 v2 ON v1.uuid = v2.groupV2Id where v1.ID = messages.sv1id) WHERE sid IS null;")
 	if err != nil {
