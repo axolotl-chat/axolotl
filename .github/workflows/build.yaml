@@ -5,7 +5,7 @@ on:
 
 env:
   GO_VERSION: 1.16
-  NODE_VERSION: "16.x"
+  NODE_VERSION: "18.x"
 
 jobs:
   build-axolotl:
@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Setup Node 16
+      - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
@@ -136,7 +136,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set up Node 16
+      - name: Set up Node
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
