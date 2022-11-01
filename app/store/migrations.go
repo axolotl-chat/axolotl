@@ -268,7 +268,7 @@ func migrateMissingSessions() error {
 	for _, session := range sessions {
 		err = migrateSession(session)
 		if err != nil {
-			log.Errorf("failed to migrate session %s. Error: %s", session.UUID, err)
+			log.Errorf("[axolotl][update v_1_6_1] failed to migrate session %s. Error: %s", session.UUID, err)
 		}
 	}
 	return nil
@@ -276,31 +276,28 @@ func migrateMissingSessions() error {
 
 func migrateSession(session *Session) error {
 	if session.IsGroup && session.Type == SessionTypeGroupV2 {
-		err := migrateGroupV2Session(session)
-		if err != nil {
-			return err
-		}
+		return migrateGroupV2Session(session)
 	} else if session.IsGroup && session.Type == SessionTypeGroupV1 {
-		err := migrateGroupV1Session(session)
-		if err != nil {
-			return err
-		}
+		return migrateGroupV1Session(session)
 	} else if session.Type == SessionTypePrivateChat {
-		err := migrateDirectChatSession(session)
-		if err != nil {
-			return err
-		}
+		return migrateDirectChatSession(session)
 	}
-	return nil
+	return fmt.Errorf("session type unknown: isGroup:%t, type:%d", session.IsGroup, session.Type)
 }
 
 func migrateDirectChatSession(session *Session) error {
-	sessionV2, err := SessionsV2Model.GetSessionByID(session.ID)
-	if sessionV2 != nil && err == nil {
-		//allready migrated
-		return nil
-	}
+	var err error
 	recipient := RecipientsModel.GetRecipientByUUID(session.UUID)
+	if recipient != nil {
+		sessionV2, err := SessionsV2Model.GetSessionByDirectMessageRecipientID(recipient.Id)
+		if err != nil {
+			return err
+		}
+		if sessionV2 != nil {
+			//allready migrated
+			return nil
+		}
+	}
 	log.Infoln("[axolotl][update v_1_6_1] migrate direct chat session")
 	if recipient == nil {
 		recipient, err = RecipientsModel.CreateRecipientWithoutProfileUpdate(&Recipient{
