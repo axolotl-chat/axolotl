@@ -268,7 +268,7 @@ func migrateMissingSessions() error {
 	for _, session := range sessions {
 		err = migrateSession(session)
 		if err != nil {
-			log.Errorf("[axolotl][update v_1_6_1] failed to migrate session %s. Error: %s", session.UUID, err)
+			log.Errorf("[axolotl][update v_1_6_1] failed to migrate session. Error: %s", err)
 		}
 	}
 	return nil
@@ -358,11 +358,11 @@ func migrateGroupV2Session(session *Session) error {
 	log.Infoln("[axolotl][update v_1_6_1] migrate groupv2 session: members")
 	groupMembers, err := textsecure.GetGroupV2MembersForGroup(session.UUID)
 	if err != nil {
-		return fmt.Errorf("[axolotl][update v_1_6_1] error getting group members: %s", err)
+		return fmt.Errorf("error getting group members: %s", err)
 	}
 	err = group.AddGroupMembers(groupMembers)
 	if err != nil {
-		return fmt.Errorf("[axolotl][update v_1_6_1] error adding group members: %s", err)
+		return fmt.Errorf("error adding group members: %s", err)
 	}
 	return nil
 }
