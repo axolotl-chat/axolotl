@@ -5,7 +5,7 @@ runtime-version: '5.15-21.08'
 sdk: org.kde.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.golang
-  - org.freedesktop.Sdk.Extension.node16
+  - org.freedesktop.Sdk.Extension.node18
   - org.freedesktop.Sdk.Extension.rust-stable
 command: axolotl
 base: io.qt.qtwebengine.BaseApp
@@ -14,7 +14,7 @@ separate-locales: false
 tags:
   - latest
 build-options:
-  append-path: "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/golang/bin:/usr/lib/sdk/node16/bin"
+  append-path: "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/golang/bin:/usr/lib/sdk/node18/bin"
   env:
     RUST_BACKTRACE: 1
     NPM_CONFIG_LOGLEVEL: error
@@ -69,6 +69,7 @@ modules:
         url: https://github.com/nanu-c/zkgroup
         tag: main
         dest: src/github.com/nanu-c/zkgroup
+        disable-submodules: true
 
   - name: axolotl
     buildsystem: simple
