@@ -2,7 +2,7 @@
   "app_name": "axolotl-electron-bundle",
   "icon_path_darwin": "axolotl-web/public/axolotl.png",
   "icon_path_linux": "axolotl-web/public/axolotl.png",
-  "version_electron": "20.2.0",
+  "version_electron": "21.0.1",
   "version_astilectron":"0.56.0",
   "resources_path": "axolotl-web/dist"
 }
