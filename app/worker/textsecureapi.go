@@ -115,7 +115,7 @@ func RunBackend(errorChannel chan error) error {
 		},
 		GetVerificationCode: func() string {
 			if !settings.SettingsModel.Registered {
-				log.Debugf("settings.SettingsModel.Registered = false")
+				log.Debugf("[axolotl] settings.SettingsModel.Registered = false")
 				verificationCode := ui.GetVerificationCode()
 				settings.SettingsModel.Registered = true
 				return verificationCode

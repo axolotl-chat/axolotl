@@ -725,8 +725,6 @@ export default createStore({
         }
         socketSend(message);
       }
-      this.commit("SET_REGISTRATION_STATUS", "");
-      router.push("/")
     },
     sendPin(state, pin) {
       if (this.state.socket.isConnected) {
