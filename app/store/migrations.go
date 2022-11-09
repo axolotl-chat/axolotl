@@ -243,3 +243,157 @@ func update_v_1_6_0() error {
 	}
 	return nil
 }
+
+// update_v_1_6_1 fixes the message histroy and migrates missing chats
+func update_v_1_6_1() error {
+	// check if new column exists and only migrate if it does not
+	_, err := DS.Dbx.Prepare("SELECT sv1id FROM messages limit 1")
+	if err == nil {
+		return nil
+	}
+	err = migrateMissingSessions()
+	if err != nil {
+		return err
+	}
+	return migrateMessageIds()
+}
+
+func migrateMissingSessions() error {
+	var sessions []*Session
+	err := DS.Dbx.Select(&sessions, sessionsSelect)
+	if err != nil {
+		return fmt.Errorf("error loading sessions: %s", err)
+	}
+	log.Infoln("[axolotl][update v_1_6_1] migrate missing sessions")
+	for _, session := range sessions {
+		err = migrateSession(session)
+		if err != nil {
+			log.Errorf("[axolotl][update v_1_6_1] failed to migrate session. Error: %s", err)
+		}
+	}
+	return nil
+}
+
+func migrateSession(session *Session) error {
+	if session.IsGroup && session.Type == SessionTypeGroupV2 {
+		return migrateGroupV2Session(session)
+	} else if session.IsGroup && session.Type == SessionTypeGroupV1 {
+		return migrateGroupV1Session(session)
+	} else if session.Type == SessionTypePrivateChat {
+		return migrateDirectChatSession(session)
+	}
+	return fmt.Errorf("session type unknown: isGroup:%t, type:%d", session.IsGroup, session.Type)
+}
+
+func migrateDirectChatSession(session *Session) error {
+	var err error
+	recipient := RecipientsModel.GetRecipientByUUID(session.UUID)
+	if recipient != nil {
+		sessionV2, err := SessionsV2Model.GetSessionByDirectMessageRecipientID(recipient.Id)
+		if err != nil {
+			return err
+		}
+		if sessionV2 != nil {
+			//allready migrated
+			return nil
+		}
+	}
+	log.Infoln("[axolotl][update v_1_6_1] migrate direct chat session")
+	if recipient == nil {
+		recipient, err = RecipientsModel.CreateRecipientWithoutProfileUpdate(&Recipient{
+			UUID:             session.UUID,
+			ProfileGivenName: session.Name,
+			E164:             session.Tel,
+		})
+		if err != nil {
+			return err
+		}
+	}
+	_, err = SessionsV2Model.SaveSession(&SessionV2{
+		ID:                       session.ID,
+		DirectMessageRecipientID: recipient.Id,
+	})
+	return err
+}
+
+func migrateGroupV1Session(session *Session) error {
+	sessionV2, err := SessionsV2Model.GetSessionByID(session.ID)
+	if sessionV2 != nil && err == nil {
+		//allready migrated
+		return nil
+	}
+	log.Infoln("[axolotl][update v_1_6_1] migrate groupv1 session")
+	_, err = SessionsV2Model.SaveSession(&SessionV2{
+		ID:                       session.ID,
+		GroupV1ID:                session.UUID,
+		DirectMessageRecipientID: int64(GroupRecipientsID),
+	})
+	return err
+}
+
+func migrateGroupV2Session(session *Session) error {
+	group, err := GroupV2sModel.GetGroupById(session.UUID)
+	if group != nil && err == nil {
+		//allready migrated
+		return nil
+	}
+	log.Infoln("[axolotl][update v_1_6_1] migrate groupv2 session")
+
+	group, err = GroupV2sModel.Create(&GroupV2{
+		Id:         session.UUID,
+		Name:       session.Name,
+		JoinStatus: session.GroupJoinStatus,
+	})
+	if err != nil {
+		return fmt.Errorf("error creating group v2: %s", err)
+	}
+	_, err = SessionsV2Model.SaveSession(&SessionV2{
+		ID:                       session.ID,
+		DirectMessageRecipientID: int64(GroupRecipientsID),
+		GroupV2ID:                session.UUID,
+	})
+	if err != nil {
+		return fmt.Errorf("error creating session groupv2: %s", err)
+	}
+	log.Infoln("[axolotl][update v_1_6_1] migrate groupv2 session: members")
+	groupMembers, err := textsecure.GetGroupV2MembersForGroup(session.UUID)
+	if err != nil {
+		return fmt.Errorf("error getting group members: %s", err)
+	}
+	err = group.AddGroupMembers(groupMembers)
+	if err != nil {
+		return fmt.Errorf("error adding group members: %s", err)
+	}
+	return nil
+}
+
+func migrateMessageIds() error {
+	log.Infoln("[axolotl][update v_1_6_1] add column sv1id")
+	_, err := DS.Dbx.Exec("ALTER TABLE messages ADD sv1id integer;")
+	if err != nil {
+		return err
+	}
+	log.Infoln("[axolotl][update v_1_6_1] copy sid into sv1id")
+	_, err = DS.Dbx.Exec("UPDATE messages SET sv1id = sid;")
+	if err != nil {
+		return err
+	}
+	log.Infoln("[axolotl][update v_1_6_1] delete sid of all messages")
+	_, err = DS.Dbx.Exec("UPDATE messages SET sid = null;")
+	if err != nil {
+		return err
+	}
+	log.Infoln("[axolotl][update v_1_6_1] set sid for group messages")
+	_, err = DS.Dbx.Exec("UPDATE messages SET sid = (SELECT v2.ID from sessions v1 JOIN sessionsv2 v2 ON v1.uuid = v2.groupV2Id where v1.ID = messages.sv1id) WHERE sid IS null;")
+	if err != nil {
+		return err
+	}
+	log.Infoln("[axolotl][update v_1_6_1] set sid for direct messages")
+	_, err = DS.Dbx.Exec("UPDATE messages SET sid = (SELECT ID from sessionsv2 WHERE directMessageRecipientId = (SELECT r.id from recipients r JOIN sessions v1 ON r.uuid = v1.uuid WHERE v1.id = messages.sv1id)) WHERE sid IS null;")
+	if err != nil {
+		return err
+	}
+	log.Infoln("[axolotl][update v_1_6_1] set sid for messages of new sessions")
+	_, err = DS.Dbx.Exec("UPDATE messages SET sid = sv1id WHERE sid IS null;")
+	return err
+}

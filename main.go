@@ -30,9 +30,19 @@ func init() {
 	flag.StringVar(&config.ServerHost, "host", "127.0.0.1", "Host to serve UI from.")
 	flag.StringVar(&config.ServerPort, "port", "9080", "Port to serve UI from.")
 	flag.StringVar(&config.ElectronFlag, "electron-flag", "", "Specify electron flag. Use no-ozone to disable Ozone/Wayland platform")
+	flag.StringVar(&config.LogLevel, "d", "", "Specify debug level. Use either debug, info, warn, error or fatal")
 }
 func setup() {
 	config.SetupConfig()
+	if config.LogLevel != "" {
+		level, err := log.ParseLevel(config.LogLevel)
+		if err != nil {
+			log.Fatal(err)
+		}
+		log.SetLevel(level)
+	} else {
+		log.SetLevel(log.InfoLevel)
+	}
 	log.Infoln("[axolotl] Starting axolotl version", config.AppVersion)
 }
 func runBackend() {

@@ -306,5 +306,10 @@ func Migrate() error {
 		log.Errorln("[axolotl] setupDb: Couldn't migrate db: " + err.Error())
 		return err
 	}
+	err = update_v_1_6_1()
+	if err != nil {
+		log.Errorln("[axolotl] Couldn't migrate sessions: " + err.Error())
+		return err
+	}
 	return nil
 }

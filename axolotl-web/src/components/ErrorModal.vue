@@ -6,7 +6,7 @@
           <h5 v-translate class="modal-title">
             Error communicating with Signal servers
           </h5>
-          <button type="button" class="close" @click="close">
+          <button type="button" class="close btn" @click="close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -22,7 +22,7 @@
           </p>
           <p v-translate>
             If you think that something is wrong on your side, you can
-            <a href="#" @click="unregister">unregister</a> and register again.
+            <a @click="unregister">unregister</a> and register again.
             Be careful,
             <strong>your encryption key will change and you will lose all your
               messages</strong>
