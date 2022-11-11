@@ -11,3 +11,5 @@ Categories=Network;Chat;InstantMessaging
 StartupWMClass=axolotl
 X-KDE-FormFactor=desktop;tablet;handset;
 X-Purism-FormFactor=Workstation;Mobile; 
+StartupNotify=true
+X-Gnome-UsesNotifications=true
