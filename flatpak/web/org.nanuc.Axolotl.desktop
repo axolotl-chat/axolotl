@@ -10,3 +10,5 @@ Categories=Network;InstantMessaging;Chat;
 Icon=org.nanuc.Axolotl
 X-KDE-FormFactor=desktop;tablet;handset;
 X-Purism-FormFactor=Workstation;Mobile;
+StartupNotify=true
+X-Gnome-UsesNotifications=true
