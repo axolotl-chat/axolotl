@@ -12,6 +12,14 @@
           <br>
           It's beta, expect lot's of things not working.
           <br>
+          Please be aware:
+          <br>
+          Registering your phone number with Axolotl will
+          <br>
+          de-register your existing Signal account and also
+          <br>
+          de-link your Signal Desktop.
+          <br>
           <a
             href="https://axolotl.chat"
             @click="openExtern($event, 'https://axolotl.chat')"
