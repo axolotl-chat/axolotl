@@ -192,7 +192,7 @@ jobs:
     name: Package as Flatpak web bundle
     runs-on: ubuntu-latest
     container:
-      image: bilelmoussaoui/flatpak-github-actions:freedesktop-21.08
+      image: bilelmoussaoui/flatpak-github-actions:freedesktop-22.08
       options: --privileged
 
     steps:
@@ -213,7 +213,7 @@ jobs:
     name: Package as Flatpak QT bundle
     runs-on: ubuntu-latest
     container:
-      image: bilelmoussaoui/flatpak-github-actions:kde-5.15-21.08
+      image: bilelmoussaoui/flatpak-github-actions:kde-5.15-22.08
       options: --privileged
 
     steps:

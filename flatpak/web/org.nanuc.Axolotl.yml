@@ -1,7 +1,7 @@
 app-id: org.nanuc.Axolotl
 branch: main
 runtime: org.freedesktop.Platform
-runtime-version: '21.08'
+runtime-version: '22.08'
 sdk: org.freedesktop.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.golang
@@ -9,7 +9,7 @@ sdk-extensions:
   - org.freedesktop.Sdk.Extension.rust-stable
 command: run.sh
 base: org.electronjs.Electron2.BaseApp
-base-version: '21.08'
+base-version: '22.08'
 separate-locales: false
 tags:
   - latest

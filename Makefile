@@ -184,19 +184,19 @@ install-axolotl-electron-bundle:
 
 ## Flatpak
 build-dependencies-flatpak:
-	$(FLATPAK) install org.freedesktop.Sdk.Extension.golang//21.08
-	$(FLATPAK) install org.freedesktop.Sdk.Extension.node18//21.08
-	$(FLATPAK) install org.freedesktop.Sdk.Extension.rust-stable//21.08
+	$(FLATPAK) install org.freedesktop.Sdk.Extension.golang//22.08
+	$(FLATPAK) install org.freedesktop.Sdk.Extension.node18//22.08
+	$(FLATPAK) install org.freedesktop.Sdk.Extension.rust-stable//22.08
 
 build-dependencies-flatpak-web: build-dependencies-flatpak
-	$(FLATPAK) install org.freedesktop.Platform//21.08
-	$(FLATPAK) install org.freedesktop.Sdk//21.08
-	$(FLATPAK) install org.electronjs.Electron2.BaseApp//21.08
+	$(FLATPAK) install org.freedesktop.Platform//22.08
+	$(FLATPAK) install org.freedesktop.Sdk//22.08
+	$(FLATPAK) install org.electronjs.Electron2.BaseApp//22.08
 
 build-dependencies-flatpak-qt: build-dependencies-flatpak
-	$(FLATPAK) install org.kde.Platform//5.15-21.08
-	$(FLATPAK) install org.kde.Sdk//5.15-21.08
-	$(FLATPAK) install io.qt.qtwebengine.BaseApp//5.15-21.08
+	$(FLATPAK) install org.kde.Platform//5.15-22.08
+	$(FLATPAK) install org.kde.Sdk//5.15-22.08
+	$(FLATPAK) install io.qt.qtwebengine.BaseApp//5.15-22.08
 
 build-flatpak-web:
 	$(FLATPAK_BUILDER) flatpak/build --verbose --force-clean --ccache flatpak/web/org.nanuc.Axolotl.yml
