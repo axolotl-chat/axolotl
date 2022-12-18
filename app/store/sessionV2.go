@@ -351,7 +351,6 @@ func (s *SessionV2) getDirectChatName() (string, error) {
 				}
 			}
 		}
-		log.Debug("getDirectChatName")
 		return recipient.Username, nil
 	}
 
