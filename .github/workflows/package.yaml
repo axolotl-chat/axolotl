@@ -23,6 +23,8 @@ jobs:
         run: |
           curl -sLO https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
           chmod +x appimagetool-x86_64.AppImage
+          apt-get update
+          apt-get install fuse libfuse2
 
       - name: Build AppImage (x86_64)
         env:
