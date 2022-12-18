@@ -80,7 +80,7 @@ describe('Message.vue', () => {
   })
 
   test('renders message with html entities escaped', () => {
-    const expected = 'I <3 Axolotl'
+    const expected = 'I &lt;3 Axolotl'
     const msg = {
         ID: 'test',
         Message: 'I <3 Axolotl',
