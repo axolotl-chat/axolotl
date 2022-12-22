@@ -3,6 +3,7 @@ package store
 import (
 	"errors"
 	"fmt"
+	"regexp"
 
 	"github.com/nanu-c/axolotl/app/helpers"
 	log "github.com/sirupsen/logrus"
@@ -327,12 +328,28 @@ func (s *SessionV2) GetName() (string, error) {
 	}
 	return s.getDirectChatName()
 }
+func IsValidUUID(uuid string) bool {
+	r := regexp.MustCompile("^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-4[a-fA-F0-9]{3}-[8|9|aA|bB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}$")
+	return r.MatchString(uuid)
+}
 
 func (s *SessionV2) getDirectChatName() (string, error) {
+
 	recipient := RecipientsModel.GetRecipientById(s.DirectMessageRecipientID)
 	if recipient != nil {
 		if recipient.ProfileGivenName != "" {
-			return recipient.ProfileGivenName, nil
+			if !IsValidUUID(recipient.ProfileGivenName) {
+				return recipient.ProfileGivenName, nil
+			} else {
+				contact := GetContactForUUID(recipient.ProfileGivenName)
+				if contact != nil {
+					recipient.ProfileGivenName = contact.Name
+					go recipient.SaveRecipient()
+					return contact.Name, nil
+				} else {
+					return "Unknown", nil
+				}
+			}
 		}
 		return recipient.Username, nil
 	}

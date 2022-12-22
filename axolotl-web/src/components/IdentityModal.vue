@@ -4,7 +4,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 v-translate class="modal-title">Verify identity</h5>
-          <button type="button" class="close" @click="$emit('close')">
+          <button type="button" class="btn close" @click="$emit('close')">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -12,24 +12,17 @@
           <div class="qr-code-container">
             <canvas id="qrcode" />
           </div>
-          <b><span v-translate>Safety numbers of you and</span>
-            {{ SessionNames[currentChat.ID].Name }}:</b>
+          <b><span v-translate>Safety numbers of you and</span></b>
+          <div v-if="sessionNames && sessionNames[currentChat]" class="name">
+            {{ sessionNames[currentChat].Name }}
+          </div>
           <div class="row fingerprint">
-            <div
-              v-for="(part, i) in fingerprint.numbers"
-              :key="'fingerprint_' + i"
-              class="col-3"
-            >
+            <div v-for="(part, i) in fingerprint.numbers" :key="'fingerprint_' + i" class="col-3">
               {{ part }}
             </div>
           </div>
           <div class="modal-footer">
-            <button
-              v-translate
-              type="button"
-              class="btn btn-primary"
-              @click="$emit('confirm')"
-            >
+            <button v-translate type="button" class="btn btn-primary" @click="$emit('confirm')">
               Close
             </button>
           </div>
@@ -39,7 +32,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import QRCode from "qrcode";
 import { mapState } from "vuex";
 export default {
@@ -51,7 +44,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["fingerprint", "SessionNames"]),
+    ...mapState(["fingerprint", "sessionNames"]),
     currentChat() {
       return this.$store.state.currentChat;
     },
@@ -82,9 +75,11 @@ export default {
 .modal-content {
   border-radius: 0px;
 }
+
 .modal-body {
   text-align: left;
 }
+
 .modal-header {
   border-bottom: none;
 }
@@ -93,13 +88,14 @@ export default {
   display: flex;
 }
 
-.modal-title > div {
+.modal-title>div {
   margin-left: 10px;
 }
 
 .modal-footer {
   border-top: 0px;
 }
+
 .qr-code-container {
   width: 100%;
   justify-content: center;

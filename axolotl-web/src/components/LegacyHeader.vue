@@ -515,7 +515,7 @@ export default {
     },
     createGroup() {},
     openEditContactModal() {
-      const id = this.contacts.findIndex((c) => c.Tel === this.currentChat.Tel);
+      const id = this.contacts.findIndex((c) => c.Tel === this.currentChat.Tel || c.UUID === this.sessionNames[this.currentChat.ID].Name);
       this.editContactId = id;
       if (id !== -1) {
         this.editContactModal = true;
