@@ -236,7 +236,7 @@ func createDirectRecipientChat(uuid string) (*store.SessionV2, error) {
 	messages, err := session.GetMessageList(1, 0)
 	if err != nil || len(messages) == 0 {
 		m := &store.Message{Message: "New chat created",
-			SID:         session.ID,
+			SID:         &session.ID,
 			Outgoing:    true,
 			Source:      "",
 			SourceUUID:  config.Config.UUID,
@@ -337,7 +337,7 @@ func joinGroupV2(joinGroupmessage JoinGroupMessage) *store.SessionV2 {
 		msg, err := store.SaveMessage(&store.Message{
 			Message: "You accepted the invitation to the group.",
 			Flags:   helpers.MsgFlagGroupJoined,
-			SID:     session.ID,
+			SID:     &session.ID,
 		})
 		if err != nil {
 			log.Errorln("[axolotl] joinGroup", err)

@@ -17,7 +17,7 @@ func (Api *TextsecureAPI) EndSession(ID int64) error {
 	}
 	m := &store.Message{
 		Message: "Secure session reset",
-		SID:     store.ActiveSessionID,
+		SID:     &store.ActiveSessionID,
 		Flags:   helpers.MsgFlagResetSession,
 	}
 	store.SaveMessage(m)

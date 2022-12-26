@@ -115,6 +115,7 @@ func (ds *DataStore) SetupDb(password string) bool {
 	UpdateSessionTable_v_0_9_5()
 	updateGroupTable_v_0_9_10()
 	updateSessionTable_joinStatus_v_0_9_10()
+	migrateMessageNullIds()
 
 	log.Printf("[axolotl] Db setup finished")
 

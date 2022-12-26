@@ -397,3 +397,14 @@ func migrateMessageIds() error {
 	_, err = DS.Dbx.Exec("UPDATE messages SET sid = sv1id WHERE sid IS null;")
 	return err
 }
+
+// TODO: remove this function after a few releases
+
+func migrateMessageNullIds() error {
+	log.Infoln("[axolotl][update v_1_6_1] set sid for messages of new sessions")
+	_, err := DS.Dbx.Exec("UPDATE messages SET sid = NULL WHERE sid IS '';")
+	if err != nil {
+		return err
+	}
+	return nil
+}
