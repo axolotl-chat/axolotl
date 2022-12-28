@@ -285,7 +285,7 @@ jobs:
 
       - name: Build package Debian arm64
         run: |
-          rm $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/compat
+          #rm $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/compat
           sudo ln -s /usr/lib/x86_64-linux-gnu/libfakeroot/libfakeroot-sysv.so /usr/aarch64-linux-gnu/lib/
           sed -i '4d' $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/changelog
           sed -e '/Initial/ {' -e 'r $GITHUB_WORKSPACE/docs/CHANGELOG.md' -e 'd' -e '}' -i $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/changelog
