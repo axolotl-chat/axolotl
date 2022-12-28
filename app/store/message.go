@@ -15,7 +15,7 @@ const getLastMessagesQuery = "SELECT *, max(sentat) FROM messages GROUP BY sid O
 
 type Message struct {
 	ID            int64 `db:"id"`
-	SID           int64
+	SID           *int64
 	SV1ID         *int64
 	ChatID        string
 	Source        string `db:"source"`
@@ -188,7 +188,7 @@ func getMessagesForSession(id int64, limit, offset int) ([]*Message, error) {
 	}
 	if len(messages) == 0 {
 		m := &Message{Message: "New chat created",
-			SID:         id,
+			SID:         &id,
 			Outgoing:    true,
 			Source:      "",
 			SourceUUID:  config.Config.UUID,

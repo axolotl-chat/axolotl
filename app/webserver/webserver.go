@@ -450,7 +450,7 @@ func wsReader(conn *websocket.Conn) {
 				break
 			}
 			m, err := store.SaveMessage(&store.Message{
-				SID:     s.ID,
+				SID:     &s.ID,
 				Message: "Secure session reset.",
 				Flags:   helpers.MsgFlagResetSession,
 			})

@@ -145,7 +145,7 @@ func buildAndSaveMessage(msg *textsecure.Message, syncMessage bool) {
 		Message:    text,
 		Attachment: string(mAttachment),
 		CType:      ctype,
-		SID:        session.ID,
+		SID:        &session.ID,
 	}
 	if syncMessage {
 		m.Outgoing = true

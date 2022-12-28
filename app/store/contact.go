@@ -9,7 +9,7 @@ import (
 	"github.com/signal-golang/textsecure"
 	textsecureContacts "github.com/signal-golang/textsecure/contacts"
 
-	yaml "gopkg.in/yaml.v2"
+	yaml "gopkg.in/yaml.v3"
 )
 
 type Contacts struct {

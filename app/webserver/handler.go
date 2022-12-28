@@ -56,7 +56,7 @@ func MessageHandler(msg *store.Message) {
 
 // UpdateMessageHandler sents message receipts to all connected clients for the activeChat
 func UpdateMessageHandler(msg *store.Message) {
-	if msg.SID == activeChat {
+	if *msg.SID == activeChat {
 		log.Debugln("[axolotl-ws] UpdateMessageHandler ", msg.SentAt)
 		updateMessage := &UpdateMessage{
 			UpdateMessage: msg,
@@ -79,7 +79,7 @@ func UpdateMessageHandlerWithSource(msg *store.Message) {
 	if msg == nil {
 		return
 	}
-	if msg.SID == activeChat {
+	if msg.SID == &activeChat {
 		log.Debugln("[axolotl-ws] UpdateMessageHandlerWithSource ", msg.SID, msg.SentAt)
 		updateMessage := &UpdateMessage{
 			UpdateMessage: msg,

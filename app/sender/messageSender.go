@@ -62,7 +62,7 @@ func SendMessageHelper(ID int64, message, file string,
 		}
 		// m := session.Add(message, "", attachments, "", true, ID)
 		m := &store.Message{Message: message,
-			SID:         session.ID,
+			SID:         &session.ID,
 			Outgoing:    true,
 			Source:      "",
 			SourceUUID:  config.Config.UUID,
