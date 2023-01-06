@@ -1,0 +1,12 @@
+[package]
+name = "brume"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+presage = { git = "https://github.com/whisperfish/presage.git", rev = "fd483c7c543760665b30d95ba131dfae42b45370"}
+serde = "1.0"
+serde_json = "1.0"
+warp = "0.3.3"
