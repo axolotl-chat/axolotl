@@ -6,7 +6,14 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-presage = { git = "https://github.com/whisperfish/presage.git", rev = "fd483c7c543760665b30d95ba131dfae42b45370"}
-serde = "1.0"
+presage = { git = "https://github.com/whisperfish/presage.git", rev = "0ab1c3995b49f8c45feb83bcb751d166acada78c" }
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+tokio-stream = "0.1.11"
+hex = "0.4"
+warp = "0.3"
+futures = { version = "0.3", default-features=false}
+serde = { version = "1.0", features = ["derive"]}
 serde_json = "1.0"
-warp = "0.3.3"
+
+[patch.crates-io]
+"curve25519-dalek" = { git = 'https://github.com/signalapp/curve25519-dalek', branch = 'lizard2' }
