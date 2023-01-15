@@ -4,14 +4,15 @@ use std::time::UNIX_EPOCH;
 use presage::prelude::*;
 use presage::{Manager, SledStore};
 
+use crate::manager_thread::ManagerThread;
+
 /**
  * Send a message to one people.
  * 
  * Currently it only sends text message. TODO: make it more abstract to send pictures and so on. 
  */
-pub async fn send_message(msg: &str, uuid: Uuid, config_store: SledStore)
+pub async fn send_message(msg: String, uuid: Uuid, manager: &ManagerThread)
 {
-    let mut manager = Manager::load_registered(config_store).unwrap();
     // Send message
     let timestamp = std::time::SystemTime::now()
         .duration_since(UNIX_EPOCH)
