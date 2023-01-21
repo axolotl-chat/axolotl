@@ -1,17 +1,19 @@
-clickable_minimum_required: 7.1.2
+clickable_minimum_required: 7.10.0
 
-builder: go
+builder: rust
+rust_channel: 1.66.1
+env_vars:
+  CC: ""
+  CXX: ""
 prebuild: 
   - mkdir -p ${BUILD_DIR}/axolotl-web 
   - cp ${SRC_DIR}/axolotl-web/dist ${BUILD_DIR}/axolotl-web/ -R
-postbuild: ${SRC_DIR}/scripts/postbuild.sh ${INSTALL_DIR}
 dependencies_host:
   - gettext
-
+  - protobuf-compiler
+build_args: --features ut
 kill: axolotl
 
-install_bin:
-  - ${CRAYFISH_LIB_INSTALL_DIR}/bin/crayfish
 install_root_data:
   - manifest.json
   - click/axolotl.png
@@ -27,14 +29,6 @@ install_root_data:
   - guis/qml/ut
 
 libraries:
-  crayfish:
-    builder: rust
-    src_dir: crayfish
-    rust_channel: 1.63.0
-    env_vars:
-      CC: ""
-      CXX: ""
-
   axolotlweb:
     image_setup:
       run:

@@ -22,7 +22,7 @@ UITK.Page {
   WebEngineView {
     id: _webView
     profile: webProfile
-    url: "http://localhost:9080/"
+    url: "http://localhost:9081/"
     settings.showScrollBars: false
     anchors {
       left: parent.left

@@ -25,11 +25,7 @@ Installation instructions can be found [here](https://clickable-ut.dev/en/dev/in
 
     `clickable build --libs axolotlweb`
 
-2. To build crayfish execute:
-
-    `clickable build --libs crayfish`
-
-3. Finally the app is built by running:
+2. Finally the app is built by running:
 
     `clickable`
 
@@ -41,10 +37,7 @@ Clickable supports a few different parameters. Those can be set via command line
 
 For a full list of available clickable commands, see [here](https://clickable-ut.dev/en/latest/commands.html).
 
-## Crayfish backend
-
-Note: Clickable handles all aspects from this section for you. Just follow the
-instructions for all other build methods.
+## Native build
 
 ### Rust
 
@@ -52,17 +45,14 @@ Install Rust using [rustup](https://www.rust-lang.org/tools/install).
 
 ### Build Instructions
 
-Build the crayfish backend:
+Build axolotl
 
 ```bash
-cd crayfish
-cargo build --release
+make build
 ```
 
 Building should work using both `stable` and `nightly` toolchains.
 
-Find the crayfish binary in `crayfish/target/release/crayfish` and ship it
-such that it is found in `PATH` on runtime.
 
 ### Cross compile build
 

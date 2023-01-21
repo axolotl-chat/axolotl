@@ -23,26 +23,26 @@
       <div v-for="chat in chatList" :key="chat.id" class="row">
         <!-- chat entry -->
         <div
-          :id="chat.ID"
+          :id="chat.id"
           :class="
-            editActive && selectedChat.indexOf(chat.ID) >= 0
+            editActive && selectedChat.indexOf(chat.id) >= 0
               ? 'selected col-12 chat-container'
               : 'col-12 chat-container '
           "
           data-long-press-delay="500"
           @click="enterChat(chat)"
-          @long-press="editChat(chat.ID)"
+          @long-press="editChat(chat.id)"
         >
           <div class="row chat-entry">
             <div class="avatar col-2">
               <div v-if="!isGroupCheck(chat)" class="badge-name">
                 <img
                   class="avatar-img"
-                  :src="'http://localhost:9080/avatars?session=' + chat.ID"
+                  :src="'http://localhost:9080/avatars?session=' + chat.id"
                   alt="Avatar image"
                   @error="onImageError($event)"
                 />
-                {{ chat.ID[0] }}
+                {{ `${chat.title[0]}${chat.title[1]?chat.title[1]:""}` }}
               </div>
               <div v-else class="badge-name">
                 <font-awesome-icon icon="user-friends" />
@@ -59,41 +59,40 @@
                     />
                     <div
                       v-if="
-                        isGroupCheck(chat) &&
-                          sessionNames &&
-                          sessionNames[chat.ID] == null
+                          chat.is_group &&
+                          chat.title === '' 
                       "
                       v-translate
                     >
                       Unknown group
                     </div>
                     <div v-else>
-                      {{ sessionNames ? sessionNames[chat.ID].Name : "" }}
+                      {{ chat.title }}
                     </div>
                     <div
-                      v-if="Number(chat.UnreadCounter) > 0"
+                      v-if="Number(chat.unread_messages_count) > 0"
                       class="counter badge badge-primary"
                     >
-                      {{ chat.UnreadCounter }}
+                      {{ chat.unread_messages_count }}
                     </div>
                   </div>
                 </div>
                 <div v-if="!editActive" class="col-3 date-c">
                   <p
                     v-if="
-                      lastMessages[chat.ID] !== undefined &&
-                        lastMessages[chat.ID].SentAt !== 0
+                      chat.last_message !== '' &&
+                      chat.last_message_timestamp !== 0
                     "
                     class="time"
                   >
-                    {{ humanifyDate(lastMessages[chat.ID].SentAt) }}
+                    {{ humanifyDate(chat.last_message_timestamp) }}
                   </p>
                 </div>
               </div>
               <div class="row">
                 <div class="col-12">
-                  <p v-if="lastMessages[chat.ID] !== undefined" class="preview">
-                    {{ lastMessages[chat.ID].Message }}
+                  <p v-if="chat.last_message !==''" class="preview">
+                    {{ chat.last_message }}
                   </p>
                 </div>
               </div>
@@ -194,7 +193,7 @@ export default {
     enterChat(chat) {
       if (!this.editActive) {
         this.$store.dispatch("setCurrentChat", chat);
-        router.push("/chat/" + chat.ID);
+        router.push("/chat/" + chat.id);
       } else {
         this.selectedChat.push(chat.Tel);
       }

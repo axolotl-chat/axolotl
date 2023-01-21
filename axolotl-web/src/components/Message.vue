@@ -1,60 +1,48 @@
 <template>
-  <div
-    :key="message.ID"
-    :class="{
-      'col-12': true,
-      'message-container': true,
-      outgoing: message.Outgoing,
-      sent: message.IsSent && message.Outgoing,
-      read: message.IsRead && message.Outgoing,
-      delivered: message.Receipt && message.Outgoing,
-      incoming: !message.Outgoing,
-      status:
-        (message.Flags > 0 &&
-          message.Flags !== 11 &&
-          message.Flags !== 13 &&
-          message.Flags !== 14) ||
-        message.StatusMessage ||
-        (message.Attachment &&
-          message.Attachment.includes('null') &&
-          message.Message === ''),
-      hidden: message.Flags === 18,
-      error: message.SentAt === 0 || message.SendingError,
-      'group-message':
-        isGroup && (message.Flags === 0 || message.Flags === 12 || message.Flags === 13),
-    }"
-  >
-    <div
-      v-if="
-        !message.Outgoing &&
-          isGroup &&
-          (message.Flags === 0 || message.Flags === 12 || message.Flags === 13)
-      "
-      class="avatar"
-    >
+  <div :key="message.ID" :class="{
+    'col-12': true,
+    'message-container': true,
+    outgoing: message.is_outgoing,
+    sent: message.IsSent && message.is_outgoing,
+    read: message.IsRead && message.is_outgoing,
+    delivered: message.Receipt && message.is_outgoing,
+    incoming: !message.is_outgoing,
+    status:
+      (message.Flags > 0 &&
+        message.Flags !== 11 &&
+        message.Flags !== 13 &&
+        message.Flags !== 14) ||
+      message.StatusMessage ||
+      (message.Attachment &&
+        message.Attachment.includes('null') &&
+        message.Message === ''),
+    hidden: message.Flags === 18,
+    error: message.timestamp === 0 || message.SendingError,
+    'group-message':
+      isGroup && (message.Flags === 0 || message.Flags === 12 || message.Flags === 13),
+  }">
+    <div v-if="
+      !message.is_outgoing &&
+      isGroup &&
+      (message.Flags === 0 || message.Flags === 12 || message.Flags === 13)
+    " class="avatar">
       <div class="badge-name" @click="openProfileForRecipient(id)">
         <div v-if="id !== -1">
-          <img
-            class="avatar-img"
-            :src="'http://localhost:9080/avatars?recipient=' + id"
-            @error="onImageError($event)"
-          />
+          <img class="avatar-img" :src="'http://localhost:9080/avatars?recipient=' + id"
+            @error="onImageError($event)" />
         </div>
         <div v-if="name !== ''">
           {{ name[0] }}
         </div>
       </div>
     </div>
-    <div
-      v-if="verifySelfDestruction(message)"
-      :class="{
-        message: true,
-        'col-7':
-          isGroup &&
-          (message.Flags === 0 || message.Flags === 12 || message.Flags === 13) &&
-          !message.Outgoing,
-      }"
-    >
+    <div v-if="verifySelfDestruction(message)" :class="{
+      message: true,
+      'col-7':
+        isGroup &&
+        (message.Flags === 0 || message.Flags === 12 || message.Flags === 13) &&
+        !message.is_outgoing,
+    }">
       <div v-if="isSenderNameDisplayed" class="sender">
         <div v-if="name !== ''">
           {{ name }}
@@ -62,7 +50,7 @@
         <div v-else>{{ getName(message.SourceUUID) }}</div>
       </div>
       <blockquote v-if="message.QuotedMessage">
-        <cite v-if="message.QuotedMessage.Outgoing" v-translate>You</cite>
+        <cite v-if="message.QuotedMessage.is_outgoing" v-translate>You</cite>
         <cite v-else>{{ getName(message.QuotedMessage.SourceUUID) }}</cite>
         <p>{{ message.QuotedMessage.Message }}</p>
       </blockquote>
@@ -70,27 +58,14 @@
         <div v-if="isAttachmentArray(message.Attachment)" class="gallery">
           <div v-for="m in isAttachmentArray(message.Attachment)" :key="m.File">
             <div v-if="m.CType === 2" class="attachment-img">
-              <img
-                :src="'http://localhost:9080/attachments?file=' + m.File"
-                alt="Fullscreen image"
-                @click="$emit('show-fullscreen-img', m.File)"
-              />
+              <img :src="'http://localhost:9080/attachments?file=' + m.File" alt="Fullscreen image"
+                @click="$emit('show-fullscreen-img', m.File)" />
             </div>
             <div v-else-if="m.CType === 3" class="attachment-audio">
               <div class="audio-player-container d-flex">
                 <button id="play-icon">
-                  <font-awesome-icon
-                    v-if="!isPlaying"
-                    class="play"
-                    icon="play"
-                    @click="play"
-                  />
-                  <font-awesome-icon
-                    v-if="isPlaying"
-                    class="pause"
-                    icon="pause"
-                    @click="pause"
-                  />
+                  <font-awesome-icon v-if="!isPlaying" class="play" icon="play" @click="play" />
+                  <font-awesome-icon v-if="isPlaying" class="pause" icon="pause" @click="pause" />
                 </button>
                 <span v-if="!isPlaying" id="duration" class="time">{{
                   humanifyTimePeriod(duration)
@@ -100,101 +75,39 @@
               </div>
             </div>
             <div v-else-if="m.File !== '' && m.CType === 0" class="attachment-file">
-              <a
-                :href="'http://localhost:9080/attachments?file=' + m.File"
-                @click="shareAttachment(m.File, $event)"
-              >{{ m.FileName ? m.FileName : m.File }}</a>
+              <a :href="'http://localhost:9080/attachments?file=' + m.File" @click="shareAttachment(m.File, $event)">{{
+                m.FileName ? m.FileName : m.File
+              }}</a>
             </div>
-            <div
-              v-else-if="m.CType === 5"
-              class="attachment-video"
-              @click="$emit('show-fullscreen-video', m.File)"
-            >
+            <div v-else-if="m.CType === 5" class="attachment-video" @click="$emit('show-fullscreen-video', m.File)">
               <video>
                 <source :src="'http://localhost:9080/attachments?file=' + m.File" />
                 <span v-translate>Your browser does not support the audio element.</span>
               </video>
               <img class="play-button" src="../assets/images/play.svg" alt="Play image" />
             </div>
-            <div v-else-if="m.File !== ''" class="attachment">
+            <!-- <div v-else-if="m.File !== ''" class="attachment">
               <span v-translate>Not supported mime type:</span> {{ m.CType }}
-            </div>
+            </div> -->
           </div>
         </div>
-        <!-- this is legacy code -->
-        <div v-else-if="message.CType === 2" class="attachment-img">
-          <img
-            :src="'http://localhost:9080/attachments?file=' + message.Attachment"
-            alt="Fullscreen image"
-            @click="$emit('show-fullscreen-img', message.Attachment)"
-          />
-        </div>
-        <div v-else-if="message.CType === 3" class="attachment-audio">
-          <div class="audio-player-container d-flex">
-            <button id="play-icon">
-              <font-awesome-icon
-                v-if="!isPlaying"
-                class="play"
-                icon="play"
-                @click="play"
-              />
-              <font-awesome-icon
-                v-if="isPlaying"
-                class="pause"
-                icon="pause"
-                @click="pause"
-              />
-            </button>
-            <span v-if="!isPlaying" id="duration" class="time">{{
-              humanifyTimePeriod(duration)
-            }}</span>
-            <span v-if="isPlaying" id="currentTime" class="time">{{ humanifyTimePeriod(currentTime) }} /
-              {{ humanifyTimePeriod(duration) }}</span>
-          </div>
-        </div>
-        <div
-          v-else-if="message.Attachment !== 'null' && message.CType === 0"
-          class="attachment-file"
-        >
-          {{ message.Attachment }}
-          <a :href="'http://localhost:9080/attachments?file=' + message.Attachment">File</a>
-        </div>
-        <div
-          v-else-if="message.CType === 5"
-          class="attachment-video"
-          @click="$emit('show-fullscreen-video', message.Attachment)"
-        >
-          <video>
-            <source
-              :src="'http://localhost:9080/attachments?file=' + message.Attachment"
-            />
-            <span v-translate>Your browser does not support the video element.</span>
-          </video>
-        </div>
-
-        <div v-else-if="message.Attachment !== 'null'" class="attachment">
+        <!-- <div v-else-if="message.Attachment !== 'null'" class="attachment">
           <span v-translate>Not supported mime type:</span> {{ message.CType }}
-        </div>
+        </div> -->
       </div>
       <div class="message-text">
+        {{ message.message }}
         <!-- eslint-disable-next-line vue/no-v-html -->
-        <div
-          v-if="message.Flags !== 17"
-          class="message-text-content"
-          data-test="message-text"
-          v-html="linkify(sanitize(message.Message))"
-        />
+        <div v-if="message.Flags !== 17" class="message-text-content" data-test="message-text"
+          v-html="linkify(sanitize(message.Message))" />
         <div v-if="message.Flags === 17" v-translate>Group changed.</div>
-        <div
-          v-if="
-            message.Attachment &&
-              message.Attachment.includes('null') &&
-              message.Message === '' &&
-              message.Flags === 0 &&
-              !isGroup
-          "
-          class="status-message"
-        >
+        <div v-if="
+          message.Attachment &&
+          message.Attachment.includes('null') &&
+          message.Message === '' &&
+          message.Flags === 0 &&
+          !isGroup
+        " class="status-message">
           <span v-translate>Set timer for self-destructing messages </span>
           <div>{{ humanifyTimePeriod(message.ExpireTimer) }}</div>
         </div>
@@ -202,36 +115,27 @@
           Unsupported message type: sticker
         </div>
       </div>
-      <div v-if="message.SentAt !== 0" class="meta">
+      <div v-if="message.timestamp !== 0" class="meta">
         <div class="time">
           <span @click="showDate = !showDate">{{
-            humanifyDateFromNow(message.SentAt)
+            humanifyDateFromNow(message.timestamp)
           }}</span>
-          <span v-if="showDate" class="fullDate">{{ humanifyDate(message.SentAt) }}</span>
+          <span v-if="showDate" class="fullDate">{{ humanifyDate(message.timestamp) }}</span>
         </div>
         <div v-if="message.ExpireTimer > 0">
           <div class="circle-wrap">
             <div class="circle">
-              <div
-                class="mask full"
-                :style="'transform: rotate(' + timerPercentage(message) + 'deg)'"
-              >
-                <div
-                  class="fill"
-                  :style="'transform: rotate(' + timerPercentage(message) + 'deg)'"
-                />
+              <div class="mask full" :style="'transform: rotate(' + timerPercentage(message) + 'deg)'">
+                <div class="fill" :style="'transform: rotate(' + timerPercentage(message) + 'deg)'" />
               </div>
               <div class="mask half">
-                <div
-                  class="fill"
-                  :style="'transform: rotate(' + timerPercentage(message) + 'deg)'"
-                />
+                <div class="fill" :style="'transform: rotate(' + timerPercentage(message) + 'deg)'" />
               </div>
               <div class="inside-circle" />
             </div>
           </div>
         </div>
-        <div v-if="message.Outgoing" class="transfer-indicator" />
+        <!-- <div v-if="message.is_outgoing" class="transfer-indicator" /> -->
       </div>
       <div v-else class="col-12 meta">Error</div>
     </div>
@@ -249,7 +153,7 @@ export default {
   props: {
     message: {
       type: Object,
-      default: () => {},
+      default: () => { },
     },
     isGroup: {
       type: Boolean,
@@ -272,7 +176,7 @@ export default {
     ...mapState(["currentGroup", "config"]),
     isSenderNameDisplayed() {
       return (
-        !this.message.Outgoing &&
+        !this.message.is_outgoing &&
         this.isGroup &&
         (this.message.Flags === 0 || this.message.Flags === 14)
       ); // #14 is the flag for quoting messages
@@ -420,21 +324,26 @@ export default {
 .message-text {
   overflow-wrap: break-word;
 }
+
 .incoming {
   text-align: left;
 }
+
 .outgoing {
   display: flex;
   justify-content: flex-end;
 }
+
 .meta {
   display: flex;
   align-items: center;
   font-size: 11px;
 }
+
 .outgoing .meta {
   justify-content: flex-end;
 }
+
 .message {
   margin-bottom: 10px;
   padding: 8px 12px;
@@ -443,25 +352,30 @@ export default {
   text-align: left;
   min-width: 100px;
 }
+
 .error .message {
   border: solid #f7663a 2px;
 }
+
 .sender {
   font-size: 0.9rem;
   font-weight: bold;
 }
+
 .gallery {
   display: flex;
 
-  div + div {
+  div+div {
     margin-left: 3px;
   }
 }
+
 video,
 .attachment-img img {
   max-width: 100%;
   max-height: 80vh;
 }
+
 .outgoing .attachment-img {
   background: center center no-repeat;
   background-color: #000;
@@ -471,6 +385,7 @@ video,
     opacity: 0.2;
   }
 }
+
 .sent .attachment-img {
   background-color: #eee; // To deal with images with a transparent background
   background-image: none;
@@ -479,12 +394,14 @@ video,
     opacity: 1;
   }
 }
+
 .status .message {
   background-color: transparent;
   width: 100%;
   font-weight: 600;
   text-align: center;
 }
+
 .status .status-message {
   width: 100%;
   display: flex;
@@ -493,13 +410,16 @@ video,
   text-align: center;
   flex-direction: column;
 }
+
 .status .status-message span {
   padding-right: 4px;
 }
+
 .status .meta {
   text-align: center;
   justify-content: center;
 }
+
 .transfer-indicator {
   width: 18px;
   height: 12px;
@@ -507,9 +427,11 @@ video,
   background-repeat: no-repeat;
   background-position: left center;
 }
+
 .error .transfer-indicator {
   background-image: url("../assets/images/warning.svg");
 }
+
 .circle-wrap {
   margin-top: 3px;
   margin-left: 5px;
@@ -519,6 +441,7 @@ video,
   border-radius: 50%;
   position: relative;
 }
+
 .circle-wrap .circle .mask,
 .circle-wrap .circle .fill {
   width: 16px;
@@ -528,9 +451,11 @@ video,
   position: absolute;
   border-radius: 50%;
 }
+
 .circle-wrap .circle .mask {
   clip: rect(0px, 16px, 16px, 8px);
 }
+
 .circle-wrap .circle .mask .fill {
   clip: rect(0px, 8px, 16px, 0px);
   background-color: #9e00b1;
@@ -541,19 +466,23 @@ video,
   /* animation: fill ease-in-out 3s; */
   transform: rotate(00deg);
 }
+
 .circle-wrap .circle.p50 .mask.full,
 .circle-wrap .circle.p50 .fill {
   /* animation: fill ease-in-out 3s; */
   transform: rotate(180deg);
 }
+
 .circle-wrap .circle.p100 .mask.full,
 .circle-wrap .circle.p100 .fill {
   /* animation: fill ease-in-out 3s; */
   transform: rotate(360deg);
 }
+
 .message-text .message-text-content {
   white-space: pre-line;
 }
+
 .attachment-video {
   position: relative;
 
@@ -566,6 +495,7 @@ video,
     bottom: 0;
   }
 }
+
 blockquote {
   padding: 0.5rem;
   margin-top: 3px;
@@ -583,13 +513,16 @@ blockquote {
     margin: 0;
   }
 }
+
 .fullDate {
   font-style: italic;
   margin-left: 2px;
 }
+
 .hidden {
   display: none;
 }
+
 button {
   padding: 0;
   border: 0;
@@ -599,11 +532,13 @@ button {
   width: 40px;
   height: 40px;
 }
+
 .audio-player-container {
   position: relative;
   width: 90%;
   max-width: 500px;
   height: 80px;
+
   p {
     position: absolute;
     top: -18px;
@@ -613,12 +548,15 @@ button {
     font-size: 28px;
     background: #fff;
   }
+
   #play-icon {
     margin: 20px 2.5% 20px 2.5%;
   }
 }
+
 .incoming.group-message {
   display: flex;
+
   .badge-name {
     margin-right: 10px;
   }

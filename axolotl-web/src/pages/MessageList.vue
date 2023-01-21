@@ -52,7 +52,7 @@
             v-for="message in messageList"
             :key="message.ID"
             :message="message"
-            :is-group="isGroup"
+            :is-group="chat.isGroup"
             @show-fullscreen-img="showFullscreenImg($event)"
             @show-fullscreen-video="showFullscreenVideo($event)"
             @click="handleClick($event)"
@@ -93,7 +93,7 @@
               @long-press="paste"
             />
           </div>
-          <div v-if="messageInput !== ''" class="messageInput-btn-container">
+          <div v-if="messageInput !== '' || true" class="messageInput-btn-container">
             <button class="btn send" @click="sendMessage">
               <font-awesome-icon icon="paper-plane" />
             </button>
@@ -155,7 +155,9 @@
           @close="showAttachmentsBar = false"
           @send="callContentHub($event)"
         />
+        <!--  TODO: Fix attachment sending
         <input
+          v-if="false" 
           id="attachment"
           type="file"
           style="position: fixed; top: -100em"
@@ -166,6 +168,7 @@
           :src="voiceNote.blobUrl"
           style="position: fixed; top: -100em"
         />
+        -->
       </div>
     </div>
   </component>
@@ -186,7 +189,7 @@ export default {
     DefaultLayout,
   },
   props: {
-    chatId: { type: Number, default: -1 },
+    chatId: { type: String, default: "" },
   },
   data() {
     return {
@@ -219,8 +222,9 @@ export default {
       return this.$store.state.messageList;
     },
     isGroup() {
-      return this.$store.state.currentChat.GroupV2ID !== "" ||
-        this.$store.state.currentChat.GroupV1ID !== "";
+      if (!this.$store.state.currentChat)return false;
+      return this.$store.state.currentChat?.GroupV2ID !== "" ||
+        this.$store.state.currentChat?.GroupV1ID !== "";
     },
     ...mapState(["contacts", "config", "messageList", "currentGroup"]),
   },
@@ -366,7 +370,7 @@ export default {
       }
     },
     scrollDown() {
-      if (this.messages && this.messages.length !== 0)
+      if (this.messages && this.messages.length !== 0 && document.getElementById("chat-bottom"))
         document.getElementById("chat-bottom").scrollIntoView();
     },
     recordAudio() {

@@ -56,19 +56,9 @@ To find out how to build from source and install yourself, please see below.
 
 ### Manually
 
-Requires Go, and node/npm.
+Requires Rust, Cargo and node/npm.
 
 If running Ubuntu, these steps should get you started.
-
-First, install build dependencies.
-
-```shell
-sudo add-apt-repository ppa:longsleep/golang-backports
-sudo apt update
-sudo apt install golang-go nodejs npm build-essential
-```
-
-Then, install axolotl go and npm dependencies.
 
 *Note: Make sure to install the latest **node lts** version from [https://nodejs.org/](https://nodejs.org/).*
 

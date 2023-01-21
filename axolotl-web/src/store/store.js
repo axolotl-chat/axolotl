@@ -39,9 +39,10 @@ export default createStore({
     verificationInProgress: false,
     verificationError: null,
     requestPin: false,
-    registrationStatus: null,
+    registrationStatus: "registered",
     captchaToken: null,
     captchaTokenSent: false,
+    deviceLinkCode: null,
     socket: {
       isConnected: false,
       message: '',
@@ -87,6 +88,9 @@ export default createStore({
     },
     SET_CHATLIST(state, chatList) {
       state.chatList = chatList;
+    },
+    SET_DEVICE_LINK_CODE(state, code) {
+      state.deviceLinkCode = code;
     },
     SET_LASTMESSAGES(state, lastMessages) {
       state.lastMessages = lastMessages;
@@ -239,7 +243,7 @@ export default createStore({
     },
     SET_CONTACTS(state, contacts) {
       if (contacts !== null) {
-        contacts = contacts.sort((a, b) => a.Name.localeCompare(b.Name));
+        contacts = contacts.sort((a, b) => a.name.localeCompare(b.name));
         state.importingContacts = false;
         state.contacts = contacts;
       }
@@ -285,9 +289,10 @@ export default createStore({
         const message = "ping";
         state.socket.isConnected &&
           app.config.globalProperties.$socket.send(JSON.stringify({
+            request: message,
             code: 200,
-            msg: message
           }));
+        this.dispatch("getChatList")
       }, state.socket.heartBeatInterval);
     },
     SOCKET_ONCLOSE(state) {
@@ -385,8 +390,22 @@ export default createStore({
         case "ProfileMessage":
           this.commit("SET_PROFILE", messageData.ProfileMessage);
           break;
+        case "response_type":
+          if (messageData.response_type === "contact_list") {
+            this.commit("SET_CONTACTS", JSON.parse(messageData.data));
+          } else if (messageData.response_type === "chat_list") {
+            this.commit("SET_CHATLIST", JSON.parse(messageData.data));
+
+          } else if (messageData.response_type === "message_list") {
+            this.commit("SET_MESSAGELIST", JSON.parse(messageData.data));
+          } else if (messageData.response_type === "qr_code") {
+            this.commit("SET_DEVICE_LINK_CODE", messageData.data);
+            router.push("/qr");
+          }
+          break;
+
         default:
-        // console.log("unkown message ", Object.keys(messageData)[0]);
+          console.log("unkown message ", messageData, Object.keys(messageData)[0]);
       }
       this.commit("SET_SOCKET_MESSAGE_DATA", message.data)
 
@@ -454,13 +473,21 @@ export default createStore({
       }
     },
     getMessageList(state, chatId) {
+
       this.commit("CLEAR_MESSAGELIST");
       if (this.state.socket.isConnected) {
-        const message = {
-          "request": "getMessageList",
+        const data = {
           "id": chatId
+        };
+        if (chatId) {
+          console.log(chatId)
+          const message = {
+            "request": "getMessageList",
+            "data": JSON.stringify(data)
+          }
+          socketSend(message);
         }
-        socketSend(message);
+
       }
     },
     getProfile(state, id) {

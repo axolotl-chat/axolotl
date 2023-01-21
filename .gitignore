@@ -26,3 +26,7 @@ libzkgroup*.so
 *.log
 *.sql*
 *.gz
+
+# Added by cargo
+
+/target

@@ -25,7 +25,7 @@ export const router = new createRouter({
         layout: Legacy,
       },
       props: route => ({
-        chatId: Number(route.params.id),
+        chatId: route.params.id,
       }),
       component: () => import("@/pages/MessageList.vue")
     },
@@ -151,6 +151,14 @@ export const router = new createRouter({
         layout: Legacy,
       },
       component: () => import("@/pages/EditGroup.vue")
+    },
+    {
+      path: "/qr",
+      name: "qr",
+      meta: {
+        layout: Default,
+      },
+      component: () => import("@/pages/DeviceLinking.vue")
     },
     {
       path: "/debug",

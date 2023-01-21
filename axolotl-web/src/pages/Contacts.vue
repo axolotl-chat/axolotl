@@ -43,11 +43,11 @@
                   alt="Avatar image"
                   @error="onImageError($event)"
                 />
-                {{ c.Name[0] ? c.Name[0] + c.Name[1] : c.Name[0] }}
+                {{ c.name[0] ? c.name[0] + c.name[1] : c.name[0] }}
               </div>
             </div>
             <div class="meta col-8" @click="contactClick(c)">
-              <p class="name">{{ c.Name }}</p>
+              <p class="name">{{ c.name }}</p>
               <p class="number">{{ c.Tel }}</p>
             </div>
             <div class="col-1" @click="showContactAction(c)">
@@ -59,7 +59,7 @@
       <div
         v-for="c in contacts"
         v-else
-        :key="c.Tel"
+        :key="c.address.uuid"
         :class="
           c === selectedContact ? 'selected btn col-12 chat' : 'btn col-12 chat'
         "
@@ -76,12 +76,12 @@
                 alt="Avatar image"
                 @error="onImageError($event)"
               />
-              {{ c.Name[0] ? c.Name[0] + c.Name[1] : c.Name[0] }}
+              {{ c.name[0] ? c.name[0] + c.name[1] : c.name[0] }}
             </div>
           </div>
           <div class="meta col-8" @click="contactClick(c)">
-            <p class="name">{{ c.Name }}</p>
-            <p class="number">{{ c.Tel }}</p>
+            <p class="name">{{ c.name }}</p>
+            <p class="number">{{ `+${ c.address.phonenumber.code.value} ${ c.address.phonenumber.national.value}` }}</p>
           </div>
           <div class="col-1" @click="showContactAction(c)">
             <font-awesome-icon icon="wrench" />
@@ -190,14 +190,14 @@ export default {
     },
     contactClick(contact) {
       if (!this.showActions) {
-        if (this.validateUUID(contact.UUID))
-          this.$store.dispatch("createChat", contact.UUID);
+        if (this.validateUUID(contact.address.uuid))
+          this.$store.dispatch("createChat", contact.address.uuid);
       } else {
         this.closeActionMode();
       }
     },
     checkForUUIDClass(contact) {
-      var isValid = this.validateUUID(contact.UUID);
+      var isValid = this.validateUUID(contact.address.uuid);
       return isValid ? "" : "not-registered";
     },
   },
@@ -268,5 +268,30 @@ export default {
     rgb(100, 100, 100) 42%,
     rgb(134, 134, 134) 100%
   );
+}
+  /*
+.avatar{
+  border-radius: 50px;
+background-color: #2090ea;
+width: 50px;
+height: 50px;
+justify-content: center;
+align-items: center;
+display: flex;
+color: #FFF;
+margin:20px;
+} */
+.meta{
+  text-align: left;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.meta p{
+  margin: 0;
+}
+.meta .name{
+  font-size: 16px;
+  font-weight: 600;
 }
 </style>

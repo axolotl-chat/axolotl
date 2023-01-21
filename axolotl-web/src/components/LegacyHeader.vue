@@ -18,7 +18,7 @@
                     :src="'http://localhost:9080/avatars?session=' + currentChat.ID"
                     @error="onImageError($event)"
                   />
-                  {{ sessionNames[currentChat.ID].Name[0] }}
+                  {{ currentChat.title[0] }}
                 </div>
                 <div v-else class="group-badge">
                   <font-awesome-icon icon="user-friends" />
@@ -30,7 +30,7 @@
                     <div
                       v-if="
                         isGroup &&
-                          sessionNames[currentChat.ID].Name === currentChat.Tel
+                          currentChat.title === currentChat.Tel
                       "
                       class="header-text-chat"
                     >
@@ -44,10 +44,10 @@
                         <font-awesome-icon class="mute" icon="volume-mute" />
                       </div>
                       <div
-                        v-if="sessionNames[currentChat.ID].Name !== currentChat.Tel"
+                        v-if="currentChat.title !== currentChat.Tel"
                         class=""
                       >
-                        {{ sessionNames[currentChat.ID].Name }}
+                        {{ currentChat.title }}
                       </div>
                     </div>
                   </div>
@@ -79,7 +79,7 @@
                     <div
                       v-if="
                         !isGroup &&
-                          sessionNames[currentChat.ID].Name === currentChat.Tel
+                          currentChat.title === currentChat.Tel
                       "
                       class="number-text"
                     >
@@ -113,7 +113,7 @@
                   v-if="
                     currentChat !== null &&
                       !isGroup &&
-                      sessionNames[currentChat.ID].Name !== currentChat.Tel
+                      currentChat.title !== currentChat.Tel
                   "
                   class="dropdown-item"
                   @click="callNumber(currentChat.Tel)"
@@ -140,7 +140,7 @@
                   v-if="
                     currentChat !== null &&
                       !isGroup &&
-                      sessionNames[currentChat.ID].Name === currentChat.Tel
+                      currentChat.title === currentChat.Tel
                   "
                   v-translate
                   class="dropdown-item"
@@ -152,7 +152,7 @@
                   v-if="
                     currentChat !== null &&
                       !isGroup &&
-                      sessionNames[currentChat.ID].Name !== currentChat.Tel
+                      currentChat.title !== currentChat.Tel
                   "
                   v-translate
                   class="dropdown-item"

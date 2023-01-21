@@ -5,9 +5,6 @@
 
 NPM_VERSION := $(shell npm --version 2>/dev/null)
 NODE_VERSION := $(shell node --version 2>/dev/null)
-GO_VERSION := $(shell go version 2>/dev/null)
-GOOS := $(shell go env GOOS)
-GOARCH := $(shell go env GOARCH)
 CARGO_VERSION := $(shell cargo --version 2>/dev/null)
 GIT_VERSION := $(shell git --version 2>/dev/null)
 AXOLOTL_GIT_VERSION := $(shell git tag | tail --lines=1)
@@ -24,7 +21,6 @@ endef
 export APPDATA_TEXT
 
 NPM := $(shell which npm 2>/dev/null)
-GO := $(shell which go 2>/dev/null)
 GIT := $(shell which git 2>/dev/null)
 CARGO := $(shell which cargo 2>/dev/null)
 FLATPAK := $(shell which flatpak 2>/dev/null)
@@ -46,7 +42,7 @@ CARGO_PREFIX := ${HOME}/.cargo/bin
 
 all: clean build
 
-build: build-axolotl-web build-axolotl build-crayfish build-zkgroup
+build: build-axolotl-web build-axolotl
 
 install: install-axolotl install-axolotl-web install-crayfish install-zkgroup
 	@sudo install -D -m 644 $(CURRENT_DIR)/scripts/axolotl.desktop $(DESTDIR)$(SHARE_PREFIX)/applications/axolotl.desktop
@@ -56,15 +52,12 @@ uninstall: uninstall-axolotl uninstall-axolotl-web uninstall-crayfish uninstall-
 
 check: check-axolotl check-axolotl-web
 
-build-dependencies: build-dependencies-axolotl-web build-dependencies-axolotl
+build-dependencies: build-dependencies-axolotl-web
 
 # axolotl
-build-dependencies-axolotl:
-	$(GO) mod download
-
 build-axolotl:
 	@echo "Building axolotl..."
-	$(GO) build -v .
+	$(CARGO) build --features tauri
 
 check-axolotl:
 	$(GO) test -race ./...
@@ -123,52 +116,6 @@ else
 	@sed -i "32i $$APPDATA_TEXT" flatpak/org.nanuc.Axolotl.appdata.xml
 	@echo "Update complete"
 endif
-
-## crayfish
-build-crayfish:
-	@echo "Building crayfish..."
-	@cd $(CURRENT_DIR)/crayfish && cargo build --release
-
-install-crayfish:
-	@echo "Installing crayfish..."
-	@install -D -m 755 $(CURRENT_DIR)/crayfish/target/release/crayfish $(DESTDIR)$(INSTALL_PREFIX)/
-
-uninstall-crayfish:
-	@echo "Uninstalling crayfish..."
-	@rm -f $(DESTDIR)$(INSTALL_PREFIX)/crayfish
-
-## zkgroup
-build-zkgroup:
-	@echo "Building zkgroup..."
-ifeq ($(UNAME_S), Linux)
-	@echo "get zkgroup $(PLATFORM)"
-	$(GO) get -d github.com/nanu-c/zkgroup \
-	&& cd $(GOPATH)/src/github.com/nanu-c/zkgroup \
-	&& $(GIT) submodule update \
-	&& cd $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/zkgroup \
-	&& $(CARGO) build --release --verbose \
-	&& mv -f $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/zkgroup/target/release/libzkgroup.so $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_$(HARDWARE_PLATFORM).so
-else
-	@echo "Architecture not (yet) supported $(HARDWARE_PLATFORM)"
-	exit 1
-endif
-
-copy-zkgroup:
-	$(GO) get -d github.com/nanu-c/zkgroup
-	cp $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_$(HARDWARE_PLATFORM).so $(CURRENT_DIR)/
-
-install-zkgroup:
-	@cp $(CURRENT_DIR)/libzkgroup_linux_$(HARDWARE_PLATFORM).so $(DESTDIR)$(LIBRARY_PREFIX)/
-
-uninstall-zkgroup:
-	@rm -f $(DESTDIR)$(LIBRARY_PREFIX)/libzkgroup_linux_$(HARDWARE_PLATFORM).so
-
-install-clickable-zkgroup:
-	$(GO) get -d github.com/nanu-c/zkgroup
-	cp $(GOPATH)/src/github.com/nanu-c/zkgroup/lib/libzkgroup_linux_$(HARDWARE_PLATFORM).so $(CURRENT_DIR)/lib/
-
-uninstall-clickable-zkgroup:
-	rm -f $(CURRENT_DIR)/lib/libzkgroup_linux_$(HARDWARE_PLATFORM).so
 
 ## Electron bundler
 build-dependencies-axolotl-electron-bundle:
