@@ -71,7 +71,7 @@ async fn start_ut() {
     thread::spawn( || {
         let rt = tokio::runtime::Runtime::new().unwrap();
         rt.block_on(async {
-            let route = warp::path("axolotl").and(warp::fs::dir("./axolotl-web/dist"));
+            let route = warp::fs::dir("./axolotl-web/dist");
             warp::serve(route).run(([127, 0, 0, 1], 9081)).await;
         });
 
