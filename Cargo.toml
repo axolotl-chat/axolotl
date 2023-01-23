@@ -9,7 +9,7 @@ tauri-build = { version = "1.2.1", features = [], optional = true}
 
 [dependencies]
 tauri = { version = "1.2.3", features = [], optional = true }
-presage = { git = "https://github.com/nanu-c/presage", rev = "4c62f0a29385b125b686b49f86280f36b16a6da3" }
+presage = { git = "https://github.com/nanu-c/presage", rev = "9cc46f343d60b5420e4c1812562c6d933998c332" }
 libsignal-service = { git = "https://github.com/whisperfish/libsignal-service-rs", rev = "456bf6eb2e4454ce35bdb4ca75b8dba7941c2923" }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 tokio-stream = "0.1.11"

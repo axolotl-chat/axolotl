@@ -11,6 +11,8 @@ pub enum ApplicationError {
     UnauthorizedSignal,
     SendFailed(presage::libsignal_service::sender::MessageSenderError),
     ReceiveFailed(presage::libsignal_service::receiver::MessageReceiverError),
+    WebSocketError,
+    WebSocketHandleMessageError(String),
 
 }
 
@@ -48,11 +50,23 @@ impl std::fmt::Display for ApplicationError {
                 "{}",
                 "Something unexpected happened with the signal backend. Please retry later."
             ),
+            ApplicationError::WebSocketError => writeln!(
+                f,
+                "{}",
+                "The websocket connection to the signal server failed."
+            ),
+            ApplicationError::WebSocketHandleMessageError(e) => writeln!(
+                f,
+                "{}: {}",
+                "Couldn't handle websocket message.",
+                e
+            ),
 
         }
     }
 }
 
+// convert presage errors to application errors
 impl From<p::Error> for ApplicationError {
     fn from(e: p::Error) -> Self {
         match e {
@@ -71,7 +85,20 @@ impl From<p::Error> for ApplicationError {
             p::Error::MessageReceiverError(e) => ApplicationError::ReceiveFailed(e),
             p::Error::MessageSenderError(e) => ApplicationError::SendFailed(e),
             _ => ApplicationError::Presage(e),
+
         }
+    }
+}
+// convert websocket errors to application errors
+impl From<serde_json::Error> for ApplicationError {
+    fn from(e: serde_json::Error) -> Self {
+        ApplicationError::WebSocketHandleMessageError(e.to_string())
+    }
+}
+
+impl From<warp::Error> for ApplicationError {
+    fn from(e: warp::Error) -> Self {
+        ApplicationError::WebSocketHandleMessageError(e.to_string())
     }
 }
 
@@ -88,6 +115,10 @@ impl ApplicationError {
             ApplicationError::ManagerThreadPanic => {
                 "Please restart the application with logging and report this issue.".to_string()
             }
+            ApplicationError::WebSocketError => {
+                "Please restart the application with logging and report this issue.".to_string()
+            }
+            ApplicationError::WebSocketHandleMessageError(e) => format!("{:#?}", e)
         }
     }
 
@@ -99,6 +130,8 @@ impl ApplicationError {
             ApplicationError::ReceiveFailed(_) => false,
             ApplicationError::Presage(_) => true,
             ApplicationError::ManagerThreadPanic => true,
+            ApplicationError::WebSocketError => true,
+            ApplicationError::WebSocketHandleMessageError(_) => true,
         }
     }
 }

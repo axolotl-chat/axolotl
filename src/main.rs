@@ -71,16 +71,15 @@ async fn start_ut() {
     thread::spawn( || {
         let rt = tokio::runtime::Runtime::new().unwrap();
         rt.block_on(async {
-            let route = warp::fs::dir("./axolotl-web/dist");
+            let route = warp::path("axolotl").and(warp::fs::dir("./axolotl-web/dist"));
             warp::serve(route).run(([127, 0, 0, 1], 9081)).await;
         });
 
     });
     let mut cmd = Command::new("qmlscene")
         .arg("--scaling")
-        .arg("--webEngineArgs")
-        .arg("--remote-debugging-port=12345")
-
+        .arg("--webEngineArgs ")
+        .arg("--remote-debugging-port")
         .arg("ut/MainUt.qml")
         .stdout(Stdio::piped())
         .output()

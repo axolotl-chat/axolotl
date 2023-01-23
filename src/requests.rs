@@ -4,7 +4,7 @@ use libsignal_service::prelude::Uuid;
 use serde::{Deserialize, Serialize};
 use presage::{
     prelude::{
-        content::{Content, ContentBody, DataMessage, GroupContextV2, SyncMessage},
+        content::{Content, ContentBody},
     }
 };
 
