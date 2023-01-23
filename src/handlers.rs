@@ -32,16 +32,16 @@ use presage::{SledStore, Thread};
 use tokio::sync::mpsc;
 
 /// Handles a client connection
-pub async fn handle_ws_client(websocket: warp::ws::WebSocket){
-    match start_manager(websocket).await{
+pub async fn handle_ws_client(websocket: warp::ws::WebSocket) {
+    match start_manager(websocket).await {
         Ok(_) => log::info!("Manager started"),
         Err(e) => log::error!("Error starting the manager: {}", e),
     }
 }
 
-async fn start_manager(websocket: warp::ws::WebSocket)-> Result<(), ApplicationError>{
+async fn start_manager(websocket: warp::ws::WebSocket) -> Result<(), ApplicationError> {
     let mut count = 0u32;
-    
+
     let (mut sender, mut receiver) = websocket.split();
     let shared_sender = Arc::new(Mutex::new(sender));
 
@@ -54,7 +54,7 @@ async fn start_manager(websocket: warp::ws::WebSocket)-> Result<(), ApplicationE
     loop {
         if count == 5 {
             log::error!("Too many errors, exiting");
-            
+
             // Exit this loop
             break;
         }
@@ -67,7 +67,12 @@ async fn start_manager(websocket: warp::ws::WebSocket)-> Result<(), ApplicationE
         let (send_error, mut receive_error) = mpsc::channel(MESSAGE_BOUND);
 
         let shared_sender_mutex = Arc::clone(&shared_sender);
-        thread::spawn(move || block_on(handle_provisoning(provisioning_link_rx, shared_sender_mutex)));
+        thread::spawn(move || {
+            block_on(handle_provisoning(
+                provisioning_link_rx,
+                shared_sender_mutex,
+            ))
+        });
         let db_path = format!("{config_path}/textsecure.nanuc");
 
         log::info!("Opening the database at {}", db_path);
@@ -94,12 +99,10 @@ async fn start_manager(websocket: warp::ws::WebSocket)-> Result<(), ApplicationE
         )
         .await;
 
-        log::info!("Manager created");
         if manager.is_none() {
             if let Some(error_opt) = receive_error.recv().await {
                 log::error!("Got error after linking device: {}", error_opt);
                 continue;
-
             }
         }
         log::info!("Awaiting for error linking");
@@ -110,8 +113,20 @@ async fn start_manager(websocket: warp::ws::WebSocket)-> Result<(), ApplicationE
             }
             Err(_e) => log::info!("Manager setup successfull"),
         }
-        let m = manager.unwrap();
 
+        // Anounce to client, that registartion is done
+        let shared_sender_mutex = Arc::clone(&shared_sender);
+        let mut mut_sender = shared_sender_mutex.lock().await;
+        match mut_sender
+            .send(Message::text("{\"Type\":\"registrationDone\"}"))
+            .await
+        {
+            Ok(_) => log::info!("Sent registration done message"),
+            Err(e) => log::error!("Error sending registration done message: {}", e),
+        };
+        std::mem::drop(mut_sender);
+        let m = manager.unwrap();
+        log::info!("Manager created");
         // While messages come, handle them
         while let Some(body) = receiver.next().await {
             let message = match body {
@@ -121,14 +136,19 @@ async fn start_manager(websocket: warp::ws::WebSocket)-> Result<(), ApplicationE
                 }
             };
             let shared_sender_mutex = Arc::clone(&shared_sender);
-
-            handle_websocket_message(message, shared_sender_mutex, &m).await?;
+            log::debug!("Got websocket message from axolotl-web: {:?}", message);
+            match handle_websocket_message(message, shared_sender_mutex, &m).await {
+                Ok(_) => log::info!("Message handled"),
+                Err(e) => log::error!("Error handling message: {}", e),
+            };
         }
     }
     let shared_sender_mutex = Arc::clone(&shared_sender);
-    
+
     shared_sender_mutex.lock().await.close().await?;
-    Err(ApplicationError::WebSocketHandleMessageError("Too many errors, exiting".to_string()))
+    Err(ApplicationError::WebSocketHandleMessageError(
+        "Too many errors, exiting".to_string(),
+    ))
 }
 async fn handle_provisoning(
     provisioning_link_rx: Receiver<Url>,
@@ -178,6 +198,7 @@ async fn handle_websocket_message(
     } else {
         "Invalid message"
     };
+    log::debug!("Got message: {}", msg);
     struct Wrapper<T>(Cell<Option<T>>);
 
     impl<I, P> Serialize for Wrapper<I>
@@ -189,43 +210,39 @@ async fn handle_websocket_message(
             s.collect_seq(self.0.take().unwrap())
         }
     }
-    let mut sender = mutex_sender.lock().await;
-
     // Check the type of request
     if let Ok::<SendMessageRequest, SerdeError>(send_message_request) = serde_json::from_str(msg) {
         // Send a message
+        log::debug!("Got send message request");
         let uuid = Uuid::from_str(&send_message_request.recipient).unwrap();
         send_message(send_message_request.content, uuid, manager).await;
-        Ok(())
     } else if let Ok::<LinkDeviceRequest, SerdeError>(link_device_request) =
         serde_json::from_str(msg)
     {
-        // Link a device
-        Err(ApplicationError::WebSocketHandleMessageError(
-            "Not implemented".to_string(),
-        ))
+        log::debug!("Got link device request");
     } else if let Ok::<AxolotlRequest, SerdeError>(axolotl_request) = serde_json::from_str(msg) {
         // Axolotl request
-        log::info!("Axolotl request: {}", axolotl_request.request);
+        log::info!("Axolotl request: {}", axolotl_request.request.as_str());
+        let mut unlocked_sender = mutex_sender.lock().await;
+        
         match axolotl_request.request.as_str() {
             "getContacts" => {
                 log::info!("Getting contacts");
-                let contacts = manager.get_contacts().ok().unwrap();
+                manager.update_cotacts_from_profile().await.ok();
+                let contacts = manager.get_contacts().await.ok().unwrap();
                 let mut out = Vec::new();
                 write_as_json(&mut out, contacts)?;
                 let response = AxolotlResponse {
                     response_type: "contact_list".to_string(),
                     data: String::from_utf8(out).unwrap(),
                 };
-                log::info!("Sending contacts");
-                sender
+                unlocked_sender
                     .send(Message::text(serde_json::to_string(&response).unwrap()))
                     .await
                     .unwrap();
-                log::info!("Sent contacts");
-                Ok(())
             }
             "getChatList" => {
+                log::debug!("Getting chats");
                 let conversations = manager.get_conversations().await.ok().unwrap();
                 let mut out = Vec::new();
                 write_as_json(&mut out, conversations)?;
@@ -233,13 +250,13 @@ async fn handle_websocket_message(
                     response_type: "chat_list".to_string(),
                     data: String::from_utf8(out).unwrap(),
                 };
-                sender
+                unlocked_sender
                     .send(Message::text(serde_json::to_string(&response).unwrap()))
                     .await
                     .unwrap();
-                Ok(())
             }
             "getMessageList" => {
+                log::debug!("Getting messageList");
                 if axolotl_request.data.is_some() {
                     log::info!("Getting messages");
                     let data = axolotl_request.data.unwrap();
@@ -259,17 +276,13 @@ async fn handle_websocket_message(
                             response_type: "message_list".to_string(),
                             data: String::from_utf8(out).unwrap(),
                         };
-                        sender
+                        unlocked_sender
                             .send(Message::text(serde_json::to_string(&response).unwrap()))
                             .await
                             .unwrap();
                     }
-                    Ok(())
                 } else {
                     log::info!("No id for getMessageList {:?}", axolotl_request.data);
-                    Err(ApplicationError::WebSocketHandleMessageError(
-                        "No id for getMessageList".to_string(),
-                    ))
                 }
             }
             "ping" => {
@@ -277,26 +290,21 @@ async fn handle_websocket_message(
                     response_type: "pong".to_string(),
                     data: "".to_string(),
                 };
-                sender
+                unlocked_sender
                     .send(Message::text(serde_json::to_string(&ping).unwrap()))
                     .await
                     .unwrap();
-                Ok(())
             }
             _ => {
-                log::info!("Unhandled axolotl request {}", axolotl_request.request);
-                Err(ApplicationError::WebSocketHandleMessageError(
-                    "Unhandled axolotl request".to_string(),
-                ))
+                log::error!("Unhandled axolotl request {}", axolotl_request.request);
             }
         }
+        std::mem::drop(unlocked_sender);
+
     } else {
         // Error or unhandled request
-        log::info!("Unhandled request {}", msg);
-        Err(ApplicationError::WebSocketHandleMessageError(
-            "Unhandled request".to_string(),
-        ))
+        log::error!("Unhandled request {}", msg);
     }
-
+    Ok(())
     //sender.send(Message::text("working")).await.unwrap();
 }

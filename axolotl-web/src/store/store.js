@@ -312,6 +312,7 @@ export default createStore({
     // default handler called for all methods
     SOCKET_ONMESSAGE(state, message) {
       state.socket.message = message;
+      console.log(message)
       const messageData = JSON.parse(message.data);
       if (messageData.Error) {
         this.commit("SET_ERROR", messageData.Error);
@@ -433,7 +434,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "addDevice",
-          "url": url,
+          "data": url,
         }
         socketSend(message);
       }
@@ -442,7 +443,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "delDevice",
-          "id": id,
+          "data": id,
         }
         socketSend(message);
       }
@@ -467,7 +468,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "delChat",
-          "id": this.state.currentChat.ID
+          "data": this.state.currentChat.ID
         }
         socketSend(message);
       }
@@ -513,8 +514,10 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "createRecipientAndAddToGroup",
-          "recipient": data.id,
-          "group": data.group
+          "data":{
+            "recipient": data.id,
+            "group": data.group
+          }
         }
         socketSend(message);
       }
@@ -523,7 +526,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "openChat",
-          "id": chatId
+          "data": chatId
         }
         socketSend(message);
         dispatch("getMessageList", chatId);
@@ -536,7 +539,7 @@ export default createStore({
         const firstMessage = this.state.messageList[0]
         const message = {
           "request": "getMoreMessages",
-          "sentAt": firstMessage.SentAt
+          "data": firstMessage.SentAt
         }
         socketSend(message);
       }
@@ -560,7 +563,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "createChat",
-          "uuid": uuid
+          "data": uuid
         }
         socketSend(message);
       }
@@ -570,8 +573,10 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "sendMessage",
-          "to": messageContainer.to,
-          "message": messageContainer.message
+          "data":{
+            "to": messageContainer.to,
+            "message": messageContainer.message
+          }
         }
         socketSend(message);
       }
@@ -580,7 +585,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "toggleNotifications",
-          "chat": this.state.currentChat.ID
+          "data": this.state.currentChat.ID
         }
         socketSend(message);
       }
@@ -589,7 +594,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "resetEncryption",
-          "chat": this.state.currentChat.ID
+          "data": this.state.currentChat.ID
         }
         socketSend(message);
       }
@@ -598,7 +603,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "verifyIdentity",
-          "chat": this.state.currentChat.ID
+          "data": this.state.currentChat.ID
         }
         socketSend(message);
       }
@@ -608,6 +613,7 @@ export default createStore({
         state.importingContacts = false;
         const message = {
           "request": "getContacts",
+          "data": ""
         }
         socketSend(message);
       }
@@ -622,9 +628,11 @@ export default createStore({
         }
         const message = {
           "request": "addContact",
-          "name": contact.name,
-          "phone": contact.phone,
-          "uuid": contact.uuid
+          "data": {
+            "name": contact.name,
+            "phone": contact.phone,
+            "uuid": contact.uuid
+          }
         }
         socketSend(message);
       }
@@ -633,8 +641,10 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "updateProfileName",
-          "name": data.name,
-          "id": data.id
+          "data": {
+            "name": data.name,
+            "id": data.id
+          }
         }
         socketSend(message);
       }
@@ -643,7 +653,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "createChatForRecipient",
-          "id": data.id,
+          "data": data.id,
         }
         socketSend(message);
       }
@@ -663,7 +673,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "uploadVcf",
-          "vcf": vcf
+          "data": vcf
         }
         socketSend(message);
       }
@@ -672,8 +682,10 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "uploadAttachment",
-          "attachment": attachment.attachment,
-          "to": attachment.to,
+          "data": {
+            "attachment": attachment.attachment,
+            "to": attachment.to,
+          }
         }
         socketSend(message);
       }
@@ -683,7 +695,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "refreshContacts",
-          "url": chUrl
+          "data": chUrl
         }
         socketSend(message);
       }
@@ -693,7 +705,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "delContact",
-          "id": id,
+          "data": id,
         }
         socketSend(message);
       }
@@ -702,7 +714,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "delMessage",
-          "id": m.ID
+          "data": m.ID
         }
         socketSend(message);
       }
@@ -716,10 +728,12 @@ export default createStore({
         }
         const message = {
           "request": "editContact",
-          "phone": data.contact.Tel,
-          "name": data.contact.Name,
-          "uuid": data.contact.UUID,
-          "id": data.id
+          "data": {
+            "phone": data.contact.Tel,
+            "name": data.contact.Name,
+            "uuid": data.contact.UUID,
+            "id": data.id
+          }
         }
         socketSend(message);
       }
@@ -730,7 +744,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "requestCode",
-          "tel": tel,
+          "data": tel,
         }
         socketSend(message);
       }
@@ -739,7 +753,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "sendCode",
-          "code": code,
+          "data": code,
         }
         socketSend(message);
       }
@@ -748,7 +762,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "sendUsername",
-          "username": username,
+          "data": username,
         }
         socketSend(message);
       }
@@ -757,7 +771,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "sendPin",
-          "pin": pin,
+          "data": pin,
         }
         socketSend(message);
       }
@@ -766,7 +780,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "sendPassword",
-          "pw": password,
+          "data": password,
         }
         socketSend(message);
       }
@@ -775,8 +789,10 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "setPassword",
-          "pw": password.pw,
-          "currentPw": password.cPw
+          "data": {
+            "pw": password.pw,
+            "currentPw": password.cPw
+          }
         }
         socketSend(message);
         router.push("/chatList")
@@ -811,8 +827,10 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "createGroup",
-          "name": data.name,
-          "members": data.members,
+          "data": {
+            "name": data.name,
+            "members": data.members,
+          }
         }
         socketSend(message);
 
@@ -822,9 +840,11 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "updateGroup",
-          "name": data.name,
-          "id": data.id,
-          "members": data.members,
+          "data": {
+            "name": data.name,
+            "id": data.id,
+            "members": data.members,
+          }
         }
         socketSend(message);
       }
@@ -833,7 +853,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "joinGroup",
-          "id": data,
+          "data": data,
         }
         socketSend(message);
       }
@@ -842,10 +862,12 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "sendAttachment",
-          "type": data.type,
-          "path": data.path,
-          "to": data.to,
-          "message": data.message,
+          "data": {
+            "type": data.type,
+            "path": data.path,
+            "to": data.to,
+            "message": data.message,
+          }
         }
         socketSend(message);
 
@@ -855,8 +877,10 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "sendVoiceNote",
-          "voiceNote": voiceNote.note,
-          "to": voiceNote.to,
+          "data": {
+            "voiceNote": voiceNote.note,
+            "to": voiceNote.to,
+          }
         }
         socketSend(message);
       }
@@ -865,7 +889,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "setDarkMode",
-          "darkMode": darkMode,
+          "data": darkMode,
         }
         socketSend(message);
         this.state.DarkMode = darkMode;
@@ -875,7 +899,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "sendCaptchaToken",
-          "token": this.state.captchaToken,
+          "data": this.state.captchaToken,
         }
         socketSend(message);
         this.commit("SET_CAPTCHA_TOKEN_SENT");

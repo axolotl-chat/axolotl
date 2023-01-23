@@ -203,7 +203,7 @@ dependencies = [
  "env_logger 0.10.0",
  "futures",
  "hex",
- "libsignal-service",
+ "libsignal-service 0.1.0 (git+https://github.com/whisperfish/libsignal-service-rs?rev=456bf6eb2e4454ce35bdb4ca75b8dba7941c2923)",
  "log",
  "presage",
  "serde",
@@ -2117,9 +2117,42 @@ dependencies = [
 ]
 
 [[package]]
+name = "libsignal-service"
+version = "0.1.0"
+source = "git+https://github.com/whisperfish/libsignal-service-rs?rev=ddccf7431d7fe848ef8fbed487fc0d33fe385b23#ddccf7431d7fe848ef8fbed487fc0d33fe385b23"
+dependencies = [
+ "aes",
+ "aes-gcm",
+ "async-trait",
+ "base64 0.13.1",
+ "bincode",
+ "block-modes",
+ "bytes",
+ "chrono",
+ "futures",
+ "hex",
+ "hkdf 0.12.3",
+ "hmac 0.12.1",
+ "http",
+ "libsignal-protocol",
+ "log",
+ "phonenumber",
+ "prost 0.10.4",
+ "prost-build 0.10.4",
+ "rand 0.7.3",
+ "serde",
+ "serde_json",
+ "sha2 0.10.6",
+ "thiserror",
+ "url",
+ "uuid 1.2.2",
+ "zkgroup",
+]
+
+[[package]]
 name = "libsignal-service-hyper"
 version = "0.1.0"
-source = "git+https://github.com/whisperfish/libsignal-service-rs?rev=456bf6eb2e4454ce35bdb4ca75b8dba7941c2923#456bf6eb2e4454ce35bdb4ca75b8dba7941c2923"
+source = "git+https://github.com/whisperfish/libsignal-service-rs?rev=ddccf7431d7fe848ef8fbed487fc0d33fe385b23#ddccf7431d7fe848ef8fbed487fc0d33fe385b23"
 dependencies = [
  "async-trait",
  "async-tungstenite",
@@ -2130,7 +2163,7 @@ dependencies = [
  "hyper",
  "hyper-rustls",
  "hyper-timeout",
- "libsignal-service",
+ "libsignal-service 0.1.0 (git+https://github.com/whisperfish/libsignal-service-rs?rev=ddccf7431d7fe848ef8fbed487fc0d33fe385b23)",
  "log",
  "mpart-async",
  "rustls-pemfile 0.3.0",
@@ -2934,8 +2967,7 @@ checksum = "925383efa346730478fb4838dbe9137d2a47675ad789c546d150a6e1dd4ab31c"
 
 [[package]]
 name = "presage"
-version = "0.4.0"
-source = "git+https://github.com/nanu-c/presage?rev=9cc46f343d60b5420e4c1812562c6d933998c332#9cc46f343d60b5420e4c1812562c6d933998c332"
+version = "0.4.1-dev"
 dependencies = [
  "async-trait",
  "base64 0.12.3",
@@ -2943,10 +2975,11 @@ dependencies = [
  "fs_extra",
  "futures",
  "hex",
- "libsignal-service",
+ "libsignal-service 0.1.0 (git+https://github.com/whisperfish/libsignal-service-rs?rev=ddccf7431d7fe848ef8fbed487fc0d33fe385b23)",
  "libsignal-service-hyper",
  "log",
  "matrix-sdk-store-encryption",
+ "parking_lot 0.11.2",
  "prost 0.10.4",
  "prost-build 0.10.4",
  "rand 0.7.3",
@@ -2955,6 +2988,7 @@ dependencies = [
  "sha2 0.10.6",
  "sled",
  "thiserror",
+ "tokio",
  "url",
 ]
 

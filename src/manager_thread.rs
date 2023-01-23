@@ -43,6 +43,8 @@ enum Command {
         Option<u64>,
         oneshot::Sender<Result<Vec<Content>, Error>>,
     ),
+    RequestContactsUpdateFromProfile(oneshot::Sender<Result<(), Error>>),
+
 }
 
 impl std::fmt::Debug for Command {
@@ -234,13 +236,22 @@ impl ManagerThread {
         self.uuid
     }
 
-    pub fn get_contacts(&self) -> Result<impl Iterator<Item = Contact> + '_, Error> {
+    pub async fn get_contacts(&self) -> Result<impl Iterator<Item = Contact> + '_, Error> {
         let c = self.contacts.lock().expect("Poisoned mutex");
+
         // Very weird way to counteract "returning borrowed c".
         Ok(c.iter()
             .map(almost_clone_contact)
             .collect::<Vec<_>>()
             .into_iter())
+    }
+    pub async fn update_cotacts_from_profile(&self) -> Result<(), Error> {
+        let (sender, receiver) = oneshot::channel();
+        self.command_sender
+        .send(Command::RequestContactsUpdateFromProfile(sender))
+        .await
+        .expect("Command sending failed");
+        receiver.await.expect("Callback receiving failed")
     }
     
     pub async fn get_conversations(&self) -> Result<impl Iterator<Item = AxolotlSession> + '_, ApplicationError> {
@@ -256,7 +267,7 @@ impl ManagerThread {
                 Ok(axolotl_sessions.into_iter())
             },
             Ok(Err(e)) => {
-                log::info!("Got error: {}", e);
+                log::error!("Got error: {}", e);
                 Err(ApplicationError::ManagerThreadPanic)},
             Err(_) => Err(ApplicationError::ManagerThreadPanic)
         }
@@ -490,7 +501,10 @@ async fn handle_command<C: Store + 'static>(
         Command::GetMessages(thread, count, callback) => callback
             .send(manager.get_messages(&thread, count))
             .expect("Callback sending failed"),
-        }
+        Command::RequestContactsUpdateFromProfile(callback) => callback
+            .send(manager.request_contacts_update_from_profile().await)
+            .expect("Callback sending failed"),
+    };
 }
 
 // TODO: Clone attachment

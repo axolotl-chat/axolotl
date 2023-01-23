@@ -142,7 +142,9 @@ export default {
     this.$store.dispatch("clearMessageList");
     this.$store.dispatch("clearFilterContacts");
     this.$store.dispatch("getConfig");
+    if (this.$store.state.contacts.length === 0)
     this.$store.dispatch("getContacts");
+    this.$store.dispatch("getChatList");
   },
   methods: {
     humanifyDate(inputDate) {

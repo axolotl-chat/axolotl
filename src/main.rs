@@ -1,5 +1,3 @@
-#[cfg(feature = "ut")]
-use std::process::Command;
 use std::thread;
 
 use axolotl::handlers::handle_ws_client;
@@ -66,6 +64,8 @@ async fn start_tauri() {
 #[cfg(feature = "ut")]
 async fn start_ut() {
     use std::process::{exit, Stdio};
+    use std::process::Command;
+
 
     log::info!("Starting the ubuntu touch client");
     thread::spawn( || {
