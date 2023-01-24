@@ -11,12 +11,13 @@ use futures::executor::block_on;
 use futures::lock::Mutex;
 use futures::stream::SplitSink;
 use futures::{SinkExt, StreamExt};
-use presage::prelude::Uuid;
+use presage::prelude::{ContentBody, DataMessage, Uuid};
 use serde::{Serialize, Serializer};
 use serde_json::error::Error as SerdeError;
 use std::cell::Cell;
 use std::io::Write;
 use std::str::FromStr;
+use std::time::UNIX_EPOCH;
 use std::{sync::Arc, thread};
 use url::Url;
 
@@ -211,20 +212,11 @@ async fn handle_websocket_message(
         }
     }
     // Check the type of request
-    if let Ok::<SendMessageRequest, SerdeError>(send_message_request) = serde_json::from_str(msg) {
-        // Send a message
-        log::debug!("Got send message request");
-        let uuid = Uuid::from_str(&send_message_request.recipient).unwrap();
-        send_message(send_message_request.content, uuid, manager).await;
-    } else if let Ok::<LinkDeviceRequest, SerdeError>(link_device_request) =
-        serde_json::from_str(msg)
-    {
-        log::debug!("Got link device request");
-    } else if let Ok::<AxolotlRequest, SerdeError>(axolotl_request) = serde_json::from_str(msg) {
+    if let Ok::<AxolotlRequest, SerdeError>(axolotl_request) = serde_json::from_str(msg) {
         // Axolotl request
         log::info!("Axolotl request: {}", axolotl_request.request.as_str());
         let mut unlocked_sender = mutex_sender.lock().await;
-        
+
         match axolotl_request.request.as_str() {
             "getContacts" => {
                 log::info!("Getting contacts");
@@ -295,12 +287,38 @@ async fn handle_websocket_message(
                     .await
                     .unwrap();
             }
+            "sendMessage" => {
+                log::debug!("Sending a message");
+                if axolotl_request.data.is_some() {
+                    let data = axolotl_request.data.unwrap();
+                    if let Ok::<SendMessageRequest, SerdeError>(send_message_request) =
+                        serde_json::from_str(&data)
+                    {
+                        let timestamp = std::time::SystemTime::now()
+                            .duration_since(UNIX_EPOCH)
+                            .expect("Time went backwards")
+                            .as_millis() as u64;
+
+                        let message = ContentBody::DataMessage(DataMessage {
+                            body: Some(send_message_request.text),
+                            timestamp: Some(timestamp),
+                            ..Default::default()
+                        });
+                        let result = manager
+                            .send_message(send_message_request.recipient, message, timestamp)
+                            .await;
+
+                        if let Err(e) = result {
+                            log::error!("Error while sending the message. {:?}", e);
+                        }
+                    }
+                }
+            }
             _ => {
                 log::error!("Unhandled axolotl request {}", axolotl_request.request);
             }
         }
         std::mem::drop(unlocked_sender);
-
     } else {
         // Error or unhandled request
         log::error!("Unhandled request {}", msg);

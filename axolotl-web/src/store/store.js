@@ -571,15 +571,16 @@ export default createStore({
     },
     sendMessage(state, messageContainer) {
       if (this.state.socket.isConnected) {
+	      let data = {
+		      "recipient": messageContainer.to,
+		      "text": messageContainer.message
+	      };
         const message = {
-          "request": "sendMessage",
-          "data":{
-            "to": messageContainer.to,
-            "message": messageContainer.message
-          }
+		      "request": "sendMessage",
+		      "data": JSON.stringify(data)
         }
         socketSend(message);
-      }
+	    }
     },
     toggleNotifications() {
       if (this.state.socket.isConnected) {
