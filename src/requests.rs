@@ -11,10 +11,10 @@ use presage::{
 #[derive(Deserialize, Debug)]
 pub struct SendMessageRequest {
     // The text content
-    pub content: String,
+    pub text: String,
     // The uuid
-    pub recipient: String,
-    // TODO: manage quote and attachment
+    pub recipient: Uuid,
+    // TODO: manage quote, attachment and reaction
 }
 
 #[derive(Deserialize, Debug)]
