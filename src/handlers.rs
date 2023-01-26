@@ -1,8 +1,7 @@
 use crate::error::ApplicationError;
 use crate::manager_thread::ManagerThread;
 use crate::requests::{
-    AxolotlMessage, AxolotlRequest, AxolotlResponse, GetMessagesRequest,
-    SendMessageRequest,
+    AxolotlMessage, AxolotlRequest, AxolotlResponse, GetMessagesRequest, SendMessageRequest,
 };
 extern crate dirs;
 use futures::channel::oneshot::Receiver;
@@ -15,6 +14,7 @@ use serde::{Serialize, Serializer};
 use serde_json::error::Error as SerdeError;
 use std::cell::Cell;
 use std::io::Write;
+use std::process::exit;
 use std::time::UNIX_EPOCH;
 use std::{sync::Arc, thread};
 use url::Url;
@@ -34,7 +34,10 @@ use tokio::sync::mpsc;
 pub async fn handle_ws_client(websocket: warp::ws::WebSocket) {
     match start_manager(websocket).await {
         Ok(_) => log::info!("Manager started"),
-        Err(e) => log::error!("Error starting the manager: {}", e),
+        Err(e) => {
+            log::error!("Error starting the manager: {}", e);
+            exit(0);
+        }
     }
 }
 
@@ -255,11 +258,7 @@ async fn handle_websocket_message(
                         let thread: Thread = Thread::try_from(&messages_request.id).unwrap();
                         match thread {
                             Thread::Contact(_) => {
-                                manager
-                                    .update_cotacts_from_profile()
-                                    .await
-                                    .ok()
-                                    .unwrap();
+                                manager.update_cotacts_from_profile().await.ok().unwrap();
                             }
                             _ => {}
                         }

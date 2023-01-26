@@ -192,8 +192,9 @@ export default {
     isSenderNameDisplayed() {
       return (
         !this.message.is_outgoing &&
-        this.isGroup &&
-        (this.message.Flags === 0 || this.message.Flags === 14)
+        this.isGroup 
+        //&&
+        // (this.message.Flags === 0 || this.message.Flags === 14)
       ); // #14 is the flag for quoting messages
       // see this list for all message types: https://github.com/nanu-c/axolotl/blob/main/app/helpers/models.go#L15
     },

@@ -79,6 +79,11 @@ body,
   display: flex;
   flex-direction: column;
 }
+body {
+  max-height: 100vh;
+  overflow: hidden;
+
+}
 main {
   height: calc(
     100% - 50px

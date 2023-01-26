@@ -52,7 +52,7 @@
             v-for="message in messageList"
             :key="message.ID"
             :message="message"
-            :is-group="chat.isGroup"
+            :is-group="chat.is_group"
             @show-fullscreen-img="showFullscreenImg($event)"
             @show-fullscreen-video="showFullscreenVideo($event)"
             @click="handleClick($event)"
@@ -64,7 +64,7 @@
         <div id="chat-bottom" />
       </div>
       <div
-        v-if="isGroup && currentGroup && currentGroup.JoinStatus == 1"
+        v-if="chat?.is_group && currentGroup && currentGroup.JoinStatus == 1"
         class="messageInputBoxDisabled w-100"
       >
         <p v-translate>
@@ -76,7 +76,7 @@
         </div>
       </div>
       <div
-        v-else-if="isGroup && currentGroup && currentGroup.JoinStatus == 2"
+        v-else-if="chat?.is_group && currentGroup && currentGroup.JoinStatus == 2"
         class="messageInputBoxDisabled w-100"
       >
         <p v-translate>You have been removed from this group.</p>
