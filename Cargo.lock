@@ -3183,7 +3183,7 @@ checksum = "925383efa346730478fb4838dbe9137d2a47675ad789c546d150a6e1dd4ab31c"
 [[package]]
 name = "presage"
 version = "0.4.1-dev"
-source = "git+https://github.com/nanu-c/presage?rev=8d4025990247c4b490aa2ec9d9bb10d3ae0abbe6#8d4025990247c4b490aa2ec9d9bb10d3ae0abbe6"
+source = "git+https://github.com/nanu-c/presage?rev=5eb0e3c5075093c333d96bece48034ecd516b8dd#5eb0e3c5075093c333d96bece48034ecd516b8dd"
 dependencies = [
  "async-trait",
  "base64 0.12.3",

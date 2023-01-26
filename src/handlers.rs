@@ -246,14 +246,23 @@ async fn handle_websocket_message(
                     .unwrap();
             }
             "getMessageList" => {
-                log::debug!("Getting messageList");
                 if axolotl_request.data.is_some() {
-                    log::info!("Getting messages");
+                    log::debug!("Getting messageList for {:?}", axolotl_request.data);
                     let data = axolotl_request.data.unwrap();
                     if let Ok::<GetMessagesRequest, SerdeError>(messages_request) =
                         serde_json::from_str(&data)
                     {
                         let thread: Thread = Thread::try_from(&messages_request.id).unwrap();
+                        match thread {
+                            Thread::Contact(_) => {
+                                manager
+                                    .update_cotacts_from_profile()
+                                    .await
+                                    .ok()
+                                    .unwrap();
+                            }
+                            _ => {}
+                        }
                         let messages = manager.get_messages(thread, None).await.ok().unwrap();
                         let mut axolotl_messages: Vec<AxolotlMessage> = Vec::new();
                         for message in messages {
