@@ -36,13 +36,13 @@
           <div class="row chat-entry">
             <div class="avatar col-2">
               <div v-if="!isGroupCheck(chat)" class="badge-name">
-                <img
+                <!-- <img
                   class="avatar-img"
                   :src="'http://localhost:9080/avatars?session=' + chat.id"
                   alt="Avatar image"
                   @error="onImageError($event)"
-                />
-                {{ `${chat.title[0]}${chat.title[1]?chat.title[1]:""}` }}
+                /> -->
+                {{ `${chat.title[0]?chat.title[0]:"?"}${chat.title[1]?chat.title[1]:""}` }}
               </div>
               <div v-else class="badge-name">
                 <font-awesome-icon icon="user-friends" />
@@ -260,7 +260,6 @@ export default {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding-top: 10px;
 }
 .meta {
   text-align: left;
@@ -270,12 +269,12 @@ export default {
 }
 .meta .name {
   font-weight: bold;
-  font-size: 18px;
+  font-size: 15px;
   display: flex;
   align-items: center;
 }
 .meta .preview {
-  font-size: 15px;
+  font-size: 13px;
 }
 a.chat-container {
   color: #000;

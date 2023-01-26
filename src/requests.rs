@@ -67,8 +67,12 @@ impl AxolotlMessage {
             _ => false,
         };
         let data_message = match body{
-            ContentBody::DataMessage(data) =>{ 
-                data.body.clone()
+            ContentBody::DataMessage(data) =>{
+                if data.reaction.is_some(){
+                    data.reaction.clone().unwrap().emoji.clone()
+                } else {
+                    data.body.clone()
+                }
             },
             ContentBody::SynchronizeMessage(data) => {
                 is_outgoing = true;

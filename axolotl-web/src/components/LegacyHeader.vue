@@ -631,7 +631,7 @@ export default {
 
 .header-text-chat {
   font-weight: bold;
-  font-size: 18px;
+  font-size: 15px;
   color: #ffffff;
   display: flex;
 }
