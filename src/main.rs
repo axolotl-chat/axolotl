@@ -76,7 +76,7 @@ async fn start_ut() {
         });
 
     });
-    let mut cmd = Command::new("qmlscene")
+    Command::new("qmlscene")
         .arg("--scaling")
         .arg("--webEngineArgs ")
         .arg("--remote-debugging-port")

@@ -1,8 +1,7 @@
 use crate::error::ApplicationError;
 use crate::manager_thread::ManagerThread;
-use crate::messages::send_message;
 use crate::requests::{
-    AxolotlMessage, AxolotlRequest, AxolotlResponse, GetMessagesRequest, LinkDeviceRequest,
+    AxolotlMessage, AxolotlRequest, AxolotlResponse, GetMessagesRequest,
     SendMessageRequest,
 };
 extern crate dirs;
@@ -11,12 +10,11 @@ use futures::executor::block_on;
 use futures::lock::Mutex;
 use futures::stream::SplitSink;
 use futures::{SinkExt, StreamExt};
-use presage::prelude::{ContentBody, DataMessage, Uuid};
+use presage::prelude::{ContentBody, DataMessage};
 use serde::{Serialize, Serializer};
 use serde_json::error::Error as SerdeError;
 use std::cell::Cell;
 use std::io::Write;
-use std::str::FromStr;
 use std::time::UNIX_EPOCH;
 use std::{sync::Arc, thread};
 use url::Url;
@@ -43,7 +41,7 @@ pub async fn handle_ws_client(websocket: warp::ws::WebSocket) {
 async fn start_manager(websocket: warp::ws::WebSocket) -> Result<(), ApplicationError> {
     let mut count = 0u32;
 
-    let (mut sender, mut receiver) = websocket.split();
+    let (sender, mut receiver) = websocket.split();
     let shared_sender = Arc::new(Mutex::new(sender));
 
     let config_path = dirs::config_dir()
@@ -64,7 +62,7 @@ async fn start_manager(websocket: warp::ws::WebSocket) -> Result<(), Application
         let (provisioning_link_tx, provisioning_link_rx) = oneshot::channel();
         let (error_tx, error_rx) = oneshot::channel();
 
-        let (send_content, mut receive_content) = mpsc::unbounded_channel();
+        let (send_content, _receive_content) = mpsc::unbounded_channel();
         let (send_error, mut receive_error) = mpsc::channel(MESSAGE_BOUND);
 
         let shared_sender_mutex = Arc::clone(&shared_sender);
@@ -132,7 +130,7 @@ async fn start_manager(websocket: warp::ws::WebSocket) -> Result<(), Application
         while let Some(body) = receiver.next().await {
             let message = match body {
                 Ok(msg) => msg,
-                Err(e) => {
+                Err(_) => {
                     continue;
                 }
             };

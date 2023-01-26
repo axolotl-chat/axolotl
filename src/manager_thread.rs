@@ -69,18 +69,6 @@ pub struct AxolotlSession {
     pub title: Option<String>,
     pub last_message_timestamp: u64,
 }
-impl AxolotlSession {
-    fn new() -> Self {
-        Self {
-            id: String::new(),
-            last_message: None,
-            unread_messages_count: 0,
-            is_group: false,
-            title: None,
-            last_message_timestamp: 0,
-        }
-    }
-}
 impl TryFrom<Session> for AxolotlSession {
     type Error = Error;
 
@@ -451,7 +439,7 @@ async fn command_loop<C: Store + 'static + MessageStore>(
     log::info!("Exiting `ManagerThread::command_loop`");
 }
 
-
+#[cfg(not(feature = "ut"))]
 async fn notify_message(msg: &Content) {
     use notify_rust::Notification;
     match msg.body.clone(){
@@ -472,7 +460,7 @@ async fn notify_message(msg: &Content) {
 
 }
 #[cfg(feature = "ut")]
-async fn notify_message(msg: &Content) {
+async fn notify_message(_msg: &Content) {
 
 }
 async fn handle_command<C: Store + 'static>(
