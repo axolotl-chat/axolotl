@@ -59,7 +59,7 @@
                     />
                     <div
                       v-if="
-                          chat.is_group &&
+                        chat.is_group &&
                           chat.title === '' 
                       "
                       v-translate
@@ -81,7 +81,7 @@
                   <p
                     v-if="
                       chat.last_message !== '' &&
-                      chat.last_message_timestamp !== 0
+                        chat.last_message_timestamp !== 0
                     "
                     class="time"
                   >

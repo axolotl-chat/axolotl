@@ -1,50 +1,57 @@
 <template>
-  <div :key="message.ID" :class="{
-    'col-12': true,
-    'message-container': true,
-    outgoing: message.is_outgoing,
-    sent: message.IsSent && message.is_outgoing,
-    read: message.IsRead && message.is_outgoing,
-    delivered: message.Receipt && message.is_outgoing,
-    incoming: !message.is_outgoing,
-    status:
-      (message.Flags > 0 &&
-        message.Flags !== 11 &&
-        message.Flags !== 13 &&
-        message.Flags !== 14) ||
-      message.StatusMessage ||
-      (message.Attachment &&
-        message.Attachment.includes('null') &&
-        message.Message === ''),
-    hidden: message.Flags === 18,
-    error: message.timestamp === 0 || message.SendingError,
-    'group-message':
-      isGroup && (message.Flags === 0 || message.Flags === 12 || message.Flags === 13),
-  }"
-  v-if="message.message_type=='DataMessage'|| 
-  (message.message_type=='SyncMessage' && message.message !=='SyncMessage')"  >
-    <div v-if="
-      !message.is_outgoing &&
-      isGroup &&
-      (message.Flags === 0 || message.Flags === 12 || message.Flags === 13)
-    " class="avatar">
+  <div
+    v-if="(message.message_type=='DataMessage' && message.message!=='')|| 
+      (message.message_type=='SyncMessage' && message.message !=='SyncMessage')" :key="message.ID" :class="{
+      'col-12': true,
+      'message-container': true,
+      outgoing: message.is_outgoing,
+      sent: message.IsSent && message.is_outgoing,
+      read: message.IsRead && message.is_outgoing,
+      delivered: message.Receipt && message.is_outgoing,
+      incoming: !message.is_outgoing,
+      status:
+        (message.Flags > 0 &&
+          message.Flags !== 11 &&
+          message.Flags !== 13 &&
+          message.Flags !== 14) ||
+        message.StatusMessage ||
+        (message.Attachment &&
+          message.Attachment.includes('null') &&
+          message.Message === ''),
+      hidden: message.Flags === 18,
+      error: message.timestamp === 0 || message.SendingError,
+      'group-message':
+        isGroup && (message.Flags === 0 || message.Flags === 12 || message.Flags === 13),
+    }"
+  >
+    <div
+      v-if="
+        !message.is_outgoing &&
+          isGroup &&
+          (message.Flags === 0 || message.Flags === 12 || message.Flags === 13)
+      " class="avatar"
+    >
       <div class="badge-name" @click="openProfileForRecipient(id)">
         <div v-if="id !== -1">
-          <img class="avatar-img" :src="'http://localhost:9080/avatars?recipient=' + id"
-            @error="onImageError($event)" />
+          <img
+            class="avatar-img" :src="'http://localhost:9080/avatars?recipient=' + id"
+            @error="onImageError($event)" 
+          />
         </div>
         <div v-if="name !== ''">
           {{ name[0] }}
         </div>
       </div>
     </div>
-    <div v-if="verifySelfDestruction(message)" :class="{
-      message: true,
-      'col-7':
-        isGroup &&
-        (message.Flags === 0 || message.Flags === 12 || message.Flags === 13) &&
-        !message.is_outgoing,
-    }">
+    <div
+      v-if="verifySelfDestruction(message)" :class="{
+        message: true,
+        'col-7':
+          isGroup &&
+          (message.Flags === 0 || message.Flags === 12 || message.Flags === 13) &&
+          !message.is_outgoing,
+      }"
+    >
       <div v-if="isSenderNameDisplayed" class="sender">
         <div v-if="name !== ''">
           {{ name }}
@@ -60,8 +67,10 @@
         <div v-if="isAttachmentArray(message.Attachment)" class="gallery">
           <div v-for="m in isAttachmentArray(message.Attachment)" :key="m.File">
             <div v-if="m.CType === 2" class="attachment-img">
-              <img :src="'http://localhost:9080/attachments?file=' + m.File" alt="Fullscreen image"
-                @click="$emit('show-fullscreen-img', m.File)" />
+              <img
+                :src="'http://localhost:9080/attachments?file=' + m.File" alt="Fullscreen image"
+                @click="$emit('show-fullscreen-img', m.File)"
+              />
             </div>
             <div v-else-if="m.CType === 3" class="attachment-audio">
               <div class="audio-player-container d-flex">
@@ -100,16 +109,20 @@
       <div class="message-text">
         {{ message.message }}
         <!-- eslint-disable-next-line vue/no-v-html -->
-        <div v-if="message.Flags !== 17" class="message-text-content" data-test="message-text"
-          v-html="linkify(sanitize(message.Message))" />
+        <div
+          v-if="message.Flags !== 17" class="message-text-content" data-test="message-text"
+          v-html="linkify(sanitize(message.Message))"
+        />
         <div v-if="message.Flags === 17" v-translate>Group changed.</div>
-        <div v-if="
-          message.Attachment &&
-          message.Attachment.includes('null') &&
-          message.Message === '' &&
-          message.Flags === 0 &&
-          !isGroup
-        " class="status-message">
+        <div
+          v-if="
+            message.Attachment &&
+              message.Attachment.includes('null') &&
+              message.Message === '' &&
+              message.Flags === 0 &&
+              !isGroup
+          " class="status-message"
+        >
           <span v-translate>Set timer for self-destructing messages </span>
           <div>{{ humanifyTimePeriod(message.ExpireTimer) }}</div>
         </div>

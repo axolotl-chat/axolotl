@@ -260,7 +260,6 @@ async fn handle_websocket_message(
                             axolotl_messages.push(AxolotlMessage::from_message(message));
                         }
                         let mut out = Vec::new();
-                        log::info!("Writing messages {:?}", axolotl_messages);
                         write_as_json(&mut out, axolotl_messages)?;
                         let response = AxolotlResponse {
                             response_type: "message_list".to_string(),
