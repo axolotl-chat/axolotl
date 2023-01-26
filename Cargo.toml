@@ -9,7 +9,7 @@ tauri-build = { version = "1.2.1", features = [], optional = true}
 
 [dependencies]
 tauri = { version = "1.2.3", features = [], optional = true }
-presage = { git = "https://github.com/nanu-c/presage", rev = "1b29c62af17b33bc166c7143f844815f55c7160a" }
+presage = { git = "https://github.com/nanu-c/presage", rev = "8d4025990247c4b490aa2ec9d9bb10d3ae0abbe6" }
 libsignal-service = { git = "https://github.com/whisperfish/libsignal-service-rs", rev = "456bf6eb2e4454ce35bdb4ca75b8dba7941c2923" }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 tokio-stream = "0.1.11"
@@ -25,6 +25,7 @@ sled = "0.34.7"
 clap = { version = "4.1.1", features = ["derive"] }
 dirs = "4.0.0"
 serve-directory = "0.1.0"
+notify-rust = { version = "4.6.0", optional = true}
 
 [patch.crates-io]
 "curve25519-dalek" = { git = 'https://github.com/signalapp/curve25519-dalek', branch = 'lizard2' }
@@ -35,6 +36,7 @@ serve-directory = "0.1.0"
 # when `tauri dev` runs it is executed with `cargo run --no-default-features` if `devPath` is an URL
 # this feature is used for production builds where `devPath` points to the filesystem
 # DO NOT remove this
+default = ["dep:notify-rust"]
 custom-protocol = ["tauri/custom-protocol"]
-tauri = ["dep:tauri", "custom-protocol"]
+tauri = ["dep:tauri", "dep:notify-rust", "custom-protocol"]
 ut = []

@@ -20,7 +20,9 @@
     error: message.timestamp === 0 || message.SendingError,
     'group-message':
       isGroup && (message.Flags === 0 || message.Flags === 12 || message.Flags === 13),
-  }">
+  }"
+  v-if="message.message_type=='DataMessage'|| 
+  (message.message_type=='SyncMessage' && message.message !=='SyncMessage')"  >
     <div v-if="
       !message.is_outgoing &&
       isGroup &&

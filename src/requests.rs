@@ -63,7 +63,7 @@ impl AxolotlMessage {
             _ => "Unknown",
         }.to_string();
         let mut is_outgoing = match body{
-            ContentBody::DataMessage(_) => false,
+            ContentBody::DataMessage(msg) => false,
             ContentBody::SynchronizeMessage(_) => true,
             _ => false,
         };

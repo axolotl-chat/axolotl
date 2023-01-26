@@ -409,6 +409,7 @@ async fn command_loop<C: Store + 'static + MessageStore>(
                     select! {
                         msg = messages.next().fuse() => {
                             if let Some(msg) = msg {
+                                notify_message(&msg).await;
                                 if content.send(msg).is_err() {
                                     log::info!("Failed to send message to `Manager`, exiting");
                                     break 'outer;
@@ -450,11 +451,34 @@ async fn command_loop<C: Store + 'static + MessageStore>(
     log::info!("Exiting `ManagerThread::command_loop`");
 }
 
+
+async fn notify_message(msg: &Content) {
+    use notify_rust::Notification;
+    match msg.body.clone(){
+        ContentBody::DataMessage(data) => {
+            let mut notification = Notification::new();
+            let body = data.body.as_ref().unwrap_or(&String::from("")).to_string();
+            notification
+                .summary("New message")
+                .body(&body)
+                .icon("signal")
+                .timeout(5000)
+                .show()
+                .expect("Failed to send notification");
+        },
+        _ => {
+        },
+    }
+
+}
+#[cfg(feature = "ut")]
+async fn notify_message(msg: &Content) {
+
+}
 async fn handle_command<C: Store + 'static>(
     manager: &mut Manager<C, Registered>,
     command: Command,
 ) {
-    log::info!("Got command: {:?}", command);
     match command {
         Command::RequestContactsSync(callback) => callback
             .send(manager.request_contacts_sync().await)
