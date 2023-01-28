@@ -402,6 +402,8 @@ export default createStore({
           } else if (messageData.response_type === "qr_code") {
             this.commit("SET_DEVICE_LINK_CODE", messageData.data);
             router.push("/qr");
+          } else if (messageData.response_type === "config") {
+            this.commit("SET_CONFIG", JSON.parse(messageData.data));
           }
           break;
 

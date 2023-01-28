@@ -13,6 +13,7 @@ pub enum ApplicationError {
     ReceiveFailed(presage::libsignal_service::receiver::MessageReceiverError),
     WebSocketError,
     WebSocketHandleMessageError(String),
+    InvalidRequest,
 
 }
 
@@ -60,6 +61,11 @@ impl std::fmt::Display for ApplicationError {
                 "{}: {}",
                 "Couldn't handle websocket message.",
                 e
+            ),
+            ApplicationError::InvalidRequest=> writeln!(
+                f,
+                "{}",
+                "Invalid request.",
             ),
 
         }
@@ -118,7 +124,8 @@ impl ApplicationError {
             ApplicationError::WebSocketError => {
                 "Please restart the application with logging and report this issue.".to_string()
             }
-            ApplicationError::WebSocketHandleMessageError(e) => format!("{:#?}", e)
+            ApplicationError::WebSocketHandleMessageError(e) => format!("{:#?}", e),
+            ApplicationError::InvalidRequest=> "Invalid request.".to_string(),
         }
     }
 
@@ -132,6 +139,7 @@ impl ApplicationError {
             ApplicationError::ManagerThreadPanic => true,
             ApplicationError::WebSocketError => true,
             ApplicationError::WebSocketHandleMessageError(_) => true,
+            ApplicationError::InvalidRequest=> false,
         }
     }
 }

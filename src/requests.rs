@@ -41,6 +41,20 @@ pub struct GetMessagesRequest {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+pub struct SendMessageResponse {
+    pub message: AxolotlMessage,
+    pub is_failed: bool,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct AxolotlConfig {
+    pub uuid: Option<String>,
+    pub e164: Option<String>,
+    pub platform: Option<String>,
+    pub feature: Option<String>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
 pub struct AxolotlMessage {
     pub message_type: String,
     sender:Option<Uuid>,
@@ -96,6 +110,53 @@ impl AxolotlMessage {
             message_type,
             message:data_message,
             timestamp:Some(timestamp),
+            is_outgoing
+        }
+    }
+    pub fn from_content_body(body: ContentBody) -> AxolotlMessage {
+
+        // log::info!( "{:?}", message);
+        let message_type = match body{
+            ContentBody::DataMessage(_) => "DataMessage",
+            ContentBody::SynchronizeMessage(_) => "SyncMessage",
+            ContentBody::CallMessage(_) => "CallMessage",
+            ContentBody::ReceiptMessage(_) => "ReceiptMessage",
+            ContentBody::TypingMessage(_) => "TypingMessage",
+        }.to_string();
+        let mut is_outgoing = match body{
+            ContentBody::DataMessage(_) => false, // todo mark own messages as outgoing
+            ContentBody::SynchronizeMessage(_) => true,
+            _ => false,
+        };
+        let data_message = match &body{
+            ContentBody::DataMessage(data) =>{
+                if data.reaction.is_some(){
+                    data.reaction.clone().unwrap().emoji.clone()
+                } else {
+                    data.body.clone()
+                }
+            },
+            ContentBody::SynchronizeMessage(data) => {
+                is_outgoing = true;
+                if data.sent.is_some() && data.sent.clone().unwrap().message.is_some(){
+                    let m = data.sent.clone().unwrap().message.clone().unwrap();
+                    m.body.clone()
+                } else {
+                    log::info!("{:?}", data);
+                    Some("SyncMessage".to_string())
+                }
+            },
+            _ => None
+        };
+        let timestamp:Option<u64> = match body{
+            ContentBody::DataMessage(m) => m.timestamp.clone(),
+            _ => None,
+        };
+        AxolotlMessage {
+            sender: None,
+            message_type,
+            message:data_message,
+            timestamp:timestamp,
             is_outgoing
         }
     }

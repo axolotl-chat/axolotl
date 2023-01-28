@@ -439,11 +439,12 @@ async fn command_loop<C: Store + 'static + MessageStore>(
     log::info!("Exiting `ManagerThread::command_loop`");
 }
 
-#[cfg(not(feature = "ut"))]
+// #[cfg(not(feature = "ut"))]
 async fn notify_message(msg: &Content) {
     use notify_rust::Notification;
     match msg.body.clone(){
         ContentBody::DataMessage(data) => {
+            log::debug!("send notification: {:?}", data.body.as_ref().unwrap_or(&String::from("")).to_string());
             let mut notification = Notification::new();
             let body = data.body.as_ref().unwrap_or(&String::from("")).to_string();
             notification
@@ -459,10 +460,10 @@ async fn notify_message(msg: &Content) {
     }
 
 }
-#[cfg(feature = "ut")]
-async fn notify_message(_msg: &Content) {
+// #[cfg(feature = "ut")]
+// async fn notify_message(_msg: &Content) {
 
-}
+// }
 async fn handle_command<C: Store + 'static>(
     manager: &mut Manager<C, Registered>,
     command: Command,

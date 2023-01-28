@@ -1,7 +1,8 @@
 use crate::error::ApplicationError;
 use crate::manager_thread::ManagerThread;
 use crate::requests::{
-    AxolotlMessage, AxolotlRequest, AxolotlResponse, GetMessagesRequest, SendMessageRequest,
+    AxolotlConfig, AxolotlMessage, AxolotlRequest, AxolotlResponse, GetMessagesRequest,
+    SendMessageRequest, SendMessageResponse,
 };
 extern crate dirs;
 use futures::channel::oneshot::Receiver;
@@ -187,7 +188,147 @@ where
 
     serde_json::to_writer_pretty(out, &Wrapper(Cell::new(Some(groups))))
 }
+async fn handle_get_contacts(manager: &ManagerThread) -> Result<AxolotlResponse, ApplicationError> {
+    log::info!("Getting contacts");
+    manager.update_cotacts_from_profile().await.ok();
+    let contacts = manager.get_contacts().await.ok().unwrap();
+    let mut out = Vec::new();
+    write_as_json(&mut out, contacts)?;
+    let response = AxolotlResponse {
+        response_type: "contact_list".to_string(),
+        data: String::from_utf8(out).unwrap(),
+    };
+    Ok(response)
+}
+async fn handle_chat_list(manager: &ManagerThread) -> Result<AxolotlResponse, ApplicationError> {
+    log::info!("Getting chat list");
+    let conversations = manager.get_conversations().await.ok().unwrap();
+    let mut out = Vec::new();
+    write_as_json(&mut out, conversations)?;
+    let response = AxolotlResponse {
+        response_type: "chat_list".to_string(),
+        data: String::from_utf8(out).unwrap(),
+    };
+    Ok(response)
+}
+async fn handle_get_message_list(
+    manager: &ManagerThread,
+    data: Option<String>,
+) -> Result<AxolotlResponse, ApplicationError> {
+    log::info!("Getting message list");
+    let data = data.ok_or(ApplicationError::InvalidRequest)?;
+    if let Ok::<GetMessagesRequest, SerdeError>(messages_request) = serde_json::from_str(&data) {
+        let thread: Thread = Thread::try_from(&messages_request.id).unwrap();
+        match thread {
+            Thread::Contact(_) => {
+                manager.update_cotacts_from_profile().await.ok().unwrap();
+            }
+            _ => {}
+        }
+        let messages = manager.get_messages(thread, None).await.ok().unwrap();
+        let mut axolotl_messages: Vec<AxolotlMessage> = Vec::new();
+        for message in messages {
+            axolotl_messages.push(AxolotlMessage::from_message(message));
+        }
+        let mut out = Vec::new();
+        write_as_json(&mut out, axolotl_messages)?;
+        let response = AxolotlResponse {
+            response_type: "message_list".to_string(),
+            data: String::from_utf8(out).unwrap(),
+        };
+        Ok(response)
+    } else {
+        Err(ApplicationError::InvalidRequest)
+    }
+}
 
+fn handle_ping() -> Result<AxolotlResponse, ApplicationError> {
+    log::info!("Got ping");
+    let response = AxolotlResponse {
+        response_type: "pong".to_string(),
+        data: "".to_string(),
+    };
+    Ok(response)
+}
+async fn handle_send_message(
+    manager: &ManagerThread,
+    data: Option<String>,
+) -> Result<AxolotlResponse, ApplicationError> {
+    log::info!("Sending message");
+    let data = data.ok_or(ApplicationError::InvalidRequest)?;
+    if let Ok::<SendMessageRequest, SerdeError>(send_message_request) = serde_json::from_str(&data)
+    {
+        let timestamp = std::time::SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("Time went backwards")
+            .as_millis() as u64;
+        let message = ContentBody::DataMessage(DataMessage {
+            body: Some(send_message_request.text),
+            timestamp: Some(timestamp),
+            ..Default::default()
+        });
+        let result = manager
+            .send_message(send_message_request.recipient, message.clone(), timestamp)
+            .await;
+        let is_failed = result.is_err();
+        if is_failed {
+            log::error!("Error while sending the message. {:?}", result.err());
+        }
+        let message = AxolotlMessage::from_content_body(message);
+        let response_data = SendMessageResponse { message, is_failed };
+        let response_data_json = serde_json::to_string(&response_data).unwrap();
+        let response = AxolotlResponse {
+            response_type: "message_sent".to_string(),
+            data: response_data_json,
+        };
+        Ok(response)
+    } else {
+        log::error!("Error while parsing the request. {:?}", data);
+        Err(ApplicationError::InvalidRequest)
+    }
+}
+async fn handle_get_config(manager: &ManagerThread) -> Result<AxolotlResponse, ApplicationError> {
+    log::info!("Getting config");
+    let my_uuid = manager.uuid();
+    let mut platform = "linux".to_string();
+    #[cfg(target_os = "windows")]
+    {
+        platform = "windows".to_string();
+    }
+    #[cfg(target_os = "macos")]
+    {
+        platform = "macos".to_string();
+    }
+    #[cfg(target_os = "android")]
+    {
+        platform = "android".to_string();
+    }
+    #[cfg(target_os = "ios")]
+    {
+        platform = "ios".to_string();
+    }
+    let mut feature = "".to_string();
+    #[cfg(feature = "tauri")]
+    {
+        feature = "tauri".to_string();
+    }
+    #[cfg(feature = "ut")]
+    {
+        feature = "ut".to_string();
+    }
+
+    let config = AxolotlConfig {
+        uuid: Some(my_uuid.to_string()),
+        e164: None,
+        platform: Some(platform),
+        feature: Some(feature),
+    };
+    let response = AxolotlResponse {
+        response_type: "config".to_string(),
+        data: serde_json::to_string(&config).unwrap(),
+    };
+    Ok(response)
+}
 /// Handles a websocket message
 async fn handle_websocket_message(
     message: Message,
@@ -216,114 +357,32 @@ async fn handle_websocket_message(
     if let Ok::<AxolotlRequest, SerdeError>(axolotl_request) = serde_json::from_str(msg) {
         // Axolotl request
         log::info!("Axolotl request: {}", axolotl_request.request.as_str());
-        let mut unlocked_sender = mutex_sender.lock().await;
 
-        match axolotl_request.request.as_str() {
-            "getContacts" => {
-                log::info!("Getting contacts");
-                manager.update_cotacts_from_profile().await.ok();
-                let contacts = manager.get_contacts().await.ok().unwrap();
-                let mut out = Vec::new();
-                write_as_json(&mut out, contacts)?;
-                let response = AxolotlResponse {
-                    response_type: "contact_list".to_string(),
-                    data: String::from_utf8(out).unwrap(),
-                };
-                unlocked_sender
-                    .send(Message::text(serde_json::to_string(&response).unwrap()))
-                    .await
-                    .unwrap();
-            }
-            "getChatList" => {
-                log::debug!("Getting chats");
-                let conversations = manager.get_conversations().await.ok().unwrap();
-                let mut out = Vec::new();
-                write_as_json(&mut out, conversations)?;
-                let response = AxolotlResponse {
-                    response_type: "chat_list".to_string(),
-                    data: String::from_utf8(out).unwrap(),
-                };
-                unlocked_sender
-                    .send(Message::text(serde_json::to_string(&response).unwrap()))
-                    .await
-                    .unwrap();
-            }
-            "getMessageList" => {
-                if axolotl_request.data.is_some() {
-                    log::debug!("Getting messageList for {:?}", axolotl_request.data);
-                    let data = axolotl_request.data.unwrap();
-                    if let Ok::<GetMessagesRequest, SerdeError>(messages_request) =
-                        serde_json::from_str(&data)
-                    {
-                        let thread: Thread = Thread::try_from(&messages_request.id).unwrap();
-                        match thread {
-                            Thread::Contact(_) => {
-                                manager.update_cotacts_from_profile().await.ok().unwrap();
-                            }
-                            _ => {}
-                        }
-                        let messages = manager.get_messages(thread, None).await.ok().unwrap();
-                        let mut axolotl_messages: Vec<AxolotlMessage> = Vec::new();
-                        for message in messages {
-                            axolotl_messages.push(AxolotlMessage::from_message(message));
-                        }
-                        let mut out = Vec::new();
-                        write_as_json(&mut out, axolotl_messages)?;
-                        let response = AxolotlResponse {
-                            response_type: "message_list".to_string(),
-                            data: String::from_utf8(out).unwrap(),
-                        };
-                        unlocked_sender
-                            .send(Message::text(serde_json::to_string(&response).unwrap()))
-                            .await
-                            .unwrap();
-                    }
-                } else {
-                    log::info!("No id for getMessageList {:?}", axolotl_request.data);
-                }
-            }
-            "ping" => {
-                let ping = AxolotlResponse {
-                    response_type: "pong".to_string(),
-                    data: "".to_string(),
-                };
-                unlocked_sender
-                    .send(Message::text(serde_json::to_string(&ping).unwrap()))
-                    .await
-                    .unwrap();
-            }
-            "sendMessage" => {
-                log::debug!("Sending a message");
-                if axolotl_request.data.is_some() {
-                    let data = axolotl_request.data.unwrap();
-                    if let Ok::<SendMessageRequest, SerdeError>(send_message_request) =
-                        serde_json::from_str(&data)
-                    {
-                        let timestamp = std::time::SystemTime::now()
-                            .duration_since(UNIX_EPOCH)
-                            .expect("Time went backwards")
-                            .as_millis() as u64;
-
-                        let message = ContentBody::DataMessage(DataMessage {
-                            body: Some(send_message_request.text),
-                            timestamp: Some(timestamp),
-                            ..Default::default()
-                        });
-                        let result = manager
-                            .send_message(send_message_request.recipient, message, timestamp)
-                            .await;
-
-                        if let Err(e) = result {
-                            log::error!("Error while sending the message. {:?}", e);
-                        }
-                    }
-                }
-            }
+        let response = match axolotl_request.request.as_str() {
+            "getContacts" => handle_get_contacts(manager).await,
+            "getChatList" => handle_chat_list(manager).await,
+            "getMessageList" => handle_get_message_list(manager, axolotl_request.data).await,
+            "ping" => handle_ping(),
+            "sendMessage" => handle_send_message(manager, axolotl_request.data).await,
+            "getConfig" => handle_get_config(manager).await,
             _ => {
                 log::error!("Unhandled axolotl request {}", axolotl_request.request);
+                Err(ApplicationError::InvalidRequest)
+            }
+        };
+        match response {
+            Ok(response) => {
+                let mut unlocked_sender = mutex_sender.lock().await;
+                unlocked_sender
+                    .send(Message::text(serde_json::to_string(&response).unwrap()))
+                    .await
+                    .unwrap();
+                std::mem::drop(unlocked_sender);
+            }
+            Err(e) => {
+                log::error!("Error while handling request. {:?}", e);
             }
         }
-        std::mem::drop(unlocked_sender);
     } else {
         // Error or unhandled request
         log::error!("Unhandled request {}", msg);
