@@ -4,7 +4,7 @@ use libsignal_service::prelude::Uuid;
 use serde::{Deserialize, Serialize};
 use presage::{
     prelude::{
-        content::{Content, ContentBody},
+        content::{Content, ContentBody}, DataMessage,
     }
 };
 
@@ -13,7 +13,7 @@ pub struct SendMessageRequest {
     // The text content
     pub text: String,
     // The uuid
-    pub recipient: Uuid,
+    pub recipient: String,
     // TODO: manage quote, attachment and reaction
 }
 
@@ -157,6 +157,23 @@ impl AxolotlMessage {
             message_type,
             message:data_message,
             timestamp:timestamp,
+            is_outgoing
+        }
+    }
+    pub fn from_data_message(data: DataMessage) -> AxolotlMessage {
+        let message_type = "DataMessage".to_string();
+        let is_outgoing = false;
+        let data_message = if data.reaction.is_some(){
+            data.reaction.clone().unwrap().emoji.clone()
+        } else {
+            data.body.clone()
+        };
+        let timestamp:u64 = data.timestamp.unwrap();
+        AxolotlMessage {
+            sender:None,
+            message_type,
+            message:data_message,
+            timestamp:Some(timestamp),
             is_outgoing
         }
     }

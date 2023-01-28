@@ -10,7 +10,9 @@ use futures::executor::block_on;
 use futures::lock::Mutex;
 use futures::stream::SplitSink;
 use futures::{SinkExt, StreamExt};
-use presage::prelude::{ContentBody, DataMessage};
+use libsignal_service::prelude::phonenumber::country::Id::NO;
+use libsignal_service::prelude::GroupMasterKey;
+use presage::prelude::{ContentBody, DataMessage, ServiceAddress, GroupContextV2};
 use serde::{Serialize, Serializer};
 use serde_json::error::Error as SerdeError;
 use std::cell::Cell;
@@ -256,25 +258,65 @@ async fn handle_send_message(
 ) -> Result<AxolotlResponse, ApplicationError> {
     log::info!("Sending message");
     let data = data.ok_or(ApplicationError::InvalidRequest)?;
-    match serde_json::from_str(&data){
+    match serde_json::from_str(&data) {
         Ok::<SendMessageRequest, SerdeError>(send_message_request) => {
             let timestamp = std::time::SystemTime::now()
                 .duration_since(UNIX_EPOCH)
                 .expect("Time went backwards")
                 .as_millis() as u64;
-            let message = ContentBody::DataMessage(DataMessage {
+            let data_message = DataMessage {
                 body: Some(send_message_request.text),
                 timestamp: Some(timestamp),
                 ..Default::default()
-            });
-            let result = manager
-                .send_message(send_message_request.recipient, message.clone(), timestamp)
-                .await;
+            };
+            let thread = match Thread::try_from(&send_message_request.recipient) {
+                Ok(t) => t,
+                Err(e) => {
+                    log::error!("Error while parsing the request. {:?}", e);
+                    return Err(ApplicationError::InvalidRequest);
+                }
+            };
+            let result = match thread {
+                Thread::Contact(contact) => {
+                    let message = ContentBody::DataMessage(data_message.clone());
+                    manager
+                        .send_message(contact, message.clone(), timestamp)
+                        .await
+                }
+                Thread::Group(group) => {
+                    let group_master_key = GroupMasterKey::new(group.clone());
+                    let group_from_store =
+                        manager.get_group_v2(group_master_key).await.ok().unwrap();
+                    let group_members = group_from_store.members.iter();
+                    let mut group_members_service_addresses: Vec<ServiceAddress> = Vec::new();
+                    
+                    for (member) in group_members {
+                        group_members_service_addresses.push(ServiceAddress {
+                            uuid: Some(member.uuid.clone()),
+                            phonenumber: None,
+                            relay: None,
+                        });
+                    }
+                    let mut group_data_message = data_message.clone();
+                    group_data_message.group_v2 = Some(GroupContextV2{
+                        master_key: Some(group.to_vec()),
+                        group_change: None,
+                        revision: Some(group_from_store.version),
+                    });
+                    manager
+                        .send_message_to_group(
+                            group_members_service_addresses,
+                            group_data_message,
+                            timestamp,
+                        )
+                        .await
+                }
+            };
             let is_failed = result.is_err();
             if is_failed {
                 log::error!("Error while sending the message. {:?}", result.err());
             }
-            let message = AxolotlMessage::from_content_body(message);
+            let message = AxolotlMessage::from_data_message(data_message);
             let response_data = SendMessageResponse { message, is_failed };
             let response_data_json = serde_json::to_string(&response_data).unwrap();
             let response = AxolotlResponse {
