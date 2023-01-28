@@ -4,11 +4,11 @@
       (message.message_type=='SyncMessage' && message.message !=='SyncMessage')" :key="message.ID" :class="{
       'col-12': true,
       'message-container': true,
-      outgoing: message.is_outgoing,
-      sent: message.IsSent && message.is_outgoing,
-      read: message.IsRead && message.is_outgoing,
-      delivered: message.Receipt && message.is_outgoing,
-      incoming: !message.is_outgoing,
+      outgoing: is_outgoing,
+      sent: message.IsSent && is_outgoing,
+      read: message.IsRead && is_outgoing,
+      delivered: message.Receipt && is_outgoing,
+      incoming: !is_outgoing,
       status:
         (message.Flags > 0 &&
           message.Flags !== 11 &&
@@ -26,7 +26,7 @@
   >
     <div
       v-if="
-        !message.is_outgoing &&
+        !is_outgoing &&
           isGroup &&
           (message.Flags === 0 || message.Flags === 12 || message.Flags === 13)
       " class="avatar"
@@ -49,7 +49,7 @@
         'col-7':
           isGroup &&
           (message.Flags === 0 || message.Flags === 12 || message.Flags === 13) &&
-          !message.is_outgoing,
+          !is_outgoing
       }"
     >
       <div v-if="isSenderNameDisplayed" class="sender">
@@ -59,7 +59,7 @@
         <div v-else>{{ getName(message.SourceUUID) }}</div>
       </div>
       <blockquote v-if="message.QuotedMessage">
-        <cite v-if="message.QuotedMessage.is_outgoing" v-translate>You</cite>
+        <cite v-if="message.QuotedMessage && is_outgoing" v-translate>You</cite>
         <cite v-else>{{ getName(message.QuotedMessage.SourceUUID) }}</cite>
         <p>{{ message.QuotedMessage.Message }}</p>
       </blockquote>
@@ -150,7 +150,7 @@
             </div>
           </div>
         </div>
-        <!-- <div v-if="message.is_outgoing" class="transfer-indicator" /> -->
+        <!-- <div v-if="is_outgoing" class="transfer-indicator" /> -->
       </div>
       <div v-else class="col-12 meta">Error</div>
     </div>
@@ -189,9 +189,18 @@ export default {
   },
   computed: {
     ...mapState(["currentGroup", "config"]),
+    is_outgoing() {
+      if (this.message?.sender == this.config.uuid)
+      return true;
+      else if (this.message && this.message.is_outgoing) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     isSenderNameDisplayed() {
       return (
-        !this.message.is_outgoing &&
+        !this.is_outgoing &&
         this.isGroup 
         //&&
         // (this.message.Flags === 0 || this.message.Flags === 14)

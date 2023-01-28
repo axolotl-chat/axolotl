@@ -256,35 +256,37 @@ async fn handle_send_message(
 ) -> Result<AxolotlResponse, ApplicationError> {
     log::info!("Sending message");
     let data = data.ok_or(ApplicationError::InvalidRequest)?;
-    if let Ok::<SendMessageRequest, SerdeError>(send_message_request) = serde_json::from_str(&data)
-    {
-        let timestamp = std::time::SystemTime::now()
-            .duration_since(UNIX_EPOCH)
-            .expect("Time went backwards")
-            .as_millis() as u64;
-        let message = ContentBody::DataMessage(DataMessage {
-            body: Some(send_message_request.text),
-            timestamp: Some(timestamp),
-            ..Default::default()
-        });
-        let result = manager
-            .send_message(send_message_request.recipient, message.clone(), timestamp)
-            .await;
-        let is_failed = result.is_err();
-        if is_failed {
-            log::error!("Error while sending the message. {:?}", result.err());
+    match serde_json::from_str(&data){
+        Ok::<SendMessageRequest, SerdeError>(send_message_request) => {
+            let timestamp = std::time::SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .expect("Time went backwards")
+                .as_millis() as u64;
+            let message = ContentBody::DataMessage(DataMessage {
+                body: Some(send_message_request.text),
+                timestamp: Some(timestamp),
+                ..Default::default()
+            });
+            let result = manager
+                .send_message(send_message_request.recipient, message.clone(), timestamp)
+                .await;
+            let is_failed = result.is_err();
+            if is_failed {
+                log::error!("Error while sending the message. {:?}", result.err());
+            }
+            let message = AxolotlMessage::from_content_body(message);
+            let response_data = SendMessageResponse { message, is_failed };
+            let response_data_json = serde_json::to_string(&response_data).unwrap();
+            let response = AxolotlResponse {
+                response_type: "message_sent".to_string(),
+                data: response_data_json,
+            };
+            Ok(response)
         }
-        let message = AxolotlMessage::from_content_body(message);
-        let response_data = SendMessageResponse { message, is_failed };
-        let response_data_json = serde_json::to_string(&response_data).unwrap();
-        let response = AxolotlResponse {
-            response_type: "message_sent".to_string(),
-            data: response_data_json,
-        };
-        Ok(response)
-    } else {
-        log::error!("Error while parsing the request. {:?}", data);
-        Err(ApplicationError::InvalidRequest)
+        Err(e) => {
+            log::error!("Error while parsing the request. {:?}", e);
+            Err(ApplicationError::InvalidRequest)
+        }
     }
 }
 async fn handle_get_config(manager: &ManagerThread) -> Result<AxolotlResponse, ApplicationError> {
