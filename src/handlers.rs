@@ -68,7 +68,7 @@ async fn start_manager(websocket: warp::ws::WebSocket) -> Result<(), Application
         let (provisioning_link_tx, provisioning_link_rx) = oneshot::channel();
         let (error_tx, error_rx) = oneshot::channel();
 
-        let (send_content, mut receive_content) = mpsc::unbounded_channel();
+        let (send_content, receive_content) = mpsc::unbounded_channel();
         let (send_error, mut receive_error) = mpsc::channel(MESSAGE_BOUND);
 
         let shared_sender_mutex = Arc::clone(&shared_sender);
@@ -348,7 +348,6 @@ async fn handle_send_message(
                         group_change: None,
                         revision: Some(group_from_store.version),
                     });
-                    group_data_message.uuid = Some(manager.uuid());
                     manager
                         .send_message_to_group(
                             group_members_service_addresses,
@@ -382,31 +381,31 @@ async fn handle_send_message(
 async fn handle_get_config(manager: &ManagerThread) -> Result<AxolotlResponse, ApplicationError> {
     log::info!("Getting config");
     let my_uuid = manager.uuid();
-    let mut platform = "linux".to_string();
+    let platform = "linux".to_string();
     #[cfg(target_os = "windows")]
     {
-        platform = "windows".to_string();
+        let platform = "windows".to_string();
     }
     #[cfg(target_os = "macos")]
     {
-        platform = "macos".to_string();
+        let platform = "macos".to_string();
     }
     #[cfg(target_os = "android")]
     {
-        platform = "android".to_string();
+        let platform = "android".to_string();
     }
     #[cfg(target_os = "ios")]
     {
-        platform = "ios".to_string();
+        let platform = "ios".to_string();
     }
-    let mut feature = "".to_string();
+    let feature = "".to_string();
     #[cfg(feature = "tauri")]
     {
-        feature = "tauri".to_string();
+        let feature = "tauri".to_string();
     }
     #[cfg(feature = "ut")]
     {
-        feature = "ut".to_string();
+        let feature = "ut".to_string();
     }
 
     let config = AxolotlConfig {
