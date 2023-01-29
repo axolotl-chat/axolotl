@@ -11,6 +11,8 @@ prebuild:
 dependencies_host:
   - gettext
   - protobuf-compiler
+  - libdbus-1-dev
+  - pkg-config
 build_args: --features ut
 kill: axolotl
 

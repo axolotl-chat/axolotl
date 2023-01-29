@@ -378,31 +378,31 @@ async fn handle_send_message(
 async fn handle_get_config(manager: &ManagerThread) -> Result<AxolotlResponse, ApplicationError> {
     log::info!("Getting config");
     let my_uuid = manager.uuid();
-    let platform = "linux".to_string();
+    let mut platform = "linux".to_string();
     #[cfg(target_os = "windows")]
     {
-        let platform = "windows".to_string();
+         platform = "windows".to_string();
     }
     #[cfg(target_os = "macos")]
     {
-        let platform = "macos".to_string();
+         platform = "macos".to_string();
     }
     #[cfg(target_os = "android")]
     {
-        let platform = "android".to_string();
+         platform = "android".to_string();
     }
     #[cfg(target_os = "ios")]
     {
-        let platform = "ios".to_string();
+        platform = "ios".to_string();
     }
-    let feature = "".to_string();
+    let mut feature = "".to_string();
     #[cfg(feature = "tauri")]
     {
-        let feature = "tauri".to_string();
+        feature = "tauri".to_string();
     }
     #[cfg(feature = "ut")]
     {
-        let feature = "ut".to_string();
+        feature = "ut".to_string();
     }
 
     let config = AxolotlConfig {

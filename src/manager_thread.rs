@@ -1,14 +1,14 @@
 use std::sync::{Arc, Mutex};
 
 use futures::{select, FutureExt, StreamExt};
-use presage::Thread;
 use presage::libsignal_service::{groups_v2::Group, sender::AttachmentUploadError};
+use presage::Thread;
 use presage::{
+    manager::Session,
     prelude::{content::*, AttachmentSpec, Contact, ContentBody, DataMessage, ServiceAddress, *},
     Error, Manager, MessageStore, Registered, Store,
-    manager::Session,
 };
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use tokio::sync::{mpsc, oneshot};
 
 use crate::error::ApplicationError;
@@ -44,7 +44,6 @@ enum Command {
         oneshot::Sender<Result<Vec<Content>, Error>>,
     ),
     RequestContactsUpdateFromProfile(oneshot::Sender<Result<(), Error>>),
-
 }
 
 impl std::fmt::Debug for Command {
@@ -74,25 +73,24 @@ impl TryFrom<Session> for AxolotlSession {
     type Error = Error;
 
     fn try_from(session: Session) -> Result<Self, Error> {
-        let id:String = session.thread.to_string();
-        let mut timestamp:u64 = 0;
-        let message:Option<String> = match session.last_message {
-            Some(message) => Some(match message.body{
+        let id: String = session.thread.to_string();
+        let mut timestamp: u64 = 0;
+        let message: Option<String> = match session.last_message {
+            Some(message) => Some(match message.body {
                 ContentBody::DataMessage(msg) => {
                     timestamp = msg.timestamp.unwrap_or_default();
-                    msg.body.unwrap_or("".to_string())},
+                    msg.body.unwrap_or("".to_string())
+                }
                 ContentBody::SynchronizeMessage(msg) => {
                     let sent_message = msg.sent.unwrap_or_default().message.unwrap_or_default();
                     timestamp = sent_message.timestamp.unwrap_or_default();
                     sent_message.body.unwrap_or("".to_string())
-                },
-                _=> {
-                    "".to_string()
-                },
+                }
+                _ => "".to_string(),
             }),
             None => None,
         };
-        let is_group:bool = match session.thread {
+        let is_group: bool = match session.thread {
             Thread::Group(_group) => true,
             _ => false,
         };
@@ -243,28 +241,34 @@ impl ManagerThread {
         log::debug!("Updating contacts from profile");
         let (sender, receiver) = oneshot::channel();
         self.command_sender
-        .send(Command::RequestContactsUpdateFromProfile(sender))
-        .await
-        .expect("Command sending failed");
+            .send(Command::RequestContactsUpdateFromProfile(sender))
+            .await
+            .expect("Command sending failed");
         receiver.await.expect("Callback receiving failed")
     }
-    
-    pub async fn get_conversations(&self) -> Result<impl Iterator<Item = AxolotlSession> + '_, ApplicationError> {
+
+    pub async fn get_conversations(
+        &self,
+    ) -> Result<impl Iterator<Item = AxolotlSession> + '_, ApplicationError> {
         let (sender, receiver) = oneshot::channel();
         self.command_sender
             .send(Command::GetConversations(sender))
             .await
             .expect("Command sending failed");
-        match receiver.await{
+        match receiver.await {
             Ok(Ok(sessions)) => {
                 log::info!("Got {} sessions", sessions.len());
-                let axolotl_sessions = sessions.into_iter().map(|s| AxolotlSession::try_from(s).unwrap()).collect::<Vec<_>>();
+                let axolotl_sessions = sessions
+                    .into_iter()
+                    .map(|s| AxolotlSession::try_from(s).unwrap())
+                    .collect::<Vec<_>>();
                 Ok(axolotl_sessions.into_iter())
-            },
+            }
             Ok(Err(e)) => {
                 log::error!("Got error: {}", e);
-                Err(ApplicationError::ManagerThreadPanic)},
-            Err(_) => Err(ApplicationError::ManagerThreadPanic)
+                Err(ApplicationError::ManagerThreadPanic)
+            }
+            Err(_) => Err(ApplicationError::ManagerThreadPanic),
         }
     }
     pub fn get_contact_by_id(&self, id: Uuid) -> Result<Option<Contact>, Error> {
@@ -405,6 +409,7 @@ async fn command_loop<C: Store + 'static + MessageStore>(
                     select! {
                         msg = messages.next().fuse() => {
                             if let Some(msg) = msg {
+
                                 notify_message(&msg).await;
                                 if content.send(msg).is_err() {
                                     log::info!("Failed to send message to `Manager`, exiting");
@@ -447,12 +452,15 @@ async fn command_loop<C: Store + 'static + MessageStore>(
     log::info!("Exiting `ManagerThread::command_loop`");
 }
 
-// #[cfg(not(feature = "ut"))]
+#[cfg(not(feature = "ut"))]
 async fn notify_message(msg: &Content) {
     use notify_rust::Notification;
-    match msg.body.clone(){
+    match msg.body.clone() {
         ContentBody::DataMessage(data) => {
-            log::debug!("send notification: {:?}", data.body.as_ref().unwrap_or(&String::from("")).to_string());
+            log::debug!(
+                "send notification: {:?}",
+                data.body.as_ref().unwrap_or(&String::from("")).to_string()
+            );
             let mut notification = Notification::new();
             let body = data.body.as_ref().unwrap_or(&String::from("")).to_string();
             notification
@@ -462,16 +470,55 @@ async fn notify_message(msg: &Content) {
                 .timeout(5000)
                 .show()
                 .expect("Failed to send notification");
-        },
-        _ => {
-        },
+        }
+        _ => {}
     }
-
 }
-// #[cfg(feature = "ut")]
-// async fn notify_message(_msg: &Content) {
 
-// }
+#[cfg(feature = "ut")]
+macro_rules! get_proxy {
+    ($c: ident) => {
+        $c.with_proxy(
+            DBUS_NAME,
+            format!(
+                "{}{}",
+                DBUS_PATH_PART,
+                APP_ID.replace(".", "_2e").replace("-", "_2f")
+            ),
+            Duration::from_millis(5000),
+        )
+    };
+}
+#[cfg(feature = "ut")]
+async fn notify_message(msg: &Content) {
+    use dbus::blocking::Connection;
+    use serde_json::{json, Value};
+    use std::time::Duration;
+    const DBUS_NAME: &str = "com.lomiri.Postal";
+    const DBUS_INTERFACE: &str = "com.lomiri.Postal";
+    const DBUS_PATH_PART: &str = "/com/lomiri/Postal/";
+    const DBUS_POST_METHOD: &str = "Post";
+    const DBUS_CLEAR_METHOD: &str = "ClearPersistent";
+    const DBUS_LIST_METHOD: &str = "ListPersistent";
+
+    // change these to what you have in your manifest
+    const APP_ID: &str = "textsecure.nanuc";
+    const HOOK_NAME: &str = "textsecure";
+
+    let conn = Connection::new_session()?;
+    let proxy = get_proxy!(conn);
+    match proxy.method_call(
+        DBUS_INTERFACE,
+        DBUS_POST_METHOD,
+        (format!("{}_{}", APP_ID, HOOK_NAME), data.to_string()),
+    ) {
+        Ok(_) => {}
+        Err(e) => {
+            log::error!("Failed to send notification: {}", e);
+        }
+    }
+}
+
 async fn handle_command<C: Store + 'static>(
     manager: &mut Manager<C, Registered>,
     command: Command,
@@ -491,9 +538,7 @@ async fn handle_command<C: Store + 'static>(
             )
             .expect("Callback sending failed"),
         Command::GetConversations(callback) => callback
-            .send(manager.load_conversations().await
-        )
-            
+            .send(manager.load_conversations().await)
             .expect("Callback sending failed"),
         Command::GetGroupV2(master_key, callback) => callback
             .send(manager.get_group_v2(master_key).await)
