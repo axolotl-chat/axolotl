@@ -75,18 +75,16 @@ async fn start_manager(websocket: warp::ws::WebSocket) -> Result<(), Application
         let shared_sender_mutex2 = Arc::clone(&shared_sender);
         let current_chat: Option<Thread> = None;
         let current_chat_mutex = Arc::new(Mutex::new(current_chat));
-        let current_chat_mutex2 = current_chat_mutex.clone();
         thread::spawn(move || {
             block_on(handle_provisoning(
                 provisioning_link_rx,
-                shared_sender_mutex2,
+                shared_sender_mutex,
             ))
         });
         thread::spawn(move || {
             block_on(handle_received_message(
                 receive_content,
-                shared_sender_mutex,
-                current_chat_mutex,
+                shared_sender_mutex2,
             ))
         });
         let db_path = format!("{config_path}/textsecure.nanuc");
@@ -111,7 +109,7 @@ async fn start_manager(websocket: warp::ws::WebSocket) -> Result<(), Application
             provisioning_link_tx,
             error_tx,
             send_content,
-            current_chat_mutex2,
+            current_chat_mutex,
             send_error,
         )
         .await;
@@ -186,7 +184,6 @@ async fn handle_received_message(
     // manager: &ManagerThread,
     mut receive: UnboundedReceiver<Content>,
     sender: Arc<futures::lock::Mutex<SplitSink<WebSocket, warp::ws::Message>>>,
-    current_chat: Arc<futures::lock::Mutex<Option<Thread>>>,
 ) {
     log::info!("Awaiting for received message");
     loop {
@@ -210,7 +207,7 @@ async fn handle_received_message(
             }
             None => {
                 log::error!("Error receiving message");
-                continue;
+                break;
             }
         };
     }
