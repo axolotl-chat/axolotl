@@ -190,16 +190,17 @@ export default createStore({
       }
     },
     SET_MESSAGE_RECEIVED(state, message) {
-      if (state.currentChat !== null && state.currentChat.ID === message.SID) {
+      console.log(message.thread_id, state.currentChat.id)
+      if (state.currentChat !== null && state.currentChat.id === message.thread_id) {
         const tmpList = state.messageList;
         tmpList.push(message);
-        tmpList.sort(function (a, b) {
-          return a.ID - b.ID
-        })
+        // tmpList.sort(function (a, b) {
+        //   return a.timestamp - b.timestamp
+        // })
         state.messageList = tmpList;
       }
       state.chatList.forEach((chat, i) => {
-        if (chat.ID === message.SID) {
+        if (chat.id === message.thread_id) {
           state.chatList[i].Messages = [message]
         }
       })
@@ -312,8 +313,8 @@ export default createStore({
     // default handler called for all methods
     SOCKET_ONMESSAGE(state, message) {
       state.socket.message = message;
-      console.log(message)
-      const messageData = JSON.parse(message.data);
+      console.log(message);
+      const messageData =   JSON.parse(message.data);
       if (messageData.Error) {
         this.commit("SET_ERROR", messageData.Error);
       }
@@ -404,7 +405,21 @@ export default createStore({
             router.push("/qr");
           } else if (messageData.response_type === "config") {
             this.commit("SET_CONFIG", JSON.parse(messageData.data));
+          } else if (messageData.response_type === "message_received") {
+            const messageReceived = JSON.parse(messageData.data);
+            console.log("message_received", messageReceived, state.currentChat);
+            if  (state.currentChat && state.currentChat.id == messageReceived.thread_id) {
+              this.commit("SET_MESSAGE_RECEIVED", messageReceived);
+            } else {
+              console.log("getChatList")
+              this.dispatch("getChatList");
+            }
+          } else if (messageData.response_type === "message_sent") {
+            const messageSent = JSON.parse(messageData.data);
+            console.log("message_sent", messageSent);
+            this.commit("SET_MESSAGE_RECEIVED", messageSent.message);
           }
+
           break;
 
         default:
@@ -476,6 +491,7 @@ export default createStore({
       }
     },
     getMessageList(state, chatId) {
+      console.log("getMessageList2", chatId)
 
       this.commit("CLEAR_MESSAGELIST");
       if (this.state.socket.isConnected) {

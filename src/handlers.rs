@@ -10,9 +10,9 @@ use futures::executor::block_on;
 use futures::lock::Mutex;
 use futures::stream::SplitSink;
 use futures::{SinkExt, StreamExt};
-use libsignal_service::prelude::phonenumber::country::Id::NO;
 use libsignal_service::prelude::GroupMasterKey;
-use presage::prelude::{ContentBody, DataMessage, ServiceAddress, GroupContextV2};
+use presage::prelude::Content;
+use presage::prelude::{ContentBody, DataMessage, GroupContextV2, ServiceAddress};
 use serde::{Serialize, Serializer};
 use serde_json::error::Error as SerdeError;
 use std::cell::Cell;
@@ -31,7 +31,7 @@ use futures::channel::oneshot;
 
 use presage::MigrationConflictStrategy;
 use presage::{SledStore, Thread};
-use tokio::sync::mpsc;
+use tokio::sync::mpsc::{self, UnboundedReceiver};
 
 /// Handles a client connection
 pub async fn handle_ws_client(websocket: warp::ws::WebSocket) {
@@ -68,14 +68,25 @@ async fn start_manager(websocket: warp::ws::WebSocket) -> Result<(), Application
         let (provisioning_link_tx, provisioning_link_rx) = oneshot::channel();
         let (error_tx, error_rx) = oneshot::channel();
 
-        let (send_content, _receive_content) = mpsc::unbounded_channel();
+        let (send_content, mut receive_content) = mpsc::unbounded_channel();
         let (send_error, mut receive_error) = mpsc::channel(MESSAGE_BOUND);
 
         let shared_sender_mutex = Arc::clone(&shared_sender);
+        let shared_sender_mutex2 = Arc::clone(&shared_sender);
+        let current_chat: Option<Thread> = None;
+        let current_chat_mutex = Arc::new(Mutex::new(current_chat));
+        let current_chat_mutex2 = current_chat_mutex.clone();
         thread::spawn(move || {
             block_on(handle_provisoning(
                 provisioning_link_rx,
+                shared_sender_mutex2,
+            ))
+        });
+        thread::spawn(move || {
+            block_on(handle_received_message(
+                receive_content,
                 shared_sender_mutex,
+                current_chat_mutex,
             ))
         });
         let db_path = format!("{config_path}/textsecure.nanuc");
@@ -100,6 +111,7 @@ async fn start_manager(websocket: warp::ws::WebSocket) -> Result<(), Application
             provisioning_link_tx,
             error_tx,
             send_content,
+            current_chat_mutex2,
             send_error,
         )
         .await;
@@ -168,6 +180,39 @@ async fn handle_provisoning(
             ws_sender.send(Message::text(qr_code)).await.unwrap();
         }
         Err(_e) => log::trace!("Manager is already linked"),
+    }
+}
+async fn handle_received_message(
+    // manager: &ManagerThread,
+    mut receive: UnboundedReceiver<Content>,
+    sender: Arc<futures::lock::Mutex<SplitSink<WebSocket, warp::ws::Message>>>,
+    current_chat: Arc<futures::lock::Mutex<Option<Thread>>>,
+) {
+    log::info!("Awaiting for received message");
+    loop {
+        match receive.recv().await {
+            Some(content) => {
+                log::info!("Got message from manager");
+                let thread = Thread::try_from(&content).unwrap();
+                let mut axolotl_message = AxolotlMessage::from_message(content);
+                axolotl_message.thread_id = Some(thread.to_string());
+                let axolotl_message_json = serde_json::to_string(&axolotl_message).unwrap();
+                let response_type = "message_received".to_string();
+                let response =  AxolotlResponse {
+                    response_type,
+                    data: axolotl_message_json,
+                };
+                let response = serde_json::to_string(&response).unwrap();
+
+                let mut ws_sender = sender.lock().await;
+                ws_sender.send(Message::text(response)).await.unwrap();
+                std::mem::drop(ws_sender);
+            }
+            None => {
+                log::error!("Error receiving message");
+                continue;
+            }
+        };
     }
 }
 pub fn write_as_json<I, P, W>(out: &mut W, groups: I) -> serde_json::Result<()>
@@ -289,8 +334,8 @@ async fn handle_send_message(
                         manager.get_group_v2(group_master_key).await.ok().unwrap();
                     let group_members = group_from_store.members.iter();
                     let mut group_members_service_addresses: Vec<ServiceAddress> = Vec::new();
-                    
-                    for (member) in group_members {
+
+                    for member in group_members {
                         group_members_service_addresses.push(ServiceAddress {
                             uuid: Some(member.uuid.clone()),
                             phonenumber: None,
@@ -298,11 +343,12 @@ async fn handle_send_message(
                         });
                     }
                     let mut group_data_message = data_message.clone();
-                    group_data_message.group_v2 = Some(GroupContextV2{
+                    group_data_message.group_v2 = Some(GroupContextV2 {
                         master_key: Some(group.to_vec()),
                         group_change: None,
                         revision: Some(group_from_store.version),
                     });
+                    group_data_message.uuid = Some(manager.uuid());
                     manager
                         .send_message_to_group(
                             group_members_service_addresses,
@@ -316,7 +362,9 @@ async fn handle_send_message(
             if is_failed {
                 log::error!("Error while sending the message. {:?}", result.err());
             }
-            let message = AxolotlMessage::from_data_message(data_message);
+            let mut message = AxolotlMessage::from_data_message(data_message);
+            message.thread_id = Some(thread.to_string());
+            message.sender = Some(manager.uuid());
             let response_data = SendMessageResponse { message, is_failed };
             let response_data_json = serde_json::to_string(&response_data).unwrap();
             let response = AxolotlResponse {
@@ -421,6 +469,7 @@ async fn handle_websocket_message(
                     .send(Message::text(serde_json::to_string(&response).unwrap()))
                     .await
                     .unwrap();
+
                 std::mem::drop(unlocked_sender);
             }
             Err(e) => {

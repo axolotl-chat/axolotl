@@ -57,10 +57,11 @@ pub struct AxolotlConfig {
 #[derive(Serialize, Deserialize, Debug)]
 pub struct AxolotlMessage {
     pub message_type: String,
-    sender:Option<Uuid>,
+    pub sender:Option<Uuid>,
     message:Option<String>,
     timestamp:Option<u64>,
-    is_outgoing:bool
+    is_outgoing:bool,
+    pub thread_id:Option<String>,
 
 }
 impl AxolotlMessage {
@@ -110,7 +111,8 @@ impl AxolotlMessage {
             message_type,
             message:data_message,
             timestamp:Some(timestamp),
-            is_outgoing
+            is_outgoing, 
+            thread_id:None
         }
     }
     pub fn from_content_body(body: ContentBody) -> AxolotlMessage {
@@ -157,7 +159,8 @@ impl AxolotlMessage {
             message_type,
             message:data_message,
             timestamp:timestamp,
-            is_outgoing
+            is_outgoing,
+            thread_id:None
         }
     }
     pub fn from_data_message(data: DataMessage) -> AxolotlMessage {
@@ -174,7 +177,8 @@ impl AxolotlMessage {
             message_type,
             message:data_message,
             timestamp:Some(timestamp),
-            is_outgoing
+            is_outgoing,
+            thread_id:None
         }
     }
 }

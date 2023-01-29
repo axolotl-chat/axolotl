@@ -58,6 +58,7 @@ pub struct ManagerThread {
     uuid: Uuid,
     contacts: Arc<Mutex<Vec<Contact>>>,
     sessions: Arc<Mutex<Vec<AxolotlSession>>>,
+    current_chat: Arc<futures::lock::Mutex<Option<Thread>>>,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
 
@@ -114,6 +115,7 @@ impl Clone for ManagerThread {
             uuid: self.uuid,
             contacts: self.contacts.clone(),
             sessions: self.sessions.clone(),
+            current_chat: self.current_chat.clone(),
         }
     }
 }
@@ -125,6 +127,7 @@ impl ManagerThread {
         link_callback: futures::channel::oneshot::Sender<url::Url>,
         error_callback: futures::channel::oneshot::Sender<Error>,
         content: mpsc::UnboundedSender<Content>,
+        current_chat: Arc<futures::lock::Mutex<Option<Thread>>>,
         error: mpsc::Sender<ApplicationError>,
     ) -> Option<Self>
     where
@@ -191,6 +194,7 @@ impl ManagerThread {
             uuid: uuid.unwrap(),
             contacts: Arc::new(Mutex::new(contacts.unwrap().unwrap_or_default())),
             sessions: Arc::new(Mutex::new(Vec::new())),
+            current_chat: current_chat,
         })
     }
 }
@@ -221,6 +225,9 @@ impl ManagerThread {
 
     pub fn uuid(&self) -> Uuid {
         self.uuid
+    }
+    pub async fn current_chat(&self) -> Option<Thread> {
+        self.current_chat.lock().await.clone()
     }
 
     pub async fn get_contacts(&self) -> Result<impl Iterator<Item = Contact> + '_, Error> {
@@ -347,6 +354,7 @@ impl ManagerThread {
         count: Option<u64>,
     ) -> Result<Vec<Content>, Error> {
         let (sender, receiver) = oneshot::channel();
+        // self.current_chat = Some(thread.clone());
         self.command_sender
             .send(Command::GetMessages(thread, count, sender))
             .await
