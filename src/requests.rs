@@ -62,6 +62,7 @@ pub struct AxolotlMessage {
     timestamp:Option<u64>,
     is_outgoing:bool,
     pub thread_id:Option<String>,
+    attachment:Option<String>,
 
 }
 impl AxolotlMessage {
@@ -95,7 +96,6 @@ impl AxolotlMessage {
                     let m = data.sent.clone().unwrap().message.clone().unwrap();
                     m.body.clone()
                 } else {
-                    log::info!("{:?}", data);
                     Some("SyncMessage".to_string())
                 }
             },
@@ -111,13 +111,13 @@ impl AxolotlMessage {
             message_type,
             message:data_message,
             timestamp:Some(timestamp),
+            attachment:None,
             is_outgoing, 
             thread_id:None
         }
     }
     pub fn from_content_body(body: ContentBody) -> AxolotlMessage {
 
-        // log::info!( "{:?}", message);
         let message_type = match body{
             ContentBody::DataMessage(_) => "DataMessage",
             ContentBody::SynchronizeMessage(_) => "SyncMessage",
@@ -130,10 +130,18 @@ impl AxolotlMessage {
             ContentBody::SynchronizeMessage(_) => true,
             _ => false,
         };
+        let mut attachment:Option<String> = None;
         let data_message = match &body{
             ContentBody::DataMessage(data) =>{
                 if data.reaction.is_some(){
                     data.reaction.clone().unwrap().emoji.clone()
+                } else if data.attachments.len()>0 {
+                    attachment = data.attachments[0].clone().content_type;
+                    if data.body.is_some() {
+                        Some(format!("Unsuported attachment. {}", data.body.clone().unwrap()))
+                    } else {
+                        Some("Unsuported attachment.".to_string())
+                    }
                 } else {
                     data.body.clone()
                 }
@@ -142,9 +150,19 @@ impl AxolotlMessage {
                 is_outgoing = true;
                 if data.sent.is_some() && data.sent.clone().unwrap().message.is_some(){
                     let m = data.sent.clone().unwrap().message.clone().unwrap();
-                    m.body.clone()
+                    if m.reaction.is_some(){
+                        m.reaction.clone().unwrap().emoji.clone()
+                    } else if m.attachments.len()>0 {
+                        attachment = m.attachments[0].clone().content_type;
+                        if m.body.is_some() {
+                            Some(format!("Unsuported attachment. {}", m.body.clone().unwrap()))
+                        } else {
+                            Some("Unsuported attachment.".to_string())
+                        }
+                    } else {
+                        m.body.clone()
+                    }
                 } else {
-                    log::info!("{:?}", data);
                     Some("SyncMessage".to_string())
                 }
             },
@@ -152,6 +170,10 @@ impl AxolotlMessage {
         };
         let timestamp:Option<u64> = match body{
             ContentBody::DataMessage(m) => m.timestamp.clone(),
+            ContentBody::SynchronizeMessage(m) => match m.sent{
+                Some(s) => s.timestamp.clone(),
+                None => None
+            },
             _ => None,
         };
         AxolotlMessage {
@@ -160,14 +182,23 @@ impl AxolotlMessage {
             message:data_message,
             timestamp:timestamp,
             is_outgoing,
-            thread_id:None
+            thread_id:None,
+            attachment,
         }
     }
     pub fn from_data_message(data: DataMessage) -> AxolotlMessage {
         let message_type = "DataMessage".to_string();
         let is_outgoing = false;
+        let mut attachment:Option<String> = None;
         let data_message = if data.reaction.is_some(){
             data.reaction.clone().unwrap().emoji.clone()
+        } else if data.attachments.len()>0 {
+            attachment = data.attachments[0].clone().content_type;
+            if data.body.is_some() {
+                Some(format!("Unsuported attachment. {}", data.body.clone().unwrap()))
+            } else {
+                Some("Unsuported attachment.".to_string())
+            }
         } else {
             data.body.clone()
         };
@@ -178,7 +209,8 @@ impl AxolotlMessage {
             message:data_message,
             timestamp:Some(timestamp),
             is_outgoing,
-            thread_id:None
+            thread_id:None,
+            attachment,
         }
     }
 }

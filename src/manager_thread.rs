@@ -93,9 +93,17 @@ impl TryFrom<Session> for AxolotlSession {
                 ContentBody::SynchronizeMessage(msg) => {
                     let sent_message = msg.sent.unwrap_or_default().message.unwrap_or_default();
                     timestamp = sent_message.timestamp.unwrap_or_default();
-                    sent_message.body.unwrap_or("".to_string())
+                    if sent_message.body.is_some() {
+                        sent_message.body.unwrap_or("".to_string())
+                    } else if sent_message.attachments.len()>0 {
+                        "Attachment".to_string()
+                    } else if sent_message.reaction.is_some() {
+                        sent_message.reaction.unwrap_or_default().emoji.unwrap_or_default()
+                    } else {
+                       "Unknown sync message".to_string()
+                    }
                 }
-                _ => "".to_string(),
+                _ => "Unknown message type".to_string(),
             }),
             None => None,
         };
@@ -427,6 +435,8 @@ async fn command_loop<C: Store + 'static + MessageStore>(
                             if let Some(msg) = msg {
                                 match msg.body.clone() {
                                     ContentBody::DataMessage(data) => {
+                                        log::info!("Received message: {:?}", &data);
+
                                         let body = data.body.as_ref().unwrap_or(&String::from("")).to_string();
                                         let thread = Thread::try_from(&msg).unwrap();
                                         let title = manager.get_title_for_thread(&thread).await.unwrap_or("".to_string());
@@ -447,8 +457,12 @@ async fn command_loop<C: Store + 'static + MessageStore>(
                                             let contact_title = manager.get_title_for_thread(&contact_thread).await.unwrap_or("".to_string());
                                             notification.sender = contact_title;
                                         }
-
-
+                                        if data.reaction.is_some(){
+                                            notification.message = data.reaction.unwrap().emoji.unwrap();
+                                        }
+                                        if notification.message=="".to_string() {
+                                           continue;
+                                        }
                                         notify_message(&notification).await;
 
                                     }
@@ -535,14 +549,28 @@ macro_rules! get_proxy {
         )
     };
 }
-
+#[cfg(feature = "ut")]
 const DBUS_NAME: &str = "com.lomiri.Postal";
+
+#[cfg(feature = "ut")]
 const DBUS_INTERFACE: &str = "com.lomiri.Postal";
+
+#[cfg(feature = "ut")]
 const DBUS_PATH_PART: &str = "/com/lomiri/Postal/";
+
+#[cfg(feature = "ut")]
 const DBUS_POST_METHOD: &str = "Post";
+
+#[cfg(feature = "ut")]
 const DBUS_CLEAR_METHOD: &str = "ClearPersistent";
+
+#[cfg(feature = "ut")]
 const DBUS_LIST_METHOD: &str = "ListPersistent";
+
+#[cfg(feature = "ut")]
 const APP_ID: &str = "textsecure.nanuc";
+
+#[cfg(feature = "ut")]
 const HOOK_NAME: &str = "textsecure";
 
 #[cfg(feature = "ut")]

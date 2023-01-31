@@ -1,7 +1,7 @@
 <template>
   <div
-    v-if="(message.message_type=='DataMessage' && message.message!=='')|| 
-      (message.message_type=='SyncMessage' && message.message !=='SyncMessage')" :key="message.ID" :class="{
+    v-if="message.message && ((message.message_type=='DataMessage' && message.message!=='' )|| 
+      (message.message_type=='SyncMessage' && message.message && message.message !=='SyncMessage'))" :key="message.ID" :class="{
       'col-12': true,
       'message-container': true,
       outgoing: is_outgoing,
