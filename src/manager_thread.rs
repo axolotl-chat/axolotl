@@ -13,6 +13,15 @@ use tokio::sync::{mpsc, oneshot};
 
 use crate::error::ApplicationError;
 
+#[cfg(feature = "ut")]
+use dbus::arg::{AppendAll, ReadAll};
+#[cfg(feature = "ut")]
+use dbus::blocking::Connection;
+#[cfg(feature = "ut")]
+use serde_json::{json, Value};
+#[cfg(feature = "ut")]
+use std::time::Duration;
+
 const MESSAGE_BOUND: usize = 10;
 
 enum Command {
@@ -394,6 +403,13 @@ where
     }
 }
 
+pub struct Notification {
+    sender: String,
+    message: String,
+    group: Option<String>,
+    thread: Thread,
+}
+
 async fn command_loop<C: Store + 'static + MessageStore>(
     manager: &mut Manager<C, Registered>,
     mut receiver: mpsc::Receiver<Command>,
@@ -409,8 +425,35 @@ async fn command_loop<C: Store + 'static + MessageStore>(
                     select! {
                         msg = messages.next().fuse() => {
                             if let Some(msg) = msg {
+                                match msg.body.clone() {
+                                    ContentBody::DataMessage(data) => {
+                                        let body = data.body.as_ref().unwrap_or(&String::from("")).to_string();
+                                        let thread = Thread::try_from(&msg).unwrap();
+                                        let title = manager.get_title_for_thread(&thread).await.unwrap_or("".to_string());
+                                        let sender = msg.metadata.sender.uuid.clone().unwrap();
+                                        let is_group = match thread {
+                                            Thread::Group(_)=> true,
+                                            _ => false,
+                                        };
+                                        let mut notification = Notification{
+                                            sender: title.clone(),
+                                            message: body,
+                                            group: None,
+                                            thread: thread,
+                                        };
+                                        if is_group {
+                                            notification.group = Some(title);
+                                            let contact_thread = Thread::Contact(sender);
+                                            let contact_title = manager.get_title_for_thread(&contact_thread).await.unwrap_or("".to_string());
+                                            notification.sender = contact_title;
+                                        }
 
-                                notify_message(&msg).await;
+
+                                        notify_message(&notification).await;
+
+                                    }
+                                    _ => {}
+                                }
                                 if content.send(msg).is_err() {
                                     log::info!("Failed to send message to `Manager`, exiting");
                                     break 'outer;
@@ -453,25 +496,28 @@ async fn command_loop<C: Store + 'static + MessageStore>(
 }
 
 #[cfg(not(feature = "ut"))]
-async fn notify_message(msg: &Content) {
+async fn notify_message(msg: &Notification) {
     use notify_rust::Notification;
-    match msg.body.clone() {
-        ContentBody::DataMessage(data) => {
-            log::debug!(
-                "send notification: {:?}",
-                data.body.as_ref().unwrap_or(&String::from("")).to_string()
-            );
-            let mut notification = Notification::new();
-            let body = data.body.as_ref().unwrap_or(&String::from("")).to_string();
-            notification
-                .summary("New message")
+    match &msg.group {
+        Some(group) => {
+            let body = format!("{}: {}", msg.sender, msg.message);
+            Notification::new()
+                .summary(&group)
                 .body(&body)
                 .icon("signal")
                 .timeout(5000)
                 .show()
                 .expect("Failed to send notification");
         }
-        _ => {}
+        None => {
+            Notification::new()
+                .summary(&msg.sender)
+                .body(&msg.message)
+                .icon("signal")
+                .timeout(5000)
+                .show()
+                .expect("Failed to send notification");
+        }
     }
 }
 
@@ -489,34 +535,91 @@ macro_rules! get_proxy {
         )
     };
 }
+
+const DBUS_NAME: &str = "com.lomiri.Postal";
+const DBUS_INTERFACE: &str = "com.lomiri.Postal";
+const DBUS_PATH_PART: &str = "/com/lomiri/Postal/";
+const DBUS_POST_METHOD: &str = "Post";
+const DBUS_CLEAR_METHOD: &str = "ClearPersistent";
+const DBUS_LIST_METHOD: &str = "ListPersistent";
+const APP_ID: &str = "textsecure.nanuc";
+const HOOK_NAME: &str = "textsecure";
+
 #[cfg(feature = "ut")]
-async fn notify_message(msg: &Content) {
-    use dbus::blocking::Connection;
-    use serde_json::{json, Value};
-    use std::time::Duration;
-    const DBUS_NAME: &str = "com.lomiri.Postal";
-    const DBUS_INTERFACE: &str = "com.lomiri.Postal";
-    const DBUS_PATH_PART: &str = "/com/lomiri/Postal/";
-    const DBUS_POST_METHOD: &str = "Post";
-    const DBUS_CLEAR_METHOD: &str = "ClearPersistent";
-    const DBUS_LIST_METHOD: &str = "ListPersistent";
-
-    // change these to what you have in your manifest
-    const APP_ID: &str = "textsecure.nanuc";
-    const HOOK_NAME: &str = "textsecure";
-
+fn postal<R: ReadAll, A: AppendAll>(method: &str, args: A) -> Result<R, dbus::Error> {
     let conn = Connection::new_session()?;
-    let proxy = get_proxy!(conn);
-    match proxy.method_call(
-        DBUS_INTERFACE,
+    let proxy = conn.with_proxy(
+        DBUS_NAME,
+        format!(
+            "{}{}",
+            DBUS_PATH_PART,
+            APP_ID.replace(".", "_2e").replace("-", "_2f")
+        ),
+        Duration::from_millis(5000),
+    );
+    proxy.method_call(DBUS_INTERFACE, method, args)
+}
+
+#[cfg(feature = "ut")]
+fn postal_post(data: Value) -> Result<(), dbus::Error> {
+    postal(
         DBUS_POST_METHOD,
         (format!("{}_{}", APP_ID, HOOK_NAME), data.to_string()),
-    ) {
-        Ok(_) => {}
+    )?;
+    Ok(())
+}
+#[cfg(feature = "ut")]
+fn postal_clear_persistent(tag: &str) -> Result<(), dbus::Error> {
+    postal(
+        DBUS_CLEAR_METHOD,
+        (format!("{}_{}", APP_ID, HOOK_NAME), tag),
+    )?;
+    Ok(())
+}
+
+#[cfg(feature = "ut")]
+async fn notify_message(msg: &Notification) {
+    use serde_json::{json, Value};
+    use std::time::Duration;
+
+    let conn = match Connection::new_session() {
+        Ok(c) => c,
         Err(e) => {
-            log::error!("Failed to send notification: {}", e);
+            log::error!("Failed to connect to dbus: {}", e);
+            return;
         }
+    };
+    let tag = msg.thread.to_string();
+    postal_clear_persistent(tag.as_str()).expect("Failed to clear persistent notification");
+    let mut data = json!({
+      "message": msg.sender,
+      "notification": {
+        "card": {
+          "body": msg.message,
+          "persist": true,
+          "popup": true,
+          "summary":  msg.sender
+        },
+        "sound": "buzz.mp3",
+        "tag": tag,
+        "vibrate": {
+          "duration": 200,
+          "pattern": [ 200, 100 ],
+          "repeat": 2
+        }
+      }
+    });
+
+    match &msg.group {
+        Some(group) => {
+            let body = format!("{}: {}", msg.sender, msg.message);
+            data["notification"]["card"]["body"] = json!(body);
+            data["notification"]["card"]["summary"] = json!(group);
+            data["notification"]["message"] = json!(group);
+        }
+        None => {}
     }
+    postal_post(data).expect("Failed to send notification");
 }
 
 async fn handle_command<C: Store + 'static>(
