@@ -1,6 +1,7 @@
-use std::{process::exit, thread};
+use std::{process::exit, thread, sync::Arc};
 
-use axolotl::handlers::handle_ws_client;
+use axolotl::handlers::Handler;
+use futures::lock::Mutex;
 use presage::{MigrationConflictStrategy, SledStore};
 use warp::Filter;
 
@@ -40,13 +41,29 @@ async fn main() {
 
 async fn start_websocket() {
     log::info!("Starting the server");
+    let mut handler: &mut Handler = match Handler::new().await{
+        Ok(h) => &mut h,
+        Err(e) => {
+            log::error!("Error while starting the server: {}", e);
+            exit(1);
+        }
+    };
+    let handler_mutex = Arc::new(Mutex::new(Some(handler)));
+
     let axolotl_route = warp::path("ws")
         .and(warp::ws())
-        .map(|ws: warp::ws::Ws| ws.on_upgrade(|socket| handle_ws_client(socket)));
+        .map(|ws: warp::ws::Ws| ws.on_upgrade(|socket| {
+            handle_ws_client(handler_mutex.clone(), socket)
+    }));
 
     warp::serve(axolotl_route).run(([127, 0, 0, 1], 9080)).await;
     log::info!("Server stopped");
+    handler_mutex.lock().await.take();
 }
+pub async fn handle_ws_client(handler:Arc<futures::lock::Mutex<Option<&mut Handler>>>, websocket: warp::ws::WebSocket) {
+    handler.lock().await.take().unwrap().handle_ws_client(websocket).await;
+}
+
 async fn start_ui() {
     #[cfg(feature = "tauri")]
     start_tauri().await;
@@ -123,7 +140,7 @@ async fn start_tauri() {
         tauri::WindowBuilder::new(app, "label", tauri::WindowUrl::App("index.html".into()))
             .initialization_script(INIT_SCRIPT)
             .title("Axolotl")
-            .build();
+            .build().unwrap();
         Ok(())
     });
     t.run(tauri::generate_context!())
