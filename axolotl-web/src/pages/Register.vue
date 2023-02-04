@@ -1,38 +1,6 @@
 <template>
   <component :is="$route.meta.layout || 'div'">
     <div class="register">
-      <div v-if="infoPage" class="page1 info">
-        <img class="logo" src="/axolotl.png" alt="Axolotl logo">
-        <h1 class="title">Axolotl Beta</h1>
-        <h2 v-translate class="subtitle">A cross-platform Signal client</h2>
-        <div class="description">
-          Hey! Mr. Tambourine Man, play a song for me,
-          <br>
-          In the jingle jangle morning I'll come following you.
-          <br>
-          It's beta, expect lot's of things not working.
-          <br>
-          Please be aware:
-          <br>
-          Registering your phone number with Axolotl will
-          <br>
-          de-register your existing Signal account and also
-          <br>
-          de-link your Signal Desktop.
-          <br>
-          <a
-            href="https://axolotl.chat"
-            @click="openExtern($event, 'https://axolotl.chat')"
-          >
-            https://axolotl.chat
-          </a>
-          <br>
-          <font-awesome-icon id="heart" icon="heart" />
-        </div>
-        <button v-translate class="btn btn-primary" @click="infoPage = false">
-          Next
-        </button>
-      </div>
       <div v-if="rateLimitError !== null" class="rateLimit-error">
         <div class="error">
           {{ rateLimitError }}
@@ -45,7 +13,7 @@
           class="phoneInput"
           @input="updatePhone"
         />
-        <button v-translate class="btn btn-primary" @click="requestCode()">
+        <button v-translate class="btn btn-primary mt-3" @click="requestCode()">
           Request code
         </button>
       </div>
@@ -66,7 +34,6 @@ export default {
   data() {
     return {
       phone: "",
-      infoPage: true,
     };
   },
   computed: mapState([
@@ -129,7 +96,7 @@ h2 {
   max-width: 300px;
   margin: auto;
   margin-top: auto;
-  margin-top: 50px;
+  color: #FFF;
 }
 .logo {
   margin: 20px auto;

@@ -39,7 +39,7 @@ export default createStore({
     verificationInProgress: false,
     verificationError: null,
     requestPin: false,
-    registrationStatus: "registered",
+    registrationStatus: null,
     captchaToken: null,
     captchaTokenSent: false,
     deviceLinkCode: null,
@@ -401,8 +401,9 @@ export default createStore({
           } else if (messageData.response_type === "message_list") {
             this.commit("SET_MESSAGELIST", JSON.parse(messageData.data));
           } else if (messageData.response_type === "qr_code") {
+            this.commit("SET_REGISTRATION_STATUS", "not_registered");
             this.commit("SET_DEVICE_LINK_CODE", messageData.data);
-            router.push("/qr");
+            router.push("/onboarding");
           } else if (messageData.response_type === "config") {
             this.commit("SET_CONFIG", JSON.parse(messageData.data));
           } else if (messageData.response_type === "message_received") {
