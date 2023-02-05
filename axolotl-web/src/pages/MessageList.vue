@@ -155,14 +155,12 @@
           @close="showAttachmentsBar = false"
           @send="callContentHub($event)"
         />
-        <!--  TODO: Fix attachment sending
         <input
-          v-if="false" 
           id="attachment"
           type="file"
-          style="position: fixed; top: -100em"
           @change="sendDesktopAttachment"
         />
+	<!--  TODO: Fix attachment sending
         <audio
           id="voiceNote"
           :src="voiceNote.blobUrl"

@@ -18,6 +18,14 @@ pub struct SendMessageRequest {
 }
 
 #[derive(Deserialize, Debug)]
+pub struct UploadAttachmentRequest {
+    // The data URL containing the base64-encoded file
+    pub attachment: String,
+    // The uuid
+    pub recipient: String,
+}
+
+#[derive(Deserialize, Debug)]
 pub struct LinkDeviceRequest {
     pub device_name: String,
 }

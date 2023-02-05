@@ -271,6 +271,7 @@ name = "axolotl"
 version = "0.1.0"
 dependencies = [
  "clap 4.1.1",
+ "data-url",
  "dbus",
  "dirs",
  "env_logger 0.10.0",
@@ -970,6 +971,12 @@ dependencies = [
  "quote",
  "syn",
 ]
+
+[[package]]
+name = "data-url"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8d7439c3735f405729d52c3fbbe4de140eaf938a1fe47d227c27f8254d4302a5"
 
 [[package]]
 name = "dbus"

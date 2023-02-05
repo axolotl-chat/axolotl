@@ -1,24 +1,25 @@
 use crate::error::ApplicationError;
 use crate::manager_thread::ManagerThread;
+use crate::messages::send_message;
 use crate::requests::{
     AxolotlConfig, AxolotlMessage, AxolotlRequest, AxolotlResponse, GetMessagesRequest,
-    SendMessageRequest, SendMessageResponse,
+    SendMessageRequest, UploadAttachmentRequest,
 };
+use data_url::DataUrl;
 extern crate dirs;
 use futures::channel::oneshot::Receiver;
 use futures::executor::block_on;
 use futures::lock::Mutex;
 use futures::stream::SplitSink;
 use futures::{SinkExt, StreamExt};
-use libsignal_service::prelude::GroupMasterKey;
 use presage::prelude::Content;
-use presage::prelude::{ContentBody, DataMessage, GroupContextV2, ServiceAddress};
+use presage::prelude::AttachmentSpec;
+use presage::prelude::proto::AttachmentPointer;
 use serde::{Serialize, Serializer};
 use serde_json::error::Error as SerdeError;
 use std::cell::Cell;
 use std::io::Write;
 use std::process::exit;
-use std::time::UNIX_EPOCH;
 use std::{sync::Arc, thread};
 use url::Url;
 
@@ -302,72 +303,18 @@ async fn handle_send_message(
     let data = data.ok_or(ApplicationError::InvalidRequest)?;
     match serde_json::from_str(&data) {
         Ok::<SendMessageRequest, SerdeError>(send_message_request) => {
-            let timestamp = std::time::SystemTime::now()
-                .duration_since(UNIX_EPOCH)
-                .expect("Time went backwards")
-                .as_millis() as u64;
-            let data_message = DataMessage {
-                body: Some(send_message_request.text),
-                timestamp: Some(timestamp),
-                ..Default::default()
+            let msg = if !send_message_request.text.is_empty() {
+                Some(send_message_request.text)
+            } else {
+                None
             };
-            let thread = match Thread::try_from(&send_message_request.recipient) {
-                Ok(t) => t,
-                Err(e) => {
-                    log::error!("Error while parsing the request. {:?}", e);
-                    return Err(ApplicationError::InvalidRequest);
-                }
-            };
-            let result = match thread {
-                Thread::Contact(contact) => {
-                    let message = ContentBody::DataMessage(data_message.clone());
-                    manager
-                        .send_message(contact, message.clone(), timestamp)
-                        .await
-                }
-                Thread::Group(group) => {
-                    let group_master_key = GroupMasterKey::new(group.clone());
-                    let group_from_store =
-                        manager.get_group_v2(group_master_key).await.ok().unwrap();
-                    let group_members = group_from_store.members.iter();
-                    let mut group_members_service_addresses: Vec<ServiceAddress> = Vec::new();
-
-                    for member in group_members {
-                        group_members_service_addresses.push(ServiceAddress {
-                            uuid: Some(member.uuid.clone()),
-                            phonenumber: None,
-                            relay: None,
-                        });
-                    }
-                    let mut group_data_message = data_message.clone();
-                    group_data_message.group_v2 = Some(GroupContextV2 {
-                        master_key: Some(group.to_vec()),
-                        group_change: None,
-                        revision: Some(group_from_store.version),
-                    });
-                    manager
-                        .send_message_to_group(
-                            group_members_service_addresses,
-                            group_data_message,
-                            timestamp,
-                        )
-                        .await
-                }
-            };
-            let is_failed = result.is_err();
-            if is_failed {
-                log::error!("Error while sending the message. {:?}", result.err());
-            }
-            let mut message = AxolotlMessage::from_data_message(data_message);
-            message.thread_id = Some(thread.to_string());
-            message.sender = Some(manager.uuid());
-            let response_data = SendMessageResponse { message, is_failed };
-            let response_data_json = serde_json::to_string(&response_data).unwrap();
-            let response = AxolotlResponse {
-                response_type: "message_sent".to_string(),
-                data: response_data_json,
-            };
-            Ok(response)
+            send_message(
+                send_message_request.recipient,
+                msg,
+                None,
+                manager,
+                "message_sent"
+            ).await
         }
         Err(e) => {
             log::error!("Error while parsing the request. {:?}", e);
@@ -375,6 +322,74 @@ async fn handle_send_message(
         }
     }
 }
+
+async fn handle_upload_attachment(
+    manager: &ManagerThread,
+    data: Option<String>,
+) -> Result<AxolotlResponse, ApplicationError> {
+    log::info!("Uploading attachment.");
+    let data = data.ok_or(ApplicationError::InvalidRequest)?;
+    match serde_json::from_str(&data) {
+        Ok::<UploadAttachmentRequest, SerdeError>(upload_attachment_request) => {
+	        log::debug!("Attachment request parsed.");
+
+            let data_attachment = match DataUrl::process(&upload_attachment_request.attachment) {
+                Ok(d) => d,
+                Err(e) => {
+                    log::error!("Error while reading data URL. {:?}", e);
+                    return Err(ApplicationError::InvalidRequest);
+                }
+            };
+            let (body, _fragment) = data_attachment.decode_to_vec().unwrap();
+            let decoded_attachment: Vec<u8> = body;
+            let attachment_spec = AttachmentSpec {
+                content_type: data_attachment.mime_type().to_string(),
+                length: decoded_attachment.len(),
+                file_name: None,
+                preview: None,
+                voice_note: None,
+                borderless: None,
+                width: None,
+                height: None,
+                caption: None,
+                blur_hash: None,
+            };
+
+            let attachments: Vec<(AttachmentSpec, Vec<u8>)> = vec![(attachment_spec, decoded_attachment)];
+            let upload_response = manager.upload_attachments(attachments).await;
+
+            match upload_response {
+                Ok(attachments_pointers) => {
+                    let mut pointers: Vec<AttachmentPointer> = Vec::new();
+                    for attachment_pointer in attachments_pointers {
+                        if let Ok(p) = attachment_pointer {
+                            pointers.push(p);
+                        }
+                    }
+                    return send_message(
+                        upload_attachment_request.recipient,
+                        None,
+                        Some(pointers),
+                        manager,
+                        "attachment_sent"
+                    ).await
+                },
+                Err(e) => {
+                    log::error!("Error while uploading attachment. {:?}", e);
+                    return Ok(AxolotlResponse {
+                        response_type: "attachment_not_sent".to_string(),
+                        data: "{\"success: false\"}".to_string(),
+                    })
+                }
+            };
+	    },
+	    Err(e) => {
+            log::error!("Error while parsing the request. {:?}", e);
+            Err(ApplicationError::InvalidRequest)
+        }
+    }
+}
+
 async fn handle_get_config(manager: &ManagerThread) -> Result<AxolotlResponse, ApplicationError> {
     log::info!("Getting config");
     let my_uuid = manager.uuid();
@@ -453,6 +468,7 @@ async fn handle_websocket_message(
             "ping" => handle_ping(),
             "sendMessage" => handle_send_message(manager, axolotl_request.data).await,
             "getConfig" => handle_get_config(manager).await,
+	        "uploadAttachment" => handle_upload_attachment(manager, axolotl_request.data).await,
             _ => {
                 log::error!("Unhandled axolotl request {}", axolotl_request.request);
                 Err(ApplicationError::InvalidRequest)

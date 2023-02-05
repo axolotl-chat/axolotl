@@ -699,12 +699,13 @@ export default createStore({
     },
     uploadAttachment(state, attachment) {
       if (this.state.socket.isConnected) {
+        let data = {
+          "attachment": attachment.attachment,
+          "recipient": attachment.to,
+        };
         const message = {
           "request": "uploadAttachment",
-          "data": {
-            "attachment": attachment.attachment,
-            "to": attachment.to,
-          }
+          "data": JSON.stringify(data)
         }
         socketSend(message);
       }
