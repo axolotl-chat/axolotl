@@ -1,8 +1,7 @@
-use std::{process::exit, sync::Arc, thread};
+use std::{process::exit, sync::Arc};
 
 use axolotl::handlers::Handler;
 use futures::lock::Mutex;
-use presage::{MigrationConflictStrategy, SledStore};
 use warp::{Filter, Rejection, Reply};
 
 use clap::Parser;
@@ -22,33 +21,26 @@ async fn main() {
         .parse_env("debug")
         .init();
     let args = Args::parse();
-    thread::spawn(|| {
-        let rt = tokio::runtime::Runtime::new().unwrap();
 
-        rt.block_on(async move {
-            let mut handler: Handler = match Handler::new().await {
-                Ok(h) => h,
-                Err(e) => {
-                    log::error!("Error while starting the server: {}", e);
-                    exit(1);
-                }
-            };
-            let handler_mutex = Arc::new(Mutex::new(Some(handler)));
-            start_websocket(handler_mutex.clone()).await;
+    let server_task = tokio::spawn(async {
+        let handler = Handler::new().await.unwrap_or_else(|e| {
+            log::error!("Error while starting the server: {}", e);
+            exit(1);
         });
+        start_websocket(Arc::new(Mutex::new(handler))).await;
     });
+
     if args.deamon {
-        log::info!("Starting the deamon");
-        loop {
-            std::thread::sleep(std::time::Duration::from_secs(1));
-        }
+        log::info!("Starting the daemon");
     } else {
         log::info!("Starting the client");
         start_ui().await;
     }
+
+    server_task.await.unwrap();
 }
 
-async fn start_websocket(handler: Arc<futures::lock::Mutex<Option<Handler>>>) {
+async fn start_websocket(handler: Arc<futures::lock::Mutex<Handler>>) {
     let handler_mutex = handler.clone();
     log::info!("Starting the server");
 
@@ -59,27 +51,21 @@ async fn start_websocket(handler: Arc<futures::lock::Mutex<Option<Handler>>>) {
 
     warp::serve(axolotl_route).run(([127, 0, 0, 1], 9080)).await;
     log::info!("Server stopped");
-    handler_mutex.lock().await.take();
+    handler_mutex.lock().await;
 }
 
 pub async fn handle_ws_client(
     websocket: warp::ws::Ws,
-    handler: Arc<futures::lock::Mutex<Option<Handler>>>,
+    handler: Arc<futures::lock::Mutex<Handler>>,
 ) -> Result<impl Reply, Rejection> {
     Ok(websocket.on_upgrade(|websocket| take_and_handle_request(websocket, handler)))
 }
 
 async fn take_and_handle_request(
     websocket: warp::ws::WebSocket,
-    handler: Arc<futures::lock::Mutex<Option<Handler>>>,
+    handler: Arc<futures::lock::Mutex<Handler>>,
 ) {
-    handler
-        .lock()
-        .await
-        .take()
-        .unwrap()
-        .handle_ws_client(websocket)
-        .await
+    handler.lock().await.handle_ws_client(websocket).await
 }
 
 async fn start_ui() {
