@@ -3,7 +3,7 @@ use std::{process::exit, sync::Arc, thread};
 use axolotl::handlers::Handler;
 use futures::lock::Mutex;
 use presage::{MigrationConflictStrategy, SledStore};
-use warp::Filter;
+use warp::{Filter, Rejection, Reply};
 
 use clap::Parser;
 
@@ -22,7 +22,7 @@ async fn main() {
         .parse_env("debug")
         .init();
     let args = Args::parse();
-    thread::spawn( || {
+    thread::spawn(|| {
         let rt = tokio::runtime::Runtime::new().unwrap();
 
         rt.block_on(async move {
@@ -48,31 +48,30 @@ async fn main() {
     }
 }
 
-async fn start_websocket(handler:Arc<futures::lock::Mutex<Option<Handler>>>) {
+async fn start_websocket(handler: Arc<futures::lock::Mutex<Option<Handler>>>) {
     let handler_mutex = handler.clone();
     log::info!("Starting the server");
 
-
     let axolotl_route = warp::path("ws")
-    .and(warp::ws())
-    .map(|ws: warp::ws::Ws| {
-        ws.on_upgrade(|socket| async move {
-            let copy = &handler_mutex
-                .lock().await
-                .take()
-                .unwrap();
-            copy.handle_ws_client(socket).await
-
-        })
-    });
+        .and(warp::ws())
+        .and(warp::any().map(move || handler.clone()))
+        .and_then(handle_ws_client);
 
     warp::serve(axolotl_route).run(([127, 0, 0, 1], 9080)).await;
     log::info!("Server stopped");
     handler_mutex.lock().await.take();
 }
+
 pub async fn handle_ws_client(
+    websocket: warp::ws::Ws,
     handler: Arc<futures::lock::Mutex<Option<Handler>>>,
+) -> Result<impl Reply, Rejection> {
+    Ok(websocket.on_upgrade(|websocket| take_and_handle_request(websocket, handler)))
+}
+
+async fn take_and_handle_request(
     websocket: warp::ws::WebSocket,
+    handler: Arc<futures::lock::Mutex<Option<Handler>>>,
 ) {
     handler
         .lock()
@@ -80,7 +79,7 @@ pub async fn handle_ws_client(
         .take()
         .unwrap()
         .handle_ws_client(websocket)
-        .await;
+        .await
 }
 
 async fn start_ui() {
