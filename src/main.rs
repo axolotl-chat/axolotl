@@ -1,7 +1,7 @@
 use std::{process::exit, sync::Arc};
 
 use axolotl::handlers::Handler;
-use futures::lock::Mutex;
+use tokio::sync::Mutex;
 use warp::{Filter, Rejection, Reply};
 
 use clap::Parser;
@@ -40,7 +40,7 @@ async fn main() {
     server_task.await.unwrap();
 }
 
-async fn start_websocket(handler: Arc<futures::lock::Mutex<Handler>>) {
+async fn start_websocket(handler: Arc<Mutex<Handler>>) {
     let handler_mutex = handler.clone();
     log::info!("Starting the server");
 
@@ -51,20 +51,18 @@ async fn start_websocket(handler: Arc<futures::lock::Mutex<Handler>>) {
 
     warp::serve(axolotl_route).run(([127, 0, 0, 1], 9080)).await;
     log::info!("Server stopped");
-    handler_mutex.lock().await;
+    // Why do we want to lock it shortly on shutdown?
+    let _ = handler_mutex.lock().await;
 }
 
 pub async fn handle_ws_client(
     websocket: warp::ws::Ws,
-    handler: Arc<futures::lock::Mutex<Handler>>,
+    handler: Arc<Mutex<Handler>>,
 ) -> Result<impl Reply, Rejection> {
     Ok(websocket.on_upgrade(|websocket| take_and_handle_request(websocket, handler)))
 }
 
-async fn take_and_handle_request(
-    websocket: warp::ws::WebSocket,
-    handler: Arc<futures::lock::Mutex<Handler>>,
-) {
+async fn take_and_handle_request(websocket: warp::ws::WebSocket, handler: Arc<Mutex<Handler>>) {
     handler.lock().await.handle_ws_client(websocket).await
 }
 
