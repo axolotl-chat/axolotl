@@ -13,19 +13,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Setup Go 1.16
-        uses: actions/setup-go@v3
+      - name: Rust setup
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+
+      - name: Sync node version and setup cache
+        uses: actions/setup-node@v3
         with:
-          go-version: ${{ env.GO_VERSION }}
-
-      - name: Check out code
-        uses: actions/checkout@v3
-
-      - name: Download dependencies
-        run: go mod download
-
-      - name: Run tests
-        run: make check-axolotl
+          node-version: 'lts/*'
+          cache: 'yarn'
 
       - name: Build
         run: make build-axolotl
@@ -70,34 +68,6 @@ jobs:
         with:
           name: axolotl-web
           path: axolotl-web/dist/
-          retention-days: 1
-
-  build-crayfish:
-    name: Build crayfish
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Setup rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-
-      - name: Check out code
-        uses: actions/checkout@v3
-        with:
-          submodules: 'true'
-
-      - name: Build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --manifest-path crayfish/Cargo.toml --release
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: crayfish
-          path: crayfish/target/release/crayfish
           retention-days: 1
 
   build-axolotl-deb-arm64:
@@ -163,35 +133,4 @@ jobs:
         with:
           name: linux-arm64
           path: build/linux-arm64/
-          retention-days: 1
-
-  build-crayfish-deb-arm64:
-    name: Build crayfish Debian arm64
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Install linker
-        run: |
-          sudo apt update
-          sudo apt install -y gcc-aarch64-linux-gnu
-
-      - name: Configure Rust & Cross
-        run: |
-          rustup update
-          rustup target add aarch64-unknown-linux-gnu
-          cargo install cross
-
-      - name: Check out code
-        uses: actions/checkout@v3
-        with:
-          submodules: 'true'
-
-      - name: Build
-        run: cd crayfish && cross build --release --target aarch64-unknown-linux-gnu
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: crayfish-arm64
-          path: crayfish/target/aarch64-unknown-linux-gnu/release/crayfish
           retention-days: 1

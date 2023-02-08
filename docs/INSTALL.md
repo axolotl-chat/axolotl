@@ -3,13 +3,6 @@
 `axolotl` has a few different installation options in place.
 Below is a list describing the tooling and dependencies required to use them.
 
-**Note**: Be aware of the Crayfish Backend section if you are not using
-Clickable.
-
-## Checkout git submodules
-
-Axolotl uses [crayfish](https://github.com/nanu-c/crayfish) in combination with [textsecure](https://github.com/signal-golang/textsecure) as backend to decipher the signal messages. In order to checkout the code run `git submodule update`.
-
 ## Clickable
 
 **Tooling**
