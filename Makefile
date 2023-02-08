@@ -199,8 +199,6 @@ endif
 
 build-deb-arm64:
 	@echo "Building Axolotl for Debian arm64/aarch64."
-	@echo "Downloading (go)..."
-	@cd $(CURRENT_DIR) && go mod download
 	@echo "Installing (npm)..."
 	@cd $(CURRENT_DIR)/axolotl-web && npm ci
 	@echo "Building (npm)..."
@@ -310,8 +308,6 @@ endif
 
 build-deb-arm64-cc:
 	@echo "Cross-compiling Axolotl for Debian arm64/aarch64."
-	@echo "Downloading (go)..."
-	@cd $(CURRENT_DIR) && go mod download
 	@echo "Installing (npm)..."
 	@cd $(CURRENT_DIR)/axolotl-web && npm --target_arch=arm64 ci
 	@echo "Building (npm)..."

@@ -536,20 +536,6 @@ async fn notify_message(msg: &Notification) {
 }
 
 #[cfg(feature = "ut")]
-macro_rules! get_proxy {
-    ($c: ident) => {
-        $c.with_proxy(
-            DBUS_NAME,
-            format!(
-                "{}{}",
-                DBUS_PATH_PART,
-                APP_ID.replace(".", "_2e").replace("-", "_2f")
-            ),
-            Duration::from_millis(5000),
-        )
-    };
-}
-#[cfg(feature = "ut")]
 const DBUS_NAME: &str = "com.lomiri.Postal";
 
 #[cfg(feature = "ut")]
@@ -607,10 +593,7 @@ fn postal_clear_persistent(tag: &str) -> Result<(), dbus::Error> {
 
 #[cfg(feature = "ut")]
 async fn notify_message(msg: &Notification) {
-    use serde_json::{json, Value};
-    use std::time::Duration;
-
-    let conn = match Connection::new_session() {
+    let _yconn = match Connection::new_session() {
         Ok(c) => c,
         Err(e) => {
             log::error!("Failed to connect to dbus: {}", e);

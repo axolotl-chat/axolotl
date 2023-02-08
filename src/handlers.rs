@@ -188,7 +188,13 @@ impl Handler {
         sender: Arc<futures::lock::Mutex<SplitSink<WebSocket, warp::ws::Message>>>,
     ) {
         log::info!("Awaiting for provisioning link");
-        let mut p = provisioning_link_rx.lock().await.take().unwrap();
+        let mut p = match provisioning_link_rx.lock().await.take() {
+            Some(p) => p,
+            None => {
+                log::error!("Got no provisioning link");
+                return
+            }
+        };
 
         match p.try_recv() {
             Ok(url) => match url {

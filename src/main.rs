@@ -153,15 +153,12 @@ async fn start_tauri() {
 #[cfg(feature = "ut")]
 async fn start_ut() {
     use std::process::Command;
-    use std::process::{exit, Stdio};
+    use std::process::Stdio;
 
     log::info!("Starting the ubuntu touch client");
-    thread::spawn(|| {
-        let rt = tokio::runtime::Runtime::new().unwrap();
-        rt.block_on(async {
-            let route = warp::fs::dir("./axolotl-web/dist");
-            warp::serve(route).run(([127, 0, 0, 1], 9081)).await;
-        });
+    tokio::spawn(async {
+        let route = warp::fs::dir("./axolotl-web/dist");
+        warp::serve(route).run(([127, 0, 0, 1], 9081)).await;
     });
     Command::new("qmlscene")
         .arg("--scaling")
