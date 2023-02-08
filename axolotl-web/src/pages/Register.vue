@@ -21,6 +21,11 @@
           <br>
           <font-awesome-icon id="heart" icon="heart" />
         </div>
+        <div>
+          <b>Axolotl is currently broken due to changes on the signal server.</b>
+          <br>
+          We are working on fixing the incompatibilities with Signal.
+        </div>
         <button v-translate class="btn btn-primary" @click="infoPage = false">
           Next
         </button>
@@ -31,11 +36,6 @@
         </div>
       </div>
       <div v-else class="registration">
-        <div>
-          Axolotl is currently broken due to changes on the signal server.
-          <br>
-          We are working on fixing the incompatibilities with Signal.
-        </div>
         <VueTelInput
           id="phoneInput"
           mode="international"
