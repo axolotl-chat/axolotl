@@ -24,6 +24,7 @@ jobs:
         with:
           node-version: 'lts/*'
           cache: 'yarn'
+          cache-dependency-path: ./axolotl-web/yarn.lock
 
       - name: Build
         run: make build-axolotl
