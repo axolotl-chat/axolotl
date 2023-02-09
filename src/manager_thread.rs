@@ -1,5 +1,5 @@
-use std::sync::{Arc, Mutex};
-
+use std::sync::Arc;
+use tokio::sync::Mutex;
 use futures::{select, FutureExt, StreamExt};
 use presage::libsignal_service::{groups_v2::Group, sender::AttachmentUploadError};
 use presage::Thread;
@@ -66,7 +66,7 @@ pub struct ManagerThread {
     uuid: Uuid,
     contacts: Arc<Mutex<Vec<Contact>>>,
     sessions: Arc<Mutex<Vec<AxolotlSession>>>,
-    current_chat: Arc<futures::lock::Mutex<Option<Thread>>>,
+    current_chat: Arc<Mutex<Option<Thread>>>,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
 
@@ -142,7 +142,7 @@ impl ManagerThread {
         link_callback: futures::channel::oneshot::Sender<url::Url>,
         error_callback: futures::channel::oneshot::Sender<Error>,
         content: mpsc::UnboundedSender<Content>,
-        current_chat: Arc<futures::lock::Mutex<Option<Thread>>>,
+        current_chat: Arc<Mutex<Option<Thread>>>,
         error: mpsc::Sender<ApplicationError>,
     ) -> Option<Self>
     where
@@ -224,7 +224,7 @@ impl ManagerThread {
         let contacts = receiver_contacts
             .await
             .expect("Callback receiving failed")?;
-        let mut c = self.contacts.lock().expect("Poisoned mutex");
+        let mut c = self.contacts.lock().await;
         *c = contacts;
         log::info!("Synced contacts. Got {} contacts.", c.len());
         Ok(())
@@ -246,8 +246,7 @@ impl ManagerThread {
     }
 
     pub async fn get_contacts(&self) -> Result<impl Iterator<Item = Contact> + '_, Error> {
-        let c = self.contacts.lock().expect("Poisoned mutex");
-
+        let c = self.contacts.lock().await;
         // Very weird way to counteract "returning borrowed c".
         Ok(c.iter()
             .map(almost_clone_contact)
@@ -288,11 +287,11 @@ impl ManagerThread {
             Err(_) => Err(ApplicationError::ManagerThreadPanic),
         }
     }
-    pub fn get_contact_by_id(&self, id: Uuid) -> Result<Option<Contact>, Error> {
+    pub async fn get_contact_by_id(&self, id: Uuid) -> Result<Option<Contact>, Error> {
         Ok(self
             .contacts
             .lock()
-            .expect("Poisoned mutex")
+            .await
             .iter()
             .filter(|c| c.address.uuid == Some(id))
             .map(almost_clone_contact)

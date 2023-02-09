@@ -7,7 +7,7 @@ use crate::requests::{
 extern crate dirs;
 use futures::channel::oneshot::Receiver;
 use futures::executor::block_on;
-use futures::lock::Mutex;
+use tokio::sync::Mutex;
 use futures::stream::{SplitSink, SplitStream};
 use futures::{SinkExt, StreamExt};
 use libsignal_service::prelude::GroupMasterKey;
@@ -185,7 +185,7 @@ impl Handler {
     }
     async fn handle_provisoning(
         provisioning_link_rx: Arc<Mutex<Option<Receiver<Url>>>>,
-        sender: Arc<futures::lock::Mutex<SplitSink<WebSocket, warp::ws::Message>>>,
+        sender: Arc<Mutex<SplitSink<WebSocket, warp::ws::Message>>>,
     ) {
         log::info!("Awaiting for provisioning link");
         let mut p = match provisioning_link_rx.lock().await.take() {
@@ -214,7 +214,7 @@ impl Handler {
     }
     async fn handle_received_message(
         mut receive: Arc<Mutex<Option<UnboundedReceiver<Content>>>>,
-        sender: Arc<futures::lock::Mutex<SplitSink<WebSocket, warp::ws::Message>>>,
+        sender: Arc<Mutex<SplitSink<WebSocket, warp::ws::Message>>>,
     ) {
         log::info!("Awaiting for received message");
         let mut receive = receive.lock().await.take().unwrap();
@@ -465,7 +465,7 @@ impl Handler {
     async fn handle_websocket_message(
         &self,
         message: Message,
-        mutex_sender: Arc<futures::lock::Mutex<SplitSink<WebSocket, warp::ws::Message>>>,
+        mutex_sender: Arc<Mutex<SplitSink<WebSocket, warp::ws::Message>>>,
         manager: &ManagerThread,
     ) -> Result<(), ApplicationError> {
         // Skip any non-Text messages...
