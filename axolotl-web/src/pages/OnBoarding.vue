@@ -29,7 +29,7 @@
           <br>
           <font-awesome-icon id="heart" icon="heart" />
         </div>
-        <button v-translate class="btn btn-primary" @click="$router.push('/register')">
+        <button v-translate class="btn btn-primary" @click="$router.push('/qr')">
           Register as secondary
           device
           (like signal desktop)

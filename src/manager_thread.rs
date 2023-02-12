@@ -2,7 +2,7 @@ use std::sync::Arc;
 use tokio::sync::Mutex;
 use futures::{select, FutureExt, StreamExt};
 use presage::libsignal_service::{groups_v2::Group, sender::AttachmentUploadError};
-use presage::Thread;
+use presage::{Thread, GroupMasterKeyBytes};
 use presage::{
     manager::Session,
     prelude::{content::*, AttachmentSpec, Contact, ContentBody, DataMessage, ServiceAddress, *},
@@ -28,7 +28,7 @@ enum Command {
     RequestContactsSync(oneshot::Sender<Result<(), Error>>),
     Uuid(oneshot::Sender<Uuid>),
     GetContacts(oneshot::Sender<Result<Vec<Contact>, Error>>),
-    GetGroupV2(GroupMasterKey, oneshot::Sender<Result<Group, Error>>),
+    GetGroup(GroupMasterKeyBytes, oneshot::Sender<Result<Option<Group>, Error>>),
     SendMessage(
         ServiceAddress,
         Box<ContentBody>,
@@ -36,7 +36,7 @@ enum Command {
         oneshot::Sender<Result<(), Error>>,
     ),
     SendMessageToGroup(
-        Vec<ServiceAddress>,
+        GroupMasterKeyBytes,
         Box<DataMessage>,
         u64,
         oneshot::Sender<Result<(), Error>>,
@@ -139,7 +139,7 @@ impl ManagerThread {
     pub async fn new<C>(
         config_store: C,
         device_name: String,
-        link_callback: futures::channel::oneshot::Sender<url::Url>,
+        link_callback:futures::channel::oneshot::Sender<url::Url>,
         error_callback: futures::channel::oneshot::Sender<Error>,
         content: mpsc::UnboundedSender<Content>,
         current_chat: Arc<Mutex<Option<Thread>>>,
@@ -155,12 +155,13 @@ impl ManagerThread {
                 tokio::runtime::Runtime::new()
                     .expect("Failed to setup runtime")
                     .block_on(async move {
-                        let setup = setup_manager(config_store, device_name, link_callback).await;
+                        let setup = setup_manager(config_store.clone(), device_name, link_callback).await;
                         if let Ok(mut manager) = setup {
                             log::info!("Starting command loop");
                             drop(error_callback);
                             command_loop(&mut manager, receiver, content, error).await;
                         } else {
+
                             let e = setup.err().unwrap();
                             log::info!("Got error: {}", e);
                             error_callback.send(e).expect("Failed to send error")
@@ -281,7 +282,7 @@ impl ManagerThread {
                 Ok(axolotl_sessions.into_iter())
             }
             Ok(Err(e)) => {
-                log::error!("Got error: {}", e);
+                log::error!("Loading coversations failed: {}", e);
                 Err(ApplicationError::ManagerThreadPanic)
             }
             Err(_) => Err(ApplicationError::ManagerThreadPanic),
@@ -293,15 +294,15 @@ impl ManagerThread {
             .lock()
             .await
             .iter()
-            .filter(|c| c.address.uuid == Some(id))
+            .filter(|c| c.address.uuid == id)
             .map(almost_clone_contact)
             .next())
     }
 
-    pub async fn get_group_v2(&self, group_master_key: GroupMasterKey) -> Result<Group, Error> {
+    pub async fn get_group(&self, group_master_key: GroupMasterKeyBytes) -> Result<Option<Group>, Error> {
         let (sender, receiver) = oneshot::channel();
         self.command_sender
-            .send(Command::GetGroupV2(group_master_key, sender))
+            .send(Command::GetGroup(group_master_key, sender))
             .await
             .expect("Command sending failed");
         receiver.await.expect("Callback receiving failed")
@@ -328,14 +329,14 @@ impl ManagerThread {
 
     pub async fn send_message_to_group(
         &self,
-        recipients: impl IntoIterator<Item = ServiceAddress>,
+        group_master_key: GroupMasterKeyBytes,
         message: DataMessage,
         timestamp: u64,
     ) -> Result<(), Error> {
         let (sender, receiver) = oneshot::channel();
         self.command_sender
             .send(Command::SendMessageToGroup(
-                recipients.into_iter().collect(),
+                group_master_key,
                 Box::new(message),
                 timestamp,
                 sender,
@@ -381,6 +382,18 @@ impl ManagerThread {
             .expect("Command sending failed");
         receiver.await.expect("Callback receiving failed")
     }
+    // open_chat saves the current chat to avoid getting notifications
+    pub async fn open_chat(&self, thread: Thread) -> Result<(), Error> {
+        let mut current_chat = self.current_chat.lock().await;
+        *current_chat = Some(thread.clone());
+        Ok(())
+    }
+    pub async fn close_chat(&self) -> Result<(), Error> {
+        let mut current_chat = self.current_chat.lock().await;
+        *current_chat = None;
+        Ok(())
+    }
+
 }
 
 async fn setup_manager<C>(
@@ -399,14 +412,23 @@ where
         drop(link_callback);
         Ok(manager)
     } else {
-        log::info!("The config store is not valid yet, linking with a secondary device");
-        presage::Manager::link_secondary_device(
+        log::info!("The config store is not valid yet, not registered yet");
+        match presage::Manager::link_secondary_device(
             config_store.clone(),
             presage::prelude::SignalServers::Production,
             name,
             link_callback,
         )
-        .await
+        .await{
+            Ok(manager) => {
+                log::info!("Successfully registered");
+                Ok(manager)
+            }
+            Err(e) => {
+                log::error!("Failed to register: {}", e);
+                Err(Error::NotYetRegisteredError)
+            }
+        }
     }
 }
 
@@ -439,7 +461,7 @@ async fn command_loop<C: Store + 'static + MessageStore>(
                                         let body = data.body.as_ref().unwrap_or(&String::from("")).to_string();
                                         let thread = Thread::try_from(&msg).unwrap();
                                         let title = manager.get_title_for_thread(&thread).await.unwrap_or("".to_string());
-                                        let sender = msg.metadata.sender.uuid.clone().unwrap();
+                                        let sender = msg.metadata.sender.uuid.clone();
                                         let is_group = match thread {
                                             Thread::Group(_)=> true,
                                             _ => false,
@@ -646,15 +668,15 @@ async fn handle_command<C: Store + 'static>(
         Command::GetContacts(callback) => callback
             .send(
                 manager
-                    .get_contacts()
+                    .contacts()
                     .map(|c| c.filter_map(|o| o.ok()).collect()),
             )
             .expect("Callback sending failed"),
         Command::GetConversations(callback) => callback
             .send(manager.load_conversations().await)
             .expect("Callback sending failed"),
-        Command::GetGroupV2(master_key, callback) => callback
-            .send(manager.get_group_v2(master_key).await)
+        Command::GetGroup(master_key, callback) => callback
+            .send(manager.group(&master_key))
             .map_err(|_| ())
             .expect("Callback sending failed"),
         Command::SendMessage(recipient_address, message, timestamp, callback) => callback
@@ -664,10 +686,10 @@ async fn handle_command<C: Store + 'static>(
                     .await,
             )
             .expect("Callback sending failed"),
-        Command::SendMessageToGroup(recipients, message, timestamp, callback) => callback
+        Command::SendMessageToGroup(group, message, timestamp, callback) => callback
             .send(
                 manager
-                    .send_message_to_group(recipients, *message, timestamp)
+                    .send_message_to_group(&group, *message, timestamp)
                     .await,
             )
             .expect("Callback sending failed"),

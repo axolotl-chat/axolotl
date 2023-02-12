@@ -101,10 +101,7 @@ impl AxolotlMessage {
             },
             _ => None
         };
-        let sender = match message.metadata.sender.uuid{
-            Some(uuid) => uuid,
-            None => Uuid::nil()
-        };
+        let sender = message.metadata.sender.uuid;
         let timestamp:u64 = message.metadata.timestamp;
         AxolotlMessage {
             sender:Some(sender),

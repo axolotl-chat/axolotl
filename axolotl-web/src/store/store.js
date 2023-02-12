@@ -314,7 +314,7 @@ export default createStore({
     SOCKET_ONMESSAGE(state, message) {
       state.socket.message = message;
       console.log(message);
-      const messageData =   JSON.parse(message.data);
+      const messageData = JSON.parse(message.data);
       if (messageData.Error) {
         this.commit("SET_ERROR", messageData.Error);
       }
@@ -401,15 +401,22 @@ export default createStore({
           } else if (messageData.response_type === "message_list") {
             this.commit("SET_MESSAGELIST", JSON.parse(messageData.data));
           } else if (messageData.response_type === "qr_code") {
-            this.commit("SET_REGISTRATION_STATUS", "not_registered");
             this.commit("SET_DEVICE_LINK_CODE", messageData.data);
+          } else if (messageData.response_type === "phone_number") {
+            this.commit("SET_REGISTRATION_STATUS", "phone_number");
+            router.push("/register")
+          } else if (messageData.response_type === "pin") {
+            this.commit("SET_REGISTRATION_STATUS", "pin");
+            router.push("/pin")
+          } else if (messageData.response_type === "registration_start") {
+            this.commit("SET_REGISTRATION_STATUS", "not_registered");
             router.push("/onboarding");
           } else if (messageData.response_type === "config") {
             this.commit("SET_CONFIG", JSON.parse(messageData.data));
           } else if (messageData.response_type === "message_received") {
             const messageReceived = JSON.parse(messageData.data);
             console.log("message_received", messageReceived, state.currentChat);
-            if  (state.currentChat && state.currentChat.id == messageReceived.thread_id) {
+            if (state.currentChat && state.currentChat.id == messageReceived.thread_id) {
               this.commit("SET_MESSAGE_RECEIVED", messageReceived);
             } else {
               console.log("getChatList")
@@ -422,7 +429,6 @@ export default createStore({
           }
 
           break;
-
         default:
           console.log("unkown message ", messageData, Object.keys(messageData)[0]);
       }
@@ -475,7 +481,7 @@ export default createStore({
       }
     },
     getChatList() {
-      if (this.state.socket.isConnected) {
+      if (this.state.socket.isConnected && this.state.registrationStatus === "registered") {
         const message = {
           "request": "getChatList",
         }
@@ -533,7 +539,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "createRecipientAndAddToGroup",
-          "data":{
+          "data": {
             "recipient": data.id,
             "group": data.group
           }
@@ -590,16 +596,16 @@ export default createStore({
     },
     sendMessage(state, messageContainer) {
       if (this.state.socket.isConnected) {
-	      let data = {
-		      "recipient": messageContainer.to,
-		      "text": messageContainer.message
-	      };
+        let data = {
+          "recipient": messageContainer.to,
+          "text": messageContainer.message
+        };
         const message = {
-		      "request": "sendMessage",
-		      "data": JSON.stringify(data)
+          "request": "sendMessage",
+          "data": JSON.stringify(data)
         }
         socketSend(message);
-	    }
+      }
     },
     toggleNotifications() {
       if (this.state.socket.isConnected) {

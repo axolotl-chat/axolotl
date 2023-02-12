@@ -52,19 +52,29 @@ pub async fn send_message_to_group(msg: &str, master_key_str: &str, config_store
         ..Default::default()
     };
 
-    let group = manager
-        .get_group_v2(GroupMasterKey::new(master_key))
-        .await
-        .unwrap();
+    match manager
+        .group(&master_key)
+        {
+            Ok(group) => {
+                match group{
+                    Some(_) => {
+                        manager
+                            .send_message_to_group(
+                                &master_key,
+                                message,
+                                timestamp
+                            ).await.unwrap(); 
+                    },
+                    None => {
+                        println!("Group not found");
+                    }
+                }
+ 
+            },
+            Err(e) => {
+                println!("Group not found: {:?}", e);
+            }
+        }
 
-    let me = manager.whoami().await.unwrap().uuid;
-
-    manager
-        .send_message_to_group(
-            group.members.into_iter()
-            .filter(|m| m.uuid != me)
-            .map(|m| m.uuid).map(Into::into),
-            message,
-            timestamp
-        ).await.unwrap();     
+   
 }
