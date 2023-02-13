@@ -214,7 +214,6 @@ router.beforeEach((to, from, next) => {
 function proceed(to, next) {
   const registrationPages = ['/register', '/verify', '/password', '/pin', '/setUsername', '/qr', '/onboarding'];
   const registrationStatus = store.state.registrationStatus;
-  console.log(registrationStatus)
   //disable routes when registration is not finished yet
   if (registrationStatus === null && !registrationPages.includes(to.path)) {
     return next('/onboarding');

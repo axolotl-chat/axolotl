@@ -59,7 +59,7 @@
       </div>
       <blockquote v-if="message.QuotedMessage">
         <cite v-if="message.QuotedMessage && is_outgoing" v-translate>You</cite>
-        <cite v-else>{{ getName(message.QuotedMessage.SourceUUID) }}</cite>
+        <cite v-else>{{ name?name:getName(message.QuotedMessage.SourceUUID) }}</cite>
         <p>{{ message.QuotedMessage.Message }}</p>
       </blockquote>
       <div v-if="message.Attachment !== ''" class="attachment">
@@ -210,10 +210,8 @@ export default {
       if (this.senderName == "") {
         const uuid = this.message.sender
         const contact = this.contacts.find(function (element) {
-          console.log(element.address.uuid, uuid);
           return element.address.uuid === uuid;
         });
-        console.log(contact);
         if (typeof contact !== "undefined") {
           return contact.name;
         }
@@ -246,7 +244,6 @@ export default {
         };
       }
     }
-    this.getName(this.message.SourceUUID);
   },
   methods: {
     sanitize(msg) {
@@ -273,12 +270,12 @@ export default {
       }
     },
     getName() {
+      if(!this.isGroup) return "";
       if (this.contacts !== null) {
         const uuid = this.message.sender;
         const contact = this.contacts.find(function (element) {
           return element.address.uuid === uuid;
         });
-        console.log(contact);
         if (typeof contact !== "undefined") {
           this.name = contact.name;
           return this.name;
@@ -295,8 +292,8 @@ export default {
           return this.name;
         }
       }
-      this.name = uuid;
-      return uuid;
+      this.name = this.message.sender;
+      return this.message.sender;
     },
     isAttachmentArray(input) {
       try {

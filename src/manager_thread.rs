@@ -71,7 +71,7 @@ pub struct ManagerThread {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 
 pub struct AxolotlSession {
-    pub id: String,
+    pub id: Thread,
     pub last_message: Option<String>,
     pub unread_messages_count: usize,
     pub is_group: bool,
@@ -82,7 +82,6 @@ impl TryFrom<Session> for AxolotlSession {
     type Error = Error;
 
     fn try_from(session: Session) -> Result<Self, Error> {
-        let id: String = session.thread.to_string();
         let mut timestamp: u64 = 0;
         let message: Option<String> = match session.last_message {
             Some(message) => Some(match message.body {
@@ -113,7 +112,7 @@ impl TryFrom<Session> for AxolotlSession {
         };
 
         Ok(Self {
-            id: id,
+            id: session.thread,
             last_message: message,
             unread_messages_count: session.unread_messages_count,
             is_group: is_group,

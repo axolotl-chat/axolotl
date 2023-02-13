@@ -293,7 +293,7 @@ export default createStore({
             request: message,
             code: 200,
           }));
-        this.dispatch("getChatList")
+        // this.dispatch("getChatList")
       }, state.socket.heartBeatInterval);
     },
     SOCKET_ONCLOSE(state) {
@@ -426,8 +426,10 @@ export default createStore({
             const messageSent = JSON.parse(messageData.data);
             console.log("message_sent", messageSent);
             this.commit("SET_MESSAGE_RECEIVED", messageSent.message);
+          } else if (messageData.response_type === "registration_done") {
+            this.commit("SET_REGISTRATION_STATUS", "registered");
+            router.push("/")
           }
-
           break;
         default:
           console.log("unkown message ", messageData, Object.keys(messageData)[0]);
@@ -498,8 +500,6 @@ export default createStore({
       }
     },
     getMessageList(state, chatId) {
-      console.log("getMessageList2", chatId)
-
       this.commit("CLEAR_MESSAGELIST");
       if (this.state.socket.isConnected) {
         const data = {

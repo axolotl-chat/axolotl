@@ -37,7 +37,6 @@ pub struct AxolotlResponse {
 #[derive(Serialize, Deserialize, Debug)]
 pub struct GetMessagesRequest {
     pub id: String,
-    pub last_id: Option<u64>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]

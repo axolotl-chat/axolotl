@@ -20,18 +20,18 @@
           <font-awesome-icon icon="times" />
         </button>
       </div>
-      <div v-for="chat in chatList" :key="chat.id" class="row">
+      <div v-for="chat in chatList" :key="chat.id.Contact?chat.id.Contact:chat.id.Group" class="row">
         <!-- chat entry -->
         <div
-          :id="chat.id"
+          :id="chat.id.Contact?chat.id.Contact:chat.id.Group"
           :class="
-            editActive && selectedChat.indexOf(chat.id) >= 0
+            editActive && selectedChat.indexOf(chat.id.Contact?chat.id.Contact:chat.id.Group) >= 0
               ? 'selected col-12 chat-container'
               : 'col-12 chat-container '
           "
           data-long-press-delay="500"
           @click="enterChat(chat)"
-          @long-press="editChat(chat.id)"
+          @long-press="editChat(chat.id.Contact?chat.id.Contact:chat.id.Group)"
         >
           <div class="row chat-entry">
             <div class="avatar col-2">
@@ -134,7 +134,6 @@ export default {
   },
   created() {},
   mounted() {
-    this.$store.dispatch("getChatList");
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
     this.$language.current = navigator.language || navigator.userLanguage;
@@ -195,7 +194,7 @@ export default {
     enterChat(chat) {
       if (!this.editActive) {
         this.$store.dispatch("setCurrentChat", chat);
-        router.push("/chat/" + chat.id);
+        router.push(`/chat/${JSON.stringify(chat.id)}`);
       } else {
         this.selectedChat.push(chat.Tel);
       }

@@ -29,7 +29,7 @@
                   <div class="col-12">
                     <div
                       v-if="
-                        isGroup &&
+                        currentChat.isGroup &&
                           currentChat.title === currentChat.Tel
                       "
                       class="header-text-chat"
@@ -54,7 +54,7 @@
                   <div class="col-12">
                     <div
                       v-if="
-                        isGroup &&
+                        currentChat.isGroup &&
                           currentGroup !== null &&
                           typeof currentGroup !== 'undefined'
                       "
@@ -66,7 +66,7 @@
                     </div>
                     <div
                       v-if="
-                        isGroup &&
+                        currentChat.isGroup &&
                           currentGroup !== null &&
                           typeof currentGroup !== 'undefined'
                       "
@@ -78,7 +78,7 @@
                     </div>
                     <div
                       v-if="
-                        !isGroup &&
+                        !currentChat.isGroup &&
                           currentChat.title === currentChat.Tel
                       "
                       class="number-text"
@@ -112,7 +112,7 @@
                 <button
                   v-if="
                     currentChat !== null &&
-                      !isGroup &&
+                      !currentChat.isGroup &&
                       currentChat.title !== currentChat.Tel
                   "
                   class="dropdown-item"
@@ -139,7 +139,7 @@
                 <button
                   v-if="
                     currentChat !== null &&
-                      !isGroup &&
+                      !currentChat.isGroup &&
                       currentChat.title === currentChat.Tel
                   "
                   v-translate
@@ -151,7 +151,7 @@
                 <button
                   v-if="
                     currentChat !== null &&
-                      !isGroup &&
+                      !currentChat.isGroup &&
                       currentChat.title !== currentChat.Tel
                   "
                   v-translate
@@ -395,7 +395,6 @@ export default {
       addContactModal: false,
       editContactModal: false,
       editContactId: -1,
-      isGroup: false,
     };
   },
   computed: mapState([
@@ -418,7 +417,6 @@ export default {
       handler() {
         this.names = [];
         this.showSettingsMenu = false;
-        this.isGroup = this.isGroupCheck(this.currentChat)
       },
       deep: true,
     },
