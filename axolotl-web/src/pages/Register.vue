@@ -29,6 +29,11 @@
           <br>
           <font-awesome-icon id="heart" icon="heart" />
         </div>
+        <div>
+          <b>Axolotl is currently broken due to changes on the Signal server.</b>
+          <br>
+          We are working on fixing the incompatibilities.
+        </div>
         <button v-translate class="btn btn-primary" @click="infoPage = false">
           Next
         </button>
