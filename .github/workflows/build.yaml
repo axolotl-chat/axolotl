@@ -72,7 +72,7 @@ jobs:
   build-axolotl-deb-arm64:
     name: Build axolotl Debian arm64
     runs-on: ubuntu-latest
-    depends-on: build-axolotl-web-deb-arm64
+    needs: [build-axolotl-web-deb-arm64]
 
     steps:
       - name: Install Rust
