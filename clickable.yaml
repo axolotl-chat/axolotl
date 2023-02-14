@@ -42,9 +42,8 @@ libraries:
         - apt-get install -y nodejs
         - echo "NODE Version:" && node --version
         - echo "NPM Version:" && npm --version
-        - npm install -g yarn
 
     builder: custom
     src_dir: axolotl-web
     build:
-      - cd ../../../axolotl-web/ && yarn install --frozen-lockfile && yarn build
+      - cd ../../../axolotl-web/ && npm ci && npm build
