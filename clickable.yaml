@@ -46,4 +46,4 @@ libraries:
     builder: custom
     src_dir: axolotl-web
     build:
-      - cd ../../../axolotl-web/ && npm ci && npm build
+      - cd ../../../axolotl-web/ && npm ci && npm run build
