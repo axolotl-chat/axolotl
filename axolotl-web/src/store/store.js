@@ -190,8 +190,7 @@ export default createStore({
       }
     },
     SET_MESSAGE_RECEIVED(state, message) {
-      console.log(message.thread_id, state.currentChat.id)
-      if (state.currentChat !== null && state.currentChat.id === message.thread_id) {
+      if (state.currentChat !== null && JSON.stringify(state.currentChat.id) === JSON.stringify(message.thread_id)) {
         const tmpList = state.messageList;
         tmpList.push(message);
         // tmpList.sort(function (a, b) {
@@ -416,7 +415,9 @@ export default createStore({
           } else if (messageData.response_type === "message_received") {
             const messageReceived = JSON.parse(messageData.data);
             console.log("message_received", messageReceived, state.currentChat);
-            if (state.currentChat && state.currentChat.id == messageReceived.thread_id) {
+            console.log(JSON.stringify(state.currentChat.id) === JSON.stringify(messageReceived.thread_id), JSON.stringify(state.currentChat.id) ,JSON.stringify(messageReceived.thread_id))
+            if (state.currentChat && JSON.stringify(state.currentChat.id) === JSON.stringify(messageReceived.thread_id)) {
+
               this.commit("SET_MESSAGE_RECEIVED", messageReceived);
             } else {
               console.log("getChatList")
@@ -506,7 +507,6 @@ export default createStore({
           "id": chatId
         };
         if (chatId) {
-          console.log(chatId)
           const message = {
             "request": "getMessageList",
             "data": JSON.stringify(data)

@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 use presage::{
     prelude::{
         content::{Content, ContentBody}, DataMessage,
-    }
+    }, Thread
 };
 
 #[derive(Deserialize, Debug)]
@@ -60,7 +60,7 @@ pub struct AxolotlMessage {
     message:Option<String>,
     timestamp:Option<u64>,
     is_outgoing:bool,
-    pub thread_id:Option<String>,
+    pub thread_id:Option<Thread>,
     attachment:Option<String>,
 
 }

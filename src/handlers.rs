@@ -475,7 +475,14 @@ impl Handler {
         sender: Arc<Mutex<SplitSink<WebSocket, warp::ws::Message>>>,
     ) {
         log::info!("Awaiting for received message");
-        let mut receive = receive.lock().await.take().unwrap();
+        let mut receive = match receive.lock().await.take(){
+            Some(r)=>r,
+            None => {
+                log::error!("receiver is not initalised");
+                // TODO: reinitialise receiver or use a receiver that doesn't need a take
+                return  ;
+            }
+        };
         log::debug!("Got receive lock");
 
         loop {
@@ -484,7 +491,7 @@ impl Handler {
                     log::info!("Got message from manager");
                     let thread = Thread::try_from(&content).unwrap();
                     let mut axolotl_message = AxolotlMessage::from_message(content);
-                    axolotl_message.thread_id = Some(thread.to_string());
+                    axolotl_message.thread_id = Some(thread);
                     let axolotl_message_json = serde_json::to_string(&axolotl_message).unwrap();
                     let response_type = "message_received".to_string();
                     let response = AxolotlResponse {
@@ -674,7 +681,7 @@ impl Handler {
                     log::error!("Error while sending the message. {:?}", result.err());
                 }
                 let mut message = AxolotlMessage::from_data_message(data_message);
-                message.thread_id = Some(thread.to_string());
+                message.thread_id = Some(thread);
                 message.sender = Some(manager.uuid());
                 let response_data = SendMessageResponse { message, is_failed };
                 let response_data_json = serde_json::to_string(&response_data).unwrap();
@@ -814,10 +821,15 @@ impl Handler {
             match response {
                 Ok(Some(response)) => {
                     let mut unlocked_sender = mutex_sender.lock().await;
-                    unlocked_sender
+                    match unlocked_sender
                         .send(Message::text(serde_json::to_string(&response).unwrap()))
                         .await
-                        .unwrap();
+                        {
+                            Ok(_) => {}
+                            Err(e) => {
+                                log::error!("Error while sending response. {:?}", e);
+                            }
+                        };
 
                     std::mem::drop(unlocked_sender);
                 }
