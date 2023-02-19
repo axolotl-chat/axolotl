@@ -12,12 +12,14 @@ use futures::executor::block_on;
 use futures::lock::Mutex;
 use futures::stream::SplitSink;
 use futures::{SinkExt, StreamExt};
+use presage::libsignal_service::prelude::AttachmentIdentifier;
 use presage::prelude::Content;
 use presage::prelude::AttachmentSpec;
 use presage::prelude::proto::AttachmentPointer;
 use serde::{Serialize, Serializer};
 use serde_json::error::Error as SerdeError;
 use std::cell::Cell;
+use std::fs;
 use std::io::Write;
 use std::process::exit;
 use std::{sync::Arc, thread};
@@ -51,12 +53,6 @@ async fn start_manager(websocket: warp::ws::WebSocket) -> Result<(), Application
     let (sender, mut receiver) = websocket.split();
     let shared_sender = Arc::new(Mutex::new(sender));
 
-    let config_path = dirs::config_dir()
-        .unwrap()
-        .into_os_string()
-        .into_string()
-        .unwrap();
-
     loop {
         if count == 5 {
             log::error!("Too many errors, exiting");
@@ -88,7 +84,7 @@ async fn start_manager(websocket: warp::ws::WebSocket) -> Result<(), Application
                 shared_sender_mutex2,
             ))
         });
-        let db_path = format!("{config_path}/textsecure.nanuc");
+        let db_path = get_app_dir();
 
         log::info!("Opening the database at {}", db_path);
         let config_store = match SledStore::open_with_passphrase(
@@ -342,6 +338,8 @@ async fn handle_upload_attachment(
             };
             let (body, _fragment) = data_attachment.decode_to_vec().unwrap();
             let decoded_attachment: Vec<u8> = body;
+            let decoded_tosave_attachment = decoded_attachment.clone();
+
             let attachment_spec = AttachmentSpec {
                 content_type: data_attachment.mime_type().to_string(),
                 length: decoded_attachment.len(),
@@ -366,13 +364,38 @@ async fn handle_upload_attachment(
                             pointers.push(p);
                         }
                     }
-                    return send_message(
-                        upload_attachment_request.recipient,
-                        None,
-                        Some(pointers),
-                        manager,
-                        "attachment_sent"
-                    ).await
+
+                    // We send one attachment at a time
+                    // Use its CdnId as filename
+                    if pointers.len() > 0 {
+                        let cdnid = match pointers[0].attachment_identifier.clone().unwrap() {
+                            AttachmentIdentifier::CdnId(id) => id,
+                            _ =>  {
+                                log::error!("The uploaded attachment has no identifier.");
+                                return Ok(AxolotlResponse {
+                                    response_type: "attachment_not_sent".to_string(),
+                                    data: "{\"success: false\"}".to_string(),
+                                });
+                            }
+                        };
+                        save_attachment(
+                            &decoded_tosave_attachment,
+                            &cdnid.to_string()
+                        );
+                        return send_message(
+                            upload_attachment_request.recipient,
+                            None,
+                            Some(pointers),
+                            manager,
+                            "attachment_sent"
+                        ).await
+                    } else {
+                        log::error!("Error while sending attachment.");
+                        return Ok(AxolotlResponse {
+                            response_type: "attachment_not_sent".to_string(),
+                            data: "{\"success: false\"}".to_string(),
+                        });
+                    }
                 },
                 Err(e) => {
                     log::error!("Error while uploading attachment. {:?}", e);
@@ -494,4 +517,33 @@ async fn handle_websocket_message(
     }
     Ok(())
     //sender.send(Message::text("working")).await.unwrap();
+}
+
+/// Save a file on the disk
+fn save_attachment(file_content: &[u8], file_name: &str) {
+
+    // Create the attachments directory if needed
+    let _ = fs::create_dir_all(&format!("{}/attachments/", get_app_dir()));
+
+    let mut file = fs::OpenOptions::new()
+    .create(true)
+    .write(true)
+    .open(&format!("{}/attachments/{}", get_app_dir(), file_name))
+    .unwrap();
+
+    let file_written = file.write_all(file_content);
+    if let Err(e) = file_written {
+        log::error!("Error while saving attachment. {:?}", e)
+    }
+}
+
+/// Returns the path <configPath>/textsecure.nanuc
+/// Example: ~/.config/textsecure.nanuc
+fn get_app_dir() -> String {
+    let config_path = dirs::config_dir()
+        .unwrap()
+        .into_os_string()
+        .into_string()
+        .unwrap();
+    format!("{}/textsecure.nanuc", config_path)
 }
