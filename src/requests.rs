@@ -7,6 +7,7 @@ use presage::{
         content::{Content, ContentBody}, DataMessage,
     }
 };
+use presage::libsignal_service::prelude::AttachmentIdentifier;
 
 #[derive(Deserialize, Debug)]
 pub struct SendMessageRequest {
@@ -63,6 +64,31 @@ pub struct AxolotlConfig {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+pub struct AttachmentMessage {
+    // The content type
+    pub ctype: String,
+    // The filename
+    pub filename: String,
+}
+
+impl AttachmentMessage {
+    pub fn new(ctype: &str, filename: &str) -> Self {
+        // Use the first part of the MIME type
+        // image/png becomes image
+        let content_type = if ctype.contains("/") {
+            ctype.split("/").collect::<Vec<&str>>()[0].to_string()
+        } else {
+            ctype.to_string()
+        };
+
+        AttachmentMessage {
+            ctype: content_type,
+            filename: filename.to_string()
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug)]
 pub struct AxolotlMessage {
     pub message_type: String,
     pub sender:Option<Uuid>,
@@ -70,13 +96,16 @@ pub struct AxolotlMessage {
     timestamp:Option<u64>,
     is_outgoing:bool,
     pub thread_id:Option<String>,
-    attachment:Option<String>,
+    attachment:Option<AttachmentMessage>,
 
 }
 impl AxolotlMessage {
     pub fn from_message(message: Content) -> AxolotlMessage {
-
-        // log::info!( "{:?}", message);
+        //log::info!( "{:?}", message);
+        let sender = match message.metadata.sender.uuid{
+            Some(uuid) => uuid,
+            None => Uuid::nil()
+        };
         let body = &message.body;
         let message_type = match body{
             ContentBody::DataMessage(_) => "DataMessage",
@@ -90,8 +119,25 @@ impl AxolotlMessage {
             ContentBody::SynchronizeMessage(_) => true,
             _ => false,
         };
+        let attachment = match body {
+            ContentBody::DataMessage(data) => {
+                if !data.attachments.is_empty() {
+                    // Note: supports only one attachment by message currently
+                    if let Some(AttachmentIdentifier::CdnId(id)) = data.attachments[0].attachment_identifier {
+                        let content_type = data.attachments[0].content_type();
+                        Some(AttachmentMessage::new(content_type, &id.to_string()))
+                    } else {
+                        None
+                    }
+                } else {
+                    None
+                }
+            },
+            _ => None
+
+        };
         let data_message = match body{
-            ContentBody::DataMessage(data) =>{
+            ContentBody::DataMessage(data) => {
                 if data.reaction.is_some(){
                     data.reaction.clone().unwrap().emoji.clone()
                 } else {
@@ -109,17 +155,14 @@ impl AxolotlMessage {
             },
             _ => None
         };
-        let sender = match message.metadata.sender.uuid{
-            Some(uuid) => uuid,
-            None => Uuid::nil()
-        };
+
         let timestamp:u64 = message.metadata.timestamp;
         AxolotlMessage {
             sender:Some(sender),
             message_type,
             message:data_message,
             timestamp:Some(timestamp),
-            attachment:None,
+            attachment:attachment,
             is_outgoing, 
             thread_id:None
         }
@@ -138,13 +181,28 @@ impl AxolotlMessage {
             ContentBody::SynchronizeMessage(_) => true,
             _ => false,
         };
-        let mut attachment:Option<String> = None;
+        let attachment = match body {
+            ContentBody::DataMessage(ref data) => {
+                if !data.attachments.is_empty() {
+                    // Note: supports only one attachment by message currently
+                    if let Some(AttachmentIdentifier::CdnId(id)) = data.attachments[0].attachment_identifier {
+                        let content_type = data.attachments[0].content_type();
+                        Some(AttachmentMessage::new(content_type, &id.to_string()))
+                    } else {
+                        None
+                    }
+                } else {
+                    None
+                }
+            },
+            _ => None
+
+        };
         let data_message = match &body{
             ContentBody::DataMessage(data) =>{
                 if data.reaction.is_some(){
                     data.reaction.clone().unwrap().emoji.clone()
                 } else if data.attachments.len()>0 {
-                    attachment = data.attachments[0].clone().content_type;
                     if data.body.is_some() {
                         Some(format!("Unsuported attachment. {}", data.body.clone().unwrap()))
                     } else {
@@ -161,7 +219,6 @@ impl AxolotlMessage {
                     if m.reaction.is_some(){
                         m.reaction.clone().unwrap().emoji.clone()
                     } else if m.attachments.len()>0 {
-                        attachment = m.attachments[0].clone().content_type;
                         if m.body.is_some() {
                             Some(format!("Unsuported attachment. {}", m.body.clone().unwrap()))
                         } else {
@@ -197,11 +254,20 @@ impl AxolotlMessage {
     pub fn from_data_message(data: DataMessage) -> AxolotlMessage {
         let message_type = "DataMessage".to_string();
         let is_outgoing = false;
-        let mut attachment:Option<String> = None;
+        let attachment = if !data.attachments.is_empty() {
+                    // Note: supports only one attachment by message currently
+                    if let Some(AttachmentIdentifier::CdnId(id)) = data.attachments[0].attachment_identifier {
+                        let content_type = data.attachments[0].content_type();
+                        Some(AttachmentMessage::new(content_type, &id.to_string()))
+                    } else {
+                        None
+                    }
+                } else {
+                    None
+                };
         let data_message = if data.reaction.is_some(){
             data.reaction.clone().unwrap().emoji.clone()
         } else if data.attachments.len()>0 {
-            attachment = data.attachments[0].clone().content_type;
             if data.body.is_some() {
                 Some(format!("Unsuported attachment. {}", data.body.clone().unwrap()))
             } else {
