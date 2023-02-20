@@ -96,7 +96,7 @@ pub struct AxolotlMessage {
     timestamp:Option<u64>,
     is_outgoing:bool,
     pub thread_id:Option<String>,
-    attachment:Option<AttachmentMessage>,
+    attachments:Vec<AttachmentMessage>,
 
 }
 impl AxolotlMessage {
@@ -119,23 +119,19 @@ impl AxolotlMessage {
             ContentBody::SynchronizeMessage(_) => true,
             _ => false,
         };
-        let attachment = match body {
-            ContentBody::DataMessage(data) => {
-                if !data.attachments.is_empty() {
-                    // Note: supports only one attachment by message currently
-                    if let Some(AttachmentIdentifier::CdnId(id)) = data.attachments[0].attachment_identifier {
-                        let content_type = data.attachments[0].content_type();
-                        Some(AttachmentMessage::new(content_type, &id.to_string()))
-                    } else {
-                        None
-                    }
-                } else {
-                    None
-                }
-            },
-            _ => None
 
+        let mut attachments: Vec<AttachmentMessage> = Vec::new();
+        if let ContentBody::DataMessage(data) = body {
+            if !data.attachments.is_empty() {
+                for attachment in &data.attachments {
+                    if let Some(AttachmentIdentifier::CdnId(id)) = attachment.attachment_identifier {
+                        let content_type = attachment.content_type();
+                        attachments.push(AttachmentMessage::new(content_type, &id.to_string()));
+                    }
+                }
+            }
         };
+
         let data_message = match body{
             ContentBody::DataMessage(data) => {
                 if data.reaction.is_some(){
@@ -162,7 +158,7 @@ impl AxolotlMessage {
             message_type,
             message:data_message,
             timestamp:Some(timestamp),
-            attachment:attachment,
+            attachments:attachments,
             is_outgoing, 
             thread_id:None
         }
@@ -181,23 +177,19 @@ impl AxolotlMessage {
             ContentBody::SynchronizeMessage(_) => true,
             _ => false,
         };
-        let attachment = match body {
-            ContentBody::DataMessage(ref data) => {
-                if !data.attachments.is_empty() {
-                    // Note: supports only one attachment by message currently
-                    if let Some(AttachmentIdentifier::CdnId(id)) = data.attachments[0].attachment_identifier {
-                        let content_type = data.attachments[0].content_type();
-                        Some(AttachmentMessage::new(content_type, &id.to_string()))
-                    } else {
-                        None
-                    }
-                } else {
-                    None
-                }
-            },
-            _ => None
 
+        let mut attachments: Vec<AttachmentMessage> = Vec::new();
+        if let ContentBody::DataMessage(ref data) = body {
+            if !data.attachments.is_empty() {
+                for attachment in &data.attachments {
+                    if let Some(AttachmentIdentifier::CdnId(id)) = attachment.attachment_identifier {
+                        let content_type = attachment.content_type();
+                        attachments.push(AttachmentMessage::new(content_type, &id.to_string()));
+                    }
+                }
+            }
         };
+
         let data_message = match &body{
             ContentBody::DataMessage(data) =>{
                 if data.reaction.is_some(){
@@ -248,23 +240,23 @@ impl AxolotlMessage {
             timestamp:timestamp,
             is_outgoing,
             thread_id:None,
-            attachment,
+            attachments: attachments,
         }
     }
     pub fn from_data_message(data: DataMessage) -> AxolotlMessage {
         let message_type = "DataMessage".to_string();
         let is_outgoing = false;
-        let attachment = if !data.attachments.is_empty() {
-                    // Note: supports only one attachment by message currently
-                    if let Some(AttachmentIdentifier::CdnId(id)) = data.attachments[0].attachment_identifier {
-                        let content_type = data.attachments[0].content_type();
-                        Some(AttachmentMessage::new(content_type, &id.to_string()))
-                    } else {
-                        None
-                    }
-                } else {
-                    None
-                };
+
+        let mut attachments: Vec<AttachmentMessage> = Vec::new();
+        if !data.attachments.is_empty() {
+            for attachment in &data.attachments {
+                if let Some(AttachmentIdentifier::CdnId(id)) = attachment.attachment_identifier {
+                    let content_type = attachment.content_type();
+                    attachments.push(AttachmentMessage::new(content_type, &id.to_string()));
+                }
+            }
+        };
+
         let data_message = if data.reaction.is_some(){
             data.reaction.clone().unwrap().emoji.clone()
         } else if data.attachments.len()>0 {
@@ -284,7 +276,7 @@ impl AxolotlMessage {
             timestamp:Some(timestamp),
             is_outgoing,
             thread_id:None,
-            attachment,
+            attachments: attachments,
         }
     }
 }
