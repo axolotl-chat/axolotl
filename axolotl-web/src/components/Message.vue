@@ -1,7 +1,8 @@
 <template>
   <div
-    v-if="message.message && ((message.message_type=='DataMessage' && message.message!=='' )|| 
-      (message.message_type=='SyncMessage' && message.message && message.message !=='SyncMessage'))" :key="message.ID" :class="{
+    v-if="(message.message_type=='DataMessage' && (message.message || message.attachments.length > 0)) || 
+      (message.message_type=='SyncMessage' && message.message && message.message !=='SyncMessage')"
+      :key="message.ID" :class="{
       'col-12': true,
       'message-container': true,
       outgoing: is_outgoing,
@@ -63,16 +64,16 @@
         <cite v-else>{{ getName(message.QuotedMessage.SourceUUID) }}</cite>
         <p>{{ message.QuotedMessage.Message }}</p>
       </blockquote>
-      <div v-if="message.Attachment !== ''" class="attachment">
-        <div v-if="isAttachmentArray(message.Attachment)" class="gallery">
-          <div v-for="m in isAttachmentArray(message.Attachment)" :key="m.File">
-            <div v-if="m.CType === 2" class="attachment-img">
+      <div v-if="message.attachments.length > 0" class="attachment">
+        <div class="gallery">
+          <div v-for="m in message.attachments" :key="m.File">
+            <div v-if="m.ctype === 'image'" class="attachment-img">
               <img
-                :src="'http://localhost:9080/attachments?file=' + m.File" alt="Fullscreen image"
-                @click="$emit('show-fullscreen-img', m.File)"
+                :src="'http://localhost:9080/attachments?file=' + m.filename" alt="Fullscreen image"
+                @click="$emit('show-fullscreen-img', m.filename)"
               />
             </div>
-            <div v-else-if="m.CType === 3" class="attachment-audio">
+            <div v-else-if="m.ctype === 'audio'" class="attachment-audio">
               <div class="audio-player-container d-flex">
                 <button id="play-icon">
                   <font-awesome-icon v-if="!isPlaying" class="play" icon="play" @click="play" />
@@ -85,14 +86,14 @@
                   {{ humanifyTimePeriod(duration) }}</span>
               </div>
             </div>
-            <div v-else-if="m.File !== '' && m.CType === 0" class="attachment-file">
-              <a :href="'http://localhost:9080/attachments?file=' + m.File" @click="shareAttachment(m.File, $event)">{{
-                m.FileName ? m.FileName : m.File
+            <div v-else-if="m.filename !== '' && m.ctype === 'file'" class="attachment-file">
+              <a :href="'http://localhost:9080/attachments?file=' + m.filename" @click="shareAttachment(m.filename, $event)">{{
+                m.fileName
               }}</a>
             </div>
-            <div v-else-if="m.CType === 5" class="attachment-video" @click="$emit('show-fullscreen-video', m.File)">
+            <div v-else-if="m.ctype === 'video'" class="attachment-video" @click="$emit('show-fullscreen-video', m.filename)">
               <video>
-                <source :src="'http://localhost:9080/attachments?file=' + m.File" />
+                <source :src="'http://localhost:9080/attachments?file=' + m.filename" />
                 <span v-translate>Your browser does not support the audio element.</span>
               </video>
               <img class="play-button" src="../assets/images/play.svg" alt="Play image" />
@@ -106,20 +107,18 @@
           <span v-translate>Not supported mime type:</span> {{ message.CType }}
         </div> -->
       </div>
-      <div class="message-text">
+      <div v-if="message.message" class="message-text">
         {{ message.message }}
         <!-- eslint-disable-next-line vue/no-v-html -->
-        <div
+        <!--<div
           v-if="message.Flags !== 17" class="message-text-content" data-test="message-text"
           v-html="linkify(sanitize(message.Message))"
-        />
+        />-->
         <div v-if="message.Flags === 17" v-translate>Group changed.</div>
         <div
           v-if="
-            message.Attachment &&
-              message.Attachment.includes('null') &&
-              message.Message === '' &&
-              message.Flags === 0 &&
+            message.attachments.length === 0 &&
+              !message.message &&
               !isGroup
           " class="status-message"
         >
