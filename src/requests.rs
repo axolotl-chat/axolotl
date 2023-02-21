@@ -97,7 +97,7 @@ pub struct AxolotlMessage {
     is_outgoing:bool,
     pub thread_id:Option<String>,
     attachments:Vec<AttachmentMessage>,
-
+    is_sent:bool,
 }
 impl AxolotlMessage {
     pub fn from_message(message: Content) -> AxolotlMessage {
@@ -160,7 +160,8 @@ impl AxolotlMessage {
             timestamp:Some(timestamp),
             attachments:attachments,
             is_outgoing, 
-            thread_id:None
+            thread_id:None,
+            is_sent: true, // TODO
         }
     }
     pub fn from_content_body(body: ContentBody) -> AxolotlMessage {
@@ -241,6 +242,7 @@ impl AxolotlMessage {
             is_outgoing,
             thread_id:None,
             attachments: attachments,
+            is_sent: true, // TODO
         }
     }
     pub fn from_data_message(data: DataMessage) -> AxolotlMessage {
@@ -277,6 +279,7 @@ impl AxolotlMessage {
             is_outgoing,
             thread_id:None,
             attachments: attachments,
+            is_sent: true, // TODO
         }
     }
 }
