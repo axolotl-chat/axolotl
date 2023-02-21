@@ -6,7 +6,7 @@
       'col-12': true,
       'message-container': true,
       outgoing: is_outgoing,
-      sent: message.IsSent && is_outgoing,
+      sent: message.is_sent && is_outgoing,
       read: message.IsRead && is_outgoing,
       delivered: message.Receipt && is_outgoing,
       incoming: !is_outgoing,
@@ -69,7 +69,7 @@
           <div v-for="m in message.attachments" :key="m.File">
             <div v-if="m.ctype === 'image'" class="attachment-img">
               <img
-                :src="'http://localhost:9080/attachments?file=' + m.filename" alt="Fullscreen image"
+                :src="'http://localhost:9080/attachments/' + m.filename" alt="Fullscreen image"
                 @click="$emit('show-fullscreen-img', m.filename)"
               />
             </div>
@@ -87,13 +87,13 @@
               </div>
             </div>
             <div v-else-if="m.filename !== '' && m.ctype === 'file'" class="attachment-file">
-              <a :href="'http://localhost:9080/attachments?file=' + m.filename" @click="shareAttachment(m.filename, $event)">{{
+              <a :href="'http://localhost:9080/attachments/' + m.filename" @click="shareAttachment(m.filename, $event)">{{
                 m.fileName
               }}</a>
             </div>
             <div v-else-if="m.ctype === 'video'" class="attachment-video" @click="$emit('show-fullscreen-video', m.filename)">
               <video>
-                <source :src="'http://localhost:9080/attachments?file=' + m.filename" />
+                <source :src="'http://localhost:9080/attachments/' + m.filename" />
                 <span v-translate>Your browser does not support the audio element.</span>
               </video>
               <img class="play-button" src="../assets/images/play.svg" alt="Play image" />
@@ -216,7 +216,7 @@ export default {
       const attachment = JSON.parse(this.message.Attachment);
       if (attachment && attachment.length > 0 && attachment[0].CType === 3) {
         this.audio = new Audio(
-          "http://localhost:9080/attachments?file=" + attachment[0].File
+          "http://localhost:9080/attachments/" + attachment[0].File
         );
         var that = this;
         this.audio.onloadedmetadata = function () {

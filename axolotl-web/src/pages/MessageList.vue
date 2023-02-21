@@ -14,7 +14,7 @@
           <div v-if="showFullscreenImgSrc !== ''" class="fullscreenImage">
             <img
               :src="
-                'http://localhost:9080/attachments?file=' + showFullscreenImgSrc
+                'http://localhost:9080/attachments/' + showFullscreenImgSrc
               "
               alt="Fullscreen image"
             />
@@ -32,7 +32,7 @@
             <video controls>
               <source
                 :src="
-                  'http://localhost:9080/attachments?file=' +
+                  'http://localhost:9080/attachments/' +
                     showFullscreenVideoSrc
                 "
               />
@@ -317,7 +317,7 @@ export default {
         alert("[oP]" + this.showFullscreenImgSrc);
       } else
         saveAs(
-          "http://localhost:9080/attachments?file=" + this.showFullscreenImgSrc
+          "http://localhost:9080/attachments/" + this.showFullscreenImgSrc
         );
     },
     saveVideo(e) {
@@ -326,7 +326,7 @@ export default {
         alert("[oV]" + this.showFullscreenVideoSrc);
       } else
         saveAs(
-          "http://localhost:9080/attachments?file=" +
+          "http://localhost:9080/attachments/" +
             this.showFullscreenVideoSrc
         );
     },

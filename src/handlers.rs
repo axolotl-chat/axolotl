@@ -19,8 +19,10 @@ use presage::prelude::proto::AttachmentPointer;
 use serde::{Serialize, Serializer};
 use serde_json::error::Error as SerdeError;
 use std::cell::Cell;
+use std::collections::HashMap;
 use std::fs;
 use std::io::Write;
+use std::path::Path;
 use std::process::exit;
 use std::{sync::Arc, thread};
 use url::Url;
@@ -539,7 +541,7 @@ fn save_attachment(file_content: &[u8], file_name: &str) {
 
 /// Returns the path <configPath>/textsecure.nanuc
 /// Example: ~/.config/textsecure.nanuc
-fn get_app_dir() -> String {
+pub fn get_app_dir() -> String {
     let config_path = dirs::config_dir()
         .unwrap()
         .into_os_string()
@@ -547,3 +549,4 @@ fn get_app_dir() -> String {
         .unwrap();
     format!("{}/textsecure.nanuc", config_path)
 }
+

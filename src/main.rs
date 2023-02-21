@@ -1,9 +1,8 @@
-use std::thread;
-
-use axolotl::handlers::handle_ws_client;
-use warp::Filter;
-
+use axolotl::handlers::{get_app_dir, handle_ws_client};
 use clap::Parser;
+use std::collections::HashMap;
+use std::thread;
+use warp::Filter;
 
 #[derive(Parser)]
 #[clap(about = "a basic signal CLI to try things out")]
@@ -39,11 +38,15 @@ async fn main() {
 
 async fn start_websocket() {
     log::info!("Starting the server");
-    let axolotl_route = warp::path("ws")
+    let axolotl_ws_route = warp::path("ws")
         .and(warp::ws())
         .map(|ws: warp::ws::Ws| ws.on_upgrade(|socket| handle_ws_client(socket)));
 
-    warp::serve(axolotl_route).run(([127, 0, 0, 1], 9080)).await;
+    // Just serve the attachments/ directory
+    let axolotl_http_attachments_route = warp::path("attachments")
+    .and(warp::fs::dir(format!("{}/{}", get_app_dir(), "attachments")));
+
+    warp::serve(axolotl_ws_route.or(axolotl_http_attachments_route)).run(([127, 0, 0, 1], 9080)).await;
     log::info!("Server stopped");
 }
 async fn start_ui() {
