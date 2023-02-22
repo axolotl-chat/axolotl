@@ -53,13 +53,7 @@
       "active": false
     },
     "windows": [
-      {
-        "fullscreen": false,
-        "height": 600,
-        "resizable": true,
-        "title": "Axolotl",
-        "width": 800
-      }
+
     ]
   }
 }

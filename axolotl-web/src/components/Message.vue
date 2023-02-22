@@ -1,8 +1,8 @@
 <template>
   <div
-    v-if="(message.message_type=='DataMessage' && (message.message || message.attachments.length > 0)) || 
-      (message.message_type=='SyncMessage' && message.message && message.message !=='SyncMessage')"
-      :key="message.ID" :class="{
+    v-if="message.message && ((message.message_type == 'DataMessage' && message.message !== '') ||
+      (message.message_type == 'SyncMessage' && message.message && message.message !== 'SyncMessage'))" :key="message.ID"
+    :class="{
       'col-12': true,
       'message-container': true,
       outgoing: is_outgoing,
@@ -22,25 +22,24 @@
       hidden: message.Flags === 18,
       error: message.timestamp === 0 || message.SendingError,
       'group-message':
-        isGroup && (message.Flags === 0 || message.Flags === 12 || message.Flags === 13),
+        isGroup,
     }"
   >
     <div
       v-if="
         !is_outgoing &&
-          isGroup &&
-          (message.Flags === 0 || message.Flags === 12 || message.Flags === 13)
+          isGroup
       " class="avatar"
     >
       <div class="badge-name" @click="openProfileForRecipient(id)">
         <div v-if="id !== -1">
           <img
             class="avatar-img" :src="'http://localhost:9080/avatars?recipient=' + id"
-            @error="onImageError($event)" 
+            @error="onImageError($event)"
           />
         </div>
-        <div v-if="name !== ''">
-          {{ name[0] }}
+        <div v-if="name && name !== ''">
+          {{ name && name[0] }}
         </div>
       </div>
     </div>
@@ -57,11 +56,10 @@
         <div v-if="name !== ''">
           {{ name }}
         </div>
-        <div v-else>{{ getName(message.SourceUUID) }}</div>
       </div>
       <blockquote v-if="message.QuotedMessage">
         <cite v-if="message.QuotedMessage && is_outgoing" v-translate>You</cite>
-        <cite v-else>{{ getName(message.QuotedMessage.SourceUUID) }}</cite>
+        <cite v-else>{{ name?name:getName(message.QuotedMessage.SourceUUID) }}</cite>
         <p>{{ message.QuotedMessage.Message }}</p>
       </blockquote>
       <div v-if="message.attachments.length > 0" class="attachment">
@@ -182,15 +180,15 @@ export default {
       duration: 0.0,
       currentTime: 0.0,
       isPlaying: false,
-      name: "",
       id: -1,
+      senderName: "",
     };
   },
   computed: {
-    ...mapState(["currentGroup", "config"]),
+    ...mapState(["currentGroup", "config", "contacts"]),
     is_outgoing() {
       if (this.message?.sender == this.config.uuid)
-      return true;
+        return true;
       else if (this.message && this.message.is_outgoing) {
         return true;
       } else {
@@ -200,12 +198,25 @@ export default {
     isSenderNameDisplayed() {
       return (
         !this.is_outgoing &&
-        this.isGroup 
+        this.isGroup
         //&&
         // (this.message.Flags === 0 || this.message.Flags === 14)
       ); // #14 is the flag for quoting messages
       // see this list for all message types: https://github.com/nanu-c/axolotl/blob/main/app/helpers/models.go#L15
     },
+    name() {
+      if (this.senderName == "") {
+        const uuid = this.message.sender
+        const contact = this.contacts.find(function (element) {
+          return element.address.uuid === uuid;
+        });
+        if (typeof contact !== "undefined") {
+          return contact.name;
+        }
+
+      }
+        return this.senderName;
+    }
   },
   mounted() {
     if (
@@ -231,7 +242,6 @@ export default {
         };
       }
     }
-    this.getName(this.message.SourceUUID);
   },
   methods: {
     sanitize(msg) {
@@ -257,7 +267,18 @@ export default {
         });
       }
     },
-    getName(uuid) {
+    getName() {
+      if(!this.isGroup) return "";
+      if (this.contacts !== null) {
+        const uuid = this.message.sender;
+        const contact = this.contacts.find(function (element) {
+          return element.address.uuid === uuid;
+        });
+        if (typeof contact !== "undefined") {
+          this.name = contact.name;
+          return this.name;
+        }
+      }
       if (this.currentGroup !== null && this.currentGroup.Members !== null) {
         const contact = this.currentGroup.Members.find(function (element) {
           return element.UUID === uuid;
@@ -269,8 +290,8 @@ export default {
           return this.name;
         }
       }
-      this.name = uuid;
-      return uuid;
+      this.name = this.message.sender;
+      return this.message.sender;
     },
     isAttachmentArray(input) {
       try {
@@ -382,8 +403,7 @@ export default {
 }
 
 .sender {
-  font-size: 0.9rem;
-  font-weight: bold;
+  font-size: 0.7rem;
 }
 
 .gallery {

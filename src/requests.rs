@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 use presage::{
     prelude::{
         content::{Content, ContentBody}, DataMessage,
-    }
+    }, Thread
 };
 use presage::libsignal_service::prelude::AttachmentIdentifier;
 
@@ -23,7 +23,7 @@ pub struct UploadAttachmentRequest {
     // The data URL containing the base64-encoded file
     pub attachment: String,
     // The uuid
-    pub recipient: String,
+    pub recipient: Thread,
 }
 
 #[derive(Deserialize, Debug)]
@@ -46,7 +46,6 @@ pub struct AxolotlResponse {
 #[derive(Serialize, Deserialize, Debug)]
 pub struct GetMessagesRequest {
     pub id: String,
-    pub last_id: Option<u64>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -95,17 +94,13 @@ pub struct AxolotlMessage {
     message:Option<String>,
     timestamp:Option<u64>,
     is_outgoing:bool,
-    pub thread_id:Option<String>,
+    pub thread_id:Option<Thread>,
     attachments:Vec<AttachmentMessage>,
     is_sent:bool,
 }
 impl AxolotlMessage {
     pub fn from_message(message: Content) -> AxolotlMessage {
         //log::info!( "{:?}", message);
-        let sender = match message.metadata.sender.uuid{
-            Some(uuid) => uuid,
-            None => Uuid::nil()
-        };
         let body = &message.body;
         let message_type = match body{
             ContentBody::DataMessage(_) => "DataMessage",
@@ -151,7 +146,7 @@ impl AxolotlMessage {
             },
             _ => None
         };
-
+        let sender = message.metadata.sender.uuid;
         let timestamp:u64 = message.metadata.timestamp;
         AxolotlMessage {
             sender:Some(sender),

@@ -10,9 +10,10 @@ pub enum ApplicationError {
     Presage(presage::Error),
     UnauthorizedSignal,
     SendFailed(presage::libsignal_service::sender::MessageSenderError),
-    ReceiveFailed(presage::libsignal_service::receiver::MessageReceiverError),
+    ReceiveFailed(libsignal_service::receiver::MessageReceiverError),
     WebSocketError,
     WebSocketHandleMessageError(String),
+    RegistrationError(String),
     InvalidRequest,
 
 }
@@ -62,6 +63,12 @@ impl std::fmt::Display for ApplicationError {
                 "Couldn't handle websocket message.",
                 e
             ),
+            ApplicationError::RegistrationError(e) => writeln!(
+                f,
+                "{}: {}",
+                "Registration failed.",
+                e
+            ),
             ApplicationError::InvalidRequest=> writeln!(
                 f,
                 "{}",
@@ -85,10 +92,6 @@ impl From<p::Error> for ApplicationError {
             p::Error::MessageSenderError(p::libsignal_service::sender::MessageSenderError::ServiceError(
                 p::libsignal_service::content::ServiceError::SendError { reason: e },
             )) if e.contains(FAILED_TO_LOOK_UP_ADDRESS) => ApplicationError::NoInternet,
-            p::Error::MessageReceiverError(p::libsignal_service::receiver::MessageReceiverError::ServiceError(
-                p::libsignal_service::content::ServiceError::WsError { reason: e },
-            )) if e.contains(FAILED_TO_LOOK_UP_ADDRESS) => ApplicationError::NoInternet,
-            p::Error::MessageReceiverError(e) => ApplicationError::ReceiveFailed(e),
             p::Error::MessageSenderError(e) => ApplicationError::SendFailed(e),
             _ => ApplicationError::Presage(e),
 
@@ -125,6 +128,7 @@ impl ApplicationError {
                 "Please restart the application with logging and report this issue.".to_string()
             }
             ApplicationError::WebSocketHandleMessageError(e) => format!("{:#?}", e),
+            ApplicationError::RegistrationError(e) => format!("{:#?}", e),
             ApplicationError::InvalidRequest=> "Invalid request.".to_string(),
         }
     }
@@ -139,6 +143,7 @@ impl ApplicationError {
             ApplicationError::ManagerThreadPanic => true,
             ApplicationError::WebSocketError => true,
             ApplicationError::WebSocketHandleMessageError(_) => true,
+            ApplicationError::RegistrationError(_) => true,
             ApplicationError::InvalidRequest=> false,
         }
     }

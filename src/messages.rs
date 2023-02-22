@@ -23,7 +23,7 @@ use std::time::UNIX_EPOCH;
  *   send attachments. Could be removed in the future if both handlers are merged.
  */
 pub async fn send_message(
-    recipient: String,
+    recipient: Thread,
     msg: Option<String>,
     attachments: Option<Vec<AttachmentPointer>>,
     manager: &ManagerThread,
@@ -51,59 +51,22 @@ pub async fn send_message(
     };
 
     // Search the recipient's UUID. A contact or a group
-    let thread = match Thread::try_from(&recipient) {
-        Ok(t) => t,
-        Err(e) => {
-            log::error!("Error while parsing the request. {:?}", e);
-            return Err(ApplicationError::InvalidRequest);
-        }
-    };
-
-    let result = match thread {
-        Thread::Contact(contact) => {
+    let result = match recipient {
+        Thread::Contact(uuid) => {
             log::debug!("Sending a message to a contact.");
-            let message = ContentBody::DataMessage(data_message.clone());
-            manager
-                .send_message(contact, message.clone(), timestamp)
-                .await
+            manager.send_message(uuid, data_message.clone(), timestamp).await
         }
-        Thread::Group(group) => {
+        Thread::Group(uuid) => {
             log::debug!("Sending a message to a group.");
-            let group_master_key = GroupMasterKey::new(group.clone());
-            let group_from_store =
-                manager.get_group_v2(group_master_key).await.ok().unwrap();
-            let group_members = group_from_store.members.iter();
-            let mut group_members_service_addresses: Vec<ServiceAddress> = Vec::new();
-
-            for member in group_members {
-                group_members_service_addresses.push(ServiceAddress {
-                    uuid: Some(member.uuid.clone()),
-                    phonenumber: None,
-                    relay: None,
-                });
-            }
-            let mut group_data_message = data_message.clone();
-            group_data_message.group_v2 = Some(GroupContextV2 {
-                master_key: Some(group.to_vec()),
-                group_change: None,
-                revision: Some(group_from_store.version),
-            });
-            manager
-                .send_message_to_group(
-                    group_members_service_addresses,
-                    group_data_message,
-                    timestamp,
-                )
-                .await
+            manager.send_message_to_group(uuid, data_message.clone(), timestamp).await
         }
     };
-
     let is_failed = result.is_err();
     if is_failed {
         log::error!("Error while sending the message. {:?}", result.err());
     }
     let mut message = AxolotlMessage::from_data_message(data_message);
-    message.thread_id = Some(thread.to_string());
+    message.thread_id = Some(recipient);
     message.sender = Some(manager.uuid());
     let response_data = SendMessageResponse { message, is_failed };
     let response_data_json = serde_json::to_string(&response_data).unwrap();
@@ -114,7 +77,7 @@ pub async fn send_message(
     Ok(response)
 }
 
-pub async fn send_message_to_group(msg: &str, master_key_str: &str, config_store: SledStore)
+pub async fn send_message_to_group(msg: &str, master_key_str: &str, attachments: Option<Vec<AttachmentPointer>>,config_store: SledStore)
 {
     let mut manager = Manager::load_registered(config_store).unwrap();
     // Send message
@@ -123,7 +86,12 @@ pub async fn send_message_to_group(msg: &str, master_key_str: &str, config_store
         .expect("Time went backwards")
         .as_millis() as u64;
     
-    // 158
+    // Add the attachments to the message, if any
+    let mut attachments_vec = Vec::new();
+    if let Some(a) = attachments {
+        attachments_vec = a;
+    }
+
     let master_key: [u8; 32] = hex::decode(master_key_str)
         .unwrap()
         .try_into()
@@ -132,6 +100,7 @@ pub async fn send_message_to_group(msg: &str, master_key_str: &str, config_store
     let message = DataMessage {
         body: Some(msg.to_string()),
         timestamp: Some(timestamp),
+        attachments: attachments_vec,
         group_v2: Some(GroupContextV2 {
             master_key: Some(master_key.to_vec()),
             revision: Some(0),
@@ -140,19 +109,29 @@ pub async fn send_message_to_group(msg: &str, master_key_str: &str, config_store
         ..Default::default()
     };
 
-    let group = manager
-        .get_group_v2(GroupMasterKey::new(master_key))
-        .await
-        .unwrap();
+    match manager
+        .group(&master_key)
+        {
+            Ok(group) => {
+                match group{
+                    Some(_) => {
+                        manager
+                            .send_message_to_group(
+                                &master_key,
+                                message,
+                                timestamp
+                            ).await.unwrap(); 
+                    },
+                    None => {
+                        println!("Group not found");
+                    }
+                }
+ 
+            },
+            Err(e) => {
+                println!("Group not found: {:?}", e);
+            }
+        }
 
-    let me = manager.whoami().await.unwrap().uuid;
-
-    manager
-        .send_message_to_group(
-            group.members.into_iter()
-            .filter(|m| m.uuid != me)
-            .map(|m| m.uuid).map(Into::into),
-            message,
-            timestamp
-        ).await.unwrap();     
+   
 }

@@ -1,9 +1,10 @@
 <template>
   <component :is="$route.meta.layout || 'div'">
-    Device linking
-    {{ deviceLinkCode }}
-    <div>
-      <canvas id="qrcode" />
+    <div class="device-linking-page">
+      <div v-translate> Please scan the QR code with your primary signal device. </div>
+      <div class="d-flex justify-content-center align-items-center">
+        <canvas id="qrcode" />
+      </div>
     </div>
   </component>
 </template>
@@ -39,7 +40,10 @@ export default {
   },
 };
 </script>
-<style>
-
+<style scoped>
+.device-linking-page {
+  padding: 1rem;
+  text-align: center;
+}
 </style>
 

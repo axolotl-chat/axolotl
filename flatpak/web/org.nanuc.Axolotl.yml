@@ -46,31 +46,6 @@ finish-args:
   - --env=AXOLOTL_ELECTRON_BUNDLED="true"
 
 modules:
-  - name: crayfish
-    buildsystem: simple
-    build-options:
-      build-args:
-        - --share=network
-      env:
-        CARGO_HOME: /run/build/crayfish/cargo
-    build-commands:
-      - make build-crayfish
-      - make install-crayfish DESTDIR=${FLATPAK_DEST} INSTALL_PREFIX=/bin
-    sources:
-      - type: dir
-        path: ../../
-
-  - name: zkgroup
-    buildsystem: simple
-    subdir: src/github.com/nanu-c/zkgroup/lib
-    build-commands:
-      - install -Dm 755 libzkgroup_linux_${FLATPAK_ARCH}.so ${FLATPAK_DEST}/lib/libzkgroup_linux_${FLATPAK_ARCH}.so
-    sources:
-      - type: git
-        url: https://github.com/nanu-c/zkgroup
-        tag: main
-        dest: src/github.com/nanu-c/zkgroup
-        disable-submodules: true
 
   - name: axolotl-electron-bundle
     buildsystem: simple
