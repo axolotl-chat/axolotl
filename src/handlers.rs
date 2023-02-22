@@ -9,13 +9,14 @@ use futures::channel::oneshot::Receiver;
 use futures::executor::block_on;
 use futures::stream::{SplitSink, SplitStream};
 use futures::{SinkExt, StreamExt};
-use libsignal_service::prelude::{phonenumber, Uuid, GroupMasterKey};
+use libsignal_service::prelude::{phonenumber, Uuid};
 use presage::prelude::{Content, PhoneNumber};
 use presage::prelude::{ContentBody, DataMessage, GroupContextV2};
 use serde::{Serialize, Serializer};
 use serde_json::error::Error as SerdeError;
 use std::cell::Cell;
 use std::io::Write;
+use std::ops::Deref;
 use std::process::exit;
 use std::time::UNIX_EPOCH;
 use std::{sync::Arc, thread};
@@ -29,7 +30,7 @@ const MESSAGE_BOUND: usize = 10;
 
 use futures::channel::oneshot;
 
-use presage::{Manager, MigrationConflictStrategy, RegistrationOptions, GroupMasterKeyBytes};
+use presage::{Confirmation, Manager, MigrationConflictStrategy, RegistrationOptions};
 use presage::{SledStore, Thread};
 use tokio::sync::mpsc::{self, UnboundedReceiver};
 
@@ -45,6 +46,7 @@ pub struct Handler {
     pub is_registered: Option<bool>,
     pub captcha: Option<String>,
     pub phone_number: Option<PhoneNumber>,
+    pub registration_manager: Option<Arc<Mutex<Manager<SledStore, Confirmation>>>>,
 }
 impl Handler {
     pub async fn new() -> Result<Self, ApplicationError> {
@@ -87,6 +89,7 @@ impl Handler {
             is_registered: None,
             captcha: None,
             phone_number: None,
+            registration_manager: None,
         })
     }
     pub async fn get_config_store() -> Result<SledStore, ApplicationError> {
@@ -95,18 +98,32 @@ impl Handler {
             .into_os_string()
             .into_string()
             .unwrap();
-        let db_path = format!("{config_path}/textsecure.nanuc");
+        // todo: check if a tmp folder exists, if so, copy the content to the new folder and delete the tmp folder
+
+        let db_path = format!("{config_path}/textsecure.nanuc/");
         let config_store = match SledStore::open_with_passphrase(
             db_path,
             None::<&str>,
             MigrationConflictStrategy::BackupAndDrop,
-        )
-        .ok()
-        {
-            Some(store) => store,
-            None => {
-                log::info!("Failed to open the database");
-                exit(0);
+        ) {
+            Ok(store) => store,
+            Err(e) => {
+                log::info!(
+                    "Failed to open the database: {}, retry with tmp database",
+                    e
+                );
+                let db_path = format!("{config_path}/textsecure.nanuc/tmp");
+                match SledStore::open_with_passphrase(
+                    db_path,
+                    None::<&str>,
+                    MigrationConflictStrategy::BackupAndDrop,
+                ) {
+                    Ok(store) => store,
+                    Err(e) => {
+                        log::info!("Failed to open the database: {}", e);
+                        exit(0);
+                    }
+                }
             }
         };
         Ok(config_store)
@@ -180,15 +197,15 @@ impl Handler {
                                         serde_json::from_str(text)
                                     {
                                         // Axolotl request
+                                        let request_type: &str = axolotl_request.request.as_str();
                                         log::info!(
                                             "Axolotl registration request: {}",
-                                            axolotl_request.request.as_str()
+                                            request_type
                                         );
-                                        if axolotl_request.request.as_str() == "sendCaptchaToken" {
+                                        if request_type == "sendCaptchaToken" {
                                             self.captcha = axolotl_request.data;
                                             self.get_phone_number().await;
-                                        } else if axolotl_request.request.as_str() == "requestCode"
-                                        {
+                                        } else if request_type == "requestCode" {
                                             self.phone_number = match axolotl_request.data {
                                                 Some(data) => {
                                                     match phonenumber::parse(None, data) {
@@ -205,8 +222,89 @@ impl Handler {
                                                 None => None,
                                             };
                                             if self.phone_number.is_some() {
-                                                self.get_verification_code().await;
+                                                log::debug!(
+                                                    "Got phone number: {}",
+                                                    self.phone_number.as_ref().unwrap()
+                                                );
+                                                let (tx, rx) = mpsc::channel(MESSAGE_BOUND);
+                                                self.get_verification_code(rx).await?;
                                                 self.get_phone_pin().await;
+                                                let code_message = r.next().await;
+                                                if let Some(code_message) = code_message {
+                                                    match code_message {
+                                                        Ok(code_message) => {
+                                                            if code_message.is_close() {
+                                                                log::info!(
+                                                                    "Got close message, exiting"
+                                                                );
+                                                                is_closed = true;
+                                                                break;
+                                                            } else if code_message.is_text() {
+                                                                let text =
+                                                                    code_message.to_str().unwrap();
+                                                                if let Ok::<
+                                                                    AxolotlRequest,
+                                                                    SerdeError,
+                                                                >(
+                                                                    axolotl_request
+                                                                ) = serde_json::from_str(text)
+                                                                {
+                                                                    // Axolotl request
+                                                                    let request_type: &str =
+                                                                        axolotl_request
+                                                                            .request
+                                                                            .as_str();
+                                                                    log::info!(
+                                                                        "Axolotl registration request: {}",
+                                                                        request_type
+                                                                    );
+                                                                    if request_type == "sendCode" {
+                                                                        let code =
+                                                                            axolotl_request.data;
+                                                                        if code.is_some() {
+                                                                            let code =
+                                                                                code.unwrap();
+                                                                            log::info!(
+                                                                                "Got code: {}",
+                                                                                code
+                                                                            );
+                                                                            let code = match code
+                                                                                .parse::<u32>()
+                                                                            {
+                                                                                Ok(code) => code,
+                                                                                Err(e) => {
+                                                                                    log::error!("Error parsing code: {}", e);
+                                                                                    break;
+                                                                                }
+                                                                            };
+                                                                            match tx
+                                                                                .send(code)
+                                                                                .await
+                                                                            {
+                                                                                Ok(_) => (),
+                                                                                Err(e) => {
+                                                                                    log::error!("Error sending code to registration manager: {}", e);
+                                                                                    break;
+                                                                                }
+                                                                            };
+                                                                        } else {
+                                                                            log::error!("No valid code provided");
+                                                                            self.get_phone_pin()
+                                                                                .await;
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        Err(e) => {
+                                                            log::error!(
+                                                                "Error getting message: {}",
+                                                                e
+                                                            );
+                                                            break;
+                                                        }
+                                                    }
+                                                }
                                             } else {
                                                 log::error!("No valid phone number provided");
                                                 self.get_phone_number().await;
@@ -238,7 +336,7 @@ impl Handler {
             std::mem::drop(manager);
 
             log::info!("Manager created");
-            
+
             // While messages come, handle them
             if self.is_registered.is_some() && self.is_registered.unwrap() {
                 self.send_registration_confirmation().await;
@@ -303,7 +401,12 @@ impl Handler {
             }
         }
     }
-    async fn get_verification_code(&self) -> Result<(), ApplicationError> {
+
+    async fn get_verification_code(
+        &mut self,
+        mut code_rx: tokio::sync::mpsc::Receiver<u32>,
+    ) -> Result<(), ApplicationError> {
+        log::debug!("Getting verification code");
         if self.phone_number.is_none() {
             log::error!("No phone number provided");
             return Err(ApplicationError::RegistrationError(
@@ -317,39 +420,64 @@ impl Handler {
             ));
         }
         let p = self.phone_number.clone().unwrap();
-        let c = self.captcha.clone().unwrap();
-            let config_store = match Handler::get_config_store().await{
-                Ok(c) => c,
-                Err(e) => {
-                    log::error!("Error getting config store: {}", e);
-                    return Err(ApplicationError::RegistrationError(
-                        "Error getting config store".to_string(),
-                    ));
-                }
-            };
-            // let manager = match Manager::register(
-            //     config_store,
-            //     RegistrationOptions {
-            //         signal_servers: presage::prelude::SignalServers::Production,
-            //         phone_number: p,
-            //         use_voice_call: false,
-            //         captcha: Some(c.as_str()),
-            //         force: false,
-            //     },
-            // ).await{
-            //     Ok(m) => m,
-            //     Err(e) => {
-            //         log::error!("Error requesting pin: {}", e);
-            //         return Err(ApplicationError::RegistrationError(
-            //             "Error requesting pin".to_string(),
-            //         ));
-            //     }
-            // };
+        let c = self.captcha.as_mut().unwrap().clone();
+        std::thread::spawn(move || {
+            let panic = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+                tokio::runtime::Runtime::new()
+                    .expect("Failed to setup runtime")
+                    .block_on(async move {
+                        let config_store = match Handler::get_config_store().await {
+                            Ok(c) => c,
+                            Err(e) => {
+                                log::error!("Error getting config store: {}", e);
+                                return Err(ApplicationError::RegistrationError(
+                                    "Error getting config store".to_string(),
+                                ));
+                            }
+                        };
+                        log::debug!("Creating manager for registration");
+                        let manager = match Manager::register(
+                            config_store,
+                            RegistrationOptions {
+                                signal_servers: presage::prelude::SignalServers::Production,
+                                phone_number: p,
+                                use_voice_call: false,
+                                captcha: Some(c.as_str()),
+                                force: false,
+                            },
+                        )
+                        .await
+                        {
+                            Ok(m) => m,
+                            Err(e) => {
+                                log::error!("Error requesting pin: {}", e);
+                                return Err(ApplicationError::RegistrationError(
+                                    "Error requesting pin".to_string(),
+                                ));
+                            }
+                        };
+                        let code = code_rx.recv().await.unwrap();
+                        match manager.confirm_verification_code(code).await{
+                            Ok(_) => (),
+                            Err(e) => {
+                                log::error!("Error confirming pin: {}", e);
+                                return Err(ApplicationError::RegistrationError(
+                                    "Error confirming pin".to_string(),
+                                ));
+                            }
+                        }
+                        Ok(())
+                    })
+                    .unwrap();
+            }));
+            if panic.is_err() {
+                log::error!("Error getting verification code: {:?}", panic);
+            }
+        });
 
-            // //ask for confirmation code here
-            // manager.confirm_verification_code(1234).await;
         Ok(())
     }
+
     async fn get_phone_number(&self) {
         let qr_code = format!(
             "{{\"response_type\":\"phone_number\",\"data\":\"{}\"}}",
@@ -363,7 +491,6 @@ impl Handler {
             }
         }
         std::mem::drop(ws_sender);
-
     }
     async fn get_phone_pin(&self) {
         let qr_code = format!(
@@ -378,12 +505,9 @@ impl Handler {
             }
         }
         std::mem::drop(ws_sender);
-
     }
     async fn send_registration_confirmation(&self) {
-        let qr_code = format!(
-            "{{\"response_type\":\"registration_done\",\"data\":\"\"}}"
-        );
+        let qr_code = format!("{{\"response_type\":\"registration_done\",\"data\":\"\"}}");
         let mut ws_sender = self.sender.as_ref().unwrap().lock().await;
         match ws_sender.send(Message::text(qr_code)).await {
             Ok(_) => (),
@@ -392,7 +516,6 @@ impl Handler {
             }
         }
         std::mem::drop(ws_sender);
-
     }
     async fn handle_receiving_messages(&self) {
         log::info!("Awaiting for received messages");
@@ -404,7 +527,10 @@ impl Handler {
         self.send_registration_confirmation().await;
 
         while let Some(body) = receiver.next().await {
-            log::debug!("Got message from axolotl: {:?}, awaitng manager thread lock", body);
+            log::debug!(
+                "Got message from axolotl: {:?}, awaitng manager thread lock",
+                body
+            );
             let manager = self.manager_thread.lock().await;
             log::debug!("Got manager thread lock");
 
@@ -475,12 +601,12 @@ impl Handler {
         sender: Arc<Mutex<SplitSink<WebSocket, warp::ws::Message>>>,
     ) {
         log::info!("Awaiting for received message");
-        let mut receive = match receive.lock().await.take(){
-            Some(r)=>r,
+        let mut receive = match receive.lock().await.take() {
+            Some(r) => r,
             None => {
                 log::error!("receiver is not initalised");
                 // TODO: reinitialise receiver or use a receiver that doesn't need a take
-                return  ;
+                return;
             }
         };
         log::debug!("Got receive lock");
@@ -560,24 +686,26 @@ impl Handler {
         };
         Ok(Some(response))
     }
-    fn string_to_thread(&self, thread_id: &String) ->Result< Thread, ApplicationError> {
-        let thread = thread_id.to_string().replace(&['{', '}', '\"', '[', ']', ' '][..], "");
+    fn string_to_thread(&self, thread_id: &String) -> Result<Thread, ApplicationError> {
+        let thread = thread_id
+            .to_string()
+            .replace(&['{', '}', '\"', '[', ']', ' '][..], "");
         let thread = thread.split(":").collect::<Vec<&str>>();
         log::debug!("Thread: {:?}", thread);
         let thread = match thread[0] {
             "Contact" => Thread::Contact(Uuid::parse_str(thread[1]).unwrap()),
             "Group" => {
                 let decoded: Vec<u8> = thread[1]
-                .split(",")
-                .map(|s| s.parse().expect("parse error"))
-                .collect();
+                    .split(",")
+                    .map(|s| s.parse().expect("parse error"))
+                    .collect();
                 // transform decoded to [u8; 32]
                 let mut res = [0u8; 32];
                 res.copy_from_slice(&decoded);
 
                 Thread::Group(res)
-            },
-            _ => return Err(ApplicationError::InvalidRequest)
+            }
+            _ => return Err(ApplicationError::InvalidRequest),
         };
         Ok(thread)
     }
@@ -591,7 +719,7 @@ impl Handler {
         if let Ok::<GetMessagesRequest, SerdeError>(messages_request) = serde_json::from_str(&data)
         {
             log::info!("Getting message list1");
-            
+
             let thread: Thread = self.string_to_thread(&messages_request.id)?;
             match thread {
                 Thread::Contact(_) => {
@@ -704,9 +832,9 @@ impl Handler {
     ) -> Result<Option<AxolotlResponse>, ApplicationError> {
         manager.update_cotacts_from_profile().await.ok().unwrap();
         let data = data.ok_or(ApplicationError::InvalidRequest)?;
-        let thread:Thread = match serde_json::from_str(data.as_str()){
+        let thread: Thread = match serde_json::from_str(data.as_str()) {
             Ok(thread) => thread,
-            Err(_) => return Err(ApplicationError::InvalidRequest)
+            Err(_) => return Err(ApplicationError::InvalidRequest),
         };
 
         manager.open_chat(thread).await.ok().unwrap();
@@ -824,12 +952,12 @@ impl Handler {
                     match unlocked_sender
                         .send(Message::text(serde_json::to_string(&response).unwrap()))
                         .await
-                        {
-                            Ok(_) => {}
-                            Err(e) => {
-                                log::error!("Error while sending response. {:?}", e);
-                            }
-                        };
+                    {
+                        Ok(_) => {}
+                        Err(e) => {
+                            log::error!("Error while sending response. {:?}", e);
+                        }
+                    };
 
                     std::mem::drop(unlocked_sender);
                 }
