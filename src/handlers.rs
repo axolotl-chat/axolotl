@@ -16,7 +16,6 @@ use serde::{Serialize, Serializer};
 use serde_json::error::Error as SerdeError;
 use std::cell::Cell;
 use std::io::Write;
-use std::ops::Deref;
 use std::process::exit;
 use std::time::UNIX_EPOCH;
 use std::{sync::Arc, thread};
@@ -61,6 +60,8 @@ impl Handler {
         let config_store = Handler::get_config_store().await?;
         let manager_thread: Arc<Mutex<Option<ManagerThread>>> = Arc::new(Mutex::new(None));
         let thread = manager_thread.clone();
+        log::info!("Setting up the manager2");
+
         tokio::spawn(async move {
             let manager = ManagerThread::new(
                 config_store.clone(),
@@ -268,17 +269,8 @@ impl Handler {
                                                                                 "Got code: {}",
                                                                                 code
                                                                             );
-                                                                            let code = match code
-                                                                                .parse::<u32>()
-                                                                            {
-                                                                                Ok(code) => code,
-                                                                                Err(e) => {
-                                                                                    log::error!("Error parsing code: {}", e);
-                                                                                    break;
-                                                                                }
-                                                                            };
                                                                             match tx
-                                                                                .send(code)
+                                                                                .send(code.into_boxed_str())
                                                                                 .await
                                                                             {
                                                                                 Ok(_) => (),
@@ -404,7 +396,7 @@ impl Handler {
 
     async fn get_verification_code(
         &mut self,
-        mut code_rx: tokio::sync::mpsc::Receiver<u32>,
+        mut code_rx: tokio::sync::mpsc::Receiver<Box<str>>,
     ) -> Result<(), ApplicationError> {
         log::debug!("Getting verification code");
         if self.phone_number.is_none() {

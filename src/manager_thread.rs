@@ -69,7 +69,6 @@ pub struct ManagerThread {
     current_chat: Arc<Mutex<Option<Thread>>>,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
-
 pub struct AxolotlSession {
     pub id: Thread,
     pub last_message: Option<String>,
@@ -293,7 +292,7 @@ impl ManagerThread {
             .lock()
             .await
             .iter()
-            .filter(|c| c.address.uuid == id)
+            .filter(|c| c.uuid == id)
             .map(almost_clone_contact)
             .next())
     }
@@ -698,8 +697,8 @@ async fn handle_command<C: Store + 'static>(
         Command::UploadAttachments(attachments, callback) => callback
             .send(manager.upload_attachments(attachments).await)
             .expect("Callback sending failed"),
-        Command::GetMessages(thread, count, callback) => callback
-            .send(manager.get_messages(&thread, count))
+        Command::GetMessages(thread, until, callback) => callback
+            .send(manager.messages(&thread, ..until.unwrap_or(0)).unwrap().take(100).collect())
             .expect("Callback sending failed"),
         Command::RequestContactsUpdateFromProfile(callback) => callback
             .send(manager.request_contacts_update_from_profile().await)
@@ -710,11 +709,12 @@ async fn handle_command<C: Store + 'static>(
 // TODO: Clone attachment
 fn almost_clone_contact(contact: &Contact) -> Contact {
     Contact {
-        address: contact.address.clone(),
+        uuid: contact.uuid.clone(),
         name: contact.name.clone(),
         color: contact.color.clone(),
         verified: contact.verified.clone(),
         profile_key: contact.profile_key.clone(),
+        phone_number: contact.phone_number.clone(),
         blocked: contact.blocked,
         expire_timer: contact.expire_timer,
         inbox_position: contact.inbox_position,

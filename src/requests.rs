@@ -75,6 +75,7 @@ impl AxolotlMessage {
             ContentBody::CallMessage(_) => "CallMessage",
             ContentBody::ReceiptMessage(_) => "ReceiptMessage",
             ContentBody::TypingMessage(_) => "TypingMessage",
+            ContentBody::NullMessage(_) => "NullMessage",
         }.to_string();
         let mut is_outgoing = match body{
             ContentBody::DataMessage(_) => false, // todo mark own messages as outgoing
@@ -120,6 +121,7 @@ impl AxolotlMessage {
             ContentBody::CallMessage(_) => "CallMessage",
             ContentBody::ReceiptMessage(_) => "ReceiptMessage",
             ContentBody::TypingMessage(_) => "TypingMessage",
+            ContentBody::NullMessage(_) => "NullMessage",
         }.to_string();
         let mut is_outgoing = match body{
             ContentBody::DataMessage(_) => false, // todo mark own messages as outgoing

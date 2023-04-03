@@ -3,13 +3,15 @@ name = "axolotl"
 version = "0.1.0"
 edition = "2021"
 
+[source.crates-io]
+registry = "git://github.com/rust-lang/crates.io-index.git"
 
 [build-dependencies]
-tauri-build = { version = "2.0.0-alpha.1", features = [], optional = true}
+tauri-build = { version = "2.0.0-alpha.2    ", features = [], optional = true}
 
 [dependencies]
-tauri = { version = "2.0.0-alpha.3", features = [], optional = true }
-presage = { git = "https://github.com/nanu-c/presage", rev = "dac616291a4f6e6f84386ce85a71724eef5a1179" }
+tauri = { version = "2.0.0-alpha.4", features = [], optional = true }
+presage = { git = "https://github.com/nanu-c/presage", rev = "b206f1c5001195659afa438fa09516bc0a78499f" }
 #presage = {path = "../presage"}
 libsignal-service = { git = "https://github.com/whisperfish/libsignal-service-rs", rev = "456bf6eb2e4454ce35bdb4ca75b8dba7941c2923" }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
