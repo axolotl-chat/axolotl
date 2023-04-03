@@ -204,7 +204,7 @@ jobs:
           submodules: 'true'
 
       - name: Build Flatpak Web version
-        uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v5
+        uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: axolotl-web.flatpak
           manifest-path: flatpak/web/org.nanuc.Axolotl.yml
@@ -225,7 +225,7 @@ jobs:
           submodules: 'true'
 
       - name: Build Flatpak QT version
-        uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v5
+        uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: axolotl-qt.flatpak
           manifest-path: flatpak/qt/org.nanuc.Axolotl.yml
