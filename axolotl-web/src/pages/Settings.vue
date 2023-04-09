@@ -5,7 +5,7 @@
         <div class="avatar" />
         <div v-translate class="name">Registered number</div>
         <div class="number">
-          {{ config.RegisteredNumber }}
+          {{ this.config.uuid }}
         </div>
       </div>
       <router-link v-translate class="btn btn-primary" :to="'/devices/'">

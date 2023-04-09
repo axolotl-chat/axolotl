@@ -364,7 +364,7 @@ impl Handler {
 
 
         thread::sleep(time::Duration::from_secs(1));
-        
+
         self.handle_provisoning().await;
 
         let mut r = self.error_rx.as_ref().unwrap().lock().await;

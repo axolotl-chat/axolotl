@@ -51,6 +51,7 @@ pub struct AxolotlConfig {
     pub e164: Option<String>,
     pub platform: Option<String>,
     pub feature: Option<String>,
+    pub phone_number: String
 }
 
 #[derive(Serialize, Deserialize, Debug)]
