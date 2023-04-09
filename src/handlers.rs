@@ -17,7 +17,7 @@ use serde_json::error::Error as SerdeError;
 use std::cell::Cell;
 use std::io::Write;
 use std::process::exit;
-use std::time::UNIX_EPOCH;
+use std::time::{UNIX_EPOCH, self};
 use std::{sync::Arc, thread};
 use tokio::sync::Mutex;
 use url::Url;
@@ -29,7 +29,7 @@ const MESSAGE_BOUND: usize = 10;
 
 use futures::channel::oneshot;
 
-use presage::{Confirmation, Manager, MigrationConflictStrategy, RegistrationOptions};
+use presage::{Confirmation, Manager, MigrationConflictStrategy, RegistrationOptions, Store};
 use presage::{SledStore, Thread};
 use tokio::sync::mpsc::{self, UnboundedReceiver};
 
@@ -76,6 +76,8 @@ impl Handler {
             log::info!("Manager thread started, ready to receive messages from the client");
             let mut m = thread.lock().await;
             *m = manager;
+            // free the lock
+            drop(m);
         });
 
         Ok(Self {
@@ -132,12 +134,14 @@ impl Handler {
     /// Handles a client connection
     pub async fn handle_ws_client(&mut self, websocket: warp::ws::WebSocket) {
         // start manager only the first time, else replace the sender and receiver
+        log::debug!("Starting the manager and handling the client.");
         match self.start_manager(websocket).await {
             Ok(_) => log::info!("Manager started"),
             Err(e) => {
                 log::error!("Error starting the manager: {}", e);
             }
         }
+        log::info!("Manager started");
     }
 
     pub async fn start_manager(
@@ -164,11 +168,12 @@ impl Handler {
                         self.is_registered = Some(true);
                     }
                     Err(e) => {
+                        log::debug!("Error checking registration: {}", e);
                         self.is_registered = Some(false);
                     }
                 }
             }
-            log::info!("Is registered: {:?}", self.is_registered);
+            log::debug!("Is registered: {:?}", self.is_registered);
 
             if self.is_registered.is_some() && !self.is_registered.unwrap() {
                 log::info!("Starting registration process");
@@ -256,7 +261,7 @@ impl Handler {
                                                                             .request
                                                                             .as_str();
                                                                     log::info!(
-                                                                        "Axolotl registration request: {}",
+                                                                        "Axolotl registration request code message: {}",
                                                                         request_type
                                                                     );
                                                                     if request_type == "sendCode" {
@@ -317,9 +322,14 @@ impl Handler {
                         break;
                     }
                 }
+            } else {
+                log::info!("Already registered, lets start the manager");
             }
+            log::debug!("Creating manager");
             let manager = self.manager_thread.lock().await;
             if manager.is_none() {
+                log::debug!("Manager is none, creating");
+                // todo for errors
                 if let Some(error_opt) = self.receive_error.recv().await {
                     log::error!("Got error after linking device: {}", error_opt);
                     continue;
@@ -348,13 +358,13 @@ impl Handler {
     }
 
     async fn check_registration(&mut self) -> Result<(), ApplicationError> {
-        log::info!("Checking registration {:?}", self.provisioning_link);
-        if self.error_rx.is_none() {
-            log::error!("Error receiver not initialized");
-            return Err(ApplicationError::RegistrationError(
-                "Error receiver not initialized".to_string(),
-            ));
-        }
+        // Check if we are already registered
+
+        // wait 3 seconds for the manager to be initialized
+
+
+        thread::sleep(time::Duration::from_secs(1));
+        
         self.handle_provisoning().await;
 
         let mut r = self.error_rx.as_ref().unwrap().lock().await;
@@ -449,7 +459,7 @@ impl Handler {
                             }
                         };
                         let code = code_rx.recv().await.unwrap();
-                        match manager.confirm_verification_code(code).await{
+                        match manager.confirm_verification_code(code).await {
                             Ok(_) => (),
                             Err(e) => {
                                 log::error!("Error confirming pin: {}", e);
@@ -888,6 +898,15 @@ impl Handler {
         };
         Ok(Some(response))
     }
+    async fn handle_unregister(
+        &self,
+        manager: &ManagerThread,
+    ) -> Result<Option<AxolotlResponse>, ApplicationError> {
+        log::info!("Unregistering");
+        let mut store = Handler::get_config_store().await?;
+        store.clear()?;
+        exit(0);
+    }
     /// Handles a websocket message
     async fn handle_websocket_message(
         &self,
@@ -933,6 +952,7 @@ impl Handler {
                 "openChat" => self.handle_open_chat(manager, axolotl_request.data).await,
                 "leaveChat" => self.handle_close_chat(manager).await,
                 "getConfig" => self.handle_get_config(manager).await,
+                "unregister" => self.handle_unregister(manager).await,
                 _ => {
                     log::error!("Unhandled axolotl request {}", axolotl_request.request);
                     Err(ApplicationError::InvalidRequest)

@@ -88,7 +88,6 @@ async fn start_ui(mode: Mode) {
 mod tauri {
     const INIT_SCRIPT: &str = r#"
     document.addEventListener('DOMContentLoaded', function () {
-        alert("init");
         window.renderCallback = function (scheme, sitekey, action, token) {
         
             var targetURL = "tauri://localhost/?token=" + [scheme, sitekey, action, token].join(".");
@@ -97,7 +96,6 @@ mod tauri {
             link.innerText = "open axolotl";
         
             document.body.removeAttribute("class");
-            alert(targetURL);
             setTimeout(function () {
             document.getElementById("container").appendChild(link);
             }, 2000);
@@ -105,7 +103,6 @@ mod tauri {
             window.location.href = targetURL;
         };
         function onload() {
-            alert("onload");
             var action = document.location.href.indexOf("challenge") !== -1 ?
               "challenge" : "registration";
             var isDone = false;

@@ -56,7 +56,6 @@ UITK.Page {
                     window.location.href = targetURL;
                 };
                 function onload() {
-                    alert("onload");
                     var action = document.location.href.indexOf("challenge") !== -1 ?
                       "challenge" : "registration";
                     var isDone = false;

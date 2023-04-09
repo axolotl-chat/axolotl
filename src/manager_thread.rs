@@ -253,13 +253,14 @@ impl ManagerThread {
             .into_iter())
     }
     pub async fn update_cotacts_from_profile(&self) -> Result<(), Error> {
-        log::debug!("Updating contacts from profile");
-        let (sender, receiver) = oneshot::channel();
-        self.command_sender
-            .send(Command::RequestContactsUpdateFromProfile(sender))
-            .await
-            .expect("Command sending failed");
-        receiver.await.expect("Callback receiving failed")
+        log::debug!("Updating contacts from profile -> todo");
+        // let (sender, receiver) = oneshot::channel();
+        // self.command_sender
+        //     .send(Command::RequestContactsUpdateFromProfile(sender))
+        //     .await
+        //     .expect("Command sending failed");
+        // receiver.await.expect("Callback receiving failed")
+        Ok(())
     }
 
     pub async fn get_conversations(

@@ -12,7 +12,7 @@
             </button>
             <div v-if="currentChat !== null && currentChat" class="row w-100">
               <div class="col-2 badge-container">
-                <div v-if="!isGroup" class="badge-name" @click="openProfileForRecipient(currentChat.DirectMessageRecipientID)">
+                <div v-if="!currentChat.isGroup" class="badge-name" @click="openProfileForRecipient(currentChat.DirectMessageRecipientID)">
                   <img
                     class="avatar-img"
                     :src="'http://localhost:9080/avatars?session=' + currentChat.ID"
