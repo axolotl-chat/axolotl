@@ -103,6 +103,7 @@ mod tauri {
             window.location.href = targetURL;
         };
         function onload() {
+
             var action = document.location.href.indexOf("challenge") !== -1 ?
               "challenge" : "registration";
             var isDone = false;
@@ -141,7 +142,9 @@ mod tauri {
           
             execute();
           }
-        onload();
+        if (!window.location.href.includes("localhost")){
+            onload();
+        }
     });
 "#;
 

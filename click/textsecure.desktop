@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Axolotl
 #Exec=qmlscene --scaling qml/MainUt.qml
-Exec=env RUST_LOG=debug  axolotl %u 
+Exec=env RUST_LOG=debug  axolotl -- --mode=ut %u 
 Icon=axolotl.png
 Terminal=false
 Type=Application

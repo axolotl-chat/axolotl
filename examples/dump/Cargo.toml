@@ -1,0 +1,12 @@
+[package]
+name = "dump_db"
+version = "0.1.0"
+edition = "2021"
+
+[source.crates-io]
+registry = "git://github.com/rust-lang/crates.io-index.git"
+
+[dependencies]
+
+sled = "0.34.7"
+

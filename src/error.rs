@@ -1,13 +1,17 @@
 use presage as p;
+use presage_store_sled::SledStoreError;
 
 const FAILED_TO_LOOK_UP_ADDRESS: &str = "failed to lookup address information";
+type PresageError = presage::Error<presage_store_sled::SledStoreError>;
+
 
 
 #[derive(Debug)]
 pub enum ApplicationError {
     ManagerThreadPanic,
     NoInternet,
-    Presage(presage::Error),
+    Presage(presage::Error<presage_store_sled::SledStoreError>),
+    SledStore(presage_store_sled::SledStoreError),
     UnauthorizedSignal,
     SendFailed(presage::libsignal_service::sender::MessageSenderError),
     ReceiveFailed(libsignal_service::receiver::MessageReceiverError),
@@ -15,6 +19,7 @@ pub enum ApplicationError {
     WebSocketHandleMessageError(String),
     RegistrationError(String),
     InvalidRequest,
+    RegistrationSuccesful
 
 }
 
@@ -74,14 +79,24 @@ impl std::fmt::Display for ApplicationError {
                 "{}",
                 "Invalid request.",
             ),
+            ApplicationError::SledStore(_) => writeln!(
+                f,
+                "{}",
+                "Something unexpected happened with the database. Please retry later."
+            ),
+            ApplicationError::RegistrationSuccesful => writeln!(
+                f,
+                "{}",
+                "Registration succesful."
+            ),
 
         }
     }
 }
 
 // convert presage errors to application errors
-impl From<p::Error> for ApplicationError {
-    fn from(e: p::Error) -> Self {
+impl From<PresageError> for ApplicationError {
+    fn from(e: PresageError) -> Self {
         match e {
             p::Error::ServiceError(p::prelude::content::ServiceError::Unauthorized) => {
                 ApplicationError::UnauthorizedSignal
@@ -94,6 +109,15 @@ impl From<p::Error> for ApplicationError {
             )) if e.contains(FAILED_TO_LOOK_UP_ADDRESS) => ApplicationError::NoInternet,
             p::Error::MessageSenderError(e) => ApplicationError::SendFailed(e),
             _ => ApplicationError::Presage(e),
+
+        }
+    }
+}
+// convert presage errors to application errors
+impl From<SledStoreError> for ApplicationError {
+    fn from(e: SledStoreError) -> Self {
+        match e {
+            _ => ApplicationError::SledStore(e),
 
         }
     }
@@ -130,6 +154,8 @@ impl ApplicationError {
             ApplicationError::WebSocketHandleMessageError(e) => format!("{:#?}", e),
             ApplicationError::RegistrationError(e) => format!("{:#?}", e),
             ApplicationError::InvalidRequest=> "Invalid request.".to_string(),
+            ApplicationError::SledStore(e) => format!("{:#?}", e),
+            ApplicationError::RegistrationSuccesful => "Registration succesful.".to_string(),
         }
     }
 
@@ -145,6 +171,8 @@ impl ApplicationError {
             ApplicationError::WebSocketHandleMessageError(_) => true,
             ApplicationError::RegistrationError(_) => true,
             ApplicationError::InvalidRequest=> false,
+            ApplicationError::SledStore(_) => true,
+            ApplicationError::RegistrationSuccesful => false,
         }
     }
 }

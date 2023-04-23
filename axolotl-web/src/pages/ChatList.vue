@@ -4,9 +4,6 @@
       <router-link v-translate class="dropdown-item" :to="'/contacts/'">
         Contacts
       </router-link>
-      <router-link v-translate class="dropdown-item" :to="'/newGroup'">
-        New group
-      </router-link>
       <router-link v-translate class="dropdown-item" :to="'/settings/'">
         Settings
       </router-link>

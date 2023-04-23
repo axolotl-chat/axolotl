@@ -2,7 +2,9 @@
 
 use std::time::UNIX_EPOCH;
 use presage::prelude::*;
-use presage::{Manager, SledStore};
+use presage::Manager;
+use presage_store_sled::SledStore;
+
 
 use crate::manager_thread::ManagerThread;
 

@@ -7,21 +7,23 @@ use crate::requests::{
 extern crate dirs;
 use futures::channel::oneshot::Receiver;
 use futures::executor::block_on;
+use futures::future::FusedFuture;
 use futures::stream::{SplitSink, SplitStream};
 use futures::{SinkExt, StreamExt};
 use libsignal_service::prelude::{phonenumber, Uuid};
 use presage::prelude::{Content, PhoneNumber};
 use presage::prelude::{ContentBody, DataMessage, GroupContextV2};
+use presage_store_sled::SledStoreError;
 use serde::{Serialize, Serializer};
 use serde_json::error::Error as SerdeError;
 use std::cell::Cell;
 use std::io::Write;
 use std::process::exit;
-use std::time::{UNIX_EPOCH, self};
+use std::time::{self, UNIX_EPOCH, Duration};
 use std::{sync::Arc, thread};
+use tokio::runtime::Runtime;
 use tokio::sync::Mutex;
 use url::Url;
-
 use warp::filters::ws::Message;
 use warp::ws::WebSocket;
 
@@ -29,14 +31,17 @@ const MESSAGE_BOUND: usize = 10;
 
 use futures::channel::oneshot;
 
-use presage::{Confirmation, Manager, MigrationConflictStrategy, RegistrationOptions, Store};
-use presage::{SledStore, Thread};
+use presage::{Thread, ThreadMetadata};
+use presage::{Confirmation, Manager, RegistrationOptions, Store};
+use presage_store_sled::MigrationConflictStrategy;
+use presage_store_sled::SledStore;
+
 use tokio::sync::mpsc::{self, UnboundedReceiver};
 
 pub struct Handler {
-    pub provisioning_link_rx: Option<Arc<Mutex<oneshot::Receiver<Url>>>>,
+    pub provisioning_link_rx: Option<Arc<Mutex<Receiver<Url>>>>,
     pub provisioning_link: Option<Url>,
-    pub error_rx: Option<Arc<Mutex<Receiver<presage::Error>>>>,
+    pub error_rx: Option<Arc<Mutex<Receiver<presage::Error<SledStoreError>>>>>,
     pub receive_error: mpsc::Receiver<ApplicationError>,
     pub sender: Option<Arc<Mutex<SplitSink<WebSocket, Message>>>>,
     pub receiver: Option<Arc<Mutex<SplitStream<WebSocket>>>>,
@@ -49,7 +54,7 @@ pub struct Handler {
 }
 impl Handler {
     pub async fn new() -> Result<Self, ApplicationError> {
-        log::info!("Setting up the manager");
+        log::info!("Setting up the handler");
         let (provisioning_link_tx, provisioning_link_rx) = oneshot::channel();
         let (error_tx, error_rx) = oneshot::channel();
 
@@ -60,25 +65,32 @@ impl Handler {
         let config_store = Handler::get_config_store().await?;
         let manager_thread: Arc<Mutex<Option<ManagerThread>>> = Arc::new(Mutex::new(None));
         let thread = manager_thread.clone();
+        let mut is_registered = Some(false);
         log::info!("Setting up the manager2");
-
-        tokio::spawn(async move {
-            let manager = ManagerThread::new(
-                config_store.clone(),
-                "axolotl".to_string(),
-                provisioning_link_tx,
-                error_tx,
-                send_content,
-                current_chat_mutex,
-                send_error,
-            )
-            .await;
-            log::info!("Manager thread started, ready to receive messages from the client");
-            let mut m = thread.lock().await;
-            *m = manager;
-            // free the lock
-            drop(m);
-        });
+        if config_store.is_registered() {
+            log::info!("Registered, starting the manager");
+            is_registered = Some(true);
+            
+            tokio::spawn(async move {
+                let manager = ManagerThread::new(
+                    config_store.clone(),
+                    "axolotl".to_string(),
+                    provisioning_link_tx,
+                    error_tx,
+                    send_content,
+                    current_chat_mutex,
+                    send_error,
+                )
+                .await;
+                log::info!("Manager thread started, ready to receive messages from the client");
+                let mut m = thread.lock().await;
+                *m = manager;
+                // free the lock
+                drop(m);
+            });
+        } else {
+            log::info!("Not yet registered.");
+        }
 
         Ok(Self {
             provisioning_link_rx: Some(Arc::new(Mutex::new(provisioning_link_rx))),
@@ -89,7 +101,7 @@ impl Handler {
             receiver: None,
             manager_thread: manager_thread,
             receive_content: Arc::new(Mutex::new(Some(receive_content))),
-            is_registered: None,
+            is_registered: is_registered,
             captcha: None,
             phone_number: None,
             registration_manager: None,
@@ -155,6 +167,7 @@ impl Handler {
         self.sender = Some(shared_sender.clone());
         self.receiver = Some(Arc::new(Mutex::new(receiver)));
         loop {
+            log::debug!("Starting the manager loop: {:?}", count);
             if count == 5 || self.sender.is_none() {
                 log::error!("Too many errors, exiting or sender is none {:?}", count);
                 // Exit this loop
@@ -177,7 +190,6 @@ impl Handler {
 
             if self.is_registered.is_some() && !self.is_registered.unwrap() {
                 log::info!("Starting registration process");
-                self.send_provisioning_link().await;
 
                 match self.start_registration().await {
                     Err(e) => {
@@ -185,7 +197,9 @@ impl Handler {
                     }
                     _ => (),
                 }
-                // If we get here, we have a provisioning link or the registration request
+
+                // check if client wants to register as primary or secondary device
+
                 let receiver = self.receiver.clone();
                 if let Some(r) = receiver {
                     let mut r = r.lock().await;
@@ -208,9 +222,57 @@ impl Handler {
                                             "Axolotl registration request: {}",
                                             request_type
                                         );
+                                        if request_type == "primaryDevice" {
+                                            self.get_phone_number().await;
+                                        } else if request_type == "registerSecondaryDevice" {
+                                            let mut finished = false;
+                                            let mut got_error = false;
+                                            loop {
+
+
+                                                log::debug!("Registering secondary device");
+                                                self.create_provisioning_link().await?;
+                                                if self.is_registered.is_some() && self.is_registered.unwrap() {
+                                                    log::debug!("Device is already registered");
+                                                    break;
+                                                }
+                                                log::debug!("Provisioning link created successfully");
+                                                self.handle_provisoning().await;
+                                                log::debug!("Provisioning link handled successfully");
+                                                self.send_provisioning_link().await;
+                                                log::debug!(
+                                                    "Provisioning link sent successfully to client"
+                                                );
+                                                let error_reciever = self.error_rx.as_mut().unwrap();
+                                                let mut error_reciever = error_reciever.lock().await;
+                                                while let Ok(mut e) = error_reciever.try_recv() {
+                                                    match e {
+                                                        Some(u) => {
+                                                            log::error!("Error registering secondary device: {}", u);
+                                                            got_error = true;
+                                                            Some(u)
+                                                        },
+                                                        None => {
+                                                            thread::sleep(time::Duration::from_secs(1));
+                                                            log::debug!("Waiting for error");
+                                                            continue;
+                                                        }
+                                                    };
+                                                }; 
+                                                if error_reciever.try_recv().is_err() {
+                                                    log::debug!("Break out of loop, because error channel is closed");
+                                                    break;
+                                                }
+                                            }
+                                            self.send_registration_confirmation().await;
+                                            log::debug!("Registration confirmation sent and done, now sleeping");
+                                            if let Some(error_opt) = self.receive_error.recv().await {
+                                                log::error!("Got error after linking device2: {}", error_opt);
+                                                continue;
+                                            }
+                                        }
                                         if request_type == "sendCaptchaToken" {
                                             self.captcha = axolotl_request.data;
-                                            self.get_phone_number().await;
                                         } else if request_type == "requestCode" {
                                             self.phone_number = match axolotl_request.data {
                                                 Some(data) => {
@@ -323,12 +385,14 @@ impl Handler {
                     }
                 }
             } else {
-                log::info!("Already registered, lets start the manager");
+                log::info!("Already registered, lets start the manager1");
+                self.send_registration_confirmation().await;
+                log::debug!("Registration confirmation sent and done");
             }
             log::debug!("Creating manager");
             let manager = self.manager_thread.lock().await;
             if manager.is_none() {
-                log::debug!("Manager is none, creating");
+                log::debug!("Manager is none, creating {:?}", self.receive_error);
                 // todo for errors
                 if let Some(error_opt) = self.receive_error.recv().await {
                     log::error!("Got error after linking device: {}", error_opt);
@@ -362,35 +426,81 @@ impl Handler {
 
         // wait 3 seconds for the manager to be initialized
 
-
-        thread::sleep(time::Duration::from_secs(1));
-        
-        self.handle_provisoning().await;
-
-        let mut r = self.error_rx.as_ref().unwrap().lock().await;
-        if let Ok(error_opt) = r.try_recv() {
-            match error_opt {
-                Some(e) => {
-                    return Err(ApplicationError::RegistrationError(
-                        "Not registered".to_string(),
-                    ));
-                }
-                None => {
-                    log::info!("No error after linking device");
-                }
+        thread::sleep(time::Duration::from_secs(2));
+        let config_store = match Handler::get_config_store().await {
+            Ok(c) => c,
+            Err(e) => {
+                log::error!("Error getting config store: {}", e);
+                return Err(ApplicationError::RegistrationError(
+                    "Error getting config store".to_string(),
+                ));
             }
-        }
-
-        if self.provisioning_link.is_some() {
-            self.send_provisioning_link().await;
+        };
+        if config_store.is_registered() {
+            log::info!("Already registered, lets start the manager2");
+            self.is_registered = Some(true);
+        } else {
+            log::info!("Not registered, lets start the registration");
+            self.is_registered = Some(false);
             return Err(ApplicationError::RegistrationError(
-                "Not registered".to_string(),
+                "Not yet registered".to_string(),
             ));
         }
+        Ok(())
+    }
+    async fn create_provisioning_link(&mut self) -> Result<(), ApplicationError> {
+        log::debug!("Creating provisioning link");
+        let config_store = match Handler::get_config_store().await {
+            Ok(c) => c,
+            Err(e) => {
+                log::error!("Error getting config store: {}", e);
+                return Err(ApplicationError::RegistrationError(
+                    "Error getting config store".to_string(),
+                ));
+            }
+        };
+        if config_store.is_registered() {
+            log::info!("Already registered, lets start the manager4");
+            return Ok(());
+        }
+
+        let (provisioning_link_tx, provisioning_link_rx) = oneshot::channel();
+        self.provisioning_link_rx = Some(Arc::new(Mutex::new(provisioning_link_rx)));
+        let (error_tx, error_rx) = oneshot::channel();
+        self.error_rx = Some(Arc::new(Mutex::new(error_rx)));
+        let (send_content, receive_content) = mpsc::unbounded_channel();
+        self.receive_content = Arc::new(Mutex::new(Some(receive_content)));
+        let current_chat: Option<Thread> = None;
+        let current_chat_mutex = Arc::new(Mutex::new(current_chat));
+        let (send_error, receive_error) = mpsc::channel(MESSAGE_BOUND);
+        self.receive_error = receive_error;
+        log::debug!("Creating runtime");
+        thread::spawn(|| {
+            Runtime::new().unwrap().spawn(async move {
+                log::debug!("Spawning manager thread");
+                ManagerThread::new(
+                    config_store.clone(),
+                    "axolotl".to_string(),
+                    provisioning_link_tx,
+                    error_tx,
+                    send_content,
+                    current_chat_mutex,
+                    send_error,
+                )
+                .await;
+                log::info!("Manager thread started, ready to receive messages from the client2");
+            });
+        });
+        log::debug!("runtime created");
 
         Ok(())
     }
     async fn send_provisioning_link(&self) {
+        log::debug!("Sending provisioning link");
+        if self.provisioning_link.is_none() {
+            log::error!("No provisioning link provided");
+            return;
+        }
         let qr_code = format!(
             "{{\"response_type\":\"qr_code\",\"data\":\"{}\"}}",
             self.provisioning_link.clone().unwrap()
@@ -453,6 +563,7 @@ impl Handler {
                             Ok(m) => m,
                             Err(e) => {
                                 log::error!("Error requesting pin: {}", e);
+                                // todo send error to client
                                 return Err(ApplicationError::RegistrationError(
                                     "Error requesting pin".to_string(),
                                 ));
@@ -568,9 +679,23 @@ impl Handler {
         }
         let mut p = self.provisioning_link_rx.as_ref().unwrap().lock().await;
 
-        match p.try_recv() {
-            Ok(url) => self.provisioning_link = url,
-            Err(_e) => log::trace!("Manager is already linked"),
+        while let Ok(mut url) = p.try_recv() {
+            url = match url {
+                Some(u) => Some(u),
+                None => {
+                    thread::sleep(time::Duration::from_secs(1));
+                    match p.try_recv(){
+                        Ok(u) => u,
+                        Err(_) => {
+                            log::error!("Error getting provisioning link");
+                            return;
+                        },
+                    }
+                }
+            };
+
+            log::debug!("Got provisioning link: {:?}", url);
+            self.provisioning_link = url;
         }
     }
     async fn start_registration(&self) -> Result<(), ApplicationError> {
@@ -591,12 +716,40 @@ impl Handler {
             .send(Message::text("{\"response_type\":\"registration_start\"}"))
             .await
         {
-            Ok(_) => log::info!("Sent registration start message"),
+            Ok(_) => log::info!("Sent registration start message to client"),
             Err(e) => {
                 log::error!("Error sending registration start message: {}", e)
             }
         };
         Ok(())
+    }
+    async fn thread_metadata(&self, thread: &Thread) -> Result<Option<ThreadMetadata>, ApplicationError> {
+        let mut manager = self.manager_thread.lock().await;
+        let manager = manager.as_mut().unwrap();
+        match manager.thread_metadata(thread).await {
+            Ok(metadata) => Ok(metadata),
+            Err(e) => Err(ApplicationError::from(e)),
+        }
+    }
+    async fn create_thread_metadata(
+        &self,
+        thread: &Thread,
+    ) -> Result<(), ApplicationError> {
+        let metadata = ThreadMetadata{
+            thread: thread.clone(),
+            unread_messages_count: 0,
+            last_message: None,
+            title: None,
+            archived: false,
+            muted: false,
+        };
+        
+        let mut manager = self.manager_thread.lock().await;
+        let manager = manager.as_mut().unwrap();
+        match manager.save_thread_metadata(metadata).await {
+            Ok(_) => Ok(()),
+            Err(e) => Err(ApplicationError::from(e)),
+        }
     }
     async fn handle_received_message(
         receive: Arc<Mutex<Option<UnboundedReceiver<Content>>>>,
@@ -616,7 +769,6 @@ impl Handler {
         loop {
             match receive.recv().await {
                 Some(content) => {
-                    log::info!("Got message from manager");
                     let thread = Thread::try_from(&content).unwrap();
                     let mut axolotl_message = AxolotlMessage::from_message(content);
                     axolotl_message.thread_id = Some(thread);
@@ -631,6 +783,7 @@ impl Handler {
                     let mut ws_sender = sender.lock().await;
                     ws_sender.send(Message::text(response)).await.unwrap();
                     std::mem::drop(ws_sender);
+
                 }
                 None => {
                     log::error!("Error receiving message");
@@ -904,7 +1057,7 @@ impl Handler {
     ) -> Result<Option<AxolotlResponse>, ApplicationError> {
         log::info!("Unregistering");
         let mut store = Handler::get_config_store().await?;
-        store.clear()?;
+        store.clear_registration()?;
         exit(0);
     }
     /// Handles a websocket message

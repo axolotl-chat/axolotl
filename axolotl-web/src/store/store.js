@@ -198,6 +198,7 @@ export default createStore({
         // })
         state.messageList = tmpList;
       }
+      console.log("SET_MESSAGE_RECEIVED", message)
       state.chatList.forEach((chat, i) => {
         if (chat.id === message.thread_id) {
           state.chatList[i].Messages = [message]
@@ -415,8 +416,8 @@ export default createStore({
           } else if (messageData.response_type === "message_received") {
             const messageReceived = JSON.parse(messageData.data);
             console.log("message_received", messageReceived, state.currentChat);
-            console.log(JSON.stringify(state.currentChat.id) === JSON.stringify(messageReceived.thread_id), JSON.stringify(state.currentChat.id) ,JSON.stringify(messageReceived.thread_id))
-            if (state.currentChat && JSON.stringify(state.currentChat.id) === JSON.stringify(messageReceived.thread_id)) {
+            console.log(JSON.stringify(state.currentChat?.id) === JSON.stringify(messageReceived.thread_id), JSON.stringify(state.currentChat.id) ,JSON.stringify(messageReceived.thread_id))
+            if (state.currentChat && JSON.stringify(state.currentChat?.id) === JSON.stringify(messageReceived.thread_id)) {
 
               this.commit("SET_MESSAGE_RECEIVED", messageReceived);
             } else {
@@ -621,6 +622,15 @@ export default createStore({
         const message = {
           "request": "resetEncryption",
           "data": this.state.currentChat.ID
+        }
+        socketSend(message);
+      }
+    },
+    registerSecondaryDevice() {
+      if (this.state.socket.isConnected) {
+        const message = {
+          "request": "registerSecondaryDevice",
+          "data": ""
         }
         socketSend(message);
       }

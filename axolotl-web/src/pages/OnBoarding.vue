@@ -29,7 +29,7 @@
           <br>
           <font-awesome-icon id="heart" icon="heart" />
         </div>
-        <button v-translate class="btn btn-primary" @click="$router.push('/qr')">
+        <button v-translate class="btn btn-primary" @click="registerAsSecondaryDevice()">
           Register as secondary
           device
           (like signal desktop)
@@ -80,6 +80,10 @@ export default {
         e.preventDefault();
         alert(url);
       }
+    },
+    registerAsSecondaryDevice() {
+      this.$store.dispatch("registerSecondaryDevice");
+      this.$router.push('/qr')
     },
     register() {
       window.location = 'https://signalcaptchas.org/registration/generate.html'
