@@ -43,6 +43,7 @@ export default createStore({
     captchaToken: null,
     captchaTokenSent: false,
     deviceLinkCode: null,
+    phoneNumber: null,
     socket: {
       isConnected: false,
       message: '',

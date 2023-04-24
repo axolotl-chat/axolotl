@@ -5,7 +5,7 @@
         <div class="avatar" />
         <div v-translate class="name">Registered number</div>
         <div class="number">
-          {{ this.config.uuid }}
+          {{ this.phoneNumber }}
         </div>
       </div>
       <router-link v-translate class="btn btn-primary" :to="'/devices/'">
@@ -87,7 +87,7 @@ export default {
       loglevel: "info",
     };
   },
-  computed: mapState(["config"]),
+  computed: mapState(["config", "phoneNumber"]),
   mounted() {
     this.$store.dispatch("getConfig");
     this.darkMode = this.getCookie("darkMode") === "true";
