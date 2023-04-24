@@ -853,6 +853,17 @@ impl Handler {
         manager.close_chat().await.ok().unwrap();
         Ok(None)
     }
+    async fn handle_get_phone_number(&self, manager: &ManagerThread) -> Result<Option<AxolotlResponse>, ApplicationError> {
+        let phone_number = manager.get_state().await.phone_number;
+        let phone_number_code = &phone_number.code().value();
+        let phone_number_national = &phone_number.national().value();
+        let actual_number = format!("{}{}", phone_number_code.to_string(), phone_number_national.to_string());
+        let response = AxolotlResponse {
+            response_type: "phoneNumber".to_string(),
+            data: actual_number,
+        };
+        Ok(Some(response))
+    }
     async fn handle_get_config(
         &self,
         manager: &ManagerThread,
@@ -953,6 +964,7 @@ impl Handler {
                 "leaveChat" => self.handle_close_chat(manager).await,
                 "getConfig" => self.handle_get_config(manager).await,
                 "unregister" => self.handle_unregister(manager).await,
+                "getPhoneNumber" => self.handle_get_phone_number(manager).await,
                 _ => {
                     log::error!("Unhandled axolotl request {}", axolotl_request.request);
                     Err(ApplicationError::InvalidRequest)

@@ -53,6 +53,7 @@ enum Command {
         oneshot::Sender<Result<Vec<Content>, Error>>,
     ),
     RequestContactsUpdateFromProfile(oneshot::Sender<Result<(), Error>>),
+    GetState(oneshot::Sender<Registered>),
 }
 
 impl std::fmt::Debug for Command {
@@ -392,6 +393,14 @@ impl ManagerThread {
         *current_chat = None;
         Ok(())
     }
+    pub async fn get_state(&self) -> Registered {
+        let (sender, receiver) = oneshot::channel();
+        self.command_sender
+          .send(Command::GetState(sender))
+          .await
+          .expect("Command sending failed");
+        receiver.await.expect("Callback receiving failed")
+    }
 
 }
 
@@ -704,6 +713,8 @@ async fn handle_command<C: Store + 'static>(
         Command::RequestContactsUpdateFromProfile(callback) => callback
             .send(manager.request_contacts_update_from_profile().await)
             .expect("Callback sending failed"),
+        Command::GetState(callback) => callback
+            .send(manager.state().clone()).expect("Callback sending failed")
     };
 }
 

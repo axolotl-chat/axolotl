@@ -849,6 +849,14 @@ export default createStore({
         socketSend(message);
       }
     },
+    getPhoneNumber() {
+      if (this.state.socket.isConnected) {
+        const message = {
+          "request": "getPhoneNumber",
+        }
+        socketSend(message);
+      }
+    },
     createNewGroup(state, data) {
       if (this.state.socket.isConnected) {
         const message = {

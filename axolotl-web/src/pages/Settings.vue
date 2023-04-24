@@ -92,6 +92,7 @@ export default {
     this.$store.dispatch("getConfig");
     this.darkMode = this.getCookie("darkMode") === "true";
     this.loglevel = this.config.LogLevel;
+    this.$store.dispatch("getPhoneNumber")
   },
   methods: {
     unregister() {

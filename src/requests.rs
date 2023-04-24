@@ -51,7 +51,6 @@ pub struct AxolotlConfig {
     pub e164: Option<String>,
     pub platform: Option<String>,
     pub feature: Option<String>,
-    pub phone_number: String
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -110,7 +109,7 @@ impl AxolotlMessage {
             message:data_message,
             timestamp:Some(timestamp),
             attachment:None,
-            is_outgoing, 
+            is_outgoing,
             thread_id:None
         }
     }
