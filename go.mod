@@ -3,7 +3,7 @@ module github.com/nanu-c/axolotl
 go 1.16
 
 require (
-	github.com/asticode/go-astilectron v0.29.0
+	github.com/asticode/go-astilectron v0.30.0
 	github.com/asticode/go-astilectron-bootstrap v0.4.14
 	github.com/dustin/go-humanize v1.0.0
 	github.com/gen2brain/beeep v0.0.0-20220518085355-d7852edf42fc
