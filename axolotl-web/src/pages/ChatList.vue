@@ -50,9 +50,14 @@
                 <div class="col-9">
                   <div class="name">
                     <font-awesome-icon
-                      v-if="chat.IsMuted"
+                      v-if="chat.muted"
                       class="mute"
                       icon="volume-mute"
+                    />
+                    <font-awesome-icon
+                      v-if="chat.is_group"
+                      class="is_group me-1"
+                      icon="user-friends"
                     />
                     <div
                       v-if="

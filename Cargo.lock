@@ -2332,7 +2332,7 @@ dependencies = [
 [[package]]
 name = "libsignal-service"
 version = "0.1.0"
-source = "git+https://github.com/whisperfish/libsignal-service-rs?rev=59625be532351c634bed20aa4abae18304162fc3#59625be532351c634bed20aa4abae18304162fc3"
+source = "git+https://github.com/whisperfish/libsignal-service-rs?rev=c2f70ef#c2f70efd88bbebc9b646690a8449c451af619f2c"
 dependencies = [
  "aes",
  "aes-gcm",
@@ -2342,6 +2342,7 @@ dependencies = [
  "block-modes",
  "bytes",
  "chrono",
+ "derivative",
  "futures",
  "hex",
  "hkdf 0.12.3",
@@ -2364,7 +2365,7 @@ dependencies = [
 [[package]]
 name = "libsignal-service-hyper"
 version = "0.1.0"
-source = "git+https://github.com/whisperfish/libsignal-service-rs?rev=59625be532351c634bed20aa4abae18304162fc3#59625be532351c634bed20aa4abae18304162fc3"
+source = "git+https://github.com/whisperfish/libsignal-service-rs?rev=c2f70ef#c2f70efd88bbebc9b646690a8449c451af619f2c"
 dependencies = [
  "async-trait",
  "async-tungstenite",
@@ -2375,7 +2376,7 @@ dependencies = [
  "hyper",
  "hyper-rustls",
  "hyper-timeout",
- "libsignal-service 0.1.0 (git+https://github.com/whisperfish/libsignal-service-rs?rev=59625be532351c634bed20aa4abae18304162fc3)",
+ "libsignal-service 0.1.0 (git+https://github.com/whisperfish/libsignal-service-rs?rev=c2f70ef)",
  "log",
  "mpart-async",
  "rustls-pemfile 0.3.0",
@@ -3274,11 +3275,11 @@ checksum = "925383efa346730478fb4838dbe9137d2a47675ad789c546d150a6e1dd4ab31c"
 [[package]]
 name = "presage"
 version = "0.6.0-dev"
-source = "git+https://github.com/nanu-c/presage?rev=677c2ea2858edbbbc1cdd56e471abcaaaa3f112e#677c2ea2858edbbbc1cdd56e471abcaaaa3f112e"
+source = "git+https://github.com/nanu-c/presage?rev=97ebefcdbc53494313bbfb676f12f6a42c0b1ce2#97ebefcdbc53494313bbfb676f12f6a42c0b1ce2"
 dependencies = [
  "base64 0.12.3",
  "futures",
- "libsignal-service 0.1.0 (git+https://github.com/whisperfish/libsignal-service-rs?rev=59625be532351c634bed20aa4abae18304162fc3)",
+ "libsignal-service 0.1.0 (git+https://github.com/whisperfish/libsignal-service-rs?rev=c2f70ef)",
  "libsignal-service-hyper",
  "log",
  "parking_lot 0.11.2",
@@ -3293,7 +3294,7 @@ dependencies = [
 [[package]]
 name = "presage-store-sled"
 version = "0.6.0-dev"
-source = "git+https://github.com/nanu-c/presage?rev=677c2ea2858edbbbc1cdd56e471abcaaaa3f112e#677c2ea2858edbbbc1cdd56e471abcaaaa3f112e"
+source = "git+https://github.com/nanu-c/presage?rev=97ebefcdbc53494313bbfb676f12f6a42c0b1ce2#97ebefcdbc53494313bbfb676f12f6a42c0b1ce2"
 dependencies = [
  "async-trait",
  "base64 0.12.3",

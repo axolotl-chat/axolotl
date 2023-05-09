@@ -5,6 +5,7 @@ use presage::{
     Error, Manager, Registered,
 };
 use presage::{GroupMasterKeyBytes, Thread, ThreadMetadata, ThreadMetadataMessageContent};
+use std::ops::Bound;
 use std::sync::Arc;
 use tokio::sync::Mutex;
 type PresageError = presage::Error<presage_store_sled::SledStoreError>;
@@ -29,7 +30,6 @@ const MESSAGE_BOUND: usize = 10;
 
 enum Command {
     RequestContactsSync(oneshot::Sender<Result<(), PresageError>>),
-    Uuid(oneshot::Sender<Uuid>),
     GetContacts(oneshot::Sender<Result<Vec<Contact>, PresageError>>),
     GetGroup(
         GroupMasterKeyBytes,
@@ -60,8 +60,10 @@ enum Command {
     ),
     GetMessages(
         Thread,
-        Option<u64>,
-        oneshot::Sender<Result<Vec<Content>, PresageError>>,
+        (Bound<u64>, Bound<u64>),
+        oneshot::Sender<
+            Result<<presage_store_sled::SledStore as presage::Store>::MessagesIter, PresageError>,
+        >,
     ),
     ThreadMetadata(
         Thread,
@@ -79,7 +81,6 @@ impl std::fmt::Debug for Command {
 
 pub struct ManagerThread {
     command_sender: mpsc::Sender<Command>,
-    uuid: Uuid,
     contacts: Arc<Mutex<Vec<Contact>>>,
     sessions: Arc<Mutex<Vec<AxolotlSession>>>,
     current_chat: Arc<Mutex<Option<Thread>>>,
@@ -92,15 +93,19 @@ pub struct AxolotlSession {
     pub is_group: bool,
     pub title: Option<String>,
     pub last_message_timestamp: u64,
+    pub muted: bool,
 }
 impl TryFrom<ThreadMetadata> for AxolotlSession {
     type Error = PresageError;
 
     fn try_from(session: ThreadMetadata) -> Result<Self, PresageError> {
-        let mut timestamp: u64 = 0;
-        let message: Option<String> = match session.last_message {
-            Some(message) => Some(match message.message {
-                Some(message) => message,
+        let timestamp: u64 = match &session.last_message {
+            Some(message) => message.timestamp,
+            None => 0,
+        };
+        let message: Option<String> = match &session.last_message {
+            Some(message) => Some(match &message.message {
+                Some(message) => message.to_string(),
                 None => String::new(),
             }),
             None => None,
@@ -117,6 +122,7 @@ impl TryFrom<ThreadMetadata> for AxolotlSession {
             is_group: is_group,
             title: session.title,
             last_message_timestamp: timestamp,
+            muted: session.muted,
         })
     }
 }
@@ -125,7 +131,6 @@ impl Clone for ManagerThread {
     fn clone(&self) -> Self {
         Self {
             command_sender: self.command_sender.clone(),
-            uuid: self.uuid,
             contacts: self.contacts.clone(),
             sessions: self.sessions.clone(),
             current_chat: self.current_chat.clone(),
@@ -176,12 +181,6 @@ impl ManagerThread {
             }
         });
 
-        let (sender_uuid, receiver_uuid) = oneshot::channel();
-        if sender.send(Command::Uuid(sender_uuid)).await.is_err() {
-            return None;
-        }
-        let uuid = receiver_uuid.await;
-
         let (sender_contacts, receiver_contacts) = oneshot::channel();
         if sender
             .send(Command::GetContacts(sender_contacts))
@@ -192,7 +191,7 @@ impl ManagerThread {
         }
         let contacts = receiver_contacts.await;
 
-        if uuid.is_err() || contacts.is_err() {
+        if contacts.is_err() {
             return None;
         }
 
@@ -202,7 +201,6 @@ impl ManagerThread {
         }
         Some(Self {
             command_sender: sender,
-            uuid: uuid.unwrap(),
             contacts: Arc::new(Mutex::new(contacts.unwrap().unwrap_or_default())),
             sessions: Arc::new(Mutex::new(Vec::new())),
             current_chat: current_chat,
@@ -234,9 +232,6 @@ impl ManagerThread {
         receiver.await.expect("Callback receiving failed")
     }
 
-    pub fn uuid(&self) -> Uuid {
-        self.uuid
-    }
     pub async fn current_chat(&self) -> Option<Thread> {
         self.current_chat.lock().await.clone()
     }
@@ -270,10 +265,13 @@ impl ManagerThread {
         match receiver.await {
             Ok(Ok(sessions)) => {
                 log::info!("Got {} sessions", sessions.len());
-                let axolotl_sessions = sessions
+                let mut axolotl_sessions = sessions
                     .into_iter()
                     .map(|s| AxolotlSession::try_from(s).unwrap())
                     .collect::<Vec<_>>();
+                // sort by timestamp
+                axolotl_sessions.sort_by_key(|f| f.last_message_timestamp);
+                axolotl_sessions.reverse();
                 Ok(axolotl_sessions.into_iter())
             }
             Ok(Err(e)) => {
@@ -386,15 +384,15 @@ impl ManagerThread {
             .expect("Command sending failed");
         receiver.await.expect("Callback receiving failed")
     }
-    pub async fn get_messages(
+    pub async fn messages(
         &self,
         thread: Thread,
-        count: Option<u64>,
-    ) -> Result<Vec<Content>, PresageError> {
+        range: (Bound<u64>, Bound<u64>),
+    ) -> Result<<presage_store_sled::SledStore as presage::Store>::MessagesIter, PresageError> {
         let (sender, receiver) = oneshot::channel();
-        // self.current_chat = Some(thread.clone());
+        // TODO: self.current_chat = Some(thread.clone());
         self.command_sender
-            .send(Command::GetMessages(thread, count, sender))
+            .send(Command::GetMessages(thread, range, sender))
             .await
             .expect("Command sending failed");
         receiver.await.expect("Callback receiving failed")
@@ -421,7 +419,7 @@ async fn setup_manager(
     // presage::Manager::load_registered(config_store.clone())
     if config_store.is_registered() {
         log::debug!("The config store is valid and reports registered, loading the manager");
-        let manager = presage::Manager::load_registered(config_store.clone())?;
+        let manager = presage::Manager::load_registered(config_store.clone()).await?;
         log::info!("The configuration store is already valid, loading a registered account");
         drop(link_callback);
         Ok(manager)
@@ -472,23 +470,25 @@ async fn command_loop(
                     select! {
                         msg = messages.next().fuse() => {
                             if let Some(msg) = msg {
+                                log::debug!("Received message: {:?}", &msg.body.clone());
                                 match msg.body.clone() {
                                     ContentBody::DataMessage(data) => {
-                                        log::info!("Received message: {:?}", &data);
+                                        log::debug!("Received message: {:?}", &data);
 
                                         let body = data.body.as_ref().unwrap_or(&String::from("")).to_string();
                                         let thread = Thread::try_from(&msg).unwrap();
                                         let title = manager.get_title_for_thread(&thread).await.unwrap_or("".to_string());
+                                        let mut thread_metadata = manager.thread_metadata(&thread).await.unwrap().unwrap();
                                         if body.len()>0 {
-                                            let mut thread_metadata = manager.thread_metadata(&thread).await.unwrap().unwrap();
-                                        thread_metadata.title = Some(title.clone());
-                                        thread_metadata.unread_messages_count = thread_metadata.unread_messages_count+1;
-                                        thread_metadata.last_message = Some(ThreadMetadataMessageContent{
-                                            message: Some(body.clone()),
-                                            timestamp: msg.metadata.timestamp,
-                                            sender: msg.metadata.sender.uuid.clone(),
-                                        });
-                                            let _ = manager.save_thread_metadata(thread_metadata);
+                                            thread_metadata.title = Some(title.clone());
+                                            thread_metadata.unread_messages_count = thread_metadata.unread_messages_count+1;
+                                            thread_metadata.last_message = Some(ThreadMetadataMessageContent{
+                                                message: Some(body.clone()),
+                                                timestamp: msg.metadata.timestamp,
+                                                sender: msg.metadata.sender.uuid.clone(),
+                                            });
+                                            let _ = manager.save_thread_metadata(thread_metadata.clone());
+
                                         }
                                         let sender = msg.metadata.sender.uuid.clone();
                                         let is_group = match thread {
@@ -509,15 +509,55 @@ async fn command_loop(
                                         }
                                         if data.reaction.is_some(){
                                             notification.message = data.reaction.unwrap().emoji.unwrap();
+                                            //TODO: handle reactions
+                                            continue;
                                         }
                                         if notification.message=="".to_string() {
                                            continue;
                                         }
+
+                                        if thread_metadata.muted {
+                                            continue;
+                                        }
                                         notify_message(&notification).await;
 
                                     }
-                                    ContentBody::SynchronizeMessage(_sync_message) => {
+                                    ContentBody::SynchronizeMessage(sync_message) => {
                                         //todo handle sync messages
+                                      match sync_message.sent{
+                                        Some(sm) => {
+                                            match sm.message {
+                                                Some(m) =>{
+                                                    match m.body.clone() {
+
+                                                        Some(data) => {
+                                                            let body = m.body.as_ref().unwrap_or(&String::from("")).to_string();
+                                                            let thread = Thread::try_from(&msg).unwrap();
+                                                            log::debug!("Received sync data message: {:?}", &thread);
+                                                            let title = manager.get_title_for_thread(&thread).await.unwrap_or("".to_string());
+                                                            let mut thread_metadata = manager.thread_metadata(&thread).await.unwrap().unwrap();
+                                                            if body.len()>0 {
+                                                                thread_metadata.title = Some(title.clone());
+                                                                thread_metadata.unread_messages_count = thread_metadata.unread_messages_count+1;
+                                                                thread_metadata.last_message = Some(ThreadMetadataMessageContent{
+                                                                    message: Some(body.clone()),
+                                                                    timestamp: msg.metadata.timestamp,
+                                                                    sender: msg.metadata.sender.uuid.clone(),
+                                                                });
+                                                                let _ = manager.save_thread_metadata(thread_metadata.clone());
+                    
+                                                            }
+                                                        },
+                                                        None => {}
+                                                    }
+
+                                                },
+                                                None => {}
+                                            }
+                                        },
+                                        None => {}
+
+                                      }
                                     }
                                     _ => {}
                                 }
@@ -691,9 +731,6 @@ async fn handle_command(manager: &mut Manager<SledStore, Registered>, command: C
         Command::RequestContactsSync(callback) => callback
             .send(manager.request_contacts_sync().await)
             .expect("Callback sending failed"),
-        Command::Uuid(callback) => callback
-            .send(manager.uuid())
-            .expect("Callback sending failed"),
         Command::GetContacts(callback) => callback
             .send(
                 manager
@@ -735,15 +772,9 @@ async fn handle_command(manager: &mut Manager<SledStore, Registered>, command: C
             .send(manager.upload_attachments(attachments).await)
             .expect("Callback sending failed"),
 
-        Command::GetMessages(thread, until, callback) => callback
-            .send(match manager.messages(&thread, ..until.unwrap_or(0)) {
-                Ok(m) => Ok(m.filter_map(|r| r.ok()).collect()),
-                Err(e) => {
-                    log::error!("Failed to get messages: {}", e);
-                    return;
-                }
-            })
-            .expect("Callback sending failed"),
+        Command::GetMessages(thread, range, callback) => {
+            let _ = callback.send(manager.messages(&thread, range));
+        }
         Command::ThreadMetadata(thread, callback) => callback
             .send(manager.thread_metadata(&thread).await)
             .expect("Callback sending failed"),

@@ -190,14 +190,14 @@ export default {
     },
     contactClick(contact) {
       if (!this.showActions) {
-        if (this.validateUUID(contact.address.uuid))
-          this.$store.dispatch("createChat", contact.address.uuid);
+        if (this.validateUUID(contact.uuid))
+          this.$store.dispatch("createChat", contact.uuid);
       } else {
         this.closeActionMode();
       }
     },
     checkForUUIDClass(contact) {
-      var isValid = this.validateUUID(contact.address.uuid);
+      var isValid = this.validateUUID(contact.uuid);
       return isValid ? "" : "not-registered";
     },
   },

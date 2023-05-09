@@ -2,12 +2,11 @@ use crate::error::ApplicationError;
 use crate::manager_thread::ManagerThread;
 use crate::requests::{
     AxolotlConfig, AxolotlMessage, AxolotlRequest, AxolotlResponse, GetMessagesRequest,
-    SendMessageRequest, SendMessageResponse,
+    SendMessageRequest, SendMessageResponse, ChangeNotificationsForThreadRequest,
 };
 extern crate dirs;
 use futures::channel::oneshot::Receiver;
 use futures::executor::block_on;
-use futures::future::FusedFuture;
 use futures::stream::{SplitSink, SplitStream};
 use futures::{SinkExt, StreamExt};
 use libsignal_service::prelude::{phonenumber, Uuid};
@@ -18,8 +17,9 @@ use serde::{Serialize, Serializer};
 use serde_json::error::Error as SerdeError;
 use std::cell::Cell;
 use std::io::Write;
+use std::ops::Bound::Unbounded;
 use std::process::exit;
-use std::time::{self, UNIX_EPOCH, Duration};
+use std::time::{self, UNIX_EPOCH};
 use std::{sync::Arc, thread};
 use tokio::runtime::Runtime;
 use tokio::sync::Mutex;
@@ -31,8 +31,8 @@ const MESSAGE_BOUND: usize = 10;
 
 use futures::channel::oneshot;
 
-use presage::{Thread, ThreadMetadata};
 use presage::{Confirmation, Manager, RegistrationOptions, Store};
+use presage::{Thread, ThreadMetadata};
 use presage_store_sled::MigrationConflictStrategy;
 use presage_store_sled::SledStore;
 
@@ -70,7 +70,7 @@ impl Handler {
         if config_store.is_registered() {
             log::info!("Registered, starting the manager");
             is_registered = Some(true);
-            
+
             tokio::spawn(async move {
                 let manager = ManagerThread::new(
                     config_store.clone(),
@@ -228,37 +228,45 @@ impl Handler {
                                             let mut finished = false;
                                             let mut got_error = false;
                                             loop {
-
-
                                                 log::debug!("Registering secondary device");
                                                 self.create_provisioning_link().await?;
-                                                if self.is_registered.is_some() && self.is_registered.unwrap() {
+                                                if self.is_registered.is_some()
+                                                    && self.is_registered.unwrap()
+                                                {
                                                     log::debug!("Device is already registered");
                                                     break;
                                                 }
-                                                log::debug!("Provisioning link created successfully");
+                                                log::debug!(
+                                                    "Provisioning link created successfully"
+                                                );
                                                 self.handle_provisoning().await;
-                                                log::debug!("Provisioning link handled successfully");
+                                                log::debug!(
+                                                    "Provisioning link handled successfully"
+                                                );
                                                 self.send_provisioning_link().await;
                                                 log::debug!(
                                                     "Provisioning link sent successfully to client"
                                                 );
-                                                let error_reciever = self.error_rx.as_mut().unwrap();
-                                                let mut error_reciever = error_reciever.lock().await;
+                                                let error_reciever =
+                                                    self.error_rx.as_mut().unwrap();
+                                                let mut error_reciever =
+                                                    error_reciever.lock().await;
                                                 while let Ok(mut e) = error_reciever.try_recv() {
                                                     match e {
                                                         Some(u) => {
                                                             log::error!("Error registering secondary device: {}", u);
                                                             got_error = true;
                                                             Some(u)
-                                                        },
+                                                        }
                                                         None => {
-                                                            thread::sleep(time::Duration::from_secs(1));
+                                                            thread::sleep(
+                                                                time::Duration::from_secs(1),
+                                                            );
                                                             log::debug!("Waiting for error");
                                                             continue;
                                                         }
                                                     };
-                                                }; 
+                                                }
                                                 if error_reciever.try_recv().is_err() {
                                                     log::debug!("Break out of loop, because error channel is closed");
                                                     break;
@@ -266,8 +274,12 @@ impl Handler {
                                             }
                                             self.send_registration_confirmation().await;
                                             log::debug!("Registration confirmation sent and done, now sleeping");
-                                            if let Some(error_opt) = self.receive_error.recv().await {
-                                                log::error!("Got error after linking device2: {}", error_opt);
+                                            if let Some(error_opt) = self.receive_error.recv().await
+                                            {
+                                                log::error!(
+                                                    "Got error after linking device2: {}",
+                                                    error_opt
+                                                );
                                                 continue;
                                             }
                                         }
@@ -684,12 +696,12 @@ impl Handler {
                 Some(u) => Some(u),
                 None => {
                     thread::sleep(time::Duration::from_secs(1));
-                    match p.try_recv(){
+                    match p.try_recv() {
                         Ok(u) => u,
                         Err(_) => {
                             log::error!("Error getting provisioning link");
                             return;
-                        },
+                        }
                     }
                 }
             };
@@ -723,7 +735,10 @@ impl Handler {
         };
         Ok(())
     }
-    async fn thread_metadata(&self, thread: &Thread) -> Result<Option<ThreadMetadata>, ApplicationError> {
+    async fn thread_metadata(
+        &self,
+        thread: &Thread,
+    ) -> Result<Option<ThreadMetadata>, ApplicationError> {
         let mut manager = self.manager_thread.lock().await;
         let manager = manager.as_mut().unwrap();
         match manager.thread_metadata(thread).await {
@@ -731,11 +746,8 @@ impl Handler {
             Err(e) => Err(ApplicationError::from(e)),
         }
     }
-    async fn create_thread_metadata(
-        &self,
-        thread: &Thread,
-    ) -> Result<(), ApplicationError> {
-        let metadata = ThreadMetadata{
+    async fn create_thread_metadata(&self, thread: &Thread) -> Result<(), ApplicationError> {
+        let metadata = ThreadMetadata {
             thread: thread.clone(),
             unread_messages_count: 0,
             last_message: None,
@@ -743,7 +755,7 @@ impl Handler {
             archived: false,
             muted: false,
         };
-        
+
         let mut manager = self.manager_thread.lock().await;
         let manager = manager.as_mut().unwrap();
         match manager.save_thread_metadata(metadata).await {
@@ -783,7 +795,6 @@ impl Handler {
                     let mut ws_sender = sender.lock().await;
                     ws_sender.send(Message::text(response)).await.unwrap();
                     std::mem::drop(ws_sender);
-
                 }
                 None => {
                     log::error!("Error receiving message");
@@ -817,7 +828,8 @@ impl Handler {
         manager: &ManagerThread,
     ) -> Result<Option<AxolotlResponse>, ApplicationError> {
         log::info!("Getting contacts");
-        manager.update_cotacts_from_profile().await.ok();
+        // Todo: update contacts from profile
+        // manager.update_cotacts_from_profile().await.ok();
         let contacts = manager.get_contacts().await.ok().unwrap();
         let mut out = Vec::new();
         self.write_as_json(&mut out, contacts)?;
@@ -873,23 +885,45 @@ impl Handler {
         let data = data.ok_or(ApplicationError::InvalidRequest)?;
         if let Ok::<GetMessagesRequest, SerdeError>(messages_request) = serde_json::from_str(&data)
         {
-            log::info!("Getting message list1");
 
             let thread: Thread = self.string_to_thread(&messages_request.id)?;
-            match thread {
-                Thread::Contact(_) => {
-                    manager.update_cotacts_from_profile().await.ok().unwrap();
-                }
-                _ => {}
+            // match thread {
+            //     Thread::Contact(_) => {
+            //         manager.update_cotacts_from_profile().await.ok().unwrap();
+            //     }
+            //     _ => {}
+            // }
+            let thread_metadata = manager.thread_metadata(&thread).await.ok().unwrap();
+            if thread_metadata.is_none() {
+                self.create_thread_metadata(&thread).await.ok().unwrap();
+            } else {
+                let mut thread_metadata = thread_metadata.unwrap();
+                thread_metadata.unread_messages_count = 0;
+                manager
+                    .save_thread_metadata(thread_metadata)
+                    .await
+                    .ok()
+                    .unwrap();
             }
-            log::info!("Getting message list2");
+            
+            let messages = manager.messages(thread, (Unbounded, Unbounded)).await;
+            if messages.is_err() {
+                log::error!("Failed to load last messages: {}", messages.err().unwrap());
+                return Err(ApplicationError::InvalidRequest);
+            }
+            let messages = messages.unwrap();
 
-            let messages = manager.get_messages(thread, None).await.ok().unwrap();
             let mut axolotl_messages: Vec<AxolotlMessage> = Vec::new();
             for message in messages {
-                axolotl_messages.push(AxolotlMessage::from_message(message));
+                match (message) {
+                    Ok(m) => axolotl_messages.push(AxolotlMessage::from_message(m)),
+                    Err(e) => {
+                        log::error!("Error getting message: {}", e);
+                        log::debug!("ignoring error");
+                        // Err(ApplicationError::InvalidRequest)?;
+                    }
+                }
             }
-            log::info!("Getting message list2");
 
             let mut out = Vec::new();
             self.write_as_json(&mut out, axolotl_messages)?;
@@ -965,7 +999,7 @@ impl Handler {
                 }
                 let mut message = AxolotlMessage::from_data_message(data_message);
                 message.thread_id = Some(thread);
-                message.sender = Some(manager.uuid());
+                // message.sender = Some(manager.uuid());
                 let response_data = SendMessageResponse { message, is_failed };
                 let response_data_json = serde_json::to_string(&response_data).unwrap();
                 let response = AxolotlResponse {
@@ -985,7 +1019,8 @@ impl Handler {
         manager: &ManagerThread,
         data: Option<String>,
     ) -> Result<Option<AxolotlResponse>, ApplicationError> {
-        manager.update_cotacts_from_profile().await.ok().unwrap();
+        // Todo: update contacts from profile
+        // manager.update_cotacts_from_profile().await.ok().unwrap();
         let data = data.ok_or(ApplicationError::InvalidRequest)?;
         let thread: Thread = match serde_json::from_str(data.as_str()) {
             Ok(thread) => thread,
@@ -1011,7 +1046,7 @@ impl Handler {
         manager: &ManagerThread,
     ) -> Result<Option<AxolotlResponse>, ApplicationError> {
         log::info!("Getting config");
-        let my_uuid = manager.uuid();
+        // let my_uuid = manager.uuid();
         let mut platform = "linux".to_string();
         #[cfg(target_os = "windows")]
         {
@@ -1040,7 +1075,7 @@ impl Handler {
         }
 
         let config = AxolotlConfig {
-            uuid: Some(my_uuid.to_string()),
+            uuid: None,
             e164: None,
             platform: Some(platform),
             feature: Some(feature),
@@ -1059,6 +1094,37 @@ impl Handler {
         let mut store = Handler::get_config_store().await?;
         store.clear_registration()?;
         exit(0);
+    }
+    async fn handle_change_notifications_for_thread(
+        &self,
+        manager: &ManagerThread,
+        data: Option<String>,
+    ) -> Result<Option<AxolotlResponse>, ApplicationError> {
+        log::info!("Changing notifications for thread");
+        let data = data.ok_or(ApplicationError::InvalidRequest)?;
+        if let Ok::<ChangeNotificationsForThreadRequest, SerdeError>(change_notifications_for_thread_request) = serde_json::from_str(&data)
+        {
+            let thread_metadata = manager.thread_metadata(&change_notifications_for_thread_request.thread).await.ok().unwrap();
+            if thread_metadata.is_none() {
+                self.create_thread_metadata(&change_notifications_for_thread_request.thread).await.ok().unwrap();
+            } else {
+                let mut thread_metadata = thread_metadata.unwrap();
+                thread_metadata.muted = change_notifications_for_thread_request.muted;
+                manager
+                    .save_thread_metadata(thread_metadata)
+                    .await
+                    .ok()
+                    .unwrap();
+            }
+            let response = AxolotlResponse {
+                response_type: "ping".to_string(),
+                data: "".to_string(),
+            };
+            Ok(Some(response))
+        } else {
+            log::debug!("Invalid request: {}", data);
+            Err(ApplicationError::InvalidRequest)
+        }
     }
     /// Handles a websocket message
     async fn handle_websocket_message(
@@ -1106,6 +1172,7 @@ impl Handler {
                 "leaveChat" => self.handle_close_chat(manager).await,
                 "getConfig" => self.handle_get_config(manager).await,
                 "unregister" => self.handle_unregister(manager).await,
+                "changeNotificationsForThread" => self.handle_change_notifications_for_thread(manager, axolotl_request.data).await,
                 _ => {
                     log::error!("Unhandled axolotl request {}", axolotl_request.request);
                     Err(ApplicationError::InvalidRequest)

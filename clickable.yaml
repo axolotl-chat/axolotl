@@ -38,7 +38,7 @@ libraries:
   axolotlweb:
     image_setup:
       run:
-        - curl -fsSL https://deb.nodesource.com/setup_16.x  | bash -
+        - curl -fsSL https://deb.nodesource.com/setup_20.x  | bash -
         - apt-get install -y nodejs
         - echo "NODE Version:" && node --version
         - echo "NPM Version:" && npm --version

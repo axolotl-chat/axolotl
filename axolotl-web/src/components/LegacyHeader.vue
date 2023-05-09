@@ -12,7 +12,7 @@
             </button>
             <div v-if="currentChat !== null && currentChat" class="row w-100">
               <div class="col-2 badge-container">
-                <div v-if="!currentChat.isGroup" class="badge-name" @click="openProfileForRecipient(currentChat.DirectMessageRecipientID)">
+                <div v-if="!currentChat?.is_group" class="badge-name" @click="openProfileForRecipient(currentChat.DirectMessageRecipientID)">
                   <img
                     class="avatar-img"
                     :src="'http://localhost:9080/avatars?session=' + currentChat.ID"
@@ -29,18 +29,18 @@
                   <div class="col-12">
                     <div
                       v-if="
-                        currentChat.isGroup &&
+                        currentChat?.is_group &&
                           currentChat.title === currentChat.Tel
                       "
                       class="header-text-chat"
                     >
-                      <div v-if="currentChat.IsMuted" class="mute-badge">
+                      <div v-if="currentChat.muted" class="mute-badge">
                         <font-awesome-icon class="mute" icon="volume-mute" />
                       </div>
                       <div v-translate>Unknown group</div>
                     </div>
                     <div v-else class="header-text-chat">
-                      <div v-if="currentChat.IsMuted" class="mute-badge">
+                      <div v-if="currentChat.muted" class="mute-badge">
                         <font-awesome-icon class="mute" icon="volume-mute" />
                       </div>
                       <div
@@ -54,7 +54,7 @@
                   <div class="col-12">
                     <div
                       v-if="
-                        currentChat.isGroup &&
+                        currentChat?.is_group &&
                           currentGroup !== null &&
                           typeof currentGroup !== 'undefined'
                       "
@@ -66,7 +66,7 @@
                     </div>
                     <div
                       v-if="
-                        currentChat.isGroup &&
+                        currentChat?.is_group &&
                           currentGroup !== null &&
                           typeof currentGroup !== 'undefined'
                       "
@@ -78,7 +78,7 @@
                     </div>
                     <div
                       v-if="
-                        !currentChat.isGroup &&
+                        !currentChat?.is_group &&
                           currentChat.title === currentChat.Tel
                       "
                       class="number-text"
@@ -112,7 +112,7 @@
                 <button
                   v-if="
                     currentChat !== null &&
-                      !currentChat.isGroup &&
+                      !currentChat?.is_group &&
                       currentChat.title !== currentChat.Tel
                   "
                   class="dropdown-item"
@@ -121,7 +121,7 @@
                   {{ currentChat.Tel }}
                 </button>
                 <button
-                  v-if="currentChat !== null && currentChat.Notification"
+                  v-if="currentChat !== null && !currentChat.muted"
                   v-translate
                   class="dropdown-item"
                   @click="toggleNotifications"
@@ -139,7 +139,7 @@
                 <button
                   v-if="
                     currentChat !== null &&
-                      !currentChat.isGroup &&
+                      !currentChat?.is_group &&
                       currentChat.title === currentChat.Tel
                   "
                   v-translate
@@ -151,7 +151,7 @@
                 <button
                   v-if="
                     currentChat !== null &&
-                      !currentChat.isGroup &&
+                      !currentChat?.is_group &&
                       currentChat.title !== currentChat.Tel
                   "
                   v-translate
@@ -160,8 +160,8 @@
                 >
                   Edit contact
                 </button>
-                <button
-                  v-if="currentChat !== null && !isGroup"
+                <!-- <button
+                  v-if="currentChat !== null && !currentChat?.is_group"
                   v-translate
                   class="dropdown-item"
                   @click="verifyIdentity"
@@ -169,15 +169,15 @@
                   Show identity
                 </button>
                 <button
-                  v-if="currentChat !== null && !isGroup"
+                  v-if="currentChat !== null && !currentChat?.is_group"
                   v-translate
                   class="dropdown-item"
                   @click="resetEncryptionModal"
                 >
                   Reset encryption
-                </button>
+                </button> -->
                 <button
-                  v-if="currentChat != null && !isGroup"
+                  v-if="currentChat != null && !currentChat?.is_group"
                   v-translate
                   class="dropdown-item"
                   @click="delChatModal"

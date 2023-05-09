@@ -30,7 +30,7 @@ pub async fn send_message(msg: String, uuid: Uuid, manager: &ManagerThread)
 
 pub async fn send_message_to_group(msg: &str, master_key_str: &str, config_store: SledStore)
 {
-    let mut manager = Manager::load_registered(config_store).unwrap();
+    let mut manager = Manager::load_registered(config_store).await.unwrap();
     // Send message
     let timestamp = std::time::SystemTime::now()
         .duration_since(UNIX_EPOCH)
