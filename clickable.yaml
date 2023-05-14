@@ -19,6 +19,7 @@ env_vars:
 
 build_args: --features ut 
 kill: axolotl
+framework: ubuntu-sdk-20.04
 
 install_root_data:
   - manifest.json

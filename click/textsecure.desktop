@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=Axolotl
+Name=Axolotl2
 Exec=env RUST_LOG=debug  axolotl --mode ubuntu-touch %u 
 Icon=axolotl.png
 Terminal=false

@@ -71,6 +71,7 @@ enum Command {
     ),
     SaveThreadMetadata(ThreadMetadata, oneshot::Sender<Result<(), PresageError>>),
     RequestContactsUpdateFromProfile(oneshot::Sender<Result<(), PresageError>>),
+    RequestContactUpdateFromProfile(Uuid, oneshot::Sender<Result<Contact, PresageError>>),
 }
 
 impl std::fmt::Debug for Command {
@@ -244,11 +245,20 @@ impl ManagerThread {
             .collect::<Vec<_>>()
             .into_iter())
     }
-    pub async fn update_cotacts_from_profile(&self) -> Result<(), PresageError> {
+    pub async fn update_contacts_from_profile(&self) -> Result<(), PresageError> {
         log::debug!("Updating contacts from profile -> todo");
         let (sender, receiver) = oneshot::channel();
         self.command_sender
             .send(Command::RequestContactsUpdateFromProfile(sender))
+            .await
+            .expect("Command sending failed");
+        receiver.await.expect("Callback receiving failed")
+    }
+    pub async fn update_contact_from_profile(&self, id: Uuid) -> Result<Contact, PresageError> {
+        log::debug!("Updating contact from profile -> todo");
+        let (sender, receiver) = oneshot::channel();
+        self.command_sender
+            .send(Command::RequestContactUpdateFromProfile(id, sender))
             .await
             .expect("Command sending failed");
         receiver.await.expect("Callback receiving failed")
@@ -530,7 +540,7 @@ async fn command_loop(
                                                 Some(m) =>{
                                                     match m.body.clone() {
 
-                                                        Some(data) => {
+                                                        Some(_data) => {
                                                             let body = m.body.as_ref().unwrap_or(&String::from("")).to_string();
                                                             let thread = Thread::try_from(&msg).unwrap();
                                                             log::debug!("Received sync data message: {:?}", &thread);
@@ -545,7 +555,7 @@ async fn command_loop(
                                                                     sender: msg.metadata.sender.uuid.clone(),
                                                                 });
                                                                 let _ = manager.save_thread_metadata(thread_metadata.clone());
-                    
+
                                                             }
                                                         },
                                                         None => {}
@@ -783,6 +793,9 @@ async fn handle_command(manager: &mut Manager<SledStore, Registered>, command: C
             .expect("Callback sending failed"),
         Command::RequestContactsUpdateFromProfile(callback) => callback
             .send(manager.request_contacts_update_from_profile().await)
+            .expect("Callback sending failed"),
+        Command::RequestContactUpdateFromProfile(uuid, callback) => callback
+            .send(manager.request_contact_update_from_profile(uuid).await)
             .expect("Callback sending failed"),
     };
 }

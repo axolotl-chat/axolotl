@@ -192,7 +192,7 @@ impl Handler {
                 log::info!("Starting registration process");
 
                 match self.start_registration().await {
-                    Err(e) => {
+                    Err(_) => {
                         self.sender = None;
                     }
                     _ => (),
@@ -225,8 +225,6 @@ impl Handler {
                                         if request_type == "primaryDevice" {
                                             self.get_phone_number().await;
                                         } else if request_type == "registerSecondaryDevice" {
-                                            let mut finished = false;
-                                            let mut got_error = false;
                                             loop {
                                                 log::debug!("Registering secondary device");
                                                 self.create_provisioning_link().await?;
@@ -251,11 +249,10 @@ impl Handler {
                                                     self.error_rx.as_mut().unwrap();
                                                 let mut error_reciever =
                                                     error_reciever.lock().await;
-                                                while let Ok(mut e) = error_reciever.try_recv() {
+                                                while let Ok(e) = error_reciever.try_recv() {
                                                     match e {
                                                         Some(u) => {
                                                             log::error!("Error registering secondary device: {}", u);
-                                                            got_error = true;
                                                             Some(u)
                                                         }
                                                         None => {
@@ -829,7 +826,12 @@ impl Handler {
     ) -> Result<Option<AxolotlResponse>, ApplicationError> {
         log::info!("Getting contacts");
         // Todo: update contacts from profile
-        // manager.update_cotacts_from_profile().await.ok();
+        match manager.update_contacts_from_profile().await {
+            Ok(_) => (),
+            Err(e) => {
+                log::error!("Error updating contacts from profile: {}", e);
+            }
+        }
         let contacts = manager.get_contacts().await.ok().unwrap();
         let mut out = Vec::new();
         self.write_as_json(&mut out, contacts)?;
@@ -898,6 +900,30 @@ impl Handler {
                 self.create_thread_metadata(&thread).await.ok().unwrap();
             } else {
                 let mut thread_metadata = thread_metadata.unwrap();
+                match thread_metadata.title.clone() {
+                    Some(title) => {
+                        // check if title is a valid uuid
+                        if Uuid::parse_str(&title).is_ok() {
+                            let uuid = Uuid::parse_str(&title).unwrap(); 
+                            match manager.update_contact_from_profile(uuid).await{
+                                Ok(_) => {
+                                    thread_metadata = manager.thread_metadata(&thread).await.ok().unwrap().unwrap();
+                                },
+                                Err(e) => {
+                                    log::error!("Error updating contacts from profile: {}", e);
+                                }
+                            }
+                        }
+                    },
+                    None => {
+                        match manager.update_contacts_from_profile().await{
+                            Ok(_) => (),
+                            Err(e) => {
+                                log::error!("Error updating contacts from profile: {}", e);
+                            }
+                        }
+                    }
+                }
                 thread_metadata.unread_messages_count = 0;
                 manager
                     .save_thread_metadata(thread_metadata)
@@ -915,7 +941,7 @@ impl Handler {
 
             let mut axolotl_messages: Vec<AxolotlMessage> = Vec::new();
             for message in messages {
-                match (message) {
+                match message {
                     Ok(m) => axolotl_messages.push(AxolotlMessage::from_message(m)),
                     Err(e) => {
                         log::error!("Error getting message: {}", e);
@@ -1020,7 +1046,12 @@ impl Handler {
         data: Option<String>,
     ) -> Result<Option<AxolotlResponse>, ApplicationError> {
         // Todo: update contacts from profile
-        // manager.update_cotacts_from_profile().await.ok().unwrap();
+        match manager.update_contacts_from_profile().await{
+            Ok(_) => (),
+            Err(e) => {
+                log::error!("Error updating contacts from profile: {}", e);
+            }
+        }
         let data = data.ok_or(ApplicationError::InvalidRequest)?;
         let thread: Thread = match serde_json::from_str(data.as_str()) {
             Ok(thread) => thread,
@@ -1043,7 +1074,7 @@ impl Handler {
     }
     async fn handle_get_config(
         &self,
-        manager: &ManagerThread,
+        _manager: &ManagerThread,
     ) -> Result<Option<AxolotlResponse>, ApplicationError> {
         log::info!("Getting config");
         // let my_uuid = manager.uuid();
@@ -1065,6 +1096,7 @@ impl Handler {
             platform = "ios".to_string();
         }
         let mut feature = "".to_string();
+
         #[cfg(feature = "tauri")]
         {
             feature = "tauri".to_string();
