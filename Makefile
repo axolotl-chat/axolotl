@@ -60,7 +60,7 @@ build-axolotl:
 	$(CARGO) build --features tauri
 
 check-axolotl:
-	$(GO) test -race ./...
+	$(CARGO) test
 
 install-axolotl:
 	@echo "Installing axolotl..."
