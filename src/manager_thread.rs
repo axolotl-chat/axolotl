@@ -240,6 +240,7 @@ impl ManagerThread {
     pub async fn get_contacts(&self) -> Result<impl Iterator<Item = Contact> + '_, PresageError> {
         let c = self.contacts.lock().await;
         // Very weird way to counteract "returning borrowed c".
+        log::info!("Contacts not implemented yet");
         Ok(c.iter()
             .map(almost_clone_contact)
             .collect::<Vec<_>>()

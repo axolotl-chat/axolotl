@@ -14,7 +14,7 @@
           <div v-if="showFullscreenImgSrc !== ''" class="fullscreenImage">
             <img
               :src="
-                'http://localhost:9080/attachments?file=' + showFullscreenImgSrc
+                'http://localhost:9080/attachments/' + showFullscreenImgSrc
               "
               alt="Fullscreen image"
             />
@@ -32,7 +32,7 @@
             <video controls>
               <source
                 :src="
-                  'http://localhost:9080/attachments?file=' +
+                  'http://localhost:9080/attachments/' +
                     showFullscreenVideoSrc
                 "
               />
@@ -93,7 +93,7 @@
               @long-press="paste"
             />
           </div>
-          <div v-if="messageInput !== '' || true" class="messageInput-btn-container">
+          <div v-if="messageInput !== '' " class="messageInput-btn-container">
             <button class="btn send" @click="sendMessage">
               <font-awesome-icon icon="paper-plane" />
             </button>
@@ -155,14 +155,13 @@
           @close="showAttachmentsBar = false"
           @send="callContentHub($event)"
         />
-        <!--  TODO: Fix attachment sending
         <input
-          v-if="false" 
           id="attachment"
           type="file"
-          style="position: fixed; top: -100em"
           @change="sendDesktopAttachment"
+          style="position: fixed; top: -100em"
         />
+	<!--  TODO: Fix attachment sending
         <audio
           id="voiceNote"
           :src="voiceNote.blobUrl"
@@ -292,6 +291,7 @@ export default {
     sendDesktopAttachment(evt) {
       const file = evt.target.files[0];
       if (file) {
+        console.log(file);
         const reader = new FileReader();
         const that = this;
         reader.onload = function (e) {
@@ -319,7 +319,7 @@ export default {
         alert("[oP]" + this.showFullscreenImgSrc);
       } else
         saveAs(
-          "http://localhost:9080/attachments?file=" + this.showFullscreenImgSrc
+          "http://localhost:9080/attachments/" + this.showFullscreenImgSrc
         );
     },
     saveVideo(e) {
@@ -328,7 +328,7 @@ export default {
         alert("[oV]" + this.showFullscreenVideoSrc);
       } else
         saveAs(
-          "http://localhost:9080/attachments?file=" +
+          "http://localhost:9080/attachments/" +
             this.showFullscreenVideoSrc
         );
     },

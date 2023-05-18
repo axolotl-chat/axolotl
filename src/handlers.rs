@@ -1,21 +1,28 @@
 use crate::error::ApplicationError;
 use crate::manager_thread::ManagerThread;
+use crate::messages::send_message;
 use crate::requests::{
     AxolotlConfig, AxolotlMessage, AxolotlRequest, AxolotlResponse, GetMessagesRequest,
+    UploadAttachmentRequest,
     SendMessageRequest, SendMessageResponse, ChangeNotificationsForThreadRequest,
 };
+use data_url::DataUrl;
 extern crate dirs;
 use futures::channel::oneshot::Receiver;
 use futures::executor::block_on;
 use futures::stream::{SplitSink, SplitStream};
 use futures::{SinkExt, StreamExt};
 use libsignal_service::prelude::{phonenumber, Uuid};
+use presage::libsignal_service::prelude::AttachmentIdentifier;
+use presage::prelude::proto::AttachmentPointer;
+use presage::prelude::AttachmentSpec;
 use presage::prelude::{Content, PhoneNumber};
 use presage::prelude::{ContentBody, DataMessage, GroupContextV2};
 use presage_store_sled::SledStoreError;
 use serde::{Serialize, Serializer};
 use serde_json::error::Error as SerdeError;
 use std::cell::Cell;
+use std::fs;
 use std::io::Write;
 use std::ops::Bound::Unbounded;
 use std::process::exit;
@@ -268,7 +275,6 @@ impl Handler {
                                                     match Handler::check_registration().await {
                                                         Ok(_) => {
                                                             self.is_registered = Some(true);
-                                                            self.send_registration_confirmation().await;
                                                         break;
 
                                                         }
@@ -886,6 +892,104 @@ impl Handler {
         };
         Ok(thread)
     }
+
+    async fn handle_upload_attachment(
+        &self,
+        manager: &ManagerThread,
+
+        data: Option<String>,
+    ) -> Result<Option<AxolotlResponse>, ApplicationError> {
+        log::info!("Uploading attachment.");
+        let data = data.ok_or(ApplicationError::InvalidRequest)?;
+        match serde_json::from_str(&data) {
+            Ok::<UploadAttachmentRequest, SerdeError>(upload_attachment_request) => {
+                log::debug!("Attachment request parsed.");
+                let thread = self.string_to_thread(&upload_attachment_request.recipient)?;
+
+                let data_attachment = match DataUrl::process(&upload_attachment_request.attachment)
+                {
+                    Ok(d) => d,
+                    Err(e) => {
+                        log::error!("Error while reading data URL. {:?}", e);
+                        return Err(ApplicationError::InvalidRequest);
+                    }
+                };
+                let (body, _fragment) = data_attachment.decode_to_vec().unwrap();
+                let decoded_attachment: Vec<u8> = body;
+                let decoded_tosave_attachment = decoded_attachment.clone();
+
+                let attachment_spec = AttachmentSpec {
+                    content_type: data_attachment.mime_type().to_string(),
+                    length: decoded_attachment.len(),
+                    file_name: None,
+                    preview: None,
+                    voice_note: None,
+                    borderless: None,
+                    width: None,
+                    height: None,
+                    caption: None,
+                    blur_hash: None,
+                };
+
+                let attachments: Vec<(AttachmentSpec, Vec<u8>)> =
+                    vec![(attachment_spec, decoded_attachment)];
+                let upload_response = manager.upload_attachments(attachments).await;
+
+                match upload_response {
+                    Ok(attachments_pointers) => {
+                        let mut pointers: Vec<AttachmentPointer> = Vec::new();
+                        for attachment_pointer in attachments_pointers {
+                            if let Ok(p) = attachment_pointer {
+                                pointers.push(p);
+                            }
+                        }
+
+                        // We send one attachment at a time
+                        // Use its CdnId as filename
+                        if pointers.len() > 0 {
+                            let cdnid = match pointers[0].attachment_identifier.clone().unwrap() {
+                                AttachmentIdentifier::CdnId(id) => id,
+                                _ => {
+                                    log::error!("The uploaded attachment has no identifier.");
+                                    return Ok(Some(AxolotlResponse {
+                                        response_type: "attachment_not_sent".to_string(),
+                                        data: "{\"success: false\"}".to_string(),
+                                    }));
+                                }
+                            };
+                            save_attachment(&decoded_tosave_attachment, &cdnid.to_string());
+                            send_message(
+                                thread,
+                                None,
+                                Some(pointers),
+                                &manager,
+                                "attachment_sent",
+                            )
+                            .await?;
+                        } else {
+                            log::error!("Error while sending attachment.");
+                            return Ok(Some(AxolotlResponse {
+                                response_type: "attachment_not_sent".to_string(),
+                                data: "{\"success: false\"}".to_string(),
+                            }));
+                        }
+                    }
+                    Err(e) => {
+                        log::error!("Error while uploading attachment. {:?}", e);
+                        return Ok(Some(AxolotlResponse {
+                            response_type: "attachment_not_sent".to_string(),
+                            data: "{\"success: false\"}".to_string(),
+                        }));
+                    }
+                };
+                Ok(None)
+            }
+            Err(e) => {
+                log::error!("Error while parsing the attachment request. {:?}", e);
+                Err(ApplicationError::InvalidRequest)
+            }
+        }
+    }
     async fn handle_get_message_list(
         &self,
         manager: &ManagerThread,
@@ -1053,19 +1157,17 @@ impl Handler {
         manager: &ManagerThread,
         data: Option<String>,
     ) -> Result<Option<AxolotlResponse>, ApplicationError> {
-        // Todo: update contacts from profile
-        match manager.update_contacts_from_profile().await{
-            Ok(_) => (),
-            Err(e) => {
-                log::error!("Error updating contacts from profile: {}", e);
-            }
-        }
         let data = data.ok_or(ApplicationError::InvalidRequest)?;
         let thread: Thread = match serde_json::from_str(data.as_str()) {
             Ok(thread) => thread,
             Err(_) => return Err(ApplicationError::InvalidRequest),
         };
-
+        match thread {
+            Thread::Contact(contact) => {
+                manager.update_contact_from_profile(contact).await.ok().unwrap();
+            }
+            _ => {}
+        }
         manager.open_chat(thread).await.ok().unwrap();
         let response = AxolotlResponse {
             response_type: "ping".to_string(),
@@ -1179,7 +1281,6 @@ impl Handler {
         } else {
             "Invalid message"
         };
-        log::debug!("Got message: {}", msg);
         struct Wrapper<T>(Cell<Option<T>>);
 
         impl<I, P> Serialize for Wrapper<I>
@@ -1208,6 +1309,7 @@ impl Handler {
                     self.handle_send_message(manager, axolotl_request.data)
                         .await
                 }
+                "uploadAttachment" => self.handle_upload_attachment(manager, axolotl_request.data).await,
                 "openChat" => self.handle_open_chat(manager, axolotl_request.data).await,
                 "leaveChat" => self.handle_close_chat(manager).await,
                 "getConfig" => self.handle_get_config(manager).await,
@@ -1245,4 +1347,32 @@ impl Handler {
         Ok(())
         //sender.send(Message::text("working")).await.unwrap();
     }
+}
+
+/// Save a file on the disk
+fn save_attachment(file_content: &[u8], file_name: &str) {
+    // Create the attachments directory if needed
+    let _ = fs::create_dir_all(&format!("{}/attachments/", get_app_dir()));
+
+    let mut file = fs::OpenOptions::new()
+        .create(true)
+        .write(true)
+        .open(&format!("{}/attachments/{}", get_app_dir(), file_name))
+        .unwrap();
+
+    let file_written = file.write_all(file_content);
+    if let Err(e) = file_written {
+        log::error!("Error while saving attachment. {:?}", e)
+    }
+}
+
+/// Returns the path <configPath>/textsecure.nanuc
+/// Example: ~/.config/textsecure.nanuc
+pub fn get_app_dir() -> String {
+    let config_path = dirs::config_dir()
+        .unwrap()
+        .into_os_string()
+        .into_string()
+        .unwrap();
+    format!("{}/textsecure.nanuc", config_path)
 }

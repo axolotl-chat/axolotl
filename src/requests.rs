@@ -7,6 +7,7 @@ use presage::{
         content::{Content, ContentBody}, DataMessage,
     }, Thread
 };
+use presage::libsignal_service::prelude::AttachmentIdentifier;
 
 #[derive(Deserialize, Debug)]
 pub struct SendMessageRequest {
@@ -15,6 +16,14 @@ pub struct SendMessageRequest {
     // The uuid
     pub recipient: String,
     // TODO: manage quote, attachment and reaction
+}
+
+#[derive(Deserialize, Debug)]
+pub struct UploadAttachmentRequest {
+    // The data URL containing the base64-encoded file
+    pub attachment: String,
+    // The uuid
+    pub recipient: String,
 }
 
 #[derive(Deserialize, Debug)]
@@ -61,6 +70,31 @@ pub struct AxolotlConfig {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+pub struct AttachmentMessage {
+    // The content type
+    pub ctype: String,
+    // The filename
+    pub filename: String,
+}
+
+impl AttachmentMessage {
+    pub fn new(ctype: &str, filename: &str) -> Self {
+        // Use the first part of the MIME type
+        // image/png becomes image
+        let content_type = if ctype.contains("/") {
+            ctype.split("/").collect::<Vec<&str>>()[0].to_string()
+        } else {
+            ctype.to_string()
+        };
+
+        AttachmentMessage {
+            ctype: content_type,
+            filename: filename.to_string()
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug)]
 pub struct AxolotlMessage {
     pub message_type: String,
     pub sender:Option<Uuid>,
@@ -68,13 +102,12 @@ pub struct AxolotlMessage {
     timestamp:Option<u64>,
     is_outgoing:bool,
     pub thread_id:Option<Thread>,
-    attachment:Option<String>,
-
+    attachments:Vec<AttachmentMessage>,
+    is_sent:bool,
 }
 impl AxolotlMessage {
     pub fn from_message(message: Content) -> AxolotlMessage {
-
-        // log::info!( "{:?}", message);
+        //log::info!( "{:?}", message);
         let body = &message.body;
         let message_type = match body{
             ContentBody::DataMessage(_) => "DataMessage",
@@ -89,8 +122,21 @@ impl AxolotlMessage {
             ContentBody::SynchronizeMessage(_) => true,
             _ => false,
         };
+
+        let mut attachments: Vec<AttachmentMessage> = Vec::new();
+        if let ContentBody::DataMessage(data) = body {
+            if !data.attachments.is_empty() {
+                for attachment in &data.attachments {
+                    if let Some(AttachmentIdentifier::CdnId(id)) = attachment.attachment_identifier {
+                        let content_type = attachment.content_type();
+                        attachments.push(AttachmentMessage::new(content_type, &id.to_string()));
+                    }
+                }
+            }
+        };
+
         let data_message = match body{
-            ContentBody::DataMessage(data) =>{
+            ContentBody::DataMessage(data) => {
                 if data.reaction.is_some(){
                     data.reaction.clone().unwrap().emoji.clone()
                 } else {
@@ -115,9 +161,10 @@ impl AxolotlMessage {
             message_type,
             message:data_message,
             timestamp:Some(timestamp),
-            attachment:None,
+            attachments:attachments,
             is_outgoing, 
-            thread_id:None
+            thread_id:None,
+            is_sent: true, // TODO
         }
     }
     pub fn from_content_body(body: ContentBody) -> AxolotlMessage {
@@ -135,13 +182,24 @@ impl AxolotlMessage {
             ContentBody::SynchronizeMessage(_) => true,
             _ => false,
         };
-        let mut attachment:Option<String> = None;
+
+        let mut attachments: Vec<AttachmentMessage> = Vec::new();
+        if let ContentBody::DataMessage(ref data) = body {
+            if !data.attachments.is_empty() {
+                for attachment in &data.attachments {
+                    if let Some(AttachmentIdentifier::CdnId(id)) = attachment.attachment_identifier {
+                        let content_type = attachment.content_type();
+                        attachments.push(AttachmentMessage::new(content_type, &id.to_string()));
+                    }
+                }
+            }
+        };
+
         let data_message = match &body{
             ContentBody::DataMessage(data) =>{
                 if data.reaction.is_some(){
                     data.reaction.clone().unwrap().emoji.clone()
                 } else if data.attachments.len()>0 {
-                    attachment = data.attachments[0].clone().content_type;
                     if data.body.is_some() {
                         Some(format!("Unsuported attachment. {}", data.body.clone().unwrap()))
                     } else {
@@ -158,7 +216,6 @@ impl AxolotlMessage {
                     if m.reaction.is_some(){
                         m.reaction.clone().unwrap().emoji.clone()
                     } else if m.attachments.len()>0 {
-                        attachment = m.attachments[0].clone().content_type;
                         if m.body.is_some() {
                             Some(format!("Unsuported attachment. {}", m.body.clone().unwrap()))
                         } else {
@@ -188,17 +245,27 @@ impl AxolotlMessage {
             timestamp:timestamp,
             is_outgoing,
             thread_id:None,
-            attachment,
+            attachments: attachments,
+            is_sent: true, // TODO
         }
     }
     pub fn from_data_message(data: DataMessage) -> AxolotlMessage {
         let message_type = "DataMessage".to_string();
         let is_outgoing = false;
-        let mut attachment:Option<String> = None;
+
+        let mut attachments: Vec<AttachmentMessage> = Vec::new();
+        if !data.attachments.is_empty() {
+            for attachment in &data.attachments {
+                if let Some(AttachmentIdentifier::CdnId(id)) = attachment.attachment_identifier {
+                    let content_type = attachment.content_type();
+                    attachments.push(AttachmentMessage::new(content_type, &id.to_string()));
+                }
+            }
+        };
+
         let data_message = if data.reaction.is_some(){
             data.reaction.clone().unwrap().emoji.clone()
         } else if data.attachments.len()>0 {
-            attachment = data.attachments[0].clone().content_type;
             if data.body.is_some() {
                 Some(format!("Unsuported attachment. {}", data.body.clone().unwrap()))
             } else {
@@ -215,7 +282,8 @@ impl AxolotlMessage {
             timestamp:Some(timestamp),
             is_outgoing,
             thread_id:None,
-            attachment,
+            attachments: attachments,
+            is_sent: true, // TODO
         }
     }
 }
