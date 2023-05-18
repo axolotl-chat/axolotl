@@ -93,7 +93,7 @@
               @long-press="paste"
             />
           </div>
-          <div v-if="messageInput !== '' || true" class="messageInput-btn-container">
+          <div v-if="messageInput !== '' " class="messageInput-btn-container">
             <button class="btn send" @click="sendMessage">
               <font-awesome-icon icon="paper-plane" />
             </button>
@@ -159,6 +159,7 @@
           id="attachment"
           type="file"
           @change="sendDesktopAttachment"
+          style="position: fixed; top: -100em"
         />
 	<!--  TODO: Fix attachment sending
         <audio
@@ -290,6 +291,7 @@ export default {
     sendDesktopAttachment(evt) {
       const file = evt.target.files[0];
       if (file) {
+        console.log(file);
         const reader = new FileReader();
         const that = this;
         reader.onload = function (e) {

@@ -904,6 +904,7 @@ impl Handler {
         match serde_json::from_str(&data) {
             Ok::<UploadAttachmentRequest, SerdeError>(upload_attachment_request) => {
                 log::debug!("Attachment request parsed.");
+                let thread = self.string_to_thread(&upload_attachment_request.recipient)?;
 
                 let data_attachment = match DataUrl::process(&upload_attachment_request.attachment)
                 {
@@ -958,7 +959,7 @@ impl Handler {
                             };
                             save_attachment(&decoded_tosave_attachment, &cdnid.to_string());
                             send_message(
-                                upload_attachment_request.recipient,
+                                thread,
                                 None,
                                 Some(pointers),
                                 &manager,
@@ -984,7 +985,7 @@ impl Handler {
                 Ok(None)
             }
             Err(e) => {
-                log::error!("Error while parsing the request. {:?}", e);
+                log::error!("Error while parsing the attachment request. {:?}", e);
                 Err(ApplicationError::InvalidRequest)
             }
         }
@@ -1156,19 +1157,17 @@ impl Handler {
         manager: &ManagerThread,
         data: Option<String>,
     ) -> Result<Option<AxolotlResponse>, ApplicationError> {
-        // Todo: update contacts from profile
-        match manager.update_contacts_from_profile().await{
-            Ok(_) => (),
-            Err(e) => {
-                log::error!("Error updating contacts from profile: {}", e);
-            }
-        }
         let data = data.ok_or(ApplicationError::InvalidRequest)?;
         let thread: Thread = match serde_json::from_str(data.as_str()) {
             Ok(thread) => thread,
             Err(_) => return Err(ApplicationError::InvalidRequest),
         };
-
+        match thread {
+            Thread::Contact(contact) => {
+                manager.update_contact_from_profile(contact).await.ok().unwrap();
+            }
+            _ => {}
+        }
         manager.open_chat(thread).await.ok().unwrap();
         let response = AxolotlResponse {
             response_type: "ping".to_string(),
@@ -1282,7 +1281,6 @@ impl Handler {
         } else {
             "Invalid message"
         };
-        log::debug!("Got message: {}", msg);
         struct Wrapper<T>(Cell<Option<T>>);
 
         impl<I, P> Serialize for Wrapper<I>

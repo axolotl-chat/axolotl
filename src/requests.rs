@@ -23,7 +23,7 @@ pub struct UploadAttachmentRequest {
     // The data URL containing the base64-encoded file
     pub attachment: String,
     // The uuid
-    pub recipient: Thread,
+    pub recipient: String,
 }
 
 #[derive(Deserialize, Debug)]
