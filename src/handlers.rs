@@ -1,5 +1,6 @@
 use crate::error::ApplicationError;
 use crate::manager_thread::ManagerThread;
+use crate::migration::migrate_config;
 use crate::requests::{
     AxolotlConfig, AxolotlMessage, AxolotlRequest, AxolotlResponse, GetMessagesRequest,
     SendMessageRequest, SendMessageResponse, ChangeNotificationsForThreadRequest,
@@ -433,7 +434,7 @@ impl Handler {
     async fn check_registration(&mut self) -> Result<(), ApplicationError> {
         // Check if we are already registered
 
-        // wait 3 seconds for the manager to be initialized
+        // wait 2 seconds for the manager to be initialized
 
         thread::sleep(time::Duration::from_secs(2));
         let config_store = match Handler::get_config_store().await {
@@ -447,6 +448,9 @@ impl Handler {
         };
         if config_store.is_registered() {
             log::info!("Already registered, lets start the manager2");
+            self.is_registered = Some(true);
+        } else if migrate_config(&config_store)? {
+            log::info!("Registration migrated, lets start the manager2");
             self.is_registered = Some(true);
         } else {
             log::info!("Not registered, lets start the registration");

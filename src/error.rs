@@ -19,8 +19,8 @@ pub enum ApplicationError {
     WebSocketHandleMessageError(String),
     RegistrationError(String),
     InvalidRequest,
-    RegistrationSuccesful
-
+    RegistrationSuccesful,
+    MigrationError(String)
 }
 
 impl std::fmt::Display for ApplicationError {
@@ -89,6 +89,12 @@ impl std::fmt::Display for ApplicationError {
                 "{}",
                 "Registration succesful."
             ),
+            ApplicationError::MigrationError(e) => writeln!(
+                f,
+                "{}: {}",
+                "Migration failed.",
+                e
+            )
 
         }
     }
@@ -156,6 +162,7 @@ impl ApplicationError {
             ApplicationError::InvalidRequest=> "Invalid request.".to_string(),
             ApplicationError::SledStore(e) => format!("{:#?}", e),
             ApplicationError::RegistrationSuccesful => "Registration succesful.".to_string(),
+            ApplicationError::MigrationError(e) => format!("{:#?}", e),
         }
     }
 
@@ -173,6 +180,7 @@ impl ApplicationError {
             ApplicationError::InvalidRequest=> false,
             ApplicationError::SledStore(_) => true,
             ApplicationError::RegistrationSuccesful => false,
+            ApplicationError::MigrationError(_) => true,
         }
     }
 }

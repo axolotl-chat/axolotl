@@ -1,20 +1,36 @@
 pub(crate) use libsignal_service::prelude::Uuid;
 use serde_yaml::from_reader;
 use serde::Deserialize;
-use std::fs::File;
+use std::{fs::File, io::{Error, ErrorKind}};
+use presage_store_sled::SledStore;
+
+use crate::error::ApplicationError;
 
 const CONFIG_PATH : &str = "path/to/config";
 
 #[allow(dead_code)]
-pub fn migrate_config()-> Result<(), String> {
+pub fn migrate_config(store: &SledStore)-> Result<bool, ApplicationError> {
     let mut reader = YamlConfigReader{ path: CONFIG_PATH };
-    migrate(&mut reader)
+    migrate(&mut reader, store).map_err(|e| ApplicationError::MigrationError(e))
 }
 
-fn migrate(reader: &mut impl ConfigReader) -> Result<(), String> {
-    let _config = reader.read_config()?;
-    // todo do stuff
-    Ok(())
+fn migrate(reader: &mut impl ConfigReader, _store: &impl ConfigStore) -> Result<bool, String> {
+    match reader.read_config() {
+        Ok(_config) => {
+            // todo do stuff
+            Ok(true)
+        },
+        Err(ReaderError::FileNotFound(_)) => Ok(false),
+        Err(ReaderError::MISC(m)) => Err(m)
+    }
+}
+
+trait ConfigStore {
+    // define some functions used for migration
+}
+
+impl ConfigStore for SledStore {
+    // implement functions used for migration
 }
 
 #[derive(Deserialize, PartialEq, Debug)]
@@ -29,8 +45,14 @@ struct Config {
     pub certificate: Vec<u8>
 }
 
+#[derive(Debug)]
+enum ReaderError {
+    FileNotFound(String),
+    MISC(String)
+}
+
 trait ConfigReader {
-    fn read_config(&mut self) -> Result<Box<Config>,String>;
+    fn read_config(&mut self) -> Result<Box<Config>, ReaderError>;
 }
 
 pub struct YamlConfigReader {
@@ -38,15 +60,22 @@ pub struct YamlConfigReader {
 }
 
 impl ConfigReader for YamlConfigReader {
-    fn read_config(&mut self) -> Result<Box<Config>,String> {
+    fn read_config(&mut self) -> Result<Box<Config>, ReaderError> {
         let f = open_file(self.path.to_string())?;
         from_reader(f)
-            .map_err(|e| format!("Invalid Format: {}", e))
+            .map_err(|e| ReaderError::MISC(format!("Invalid File Format: {}", e)))
     }
 }
 
-fn open_file(path: String) -> Result<File,String> {
-    File::open(&path).map_err(|e| format!("File open failed: {} on path {}", e, &path))	
+fn open_file(path: String) -> Result<File, ReaderError> {
+    File::open(&path).map_err(|e| handle_file_error(e, &path))	
+}
+
+fn handle_file_error(e: Error, path: &str) -> ReaderError {
+    if e.kind() == ErrorKind::NotFound {
+        return ReaderError::FileNotFound(path.to_string())
+    }
+    ReaderError::MISC(format!("File open failed: {} on path {}", e, &path))
 }
 
 #[cfg(test)]
@@ -71,31 +100,60 @@ mod tests {
     }
 
     #[test]
-    fn test_migrate_config_reading_fails() {
-        struct TestReader();
-
-        impl ConfigReader for TestReader {
-            fn read_config(&mut self) -> Result<Box<Config>,String> {
-                Err("test".to_string())
-            }
-        }
-        let mut reader = TestReader();
-        assert!(migrate(&mut reader).is_err());
-    }
-
-    #[test]
     fn test_migrate_config_success() {
         struct TestReader();
-
         impl ConfigReader for TestReader {
-            fn read_config(&mut self) -> Result<Box<Config>,String> {
+            fn read_config(&mut self) -> Result<Box<Config>,ReaderError> {
                 let config = test_config();
                 Ok(Box::new(config))
             }
         }
         let mut reader = TestReader();
+
+        struct TestStore();
+        impl ConfigStore for TestStore {
+            // TODO implement stub
+        }
+        let store = TestStore();
         
-        assert_eq!(migrate(&mut reader).unwrap(), ());
+        assert_eq!(migrate(&mut reader, &store).unwrap(), true);
+    }
+
+    fn test_migrate_config_nothing_to_migrate() {
+        struct TestReader();
+        impl ConfigReader for TestReader {
+            fn read_config(&mut self) -> Result<Box<Config>,ReaderError> {
+                Err(ReaderError::FileNotFound("not/here".to_string()))
+            }
+        }
+        let mut reader = TestReader();
+
+        struct TestStore();
+        impl ConfigStore for TestStore {
+            // TODO implement stub
+        }
+        let store = TestStore();
+        
+        assert_eq!(migrate(&mut reader, &store).unwrap(), false);
+    }
+
+    #[test]
+    fn test_migrate_config_fails() {
+        struct TestReader();
+        impl ConfigReader for TestReader {
+            fn read_config(&mut self) -> Result<Box<Config>,ReaderError> {
+                Err(ReaderError::MISC("ohh no!".to_string()))
+            }
+        }
+        let mut reader = TestReader();
+
+        struct TestStore();
+        impl ConfigStore for TestStore {
+            // TODO implement stub
+        }
+        let store = TestStore();
+        
+        assert!(migrate(&mut reader, &store).is_err());
     }
     
     #[test]
