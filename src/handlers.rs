@@ -115,7 +115,7 @@ impl Handler {
             .unwrap();
         // todo: check if a tmp folder exists, if so, copy the content to the new folder and delete the tmp folder
 
-        let db_path = format!("{config_path}/textsecure.nanuc/");
+        let db_path = format!("{config_path}/textsecure.nanuc/sled");
         let config_store = match SledStore::open_with_passphrase(
             db_path,
             None::<&str>,
@@ -176,7 +176,7 @@ impl Handler {
             count += 1;
 
             if self.is_registered.is_none() {
-                match self.check_registration().await {
+                match Handler::check_registration().await {
                     Ok(_) => {
                         self.is_registered = Some(true);
                     }
@@ -259,14 +259,24 @@ impl Handler {
                                                             thread::sleep(
                                                                 time::Duration::from_secs(1),
                                                             );
-                                                            log::debug!("Waiting for error");
                                                             continue;
                                                         }
                                                     };
                                                 }
                                                 if error_reciever.try_recv().is_err() {
                                                     log::debug!("Break out of loop, because error channel is closed");
-                                                    break;
+                                                    match Handler::check_registration().await {
+                                                        Ok(_) => {
+                                                            self.is_registered = Some(true);
+                                                            self.send_registration_confirmation().await;
+                                                        break;
+
+                                                        }
+                                                        Err(e) => {
+                                                            log::debug!("Error checking registration: {}", e);
+                                                            self.is_registered = Some(false);
+                                                        }
+                                                    }
                                                 }
                                             }
                                             self.send_registration_confirmation().await;
@@ -430,7 +440,7 @@ impl Handler {
         ))
     }
 
-    async fn check_registration(&mut self) -> Result<(), ApplicationError> {
+    async fn check_registration() -> Result<(), ApplicationError> {
         // Check if we are already registered
 
         // wait 3 seconds for the manager to be initialized
@@ -447,10 +457,8 @@ impl Handler {
         };
         if config_store.is_registered() {
             log::info!("Already registered, lets start the manager2");
-            self.is_registered = Some(true);
         } else {
             log::info!("Not registered, lets start the registration");
-            self.is_registered = Some(false);
             return Err(ApplicationError::RegistrationError(
                 "Not yet registered".to_string(),
             ));
