@@ -49,6 +49,13 @@ pub struct GetMessagesRequest {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+pub struct ChangeNotificationsForThreadRequest{
+    pub thread: Thread,
+    pub muted: bool,
+    pub archived: bool,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
 pub struct SendMessageResponse {
     pub message: AxolotlMessage,
     pub is_failed: bool,
@@ -108,6 +115,7 @@ impl AxolotlMessage {
             ContentBody::CallMessage(_) => "CallMessage",
             ContentBody::ReceiptMessage(_) => "ReceiptMessage",
             ContentBody::TypingMessage(_) => "TypingMessage",
+            ContentBody::NullMessage(_) => "NullMessage",
         }.to_string();
         let mut is_outgoing = match body{
             ContentBody::DataMessage(_) => false, // todo mark own messages as outgoing
@@ -167,6 +175,7 @@ impl AxolotlMessage {
             ContentBody::CallMessage(_) => "CallMessage",
             ContentBody::ReceiptMessage(_) => "ReceiptMessage",
             ContentBody::TypingMessage(_) => "TypingMessage",
+            ContentBody::NullMessage(_) => "NullMessage",
         }.to_string();
         let mut is_outgoing = match body{
             ContentBody::DataMessage(_) => false, // todo mark own messages as outgoing

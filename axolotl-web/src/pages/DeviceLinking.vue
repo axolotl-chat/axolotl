@@ -26,16 +26,20 @@ export default {
   },
   methods: {
     updateQrCode() {
-      QRCode.toCanvas(
+      if(this.deviceLinkCode){
+        console.log("updateQrCode",this.deviceLinkCode)
+        QRCode.toCanvas(
         document.getElementById("qrcode"),
-        [
-          {
-            data: this.deviceLinkCode,
-            mode: "url",
-          },
-        ],
-        { errorCorrectionLevel: "L" }
-      );
+          [
+            {
+              data: this.deviceLinkCode,
+              mode: "url",
+            },
+          ],
+          { errorCorrectionLevel: "L" }
+        );
+      }
+
     },
   },
 };

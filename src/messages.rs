@@ -5,7 +5,8 @@ use crate::manager_thread::ManagerThread;
 use crate::requests::{AxolotlMessage, AxolotlResponse, SendMessageResponse};
 use presage::prelude::proto::AttachmentPointer;
 use presage::prelude::*;
-use presage::{Manager, SledStore, Thread};
+use presage::{Manager, Thread};
+use presage_store_sled::SledStore;
 use std::time::UNIX_EPOCH;
 
 /**
@@ -67,7 +68,7 @@ pub async fn send_message(
     }
     let mut message = AxolotlMessage::from_data_message(data_message);
     message.thread_id = Some(recipient);
-    message.sender = Some(manager.uuid());
+    // message.sender = Some(manager.uuid());
     let response_data = SendMessageResponse { message, is_failed };
     let response_data_json = serde_json::to_string(&response_data).unwrap();
     let response = AxolotlResponse {
@@ -79,7 +80,7 @@ pub async fn send_message(
 
 pub async fn send_message_to_group(msg: &str, master_key_str: &str, attachments: Option<Vec<AttachmentPointer>>,config_store: SledStore)
 {
-    let mut manager = Manager::load_registered(config_store).unwrap();
+    let mut manager = Manager::load_registered(config_store).await.unwrap();
     // Send message
     let timestamp = std::time::SystemTime::now()
         .duration_since(UNIX_EPOCH)

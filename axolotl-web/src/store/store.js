@@ -98,7 +98,7 @@ export default createStore({
     SET_SESSIONNAMES(state, sessionNames) {
       const sorted = {};
       for (let i = 0; i < sessionNames.length; i++) {
-        sorted[sessionNames[i].ID] = sessionNames[i];
+        sorted[sessionNames[i].id] = sessionNames[i];
       }
       state.sessionNames = sorted;
     },
@@ -178,10 +178,9 @@ export default createStore({
       } else if (type === "Error") {
         this.commit("SET_ERROR", request.Error)
       }
-      // this.dispatch("requestCode", "+123456")
     },
     SET_MESSAGELIST(state, messageList) {
-      state.messageList = messageList.reverse();
+      state.messageList = messageList;
     },
     SET_MORE_MESSAGELIST(state, messageList) {
       if (messageList.Messages !== null) {
@@ -198,6 +197,7 @@ export default createStore({
         // })
         state.messageList = tmpList;
       }
+      console.log("SET_MESSAGE_RECEIVED", message)
       state.chatList.forEach((chat, i) => {
         if (chat.id === message.thread_id) {
           state.chatList[i].Messages = [message]
@@ -205,7 +205,7 @@ export default createStore({
       })
     },
     SET_MESSAGE_UPDATE(state, message) {
-      if (state.currentChat.ID === message.SID) {
+      if (state.currentChat.id === message.SID) {
         const index = state.messageList.findIndex(m => {
           return m.ID === message.ID;
         });
@@ -310,9 +310,8 @@ export default createStore({
       state.socket.reconnectError = true;
     },
     // default handler called for all methods
-    SOCKET_ONMESSAGE(state, message) {
+      SOCKET_ONMESSAGE(state, message) {
       state.socket.message = message;
-      console.log(message);
       const messageData = JSON.parse(message.data);
       if (messageData.Error) {
         this.commit("SET_ERROR", messageData.Error);
@@ -414,9 +413,7 @@ export default createStore({
             this.commit("SET_CONFIG", JSON.parse(messageData.data));
           } else if (messageData.response_type === "message_received") {
             const messageReceived = JSON.parse(messageData.data);
-            console.log("message_received", messageReceived, state.currentChat);
-            console.log(JSON.stringify(state.currentChat.id) === JSON.stringify(messageReceived.thread_id), JSON.stringify(state.currentChat.id) ,JSON.stringify(messageReceived.thread_id))
-            if (state.currentChat && JSON.stringify(state.currentChat.id) === JSON.stringify(messageReceived.thread_id)) {
+            if (state.currentChat && JSON.stringify(state.currentChat?.id) === JSON.stringify(messageReceived.thread_id)) {
 
               this.commit("SET_MESSAGE_RECEIVED", messageReceived);
             } else {
@@ -495,7 +492,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "delChat",
-          "data": this.state.currentChat.ID
+          "data": this.state.currentChat.id
         }
         socketSend(message);
       }
@@ -609,9 +606,14 @@ export default createStore({
     },
     toggleNotifications() {
       if (this.state.socket.isConnected) {
+        let data = {
+          thread: this.state.currentChat.id,
+          muted: !this.state.currentChat.muted,
+          archived: false
+        };
         const message = {
-          "request": "toggleNotifications",
-          "data": this.state.currentChat.ID
+          "request": "changeNotificationsForThread",
+          "data": JSON.stringify(data)
         }
         socketSend(message);
       }
@@ -620,7 +622,16 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "resetEncryption",
-          "data": this.state.currentChat.ID
+          "data": this.state.currentChat.id
+        }
+        socketSend(message);
+      }
+    },
+    registerSecondaryDevice() {
+      if (this.state.socket.isConnected) {
+        const message = {
+          "request": "registerSecondaryDevice",
+          "data": ""
         }
         socketSend(message);
       }
@@ -629,7 +640,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "verifyIdentity",
-          "data": this.state.currentChat.ID
+          "data": this.state.currentChat.id
         }
         socketSend(message);
       }
@@ -741,7 +752,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           "request": "delMessage",
-          "data": m.ID
+          "data": m.id
         }
         socketSend(message);
       }

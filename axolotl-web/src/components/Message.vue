@@ -208,7 +208,7 @@ export default {
       if (this.senderName == "") {
         const uuid = this.message.sender
         const contact = this.contacts.find(function (element) {
-          return element.address.uuid === uuid;
+          return element.uuid === uuid;
         });
         if (typeof contact !== "undefined") {
           return contact.name;
@@ -272,7 +272,7 @@ export default {
       if (this.contacts !== null) {
         const uuid = this.message.sender;
         const contact = this.contacts.find(function (element) {
-          return element.address.uuid === uuid;
+          return element.uuid === uuid;
         });
         if (typeof contact !== "undefined") {
           this.name = contact.name;
