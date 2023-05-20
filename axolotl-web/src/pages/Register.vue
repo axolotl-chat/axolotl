@@ -6,6 +6,11 @@
           {{ rateLimitError }}
         </div>
       </div>
+      <div v-if="registrationError !== null" class="registration-error">
+        <div class="error">
+          {{ registrationError }}
+        </div>
+      </div>
       <div v-else class="registration">
         <VueTelInput
           id="phoneInput"
@@ -42,6 +47,7 @@ export default {
     "registrationStatus",
     "captchaToken",
     "captchaTokenSent",
+    "registrationError"
   ]),
   mounted() {
     const userLang = navigator.language || navigator.userLanguage;

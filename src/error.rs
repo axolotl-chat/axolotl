@@ -52,10 +52,11 @@ impl std::fmt::Display for ApplicationError {
                 "{}",
                 "Receiving a message failed."
             ),
-            ApplicationError::Presage(_) => writeln!(
+            ApplicationError::Presage(e) => writeln!(
                 f,
-                "{}",
-                "Something unexpected happened with the signal backend. Please retry later."
+                "{}: {}",
+                "presage error: ",
+                e.to_string()
             ),
             ApplicationError::WebSocketError => writeln!(
                 f,

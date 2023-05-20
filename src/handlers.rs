@@ -297,7 +297,11 @@ impl Handler {
                                             }
                                         }
                                         if request_type == "sendCaptchaToken" {
+                                            log::debug!("Got captcha token");
                                             self.captcha = axolotl_request.data;
+                                            log::debug!("Got captcha token: {:?}", self.captcha);
+                                            log::debug!("Getting phone number");
+                                            self.get_phone_number().await;
                                         } else if request_type == "requestCode" {
                                             self.phone_number = match axolotl_request.data {
                                                 Some(data) => {
@@ -320,9 +324,16 @@ impl Handler {
                                                     self.phone_number.as_ref().unwrap()
                                                 );
                                                 let (tx, rx) = mpsc::channel(MESSAGE_BOUND);
-                                                self.get_verification_code(rx).await?;
+                                                match self.get_verification_code(rx).await{
+                                                    Ok(_) => log::debug!("Success sending verification code"),
+                                                    Err(e) => {
+                                                        log::error!("Error getting verification code: {}", e);
+                                                        self.get_phone_number().await;
+                                                        break;
+                                                    }
+                                                }
                                                 self.get_phone_pin().await;
-                                                let code_message = r.next().await;
+                                                let code_message: Option<Result<Message, warp::Error>> = r.next().await;
                                                 if let Some(code_message) = code_message {
                                                     match code_message {
                                                         Ok(code_message) => {
@@ -556,6 +567,9 @@ impl Handler {
         }
         let p = self.phone_number.clone().unwrap();
         let c = self.captcha.as_mut().unwrap().clone();
+        // create new error receiver
+        let (error_tx, error_rx) = oneshot::channel();
+
         std::thread::spawn(move || {
             let panic = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
                 tokio::runtime::Runtime::new()
@@ -587,11 +601,13 @@ impl Handler {
                             Err(e) => {
                                 log::error!("Error requesting pin: {}", e);
                                 // todo send error to client
+                                error_tx.send(Some(e)).unwrap();
                                 return Err(ApplicationError::RegistrationError(
                                     "Error requesting pin".to_string(),
                                 ));
                             }
                         };
+                        drop(error_tx);
                         let code = code_rx.recv().await.unwrap();
                         match manager.confirm_verification_code(code).await {
                             Ok(_) => (),
@@ -607,37 +623,59 @@ impl Handler {
                     .unwrap();
             }));
             if panic.is_err() {
-                log::error!("Error getting verification code: {:?}", panic);
+                log::error!("Error/panic getting verification code: {:?}", panic);
             }
         });
+        log::debug!("Awaiting for error");
+        let error = error_rx.await.unwrap();
+        if error.is_some() {
+            log::debug!("Got error: {:?}", error);
+            self.send_error(ApplicationError::Presage(error.unwrap())).await;
+            return Err(ApplicationError::RegistrationError("Error getting verification code".to_string()));
+        }
+        log::debug!("Getting verification code done");
 
         Ok(())
     }
 
     async fn get_phone_number(&self) {
-        let qr_code = format!(
-            "{{\"response_type\":\"phone_number\",\"data\":\"{}\"}}",
-            self.provisioning_link.clone().unwrap()
+        let message = format!(
+            "{{\"response_type\":\"phone_number\",\"data\":\"\"}}",
         );
         let mut ws_sender = self.sender.as_ref().unwrap().lock().await;
-        match ws_sender.send(Message::text(qr_code)).await {
+        match ws_sender.send(Message::text(message)).await {
             Ok(_) => (),
             Err(e) => {
-                log::error!("Error sending provisioning link to client: {}", e);
+                log::error!("Error sending phone number request to client: {}", e);
+            }
+        }
+        std::mem::drop(ws_sender);
+    }
+    async fn send_error(&self, error: ApplicationError) {
+        let mut error_string = error.to_string();
+        error_string.pop();
+        let message = format!(
+            "{{\"response_type\":\"registration_error\",\"data\":\"{}\"}}", error_string
+        );
+        log::debug!("Sending error to client: {}", message);
+        let mut ws_sender = self.sender.as_ref().unwrap().lock().await;
+        match ws_sender.send(Message::text(message)).await {
+            Ok(_) => (),
+            Err(e) => {
+                log::error!("Error sending error to client: {}", e);
             }
         }
         std::mem::drop(ws_sender);
     }
     async fn get_phone_pin(&self) {
-        let qr_code = format!(
-            "{{\"response_type\":\"pin\",\"data\":\"{}\"}}",
-            self.provisioning_link.clone().unwrap()
+        let message = format!(
+            "{{\"response_type\":\"pin\",\"data\":\"\"}}",
         );
         let mut ws_sender = self.sender.as_ref().unwrap().lock().await;
-        match ws_sender.send(Message::text(qr_code)).await {
+        match ws_sender.send(Message::text(message)).await {
             Ok(_) => (),
             Err(e) => {
-                log::error!("Error sending provisioning link to client: {}", e);
+                log::error!("Error sending pin request to client: {}", e);
             }
         }
         std::mem::drop(ws_sender);

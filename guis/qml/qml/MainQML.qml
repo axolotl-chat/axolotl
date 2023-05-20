@@ -31,63 +31,37 @@ import QtMultimedia 5.8
       var msg = "[Axolotl Web View] [JS] url changed %1".arg(url)
       console.log(msg)
       if (url == "https://signalcaptchas.org/registration/generate.html"){
+        console.log("run interceptor")
         var  interceptor = `
         // override the default onload function
-			            document.addEventListener('DOMContentLoaded', function () {
-                window.renderCallback = function (scheme, sitekey, action, token) {
-                    var targetURL = "http://localhost:9080/register?token=" + [scheme, sitekey, action, token].join(".");
-                    var link = document.createElement("a");
-                    link.href = targetURL;
-                    link.innerText = "open axolotl";
-                
-                    document.body.removeAttribute("class");
-                    setTimeout(function () {
-                    document.getElementById("container").appendChild(link);
-                    }, 2000);
-                
-                    window.location.href = targetURL;
-                };
-                function onload() {
-                    alert("onload");
-                    var action = document.location.href.indexOf("challenge") !== -1 ?
-                      "challenge" : "registration";
-                    var isDone = false;
-                    var sitekey = "6LfBXs0bAAAAAAjkDyyI1Lk5gBAUWfhI_bIyox5W";
-                  
-                    var widgetId = grecaptcha.enterprise.render("captcha", {
-                      sitekey: sitekey,
-                      size: "checkbox",
-                      theme: getTheme(),
-                      callback: function (token) {
-                        isDone = true;
-                        renderCallback("signal-recaptcha-v2", sitekey, action, token);
-                      },
-                    });
-                  
-                    function execute() {
-                      if (isDone) {
-                        return;
-                      }
-                  
-                      grecaptcha.enterprise.execute(widgetId, { action: action });
-                  
-                      // Below, we immediately reopen if the user clicks outside the widget. If they
-                      //   close it some other way (e.g., by pressing Escape), we force-reopen it
-                      //   every second.
-                      setTimeout(execute, 1000);
-                    }
-                  
-                    // If the user clicks outside the widget, reCAPTCHA will open it, but we'll
-                    //   immediately reopen it. (We use onclick for maximum browser compatibility.)
-                    document.body.onclick = function () {
-                      if (!isDone) {
-                        grecaptcha.enterprise.execute(widgetId, { action: action });
-                      }
+			      document.addEventListener('DOMContentLoaded', function () {
+                    console.log("DOMContentLoaded");
+                    window.renderCallback = function (scheme, sitekey, action, token) {
+                    
+                        var targetURL = "tauri://localhost/?token=" + [scheme, sitekey, action, token].join(".");
+                        var link = document.createElement("a");
+                        link.href = targetURL;
+                        link.innerText = "open axolotl";
+                    
+                        document.body.removeAttribute("class");
+                        setTimeout(function () {
+                        document.getElementById("container").appendChild(link);
+                        }, 2000);
+                    
+                        window.location.href = targetURL;
                     };
-                  
-                    execute();
-                  }
-                onload();
+                    window.intercept = function() {
+                        console.log("intercept")
+                        console.log("resetting captcha")
+                        document.getElementById("captcha").innerHTML = "";
+                        if(useHcaptcha)onloadHcaptcha();
+                        else onload();
+                      }
+                    if (!window.location.href.includes("localhost")){
+                        intercept();
+                    } else {
+                        console.log("localhost detected, not intercepting");
+                    }
             });
 				`
         webView.runJavaScript(interceptor);

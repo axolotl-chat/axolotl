@@ -5,6 +5,9 @@
         <img class="logo" src="/axolotl.png" alt="Axolotl logo">
         <h1 class="title">Axolotl Beta</h1>
         <h2 v-translate class="subtitle">A cross-platform Signal client</h2>
+        <div v-if="registrationError" class="alert alert-danger" role="alert">
+          {{ registrationError }}
+        </div>
         <div class="description">
           <div class="bob">
             Hey! Mr. Tambourine Man, play a song for me,
@@ -62,6 +65,7 @@ export default {
     "registrationStatus",
     "captchaToken",
     "captchaTokenSent",
+    "registrationError"
   ]),
   mounted() {
     const userLang = navigator.language || navigator.userLanguage;

@@ -43,6 +43,7 @@ export default createStore({
     captchaToken: null,
     captchaTokenSent: false,
     deviceLinkCode: null,
+    registrationError: null,
     socket: {
       isConnected: false,
       message: '',
@@ -145,6 +146,9 @@ export default createStore({
     },
     SET_REGISTRATION_STATUS(state, status) {
       state.registrationStatus = status;
+    },
+    SET_REGISTRATION_ERROR(state, error) {
+      state.registrationError = error;
     },
     SET_REQUEST(state, request) {
       const type = request.Type;
@@ -313,6 +317,7 @@ export default createStore({
       SOCKET_ONMESSAGE(state, message) {
       state.socket.message = message;
       const messageData = JSON.parse(message.data);
+
       if (messageData.Error) {
         this.commit("SET_ERROR", messageData.Error);
       }
@@ -403,6 +408,8 @@ export default createStore({
           } else if (messageData.response_type === "phone_number") {
             this.commit("SET_REGISTRATION_STATUS", "phone_number");
             router.push("/register")
+          } else if (messageData.response_type === "registration_error") {
+            this.commit("SET_REGISTRATION_ERROR", messageData.data);
           } else if (messageData.response_type === "pin") {
             this.commit("SET_REGISTRATION_STATUS", "pin");
             router.push("/pin")
