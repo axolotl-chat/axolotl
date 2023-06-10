@@ -1,7 +1,8 @@
 <template>
   <div
     v-if="message.message && ((message.message_type == 'DataMessage' && message.message !== '') ||
-      (message.message_type == 'SyncMessage' && message.message && message.message !== 'SyncMessage'))" :key="message.ID"
+      (message.message_type == 'SyncMessage' && message.message && message.message !== 'SyncMessage'))||
+      (message.message_type == 'SyncMessage' && message.attachments.length >0 )" :key="message.ID"
     :class="{
       'col-12': true,
       'message-container': true,
@@ -67,7 +68,7 @@
           <div v-for="m in message.attachments" :key="m.File">
             <div v-if="m.ctype === 'image'" class="attachment-img">
               <img
-                :src="'http://localhost:9080/attachments/' + m.filename" alt="Fullscreen image"
+                :src="'http://localhost:9080/attachments/' + m.filename" alt="image"
                 @click="$emit('show-fullscreen-img', m.filename)"
               />
             </div>

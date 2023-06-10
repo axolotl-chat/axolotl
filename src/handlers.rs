@@ -1388,7 +1388,7 @@ impl Handler {
 }
 
 /// Save a file on the disk
-fn save_attachment(file_content: &[u8], file_name: &str) {
+pub fn save_attachment(file_content: &[u8], file_name: &str) {
     // Create the attachments directory if needed
     let _ = fs::create_dir_all(&format!("{}/attachments/", get_app_dir()));
 

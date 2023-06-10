@@ -1,4 +1,5 @@
 use futures::{select, FutureExt, StreamExt};
+use presage::libsignal_service::prelude::AttachmentIdentifier;
 use presage::libsignal_service::{groups_v2::Group, sender::AttachmentUploadError};
 use presage::{
     prelude::{content::*, AttachmentSpec, Contact, ContentBody, DataMessage, ServiceAddress, *},
@@ -16,6 +17,7 @@ use serde::{Deserialize, Serialize};
 use tokio::sync::{mpsc, oneshot};
 
 use crate::error::ApplicationError;
+use crate::handlers;
 
 #[cfg(feature = "ut")]
 use dbus::arg::{AppendAll, ReadAll};
@@ -248,12 +250,13 @@ impl ManagerThread {
     }
     pub async fn update_contacts_from_profile(&self) -> Result<(), PresageError> {
         log::debug!("Updating contacts from profile -> todo");
-        let (sender, receiver) = oneshot::channel();
-        self.command_sender
-            .send(Command::RequestContactsUpdateFromProfile(sender))
-            .await
-            .expect("Command sending failed");
-        receiver.await.expect("Callback receiving failed")
+        // let (sender, receiver) = oneshot::channel();
+        // self.command_sender
+        //     .send(Command::RequestContactsUpdateFromProfile(sender))
+        //     .await
+        //     .expect("Command sending failed");
+        // receiver.await.expect("Callback receiving failed")
+        Ok(())
     }
     pub async fn update_contact_from_profile(&self, id: Uuid) -> Result<Contact, PresageError> {
         log::debug!("Updating contact from profile -> todo");
@@ -481,10 +484,9 @@ async fn command_loop(
                     select! {
                         msg = messages.next().fuse() => {
                             if let Some(msg) = msg {
-                                log::debug!("Received message: {:?}", &msg.body.clone());
                                 match msg.body.clone() {
                                     ContentBody::DataMessage(data) => {
-                                        log::debug!("Received message: {:?}", &data);
+                                        log::debug!("Received message data: {:?}", &data);
 
                                         let body = data.body.as_ref().unwrap_or(&String::from("")).to_string();
                                         let thread = Thread::try_from(&msg).unwrap();
@@ -518,6 +520,28 @@ async fn command_loop(
                                             let contact_title = manager.get_title_for_thread(&contact_thread).await.unwrap_or("".to_string());
                                             notification.sender = contact_title;
                                         }
+                                        // download attachments
+                                        if data.attachments.len()>0 {
+                                            let attachments = data.attachments.clone();
+                                            for attachment in attachments {
+                                                let attachment_pointer = attachment.clone();
+                                                match manager.get_attachment(&attachment_pointer).await{
+                                                    Ok(attachment) => {
+                                                        let cdnid = match attachment_pointer.attachment_identifier.clone().unwrap() {
+                                                            AttachmentIdentifier::CdnId(id) => id,
+                                                            _ => {
+                                                                log::error!("The uploaded attachment has no identifier.");
+                                                                0
+                                                            }
+                                                        };
+                                                        handlers::save_attachment(&attachment, &cdnid.to_string());
+                                                    },
+                                                    Err(e) => {
+                                                        log::error!("Failed to download attachment: {}", e);
+                                                    }
+                                                }
+                                            }
+                                        }
                                         if data.reaction.is_some(){
                                             notification.message = data.reaction.unwrap().emoji.unwrap();
                                             //TODO: handle reactions
@@ -531,14 +555,34 @@ async fn command_loop(
                                             continue;
                                         }
                                         notify_message(&notification).await;
-
                                     }
                                     ContentBody::SynchronizeMessage(sync_message) => {
-                                        //todo handle sync messages
                                       match sync_message.sent{
                                         Some(sm) => {
                                             match sm.message {
                                                 Some(m) =>{
+                                                    // download attachments
+                                                    if m.attachments.len()>0 {
+                                                       let attachments = m.attachments.clone();
+                                                       for attachment in attachments {
+                                                           let attachment_pointer = attachment.clone();
+                                                           match manager.get_attachment(&attachment_pointer).await{
+                                                               Ok(attachment) => {
+                                                                   let cdnid = match attachment_pointer.attachment_identifier.clone().unwrap() {
+                                                                       AttachmentIdentifier::CdnId(id) => id,
+                                                                       _ => {
+                                                                           log::error!("The uploaded attachment has no identifier.");
+                                                                           0
+                                                                       }
+                                                                   };
+                                                                   handlers::save_attachment(&attachment, &cdnid.to_string());
+                                                               },
+                                                               Err(e) => {
+                                                                   log::error!("Failed to download attachment: {}", e);
+                                                               }
+                                                           }
+                                                       }
+                                                    }                                                           
                                                     match m.body.clone() {
 
                                                         Some(_data) => {
@@ -561,13 +605,11 @@ async fn command_loop(
                                                         },
                                                         None => {}
                                                     }
-
                                                 },
                                                 None => {}
                                             }
                                         },
                                         None => {}
-
                                       }
                                     }
                                     _ => {}

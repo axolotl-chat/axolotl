@@ -265,8 +265,7 @@ export default {
       return this.chatId;
     },
     callContentHub(type) {
-      this.showAttachmentsBar = false;
-      if (typeof this.config.Gui !== "undefined" && this.config.Gui === "ut") {
+      if (typeof this.config.feature !== "undefined" && this.config.feature === "ut") {
         const result = window.prompt(type);
         this.showSettingsMenu = false;
         if (result !== "canceld")
@@ -282,7 +281,7 @@ export default {
       }
     },
     loadAttachmentDialog() {
-      if (typeof this.config.Gui !== "undefined" && this.config.Gui === "ut") {
+      if (typeof this.config.feature !== "undefined" && this.config.feature === "ut") {
         this.showAttachmentsBar = true;
       } else {
         document.getElementById("attachment").click();
@@ -314,7 +313,7 @@ export default {
       this.showFullscreenVideoSrc = video;
     },
     saveImg(e) {
-      if (typeof this.config.Gui !== "undefined" && this.config.Gui === "ut") {
+      if (typeof this.config.feature !== "undefined" && this.config.feature === "ut") {
         e.preventDefault();
         alert("[oP]" + this.showFullscreenImgSrc);
       } else
@@ -323,7 +322,7 @@ export default {
         );
     },
     saveVideo(e) {
-      if (typeof this.config.Gui !== "undefined" && this.config.Gui === "ut") {
+      if (typeof this.config.feature !== "undefined" && this.config.feature === "ut") {
         e.preventDefault();
         alert("[oV]" + this.showFullscreenVideoSrc);
       } else
@@ -363,7 +362,7 @@ export default {
       this.$router.go(-1);
     },
     paste() {
-      if (typeof this.config.Gui !== "undefined" && this.config.Gui === "ut") {
+      if (typeof this.config.feature !== "undefined" && this.config.feature === "ut") {
         // Don't follow the link
         const result = window.prompt("paste");
         this.messageInput = this.messageInput + result;
@@ -452,7 +451,7 @@ export default {
     handleClick(event) {
       // If the clicked element doesn't have the right selector, bail
       if (!event.target.matches(".linkified")) return;
-      if (typeof this.config.Gui !== "undefined" && this.config.Gui === "ut") {
+      if (typeof this.config.feature !== "undefined" && this.config.feature === "ut") {
         // Don't follow the link
         event.preventDefault();
         alert(event.target.href);

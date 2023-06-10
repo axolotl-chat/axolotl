@@ -32,7 +32,7 @@
         </div>
       </div>
       <div v-if="verificationError === 404">
-        <div v-translate>Wrong code entered. Restart for another try.</div>
+        <div>{{$gettext("Wrong code entered. Restart for another try.")}}</div>
       </div>
     </div>
   </component>
@@ -40,6 +40,7 @@
 
 <script>
 import { mapState } from "vuex";
+const { $gettext } = useGettext();
 import VerificationPinInput from "@/components/VerificationPinInput";
 export default {
   name: "VerificationPage",
