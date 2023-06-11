@@ -17,19 +17,13 @@
           <font-awesome-icon icon="times" />
         </button>
       </div>
-      <div v-for="chat in chatList" :key="chat.id.Contact?chat.id.Contact:chat.id.Group" class="row">
+      <div v-for="chat in chatList" :key="chat.id.Contact ? chat.id.Contact : chat.id.Group" class="row">
         <!-- chat entry -->
-        <div
-          :id="chat.id.Contact?chat.id.Contact:chat.id.Group"
-          :class="
-            editActive && selectedChat.indexOf(chat.id.Contact?chat.id.Contact:chat.id.Group) >= 0
-              ? 'selected col-12 chat-container'
-              : 'col-12 chat-container '
-          "
-          data-long-press-delay="500"
-          @click="enterChat(chat)"
-          @long-press="editChat(chat.id.Contact?chat.id.Contact:chat.id.Group)"
-        >
+        <div :id="chat.id.Contact ? chat.id.Contact : chat.id.Group" :class="editActive && selectedChat.indexOf(chat.id.Contact ? chat.id.Contact : chat.id.Group) >= 0
+          ? 'selected col-12 chat-container'
+          : 'col-12 chat-container '
+          " data-long-press-delay="500" @click="enterChat(chat)"
+          @long-press="editChat(chat.id.Contact ? chat.id.Contact : chat.id.Group)">
           <div class="row chat-entry">
             <div class="avatar col-2">
               <div v-if="!isGroupCheck(chat)" class="badge-name">
@@ -39,7 +33,7 @@
                   alt="Avatar image"
                   @error="onImageError($event)"
                 /> -->
-                {{ `${chat.title[0]?chat.title[0]:"?"}${chat.title[1]?chat.title[1]:""}` }}
+                {{ `${chat.title[0] ? chat.title[0] : "?"}${chat.title[1] ? chat.title[1] : ""}` }}
               </div>
               <div v-else class="badge-name">
                 <font-awesome-icon icon="user-friends" />
@@ -49,53 +43,37 @@
               <div class="row">
                 <div class="col-9">
                   <div class="name">
-                    <font-awesome-icon
-                      v-if="chat.muted"
-                      class="mute"
-                      icon="volume-mute"
-                    />
-                    <font-awesome-icon
-                      v-if="chat.is_group"
-                      class="is_group me-1"
-                      icon="user-friends"
-                    />
-                    <div
-                      v-if="
-                        chat.is_group &&
-                          chat.title === '' 
-                      "
-                      v-translate
-                    >
+                    <font-awesome-icon v-if="chat.muted" class="mute" icon="volume-mute" />
+                    <font-awesome-icon v-if="chat.is_group" class="is_group me-1" icon="user-friends" />
+                    <div v-if="chat.is_group &&
+                      chat.title === ''
+                      " class="title" v-translate>
                       Unknown group
                     </div>
-                    <div v-else>
+                    <div v-else class="title">
                       {{ chat.title }}
-                    </div>
-                    <div
-                      v-if="Number(chat.unread_messages_count) > 0"
-                      class="counter badge badge-primary"
-                    >
-                      {{ chat.unread_messages_count }}
                     </div>
                   </div>
                 </div>
                 <div v-if="!editActive" class="col-3 date-c">
-                  <p
-                    v-if="
-                      chat.last_message !== '' &&
-                        chat.last_message_timestamp !== 0
-                    "
-                    class="time"
-                  >
+                  <p v-if="chat.last_message !== '' &&
+                    chat.last_message_timestamp !== 0
+                    " class="time">
                     {{ humanifyDate(chat.last_message_timestamp) }}
                   </p>
                 </div>
               </div>
               <div class="row">
-                <div class="col-12">
-                  <p v-if="chat.last_message !==''" class="preview">
+                <div class="col-9">
+                  <p v-if="chat.last_message !== ''" class="preview">
                     {{ chat.last_message }}
                   </p>
+                </div>
+                <div class="col-3 unread-counter">
+
+                  <div v-if="Number(chat.unread_messages_count) > 0" class="counter badge badge-primary">
+                    {{ chat.unread_messages_count }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -206,7 +184,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style lang="scss">
 .actions-header {
   position: fixed;
   background-color: #173d5c;
@@ -218,6 +196,7 @@ export default {
   top: 0;
   height: 51px;
 }
+
 .actions-header .btn {
   color: #fff;
 }
@@ -230,14 +209,13 @@ export default {
   padding: 10px 0;
   cursor: pointer;
 }
+
 .badge-name {
   background: rgb(14, 123, 210);
-  background: linear-gradient(
-    0deg,
-    rgba(14, 123, 210, 1) 8%,
-    rgba(32, 144, 234, 1) 42%,
-    rgba(107, 180, 238, 1) 100%
-  );
+  background: linear-gradient(0deg,
+      rgba(14, 123, 210, 1) 8%,
+      rgba(32, 144, 234, 1) 42%,
+      rgba(107, 180, 238, 1) 100%);
   /* padding: 14px; */
   width: 44px;
   height: 44px;
@@ -252,37 +230,46 @@ export default {
   overflow: hidden;
   flex-wrap: wrap;
 }
+
 .avatar-img {
   max-width: 100%;
   max-height: 100%;
   height: 100%;
 }
+
 .date-c {
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
+
 .meta {
   text-align: left;
 }
+
 .meta p {
   margin: 0px;
 }
+
 .meta .name {
   font-weight: bold;
   font-size: 15px;
   display: flex;
   align-items: center;
 }
+
 .meta .preview {
   font-size: 13px;
 }
+
 a.chat-container {
   color: #000;
 }
+
 a:hover.chat-container {
   text-decoration: none;
 }
+
 .btn.start-chat {
   position: fixed;
   bottom: 16px;
@@ -297,28 +284,47 @@ a:hover.chat-container {
   justify-content: center;
   align-items: center;
 }
-.chatList .preview {
-  overflow: hidden;
-  height: 20px;
-}
-.chatList .time {
-  font-size: 12px;
-}
-.chatList .mute {
-  color: #999;
-  margin-right: 10px;
-}
-.chatList .counter {
-  border-radius: 50%;
-  background-color: #2090ea;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 10px;
-  width: 28px;
-  height: 28px;
-}
-.chatList .selected {
-  background-color: #c5e4f0;
+
+.chatList {
+
+  .preview {
+    overflow: hidden;
+    height: 20px;
+  }
+
+  .time {
+    font-size: 12px;
+  }
+
+  .mute {
+    color: #999;
+    margin-right: 10px;
+  }
+
+  .counter {
+    border-radius: 50%;
+    background-color: #2090ea;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    width: 20px;
+    height: 20px;
+  }
+
+  .selected {
+    background-color: #c5e4f0;
+  }
+
+  .unread-counter {
+    text-align: right;
+    display: flex;
+    justify-content: end;
+  }
+
+  .title {
+    max-height: 2ch;
+    overflow: hidden;
+  }
 }
 </style>
