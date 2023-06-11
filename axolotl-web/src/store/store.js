@@ -905,14 +905,14 @@ export default createStore({
     },
     sendAttachment(state, data) {
       if (this.state.socket.isConnected) {
+        const mapped_data = {
+          "mimetype": data.type,
+          "path": data.path.replace("file://", ""),
+          "recipient": data.to,
+        }
         const message = {
           "request": "sendAttachment",
-          "data": {
-            "type": data.type,
-            "path": data.path,
-            "to": data.to,
-            "message": data.message,
-          }
+          "data": JSON.stringify(mapped_data)
         }
         socketSend(message);
 

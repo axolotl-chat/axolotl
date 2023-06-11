@@ -6,6 +6,8 @@ use crate::requests::{
     UploadAttachmentRequest,
     SendMessageRequest, SendMessageResponse, ChangeNotificationsForThreadRequest,
 };
+// #[cfg(feature = "ut")]
+use crate::requests::UploadAttachmentUtRequest;
 use data_url::DataUrl;
 extern crate dirs;
 use futures::channel::oneshot::Receiver;
@@ -22,8 +24,8 @@ use presage_store_sled::SledStoreError;
 use serde::{Serialize, Serializer};
 use serde_json::error::Error as SerdeError;
 use std::cell::Cell;
-use std::fs;
-use std::io::Write;
+use std::fs::{self, File};
+use std::io::{Write, Read};
 use std::ops::Bound::Unbounded;
 use std::process::exit;
 use std::time::{self, UNIX_EPOCH};
@@ -1028,6 +1030,97 @@ impl Handler {
             }
         }
     }
+    // #[cfg(feature = "ut")]
+    async fn handle_upload_attachment_ut(
+        &self,
+        manager: &ManagerThread,
+
+        data: Option<String>,
+    ) -> Result<Option<AxolotlResponse>, ApplicationError> {
+        log::info!("Uploading attachment.");
+        let data = data.ok_or(ApplicationError::InvalidRequest)?;
+        match serde_json::from_str(&data) {
+            Ok::<UploadAttachmentUtRequest, SerdeError>(upload_attachment_request) => {
+                log::debug!("Attachment request parsed.");
+                let thread = self.string_to_thread(&upload_attachment_request.recipient)?;
+
+
+                let data_attachment = read_a_file(upload_attachment_request.path).unwrap();
+                let decoded_attachment: Vec<u8> = data_attachment;
+                let decoded_tosave_attachment = decoded_attachment.clone();
+
+                let attachment_spec = AttachmentSpec {
+                    content_type: upload_attachment_request.mimetype,
+                    length: decoded_attachment.len(),
+                    file_name: None,
+                    preview: None,
+                    voice_note: None,
+                    borderless: None,
+                    width: None,
+                    height: None,
+                    caption: None,
+                    blur_hash: None,
+                };
+
+                let attachments: Vec<(AttachmentSpec, Vec<u8>)> =
+                    vec![(attachment_spec, decoded_attachment)];
+                let upload_response = manager.upload_attachments(attachments).await;
+
+                match upload_response {
+                    Ok(attachments_pointers) => {
+                        let mut pointers: Vec<AttachmentPointer> = Vec::new();
+                        for attachment_pointer in attachments_pointers {
+                            if let Ok(p) = attachment_pointer {
+                                pointers.push(p);
+                            }
+                        }
+
+                        // We send one attachment at a time
+                        // Use its CdnId as filename
+                        if pointers.len() > 0 {
+                            let cdnid = match pointers[0].attachment_identifier.clone().unwrap() {
+                                AttachmentIdentifier::CdnId(id) => id,
+                                _ => {
+                                    log::error!("The uploaded attachment has no identifier.");
+                                    return Ok(Some(AxolotlResponse {
+                                        response_type: "attachment_not_sent".to_string(),
+                                        data: "{\"success: false\"}".to_string(),
+                                    }));
+                                }
+                            };
+                            save_attachment(&decoded_tosave_attachment, &cdnid.to_string());
+                            send_message(
+                                thread,
+                                None,
+                                Some(pointers),
+                                &manager,
+                                "attachment_sent",
+                            )
+                            .await?;
+                        } else {
+                            log::error!("Error while sending attachment.");
+                            return Ok(Some(AxolotlResponse {
+                                response_type: "attachment_not_sent".to_string(),
+                                data: "{\"success: false\"}".to_string(),
+                            }));
+                        }
+                    }
+                    Err(e) => {
+                        log::error!("Error while uploading attachment. {:?}", e);
+                        return Ok(Some(AxolotlResponse {
+                            response_type: "attachment_not_sent".to_string(),
+                            data: "{\"success: false\"}".to_string(),
+                        }));
+                    }
+                };
+                Ok(None)
+            }
+            Err(e) => {
+                log::error!("Error while parsing the attachment request. {:?}", e);
+                Err(ApplicationError::InvalidRequest)
+            }
+        }
+    }
     async fn handle_get_message_list(
         &self,
         manager: &ManagerThread,
@@ -1348,6 +1441,8 @@ impl Handler {
                         .await
                 }
                 "uploadAttachment" => self.handle_upload_attachment(manager, axolotl_request.data).await,
+                // #[cfg(feature = "ut")]
+                "sendAttachment" => self.handle_upload_attachment_ut(manager, axolotl_request.data).await,
                 "openChat" => self.handle_open_chat(manager, axolotl_request.data).await,
                 "leaveChat" => self.handle_close_chat(manager).await,
                 "getConfig" => self.handle_get_config(manager).await,
@@ -1413,4 +1508,13 @@ pub fn get_app_dir() -> String {
         .into_string()
         .unwrap();
     format!("{}/textsecure.nanuc", config_path)
+}
+
+fn read_a_file(file_path: String) -> std::io::Result<Vec<u8>> {
+    let mut file = File::open(file_path)?;
+
+    let mut data = Vec::new();
+    file.read_to_end(&mut data)?;
+
+    return Ok(data);
 }

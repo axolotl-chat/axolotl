@@ -27,6 +27,14 @@ pub struct UploadAttachmentRequest {
     // The uuid
     pub recipient: String,
 }
+// #[cfg(feature = "ut")]
+#[derive(Deserialize, Debug)]
+pub struct UploadAttachmentUtRequest {
+    // The path to the file
+    pub path: String,
+    pub recipient: String,
+    pub mimetype: String,
+}
 
 #[derive(Deserialize, Debug)]
 pub struct LinkDeviceRequest {
