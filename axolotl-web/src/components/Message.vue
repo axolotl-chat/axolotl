@@ -2,7 +2,7 @@
   <div
     v-if="message.message && ((message.message_type == 'DataMessage' && message.message !== '') ||
       (message.message_type == 'SyncMessage' && message.message && message.message !== 'SyncMessage'))||
-      (message.message_type == 'SyncMessage' && message.attachments.length >0 )" :key="message.ID"
+      (message.attachments.length >0 )" :key="message.ID"
     :class="{
       'col-12': true,
       'message-container': true,

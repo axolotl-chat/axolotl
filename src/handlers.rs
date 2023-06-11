@@ -990,6 +990,7 @@ impl Handler {
                             let cdnid = match pointers[0].attachment_identifier.clone().unwrap() {
                                 AttachmentIdentifier::CdnId(id) => id,
                                 _ => {
+                                    log::debug!("Attachment identifier: {:?}", pointers[0].attachment_identifier.clone().unwrap());
                                     log::error!("The uploaded attachment has no identifier.");
                                     return Ok(Some(AxolotlResponse {
                                         response_type: "attachment_not_sent".to_string(),
@@ -1294,8 +1295,8 @@ impl Handler {
             Err(_) => return Err(ApplicationError::InvalidRequest),
         };
         match thread {
-            Thread::Contact(contact) => {
-                manager.update_contact_from_profile(contact).await.ok().unwrap();
+            Thread::Contact(_contact) => {
+                // manager.update_contact_from_profile(contact).await.ok().unwrap();
             }
             _ => {}
         }
