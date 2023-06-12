@@ -3282,7 +3282,7 @@ checksum = "925383efa346730478fb4838dbe9137d2a47675ad789c546d150a6e1dd4ab31c"
 [[package]]
 name = "presage"
 version = "0.6.0-dev"
-source = "git+https://github.com/nanu-c/presage?rev=477631c8c460019353aef4c20c1aab2f71473a69#477631c8c460019353aef4c20c1aab2f71473a69"
+source = "git+https://github.com/nanu-c/presage?rev=8c6f4ee14182b85885c705d475e9ce29fc2b0f32#8c6f4ee14182b85885c705d475e9ce29fc2b0f32"
 dependencies = [
  "base64 0.12.3",
  "futures",
@@ -3301,7 +3301,7 @@ dependencies = [
 [[package]]
 name = "presage-store-sled"
 version = "0.6.0-dev"
-source = "git+https://github.com/nanu-c/presage?rev=477631c8c460019353aef4c20c1aab2f71473a69#477631c8c460019353aef4c20c1aab2f71473a69"
+source = "git+https://github.com/nanu-c/presage?rev=8c6f4ee14182b85885c705d475e9ce29fc2b0f32#8c6f4ee14182b85885c705d475e9ce29fc2b0f32"
 dependencies = [
  "async-trait",
  "base64 0.12.3",

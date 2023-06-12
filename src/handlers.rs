@@ -883,7 +883,7 @@ impl Handler {
         match manager.update_contacts_from_profile().await {
             Ok(_) => (),
             Err(e) => {
-                log::error!("Error updating contacts from profile: {}", e);
+                log::error!("handle_get_contacts: Error updating contacts from profile: {}", e);
             }
         }
         let contacts = manager.get_contacts().await.ok().unwrap();
@@ -1154,7 +1154,7 @@ impl Handler {
                                     thread_metadata = manager.thread_metadata(&thread).await.ok().unwrap().unwrap();
                                 },
                                 Err(e) => {
-                                    log::error!("Error updating contacts from profile: {}", e);
+                                    log::error!("handle_get_message_list: Error updating contacts from profile: {}", e);
                                 }
                             }
                         }
@@ -1163,7 +1163,7 @@ impl Handler {
                         match manager.update_contacts_from_profile().await{
                             Ok(_) => (),
                             Err(e) => {
-                                log::error!("Error updating contacts from profile: {}", e);
+                                log::error!("handle_get_message_list_2: Error updating contacts from profile: {}", e);
                             }
                         }
                     }

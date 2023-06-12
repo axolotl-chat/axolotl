@@ -11,8 +11,8 @@ tauri-build = { version = "2.0.0-alpha.2    ", features = [], optional = true}
 
 [dependencies]
 tauri = { version = "2.0.0-alpha.4", features = [], optional = true }
-presage = { git = "https://github.com/nanu-c/presage", rev = "477631c8c460019353aef4c20c1aab2f71473a69" }
-presage-store-sled = { git = "https://github.com/nanu-c/presage", rev = "477631c8c460019353aef4c20c1aab2f71473a69" }
+presage = { git = "https://github.com/nanu-c/presage", rev = "8c6f4ee14182b85885c705d475e9ce29fc2b0f32" }
+presage-store-sled = { git = "https://github.com/nanu-c/presage", rev = "8c6f4ee14182b85885c705d475e9ce29fc2b0f32" }
 #presage = {path = "../presage/presage"}
 #presage-store-sled = { path = "../presage/presage-store-sled" }
 libsignal-service = { git = "https://github.com/whisperfish/libsignal-service-rs", rev = "456bf6eb2e4454ce35bdb4ca75b8dba7941c2923" }
