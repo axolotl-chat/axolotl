@@ -1,58 +1,47 @@
 <template>
-  <div
-    v-if="message.message && ((message.message_type == 'DataMessage' && message.message !== '') ||
-      (message.message_type == 'SyncMessage' && message.message && message.message !== 'SyncMessage'))||
-      (message.attachments.length >0 )" :key="message.ID"
-    :class="{
-      'col-12': true,
-      'message-container': true,
-      outgoing: is_outgoing,
-      sent: message.is_sent && is_outgoing,
-      read: message.IsRead && is_outgoing,
-      delivered: message.Receipt && is_outgoing,
-      incoming: !is_outgoing,
-      status:
-        (message.Flags > 0 &&
-          message.Flags !== 11 &&
-          message.Flags !== 13 &&
-          message.Flags !== 14) ||
-        message.StatusMessage ||
-        (message.Attachment &&
-          message.Attachment.includes('null') &&
-          message.Message === ''),
-      hidden: message.Flags === 18,
-      error: message.timestamp === 0 || message.SendingError,
-      'group-message':
-        isGroup,
-    }"
-  >
-    <div
-      v-if="
-        !is_outgoing &&
-          isGroup
-      " class="avatar"
-    >
+  <div v-if="message.message && ((message.message_type == 'DataMessage' && message.message !== '') ||
+    (message.message_type == 'SyncMessage' && message.message && message.message !== 'SyncMessage')) ||
+    (message.attachments.length > 0)" :key="message.ID" :class="{
+    'col-12': true,
+    'message-container': true,
+    outgoing: is_outgoing,
+    sent: message.is_sent && is_outgoing,
+    read: message.IsRead && is_outgoing,
+    delivered: message.Receipt && is_outgoing,
+    incoming: !is_outgoing,
+    status:
+      (message.Flags > 0 &&
+        message.Flags !== 11 &&
+        message.Flags !== 13 &&
+        message.Flags !== 14) ||
+      message.StatusMessage ||
+      (message.Attachment &&
+        message.Attachment.includes('null') &&
+        message.Message === ''),
+    hidden: message.Flags === 18,
+    error: message.timestamp === 0 || message.SendingError,
+    'group-message':
+      isGroup,
+  }">
+    <div v-if="!is_outgoing &&
+      isGroup
+      " class="avatar">
       <div class="badge-name" @click="openProfileForRecipient(id)">
         <div v-if="id !== -1">
-          <img
-            class="avatar-img" :src="'http://localhost:9080/avatars?recipient=' + id"
-            @error="onImageError($event)"
-          />
+          <img class="avatar-img" :src="'http://localhost:9080/avatars?recipient=' + id" @error="onImageError($event)" />
         </div>
         <div v-if="name && name !== ''">
           {{ name && name[0] }}
         </div>
       </div>
     </div>
-    <div
-      v-if="verifySelfDestruction(message)" :class="{
-        message: true,
-        'col-7':
-          isGroup &&
-          (message.Flags === 0 || message.Flags === 12 || message.Flags === 13) &&
-          !is_outgoing
-      }"
-    >
+    <div v-if="verifySelfDestruction(message)" :class="{
+      message: true,
+      'col-7':
+        isGroup &&
+        (message.Flags === 0 || message.Flags === 12 || message.Flags === 13) &&
+        !is_outgoing
+    }">
       <div v-if="isSenderNameDisplayed" class="sender">
         <div v-if="name !== ''">
           {{ name }}
@@ -60,17 +49,15 @@
       </div>
       <blockquote v-if="message.QuotedMessage">
         <cite v-if="message.QuotedMessage && is_outgoing" v-translate>You</cite>
-        <cite v-else>{{ name?name:getName(message.QuotedMessage.SourceUUID) }}</cite>
+        <cite v-else>{{ name ? name : getName(message.QuotedMessage.SourceUUID) }}</cite>
         <p>{{ message.QuotedMessage.Message }}</p>
       </blockquote>
       <div v-if="message.attachments.length > 0" class="attachment">
-        <div class="gallery">
-          <div v-for="m in message.attachments" :key="m.File">
+        <div :class="`gallery-${message.attachments.length>3?'big':'small'}`">
+          <div v-for=" m in message.attachments" :key="m.File" v-masonry-tile class="item">
             <div v-if="m.ctype === 'image'" class="attachment-img">
-              <img
-                :src="'http://localhost:9080/attachments/' + m.filename" alt="image"
-                @click="$emit('show-fullscreen-img', m.filename)"
-              />
+              <img :src="'http://localhost:9080/attachments/' + m.filename" alt="image"
+                @click="$emit('show-fullscreen-img', m.filename)" />
             </div>
             <div v-else-if="m.ctype === 'audio'" class="attachment-audio">
               <div class="audio-player-container d-flex">
@@ -90,7 +77,8 @@
                 m.fileName
               }}</a>
             </div>
-            <div v-else-if="m.ctype === 'video'" class="attachment-video" @click="$emit('show-fullscreen-video', m.filename)">
+            <div v-else-if="m.ctype === 'video'" class="attachment-video"
+              @click="$emit('show-fullscreen-video', m.filename)">
               <video>
                 <source :src="'http://localhost:9080/attachments/' + m.filename" />
                 <span v-translate>Your browser does not support the audio element.</span>
@@ -114,13 +102,10 @@
           v-html="linkify(sanitize(message.Message))"
         />-->
         <div v-if="message.Flags === 17" v-translate>Group changed.</div>
-        <div
-          v-if="
-            message.attachments.length === 0 &&
-              !message.message &&
-              !isGroup
-          " class="status-message"
-        >
+        <div v-if="message.attachments.length === 0 &&
+          !message.message &&
+          !isGroup
+          " class="status-message">
           <span v-translate>Set timer for self-destructing messages </span>
           <div>{{ humanifyTimePeriod(message.ExpireTimer) }}</div>
         </div>
@@ -367,6 +352,33 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.gallery-big {
+  display: flex;
+  flex-flow: column wrap;
+  align-content: space-between;
+  height: 665px;
+  max-width: 1000px;
+  margin: auto;
+
+  .item {
+    box-sizing: border-box;
+    width: 32%;
+    margin-bottom: 2%;
+  }
+
+  .item:nth-child(3n+1) {
+    order: 1;
+  }
+
+  .item:nth-child(3n+2) {
+    order: 2;
+  }
+
+  .item:nth-child(3n) {
+    order: 3;
+  }
+}
+
 .message-text {
   overflow-wrap: break-word;
 }
@@ -408,11 +420,8 @@ export default {
 }
 
 .gallery {
-  display: flex;
-
-  div+div {
-    margin-left: 3px;
-  }
+  // display: flex;
+  max-width: 100%;
 }
 
 video,
@@ -605,5 +614,4 @@ button {
   .badge-name {
     margin-right: 10px;
   }
-}
-</style>
+}</style>
