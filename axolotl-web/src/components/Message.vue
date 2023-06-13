@@ -95,7 +95,8 @@
         </div> -->
       </div>
       <div v-if="message.message" class="message-text">
-        {{ message.message }}
+        <div class="message-text-content" data-test="message-text-content"
+          v-html="linkify(sanitize(message.message))" />
         <!-- eslint-disable-next-line vue/no-v-html -->
         <!--<div
           v-if="message.Flags !== 17" class="message-text-content" data-test="message-text"
