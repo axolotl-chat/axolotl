@@ -21,7 +21,6 @@
   },
   "main": "src/main.js",
   "dependencies": {
-    "@babel/core": "^7.20.12",
     "@fortawesome/fontawesome-svg-core": "^6.1.2",
     "@fortawesome/free-solid-svg-icons": "^6.1.2",
     "@fortawesome/vue-fontawesome": "^3.0.3",
@@ -33,7 +32,6 @@
     "linkify-html": "^4.0.2",
     "linkifyjs": "^4.0.2",
     "moment": "^2.29.4",
-    "postcss": "^8.4.21",
     "qrcode": "1.5.1",
     "vue": "^3.2.41",
     "vue-native-websocket-vue3": "^3.1.7",
