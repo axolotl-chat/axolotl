@@ -59,6 +59,11 @@ pub struct GetMessagesRequest {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+pub struct ProfileRequest {
+    pub id: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
 pub struct ChangeNotificationsForThreadRequest {
     pub thread: Thread,
     pub muted: bool,

@@ -1,8 +1,8 @@
 <template>
   <component :is="$route.meta.layout || 'div'">
     <template #header>
-      <div v-if="profile.Recipient" class="profile-header">
-        <span>{{ name }}</span>
+      <div v-if="profile?.name" class="profile-header">
+        <span>{{ profile?.name }}</span>
       </div>
     </template>
     <template #menu>
@@ -10,7 +10,11 @@
         <div v-translate @click="editContact()">Edit Contact</div>
       </div>
     </template>
-    <div v-if="profile.Recipient" class="profile">
+    <div v-if="!profile?.name">
+        Couldn't find profile for {{ profileId }}
+        </div>  
+
+    <div v-if="profile?.name" class="profile">
       <div class="profile-image">
         <img
           v-if="hasProfileImage"
@@ -21,28 +25,30 @@
         />
         <div v-else class="profile-name">
           <span>{{
-            name[0]
+            profile?.name[0]
           }}</span>
         </div>
       </div>
       <div class="infos">
-        <div v-if="profile.Recipient.E164" class="number">
-          {{ profile.Recipient.E164 }}
+
+        <div v-if="profile?.phone_number" class="number">
+          <a href="tel:{{ `+${profile?.phone_number.code.value}${profile?.phone_number.national.value}` }}">
+            {{ `+${profile?.phone_number.code.value}${profile?.phone_number.national.value}` }}</a>
         </div>
-        <div v-if="profile.Recipient.Username != ''" class="username">
-          {{ profile.Recipient.Username }}
+        <div v-if="profile?.username != ''" class="username">
+          {{ profile?.username }}
         </div>
-        <div v-if="profile.Recipient.UUID != ''" class="uuid">
-          {{ profile.Recipient.UUID }}
+        <div v-if="profile?.uuid != ''" class="uuid">
+          {{ profile?.uuid}}
         </div>
-        <div v-if="profile.Recipient.About != ''" class="about">
-          {{ profile.Recipient.About }}
+        <div v-if="profile?.about != ''" class="about">
+          {{ profile?.about }}
         </div>
-        <div v-if="profile.Recipient.AboutEmoji != ''" class="about-emoji">
-          {{ profile.Recipient.AboutEmoji }}
+        <div v-if="profile?.aboutEmoji != ''" class="about-emoji">
+          {{ profile?.aboutEmoji }}
         </div>
         <div class="btn btn-primary create-chat mt-4" @click="createChat()">
-          <div v-translate>Create private chat with {{ name }}</div>
+          <div v-translate>Create private chat with {{ profile?.name }}</div>
         </div>
       </div>
     </div>
@@ -54,9 +60,9 @@ export default {
     name: "ProfilePage",
   props: {
     profileId:{
-      type: Number,
+      type: String,
       required: true,
-      default: -1
+      default: ""
     },
   },
   data: () => ({
@@ -66,11 +72,7 @@ export default {
     profile() {
       return this.$store.state.profile;
     },
-    name(){
-      return      this.profile.Recipient.ProfileGivenName !== ""
-            ? this.profile.Recipient.ProfileGivenName
-            : this.profile.Recipient.Username?this.profile.Recipient.Username:"Unknow user"
-    }
+
   },
   mounted() {
     this.$store.dispatch("getProfile", this.profileId);
@@ -86,7 +88,7 @@ export default {
     },
     createChat() {
       this.$store.dispatch("createChatForRecipient", {
-        id: this.profile.Recipient.Id,
+        id: this.profile.uuid,
       });
     },
   },

@@ -12,7 +12,7 @@
             </button>
             <div v-if="currentChat !== null && currentChat" class="row w-100">
               <div class="col-2 badge-container">
-                <div v-if="!currentChat?.is_group" class="badge-name" @click="openProfileForRecipient(currentChat.DirectMessageRecipientID)">
+                <div v-if="!currentChat?.is_group" class="badge-name" @click="openProfileForRecipient(currentChat.id.Contact)">
                   <img
                     class="avatar-img"
                     :src="'http://localhost:9080/avatars?session=' + currentChat.ID"
@@ -531,7 +531,7 @@ export default {
     },
     openProfileForRecipient(recipient) {
       if (recipient !== -1) {
-        this.$updaterouter.push("/profile/" + recipient);
+        this.$router.push("/profile/" + recipient);
       }
     },
   },

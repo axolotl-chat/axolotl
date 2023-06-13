@@ -38,7 +38,7 @@ export const router = new createRouter({
         hasBackButton: true,
       },
       props: route => ({
-        profileId: Number(route.params.id),
+        profileId: route.params.id,
       }),
       component: () => import("@/pages/Profile.vue")
     },

@@ -26,9 +26,9 @@
     <div v-if="!is_outgoing &&
       isGroup
       " class="avatar">
-      <div class="badge-name" @click="openProfileForRecipient(id)">
-        <div v-if="id !== -1">
-          <img class="avatar-img" :src="'http://localhost:9080/avatars?recipient=' + id" @error="onImageError($event)" />
+      <div class="badge-name" @click="openProfileForRecipient(message.sender)">
+        <div v-if="message.sender !== -1">
+          <img class="avatar-img" :src="'http://localhost:9080/avatars?recipient=' + message.sender" @error="onImageError($event)" />
         </div>
         <div v-if="name && name !== ''">
           {{ name && name[0] }}
@@ -54,7 +54,7 @@
       </blockquote>
       <div v-if="message.attachments.length > 0" class="attachment">
         <div :class="`gallery-${message.attachments.length>3?'big':'small'}`">
-          <div v-for=" m in message.attachments" :key="m.File" v-masonry-tile class="item">
+          <div v-for=" m in message.attachments" :key="m.File" class="item">
             <div v-if="m.ctype === 'image'" class="attachment-img">
               <img :src="'http://localhost:9080/attachments/' + m.filename" alt="image"
                 @click="$emit('show-fullscreen-img', m.filename)" />
@@ -354,16 +354,15 @@ export default {
 <style lang="scss" scoped>
 .gallery-big {
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: wrap;
   align-content: space-between;
-  height: 665px;
-  max-width: 1000px;
   margin: auto;
 
   .item {
     box-sizing: border-box;
     width: 32%;
     margin-bottom: 2%;
+    padding: 5px;
   }
 
   .item:nth-child(3n+1) {

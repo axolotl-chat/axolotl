@@ -259,7 +259,6 @@ impl ManagerThread {
         Ok(())
     }
     pub async fn update_contact_from_profile(&self, id: Uuid) -> Result<Contact, PresageError> {
-        log::debug!("Updating contact from profile -> todo");
         let (sender, receiver) = oneshot::channel();
         self.command_sender
             .send(Command::RequestContactUpdateFromProfile(id, sender))

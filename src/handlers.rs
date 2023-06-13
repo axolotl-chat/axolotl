@@ -2,9 +2,9 @@ use crate::error::ApplicationError;
 use crate::manager_thread::ManagerThread;
 use crate::messages::send_message;
 use crate::requests::{
-    AxolotlConfig, AxolotlMessage, AxolotlRequest, AxolotlResponse, GetMessagesRequest,
-    UploadAttachmentRequest,
-    SendMessageRequest, SendMessageResponse, ChangeNotificationsForThreadRequest,
+    AxolotlConfig, AxolotlMessage, AxolotlRequest, AxolotlResponse,
+    ChangeNotificationsForThreadRequest, GetMessagesRequest, ProfileRequest, SendMessageRequest,
+    SendMessageResponse, UploadAttachmentRequest,
 };
 // #[cfg(feature = "ut")]
 use crate::requests::UploadAttachmentUtRequest;
@@ -25,7 +25,7 @@ use serde::{Serialize, Serializer};
 use serde_json::error::Error as SerdeError;
 use std::cell::Cell;
 use std::fs::{self, File};
-use std::io::{Write, Read};
+use std::io::{Read, Write};
 use std::ops::Bound::Unbounded;
 use std::process::exit;
 use std::time::{self, UNIX_EPOCH};
@@ -34,6 +34,7 @@ use tokio::runtime::Runtime;
 use tokio::sync::Mutex;
 use url::Url;
 use warp::filters::ws::Message;
+use warp::http::response;
 use warp::ws::WebSocket;
 
 const MESSAGE_BOUND: usize = 10;
@@ -277,11 +278,13 @@ impl Handler {
                                                     match Handler::check_registration().await {
                                                         Ok(_) => {
                                                             self.is_registered = Some(true);
-                                                        break;
-
+                                                            break;
                                                         }
                                                         Err(e) => {
-                                                            log::debug!("Error checking registration: {}", e);
+                                                            log::debug!(
+                                                                "Error checking registration: {}",
+                                                                e
+                                                            );
                                                             self.is_registered = Some(false);
                                                         }
                                                     }
@@ -326,16 +329,23 @@ impl Handler {
                                                     self.phone_number.as_ref().unwrap()
                                                 );
                                                 let (tx, rx) = mpsc::channel(MESSAGE_BOUND);
-                                                match self.get_verification_code(rx).await{
-                                                    Ok(_) => log::debug!("Success sending verification code"),
+                                                match self.get_verification_code(rx).await {
+                                                    Ok(_) => log::debug!(
+                                                        "Success sending verification code"
+                                                    ),
                                                     Err(e) => {
-                                                        log::error!("Error getting verification code: {}", e);
+                                                        log::error!(
+                                                            "Error getting verification code: {}",
+                                                            e
+                                                        );
                                                         self.get_phone_number().await;
                                                         break;
                                                     }
                                                 }
                                                 self.get_phone_pin().await;
-                                                let code_message: Option<Result<Message, warp::Error>> = r.next().await;
+                                                let code_message: Option<
+                                                    Result<Message, warp::Error>,
+                                                > = r.next().await;
                                                 if let Some(code_message) = code_message {
                                                     match code_message {
                                                         Ok(code_message) => {
@@ -632,8 +642,11 @@ impl Handler {
         let error = error_rx.await.unwrap();
         if error.is_some() {
             log::debug!("Got error: {:?}", error);
-            self.send_error(ApplicationError::Presage(error.unwrap())).await;
-            return Err(ApplicationError::RegistrationError("Error getting verification code".to_string()));
+            self.send_error(ApplicationError::Presage(error.unwrap()))
+                .await;
+            return Err(ApplicationError::RegistrationError(
+                "Error getting verification code".to_string(),
+            ));
         }
         log::debug!("Getting verification code done");
 
@@ -641,9 +654,7 @@ impl Handler {
     }
 
     async fn get_phone_number(&self) {
-        let message = format!(
-            "{{\"response_type\":\"phone_number\",\"data\":\"\"}}",
-        );
+        let message = format!("{{\"response_type\":\"phone_number\",\"data\":\"\"}}",);
         let mut ws_sender = self.sender.as_ref().unwrap().lock().await;
         match ws_sender.send(Message::text(message)).await {
             Ok(_) => (),
@@ -657,7 +668,8 @@ impl Handler {
         let mut error_string = error.to_string();
         error_string.pop();
         let message = format!(
-            "{{\"response_type\":\"registration_error\",\"data\":\"{}\"}}", error_string
+            "{{\"response_type\":\"registration_error\",\"data\":\"{}\"}}",
+            error_string
         );
         log::debug!("Sending error to client: {}", message);
         let mut ws_sender = self.sender.as_ref().unwrap().lock().await;
@@ -670,9 +682,7 @@ impl Handler {
         std::mem::drop(ws_sender);
     }
     async fn get_phone_pin(&self) {
-        let message = format!(
-            "{{\"response_type\":\"pin\",\"data\":\"\"}}",
-        );
+        let message = format!("{{\"response_type\":\"pin\",\"data\":\"\"}}",);
         let mut ws_sender = self.sender.as_ref().unwrap().lock().await;
         match ws_sender.send(Message::text(message)).await {
             Ok(_) => (),
@@ -844,7 +854,12 @@ impl Handler {
                     let response = serde_json::to_string(&response).unwrap();
 
                     let mut ws_sender = sender.lock().await;
-                    ws_sender.send(Message::text(response)).await.unwrap();
+                    match ws_sender.send(Message::text(response)).await{
+                        Ok(_) => (),
+                        Err(e) => {
+                            log::error!("Error sending message to client: {}", e);
+                        }
+                    }
                     std::mem::drop(ws_sender);
                 }
                 None => {
@@ -883,7 +898,10 @@ impl Handler {
         match manager.update_contacts_from_profile().await {
             Ok(_) => (),
             Err(e) => {
-                log::error!("handle_get_contacts: Error updating contacts from profile: {}", e);
+                log::error!(
+                    "handle_get_contacts: Error updating contacts from profile: {}",
+                    e
+                );
             }
         }
         let contacts = manager.get_contacts().await.ok().unwrap();
@@ -990,7 +1008,10 @@ impl Handler {
                             let cdnid = match pointers[0].attachment_identifier.clone().unwrap() {
                                 AttachmentIdentifier::CdnId(id) => id,
                                 _ => {
-                                    log::debug!("Attachment identifier: {:?}", pointers[0].attachment_identifier.clone().unwrap());
+                                    log::debug!(
+                                        "Attachment identifier: {:?}",
+                                        pointers[0].attachment_identifier.clone().unwrap()
+                                    );
                                     log::error!("The uploaded attachment has no identifier.");
                                     return Ok(Some(AxolotlResponse {
                                         response_type: "attachment_not_sent".to_string(),
@@ -999,14 +1020,8 @@ impl Handler {
                                 }
                             };
                             save_attachment(&decoded_tosave_attachment, &cdnid.to_string());
-                            send_message(
-                                thread,
-                                None,
-                                Some(pointers),
-                                &manager,
-                                "attachment_sent",
-                            )
-                            .await?;
+                            send_message(thread, None, Some(pointers), &manager, "attachment_sent")
+                                .await?;
                         } else {
                             log::error!("Error while sending attachment.");
                             return Ok(Some(AxolotlResponse {
@@ -1044,7 +1059,6 @@ impl Handler {
             Ok::<UploadAttachmentUtRequest, SerdeError>(upload_attachment_request) => {
                 log::debug!("Attachment request parsed.");
                 let thread = self.string_to_thread(&upload_attachment_request.recipient)?;
-
 
                 let data_attachment = read_a_file(upload_attachment_request.path).unwrap();
                 let decoded_attachment: Vec<u8> = data_attachment;
@@ -1090,14 +1104,8 @@ impl Handler {
                                 }
                             };
                             save_attachment(&decoded_tosave_attachment, &cdnid.to_string());
-                            send_message(
-                                thread,
-                                None,
-                                Some(pointers),
-                                &manager,
-                                "attachment_sent",
-                            )
-                            .await?;
+                            send_message(thread, None, Some(pointers), &manager, "attachment_sent")
+                                .await?;
                         } else {
                             log::error!("Error while sending attachment.");
                             return Ok(Some(AxolotlResponse {
@@ -1131,7 +1139,6 @@ impl Handler {
         let data = data.ok_or(ApplicationError::InvalidRequest)?;
         if let Ok::<GetMessagesRequest, SerdeError>(messages_request) = serde_json::from_str(&data)
         {
-
             let thread: Thread = self.string_to_thread(&messages_request.id)?;
             // match thread {
             //     Thread::Contact(_) => {
@@ -1148,25 +1155,28 @@ impl Handler {
                     Some(title) => {
                         // check if title is a valid uuid
                         if Uuid::parse_str(&title).is_ok() {
-                            let uuid = Uuid::parse_str(&title).unwrap(); 
-                            match manager.update_contact_from_profile(uuid).await{
+                            let uuid = Uuid::parse_str(&title).unwrap();
+                            match manager.update_contact_from_profile(uuid).await {
                                 Ok(_) => {
-                                    thread_metadata = manager.thread_metadata(&thread).await.ok().unwrap().unwrap();
-                                },
+                                    thread_metadata = manager
+                                        .thread_metadata(&thread)
+                                        .await
+                                        .ok()
+                                        .unwrap()
+                                        .unwrap();
+                                }
                                 Err(e) => {
                                     log::error!("handle_get_message_list: Error updating contacts from profile: {}", e);
                                 }
                             }
                         }
-                    },
-                    None => {
-                        match manager.update_contacts_from_profile().await{
-                            Ok(_) => (),
-                            Err(e) => {
-                                log::error!("handle_get_message_list_2: Error updating contacts from profile: {}", e);
-                            }
-                        }
                     }
+                    None => match manager.update_contacts_from_profile().await {
+                        Ok(_) => (),
+                        Err(e) => {
+                            log::error!("handle_get_message_list_2: Error updating contacts from profile: {}", e);
+                        }
+                    },
                 }
                 thread_metadata.unread_messages_count = 0;
                 manager
@@ -1175,7 +1185,7 @@ impl Handler {
                     .ok()
                     .unwrap();
             }
-            
+
             let messages = manager.messages(thread, (Unbounded, Unbounded)).await;
             if messages.is_err() {
                 log::error!("Failed to load last messages: {}", messages.err().unwrap());
@@ -1215,6 +1225,49 @@ impl Handler {
             data: "".to_string(),
         };
         Ok(Some(response))
+    }
+    async fn handle_get_profile(
+        &self,
+        manager: &ManagerThread,
+        data: Option<String>,
+    ) -> Result<Option<AxolotlResponse>, ApplicationError> {
+        log::info!("Getting profile");
+        match data.clone() {
+            Some(u_data) => {
+                let profile_request: ProfileRequest = match serde_json::from_str(&u_data) {
+                    Ok(request) => request,
+                    Err(_) => return Err(ApplicationError::InvalidRequest),
+                };
+                let uuid = Uuid::parse_str(&profile_request.id).unwrap();
+                log::debug!("Getting profile for: {}", uuid.to_string());
+                let profile = manager.get_contact_by_id(uuid).await.ok().unwrap();
+                let mut profile = match profile {
+                    Some(p) => p,
+                    None =>{
+                        //request contact sync
+                        manager.request_contacts_sync().await.ok().unwrap();
+                        return Err(ApplicationError::InvalidRequest);
+                    } 
+                };
+                if profile.name =="".to_string(){
+                    //request contact sync
+                    log::debug!("Updating contact from profile");
+                    manager.update_contact_from_profile(profile.uuid).await.ok().unwrap();
+                    profile = manager.get_contact_by_id(uuid).await.ok().unwrap().unwrap();
+                    log::debug!("Updated contact {:?}", profile);
+                    
+                }
+                let response = AxolotlResponse {
+                    response_type: "profile".to_string(),
+                    data: serde_json::to_string(&profile).unwrap(),
+                };
+                Ok(Some(response))
+            }
+            None => {
+                manager.update_contacts_from_profile().await.ok().unwrap();
+                Ok(None)
+            }
+        }
     }
     async fn handle_send_message(
         &self,
@@ -1376,11 +1429,20 @@ impl Handler {
     ) -> Result<Option<AxolotlResponse>, ApplicationError> {
         log::info!("Changing notifications for thread");
         let data = data.ok_or(ApplicationError::InvalidRequest)?;
-        if let Ok::<ChangeNotificationsForThreadRequest, SerdeError>(change_notifications_for_thread_request) = serde_json::from_str(&data)
+        if let Ok::<ChangeNotificationsForThreadRequest, SerdeError>(
+            change_notifications_for_thread_request,
+        ) = serde_json::from_str(&data)
         {
-            let thread_metadata = manager.thread_metadata(&change_notifications_for_thread_request.thread).await.ok().unwrap();
+            let thread_metadata = manager
+                .thread_metadata(&change_notifications_for_thread_request.thread)
+                .await
+                .ok()
+                .unwrap();
             if thread_metadata.is_none() {
-                self.create_thread_metadata(&change_notifications_for_thread_request.thread).await.ok().unwrap();
+                self.create_thread_metadata(&change_notifications_for_thread_request.thread)
+                    .await
+                    .ok()
+                    .unwrap();
             } else {
                 let mut thread_metadata = thread_metadata.unwrap();
                 thread_metadata.muted = change_notifications_for_thread_request.muted;
@@ -1441,14 +1503,24 @@ impl Handler {
                     self.handle_send_message(manager, axolotl_request.data)
                         .await
                 }
-                "uploadAttachment" => self.handle_upload_attachment(manager, axolotl_request.data).await,
+                "uploadAttachment" => {
+                    self.handle_upload_attachment(manager, axolotl_request.data)
+                        .await
+                }
                 // #[cfg(feature = "ut")]
-                "sendAttachment" => self.handle_upload_attachment_ut(manager, axolotl_request.data).await,
+                "sendAttachment" => {
+                    self.handle_upload_attachment_ut(manager, axolotl_request.data)
+                        .await
+                }
                 "openChat" => self.handle_open_chat(manager, axolotl_request.data).await,
                 "leaveChat" => self.handle_close_chat(manager).await,
                 "getConfig" => self.handle_get_config(manager).await,
                 "unregister" => self.handle_unregister(manager).await,
-                "changeNotificationsForThread" => self.handle_change_notifications_for_thread(manager, axolotl_request.data).await,
+                "changeNotificationsForThread" => {
+                    self.handle_change_notifications_for_thread(manager, axolotl_request.data)
+                        .await
+                }
+                "getProfile" => self.handle_get_profile(manager, axolotl_request.data).await,
                 _ => {
                     log::error!("Unhandled axolotl request {}", axolotl_request.request);
                     Err(ApplicationError::InvalidRequest)
