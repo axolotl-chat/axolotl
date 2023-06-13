@@ -19,11 +19,9 @@ jobs:
       - name: Rust cache
         uses: swatinem/rust-cache@v2
 
-      - name: Sync node version and setup cache
-        uses: actions/setup-node@v3
-        with:
-          node-version: 'lts/*'
-
+      - name: Check out code
+        uses: actions/checkout@v3
+        
       - name: Build
         run: make build-axolotl
 
