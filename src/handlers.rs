@@ -328,8 +328,9 @@ impl Handler {
                                                     "Got phone number: {}",
                                                     self.phone_number.as_ref().unwrap()
                                                 );
-                                                let (tx, rx) = mpsc::channel(MESSAGE_BOUND);
-                                                match self.get_verification_code(rx).await {
+                                                let (code_tx, code_rx) = mpsc::channel(MESSAGE_BOUND);
+                                                self.get_phone_pin().await;
+                                                match self.get_verification_code(code_rx).await {
                                                     Ok(_) => log::debug!(
                                                         "Success sending verification code"
                                                     ),
@@ -342,7 +343,6 @@ impl Handler {
                                                         break;
                                                     }
                                                 }
-                                                self.get_phone_pin().await;
                                                 let code_message: Option<
                                                     Result<Message, warp::Error>,
                                                 > = r.next().await;
@@ -384,7 +384,7 @@ impl Handler {
                                                                                 "Got code: {}",
                                                                                 code
                                                                             );
-                                                                            match tx
+                                                                            match code_tx
                                                                                 .send(code.into_boxed_str())
                                                                                 .await
                                                                             {
@@ -604,7 +604,7 @@ impl Handler {
                                 phone_number: p,
                                 use_voice_call: false,
                                 captcha: Some(c.as_str()),
-                                force: false,
+                                force: true,
                             },
                         )
                         .await
@@ -619,17 +619,28 @@ impl Handler {
                                 ));
                             }
                         };
-                        drop(error_tx);
-                        let code = code_rx.recv().await.unwrap();
+                        log::debug!("check code_rx for code {:?}", code_rx);
+                        let code = match code_rx.recv().await{
+                            Some(c) => c,
+                            None => {
+                                log::error!("No code provided");
+                                error_tx.send(None).unwrap();
+                                return Err(ApplicationError::RegistrationError(
+                                    "No code provided".to_string(),
+                                ));
+                            }
+                        };
                         match manager.confirm_verification_code(code).await {
                             Ok(_) => (),
                             Err(e) => {
                                 log::error!("Error confirming pin: {}", e);
+                                error_tx.send(Some(e)).unwrap();
                                 return Err(ApplicationError::RegistrationError(
                                     "Error confirming pin".to_string(),
                                 ));
                             }
                         }
+                        drop(error_tx);
                         Ok(())
                     })
                     .unwrap();
