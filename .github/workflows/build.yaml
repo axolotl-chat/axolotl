@@ -20,7 +20,7 @@ jobs:
         uses: swatinem/rust-cache@v2
 
       - name: Install xmllint
-        run: sudo apt-get install -y libgtk-3-dev
+        run: sudo apt-get install -y libgtk-3-dev libsoup-3.0-dev
       
 
       - name: Check out code
