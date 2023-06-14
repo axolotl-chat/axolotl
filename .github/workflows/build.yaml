@@ -60,11 +60,6 @@ jobs:
         with:
           name: axolotl-web
           path: build-artifacts
-      
-      - name: Copy axolotl-web build artifacts
-        run: |
-          mkdir --parents axolotl-web/dist
-          cp -rf ${{steps.download.outputs.download-path}}/* axolotl-web/dist
 
       - name: Install dependencies
         run: sudo apt update && sudo apt-get install -y libgtk-3-dev  libwebkit2gtk-4.1-dev librsvg2-dev libayatana-appindicator3-dev libssl-dev libjavascriptcoregtk-4.1-dev cmake
@@ -72,10 +67,16 @@ jobs:
 
       - name: Check out code
         uses: actions/checkout@v3
-        
+
+      - name: Copy axolotl-web build artifacts
+        run: |
+          echo $PWD
+          mkdir --parents axolotl-web/dist
+          cp -rf ${{steps.download.outputs.download-path}}/* axolotl-web/dist
+
       - name: Build
         run: |
-          ls
+          ls axolotl-web
           echo $PWD
           make build-axolotl
 
