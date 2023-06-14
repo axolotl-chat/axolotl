@@ -74,7 +74,10 @@ jobs:
         uses: actions/checkout@v3
         
       - name: Build
-        run: make build-axolotl
+        run: |
+          ls
+          echo $PWD
+          make build-axolotl
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
