@@ -30,3 +30,4 @@ libzkgroup*.so
 # Added by cargo
 
 /target
+/bin
