@@ -88,67 +88,68 @@ jobs:
           path: axolotl
           retention-days: 1
 
-  # build-axolotl-deb-arm64:
-  #   name: Build axolotl Debian arm64
-  #   runs-on: ubuntu-latest
+  build-axolotl-web-deb-arm64:
+    name: Build axolotl-web Debian arm64
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Install Rust
-  #       run: rustup update stable
-  #     - name: Install cross-compilation tools
-  #       uses: taiki-e/setup-cross-toolchain-action@v1
-  #       with:
-  #         target: aarch64-unknown-linux-gnu
+    steps:
+      - name: Set up Node     
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
-  #     - name: Rust cache
-  #       uses: swatinem/rust-cache@v2
+      - name: Check out code
+        uses: actions/checkout@v3
 
-  #     - name: Check out code
-  #       uses: actions/checkout@v3
+      - name: Create folder
+        run: mkdir --parents $GITHUB_WORKSPACE/build/linux-arm64/axolotl-web
 
-  #     - name: Build
-  #       run: cargo build --release --target aarch64-unknown-linux-gnu --features tauri
+      - name: Download dependencies
+        run: npm --prefix ./axolotl-web --target_arch=arm64 ci --loglevel verbose
 
-  #     - name: Upload build artifacts
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: linux-arm64
-  #         path: build/linux-arm64/axolotl
-  #         retention-days: 1
+      - name: Build
+        run: npm --prefix ./axolotl-web --target_arch=arm64 run build
 
-  # build-axolotl-web-deb-arm64:
-  #   name: Build axolotl-web Debian arm64
-  #   runs-on: ubuntu-latest
+      - name: Copy build files
+        run: |
+          cp --recursive $GITHUB_WORKSPACE/axolotl-web/dist $GITHUB_WORKSPACE/build/linux-arm64/axolotl-web/
+          cp --recursive $GITHUB_WORKSPACE/guis $GITHUB_WORKSPACE/build/linux-arm64/
 
-  #   steps:
-  #     - name: Set up Node      - name: Download axolotl and axolotl-web build artifacts
-  #     uses: actions/download-artifact@v3
-  #     with:
-  #       path: build-artifacts
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: ${{ env.NODE_VERSION }}
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux-arm64
+          path: build/linux-arm64/
+          retention-days: 1
 
-  #     - name: Check out code
-  #       uses: actions/checkout@v3
+  build-axolotl-deb-arm64:
+    name: Build axolotl Debian arm64
+    runs-on: ubuntu-latest
+    needs:
+      - build-axolotl-web-deb-arm64
 
-  #     - name: Create folder
-  #       run: mkdir --parents $GITHUB_WORKSPACE/build/linux-arm64/axolotl-web
+    steps:
+      - name: Install Rust
+        run: rustup update stable
+      - name: Install cross-compilation tools
+        uses: taiki-e/setup-cross-toolchain-action@v1
+        with:
+          target: aarch64-unknown-linux-gnu
 
-  #     - name: Download dependencies
-  #       run: npm --prefix ./axolotl-web --target_arch=arm64 ci --loglevel verbose
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
 
-  #     - name: Build
-  #       run: npm --prefix ./axolotl-web --target_arch=arm64 run build
+      - name: Check out code
+        uses: actions/checkout@v3
 
-  #     - name: Copy build files
-  #       run: |
-  #         cp --recursive $GITHUB_WORKSPACE/axolotl-web/dist $GITHUB_WORKSPACE/build/linux-arm64/axolotl-web/
-  #         cp --recursive $GITHUB_WORKSPACE/guis $GITHUB_WORKSPACE/build/linux-arm64/
+      - name: Build
+        run: cargo build --release --target aarch64-unknown-linux-gnu --features tauri
 
-  #     - name: Upload build artifacts
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: linux-arm64
-  #         path: build/linux-arm64/
-  #         retention-days: 1
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux-arm64
+          path: build/linux-arm64/axolotl
+          retention-days: 1
+
+
