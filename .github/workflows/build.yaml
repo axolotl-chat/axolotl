@@ -127,7 +127,10 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build-axolotl-web-deb-arm64
-
+    env:
+      DEBIAN_FRONTEND: noninteractive
+      TZ: Europe/Berlin
+      PKG_CONFIG_SYSROOT_DIR: /
     steps:
       - name: Install Rust
         run: rustup update stable
