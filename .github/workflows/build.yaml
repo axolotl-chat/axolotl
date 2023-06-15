@@ -110,16 +110,11 @@ jobs:
       - name: Build
         run: npm --prefix ./axolotl-web --target_arch=arm64 run build
 
-      - name: Copy build files
-        run: |
-          cp --recursive $GITHUB_WORKSPACE/axolotl-web/dist $GITHUB_WORKSPACE/build/linux-arm64/axolotl-web/
-          cp --recursive $GITHUB_WORKSPACE/guis $GITHUB_WORKSPACE/build/linux-arm64/
-
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: linux-arm64
-          path: build/linux-arm64/
+          name: build-axolotl-web-deb-arm64
+          path: axolotl-web/dist/
           retention-days: 1
 
   build-axolotl-deb-arm64:
@@ -148,6 +143,18 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
+      - name: Download build-axolotl-web-deb-arm64 build artifacts
+        uses: actions/download-artifact@v3
+        id: download-axolotl-web
+        with:
+          name: build-axolotl-web-deb-arm64
+          path: build-artifacts
+
+      - name: Copy axolotl-web build artifacts
+        run: |
+          echo $PWD
+          mkdir --parents axolotl-web/dist
+          cp -rf ${{steps.download-axolotl-web.outputs.download-path}}/* axolotl-web/dist
       - name: Build
         run: cargo build --release --target aarch64-unknown-linux-gnu --features tauri
 
