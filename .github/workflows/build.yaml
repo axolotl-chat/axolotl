@@ -134,6 +134,9 @@ jobs:
     steps:
       - name: Install Rust
         run: rustup update stable
+
+      - name: Install tauri dependencies
+        run: sudo apt update && sudo apt-get install -y libgtk-3-dev  libwebkit2gtk-4.1-dev librsvg2-dev libayatana-appindicator3-dev libssl-dev libjavascriptcoregtk-4.1-dev cmake 
       - name: Install cross-compilation tools
         uses: taiki-e/setup-cross-toolchain-action@v1
         with:
