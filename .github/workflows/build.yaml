@@ -1,7 +1,7 @@
 name: Axolotl build pipeline
 
 on:
-  workflow_call:
+  push:
 
 env:
   GO_VERSION: 1.16
@@ -88,90 +88,31 @@ jobs:
           path: axolotl
           retention-days: 1
 
-  build-axolotl-web-deb-arm64:
-    name: Build axolotl-web Debian arm64
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Set up Node     
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Check out code
-        uses: actions/checkout@v3
-
-      - name: Create folder
-        run: mkdir --parents $GITHUB_WORKSPACE/build/linux-arm64/axolotl-web
-
-      - name: Download dependencies
-        run: npm --prefix ./axolotl-web --target_arch=arm64 ci --loglevel verbose
-
-      - name: Build
-        run: npm --prefix ./axolotl-web --target_arch=arm64 run build
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-axolotl-web-deb-arm64
-          path: axolotl-web/dist/
-          retention-days: 1
-
   build-axolotl-deb-arm64:
     name: Build axolotl Debian arm64
-    runs-on: ubuntu-latest
-    needs:
-      - build-axolotl-web-deb-arm64
-    env:
-      DEBIAN_FRONTEND: noninteractive
-      TZ: Europe/Berlin
-      PKG_CONFIG_SYSROOT_DIR: /
+    runs-on: self-hosted
     steps:
-      - name: Install Rust
-        run: rustup update stable
-
-      - name: Install tauri dependencies
-        run: sudo apt update && sudo apt-get install -y libgtk-3-dev  libwebkit2gtk-4.1-dev librsvg2-dev libayatana-appindicator3-dev libssl-dev libjavascriptcoregtk-4.1-dev cmake
-  
-      - name: Install cross-compilation tools
-        uses: taiki-e/setup-cross-toolchain-action@v1
+#      - name: Setup Docker container
+#        run: |
+#          docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+#  
+      - name: Building in Docker container
+        uses: addnab/docker-run-action@v3
         with:
-          target: aarch64-unknown-linux-gnu
+          image: arno0nuehm/axolotl_build_system:arm64
+          run: |
+            apt update
+            apt --assume-yes upgrade
+            git clone --branch presage-native-arm64-build --single-branch https://github.com/nanu-c/axolotl/
+            cd axolotl
+            make dependencies-deb-arm64
+            make build-deb-arm64
 
-      - name: Install tauri arm64 dependencies
-        run: |
-          echo "deb [arch=arm64] http://ports.ubuntu.com/ jammy main multiverse universe"  | sudo tee -a /etc/apt/sources.list
-          echo "deb [arch=arm64] http://ports.ubuntu.com/ jammy-security main multiverse universe"  | sudo tee -a /etc/apt/sources.list
-          echo "deb [arch=arm64] http://ports.ubuntu.com/ jammy-backports main multiverse universe"  | sudo tee -a /etc/apt/sources.list
-          echo "deb [arch=arm64] http://ports.ubuntu.com/ jammy-updates main multiverse universe"  | sudo tee -a /etc/apt/sources.list
-          sudo apt update && sudo apt-get install -y --no-install-recommends libgtk-3-dev:arm64  libwebkit2gtk-4.1-dev:arm64 librsvg2-dev:arm64 libayatana-appindicator3-dev:arm64 libssl-dev:arm64 libjavascriptcoregtk-4.1-dev:arm64 
-
-      - name: Rust cache
-        uses: swatinem/rust-cache@v2
-
-      - name: Check out code
-        uses: actions/checkout@v3
-
-      - name: Download build-axolotl-web-deb-arm64 build artifacts
-        uses: actions/download-artifact@v3
-        id: download-axolotl-web
-        with:
-          name: build-axolotl-web-deb-arm64
-          path: build-artifacts
-
-      - name: Copy axolotl-web build artifacts
-        run: |
-          echo $PWD
-          mkdir --parents axolotl-web/dist
-          cp -rf ${{steps.download-axolotl-web.outputs.download-path}}/* axolotl-web/dist
-      - name: Build
-        run: RUSTFLAGS="-C linker=aarch64-linux-gnu-gcc" cargo build --release --target aarch64-unknown-linux-gnu --features tauri
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: linux-arm64
-          path: build/linux-arm64/axolotl
-          retention-days: 1
+#      - name: Upload build artifacts
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: linux-arm64
+#          path: build/linux-arm64/axolotl
+#          retention-days: 1
 
 
