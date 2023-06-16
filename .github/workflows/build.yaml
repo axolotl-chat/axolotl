@@ -119,7 +119,7 @@ jobs:
 
   build-axolotl-deb-arm64:
     name: Build axolotl Debian arm64
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs:
       - build-axolotl-web-deb-arm64
     env:
