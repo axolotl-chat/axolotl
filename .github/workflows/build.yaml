@@ -117,63 +117,61 @@ jobs:
           path: axolotl-web/dist/
           retention-days: 1
 
-  # build-axolotl-deb-arm64:
-  #   name: Build axolotl Debian arm64
-  #   runs-on: ubuntu-latest
-  #   needs:
-  #     - build-axolotl-web-deb-arm64
-  #   env:
-  #     DEBIAN_FRONTEND: noninteractive
-  #     TZ: Europe/Berlin
-  #     PKG_CONFIG_SYSROOT_DIR: /
-  #   steps:
-  #     - name: Install Rust
-  #       run: rustup update stable
+  build-axolotl-deb-arm64:
+    name: Build axolotl Debian arm64
+    runs-on: ubuntu-latest
+    needs:
+      - build-axolotl-web-deb-arm64
+    env:
+      DEBIAN_FRONTEND: noninteractive
+      TZ: Europe/Berlin
+      PKG_CONFIG_SYSROOT_DIR: /
+    steps:
+      - name: Install Rust
+        run: rustup update stable
 
-  #     - name: Install tauri dependencies
-  #       run: sudo apt update && sudo apt-get install -y libgtk-3-dev  libwebkit2gtk-4.1-dev librsvg2-dev libayatana-appindicator3-dev libssl-dev libjavascriptcoregtk-4.1-dev cmake 
+      - name: Install tauri dependencies
+        run: sudo apt update && sudo apt-get install -y libgtk-3-dev  libwebkit2gtk-4.1-dev librsvg2-dev libayatana-appindicator3-dev libssl-dev libjavascriptcoregtk-4.1-dev cmake
   
-  #     - name: Install cross-compilation tools
-  #       uses: taiki-e/setup-cross-toolchain-action@v1
-  #       with:
-  #         target: aarch64-unknown-linux-gnu
+      - name: Install cross-compilation tools
+        uses: taiki-e/setup-cross-toolchain-action@v1
+        with:
+          target: aarch64-unknown-linux-gnu
 
-  #     - name: Install tauri arm64 dependencies
-  #       run: |
-  #         echo "deb [arch=arm64] http://ports.ubuntu.com/ jammy main multiverse universe"  | sudo tee -a /etc/apt/sources.list
-  #         echo "deb [arch=arm64] http://ports.ubuntu.com/ jammy-security main multiverse universe"  | sudo tee -a /etc/apt/sources.list
-  #         echo "deb [arch=arm64] http://ports.ubuntu.com/ jammy-backports main multiverse universe"  | sudo tee -a /etc/apt/sources.list
-  #         echo "deb [arch=arm64] http://ports.ubuntu.com/ jammy-updates main multiverse universe"  | sudo tee -a /etc/apt/sources.list
-        
-  #         sudo dpkg --add-architecture arm64
-  #         sudo apt update && sudo apt-get install -y libgtk-3-dev:arm64  libwebkit2gtk-4.1-dev:arm64 librsvg2-dev:arm64 libayatana-appindicator3-dev:arm64 libssl-dev:arm64 libjavascriptcoregtk-4.1-dev:arm64 
+      - name: Install tauri arm64 dependencies
+        run: |
+          echo "deb [arch=arm64] http://ports.ubuntu.com/ jammy main multiverse universe"  | sudo tee -a /etc/apt/sources.list
+          echo "deb [arch=arm64] http://ports.ubuntu.com/ jammy-security main multiverse universe"  | sudo tee -a /etc/apt/sources.list
+          echo "deb [arch=arm64] http://ports.ubuntu.com/ jammy-backports main multiverse universe"  | sudo tee -a /etc/apt/sources.list
+          echo "deb [arch=arm64] http://ports.ubuntu.com/ jammy-updates main multiverse universe"  | sudo tee -a /etc/apt/sources.list
+          sudo apt update && sudo apt-get install -y --no-install-recommends libgtk-3-dev:arm64  libwebkit2gtk-4.1-dev:arm64 librsvg2-dev:arm64 libayatana-appindicator3-dev:arm64 libssl-dev:arm64 libjavascriptcoregtk-4.1-dev:arm64 
 
-  #     - name: Rust cache
-  #       uses: swatinem/rust-cache@v2
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
 
-  #     - name: Check out code
-  #       uses: actions/checkout@v3
+      - name: Check out code
+        uses: actions/checkout@v3
 
-  #     - name: Download build-axolotl-web-deb-arm64 build artifacts
-  #       uses: actions/download-artifact@v3
-  #       id: download-axolotl-web
-  #       with:
-  #         name: build-axolotl-web-deb-arm64
-  #         path: build-artifacts
+      - name: Download build-axolotl-web-deb-arm64 build artifacts
+        uses: actions/download-artifact@v3
+        id: download-axolotl-web
+        with:
+          name: build-axolotl-web-deb-arm64
+          path: build-artifacts
 
-  #     - name: Copy axolotl-web build artifacts
-  #       run: |
-  #         echo $PWD
-  #         mkdir --parents axolotl-web/dist
-  #         cp -rf ${{steps.download-axolotl-web.outputs.download-path}}/* axolotl-web/dist
-  #     - name: Build
-  #       run: RUSTFLAGS="-C linker=aarch64-linux-gnu-gcc" cargo build --release --target aarch64-unknown-linux-gnu --features tauri
+      - name: Copy axolotl-web build artifacts
+        run: |
+          echo $PWD
+          mkdir --parents axolotl-web/dist
+          cp -rf ${{steps.download-axolotl-web.outputs.download-path}}/* axolotl-web/dist
+      - name: Build
+        run: RUSTFLAGS="-C linker=aarch64-linux-gnu-gcc" cargo build --release --target aarch64-unknown-linux-gnu --features tauri
 
-  #     - name: Upload build artifacts
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: linux-arm64
-  #         path: build/linux-arm64/axolotl
-  #         retention-days: 1
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux-arm64
+          path: build/linux-arm64/axolotl
+          retention-days: 1
 
 
