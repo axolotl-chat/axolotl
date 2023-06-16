@@ -91,18 +91,16 @@ jobs:
   build-axolotl-deb-arm64:
     name: Build axolotl Debian arm64
     runs-on: self-hosted
+    container: arno0nuehm/axolotl_build_system:arm64
     steps:
       - name: Building in Docker container
-        uses: addnab/docker-run-action@v3
-        with:
-          image: arno0nuehm/axolotl_build_system:arm64
-          run: |
-            apt update
-            apt --assume-yes upgrade
-            git clone --branch presage-native-arm64-build --single-branch https://github.com/nanu-c/axolotl/
-            cd axolotl
-            make dependencies-deb-arm64
-            make build-deb-arm64
+        run: |
+          apt update
+          apt --assume-yes upgrade
+          git clone --branch presage-native-arm64-build --single-branch https://github.com/nanu-c/axolotl/
+          cd axolotl
+          make dependencies-deb-arm64
+          make build-deb-arm64
 
 #      - name: Upload build artifacts
 #        uses: actions/upload-artifact@v3
