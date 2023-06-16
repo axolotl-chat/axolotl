@@ -130,9 +130,6 @@ jobs:
       - name: Install Rust
         run: rustup update stable
 
-      - name: Rust cache
-        uses: swatinem/rust-cache@v2
-
       - name: Check out code
         uses: actions/checkout@v3
 
