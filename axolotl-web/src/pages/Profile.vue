@@ -20,9 +20,7 @@
           @error="onImageError($event)"
         />
         <div v-else class="profile-name">
-          <span>{{
-            name[0]
-          }}</span>
+          <span>{{ name[0] }}</span>
         </div>
       </div>
       <div class="infos">
@@ -51,12 +49,12 @@
 
 <script>
 export default {
-    name: "ProfilePage",
+  name: "ProfilePage",
   props: {
-    profileId:{
+    profileId: {
       type: Number,
       required: true,
-      default: -1
+      default: -1,
     },
   },
   data: () => ({
@@ -66,11 +64,13 @@ export default {
     profile() {
       return this.$store.state.profile;
     },
-    name(){
-      return      this.profile.Recipient.ProfileGivenName !== ""
-            ? this.profile.Recipient.ProfileGivenName
-            : this.profile.Recipient.Username?this.profile.Recipient.Username:"Unknow user"
-    }
+    name() {
+      return this.profile.Recipient.ProfileGivenName !== ""
+        ? this.profile.Recipient.ProfileGivenName
+        : this.profile.Recipient.Username
+        ? this.profile.Recipient.Username
+        : "Unknow user";
+    },
   },
   mounted() {
     this.$store.dispatch("getProfile", this.profileId);
@@ -114,14 +114,14 @@ export default {
   height: 150px;
   border-radius: 50px;
   background-color: rgb(240, 240, 240);
-  
+
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.profile-name span{
+.profile-name span {
   font-size: 3.5rem;
-  color: #5fb5ea
+  color: #5fb5ea;
 }
 
 .profile-header {

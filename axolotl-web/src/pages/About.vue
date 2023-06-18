@@ -1,15 +1,14 @@
 <template>
   <component :is="$route.meta.layout || 'div'">
     <div class="about">
-      <img class="logo" src="/axolotl.png" alt="Axolotl logo">
+      <img class="logo" src="/axolotl.png" alt="Axolotl logo" />
       <h1 class="title">Axolotl Beta {{ config.Version }}</h1>
       <h2 v-translate class="subtitle">A cross-platform Signal client</h2>
       <div class="description">
         <translate>
-          This is a free and open source Signal client written in golang, rust and
-          vuejs.
+          This is a free and open source Signal client written in golang, rust and vuejs.
         </translate>
-        <br>
+        <br />
         <translate class="mr-1">
           You can support the development of Axolotl either by filling
         </translate>
@@ -17,22 +16,21 @@
           v-translate
           href="https://github.com/nanu-c/axolotl/issues"
           @click="openExternal($event, 'https://github.com/nanu-c/axolotl/issues')"
-        >issues at the bug tracker</a>.
-        <br>
+          >issues at the bug tracker</a
+        >.
+        <br />
         <translate class="mr-1">or by becoming a</translate>
         <a
           href="https://www.patreon.com/bePatron?u=11219559"
-          @click="
-            openExternal($event, 'https://www.patreon.com/bePatron?u=11219559')
-          "
-        ><span v-translate>sponsor on patreon.</span></a><br>
-        <br>
+          @click="openExternal($event, 'https://www.patreon.com/bePatron?u=11219559')"
+          ><span v-translate>sponsor on patreon.</span></a
+        ><br />
+        <br />
         <font-awesome-icon id="heart" icon="heart" />
-        <br>
-        <a
-          href="https://axolotl.chat"
-          @click="openExternal($event, 'https://axolotl.chat')"
-        >https://axolotl.chat</a>
+        <br />
+        <a href="https://axolotl.chat" @click="openExternal($event, 'https://axolotl.chat')"
+          >https://axolotl.chat</a
+        >
       </div>
     </div>
   </component>

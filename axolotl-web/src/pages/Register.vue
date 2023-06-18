@@ -2,41 +2,36 @@
   <component :is="$route.meta.layout || 'div'">
     <div class="register">
       <div v-if="infoPage" class="page1 info">
-        <img class="logo" src="/axolotl.png" alt="Axolotl logo">
+        <img class="logo" src="/axolotl.png" alt="Axolotl logo" />
         <h1 class="title">Axolotl Beta</h1>
         <h2 v-translate class="subtitle">A cross-platform Signal client</h2>
         <div class="description">
           Hey! Mr. Tambourine Man, play a song for me,
-          <br>
+          <br />
           In the jingle jangle morning I'll come following you.
-          <br>
+          <br />
           It's beta, expect lot's of things not working.
-          <br>
+          <br />
           Please be aware:
-          <br>
+          <br />
           Registering your phone number with Axolotl will
-          <br>
+          <br />
           de-register your existing Signal account and also
-          <br>
+          <br />
           de-link your Signal Desktop.
-          <br>
-          <a
-            href="https://axolotl.chat"
-            @click="openExtern($event, 'https://axolotl.chat')"
-          >
+          <br />
+          <a href="https://axolotl.chat" @click="openExtern($event, 'https://axolotl.chat')">
             https://axolotl.chat
           </a>
-          <br>
+          <br />
           <font-awesome-icon id="heart" icon="heart" />
         </div>
         <div>
           <b>Axolotl is currently broken due to changes on the Signal server.</b>
-          <br>
+          <br />
           We are working on fixing the incompatibilities.
         </div>
-        <button v-translate class="btn btn-primary" @click="infoPage = false">
-          Next
-        </button>
+        <button v-translate class="btn btn-primary" @click="infoPage = false">Next</button>
       </div>
       <div v-if="rateLimitError !== null" class="rateLimit-error">
         <div class="error">
@@ -44,15 +39,8 @@
         </div>
       </div>
       <div v-else class="registration">
-        <VueTelInput
-          id="phoneInput"
-          mode="international"
-          class="phoneInput"
-          @input="updatePhone"
-        />
-        <button v-translate class="btn btn-primary" @click="requestCode()">
-          Request code
-        </button>
+        <VueTelInput id="phoneInput" mode="international" class="phoneInput" @input="updatePhone" />
+        <button v-translate class="btn btn-primary" @click="requestCode()">Request code</button>
       </div>
     </div>
   </component>
@@ -93,8 +81,7 @@ export default {
       this.$store.dispatch("requestCode", this.phone.replace(/\s/g, ""));
     },
     updatePhone(e) {
-      if(typeof e === "string")
-      this.phone = e;
+      if (typeof e === "string") this.phone = e;
     },
     openExtern(e, url) {
       if (this.gui === "ut") {

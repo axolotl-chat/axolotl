@@ -1,10 +1,10 @@
-import { createStore } from 'vuex'
-import { router } from '../router/router';
-import { validateUUID } from '@/helpers/uuidCheck'
+import { createStore } from "vuex";
+import { router } from "../router/router";
+import { validateUUID } from "@/helpers/uuidCheck";
 import app from "../main";
 
 function socketSend(message) {
-  app.config.globalProperties.$socket.send(JSON.stringify(message))
+  app.config.globalProperties.$socket.send(JSON.stringify(message));
 }
 
 export default createStore({
@@ -14,7 +14,7 @@ export default createStore({
     sessionNames: {},
     messageList: [],
     profile: {},
-    request: '',
+    request: "",
     contacts: [],
     contactsFiltered: [],
     contactsFilterActive: false,
@@ -44,18 +44,18 @@ export default createStore({
     captchaTokenSent: false,
     socket: {
       isConnected: false,
-      message: '',
+      message: "",
       reconnectError: false,
       heartBeatInterval: 50000,
-      heartBeatTimer: 0
-    }
+      heartBeatTimer: 0,
+    },
   },
 
   getters: {
     // Here we will create a getter
-    getMessages: state => {
+    getMessages: (state) => {
       return state.messageList;
-    }
+    },
   },
 
   mutations: {
@@ -64,8 +64,7 @@ export default createStore({
         state.loginError = null;
         // state.rateLimitError = null;
         state.errorConnection = null;
-      }
-      else if (error === "wrong password") {
+      } else if (error === "wrong password") {
         state.loginError = error;
       } else if (error.includes("Rate")) {
         state.rateLimitError = `${error}. Try again later!`;
@@ -75,14 +74,12 @@ export default createStore({
         state.error = error;
       } else if (error.includes(400)) {
         //when pin is missing
-        if (state.verificationInProgress)
-          state.verificationError = 400
+        if (state.verificationInProgress) state.verificationError = 400;
       } else if (error.includes(404)) {
         //when code was wrong
-        if (state.verificationInProgress)
-          state.verificationError = 404
+        if (state.verificationInProgress) state.verificationError = 404;
       } else if (error.includes("RegistrationLockFailure")) {
-        state.verificationError = "RegistrationLockFailure"
+        state.verificationError = "RegistrationLockFailure";
       }
     },
     SET_CHATLIST(state, chatList) {
@@ -112,11 +109,11 @@ export default createStore({
     UPDATE_CURRENT_CHAT(state, data) {
       state.currentChat = data.CurrentChat;
       if (typeof state.messageList === "undefined") {
-        state.messageList = []
+        state.messageList = [];
       }
-      const prepare = state.messageList.map(e => e.ID)
+      const prepare = state.messageList.map((e) => e.ID);
       if (data.CurrentChat.Messages !== null) {
-        data.CurrentChat.Messages.forEach(m => {
+        data.CurrentChat.Messages.forEach((m) => {
           state.messageList[prepare.indexOf(m.ID)] = m;
         });
       }
@@ -124,20 +121,18 @@ export default createStore({
     SET_CONFIG(state, config) {
       state.config = config;
     },
-    SEND_MESSAGE() {
-
-    },
+    SEND_MESSAGE() {},
     CREATE_CHAT(state) {
       state.currentChat = null;
     },
     SET_DEVICELIST(state, devices) {
-      state.devices = devices
+      state.devices = devices;
     },
     SET_FINGERPRINT(state, data) {
       state.fingerprint = {
         numbers: data.FingerprintNumbers,
         qrCode: data.FingerprintQRCode,
-      }
+      };
     },
     SET_REGISTRATION_STATUS(state, status) {
       state.registrationStatus = status;
@@ -150,29 +145,29 @@ export default createStore({
       } else if (type === "getVerificationCode") {
         this.commit("SET_REGISTRATION_STATUS", "verificationCode");
         state.verificationInProgress = true;
-        router.push("/verify")
+        router.push("/verify");
       } else if (type === "getPin") {
         this.commit("SET_REGISTRATION_STATUS", "pin");
-        router.push("/pin")
+        router.push("/pin");
         state.requestPin = true;
       } else if (type === "getCaptchaToken") {
         window.location = "https://signalcaptchas.org/registration/generate.html";
       } else if (type === "getEncryptionPw") {
         this.commit("SET_REGISTRATION_STATUS", "password");
-        router.push("/password")
+        router.push("/password");
       } else if (type === "registrationDone") {
         this.commit("SET_REGISTRATION_STATUS", "registered");
-        router.push("/")
+        router.push("/");
       } else if (type === "requestEnterChat") {
-        router.push(`/chat/${request.Chat}`)
-        this.dispatch("getChatList")
+        router.push(`/chat/${request.Chat}`);
+        this.dispatch("getChatList");
       } else if (type === "config") {
-        this.commit("SET_CONFIG", request)
+        this.commit("SET_CONFIG", request);
       } else if (type === "getUsername") {
         this.commit("SET_REGISTRATION_STATUS", "getUsername");
-        router.push("/setUsername")
+        router.push("/setUsername");
       } else if (type === "Error") {
-        this.commit("SET_ERROR", request.Error)
+        this.commit("SET_ERROR", request.Error);
       }
       // this.dispatch("requestCode", "+123456")
     },
@@ -181,7 +176,7 @@ export default createStore({
     },
     SET_MORE_MESSAGELIST(state, messageList) {
       if (messageList.Messages !== null) {
-        messageList.Messages.reverse()
+        messageList.Messages.reverse();
         state.messageList = messageList.Messages.concat(state.messageList);
       }
     },
@@ -190,19 +185,19 @@ export default createStore({
         const tmpList = state.messageList;
         tmpList.push(message);
         tmpList.sort(function (a, b) {
-          return a.ID - b.ID
-        })
+          return a.ID - b.ID;
+        });
         state.messageList = tmpList;
       }
       state.chatList.forEach((chat, i) => {
         if (chat.ID === message.SID) {
-          state.chatList[i].Messages = [message]
+          state.chatList[i].Messages = [message];
         }
-      })
+      });
     },
     SET_MESSAGE_UPDATE(state, message) {
       if (state.currentChat.ID === message.SID) {
-        const index = state.messageList.findIndex(m => {
+        const index = state.messageList.findIndex((m) => {
           return m.ID === message.ID;
         });
         // check if message exists
@@ -210,8 +205,8 @@ export default createStore({
           const tmpList = JSON.parse(JSON.stringify(state.messageList));
           tmpList[index] = message;
           tmpList.sort(function (a, b) {
-            return a.ID - b.ID
-          })
+            return a.ID - b.ID;
+          });
           // mark all as read if it's a is read update
           if (message.IsRead) {
             tmpList.forEach((m, i) => {
@@ -219,12 +214,12 @@ export default createStore({
                 m.IsRead = true;
                 tmpList[i] = m;
               }
-            })
+            });
           }
           state.messageList = tmpList;
         } else {
           // add message to message list
-          state.messageList.unshift(message)
+          state.messageList.unshift(message);
         }
       }
     },
@@ -245,20 +240,19 @@ export default createStore({
       }
     },
     SET_CONTACTS_FILTER(state, filter) {
-      filter = filter.toLowerCase()
-      const f = state.contacts.filter(c => c.Name.toLowerCase().includes(filter));
+      filter = filter.toLowerCase();
+      const f = state.contacts.filter((c) => c.Name.toLowerCase().includes(filter));
       state.contactsFiltered = f;
       state.contactsFilterActive = true;
     },
     SET_CONTACTS_FOR_GROUP_FILTER(state, filter) {
-      filter = filter.toLowerCase()
-      let f = state.contacts.filter(c => {
-        if (!validateUUID(c.UUID)) return false
-        if (c.Name.toLowerCase().includes(filter))
-          return true;
+      filter = filter.toLowerCase();
+      let f = state.contacts.filter((c) => {
+        if (!validateUUID(c.UUID)) return false;
+        if (c.Name.toLowerCase().includes(filter)) return true;
       });
       if (state.currentGroup !== null)
-        f = f.filter(c => state.currentGroup.Members.indexOf(c.UUID) === -1);
+        f = f.filter((c) => state.currentGroup.Members.indexOf(c.UUID) === -1);
       state.contactsFiltered = f;
       state.contactsFilterActive = true;
     },
@@ -284,10 +278,12 @@ export default createStore({
       state.socket.heartBeatTimer = setInterval(() => {
         const message = "ping";
         state.socket.isConnected &&
-          app.config.globalProperties.$socket.send(JSON.stringify({
-            code: 200,
-            msg: message
-          }));
+          app.config.globalProperties.$socket.send(
+            JSON.stringify({
+              code: 200,
+              msg: message,
+            })
+          );
       }, state.socket.heartBeatInterval);
     },
     SOCKET_ONCLOSE(state) {
@@ -313,14 +309,17 @@ export default createStore({
       }
       switch (Object.keys(messageData)[0]) {
         case "ChatList":
-          const chats = messageData.ChatList
+          const chats = messageData.ChatList;
           if (messageData.LastMessages) {
             const lastMessages = {};
             for (let i = 0; i < messageData.LastMessages.length; i++) {
               lastMessages[messageData.LastMessages[i].SID] = messageData.LastMessages[i];
             }
             chats.sort((a, b) => {
-              if (typeof lastMessages[a.ID] === "undefined" || typeof lastMessages[b.ID] === "undefined") {
+              if (
+                typeof lastMessages[a.ID] === "undefined" ||
+                typeof lastMessages[b.ID] === "undefined"
+              ) {
                 return 0;
               }
               if (lastMessages[a.ID].SentAt < lastMessages[b.ID].SentAt) {
@@ -330,8 +329,7 @@ export default createStore({
                 return -1;
               }
               return 0;
-            }
-            );
+            });
             this.commit("SET_CHATLIST", chats);
             this.commit("SET_LASTMESSAGES", lastMessages);
           } else {
@@ -388,11 +386,10 @@ export default createStore({
         default:
         // console.log("unkown message ", Object.keys(messageData)[0]);
       }
-      this.commit("SET_SOCKET_MESSAGE_DATA", message.data)
-
+      this.commit("SET_SOCKET_MESSAGE_DATA", message.data);
     },
     SET_SOCKET_MESSAGE_DATA(state, data) {
-      state.socket.message = data
+      state.socket.message = data;
     },
     SET_CONFIG_GUI(state, gui) {
       state.gui = gui;
@@ -400,56 +397,56 @@ export default createStore({
     SET_CONFIG_DARK_MODE(state, darkMode) {
       if (window.getCookie("darkMode") !== String(darkMode)) {
         const d = new Date();
-        d.setTime(d.getTime() + (300 * 24 * 60 * 60 * 1000));
+        d.setTime(d.getTime() + 300 * 24 * 60 * 60 * 1000);
         const expires = `expires=${d.toUTCString()}`;
         document.cookie = `darkMode=${darkMode};${expires};path=/`;
         state.darkMode = darkMode;
-        window.location.replace("/")
+        window.location.replace("/");
       }
-    }
+    },
   },
 
   actions: {
     addDevice(state, url) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "addDevice",
-          "url": url,
-        }
+          request: "addDevice",
+          url: url,
+        };
         socketSend(message);
       }
     },
     delDevice(state, id) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "delDevice",
-          "id": id,
-        }
+          request: "delDevice",
+          id: id,
+        };
         socketSend(message);
       }
     },
     getDevices() {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "getDevices",
-        }
+          request: "getDevices",
+        };
         socketSend(message);
       }
     },
     getChatList() {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "getChatList",
-        }
+          request: "getChatList",
+        };
         socketSend(message);
       }
     },
     delChat(id) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "delChat",
-          "id": this.state.currentChat.ID
-        }
+          request: "delChat",
+          id: this.state.currentChat.ID,
+        };
         socketSend(message);
       }
     },
@@ -457,9 +454,9 @@ export default createStore({
       this.commit("CLEAR_MESSAGELIST");
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "getMessageList",
-          "id": chatId
-        }
+          request: "getMessageList",
+          id: chatId,
+        };
         socketSend(message);
       }
     },
@@ -467,50 +464,54 @@ export default createStore({
       this.commit("CLEAR_PROFILE");
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "getProfile",
-          id
-        }
+          request: "getProfile",
+          id,
+        };
         socketSend(message);
       }
     },
     createRecipient(state, recipient) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "createRecipient",
-          recipient
-        }
+          request: "createRecipient",
+          recipient,
+        };
         socketSend(message);
       }
     },
     createRecipientAndAddToGroup(state, data) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "createRecipientAndAddToGroup",
-          "recipient": data.id,
-          "group": data.group
-        }
+          request: "createRecipientAndAddToGroup",
+          recipient: data.id,
+          group: data.group,
+        };
         socketSend(message);
       }
     },
     openChat({ dispatch }, chatId) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "openChat",
-          "id": chatId
-        }
+          request: "openChat",
+          id: chatId,
+        };
         socketSend(message);
         dispatch("getMessageList", chatId);
       }
     },
     getMoreMessages() {
-      if (this.state.socket.isConnected && typeof this.state.messageList !== "undefined"
-        && this.state.messageList !== null
-        && this.state.messageList.length > 0 && this.state.messageList[0].SentAt > 0) {
-        const firstMessage = this.state.messageList[0]
+      if (
+        this.state.socket.isConnected &&
+        typeof this.state.messageList !== "undefined" &&
+        this.state.messageList !== null &&
+        this.state.messageList.length > 0 &&
+        this.state.messageList[0].SentAt > 0
+      ) {
+        const firstMessage = this.state.messageList[0];
         const message = {
-          "request": "getMoreMessages",
-          "sentAt": firstMessage.SentAt
-        }
+          request: "getMoreMessages",
+          sentAt: firstMessage.SentAt,
+        };
         socketSend(message);
       }
     },
@@ -524,17 +525,17 @@ export default createStore({
       this.commit("LEAVE_CHAT");
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "leaveChat",
-        }
+          request: "leaveChat",
+        };
         socketSend(message);
       }
     },
     createChat(state, uuid) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "createChat",
-          "uuid": uuid
-        }
+          request: "createChat",
+          uuid: uuid,
+        };
         socketSend(message);
       }
       this.commit("CREATE_CHAT", uuid);
@@ -542,37 +543,37 @@ export default createStore({
     sendMessage(state, messageContainer) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "sendMessage",
-          "to": messageContainer.to,
-          "message": messageContainer.message
-        }
+          request: "sendMessage",
+          to: messageContainer.to,
+          message: messageContainer.message,
+        };
         socketSend(message);
       }
     },
     toggleNotifications() {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "toggleNotifications",
-          "chat": this.state.currentChat.ID
-        }
+          request: "toggleNotifications",
+          chat: this.state.currentChat.ID,
+        };
         socketSend(message);
       }
     },
     resetEncryption() {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "resetEncryption",
-          "chat": this.state.currentChat.ID
-        }
+          request: "resetEncryption",
+          chat: this.state.currentChat.ID,
+        };
         socketSend(message);
       }
     },
     verifyIdentity() {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "verifyIdentity",
-          "chat": this.state.currentChat.ID
-        }
+          request: "verifyIdentity",
+          chat: this.state.currentChat.ID,
+        };
         socketSend(message);
       }
     },
@@ -580,44 +581,42 @@ export default createStore({
       if (this.state.socket.isConnected) {
         state.importingContacts = false;
         const message = {
-          "request": "getContacts",
-        }
+          request: "getContacts",
+        };
         socketSend(message);
       }
     },
     addContact(state, contact) {
       state.rateLimitError = null;
-      if (this.state.socket.isConnected
-        && contact.name !== "" && contact.phone !== "") {
-        if (this.state.currentChat !== null
-          && this.state.currentChat.Tel === contact.phone) {
+      if (this.state.socket.isConnected && contact.name !== "" && contact.phone !== "") {
+        if (this.state.currentChat !== null && this.state.currentChat.Tel === contact.phone) {
           this.commit("SET_CURRENT_CHAT_NAME", contact.name);
         }
         const message = {
-          "request": "addContact",
-          "name": contact.name,
-          "phone": contact.phone,
-          "uuid": contact.uuid
-        }
+          request: "addContact",
+          name: contact.name,
+          phone: contact.phone,
+          uuid: contact.uuid,
+        };
         socketSend(message);
       }
     },
     updateProfileName(state, data) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "updateProfileName",
-          "name": data.name,
-          "id": data.id
-        }
+          request: "updateProfileName",
+          name: data.name,
+          id: data.id,
+        };
         socketSend(message);
       }
     },
     createChatForRecipient(state, data) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "createChatForRecipient",
-          "id": data.id,
-        }
+          request: "createChatForRecipient",
+          id: data.id,
+        };
         socketSend(message);
       }
     },
@@ -635,19 +634,19 @@ export default createStore({
       state.importingContacts = true;
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "uploadVcf",
-          "vcf": vcf
-        }
+          request: "uploadVcf",
+          vcf: vcf,
+        };
         socketSend(message);
       }
     },
     uploadAttachment(state, attachment) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "uploadAttachment",
-          "attachment": attachment.attachment,
-          "to": attachment.to,
-        }
+          request: "uploadAttachment",
+          attachment: attachment.attachment,
+          to: attachment.to,
+        };
         socketSend(message);
       }
     },
@@ -655,9 +654,9 @@ export default createStore({
       state.importingContacts = true;
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "refreshContacts",
-          "url": chUrl
-        }
+          request: "refreshContacts",
+          url: chUrl,
+        };
         socketSend(message);
       }
     },
@@ -665,181 +664,177 @@ export default createStore({
       state.rateLimitError = null;
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "delContact",
-          "id": id,
-        }
+          request: "delContact",
+          id: id,
+        };
         socketSend(message);
       }
     },
     deleteSelfDestructingMessage(state, m) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "delMessage",
-          "id": m.ID
-        }
+          request: "delMessage",
+          id: m.ID,
+        };
         socketSend(message);
       }
     },
     editContact(state, data) {
       state.rateLimitError = null;
       if (this.state.socket.isConnected) {
-        if (this.state.currentChat !== null
-          && this.state.currentChat.Tel === data.contact.Tel) {
+        if (this.state.currentChat !== null && this.state.currentChat.Tel === data.contact.Tel) {
           this.commit("SET_CURRENT_CHAT_NAME", data.contact.Name);
         }
         const message = {
-          "request": "editContact",
-          "phone": data.contact.Tel,
-          "name": data.contact.Name,
-          "uuid": data.contact.UUID,
-          "id": data.id
-        }
+          request: "editContact",
+          phone: data.contact.Tel,
+          name: data.contact.Name,
+          uuid: data.contact.UUID,
+          id: data.id,
+        };
         socketSend(message);
       }
     },
     // registration functions
     requestCode(state, tel) {
-      this.state.verificationError = null
+      this.state.verificationError = null;
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "requestCode",
-          "tel": tel,
-        }
+          request: "requestCode",
+          tel: tel,
+        };
         socketSend(message);
       }
     },
     sendCode(state, code) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "sendCode",
-          "code": code,
-        }
+          request: "sendCode",
+          code: code,
+        };
         socketSend(message);
       }
     },
     setUsername(state, username) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "sendUsername",
-          "username": username,
-        }
+          request: "sendUsername",
+          username: username,
+        };
         socketSend(message);
       }
     },
     sendPin(state, pin) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "sendPin",
-          "pin": pin,
-        }
+          request: "sendPin",
+          pin: pin,
+        };
         socketSend(message);
       }
     },
     sendPassword(state, password) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "sendPassword",
-          "pw": password,
-        }
+          request: "sendPassword",
+          pw: password,
+        };
         socketSend(message);
       }
     },
     setPassword(state, password) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "setPassword",
-          "pw": password.pw,
-          "currentPw": password.cPw
-        }
+          request: "setPassword",
+          pw: password.pw,
+          currentPw: password.cPw,
+        };
         socketSend(message);
-        router.push("/chatList")
+        router.push("/chatList");
       }
     },
     getRegistrationStatus() {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "getRegistrationStatus",
-        }
+          request: "getRegistrationStatus",
+        };
         socketSend(message);
       }
     },
     unregister() {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "unregister",
-        }
+          request: "unregister",
+        };
         socketSend(message);
-
       }
     },
     getConfig() {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "getConfig",
-        }
+          request: "getConfig",
+        };
         socketSend(message);
       }
     },
     createNewGroup(state, data) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "createGroup",
-          "name": data.name,
-          "members": data.members,
-        }
+          request: "createGroup",
+          name: data.name,
+          members: data.members,
+        };
         socketSend(message);
-
       }
     },
     updateGroup(state, data) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "updateGroup",
-          "name": data.name,
-          "id": data.id,
-          "members": data.members,
-        }
+          request: "updateGroup",
+          name: data.name,
+          id: data.id,
+          members: data.members,
+        };
         socketSend(message);
       }
     },
     joinGroup(state, data) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "joinGroup",
-          "id": data,
-        }
+          request: "joinGroup",
+          id: data,
+        };
         socketSend(message);
       }
     },
     sendAttachment(state, data) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "sendAttachment",
-          "type": data.type,
-          "path": data.path,
-          "to": data.to,
-          "message": data.message,
-        }
+          request: "sendAttachment",
+          type: data.type,
+          path: data.path,
+          to: data.to,
+          message: data.message,
+        };
         socketSend(message);
-
       }
     },
     sendVoiceNote(state, voiceNote) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "sendVoiceNote",
-          "voiceNote": voiceNote.note,
-          "to": voiceNote.to,
-        }
+          request: "sendVoiceNote",
+          voiceNote: voiceNote.note,
+          to: voiceNote.to,
+        };
         socketSend(message);
       }
     },
     setDarkMode(state, darkMode) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "setDarkMode",
-          "darkMode": darkMode,
-        }
+          request: "setDarkMode",
+          darkMode: darkMode,
+        };
         socketSend(message);
         this.state.DarkMode = darkMode;
       }
@@ -847,25 +842,24 @@ export default createStore({
     sendCaptchaToken() {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "sendCaptchaToken",
-          "token": this.state.captchaToken,
-        }
+          request: "sendCaptchaToken",
+          token: this.state.captchaToken,
+        };
         socketSend(message);
         this.commit("SET_CAPTCHA_TOKEN_SENT");
-
       }
     },
     setLogLevel(state, level) {
       if (this.state.socket.isConnected) {
         const message = {
-          "request": "setLogLevel",
-          level
-        }
+          request: "setLogLevel",
+          level,
+        };
         socketSend(message);
       }
     },
     setCaptchaToken(state, token) {
       this.commit("SET_CAPTCHA_TOKEN", token);
-    }
-  }
+    },
+  },
 });

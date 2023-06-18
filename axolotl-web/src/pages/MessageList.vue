@@ -1,47 +1,26 @@
 <template>
   <component :is="$route.meta.layout || 'div'">
     <div class="chat">
-      <div
-        id="messageList-container"
-        class="messageList-container"
-        @scroll="handleScroll($event)"
-      >
-        <div
-          v-if="messages && messages.length > 0"
-          id="messageList"
-          class="messageList row"
-        >
+      <div id="messageList-container" class="messageList-container" @scroll="handleScroll($event)">
+        <div v-if="messages && messages.length > 0" id="messageList" class="messageList row">
           <div v-if="showFullscreenImgSrc !== ''" class="fullscreenImage">
             <img
-              :src="
-                'http://localhost:9080/attachments?file=' + showFullscreenImgSrc
-              "
+              :src="'http://localhost:9080/attachments?file=' + showFullscreenImgSrc"
               alt="Fullscreen image"
             />
             <button class="btn btn-secondary save" @click="saveImg($event)">
               <font-awesome-icon icon="arrow-down" />
             </button>
-            <button
-              class="btn btn-secondary close"
-              @click="showFullscreenImgSrc = ''"
-            >
+            <button class="btn btn-secondary close" @click="showFullscreenImgSrc = ''">
               <font-awesome-icon icon="times" />
             </button>
           </div>
           <div v-if="showFullscreenVideoSrc !== ''" class="fullscreenImage">
             <video controls>
-              <source
-                :src="
-                  'http://localhost:9080/attachments?file=' +
-                    showFullscreenVideoSrc
-                "
-              />
+              <source :src="'http://localhost:9080/attachments?file=' + showFullscreenVideoSrc" />
               <span v-translate>Your browser does not support the audio element.</span>
             </video>
-            <button
-              class="btn btn-secondary close"
-              @click="showFullscreenVideoSrc = ''"
-            >
+            <button class="btn btn-secondary close" @click="showFullscreenVideoSrc = ''">
               <font-awesome-icon icon="times" />
             </button>
             <button class="btn btn-secondary save" @click="saveVideo($event)">
@@ -68,12 +47,9 @@
         class="messageInputBoxDisabled w-100"
       >
         <p v-translate>
-          Join this group? They won’t know you’ve seen their messages until you
-          accept.
+          Join this group? They won’t know you’ve seen their messages until you accept.
         </p>
-        <div v-translate class="btn btn-primary" @click="joinGroupAccept">
-          Join
-        </div>
+        <div v-translate class="btn btn-primary" @click="joinGroupAccept">Join</div>
       </div>
       <div
         v-else-if="isGroup && currentGroup && currentGroup.JoinStatus == 2"
@@ -117,17 +93,12 @@
           </div>
         </div>
         <div v-else class="messageInputBox justify-content-center">
-          <div
-            class="messageInput-btn-container d-flex justify-content-center align-items-center"
-          >
+          <div class="messageInput-btn-container d-flex justify-content-center align-items-center">
             <div>
-              <span>{{ Math.floor(voiceNote.duration) }}</span><span v-translate class="me-2">s</span>
+              <span>{{ Math.floor(voiceNote.duration) }}</span
+              ><span v-translate class="me-2">s</span>
             </div>
-            <button
-              v-if="!voiceNote.playing"
-              class="btn send play me-1"
-              @click="playAudio"
-            >
+            <button v-if="!voiceNote.playing" class="btn send play me-1" @click="playAudio">
               <font-awesome-icon icon="play" />
             </button>
             <button v-else class="btn send stop me-1" @click="stopPlayAudio">
@@ -141,12 +112,7 @@
             </button>
           </div>
         </div>
-        <audio
-          v-if="voiceNote.blobUrl != ''"
-          id="voiceNote"
-          controls
-          :src="voiceNote.blobUrl"
-        >
+        <audio v-if="voiceNote.blobUrl != ''" id="voiceNote" controls :src="voiceNote.blobUrl">
           Your browser does not support the
           <code>audio</code> element.
         </audio>
@@ -161,11 +127,7 @@
           style="position: fixed; top: -100em"
           @change="sendDesktopAttachment"
         />
-        <audio
-          id="voiceNote"
-          :src="voiceNote.blobUrl"
-          style="position: fixed; top: -100em"
-        />
+        <audio id="voiceNote" :src="voiceNote.blobUrl" style="position: fixed; top: -100em" />
       </div>
     </div>
   </component>
@@ -219,8 +181,10 @@ export default {
       return this.$store.state.messageList;
     },
     isGroup() {
-      return this.$store.state.currentChat.GroupV2ID !== "" ||
-        this.$store.state.currentChat.GroupV1ID !== "";
+      return (
+        this.$store.state.currentChat.GroupV2ID !== "" ||
+        this.$store.state.currentChat.GroupV1ID !== ""
+      );
     },
     ...mapState(["contacts", "config", "messageList", "currentGroup"]),
   },
@@ -240,11 +204,10 @@ export default {
       deep: true,
       handler() {
         if (!this.$data.scrollLocked) setTimeout(this.scrollDown, 600);
-        if(!this.$data.firstScroll){
-        setTimeout(this.$data.scrollLocked = false, 1000);
+        if (!this.$data.firstScroll) {
+          setTimeout((this.$data.scrollLocked = false), 1000);
+        } else this.$data.scrollLocked = false;
 
-        }else this.$data.scrollLocked = false;
-        
         this.$data.firstScroll = false;
         // this.scrollDown();
       },
@@ -313,20 +276,13 @@ export default {
       if (typeof this.config.Gui !== "undefined" && this.config.Gui === "ut") {
         e.preventDefault();
         alert("[oP]" + this.showFullscreenImgSrc);
-      } else
-        saveAs(
-          "http://localhost:9080/attachments?file=" + this.showFullscreenImgSrc
-        );
+      } else saveAs("http://localhost:9080/attachments?file=" + this.showFullscreenImgSrc);
     },
     saveVideo(e) {
       if (typeof this.config.Gui !== "undefined" && this.config.Gui === "ut") {
         e.preventDefault();
         alert("[oV]" + this.showFullscreenVideoSrc);
-      } else
-        saveAs(
-          "http://localhost:9080/attachments?file=" +
-            this.showFullscreenVideoSrc
-        );
+      } else saveAs("http://localhost:9080/attachments?file=" + this.showFullscreenVideoSrc);
     },
     sendMessage() {
       if (this.messageInput !== "") {

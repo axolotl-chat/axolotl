@@ -12,7 +12,11 @@
             </button>
             <div v-if="currentChat !== null && currentChat" class="row w-100">
               <div class="col-2 badge-container">
-                <div v-if="!isGroup" class="badge-name" @click="openProfileForRecipient(currentChat.DirectMessageRecipientID)">
+                <div
+                  v-if="!isGroup"
+                  class="badge-name"
+                  @click="openProfileForRecipient(currentChat.DirectMessageRecipientID)"
+                >
                   <img
                     class="avatar-img"
                     :src="'http://localhost:9080/avatars?session=' + currentChat.ID"
@@ -28,10 +32,7 @@
                 <div class="row">
                   <div class="col-12">
                     <div
-                      v-if="
-                        isGroup &&
-                          sessionNames[currentChat.ID].Name === currentChat.Tel
-                      "
+                      v-if="isGroup && sessionNames[currentChat.ID].Name === currentChat.Tel"
                       class="header-text-chat"
                     >
                       <div v-if="currentChat.IsMuted" class="mute-badge">
@@ -43,21 +44,14 @@
                       <div v-if="currentChat.IsMuted" class="mute-badge">
                         <font-awesome-icon class="mute" icon="volume-mute" />
                       </div>
-                      <div
-                        v-if="sessionNames[currentChat.ID].Name !== currentChat.Tel"
-                        class=""
-                      >
+                      <div v-if="sessionNames[currentChat.ID].Name !== currentChat.Tel" class="">
                         {{ sessionNames[currentChat.ID].Name }}
                       </div>
                     </div>
                   </div>
                   <div class="col-12">
                     <div
-                      v-if="
-                        isGroup &&
-                          currentGroup !== null &&
-                          typeof currentGroup !== 'undefined'
-                      "
+                      v-if="isGroup && currentGroup !== null && typeof currentGroup !== 'undefined'"
                       class="number-text"
                     >
                       <div v-for="e in currentGroup.Members" :key="e">
@@ -65,11 +59,7 @@
                       </div>
                     </div>
                     <div
-                      v-if="
-                        isGroup &&
-                          currentGroup !== null &&
-                          typeof currentGroup !== 'undefined'
-                      "
+                      v-if="isGroup && currentGroup !== null && typeof currentGroup !== 'undefined'"
                       class="number-text"
                     >
                       <div v-for="(n, i) in names" :key="i" class="name">
@@ -77,10 +67,7 @@
                       </div>
                     </div>
                     <div
-                      v-if="
-                        !isGroup &&
-                          sessionNames[currentChat.ID].Name === currentChat.Tel
-                      "
+                      v-if="!isGroup && sessionNames[currentChat.ID].Name === currentChat.Tel"
                       class="number-text"
                     >
                       {{ currentChat.Tel }}
@@ -112,8 +99,8 @@
                 <button
                   v-if="
                     currentChat !== null &&
-                      !isGroup &&
-                      sessionNames[currentChat.ID].Name !== currentChat.Tel
+                    !isGroup &&
+                    sessionNames[currentChat.ID].Name !== currentChat.Tel
                   "
                   class="dropdown-item"
                   @click="callNumber(currentChat.Tel)"
@@ -128,19 +115,14 @@
                 >
                   Mute
                 </button>
-                <button
-                  v-else
-                  v-translate
-                  class="dropdown-item"
-                  @click="toggleNotifications"
-                >
+                <button v-else v-translate class="dropdown-item" @click="toggleNotifications">
                   Unmute
                 </button>
                 <button
                   v-if="
                     currentChat !== null &&
-                      !isGroup &&
-                      sessionNames[currentChat.ID].Name === currentChat.Tel
+                    !isGroup &&
+                    sessionNames[currentChat.ID].Name === currentChat.Tel
                   "
                   v-translate
                   class="dropdown-item"
@@ -151,8 +133,8 @@
                 <button
                   v-if="
                     currentChat !== null &&
-                      !isGroup &&
-                      sessionNames[currentChat.ID].Name !== currentChat.Tel
+                    !isGroup &&
+                    sessionNames[currentChat.ID].Name !== currentChat.Tel
                   "
                   v-translate
                   class="dropdown-item"
@@ -418,7 +400,7 @@ export default {
       handler() {
         this.names = [];
         this.showSettingsMenu = false;
-        this.isGroup = this.isGroupCheck(this.currentChat)
+        this.isGroup = this.isGroupCheck(this.currentChat);
       },
       deep: true,
     },
@@ -476,8 +458,7 @@ export default {
     },
     confirm() {
       if (this.cMType === "resetEncryption") this.$store.dispatch("resetEncryption");
-      else if (this.cMType === "delChat")
-        this.$store.dispatch("delChat", this.currentChat.ID);
+      else if (this.cMType === "delChat") this.$store.dispatch("delChat", this.currentChat.ID);
       this.$router.push("/chatList");
       this.showConfirmationModal = false;
       this.showIdentityModal = false;
@@ -492,15 +473,13 @@ export default {
       event.target.style.display = "none";
     },
     filterContacts() {
-      if (this.contactsFilter !== "")
-        this.$store.dispatch("filterContacts", this.contactsFilter);
+      if (this.contactsFilter !== "") this.$store.dispatch("filterContacts", this.contactsFilter);
       else this.$store.dispatch("clearFilterContacts");
     },
     getNameForTel(tel) {
       this.contacts.forEach((c) => {
         if (c.Tel === tel) {
-          if (this.names.length <= 3 && this.names.indexOf(c.Name) === -1)
-            this.names.push(c.Name);
+          if (this.names.length <= 3 && this.names.indexOf(c.Name) === -1) this.names.push(c.Name);
           return c;
         } else return tel;
       });
@@ -515,7 +494,10 @@ export default {
     },
     createGroup() {},
     openEditContactModal() {
-      const id = this.contacts.findIndex((c) => c.Tel === this.currentChat.Tel || c.UUID === this.sessionNames[this.currentChat.ID].Name);
+      const id = this.contacts.findIndex(
+        (c) =>
+          c.Tel === this.currentChat.Tel || c.UUID === this.sessionNames[this.currentChat.ID].Name
+      );
       this.editContactId = id;
       if (id !== -1) {
         this.editContactModal = true;

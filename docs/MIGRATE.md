@@ -14,8 +14,8 @@
    Copy the attachments by copying the directory `/home/phablet/.local/share/textsecure.jani/attachments` to
    `/home/phablet/.local/share/textsecure.nanuc/attachments`.
    Download the `db.sql` to your computer and run `sqlite3 db.sql "UPDATE messages SET attachment = REPLACE(attachment,
-   '/home/phablet/.local/share/textsecure.jani/attachments/', '/home/phablet/.local/share/textsecure.nanuc/attachments/') WHERE
-   attachment LIKE '/home/phablet/.local/share/textsecure.jani/attachments/%';"`.
+'/home/phablet/.local/share/textsecure.jani/attachments/', '/home/phablet/.local/share/textsecure.nanuc/attachments/') WHERE
+attachment LIKE '/home/phablet/.local/share/textsecure.jani/attachments/%';"`.
    Upload the now updated `db.sql` back to your phone.
 6. **Remove the old app!**
    If you do not remove the old app and you send or receive new messages with the other app, conflicts may occur.

@@ -11,7 +11,7 @@
             class="form-control"
             placeholder="Enter group name"
             @change="setGroupName"
-          >
+          />
         </div>
         <p v-translate>Note, you can't add yourself to a group.</p>
         <button class="btn add-group-members" @click="addMembersModal = true">
@@ -75,10 +75,7 @@ export default {
       const found = this.newGroupMembers.find(function (element) {
         return element.Tel === groupMember.Tel;
       });
-      if (
-        typeof found === "undefined" &&
-        groupMember.Tel !== this.config.RegisteredNumber
-      )
+      if (typeof found === "undefined" && groupMember.Tel !== this.config.RegisteredNumber)
         this.newGroupMembers.push(groupMember);
     },
     removeMember(i) {

@@ -15,9 +15,7 @@
           message.Flags !== 13 &&
           message.Flags !== 14) ||
         message.StatusMessage ||
-        (message.Attachment &&
-          message.Attachment.includes('null') &&
-          message.Message === ''),
+        (message.Attachment && message.Attachment.includes('null') && message.Message === ''),
       hidden: message.Flags === 18,
       error: message.SentAt === 0 || message.SendingError,
       'group-message':
@@ -27,8 +25,8 @@
     <div
       v-if="
         !message.Outgoing &&
-          isGroup &&
-          (message.Flags === 0 || message.Flags === 12 || message.Flags === 13)
+        isGroup &&
+        (message.Flags === 0 || message.Flags === 12 || message.Flags === 13)
       "
       class="avatar"
     >
@@ -79,31 +77,23 @@
             <div v-else-if="m.CType === 3" class="attachment-audio">
               <div class="audio-player-container d-flex">
                 <button id="play-icon">
-                  <font-awesome-icon
-                    v-if="!isPlaying"
-                    class="play"
-                    icon="play"
-                    @click="play"
-                  />
-                  <font-awesome-icon
-                    v-if="isPlaying"
-                    class="pause"
-                    icon="pause"
-                    @click="pause"
-                  />
+                  <font-awesome-icon v-if="!isPlaying" class="play" icon="play" @click="play" />
+                  <font-awesome-icon v-if="isPlaying" class="pause" icon="pause" @click="pause" />
                 </button>
                 <span v-if="!isPlaying" id="duration" class="time">{{
                   humanifyTimePeriod(duration)
                 }}</span>
-                <span v-if="isPlaying" id="currentTime" class="time">{{ humanifyTimePeriod(currentTime) }} /
-                  {{ humanifyTimePeriod(duration) }}</span>
+                <span v-if="isPlaying" id="currentTime" class="time"
+                  >{{ humanifyTimePeriod(currentTime) }} / {{ humanifyTimePeriod(duration) }}</span
+                >
               </div>
             </div>
             <div v-else-if="m.File !== '' && m.CType === 0" class="attachment-file">
               <a
                 :href="'http://localhost:9080/attachments?file=' + m.File"
                 @click="shareAttachment(m.File, $event)"
-              >{{ m.FileName ? m.FileName : m.File }}</a>
+                >{{ m.FileName ? m.FileName : m.File }}</a
+              >
             </div>
             <div
               v-else-if="m.CType === 5"
@@ -132,24 +122,15 @@
         <div v-else-if="message.CType === 3" class="attachment-audio">
           <div class="audio-player-container d-flex">
             <button id="play-icon">
-              <font-awesome-icon
-                v-if="!isPlaying"
-                class="play"
-                icon="play"
-                @click="play"
-              />
-              <font-awesome-icon
-                v-if="isPlaying"
-                class="pause"
-                icon="pause"
-                @click="pause"
-              />
+              <font-awesome-icon v-if="!isPlaying" class="play" icon="play" @click="play" />
+              <font-awesome-icon v-if="isPlaying" class="pause" icon="pause" @click="pause" />
             </button>
             <span v-if="!isPlaying" id="duration" class="time">{{
               humanifyTimePeriod(duration)
             }}</span>
-            <span v-if="isPlaying" id="currentTime" class="time">{{ humanifyTimePeriod(currentTime) }} /
-              {{ humanifyTimePeriod(duration) }}</span>
+            <span v-if="isPlaying" id="currentTime" class="time"
+              >{{ humanifyTimePeriod(currentTime) }} / {{ humanifyTimePeriod(duration) }}</span
+            >
           </div>
         </div>
         <div
@@ -165,9 +146,7 @@
           @click="$emit('show-fullscreen-video', message.Attachment)"
         >
           <video>
-            <source
-              :src="'http://localhost:9080/attachments?file=' + message.Attachment"
-            />
+            <source :src="'http://localhost:9080/attachments?file=' + message.Attachment" />
             <span v-translate>Your browser does not support the video element.</span>
           </video>
         </div>
@@ -188,25 +167,21 @@
         <div
           v-if="
             message.Attachment &&
-              message.Attachment.includes('null') &&
-              message.Message === '' &&
-              message.Flags === 0 &&
-              !isGroup
+            message.Attachment.includes('null') &&
+            message.Message === '' &&
+            message.Flags === 0 &&
+            !isGroup
           "
           class="status-message"
         >
           <span v-translate>Set timer for self-destructing messages </span>
           <div>{{ humanifyTimePeriod(message.ExpireTimer) }}</div>
         </div>
-        <div v-if="message.Flags === 10" v-translate>
-          Unsupported message type: sticker
-        </div>
+        <div v-if="message.Flags === 10" v-translate>Unsupported message type: sticker</div>
       </div>
       <div v-if="message.SentAt !== 0" class="meta">
         <div class="time">
-          <span @click="showDate = !showDate">{{
-            humanifyDateFromNow(message.SentAt)
-          }}</span>
+          <span @click="showDate = !showDate">{{ humanifyDateFromNow(message.SentAt) }}</span>
           <span v-if="showDate" class="fullDate">{{ humanifyDate(message.SentAt) }}</span>
         </div>
         <div v-if="message.ExpireTimer > 0">
@@ -287,9 +262,7 @@ export default {
     ) {
       const attachment = JSON.parse(this.message.Attachment);
       if (attachment && attachment.length > 0 && attachment[0].CType === 3) {
-        this.audio = new Audio(
-          "http://localhost:9080/attachments?file=" + attachment[0].File
-        );
+        this.audio = new Audio("http://localhost:9080/attachments?file=" + attachment[0].File);
         var that = this;
         this.audio.onloadedmetadata = function () {
           that.duration = that.audio.duration.toFixed(2);

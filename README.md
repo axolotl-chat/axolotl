@@ -15,21 +15,21 @@ electron/qml WebEngineView container.
 
 ## Features
 
- * Phone registration
- * Contact discovery
- * Direct messages
- * Group messages *mostly*
- * Photo, video, audio and contact attachments in both direct and group mode
- * Preview for photo and audio attachments
- * Storing conversations
- * Encrypted message store
- * Desktop client provisioning/syncing *partially*
+- Phone registration
+- Contact discovery
+- Direct messages
+- Group messages _mostly_
+- Photo, video, audio and contact attachments in both direct and group mode
+- Preview for photo and audio attachments
+- Storing conversations
+- Encrypted message store
+- Desktop client provisioning/syncing _partially_
 
 ### Planned
 
- * Push notifications
- * Most settings that are available in the Android app
- * Encrypted phone calls
+- Push notifications
+- Most settings that are available in the Android app
+- Encrypted phone calls
 
 There are still bugs and UI/UX quirks.
 
@@ -37,22 +37,22 @@ There are still bugs and UI/UX quirks.
 
 Axolotl can be installed through different means.
 
-| Package | Maintainer | Comment  |
-| ------- | ---------- | -------- |
-| <a href='https://open-store.io/app/textsecure.nanuc'><img width='130' alt="Get it from the OpenStore" src="https://open-store.io/badges/en_US.png"></a> | nanu-c | For Ubuntu Touch |
-| <a href='https://snapcraft.io/axolotl'><img width='130' alt="Get it from the Snap Store" src="https://snapcraft.io/static/images/badges/en/snap-store-black.svg"></a> | nanu-c | For Ubuntu desktop |
-| <a href='https://flathub.org/apps/details/org.nanuc.Axolotl'><img width='130' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/></a> | olof-nord | https://github.com/flathub/org.nanuc.Axolotl |
-| <a href='https://github.com/nanu-c/axolotl/releases'><img alt="mobian version" src="https://img.shields.io/badge/axolotl-deb-%23A80030"></a> | nuehm-arno | https://github.com/nanu-c/axolotl/releases <br>(Debian package in the Assets section)|
+| Package                                                                                                                                                                    | Maintainer | Comment                                                                               |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------- |
+| <a href='https://open-store.io/app/textsecure.nanuc'><img width='130' alt="Get it from the OpenStore" src="https://open-store.io/badges/en_US.png"></a>                    | nanu-c     | For Ubuntu Touch                                                                      |
+| <a href='https://snapcraft.io/axolotl'><img width='130' alt="Get it from the Snap Store" src="https://snapcraft.io/static/images/badges/en/snap-store-black.svg"></a>      | nanu-c     | For Ubuntu desktop                                                                    |
+| <a href='https://flathub.org/apps/details/org.nanuc.Axolotl'><img width='130' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/></a> | olof-nord  | https://github.com/flathub/org.nanuc.Axolotl                                          |
+| <a href='https://github.com/nanu-c/axolotl/releases'><img alt="mobian version" src="https://img.shields.io/badge/axolotl-deb-%23A80030"></a>                               | nuehm-arno | https://github.com/nanu-c/axolotl/releases <br>(Debian package in the Assets section) |
 
 ## Building
 
 To find out how to build from source and install yourself, please see below.
 
-* with Clickable: see [here](docs/INSTALL.md#clickable).
-* with Snap: see [here](docs/INSTALL.md#snap).
-* with Flatpak: see [here](docs/INSTALL.md#flatpak).
-* with AppImage: see [here](docs/INSTALL.md#appimage).
-* for Mobian: see [here](docs/INSTALL.md#mobian-or-debian-arm64-systems).
+- with Clickable: see [here](docs/INSTALL.md#clickable).
+- with Snap: see [here](docs/INSTALL.md#snap).
+- with Flatpak: see [here](docs/INSTALL.md#flatpak).
+- with AppImage: see [here](docs/INSTALL.md#appimage).
+- for Mobian: see [here](docs/INSTALL.md#mobian-or-debian-arm64-systems).
 
 ### Manually
 
@@ -70,8 +70,7 @@ sudo apt install golang-go nodejs npm build-essential
 
 Then, install axolotl go and npm dependencies.
 
-*Note: Make sure to install the latest **node lts** version from [https://nodejs.org/](https://nodejs.org/).*
-
+_Note: Make sure to install the latest **node lts** version from [https://nodejs.org/](https://nodejs.org/)._
 
 ```shell
 make build-dependencies
@@ -90,27 +89,27 @@ When setting up for the first time and maybe occasionally later you need to upda
 
 ## Run flags
 
-* `-axolotlWebDir` Specify the directory to use for axolotl-web. Defaults to "./axolotl-web/dist".
-* `-e` for either
-    `lorca`-> native chromium (has to be installed),
-    `ut` -> runs in the ut enviroment,
-    `me` -> qmlscene,
-    `server` -> just run the webserver. Defaults to run with `electron`.
-* `-eDebug` show developer console in electron mode
-* `-version` Print version info
-* `-host` Set the host to run the webserver from. Defaults to localhost.
-* `-port` Set the port to run the webserver from. Defaults to 9080.
+- `-axolotlWebDir` Specify the directory to use for axolotl-web. Defaults to "./axolotl-web/dist".
+- `-e` for either
+  `lorca`-> native chromium (has to be installed),
+  `ut` -> runs in the ut enviroment,
+  `me` -> qmlscene,
+  `server` -> just run the webserver. Defaults to run with `electron`.
+- `-eDebug` show developer console in electron mode
+- `-version` Print version info
+- `-host` Set the host to run the webserver from. Defaults to localhost.
+- `-port` Set the port to run the webserver from. Defaults to 9080.
 
 ## Environment variables
 
-* `AXOLOTL_WEB_DIR` Specify the directory to use for axolotl-web. This is used by `axolotl` during startup.
-* `AXOLOTL_GUI_DIR` Specifies the directory used for GUI specifications. This is used by `axolotl` only when in `qt` mode.
+- `AXOLOTL_WEB_DIR` Specify the directory to use for axolotl-web. This is used by `axolotl` during startup.
+- `AXOLOTL_GUI_DIR` Specifies the directory used for GUI specifications. This is used by `axolotl` only when in `qt` mode.
 
 ## Contributing
 
-* Please fill issues here on github https://github.com/nanu-c/axolotl/issues
-* Help translate Axolotl to your language(s). For information how to translate, please see [TRANSLATE.md](docs/TRANSLATE.md).
-* Contribute code by making PR's (pull requests)
+- Please fill issues here on github https://github.com/nanu-c/axolotl/issues
+- Help translate Axolotl to your language(s). For information how to translate, please see [TRANSLATE.md](docs/TRANSLATE.md).
+- Contribute code by making PR's (pull requests)
 
 If you contribute new strings, please:
 

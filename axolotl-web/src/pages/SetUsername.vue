@@ -2,24 +2,12 @@
   <component :is="$route.meta.layout || 'div'">
     <div class="set-username">
       <h5 v-translate>Info</h5>
-      <p v-translate>
-        Setting a username is required. Please choose one.
-      </p>
+      <p v-translate>Setting a username is required. Please choose one.</p>
       <div class="form-group">
-        <label v-translate for="username" class="text-primary">
-          Username
-        </label>
-        <input
-          id="username"
-          v-model="username"
-          required
-          type="text"
-          class="form-control"
-        >
+        <label v-translate for="username" class="text-primary"> Username </label>
+        <input id="username" v-model="username" required type="text" class="form-control" />
       </div>
-      <button v-translate class="btn btn-primary" @click="setUsername()">
-        Set username
-      </button>
+      <button v-translate class="btn btn-primary" @click="setUsername()">Set username</button>
     </div>
   </component>
 </template>
@@ -27,15 +15,14 @@
 <script>
 export default {
   name: "SetUsername",
-  components: {
-  },
+  components: {},
   data() {
     return {
       username: "",
     };
   },
-  mounted(){
-          // To be sure that this page isn't hidden by the loader
+  mounted() {
+    // To be sure that this page isn't hidden by the loader
     let loader = document.getElementById("initial-loader");
     if (loader !== undefined) {
       loader.remove();
@@ -44,10 +31,9 @@ export default {
   methods: {
     setUsername() {
       const { username } = this;
-      if(username!=""){
+      if (username != "") {
         this.$store.dispatch("setUsername", username);
       }
-
     },
   },
 };

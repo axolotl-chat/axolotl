@@ -1,15 +1,9 @@
 <template>
   <component :is="$route.meta.layout || 'div'">
     <template #menu>
-      <router-link v-translate class="dropdown-item" :to="'/contacts/'">
-        Contacts
-      </router-link>
-      <router-link v-translate class="dropdown-item" :to="'/newGroup'">
-        New group
-      </router-link>
-      <router-link v-translate class="dropdown-item" :to="'/settings/'">
-        Settings
-      </router-link>
+      <router-link v-translate class="dropdown-item" :to="'/contacts/'"> Contacts </router-link>
+      <router-link v-translate class="dropdown-item" :to="'/newGroup'"> New group </router-link>
+      <router-link v-translate class="dropdown-item" :to="'/settings/'"> Settings </router-link>
     </template>
     <div v-if="chatList" class="chatList">
       <div v-if="editActive" class="actions-header">
@@ -52,17 +46,9 @@
               <div class="row">
                 <div class="col-9">
                   <div class="name">
-                    <font-awesome-icon
-                      v-if="chat.IsMuted"
-                      class="mute"
-                      icon="volume-mute"
-                    />
+                    <font-awesome-icon v-if="chat.IsMuted" class="mute" icon="volume-mute" />
                     <div
-                      v-if="
-                        isGroupCheck(chat) &&
-                          sessionNames &&
-                          sessionNames[chat.ID] == null
-                      "
+                      v-if="isGroupCheck(chat) && sessionNames && sessionNames[chat.ID] == null"
                       v-translate
                     >
                       Unknown group
@@ -70,20 +56,14 @@
                     <div v-else>
                       {{ sessionNames ? sessionNames[chat.ID].Name : "" }}
                     </div>
-                    <div
-                      v-if="Number(chat.UnreadCounter) > 0"
-                      class="counter badge badge-primary"
-                    >
+                    <div v-if="Number(chat.UnreadCounter) > 0" class="counter badge badge-primary">
                       {{ chat.UnreadCounter }}
                     </div>
                   </div>
                 </div>
                 <div v-if="!editActive" class="col-3 date-c">
                   <p
-                    v-if="
-                      lastMessages[chat.ID] !== undefined &&
-                        lastMessages[chat.ID].SentAt !== 0
-                    "
+                    v-if="lastMessages[chat.ID] !== undefined && lastMessages[chat.ID].SentAt !== 0"
                     class="time"
                   >
                     {{ humanifyDate(lastMessages[chat.ID].SentAt) }}
@@ -101,9 +81,7 @@
           </div>
         </div>
       </div>
-      <div v-if="chatList.length === 0" v-translate class="no-entries">
-        No chats available
-      </div>
+      <div v-if="chatList.length === 0" v-translate class="no-entries">No chats available</div>
       <!-- {{chats}} -->
       <router-link :to="'/contacts/'" class="btn start-chat">
         <font-awesome-icon icon="pencil-alt" />

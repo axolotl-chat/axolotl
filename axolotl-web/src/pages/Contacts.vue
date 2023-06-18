@@ -18,24 +18,15 @@
           <font-awesome-icon icon="times" @click="closeActionMode()" />
         </button>
       </div>
-      <div v-if="contacts.length === 0" v-translate class="empty">
-        Contact list is empty...
-      </div>
+      <div v-if="contacts.length === 0" v-translate class="empty">Contact list is empty...</div>
       <div v-if="contactsFilterActive">
         <div
           v-for="c in contactsFiltered"
           :key="c.Tel"
-          :class="
-            c === selectedContact
-              ? 'selected btn col-12 chat'
-              : 'btn col-12 chat'
-          "
+          :class="c === selectedContact ? 'selected btn col-12 chat' : 'btn col-12 chat'"
         >
           <div class="row chat-entry">
-            <div
-              :class="'avatar col-3 ' + checkForUUIDClass(c)"
-              @click="contactClick(c)"
-            >
+            <div :class="'avatar col-3 ' + checkForUUIDClass(c)" @click="contactClick(c)">
               <div class="badge-name">
                 <img
                   class="avatar-img"
@@ -60,15 +51,10 @@
         v-for="c in contacts"
         v-else
         :key="c.Tel"
-        :class="
-          c === selectedContact ? 'selected btn col-12 chat' : 'btn col-12 chat'
-        "
+        :class="c === selectedContact ? 'selected btn col-12 chat' : 'btn col-12 chat'"
       >
         <div class="row chat-entry">
-          <div
-            :class="'avatar col-3 avatar ' + checkForUUIDClass(c)"
-            @click="contactClick(c)"
-          >
+          <div :class="'avatar col-3 avatar ' + checkForUUIDClass(c)" @click="contactClick(c)">
             <div class="badge-name">
               <img
                 class="avatar-img"
@@ -90,10 +76,7 @@
       </div>
 
       <div v-if="addContactModal" class="addContactModal">
-        <add-contact-modal
-          @close="closeAddContactModal()"
-          @add="addContact($event)"
-        />
+        <add-contact-modal @close="closeAddContactModal()" @add="addContact($event)" />
       </div>
       <div v-if="editContactModal" class="editContactModal">
         <edit-contact-modal
@@ -190,8 +173,7 @@ export default {
     },
     contactClick(contact) {
       if (!this.showActions) {
-        if (this.validateUUID(contact.UUID))
-          this.$store.dispatch("createChat", contact.UUID);
+        if (this.validateUUID(contact.UUID)) this.$store.dispatch("createChat", contact.UUID);
       } else {
         this.closeActionMode();
       }

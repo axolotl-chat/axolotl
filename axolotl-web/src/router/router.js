@@ -1,8 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import store from '@/store/store'
-import Legacy from '@/layouts/Legacy.vue';
-import Default from '@/layouts/Default.vue';
-
+import { createRouter, createWebHistory } from "vue-router";
+import store from "@/store/store";
+import Legacy from "@/layouts/Legacy.vue";
+import Default from "@/layouts/Default.vue";
 
 export const router = new createRouter({
   history: createWebHistory(),
@@ -16,7 +15,7 @@ export const router = new createRouter({
         hasMenu: true,
         hasBackButton: false,
       },
-      component: () => import("@/pages/ChatList.vue")
+      component: () => import("@/pages/ChatList.vue"),
     },
     {
       path: "/chat/:id",
@@ -24,10 +23,10 @@ export const router = new createRouter({
       meta: {
         layout: Legacy,
       },
-      props: route => ({
+      props: (route) => ({
         chatId: Number(route.params.id),
       }),
-      component: () => import("@/pages/MessageList.vue")
+      component: () => import("@/pages/MessageList.vue"),
     },
     {
       path: "/profile/:id",
@@ -37,10 +36,10 @@ export const router = new createRouter({
         hasMenu: true,
         hasBackButton: true,
       },
-      props: route => ({
+      props: (route) => ({
         profileId: Number(route.params.id),
       }),
-      component: () => import("@/pages/Profile.vue")
+      component: () => import("@/pages/Profile.vue"),
     },
     {
       path: "/editContact",
@@ -49,7 +48,7 @@ export const router = new createRouter({
         layout: Default,
         hasBackButton: true,
       },
-      component: () => import("@/pages/EditContact.vue")
+      component: () => import("@/pages/EditContact.vue"),
     },
     {
       // register page is where the registration starts
@@ -58,7 +57,7 @@ export const router = new createRouter({
       meta: {
         layout: Legacy,
       },
-      component: () => import("@/pages/Register.vue")
+      component: () => import("@/pages/Register.vue"),
     },
     {
       // verify page is for entering the sms pin
@@ -67,7 +66,7 @@ export const router = new createRouter({
       meta: {
         layout: Legacy,
       },
-      component: () => import("@/pages/Verification.vue")
+      component: () => import("@/pages/Verification.vue"),
     },
     {
       // password page is for entering the password for database decryption
@@ -76,7 +75,7 @@ export const router = new createRouter({
       meta: {
         layout: Legacy,
       },
-      component: () => import("@/pages/Password.vue")
+      component: () => import("@/pages/Password.vue"),
     },
     {
       // pin page is for entering the signal registration pin. this is currently broken
@@ -86,7 +85,7 @@ export const router = new createRouter({
       meta: {
         layout: Legacy,
       },
-      component: () => import("@/pages/Verification.vue")
+      component: () => import("@/pages/Verification.vue"),
     },
     {
       path: "/setPassword",
@@ -94,7 +93,7 @@ export const router = new createRouter({
       meta: {
         layout: Legacy,
       },
-      component: () => import("@/pages/SetPassword.vue")
+      component: () => import("@/pages/SetPassword.vue"),
     },
     {
       path: "/setUsername",
@@ -102,7 +101,7 @@ export const router = new createRouter({
       meta: {
         layout: Legacy,
       },
-      component: () => import("@/pages/SetUsername.vue")
+      component: () => import("@/pages/SetUsername.vue"),
     },
     {
       path: "/contacts",
@@ -110,7 +109,7 @@ export const router = new createRouter({
       meta: {
         layout: Legacy,
       },
-      component: () => import("@/pages/Contacts.vue")
+      component: () => import("@/pages/Contacts.vue"),
     },
     {
       path: "/settings",
@@ -118,7 +117,7 @@ export const router = new createRouter({
       meta: {
         layout: Legacy,
       },
-      component: () => import("@/pages/Settings.vue")
+      component: () => import("@/pages/Settings.vue"),
     },
     {
       path: "/about",
@@ -126,7 +125,7 @@ export const router = new createRouter({
       meta: {
         layout: Legacy,
       },
-      component: () => import("@/pages/About.vue")
+      component: () => import("@/pages/About.vue"),
     },
     {
       path: "/devices",
@@ -134,7 +133,7 @@ export const router = new createRouter({
       meta: {
         layout: Legacy,
       },
-      component: () => import("@/pages/DeviceList.vue")
+      component: () => import("@/pages/DeviceList.vue"),
     },
     {
       path: "/newGroup",
@@ -142,7 +141,7 @@ export const router = new createRouter({
       meta: {
         layout: Legacy,
       },
-      component: () => import("@/pages/NewGroup.vue")
+      component: () => import("@/pages/NewGroup.vue"),
     },
     {
       path: "/editGroup/:id",
@@ -150,7 +149,7 @@ export const router = new createRouter({
       meta: {
         layout: Legacy,
       },
-      component: () => import("@/pages/EditGroup.vue")
+      component: () => import("@/pages/EditGroup.vue"),
     },
     {
       path: "/debug",
@@ -158,22 +157,22 @@ export const router = new createRouter({
       meta: {
         layout: Legacy,
       },
-      component: () => import("@/pages/Debug.vue")
+      component: () => import("@/pages/Debug.vue"),
     },
     {
-      path: '/a', redirect: () => {
-        return "/ws"
+      path: "/a",
+      redirect: () => {
+        return "/ws";
         // the function receives the target route as the argument
         // return redirect path/location here.
-      }
-    }
-  ]
+      },
+    },
+  ],
 });
 
 router.beforeEach((to, from, next) => {
   if (to.query.token) {
-    store.dispatch("setCaptchaToken",
-      to.query.token)
+    store.dispatch("setCaptchaToken", to.query.token);
   }
   if (to.path === "/debug") {
     return next();
@@ -181,36 +180,42 @@ router.beforeEach((to, from, next) => {
 
   if (store.state.registrationStatus === null) {
     store.dispatch("getRegistrationStatus");
-    store.watch((state) => state.registrationStatus, function () {
-      proceed(to, next);
-    });
+    store.watch(
+      (state) => state.registrationStatus,
+      function () {
+        proceed(to, next);
+      }
+    );
   } else {
     proceed(to, next);
   }
 });
 
 function proceed(to, next) {
-  const registrationPages = ['/register', '/verify', '/password', '/pin', '/setUsername'];
+  const registrationPages = ["/register", "/verify", "/password", "/pin", "/setUsername"];
   const registrationStatus = store.state.registrationStatus;
 
   //disable routes when registration is not finished yet
-  if ((registrationStatus === null || registrationStatus === "phoneNumber") && to.path !== '/register') {
-    return next('/register');
-  } else if (registrationStatus === "verificationCode" && to.path !== '/verify') {
-    return next('/verify');
-  } else if (registrationStatus === "pin" && to.path !== '/pin') {
-    return next('/pin');
-  } else if (registrationStatus === "password" && to.path !== '/password') {
-    return next('/password');
-  } else if (registrationStatus === "getUsername" && to.path !== '/setUsername') {
-    return next('/setUsername');
+  if (
+    (registrationStatus === null || registrationStatus === "phoneNumber") &&
+    to.path !== "/register"
+  ) {
+    return next("/register");
+  } else if (registrationStatus === "verificationCode" && to.path !== "/verify") {
+    return next("/verify");
+  } else if (registrationStatus === "pin" && to.path !== "/pin") {
+    return next("/pin");
+  } else if (registrationStatus === "password" && to.path !== "/password") {
+    return next("/password");
+  } else if (registrationStatus === "getUsername" && to.path !== "/setUsername") {
+    return next("/setUsername");
   } else if (registrationStatus === "registered" && registrationPages.includes(to.path)) {
     // We are registered. And are trying to access a registration page, redirect to home
-    return next('/');
+    return next("/");
   } else {
     next();
     // The screen can be displayed ;)
-    let loader = document.getElementById('initial-loader');
+    let loader = document.getElementById("initial-loader");
     if (typeof loader !== "undefined" && loader !== null) {
       loader.remove();
     }

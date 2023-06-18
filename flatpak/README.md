@@ -72,12 +72,12 @@ To enter a shell into a built flatpak, use `make debug-flatpak-web`.
 
 ### Build directories
 
-* axolotl-electron-bundle: `/run/build/axolotl-electron-bundle`
-* crayfish: `/run/build/crayfish`
-* zkgroup: `/run/build/zkgroup`
+- axolotl-electron-bundle: `/run/build/axolotl-electron-bundle`
+- crayfish: `/run/build/crayfish`
+- zkgroup: `/run/build/zkgroup`
 
 ### Install directories
 
-* axolotl-electron-bundle: `/app/bin/axolotl-electron-bundle`
-* crayfish: `/app/bin/crayfish`
-* zkgroup: `/app/lib/zkgroup`
+- axolotl-electron-bundle: `/app/bin/axolotl-electron-bundle`
+- crayfish: `/app/bin/crayfish`
+- zkgroup: `/app/lib/zkgroup`

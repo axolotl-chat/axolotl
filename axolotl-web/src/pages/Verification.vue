@@ -2,31 +2,22 @@
   <component :is="$route.meta.layout || 'div'">
     <div class="verify">
       <h3 v-translate>Enter your registration pin</h3>
-      <div
-        v-if="verificationError === 'RegistrationLockFailure' || requestPin"
-        class="verify"
-      >
+      <div v-if="verificationError === 'RegistrationLockFailure' || requestPin" class="verify">
         <p v-translate>or disable it on Android/IOs</p>
-        <input v-model="pin" type="text">
-        <button v-translate class="btn btn-primary" @click="sendPin()">
-          Send pin
-        </button>
+        <input v-model="pin" type="text" />
+        <button v-translate class="btn btn-primary" @click="sendPin()">Send pin</button>
       </div>
       <div v-if="!requestPin" class="verify">
-        <VerificationPinInput class="codeInput" :number-of-boxes="6" @input-value="updateCode($event)" />
-        <button
-          v-translate
-          :disabled="inProgress"
-          class="btn btn-primary"
-          @click="sendCode()"
-        >
+        <VerificationPinInput
+          class="codeInput"
+          :number-of-boxes="6"
+          @input-value="updateCode($event)"
+        />
+        <button v-translate :disabled="inProgress" class="btn btn-primary" @click="sendCode()">
           Send code
         </button>
       </div>
-      <div
-        v-if="inProgress && verificationError === null && !requestPin"
-        class="spinner"
-      >
+      <div v-if="inProgress && verificationError === null && !requestPin" class="spinner">
         <div class="spinner-border" role="status">
           <span v-translate class="sr-only">Loading...</span>
         </div>
@@ -54,11 +45,10 @@ export default {
     };
   },
   computed: mapState(["verificationError", "requestPin", "registrationStatus"]),
-  mounted() {
-  },
+  mounted() {},
   methods: {
-    updateCode(code){
-      this.code = code
+    updateCode(code) {
+      this.code = code;
     },
     sendCode() {
       if (this.code.length === 6) {
@@ -94,10 +84,7 @@ export default {
   margin-top: 50px;
 }
 
-.verify
-  .ofcold__security-code-wrapper
-  .ofcold__security-code-field
-  .form-control {
+.verify .ofcold__security-code-wrapper .ofcold__security-code-field .form-control {
   border: 2px solid #2090ea !important;
 }
 .verify .spinner {

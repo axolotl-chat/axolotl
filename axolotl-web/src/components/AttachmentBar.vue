@@ -9,32 +9,10 @@
           </button>
         </div>
         <div class="modal-body">
-          <button
-            v-translate
-            class="btn btn-primary"
-            @click="$emit('send', 'photo')"
-          >
-            Photo
-          </button>
-          <button
-            v-translate
-            class="btn btn-primary"
-            @click="$emit('send', 'video')"
-          >
-            Video
-          </button>
-          <button
-            v-translate
-            class="btn btn-primary"
-            @click="$emit('send', 'audio')"
-          >
-            Audio
-          </button>
-          <button
-            v-translate
-            class="btn btn-primary"
-            @click="$emit('send', 'document')"
-          >
+          <button v-translate class="btn btn-primary" @click="$emit('send', 'photo')">Photo</button>
+          <button v-translate class="btn btn-primary" @click="$emit('send', 'video')">Video</button>
+          <button v-translate class="btn btn-primary" @click="$emit('send', 'audio')">Audio</button>
+          <button v-translate class="btn btn-primary" @click="$emit('send', 'document')">
             Document
           </button>
         </div>

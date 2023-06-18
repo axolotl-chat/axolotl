@@ -23,9 +23,7 @@
           class="form-check-input"
           @change="toggleDarkMode()"
         />
-        <label v-translate class="form-check-label" for="darkmode-switch">
-          Dark mode
-        </label>
+        <label v-translate class="form-check-label" for="darkmode-switch"> Dark mode </label>
       </div>
       <div class="row g-3 mt-1 align-items-center">
         <div class="col-auto">
@@ -63,9 +61,9 @@
       </button>
       <div class="warning-box">
         <span v-translate>
-          Due to technical limitations, Axolotl doesn't support push notifications. Keep
-          the app open to be notified in real time. In Ubuntu Touch, use UT Tweak Tool to
-          set Axolotl on "Prevent app suspension".
+          Due to technical limitations, Axolotl doesn't support push notifications. Keep the app
+          open to be notified in real time. In Ubuntu Touch, use UT Tweak Tool to set Axolotl on
+          "Prevent app suspension".
         </span>
       </div>
     </div>
