@@ -203,6 +203,7 @@ jobs:
       - name: Download axolotl, axolotl-web and build artifacts
         uses: actions/download-artifact@v3
         with:
+          name: build-axolotl-linux-arm64
           path: build-artifacts
 
       - name: Get git tag version
@@ -218,7 +219,7 @@ jobs:
         run: |
           wget https://github.com/nanu-c/axolotl/archive/v${{ env.RELEASE_VERSION }}.tar.gz --output-document=$GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}.tar.gz
           mkdir --parents $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/axolotl
-          cp --recursive $GITHUB_WORKSPACE/build-artifacts/linux-arm64/* $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/axolotl/
+          cp --recursive $GITHUB_WORKSPACE/build-artifacts/build-axolotl-linux-arm64/* $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/axolotl/
           cp $GITHUB_WORKSPACE/deb/LICENSE $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/LICENSE
           cd $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }} && debmake --yes --email arno_nuehm@riseup.net --fullname "Arno Nuehm" --monoarch
           mkdir --parents $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/usr/share/icons/hicolor/128x128/apps
