@@ -2,15 +2,10 @@ version = 1
 
 [[analyzers]]
 name = "javascript"
-enabled = true
 
   [analyzers.meta]
   plugins = ["vue"]
-  environment = ["mocha"]
+  environment = ["vitest"]
 
-[[analyzers]]
-name = "go"
-enabled = true
-
-  [analyzers.meta]
-  import_root = "github.com/nanu-c/axolotl"
+[[transformers]]
+name = "prettier"
