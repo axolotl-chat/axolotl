@@ -31,7 +31,7 @@ jobs:
           ARCH: x86_64
         run: |
           mkdir -p build/AppDir/usr/bin
-          cp -f build-artifacts/build-axolotl-linux-amd64/axolotl build/AppDir/usr/bin/axolotl
+          cp -f build-artifacts/axolotl build/AppDir/usr/bin/axolotl
           chmod +x build/AppDir/usr/bin/axolotl
 
           cp -f appimage/AppDir/AppRun build/AppDir/AppRun
@@ -219,7 +219,7 @@ jobs:
         run: |
           wget https://github.com/nanu-c/axolotl/archive/v${{ env.RELEASE_VERSION }}.tar.gz --output-document=$GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}.tar.gz
           mkdir --parents $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/axolotl
-          cp --recursive $GITHUB_WORKSPACE/build-artifacts/build-axolotl-linux-arm64/* $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/axolotl/
+          cp --recursive $GITHUB_WORKSPACE/build-artifacts/* $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/axolotl/
           cp $GITHUB_WORKSPACE/deb/LICENSE $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/LICENSE
           cd $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }} && debmake --yes --email arno_nuehm@riseup.net --fullname "Arno Nuehm" --monoarch
           mkdir --parents $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/usr/share/icons/hicolor/128x128/apps
