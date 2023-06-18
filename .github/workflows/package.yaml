@@ -15,10 +15,12 @@ jobs:
       - name: Download axolotl and axolotl-web build artifacts
         uses: actions/download-artifact@v3
         with:
+          name: build-axolotl-linux-amd64
           path: build-artifacts
 
       - name: Setup appimagetool
         run: |
+          find ./build-artifacts
           curl -sLO https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
           chmod +x appimagetool-x86_64.AppImage
           sudo apt-get update
@@ -29,11 +31,8 @@ jobs:
           ARCH: x86_64
         run: |
           mkdir -p build/AppDir/usr/bin
-          cp -f build-artifacts/axolotl/axolotl build/AppDir/usr/bin/axolotl
+          cp -f build-artifacts/build-axolotl-linux-amd64/axolotl build/AppDir/usr/bin/axolotl
           chmod +x build/AppDir/usr/bin/axolotl
-
-          mkdir -p build/AppDir/usr/bin/axolotl-web/dist
-          cp -rf build-artifacts/axolotl-web/* build/AppDir/usr/bin/axolotl-web/dist
 
           cp -f appimage/AppDir/AppRun build/AppDir/AppRun
           chmod +x build/AppDir/AppRun
@@ -120,7 +119,7 @@ jobs:
   package-click-amd64:
     name: Package as click amd64
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Check out code
         uses: actions/checkout@v3
