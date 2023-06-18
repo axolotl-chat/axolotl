@@ -114,6 +114,7 @@ jobs:
   build-axolotl-arm64:
     name: Build axolotl arm64
     runs-on: ubuntu-latest
+
     needs:
       - build-axolotl-web-arm64
     steps:
@@ -175,7 +176,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: linux-arm64
-          path: build/linux-arm64/axolotl
+          path: target/aarch64-unknown-linux-gnu/release/axolotl
           retention-days: 1
 
 
