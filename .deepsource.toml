@@ -1,16 +1,23 @@
 version = 1
 
 [[analyzers]]
+name = "rust"
+
+  [analyzers.meta]
+  msrv = "stable"
+
+[[analyzers]]
 name = "javascript"
-enabled = true
 
   [analyzers.meta]
   plugins = ["vue"]
-  environment = ["mocha"]
+  environment = [
+    "mocha",
+    "vitest"
+  ]
 
-[[analyzers]]
-name = "go"
-enabled = true
+[[transformers]]
+name = "prettier"
 
-  [analyzers.meta]
-  import_root = "github.com/nanu-c/axolotl"
+[[transformers]]
+name = "rustfmt"
