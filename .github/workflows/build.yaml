@@ -82,7 +82,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: build-axolotl-linux-amd64
-          path: axolotl
+          path: target/release/axolotl
           retention-days: 1
 
   build-axolotl-web-arm64:
