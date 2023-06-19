@@ -166,15 +166,11 @@ jobs:
           mkdir --parents $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/usr/share/icons/hicolor/128x128/apps
           mkdir --parents $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/usr/share/applications
           mkdir --parents $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/usr/bin
-          mkdir --parents $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/etc/profile.d
           cp $GITHUB_WORKSPACE/README.md $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/README.Debian
           cp $GITHUB_WORKSPACE/deb/axolotl.png $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/usr/share/icons/hicolor/128x128/apps/axolotl.png
           cp $GITHUB_WORKSPACE/deb/axolotl.desktop $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/usr/share/applications/
-          cp $GITHUB_WORKSPACE/deb/axolotl.sh $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/etc/profile.d/
           cp $GITHUB_WORKSPACE/deb/axolotl.install $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/
-          cp $GITHUB_WORKSPACE/deb/postinst $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/
           cp $GITHUB_WORKSPACE/deb/control $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/control
-          cp $GITHUB_WORKSPACE/deb/rules $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/rules
           mv $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/axolotl/axolotl $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/usr/bin/
 
       - name: Build package Debian arm64
