@@ -5,7 +5,7 @@
 #export DEB_CFLAGS_MAINT_APPEND  = -Wall -pedantic
 #export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 
-export LD_LIBRARY_PATH=/usr/aarch64-linux-gnu/lib/
+#export LD_LIBRARY_PATH=/usr/aarch64-linux-gnu/lib/
 
 %:
 	dh $@
