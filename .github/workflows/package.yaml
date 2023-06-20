@@ -4,54 +4,6 @@ on:
   workflow_call:
 
 jobs:
-  package-appimage:
-    name: Package as AppImage
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v3
-
-      - name: Download axolotl and axolotl-web build artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: build-axolotl-linux-amd64
-          path: build-artifacts
-
-      - name: Setup appimagetool
-        run: |
-          find ./build-artifacts
-          curl -sLO https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
-          chmod +x appimagetool-x86_64.AppImage
-          sudo apt-get update
-          sudo apt-get install -y fuse libfuse2
-
-      - name: Build AppImage (x86_64)
-        env:
-          ARCH: x86_64
-        run: |
-          mkdir -p build/AppDir/usr/bin
-          cp -f build-artifacts/axolotl build/AppDir/usr/bin/axolotl
-          chmod +x build/AppDir/usr/bin/axolotl
-
-          cp -f appimage/AppDir/AppRun build/AppDir/AppRun
-          chmod +x build/AppDir/AppRun
-
-          cp -f appimage/AppDir/axolotl.desktop build/AppDir/axolotl.desktop
-          cp -f appimage/AppDir/axolotl.png build/AppDir/axolotl.png
-
-          mkdir -p build/AppDir/usr/share/metainfo
-          cp -f appimage/AppDir/axolotl.appdata.xml build/AppDir/usr/share/metainfo/axolotl.appdata.xml
-
-          ./appimagetool-x86_64.AppImage build/AppDir
-
-      - name: Upload the built AppImage artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: Axolotl-AppImage
-          path: Axolotl-x86_64.AppImage
-          retention-days: 5
-
   package-click:
     strategy:
       matrix:
