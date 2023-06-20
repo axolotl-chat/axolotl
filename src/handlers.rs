@@ -328,7 +328,8 @@ impl Handler {
                                                     "Got phone number: {}",
                                                     self.phone_number.as_ref().unwrap()
                                                 );
-                                                let (code_tx, code_rx) = mpsc::channel(MESSAGE_BOUND);
+                                                let (code_tx, code_rx) =
+                                                    mpsc::channel(MESSAGE_BOUND);
                                                 self.get_phone_pin().await;
                                                 match self.get_verification_code(code_rx).await {
                                                     Ok(_) => log::debug!(
@@ -620,7 +621,7 @@ impl Handler {
                             }
                         };
                         log::debug!("check code_rx for code {:?}", code_rx);
-                        let code = match code_rx.recv().await{
+                        let code = match code_rx.recv().await {
                             Some(c) => c,
                             None => {
                                 log::error!("No code provided");
@@ -865,7 +866,7 @@ impl Handler {
                     let response = serde_json::to_string(&response).unwrap();
 
                     let mut ws_sender = sender.lock().await;
-                    match ws_sender.send(Message::text(response)).await{
+                    match ws_sender.send(Message::text(response)).await {
                         Ok(_) => (),
                         Err(e) => {
                             log::error!("Error sending message to client: {}", e);
@@ -1254,19 +1255,22 @@ impl Handler {
                 let profile = manager.get_contact_by_id(uuid).await.ok().unwrap();
                 let mut profile = match profile {
                     Some(p) => p,
-                    None =>{
+                    None => {
                         //request contact sync
                         manager.request_contacts_sync().await.ok().unwrap();
                         return Err(ApplicationError::InvalidRequest);
-                    } 
+                    }
                 };
-                if profile.name =="".to_string(){
+                if profile.name == "".to_string() {
                     //request contact sync
                     log::debug!("Updating contact from profile");
-                    manager.update_contact_from_profile(profile.uuid).await.ok().unwrap();
+                    manager
+                        .update_contact_from_profile(profile.uuid)
+                        .await
+                        .ok()
+                        .unwrap();
                     profile = manager.get_contact_by_id(uuid).await.ok().unwrap().unwrap();
                     log::debug!("Updated contact {:?}", profile);
-                    
                 }
                 let response = AxolotlResponse {
                     response_type: "profile".to_string(),

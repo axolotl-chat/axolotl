@@ -10,7 +10,7 @@ fn main() {
     let db_path = format!("{config_path}/textsecure.nanuc");
 
     let thedb = sled::open(db_path).unwrap();
-    
+
     dump_registration(thedb.clone());
     dump_sessions(thedb.clone());
     dump_groups(thedb.clone());
@@ -82,4 +82,3 @@ fn dump_contacts(thedb: sled::Db) {
 //         }
 //     }
 // }
-

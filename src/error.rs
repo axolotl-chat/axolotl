@@ -4,8 +4,6 @@ use presage_store_sled::SledStoreError;
 const FAILED_TO_LOOK_UP_ADDRESS: &str = "failed to lookup address information";
 type PresageError = presage::Error<presage_store_sled::SledStoreError>;
 
-
-
 #[derive(Debug)]
 pub enum ApplicationError {
     ManagerThreadPanic,
@@ -19,8 +17,7 @@ pub enum ApplicationError {
     WebSocketHandleMessageError(String),
     RegistrationError(String),
     InvalidRequest,
-    RegistrationSuccesful
-
+    RegistrationSuccesful,
 }
 
 impl std::fmt::Display for ApplicationError {
@@ -105,12 +102,13 @@ impl From<PresageError> for ApplicationError {
             // p::Error::MessageSenderError(p::libsignal_service::sender::MessageSenderError {
             //     recipient: _,
             // }) => ApplicationError::NoInternet,
-            p::Error::MessageSenderError(p::libsignal_service::sender::MessageSenderError::ServiceError(
-                p::libsignal_service::content::ServiceError::SendError { reason: e },
-            )) if e.contains(FAILED_TO_LOOK_UP_ADDRESS) => ApplicationError::NoInternet,
+            p::Error::MessageSenderError(
+                p::libsignal_service::sender::MessageSenderError::ServiceError(
+                    p::libsignal_service::content::ServiceError::SendError { reason: e },
+                ),
+            ) if e.contains(FAILED_TO_LOOK_UP_ADDRESS) => ApplicationError::NoInternet,
             p::Error::MessageSenderError(e) => ApplicationError::SendFailed(e),
             _ => ApplicationError::Presage(e),
-
         }
     }
 }
@@ -119,7 +117,6 @@ impl From<SledStoreError> for ApplicationError {
     fn from(e: SledStoreError) -> Self {
         match e {
             _ => ApplicationError::SledStore(e),
-
         }
     }
 }
@@ -154,7 +151,7 @@ impl ApplicationError {
             }
             ApplicationError::WebSocketHandleMessageError(e) => format!("{:#?}", e),
             ApplicationError::RegistrationError(e) => format!("{:#?}", e),
-            ApplicationError::InvalidRequest=> "Invalid request.".to_string(),
+            ApplicationError::InvalidRequest => "Invalid request.".to_string(),
             ApplicationError::SledStore(e) => format!("{:#?}", e),
             ApplicationError::RegistrationSuccesful => "Registration succesful.".to_string(),
         }
@@ -171,10 +168,9 @@ impl ApplicationError {
             ApplicationError::WebSocketError => true,
             ApplicationError::WebSocketHandleMessageError(_) => true,
             ApplicationError::RegistrationError(_) => true,
-            ApplicationError::InvalidRequest=> false,
+            ApplicationError::InvalidRequest => false,
             ApplicationError::SledStore(_) => true,
             ApplicationError::RegistrationSuccesful => false,
         }
     }
 }
-

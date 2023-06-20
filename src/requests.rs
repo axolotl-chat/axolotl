@@ -148,7 +148,8 @@ impl AxolotlMessage {
                         let content_type = attachment.content_type();
                         attachments.push(AttachmentMessage::new(content_type, &id.to_string()));
                     }
-                    if let Some(AttachmentIdentifier::CdnKey(id)) = attachment.attachment_identifier.clone()
+                    if let Some(AttachmentIdentifier::CdnKey(id)) =
+                        attachment.attachment_identifier.clone()
                     {
                         let content_type = attachment.content_type();
                         attachments.push(AttachmentMessage::new(content_type, &id));
@@ -167,7 +168,8 @@ impl AxolotlMessage {
                             let content_type = attachment.content_type();
                             attachments.push(AttachmentMessage::new(content_type, &id.to_string()));
                         }
-                        if let Some(AttachmentIdentifier::CdnKey(id)) = attachment.attachment_identifier.clone()
+                        if let Some(AttachmentIdentifier::CdnKey(id)) =
+                            attachment.attachment_identifier.clone()
                         {
                             let content_type = attachment.content_type();
                             attachments.push(AttachmentMessage::new(content_type, &id));
@@ -229,12 +231,14 @@ impl AxolotlMessage {
         if let ContentBody::DataMessage(ref data) = body {
             if !data.attachments.is_empty() {
                 for attachment in &data.attachments {
-                    if let Some(AttachmentIdentifier::CdnId(id)) = attachment.attachment_identifier.clone()
+                    if let Some(AttachmentIdentifier::CdnId(id)) =
+                        attachment.attachment_identifier.clone()
                     {
                         let content_type = attachment.content_type();
                         attachments.push(AttachmentMessage::new(content_type, &id.to_string()));
                     }
-                    if let Some(AttachmentIdentifier::CdnKey(id)) = attachment.attachment_identifier.clone()
+                    if let Some(AttachmentIdentifier::CdnKey(id)) =
+                        attachment.attachment_identifier.clone()
                     {
                         let content_type = attachment.content_type();
                         attachments.push(AttachmentMessage::new(content_type, &id));
@@ -275,7 +279,8 @@ impl AxolotlMessage {
                                 attachments
                                     .push(AttachmentMessage::new(content_type, &id.to_string()));
                             }
-                            if let Some(AttachmentIdentifier::CdnKey(id)) = attachment.attachment_identifier.clone()
+                            if let Some(AttachmentIdentifier::CdnKey(id)) =
+                                attachment.attachment_identifier.clone()
                             {
                                 let content_type = attachment.content_type();
                                 attachments.push(AttachmentMessage::new(content_type, &id));
@@ -324,11 +329,15 @@ impl AxolotlMessage {
         let mut attachments: Vec<AttachmentMessage> = Vec::new();
         if !data.attachments.is_empty() {
             for attachment in &data.attachments {
-                if let Some(AttachmentIdentifier::CdnId(id)) = attachment.attachment_identifier.clone() {
+                if let Some(AttachmentIdentifier::CdnId(id)) =
+                    attachment.attachment_identifier.clone()
+                {
                     let content_type = attachment.content_type();
                     attachments.push(AttachmentMessage::new(content_type, &id.to_string()));
                 }
-                if let Some(AttachmentIdentifier::CdnKey(id)) = attachment.attachment_identifier.clone() {
+                if let Some(AttachmentIdentifier::CdnKey(id)) =
+                    attachment.attachment_identifier.clone()
+                {
                     let content_type = attachment.content_type();
                     attachments.push(AttachmentMessage::new(content_type, &id));
                 }

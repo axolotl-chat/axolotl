@@ -11,7 +11,7 @@ use std::time::UNIX_EPOCH;
 
 /**
  * Send a message to one people or a group.
- * 
+ *
  * - recipient is a String containing the UUID of the recipient. A contact or a
  *   group, both are supported.
  * - msg is an optional String containing the text body of the message. Most messages
@@ -28,9 +28,8 @@ pub async fn send_message(
     msg: Option<String>,
     attachments: Option<Vec<AttachmentPointer>>,
     manager: &ManagerThread,
-    response_type: &str
-) -> Result<AxolotlResponse, ApplicationError>
-{
+    response_type: &str,
+) -> Result<AxolotlResponse, ApplicationError> {
     log::info!("Sending a message.");
     let timestamp = std::time::SystemTime::now()
         .duration_since(UNIX_EPOCH)
@@ -55,11 +54,15 @@ pub async fn send_message(
     let result = match recipient {
         Thread::Contact(uuid) => {
             log::debug!("Sending a message to a contact.");
-            manager.send_message(uuid, data_message.clone(), timestamp).await
+            manager
+                .send_message(uuid, data_message.clone(), timestamp)
+                .await
         }
         Thread::Group(uuid) => {
             log::debug!("Sending a message to a group.");
-            manager.send_message_to_group(uuid, data_message.clone(), timestamp).await
+            manager
+                .send_message_to_group(uuid, data_message.clone(), timestamp)
+                .await
         }
     };
     let is_failed = result.is_err();
@@ -78,25 +81,26 @@ pub async fn send_message(
     Ok(response)
 }
 
-pub async fn send_message_to_group(msg: &str, master_key_str: &str, attachments: Option<Vec<AttachmentPointer>>,config_store: SledStore)
-{
+pub async fn send_message_to_group(
+    msg: &str,
+    master_key_str: &str,
+    attachments: Option<Vec<AttachmentPointer>>,
+    config_store: SledStore,
+) {
     let mut manager = Manager::load_registered(config_store).await.unwrap();
     // Send message
     let timestamp = std::time::SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .expect("Time went backwards")
         .as_millis() as u64;
-    
+
     // Add the attachments to the message, if any
     let mut attachments_vec = Vec::new();
     if let Some(a) = attachments {
         attachments_vec = a;
     }
 
-    let master_key: [u8; 32] = hex::decode(master_key_str)
-        .unwrap()
-        .try_into()
-        .unwrap();
+    let master_key: [u8; 32] = hex::decode(master_key_str).unwrap().try_into().unwrap();
 
     let message = DataMessage {
         body: Some(msg.to_string()),
@@ -110,29 +114,20 @@ pub async fn send_message_to_group(msg: &str, master_key_str: &str, attachments:
         ..Default::default()
     };
 
-    match manager
-        .group(&master_key)
-        {
-            Ok(group) => {
-                match group{
-                    Some(_) => {
-                        manager
-                            .send_message_to_group(
-                                &master_key,
-                                message,
-                                timestamp
-                            ).await.unwrap(); 
-                    },
-                    None => {
-                        println!("Group not found");
-                    }
-                }
- 
-            },
-            Err(e) => {
-                println!("Group not found: {:?}", e);
+    match manager.group(&master_key) {
+        Ok(group) => match group {
+            Some(_) => {
+                manager
+                    .send_message_to_group(&master_key, message, timestamp)
+                    .await
+                    .unwrap();
             }
+            None => {
+                println!("Group not found");
+            }
+        },
+        Err(e) => {
+            println!("Group not found: {:?}", e);
         }
-
-   
+    }
 }

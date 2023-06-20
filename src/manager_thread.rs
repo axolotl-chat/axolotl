@@ -591,7 +591,7 @@ async fn command_loop(
                                                                }
                                                            }
                                                        }
-                                                    }                                                           
+                                                    }
                                                     match m.body.clone() {
 
                                                         Some(_data) => {

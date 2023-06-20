@@ -1,4 +1,4 @@
-use axolotl::handlers::{get_app_dir};
+use axolotl::handlers::get_app_dir;
 use std::{process::exit, sync::Arc};
 
 use axolotl::handlers::Handler;
@@ -53,10 +53,15 @@ async fn start_websocket(handler: Arc<Mutex<Handler>>) {
         .and_then(handle_ws_client);
 
     // Just serve the attachments/ directory
-    let axolotl_http_attachments_route = warp::path("attachments")
-    .and(warp::fs::dir(format!("{}/{}", get_app_dir(), "attachments")));
+    let axolotl_http_attachments_route = warp::path("attachments").and(warp::fs::dir(format!(
+        "{}/{}",
+        get_app_dir(),
+        "attachments"
+    )));
 
-    warp::serve(axolotl_ws_route.or(axolotl_http_attachments_route)).run(([127, 0, 0, 1], 9080)).await;
+    warp::serve(axolotl_ws_route.or(axolotl_http_attachments_route))
+        .run(([127, 0, 0, 1], 9080))
+        .await;
     log::info!("Server stopped");
 }
 
