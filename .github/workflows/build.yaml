@@ -56,6 +56,11 @@ jobs:
         with:
           toolchain: stable
 
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          
       - name: Rust cache
         uses: swatinem/rust-cache@v2
 
@@ -80,6 +85,12 @@ jobs:
 
       - name: Install tauri-cli
         run: cargo install tauri-cli
+      
+      - name: Install vite
+        run: npm install -g vite
+      
+      - name: Download dependencies
+        run: npm --prefix ./axolotl-web ci --loglevel verbose
 
       - name: Build deb package
         run: cargo tauri build -b deb --features tauri
