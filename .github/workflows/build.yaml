@@ -107,13 +107,13 @@ jobs:
       - name: Upload deb package
         uses: actions/upload-artifact@v3
         with:
-          name: build-axolotl-linux-amd64
+          name: build-axolotl-linux-amd64-deb
           path: target/release/bundle/deb
           retention-days: 1
-      - name: Upload deb package
+      - name: Upload appimage package
         uses: actions/upload-artifact@v3
         with:
-          name: build-axolotl-linux-amd64
+          name: build-axolotl-linux-amd64-appimage
           path: target/release/bundle/appimage
           retention-days: 1
 
@@ -227,4 +227,9 @@ jobs:
           path: target/aarch64-unknown-linux-gnu/release/axolotl
           retention-days: 1
 
-
+      - name: Upload deb package
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-axolotl-linux-arm64-deb
+          path: target/aarch64-unknown-linux-gnu/release/bundle/deb
+          retention-days: 1
