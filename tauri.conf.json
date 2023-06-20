@@ -7,12 +7,15 @@
   },
   "package": {
     "productName": "Axolotl",
-    "version": "0.1.0"
+    "version": "2.0.0"
   },
   "tauri": {
     "bundle": {
       "active": true,
-      "category": "DeveloperTool",
+      "appimage":{
+        "bundleMediaFramework": true
+      },
+      "category": "SocialNetworking",
       "copyright": "",
       "deb": {
         "depends": []
@@ -34,9 +37,10 @@
         "providerShortName": null,
         "signingIdentity": null
       },
+      "publisher": "Aaron Kimmig",
       "resources": [],
       "shortDescription": "",
-      "targets": "all",
+      "targets": ["deb", "appimage"],
       "windows": {
         "certificateThumbprint": null,
         "digestAlgorithm": "sha256",
