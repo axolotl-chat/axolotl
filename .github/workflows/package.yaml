@@ -125,7 +125,7 @@ jobs:
 
       - name: Download build arm64 build artifacts
         uses: actions/download-artifact@v3
-#        id: download-axolotl-arm64
+#        id: download-axolotl-arm64 ## What is the use of the id?
         with:
           name: build-axolotl-linux-arm64
           path: target/aarch64-unknown-linux-gnu/release/axolotl
