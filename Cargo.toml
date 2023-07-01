@@ -1,7 +1,10 @@
 [package]
 name = "axolotl"
-version = "0.1.0"
+version = "2.0.0"
 edition = "2021"
+description = """\
+This is a cross-platform Signal client."""
+license = "GPL-3"
 
 [source.crates-io]
 registry = "git://github.com/rust-lang/crates.io-index.git"
@@ -53,3 +56,22 @@ ut = ["dep:dbus"]
 [[example]]
 name = "dump_db"
 path = "examples/dump/dump_db.rs"
+
+
+[package.metadata.deb]
+maintainer = "Arno Nuehm <arno_nuehm@riseup.net>"
+copyright = "2023 Aaron <aaron@nanu-c.org>"
+license-file = ["deb/copyright", "0"]
+depends = "$auto"
+extended-description = """\
+Axolotl is built with Rust and has a Vue frontend that runs via tauri."""
+revision = "1"
+section = "net"
+priority = "optional"
+assets = [
+    ["target/aarch64-unknown-linux-gnu/release/axolotl/axolotl", "usr/bin/", "755"],
+    ["README.md", "usr/share/doc/axolotl/README", "644"],
+    ["deb/axolotl.png", "usr/share/icons/hicolor/128x128/apps/axolotl.png", "644"],
+    ["deb/axolotl.desktop", "usr/share/applications/", "644"],
+]
+changelog = "deb/changelog"

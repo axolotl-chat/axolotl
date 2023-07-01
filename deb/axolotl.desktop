@@ -2,9 +2,7 @@
 Type=Application
 Name=Axolotl
 GenericName=Signal Chat Client
-Path=/usr/share/axolotl/
-Exec=axolotl -electron-flag no-ozone
-#Exec=axolotl -e qt
+Exec=axolotl -m tauri
 Icon=axolotl
 Terminal=false
 Categories=Network;Chat;InstantMessaging

@@ -9,5 +9,5 @@ Homepage: https://github.com/nanu-c/axolotl
 Package: axolotl
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}
-Description: This program is a complete cross-platform Signal client.
- It is built upon go textsecure and a Vue frontend that runs via electron.
+Description: This is a cross-platform Signal client.
+ Axolotl is built with Rust and has a Vue frontend that runs via tauri.
