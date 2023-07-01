@@ -216,7 +216,7 @@ build-deb-arm64: clean-deb-arm64
 prebuild-package-deb-arm64: package-clean-deb-arm64
 	@echo "Prebuilding Debian package..."
 # Get the source tarball
-	@$(WGET) https://github.com/nanu-c/axolotl/archive/v1.6.0.tar.gz --output-document=$(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION).tar.gz
+	@$(WGET) https://github.com/nanu-c/axolotl/archive/v$(AXOLOTL_VERSION).tar.gz --output-document=$(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION).tar.gz
 # Prepare packaging folder
 	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl
 	@cp $(CURRENT_DIR)/deb/LICENSE $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/LICENSE
@@ -237,13 +237,12 @@ prebuild-package-deb-arm64: package-clean-deb-arm64
 build-package-deb-arm64:
 	@echo "Building Debian package..."
 # Edit changelog file
-  @sed -i '3d;4d' $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/changelog
-	@sed -e '3 {r $GITHUB_WORKSPACE/docs/CHANGELOG.md' -e 'd}' $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/changelog
-	#@sed -i '3,4d' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
-	#@sed -i 's/*/  */g' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+	@sed -i '3d;4d' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+  @awk -i inplace 'NR == 3 {print "  * See upstream changelog below."} {print}' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+  @echo >> $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+  @cat $(CURRENT_DIR)/docs/CHANGELOG.md >> $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
 # Edit copyright file
-	#@sed -i 's/<preferred name and address to reach the upstream project>/aaron@nanu-c.org/' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
-	@sed -i ':a;N;$!ba;s/<preferred name and address to reach the upstream project>/Aaron <aaron@nanu-c.org>/g' $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/changelog
+	@sed -i 's/<preferred name and address to reach the upstream project>/Aaron <aaron@nanu-c.org>/' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
   @sed -i 's/<url:\/\/example.com>/https:\/\/github.com\/nanu-c\/axolotl/' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
 # Build Debian package
 	@cd $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION) && debuild -i -us -uc -b
@@ -353,13 +352,12 @@ prebuild-package-deb-arm64-cc: package-clean-deb-arm64
 build-package-deb-arm64-cc:
 	@echo "Building cross-compiled Debian package..."
 # Edit changelog file
-	@sed -i '3d;4d' $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/changelog
-	@sed -e '3 {r $GITHUB_WORKSPACE/docs/CHANGELOG.md' -e 'd}' $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/changelog
-	#@sed -i '3,4d' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
-	#@sed -i 's/*/  */g' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+	@sed -i '3d;4d' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+  @awk -i inplace 'NR == 3 {print "  * See upstream changelog below."} {print}' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+  @echo >> $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+  @cat $(CURRENT_DIR)/docs/CHANGELOG.md >> $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
 # Edit copyright file
-	#@sed -i 's/<preferred name and address to reach the upstream project>/aaron@nanu-c.org/' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
-	@sed -i ':a;N;$!ba;s/<preferred name and address to reach the upstream project>/Aaron <aaron@nanu-c.org>/g' $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/changelog
+	@sed -i 's/<preferred name and address to reach the upstream project>/Aaron <aaron@nanu-c.org>/' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
   @sed -i 's/<url:\/\/example.com>/https:\/\/github.com\/nanu-c\/axolotl/' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
 # Build Debian package
 	@cd $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION) && debuild -i -us -uc -b -aarm64
