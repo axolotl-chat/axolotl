@@ -123,9 +123,9 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
-      - name: Download build arm64 build artifacts
+      - name: Download build artifacts arm64
         uses: actions/download-artifact@v3
-#        id: download-axolotl-arm64 ## What is the use of the id?
+#        id: download-axolotl-arm64
         with:
           name: build-axolotl-linux-arm64
           path: target/aarch64-unknown-linux-gnu/release/axolotl
@@ -138,7 +138,7 @@ jobs:
           git fetch --all --tags
           echo "TAG=$(git tag | tail --lines=1)" >> $GITHUB_ENV
 
-      - name: Set package version
+      - name: Set release version
         run: |
           echo "RELEASE_VERSION=$(echo ${{ env.TAG }} | sed 's/v//')" >> $GITHUB_ENV
 
@@ -150,8 +150,10 @@ jobs:
           cp $GITHUB_WORKSPACE/deb/LICENSE $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/LICENSE
           cd $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }} && debmake --yes --email arno_nuehm@riseup.net --fullname "Arno Nuehm" --monoarch
           sed -i '3d;4d' $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/changelog
-          sed -e '3 {r $GITHUB_WORKSPACE/docs/CHANGELOG.md' -e 'd}' $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/changelog
-          sed -i ':a;N;$!ba;s/<preferred name and address to reach the upstream project>/Aaron <aaron@nanu-c.org>/g' $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/changelog
+          awk -i inplace 'NR == 3 {print "  * See upstream changelog below."} {print}' $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/changelog
+          echo >> $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/changelog
+          cat $GITHUB_WORKSPACE/docs/CHANGELOG.md >> $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/changelog
+          sed -i 's/<preferred name and address to reach the upstream project>/Aaron <aaron@nanu-c.org>/' $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/copyright
           sed -i 's/<url:\/\/example.com>/https:\/\/github.com\/nanu-c\/axolotl/' $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/copyright
           cp $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/changelog $GITHUB_WORKSPACE/deb/
           cp $GITHUB_WORKSPACE/axolotl-${{ env.RELEASE_VERSION }}/debian/copyright $GITHUB_WORKSPACE/deb/
@@ -159,7 +161,7 @@ jobs:
       - name: Build package Debian arm64
         run: cargo deb --target=aarch64-unknown-linux-gnu --no-build
 
-      - name: Upload Debian package artifact (arm64)
+      - name: Upload package artifact Debian arm64
         uses: actions/upload-artifact@v3
         with:
           name: Axolotl-Debian-arm64-package
