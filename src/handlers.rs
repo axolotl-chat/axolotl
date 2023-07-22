@@ -34,7 +34,7 @@ use tokio::runtime::Runtime;
 use tokio::sync::{Mutex, MutexGuard};
 use url::Url;
 use warp::filters::ws::Message;
-use warp::http::response;
+
 use warp::ws::WebSocket;
 
 const MESSAGE_BOUND: usize = 10;
@@ -110,9 +110,9 @@ impl Handler {
             receive_error,
             sender: None,
             receiver: None,
-            manager_thread: manager_thread,
+            manager_thread,
             receive_content: Arc::new(Mutex::new(Some(receive_content))),
-            is_registered: is_registered,
+            is_registered,
             captcha: None,
             phone_number: None,
             registration_manager: None,
@@ -649,7 +649,7 @@ impl Handler {
     }
 
     async fn get_phone_number(&self) {
-        let message = format!("{{\"response_type\":\"phone_number\",\"data\":\"\"}}",);
+        let message = "{\"response_type\":\"phone_number\",\"data\":\"\"}".to_string();
         let mut ws_sender = self.sender.as_ref().unwrap().lock().await;
         match ws_sender.send(Message::text(message)).await {
             Ok(_) => (),
@@ -677,7 +677,7 @@ impl Handler {
         std::mem::drop(ws_sender);
     }
     async fn get_phone_pin(&self) {
-        let message = format!("{{\"response_type\":\"pin\",\"data\":\"\"}}",);
+        let message = "{\"response_type\":\"pin\",\"data\":\"\"}".to_string();
         let mut ws_sender = self.sender.as_ref().unwrap().lock().await;
         match ws_sender.send(Message::text(message)).await {
             Ok(_) => (),
@@ -688,7 +688,7 @@ impl Handler {
         std::mem::drop(ws_sender);
     }
     async fn send_registration_confirmation(&self) {
-        let qr_code = format!("{{\"response_type\":\"registration_done\",\"data\":\"\"}}");
+        let qr_code = "{\"response_type\":\"registration_done\",\"data\":\"\"}".to_string();
         let mut ws_sender = self.sender.as_ref().unwrap().lock().await;
         match ws_sender.send(Message::text(qr_code)).await {
             Ok(_) => (),
@@ -927,13 +927,13 @@ impl Handler {
         let thread = thread_id
             .to_string()
             .replace(&['{', '}', '\"', '[', ']', ' '][..], "");
-        let thread = thread.split(":").collect::<Vec<&str>>();
+        let thread = thread.split(':').collect::<Vec<&str>>();
         log::debug!("Thread: {:?}", thread);
         let thread = match thread[0] {
             "Contact" => Thread::Contact(Uuid::parse_str(thread[1]).unwrap()),
             "Group" => {
                 let decoded: Vec<u8> = thread[1]
-                    .split(",")
+                    .split(',')
                     .map(|s| s.parse().expect("parse error"))
                     .collect();
                 // transform decoded to [u8; 32]
@@ -1000,7 +1000,7 @@ impl Handler {
 
                         // We send one attachment at a time
                         // Use its CdnId as filename
-                        if pointers.len() > 0 {
+                        if !pointers.is_empty() {
                             let cdnid = match pointers[0].attachment_identifier.clone().unwrap() {
                                 AttachmentIdentifier::CdnId(id) => id,
                                 _ => {
@@ -1016,7 +1016,7 @@ impl Handler {
                                 }
                             };
                             save_attachment(&decoded_tosave_attachment, &cdnid.to_string());
-                            send_message(thread, None, Some(pointers), &manager, "attachment_sent")
+                            send_message(thread, None, Some(pointers), manager, "attachment_sent")
                                 .await?;
                         } else {
                             log::error!("Error while sending attachment.");
@@ -1088,7 +1088,7 @@ impl Handler {
 
                         // We send one attachment at a time
                         // Use its CdnId as filename
-                        if pointers.len() > 0 {
+                        if !pointers.is_empty() {
                             let cdnid = match pointers[0].attachment_identifier.clone().unwrap() {
                                 AttachmentIdentifier::CdnId(id) => id,
                                 _ => {
@@ -1100,7 +1100,7 @@ impl Handler {
                                 }
                             };
                             save_attachment(&decoded_tosave_attachment, &cdnid.to_string());
-                            send_message(thread, None, Some(pointers), &manager, "attachment_sent")
+                            send_message(thread, None, Some(pointers), manager, "attachment_sent")
                                 .await?;
                         } else {
                             log::error!("Error while sending attachment.");
@@ -1245,7 +1245,7 @@ impl Handler {
                         return Err(ApplicationError::InvalidRequest);
                     }
                 };
-                if profile.name == "".to_string() {
+                if profile.name == *"" {
                     //request contact sync
                     log::debug!("Updating contact from profile");
                     manager
@@ -1295,7 +1295,7 @@ impl Handler {
                             .await
                     }
                     Thread::Group(group) => {
-                        let group_from_store = manager.get_group(group.clone()).await.ok().unwrap();
+                        let group_from_store = manager.get_group(group).await.ok().unwrap();
                         match group_from_store {
                             None => {
                                 log::error!("Group not found");
@@ -1372,7 +1372,7 @@ impl Handler {
     ) -> Result<Option<AxolotlResponse>, ApplicationError> {
         log::info!("Getting config");
         // let my_uuid = manager.uuid();
-        let mut platform = "linux".to_string();
+        let platform = "linux".to_string();
         #[cfg(target_os = "windows")]
         {
             platform = "windows".to_string();
@@ -1414,7 +1414,7 @@ impl Handler {
     }
     async fn handle_unregister(
         &self,
-        manager: &ManagerThread,
+        _manager: &ManagerThread,
     ) -> Result<Option<AxolotlResponse>, ApplicationError> {
         log::info!("Unregistering");
         let mut store = Handler::get_config_store().await?;
@@ -1557,12 +1557,12 @@ impl Handler {
 /// Save a file on the disk
 pub fn save_attachment(file_content: &[u8], file_name: &str) {
     // Create the attachments directory if needed
-    let _ = fs::create_dir_all(&format!("{}/attachments/", get_app_dir()));
+    let _ = fs::create_dir_all(format!("{}/attachments/", get_app_dir()));
 
     let mut file = fs::OpenOptions::new()
         .create(true)
         .write(true)
-        .open(&format!("{}/attachments/{}", get_app_dir(), file_name))
+        .open(format!("{}/attachments/{}", get_app_dir(), file_name))
         .unwrap();
 
     let file_written = file.write_all(file_content);
@@ -1588,5 +1588,5 @@ fn read_a_file(file_path: String) -> std::io::Result<Vec<u8>> {
     let mut data = Vec::new();
     file.read_to_end(&mut data)?;
 
-    return Ok(data);
+    Ok(data)
 }

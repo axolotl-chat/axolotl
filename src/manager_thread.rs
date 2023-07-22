@@ -106,13 +106,10 @@ impl TryFrom<ThreadMetadata> for AxolotlSession {
             Some(message) => message.timestamp,
             None => 0,
         };
-        let message: Option<String> = match &session.last_message {
-            Some(message) => Some(match &message.message {
+        let message: Option<String> = session.last_message.as_ref().map(|message| match &message.message {
                 Some(message) => message.to_string(),
                 None => String::new(),
-            }),
-            None => None,
-        };
+            });
         let is_group: bool = match session.thread {
             Thread::Group(_group) => true,
             _ => false,
@@ -122,7 +119,7 @@ impl TryFrom<ThreadMetadata> for AxolotlSession {
             id: session.thread,
             last_message: message,
             unread_messages_count: session.unread_messages_count,
-            is_group: is_group,
+            is_group,
             title: session.title,
             last_message_timestamp: timestamp,
             muted: session.muted,
@@ -206,7 +203,7 @@ impl ManagerThread {
             command_sender: sender,
             contacts: Arc::new(Mutex::new(contacts.unwrap().unwrap_or_default())),
             sessions: Arc::new(Mutex::new(Vec::new())),
-            current_chat: current_chat,
+            current_chat,
         })
     }
 }
@@ -491,22 +488,22 @@ async fn command_loop(
                                         let thread = Thread::try_from(&msg).unwrap();
                                         let title = manager.get_title_for_thread(&thread).await.unwrap_or("".to_string());
                                         let mut thread_metadata = manager.thread_metadata(&thread).await.unwrap().unwrap();
-                                        if body.len()>0 || data.attachments.len()>0 {
+                                        if !body.is_empty() || !data.attachments.is_empty() {
                                             thread_metadata.title = Some(title.clone());
-                                            thread_metadata.unread_messages_count = thread_metadata.unread_messages_count+1;
+                                            thread_metadata.unread_messages_count += 1;
                                             let mut message = Some(body.clone());
-                                            if body.len() == 0 {
+                                            if body.is_empty() {
                                                 message = Some("Attachment".to_string());
                                             }
                                             thread_metadata.last_message = Some(ThreadMetadataMessageContent{
-                                                message: message,
+                                                message,
                                                 timestamp: msg.metadata.timestamp,
-                                                sender: msg.metadata.sender.uuid.clone(),
+                                                sender: msg.metadata.sender.uuid,
                                             });
                                             let _ = manager.save_thread_metadata(thread_metadata.clone());
 
                                         }
-                                        let sender = msg.metadata.sender.uuid.clone();
+                                        let sender = msg.metadata.sender.uuid;
                                         let is_group = match thread {
                                             Thread::Group(_)=> true,
                                             _ => false,
@@ -515,7 +512,7 @@ async fn command_loop(
                                             sender: title.clone(),
                                             message: body,
                                             group: None,
-                                            thread: thread,
+                                            thread,
                                         };
                                         if is_group {
                                             notification.group = Some(title);
@@ -524,7 +521,7 @@ async fn command_loop(
                                             notification.sender = contact_title;
                                         }
                                         // download attachments
-                                        if data.attachments.len()>0 {
+                                        if !data.attachments.is_empty() {
                                             let attachments = data.attachments.clone();
                                             for attachment in attachments {
                                                 let attachment_pointer = attachment.clone();
@@ -556,8 +553,8 @@ async fn command_loop(
                                         if thread_metadata.muted {
                                             continue;
                                         }
-                                        if notification.message=="".to_string() {
-                                            if data.attachments.len()>0 {
+                                        if notification.message==*"" {
+                                            if !data.attachments.is_empty() {
                                                 notification.message = "Attachment".to_string();
                                             }else{
                                                 continue;
@@ -571,7 +568,7 @@ async fn command_loop(
                                             match sm.message {
                                                 Some(m) =>{
                                                     // download attachments
-                                                    if m.attachments.len()>0 {
+                                                    if !m.attachments.is_empty() {
                                                        let attachments = m.attachments.clone();
                                                        for attachment in attachments {
                                                            let attachment_pointer = attachment.clone();
@@ -600,13 +597,13 @@ async fn command_loop(
                                                             log::debug!("Received sync data message: {:?}", &thread);
                                                             let title = manager.get_title_for_thread(&thread).await.unwrap_or("".to_string());
                                                             let mut thread_metadata = manager.thread_metadata(&thread).await.unwrap().unwrap();
-                                                            if body.len()>0 {
+                                                            if !body.is_empty() {
                                                                 thread_metadata.title = Some(title.clone());
-                                                                thread_metadata.unread_messages_count = thread_metadata.unread_messages_count+1;
+                                                                thread_metadata.unread_messages_count += 1;
                                                                 thread_metadata.last_message = Some(ThreadMetadataMessageContent{
                                                                     message: Some(body.clone()),
                                                                     timestamp: msg.metadata.timestamp,
-                                                                    sender: msg.metadata.sender.uuid.clone(),
+                                                                    sender: msg.metadata.sender.uuid,
                                                                 });
                                                                 let _ = manager.save_thread_metadata(thread_metadata.clone());
 
@@ -671,7 +668,7 @@ async fn notify_message(msg: &Notification) {
         Some(group) => {
             let body = format!("{}: {}", msg.sender, msg.message);
             Notification::new()
-                .summary(&group)
+                .summary(group)
                 .body(&body)
                 .icon("signal")
                 .timeout(5000)
@@ -805,7 +802,7 @@ async fn handle_command(manager: &mut Manager<SledStore, Registered>, command: C
                 Ok(m) => Ok(m.filter_map(|r| r.ok()).collect()),
                 Err(e) => {
                     log::error!("Failed to get thread metadatas: {}", e);
-                    return ();
+                    return ;
                 }
             })
             .expect("Callback sending failed"),
@@ -855,7 +852,7 @@ async fn handle_command(manager: &mut Manager<SledStore, Registered>, command: C
 // TODO: Clone attachment
 fn almost_clone_contact(contact: &Contact) -> Contact {
     Contact {
-        uuid: contact.uuid.clone(),
+        uuid: contact.uuid,
         name: contact.name.clone(),
         color: contact.color.clone(),
         verified: contact.verified.clone(),
