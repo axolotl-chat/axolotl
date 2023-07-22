@@ -31,7 +31,7 @@ use std::process::exit;
 use std::time::{self, UNIX_EPOCH};
 use std::{sync::Arc, thread};
 use tokio::runtime::Runtime;
-use tokio::sync::{Mutex, MutexGuard};
+use tokio::sync::Mutex;
 use url::Url;
 use warp::filters::ws::Message;
 
@@ -199,14 +199,11 @@ impl Handler {
             }
             log::debug!("Is registered: {:?}", self.is_registered);
 
-            if self.is_registered.is_some() && !self.is_registered.unwrap() {
+            if let Some(false) = self.is_registered {
                 log::info!("Starting registration process");
 
-                match self.start_registration().await {
-                    Err(_) => {
-                        self.sender = None;
-                    }
-                    _ => (),
+                if self.start_registration().await.is_err() {
+                    self.sender = None;
                 }
 
                 // check if client wants to register as primary or secondary device
@@ -237,7 +234,7 @@ impl Handler {
             log::info!("Manager created");
 
             // While messages come, handle them
-            if self.is_registered.is_some() && self.is_registered.unwrap() {
+            if let Some(true) = self.is_registered {
                 self.send_registration_confirmation().await;
                 let shared_sender_mutex = Arc::clone(&shared_sender);
                 let r = self.receive_content.clone();
@@ -300,7 +297,12 @@ impl Handler {
         is_closed: &mut bool,
         r: Arc<Mutex<SplitStream<WebSocket>>>,
     ) -> Result<bool, ApplicationError> {
-        let text = message.to_str().unwrap();
+        let text = message.to_str().map_err(|_| {
+            ApplicationError::WebSocketHandleMessageError(
+                "Received message is not a string.".to_string(),
+            )
+        })?;
+
         if let Ok::<AxolotlRequest, SerdeError>(axolotl_request) = serde_json::from_str(text) {
             // Axolotl request
             let request_type: &str = axolotl_request.request.as_str();
@@ -313,7 +315,7 @@ impl Handler {
                     loop {
                         log::debug!("Registering secondary device");
                         self.create_provisioning_link().await?;
-                        if self.is_registered.is_some() && self.is_registered.unwrap() {
+                        if let Some(true) = self.is_registered {
                             log::debug!("Device is already registered");
                             break;
                         }
@@ -375,8 +377,8 @@ impl Handler {
                         },
                         None => None,
                     };
-                    if self.phone_number.is_some() {
-                        log::debug!("Got phone number: {}", self.phone_number.as_ref().unwrap());
+                    if let Some(phone_number) = &self.phone_number {
+                        log::debug!("Got phone number: {phone_number}");
                         let (code_tx, code_rx) = mpsc::channel(MESSAGE_BOUND);
                         self.get_phone_pin().await;
                         match self.get_verification_code(code_rx).await {
@@ -412,8 +414,7 @@ impl Handler {
                                             );
                                             if request_type == "sendCode" {
                                                 let code = axolotl_request.data;
-                                                if code.is_some() {
-                                                    let code = code.unwrap();
+                                                if let Some(code) = code {
                                                     log::info!("Got code: {}", code);
                                                     match code_tx.send(code.into_boxed_str()).await
                                                     {
@@ -533,7 +534,7 @@ impl Handler {
         }
         let qr_code = format!(
             "{{\"response_type\":\"qr_code\",\"data\":\"{}\"}}",
-            self.provisioning_link.clone().unwrap()
+            self.provisioning_link.as_ref().unwrap()
         );
         let mut ws_sender = self.sender.as_ref().unwrap().lock().await;
         match ws_sender.send(Message::text(qr_code)).await {
@@ -562,7 +563,7 @@ impl Handler {
             ));
         }
         let p = self.phone_number.clone().unwrap();
-        let c = self.captcha.as_mut().unwrap().clone();
+        let c = self.captcha.clone().unwrap();
         // create new error receiver
         let (error_tx, error_rx) = oneshot::channel();
 
@@ -635,10 +636,9 @@ impl Handler {
         });
         log::debug!("Awaiting for error");
         let error = error_rx.await.unwrap();
-        if error.is_some() {
+        if let Some(error) = error {
             log::debug!("Got error: {:?}", error);
-            self.send_error(ApplicationError::Presage(error.unwrap()))
-                .await;
+            self.send_error(ApplicationError::Presage(error)).await;
             return Err(ApplicationError::RegistrationError(
                 "Error getting verification code".to_string(),
             ));
@@ -773,11 +773,8 @@ impl Handler {
         if self.sender.is_none() {
             log::info!("Sender not initialized, waiting for it");
 
-            loop {
-                if self.sender.is_some() {
-                    break;
-                }
-                std::thread::sleep(std::time::Duration::from_millis(100));
+            while self.sender.is_none() {
+                tokio::time::sleep(tokio::time::Duration::from_millis(100)).await;
             }
         }
         let mut mut_sender = self.sender.as_ref().unwrap().lock().await;
@@ -796,8 +793,8 @@ impl Handler {
         &self,
         thread: &Thread,
     ) -> Result<Option<ThreadMetadata>, ApplicationError> {
-        let mut manager = self.manager_thread.lock().await;
-        let manager = manager.as_mut().unwrap();
+        let manager = self.manager_thread.lock().await;
+        let manager = manager.as_ref().unwrap();
         match manager.thread_metadata(thread).await {
             Ok(metadata) => Ok(metadata),
             Err(e) => Err(ApplicationError::from(e)),
@@ -813,8 +810,8 @@ impl Handler {
             muted: false,
         };
 
-        let mut manager = self.manager_thread.lock().await;
-        let manager = manager.as_mut().unwrap();
+        let manager = self.manager_thread.lock().await;
+        let manager = manager.as_ref().unwrap();
         match manager.save_thread_metadata(metadata).await {
             Ok(_) => Ok(()),
             Err(e) => Err(ApplicationError::from(e)),
@@ -900,7 +897,7 @@ impl Handler {
                 );
             }
         }
-        let contacts = manager.get_contacts().await.ok().unwrap();
+        let contacts = manager.get_contacts().await.unwrap();
         let mut out = Vec::new();
         self.write_as_json(&mut out, contacts)?;
         let response = AxolotlResponse {
@@ -914,7 +911,7 @@ impl Handler {
         manager: &ManagerThread,
     ) -> Result<Option<AxolotlResponse>, ApplicationError> {
         log::info!("Getting chat list");
-        let conversations = manager.get_conversations().await.ok().unwrap();
+        let conversations = manager.get_conversations().await.unwrap();
         let mut out = Vec::new();
         self.write_as_json(&mut out, conversations)?;
         let response = AxolotlResponse {
@@ -991,12 +988,8 @@ impl Handler {
 
                 match upload_response {
                     Ok(attachments_pointers) => {
-                        let mut pointers: Vec<AttachmentPointer> = Vec::new();
-                        for attachment_pointer in attachments_pointers {
-                            if let Ok(p) = attachment_pointer {
-                                pointers.push(p);
-                            }
-                        }
+                        let pointers: Vec<AttachmentPointer> =
+                            attachments_pointers.into_iter().flatten().collect();
 
                         // We send one attachment at a time
                         // Use its CdnId as filename
@@ -1079,12 +1072,8 @@ impl Handler {
 
                 match upload_response {
                     Ok(attachments_pointers) => {
-                        let mut pointers: Vec<AttachmentPointer> = Vec::new();
-                        for attachment_pointer in attachments_pointers {
-                            if let Ok(p) = attachment_pointer {
-                                pointers.push(p);
-                            }
-                        }
+                        let pointers: Vec<AttachmentPointer> =
+                            attachments_pointers.into_iter().flatten().collect();
 
                         // We send one attachment at a time
                         // Use its CdnId as filename
@@ -1138,28 +1127,23 @@ impl Handler {
             let thread: Thread = self.string_to_thread(&messages_request.id)?;
             // match thread {
             //     Thread::Contact(_) => {
-            //         manager.update_cotacts_from_profile().await.ok().unwrap();
+            //         manager.update_cotacts_from_profile().await.unwrap();
             //     }
             //     _ => {}
             // }
-            let thread_metadata = manager.thread_metadata(&thread).await.ok().unwrap();
+            let thread_metadata = manager.thread_metadata(&thread).await.unwrap();
             if thread_metadata.is_none() {
-                self.create_thread_metadata(&thread).await.ok().unwrap();
+                self.create_thread_metadata(&thread).await.unwrap();
             } else {
                 let mut thread_metadata = thread_metadata.unwrap();
                 match thread_metadata.title.clone() {
                     Some(title) => {
                         // check if title is a valid uuid
-                        if Uuid::parse_str(&title).is_ok() {
-                            let uuid = Uuid::parse_str(&title).unwrap();
+                        if let Ok(uuid) = Uuid::parse_str(&title) {
                             match manager.update_contact_from_profile(uuid).await {
                                 Ok(_) => {
-                                    thread_metadata = manager
-                                        .thread_metadata(&thread)
-                                        .await
-                                        .ok()
-                                        .unwrap()
-                                        .unwrap();
+                                    thread_metadata =
+                                        manager.thread_metadata(&thread).await.unwrap().unwrap();
                                 }
                                 Err(e) => {
                                     log::error!("handle_get_message_list: Error updating contacts from profile: {}", e);
@@ -1175,19 +1159,16 @@ impl Handler {
                     },
                 }
                 thread_metadata.unread_messages_count = 0;
-                manager
-                    .save_thread_metadata(thread_metadata)
-                    .await
-                    .ok()
-                    .unwrap();
+                manager.save_thread_metadata(thread_metadata).await.unwrap();
             }
 
-            let messages = manager.messages(thread, (Unbounded, Unbounded)).await;
-            if messages.is_err() {
-                log::error!("Failed to load last messages: {}", messages.err().unwrap());
-                return Err(ApplicationError::InvalidRequest);
-            }
-            let messages = messages.unwrap();
+            let messages = manager
+                .messages(thread, (Unbounded, Unbounded))
+                .await
+                .map_err(|e| {
+                    log::error!("Failed to load last messages: {e}");
+                    ApplicationError::InvalidRequest
+                })?;
 
             let mut axolotl_messages: Vec<AxolotlMessage> = Vec::new();
             for message in messages {
@@ -1236,12 +1217,12 @@ impl Handler {
                 };
                 let uuid = Uuid::parse_str(&profile_request.id).unwrap();
                 log::debug!("Getting profile for: {}", uuid.to_string());
-                let profile = manager.get_contact_by_id(uuid).await.ok().unwrap();
+                let profile = manager.get_contact_by_id(uuid).await.unwrap();
                 let mut profile = match profile {
                     Some(p) => p,
                     None => {
                         //request contact sync
-                        manager.request_contacts_sync().await.ok().unwrap();
+                        manager.request_contacts_sync().await.unwrap();
                         return Err(ApplicationError::InvalidRequest);
                     }
                 };
@@ -1251,9 +1232,8 @@ impl Handler {
                     manager
                         .update_contact_from_profile(profile.uuid)
                         .await
-                        .ok()
                         .unwrap();
-                    profile = manager.get_contact_by_id(uuid).await.ok().unwrap().unwrap();
+                    profile = manager.get_contact_by_id(uuid).await.unwrap().unwrap();
                     log::debug!("Updated contact {:?}", profile);
                 }
                 let response = AxolotlResponse {
@@ -1263,7 +1243,7 @@ impl Handler {
                 Ok(Some(response))
             }
             None => {
-                manager.update_contacts_from_profile().await.ok().unwrap();
+                manager.update_contacts_from_profile().await.unwrap();
                 Ok(None)
             }
         }
@@ -1295,7 +1275,7 @@ impl Handler {
                             .await
                     }
                     Thread::Group(group) => {
-                        let group_from_store = manager.get_group(group).await.ok().unwrap();
+                        let group_from_store = manager.get_group(group).await.unwrap();
                         match group_from_store {
                             None => {
                                 log::error!("Group not found");
@@ -1346,13 +1326,10 @@ impl Handler {
             Ok(thread) => thread,
             Err(_) => return Err(ApplicationError::InvalidRequest),
         };
-        match thread {
-            Thread::Contact(_contact) => {
-                // manager.update_contact_from_profile(contact).await.ok().unwrap();
-            }
-            _ => {}
+        if let Thread::Contact(_contact) = thread {
+            // manager.update_contact_from_profile(contact).await.unwrap();
         }
-        manager.open_chat(thread).await.ok().unwrap();
+        manager.open_chat(thread).await.unwrap();
         let response = AxolotlResponse {
             response_type: "ping".to_string(),
             data: "".to_string(),
@@ -1363,7 +1340,7 @@ impl Handler {
         &self,
         manager: &ManagerThread,
     ) -> Result<Option<AxolotlResponse>, ApplicationError> {
-        manager.close_chat().await.ok().unwrap();
+        manager.close_chat().await.unwrap();
         Ok(None)
     }
     async fn handle_get_config(
@@ -1435,21 +1412,15 @@ impl Handler {
             let thread_metadata = manager
                 .thread_metadata(&change_notifications_for_thread_request.thread)
                 .await
-                .ok()
                 .unwrap();
             if thread_metadata.is_none() {
                 self.create_thread_metadata(&change_notifications_for_thread_request.thread)
                     .await
-                    .ok()
                     .unwrap();
             } else {
                 let mut thread_metadata = thread_metadata.unwrap();
                 thread_metadata.muted = change_notifications_for_thread_request.muted;
-                manager
-                    .save_thread_metadata(thread_metadata)
-                    .await
-                    .ok()
-                    .unwrap();
+                manager.save_thread_metadata(thread_metadata).await.unwrap();
             }
             let response = AxolotlResponse {
                 response_type: "ping".to_string(),
