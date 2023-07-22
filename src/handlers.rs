@@ -62,6 +62,7 @@ pub struct Handler {
     pub phone_number: Option<PhoneNumber>,
     pub registration_manager: Option<Arc<Mutex<Manager<SledStore, Confirmation>>>>,
 }
+
 impl Handler {
     pub async fn new() -> Result<Self, ApplicationError> {
         log::info!("Setting up the handler");
@@ -304,136 +305,146 @@ impl Handler {
             // Axolotl request
             let request_type: &str = axolotl_request.request.as_str();
             log::info!("Axolotl registration request: {}", request_type);
-            if request_type == "primaryDevice" {
-                self.get_phone_number().await;
-            } else if request_type == "registerSecondaryDevice" {
-                loop {
-                    log::debug!("Registering secondary device");
-                    self.create_provisioning_link().await?;
-                    if self.is_registered.is_some() && self.is_registered.unwrap() {
-                        log::debug!("Device is already registered");
-                        break;
-                    }
-                    log::debug!("Provisioning link created successfully");
-                    self.handle_provisoning().await;
-                    log::debug!("Provisioning link handled successfully");
-                    self.send_provisioning_link().await;
-                    log::debug!("Provisioning link sent successfully to client");
-                    let error_reciever = self.error_rx.as_mut().unwrap();
-                    let mut error_reciever = error_reciever.lock().await;
-                    while let Ok(e) = error_reciever.try_recv() {
-                        match e {
-                            Some(u) => {
-                                log::error!("Error registering secondary device: {}", u);
-                                Some(u)
+            match request_type {
+                "primaryDevice" => {
+                    self.get_phone_number().await;
+                }
+                "registerSecondaryDevice" => {
+                    loop {
+                        log::debug!("Registering secondary device");
+                        self.create_provisioning_link().await?;
+                        if self.is_registered.is_some() && self.is_registered.unwrap() {
+                            log::debug!("Device is already registered");
+                            break;
+                        }
+                        log::debug!("Provisioning link created successfully");
+                        self.handle_provisoning().await;
+                        log::debug!("Provisioning link handled successfully");
+                        self.send_provisioning_link().await;
+                        log::debug!("Provisioning link sent successfully to client");
+                        let error_reciever = self.error_rx.as_mut().unwrap();
+                        let mut error_reciever = error_reciever.lock().await;
+                        while let Ok(e) = error_reciever.try_recv() {
+                            match e {
+                                Some(u) => {
+                                    log::error!("Error registering secondary device: {}", u);
+                                    Some(u)
+                                }
+                                None => {
+                                    thread::sleep(time::Duration::from_secs(1));
+                                    continue;
+                                }
+                            };
+                        }
+                        if error_reciever.try_recv().is_err() {
+                            log::debug!("Break out of loop, because error channel is closed");
+                            match Handler::check_registration().await {
+                                Ok(_) => {
+                                    self.is_registered = Some(true);
+                                    break;
+                                }
+                                Err(e) => {
+                                    log::debug!("Error checking registration: {}", e);
+                                    self.is_registered = Some(false);
+                                }
                             }
-                            None => {
-                                thread::sleep(time::Duration::from_secs(1));
-                                continue;
-                            }
-                        };
+                        }
                     }
-                    if error_reciever.try_recv().is_err() {
-                        log::debug!("Break out of loop, because error channel is closed");
-                        match Handler::check_registration().await {
+                    self.send_registration_confirmation().await;
+                    log::debug!("Registration confirmation sent and done, now sleeping");
+                    if let Some(error_opt) = self.receive_error.recv().await {
+                        log::error!("Got error after linking device2: {}", error_opt);
+                        return Ok(true);
+                    }
+                }
+                "sendCaptchaToken" => {
+                    log::debug!("Got captcha token");
+                    self.captcha = axolotl_request.data;
+                    log::debug!("Got captcha token: {:?}", self.captcha);
+                    log::debug!("Getting phone number");
+                    self.get_phone_number().await;
+                }
+                "requestCode" => {
+                    self.phone_number = match axolotl_request.data {
+                        Some(data) => match phonenumber::parse(None, data) {
+                            Ok(phone_number) => Some(phone_number),
+                            Err(e) => {
+                                log::error!("Error parsing phone number: {}", e);
+                                None
+                            }
+                        },
+                        None => None,
+                    };
+                    if self.phone_number.is_some() {
+                        log::debug!("Got phone number: {}", self.phone_number.as_ref().unwrap());
+                        let (code_tx, code_rx) = mpsc::channel(MESSAGE_BOUND);
+                        self.get_phone_pin().await;
+                        match self.get_verification_code(code_rx).await {
                             Ok(_) => {
-                                self.is_registered = Some(true);
-                                break;
+                                log::debug!("Success sending verification code")
                             }
                             Err(e) => {
-                                log::debug!("Error checking registration: {}", e);
-                                self.is_registered = Some(false);
+                                log::error!("Error getting verification code: {}", e);
+                                self.get_phone_number().await;
+                                return Ok(false);
                             }
                         }
-                    }
-                }
-                self.send_registration_confirmation().await;
-                log::debug!("Registration confirmation sent and done, now sleeping");
-                if let Some(error_opt) = self.receive_error.recv().await {
-                    log::error!("Got error after linking device2: {}", error_opt);
-                    return Ok(true);
-                }
-            }
-            if request_type == "sendCaptchaToken" {
-                log::debug!("Got captcha token");
-                self.captcha = axolotl_request.data;
-                log::debug!("Got captcha token: {:?}", self.captcha);
-                log::debug!("Getting phone number");
-                self.get_phone_number().await;
-            } else if request_type == "requestCode" {
-                self.phone_number = match axolotl_request.data {
-                    Some(data) => match phonenumber::parse(None, data) {
-                        Ok(phone_number) => Some(phone_number),
-                        Err(e) => {
-                            log::error!("Error parsing phone number: {}", e);
-                            None
-                        }
-                    },
-                    None => None,
-                };
-                if self.phone_number.is_some() {
-                    log::debug!("Got phone number: {}", self.phone_number.as_ref().unwrap());
-                    let (code_tx, code_rx) = mpsc::channel(MESSAGE_BOUND);
-                    self.get_phone_pin().await;
-                    match self.get_verification_code(code_rx).await {
-                        Ok(_) => {
-                            log::debug!("Success sending verification code")
-                        }
-                        Err(e) => {
-                            log::error!("Error getting verification code: {}", e);
-                            self.get_phone_number().await;
-                            return Ok(false);
-                        }
-                    }
-                    let code_message: Option<Result<Message, warp::Error>> =
-                        r.lock().await.next().await;
-                    if let Some(code_message) = code_message {
-                        match code_message {
-                            Ok(code_message) => {
-                                if code_message.is_close() {
-                                    log::info!("Got close message, exiting");
-                                    *is_closed = true;
-                                    return Ok(false);
-                                } else if code_message.is_text() {
-                                    let text = code_message.to_str().unwrap();
-                                    if let Ok::<AxolotlRequest, SerdeError>(axolotl_request) =
-                                        serde_json::from_str(text)
-                                    {
-                                        // Axolotl request
-                                        let request_type: &str = axolotl_request.request.as_str();
-                                        log::info!(
-                                            "Axolotl registration request code message: {}",
-                                            request_type
-                                        );
-                                        if request_type == "sendCode" {
-                                            let code = axolotl_request.data;
-                                            if code.is_some() {
-                                                let code = code.unwrap();
-                                                log::info!("Got code: {}", code);
-                                                match code_tx.send(code.into_boxed_str()).await {
-                                                    Ok(_) => (),
-                                                    Err(e) => {
-                                                        log::error!("Error sending code to registration manager: {}", e);
-                                                        return Ok(false);
-                                                    }
-                                                };
-                                            } else {
-                                                log::error!("No valid code provided");
-                                                self.get_phone_pin().await;
+                        let code_message: Option<Result<Message, warp::Error>> =
+                            r.lock().await.next().await;
+                        if let Some(code_message) = code_message {
+                            match code_message {
+                                Ok(code_message) => {
+                                    if code_message.is_close() {
+                                        log::info!("Got close message, exiting");
+                                        *is_closed = true;
+                                        return Ok(false);
+                                    } else if code_message.is_text() {
+                                        let text = code_message.to_str().unwrap();
+                                        if let Ok::<AxolotlRequest, SerdeError>(axolotl_request) =
+                                            serde_json::from_str(text)
+                                        {
+                                            // Axolotl request
+                                            let request_type: &str =
+                                                axolotl_request.request.as_str();
+                                            log::info!(
+                                                "Axolotl registration request code message: {}",
+                                                request_type
+                                            );
+                                            if request_type == "sendCode" {
+                                                let code = axolotl_request.data;
+                                                if code.is_some() {
+                                                    let code = code.unwrap();
+                                                    log::info!("Got code: {}", code);
+                                                    match code_tx.send(code.into_boxed_str()).await
+                                                    {
+                                                        Ok(_) => (),
+                                                        Err(e) => {
+                                                            log::error!("Error sending code to registration manager: {}", e);
+                                                            return Ok(false);
+                                                        }
+                                                    };
+                                                } else {
+                                                    log::error!("No valid code provided");
+                                                    self.get_phone_pin().await;
+                                                }
                                             }
                                         }
                                     }
                                 }
-                            }
-                            Err(e) => {
-                                log::error!("Error getting message: {}", e);
-                                return Ok(false);
+                                Err(e) => {
+                                    log::error!("Error getting message: {}", e);
+                                    return Ok(false);
+                                }
                             }
                         }
+                    } else {
+                        log::error!("No valid phone number provided");
+                        self.get_phone_number().await;
                     }
-                } else {
-                    log::error!("No valid phone number provided");
-                    self.get_phone_number().await;
+                }
+                unknown => {
+                    log::error!("Unknown message type: {unknown}");
+                    return Ok(false);
                 }
             }
         }
