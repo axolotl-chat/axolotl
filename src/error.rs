@@ -25,66 +25,54 @@ impl std::fmt::Display for ApplicationError {
         match self {
             ApplicationError::ManagerThreadPanic => writeln!(
                 f,
-                "{}",
                 "A part of the application crashed."
             ),
             ApplicationError::NoInternet => writeln!(
                 f,
-                "{}",
                 "There does not seem to be a connection to the internet available."
             ),
 
             ApplicationError::UnauthorizedSignal => writeln!(
                 f,
-                "{}",
                 "You do not seem to be authorized with Signal. Please delete the database and relink the application."
             ),
             ApplicationError::SendFailed(_) => writeln!(
                 f,
-                "{}",
                 "Sending a message failed."
             ),
             ApplicationError::ReceiveFailed(_) => writeln!(
                 f,
-                "{}",
                 "Receiving a message failed."
             ),
             ApplicationError::Presage(e) => writeln!(
                 f,
-                "{}: {}",
-                "presage error: ",
-                e.to_string()
+                "presage error: : {}",
+                e
             ),
             ApplicationError::WebSocketError => writeln!(
                 f,
-                "{}",
                 "The websocket connection to the signal server failed."
             ),
             ApplicationError::WebSocketHandleMessageError(e) => writeln!(
                 f,
-                "{}: {}",
-                "Couldn't handle websocket message.",
+                "Couldn't handle websocket message.: {}",
                 e
             ),
             ApplicationError::RegistrationError(e) => writeln!(
                 f,
-                "{}: {}",
-                "Registration failed.",
+                "Registration failed.: {}",
                 e
             ),
             ApplicationError::InvalidRequest=> writeln!(
                 f,
-                "{}",
                 "Invalid request.",
             ),
             ApplicationError::SledStore(_) => writeln!(
                 f,
-                "{}",
                 "Something unexpected happened with the database. Please retry later."
             ),
             ApplicationError::RegistrationSuccesful => writeln!(
                 f,
-                "{}",
                 "Registration succesful."
             ),
 
@@ -115,9 +103,7 @@ impl From<PresageError> for ApplicationError {
 // convert presage errors to application errors
 impl From<SledStoreError> for ApplicationError {
     fn from(e: SledStoreError) -> Self {
-        match e {
-            _ => ApplicationError::SledStore(e),
-        }
+        ApplicationError::SledStore(e)
     }
 }
 // convert websocket errors to application errors

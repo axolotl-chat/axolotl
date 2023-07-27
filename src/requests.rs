@@ -96,8 +96,8 @@ impl AttachmentMessage {
     pub fn new(ctype: &str, filename: &str) -> Self {
         // Use the first part of the MIME type
         // image/png becomes image
-        let content_type = if ctype.contains("/") {
-            ctype.split("/").collect::<Vec<&str>>()[0].to_string()
+        let content_type = if ctype.contains('/') {
+            ctype.split('/').collect::<Vec<&str>>()[0].to_string()
         } else {
             ctype.to_string()
         };
@@ -159,7 +159,7 @@ impl AxolotlMessage {
         };
         if let ContentBody::SynchronizeMessage(data) = body {
             if data.sent.is_some() && data.sent.clone().unwrap().message.is_some() {
-                let m = data.sent.clone().unwrap().message.clone().unwrap();
+                let m = data.sent.clone().unwrap().message.unwrap();
                 if !m.attachments.is_empty() {
                     for attachment in &m.attachments {
                         if let Some(AttachmentIdentifier::CdnId(id)) =
@@ -182,7 +182,7 @@ impl AxolotlMessage {
         let data_message = match body {
             ContentBody::DataMessage(data) => {
                 if data.reaction.is_some() {
-                    data.reaction.clone().unwrap().emoji.clone()
+                    data.reaction.clone().unwrap().emoji
                 } else {
                     data.body.clone()
                 }
@@ -190,8 +190,8 @@ impl AxolotlMessage {
             ContentBody::SynchronizeMessage(data) => {
                 is_outgoing = true;
                 if data.sent.is_some() && data.sent.clone().unwrap().message.is_some() {
-                    let m = data.sent.clone().unwrap().message.clone().unwrap();
-                    m.body.clone()
+                    let m = data.sent.clone().unwrap().message.unwrap();
+                    m.body
                 } else {
                     Some("SyncMessage".to_string())
                 }
@@ -205,7 +205,7 @@ impl AxolotlMessage {
             message_type,
             message: data_message,
             timestamp: Some(timestamp),
-            attachments: attachments,
+            attachments,
             is_outgoing,
             thread_id: None,
             is_sent: true, // TODO
@@ -250,8 +250,8 @@ impl AxolotlMessage {
         let data_message = match &body {
             ContentBody::DataMessage(data) => {
                 if data.reaction.is_some() {
-                    data.reaction.clone().unwrap().emoji.clone()
-                } else if data.attachments.len() > 0 {
+                    data.reaction.clone().unwrap().emoji
+                } else if !data.attachments.is_empty() {
                     if data.body.is_some() {
                         Some(format!(
                             "Unsuported attachment. {}",
@@ -267,10 +267,10 @@ impl AxolotlMessage {
             ContentBody::SynchronizeMessage(data) => {
                 is_outgoing = true;
                 if data.sent.is_some() && data.sent.clone().unwrap().message.is_some() {
-                    let m = data.sent.clone().unwrap().message.clone().unwrap();
+                    let m = data.sent.clone().unwrap().message.unwrap();
                     if m.reaction.is_some() {
-                        m.reaction.clone().unwrap().emoji.clone()
-                    } else if m.attachments.len() > 0 {
+                        m.reaction.unwrap().emoji
+                    } else if !m.attachments.is_empty() {
                         for attachment in &m.attachments {
                             if let Some(AttachmentIdentifier::CdnId(id)) =
                                 attachment.attachment_identifier
@@ -289,13 +289,13 @@ impl AxolotlMessage {
                         if m.body.is_some() {
                             Some(format!(
                                 "Unsuported attachment. {}",
-                                m.body.clone().unwrap()
+                                m.body.unwrap()
                             ))
                         } else {
                             Some("Unsuported attachment.".to_string())
                         }
                     } else {
-                        m.body.clone()
+                        m.body
                     }
                 } else {
                     Some("SyncMessage".to_string())
@@ -304,9 +304,9 @@ impl AxolotlMessage {
             _ => None,
         };
         let timestamp: Option<u64> = match body {
-            ContentBody::DataMessage(m) => m.timestamp.clone(),
+            ContentBody::DataMessage(m) => m.timestamp,
             ContentBody::SynchronizeMessage(m) => match m.sent {
-                Some(s) => s.timestamp.clone(),
+                Some(s) => s.timestamp,
                 None => None,
             },
             _ => None,
@@ -315,10 +315,10 @@ impl AxolotlMessage {
             sender: None,
             message_type,
             message: data_message,
-            timestamp: timestamp,
+            timestamp,
             is_outgoing,
             thread_id: None,
-            attachments: attachments,
+            attachments,
             is_sent: true, // TODO
         }
     }
@@ -345,8 +345,8 @@ impl AxolotlMessage {
         };
 
         let data_message = if data.reaction.is_some() {
-            data.reaction.clone().unwrap().emoji.clone()
-        } else if data.attachments.len() > 0 {
+            data.reaction.clone().unwrap().emoji
+        } else if !data.attachments.is_empty() {
             if data.body.is_some() {
                 Some(format!(
                     "Unsuported attachment. {}",
@@ -366,7 +366,7 @@ impl AxolotlMessage {
             timestamp: Some(timestamp),
             is_outgoing,
             thread_id: None,
-            attachments: attachments,
+            attachments,
             is_sent: true, // TODO
         }
     }
