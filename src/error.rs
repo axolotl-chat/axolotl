@@ -12,7 +12,7 @@ pub enum ApplicationError {
     SledStore(presage_store_sled::SledStoreError),
     UnauthorizedSignal,
     SendFailed(presage::libsignal_service::sender::MessageSenderError),
-    ReceiveFailed(libsignal_service::receiver::MessageReceiverError),
+    ReceiveFailed(String),
     WebSocketError,
     WebSocketHandleMessageError(String),
     RegistrationError(String),
