@@ -165,7 +165,7 @@ mod ut {
         tokio::task::spawn_blocking(|| {
             Command::new("qmlscene")
                 .arg("--scaling")
-                .arg("--webEngineArgs ")
+                .arg("--webEngineArgs")
                 .arg("--remote-debugging-port")
                 .arg("ut/MainUt.qml")
                 .stdout(Stdio::piped())

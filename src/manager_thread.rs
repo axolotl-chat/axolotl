@@ -114,10 +114,7 @@ impl TryFrom<ThreadMetadata> for AxolotlSession {
                     Some(message) => message.to_string(),
                     None => String::new(),
                 });
-        let is_group: bool = match session.thread {
-            Thread::Group(_group) => true,
-            _ => false,
-        };
+        let is_group = matches!(session.thread, Thread::Group(_));
 
         Ok(Self {
             id: session.thread,
@@ -487,10 +484,7 @@ async fn command_loop(
 
                                         }
                                         let sender = msg.metadata.sender.uuid;
-                                        let is_group = match thread {
-                                            Thread::Group(_)=> true,
-                                            _ => false,
-                                        };
+                                        let is_group = matches!(thread, Thread::Group(_));
                                         let mut notification = Notification{
                                             sender: title.clone(),
                                             message: body,
@@ -513,11 +507,6 @@ async fn command_loop(
                                                         let identifier = match attachment_pointer.attachment_identifier.clone().unwrap() {
                                                             AttachmentIdentifier::CdnId(id) => id.to_string(),
                                                             AttachmentIdentifier::CdnKey(key) => key,
-                                                            _ => {
-                                                                log::debug!("Attachment: {:?} \n pointer {:?}", attachment.clone(), attachment_pointer.clone());
-                                                                log::error!("The uploaded attachment has no identifier.");
-                                                                "0".to_string()
-                                                            }
                                                         };
                                                         handlers::save_attachment(&attachment, &identifier);
                                                     },
@@ -546,59 +535,49 @@ async fn command_loop(
                                         notify_message(&notification).await;
                                     }
                                     ContentBody::SynchronizeMessage(sync_message) => {
-                                      match sync_message.sent{
-                                        Some(sm) => {
-                                            match sm.message {
-                                                Some(m) =>{
-                                                    // download attachments
-                                                    if !m.attachments.is_empty() {
-                                                       let attachments = m.attachments.clone();
-                                                       for attachment in attachments {
-                                                           let attachment_pointer = attachment.clone();
-                                                           match manager.get_attachment(&attachment_pointer).await{
-                                                               Ok(attachment) => {
-                                                                   let cdnid = match attachment_pointer.attachment_identifier.clone().unwrap() {
-                                                                       AttachmentIdentifier::CdnId(id) => id,
-                                                                       _ => {
-                                                                           log::error!("The uploaded attachment has no identifier.");
-                                                                           0
-                                                                       }
-                                                                   };
-                                                                   handlers::save_attachment(&attachment, &cdnid.to_string());
-                                                               },
-                                                               Err(e) => {
-                                                                   log::error!("Failed to download attachment: {}", e);
-                                                               }
+                                       if let Some(sm) = sync_message.sent {
+                                            if let Some(m) = sm.message {
+                                                // download attachments
+                                                if !m.attachments.is_empty() {
+                                                   let attachments = m.attachments.clone();
+                                                   for attachment in attachments {
+                                                       let attachment_pointer = attachment.clone();
+                                                       match manager.get_attachment(&attachment_pointer).await{
+                                                           Ok(attachment) => {
+                                                               let cdnid = match attachment_pointer.attachment_identifier.clone().unwrap() {
+                                                                   AttachmentIdentifier::CdnId(id) => id,
+                                                                   _ => {
+                                                                       log::error!("The uploaded attachment has no identifier.");
+                                                                       0
+                                                                   }
+                                                               };
+                                                               handlers::save_attachment(&attachment, &cdnid.to_string());
+                                                           },
+                                                           Err(e) => {
+                                                               log::error!("Failed to download attachment: {}", e);
                                                            }
                                                        }
-                                                    }
-                                                    match m.body.clone() {
+                                                   }
+                                                }
+                                                if let Some(_data) = m.body.clone() {
+                                                    let body = m.body.as_ref().unwrap_or(&String::from("")).to_string();
+                                                    let thread = Thread::try_from(&msg).unwrap();
+                                                    log::debug!("Received sync data message: {:?}", &thread);
+                                                    let title = manager.get_title_for_thread(&thread).await.unwrap_or("".to_string());
+                                                    let mut thread_metadata = manager.thread_metadata(&thread).await.unwrap().unwrap();
+                                                    if !body.is_empty() {
+                                                        thread_metadata.title = Some(title.clone());
+                                                        thread_metadata.unread_messages_count += 1;
+                                                        thread_metadata.last_message = Some(ThreadMetadataMessageContent{
+                                                            message: Some(body.clone()),
+                                                            timestamp: msg.metadata.timestamp,
+                                                            sender: msg.metadata.sender.uuid,
+                                                        });
+                                                        let _ = manager.save_thread_metadata(thread_metadata.clone());
 
-                                                        Some(_data) => {
-                                                            let body = m.body.as_ref().unwrap_or(&String::from("")).to_string();
-                                                            let thread = Thread::try_from(&msg).unwrap();
-                                                            log::debug!("Received sync data message: {:?}", &thread);
-                                                            let title = manager.get_title_for_thread(&thread).await.unwrap_or("".to_string());
-                                                            let mut thread_metadata = manager.thread_metadata(&thread).await.unwrap().unwrap();
-                                                            if !body.is_empty() {
-                                                                thread_metadata.title = Some(title.clone());
-                                                                thread_metadata.unread_messages_count += 1;
-                                                                thread_metadata.last_message = Some(ThreadMetadataMessageContent{
-                                                                    message: Some(body.clone()),
-                                                                    timestamp: msg.metadata.timestamp,
-                                                                    sender: msg.metadata.sender.uuid,
-                                                                });
-                                                                let _ = manager.save_thread_metadata(thread_metadata.clone());
-
-                                                            }
-                                                        },
-                                                        None => {}
                                                     }
-                                                },
-                                                None => {}
+                                                }
                                             }
-                                        },
-                                        None => {}
                                       }
                                     }
                                     _ => {}
@@ -702,7 +681,7 @@ fn postal<R: ReadAll, A: AppendAll>(method: &str, args: A) -> Result<R, dbus::Er
         format!(
             "{}{}",
             DBUS_PATH_PART,
-            APP_ID.replace(".", "_2e").replace("-", "_2f")
+            APP_ID.replace('.', "_2e").replace('-', "_2f")
         ),
         Duration::from_millis(5000),
     );
