@@ -118,6 +118,26 @@ impl Handler {
             registration_manager: None,
         })
     }
+
+    pub async fn run(
+        mut self,
+        mut connection: mpsc::Receiver<WebSocket>,
+    ) -> Result<(), ApplicationError> {
+        // TODO: Do we want to allow a new incoming connection to replace the current one?
+        while let Some(websocket) = connection.recv().await {
+            match self.start_manager(websocket).await {
+                Ok(_) => log::info!("Manager started"),
+                Err(e) => {
+                    log::error!("Error starting the manager: {}", e);
+                }
+            }
+            // TODO in fact, this point is reached after the manager finishes
+            log::info!("Manager started");
+        }
+
+        Ok(())
+    }
+
     pub async fn get_config_store() -> Result<SledStore, ApplicationError> {
         let config_path = dirs::config_dir()
             .unwrap()
@@ -153,18 +173,6 @@ impl Handler {
             }
         };
         Ok(config_store)
-    }
-    /// Handles a client connection
-    pub async fn handle_ws_client(&mut self, websocket: warp::ws::WebSocket) {
-        // start manager only the first time, else replace the sender and receiver
-        log::debug!("Starting the manager and handling the client.");
-        match self.start_manager(websocket).await {
-            Ok(_) => log::info!("Manager started"),
-            Err(e) => {
-                log::error!("Error starting the manager: {}", e);
-            }
-        }
-        log::info!("Manager started");
     }
 
     pub async fn start_manager(
