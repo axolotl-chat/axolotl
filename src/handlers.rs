@@ -11,7 +11,6 @@ use crate::requests::UploadAttachmentUtRequest;
 use data_url::DataUrl;
 extern crate dirs;
 use futures::channel::oneshot::Receiver;
-use futures::executor::block_on;
 use futures::stream::{SplitSink, SplitStream};
 use futures::{SinkExt, StreamExt};
 use libsignal_service::prelude::{phonenumber, Uuid};
@@ -23,14 +22,14 @@ use presage::prelude::{ContentBody, DataMessage, GroupContextV2};
 use presage_store_sled::SledStoreError;
 use serde::{Serialize, Serializer};
 use serde_json::error::Error as SerdeError;
-use std::cell::Cell;
+use std::cell::{Cell, OnceCell};
 use std::fs::{self, File};
 use std::io::{Read, Write};
 use std::ops::Bound::Unbounded;
 use std::process::exit;
+use std::rc::Rc;
+use std::sync::Arc;
 use std::time::{self, UNIX_EPOCH};
-use std::{sync::Arc, thread};
-use tokio::runtime::Runtime;
 use tokio::sync::Mutex;
 use url::Url;
 use warp::filters::ws::Message;
@@ -55,7 +54,7 @@ pub struct Handler {
     pub receive_error: mpsc::Receiver<ApplicationError>,
     pub sender: Option<Arc<Mutex<SplitSink<WebSocket, Message>>>>,
     pub receiver: Option<Arc<Mutex<SplitStream<WebSocket>>>>,
-    pub manager_thread: Arc<Mutex<Option<ManagerThread>>>,
+    pub manager_thread: Rc<OnceCell<ManagerThread>>,
     pub receive_content: Arc<Mutex<Option<UnboundedReceiver<Content>>>>,
     pub is_registered: Option<bool>,
     pub captcha: Option<String>,
@@ -74,7 +73,7 @@ impl Handler {
         let current_chat: Option<Thread> = None;
         let current_chat_mutex = Arc::new(Mutex::new(current_chat));
         let config_store = Handler::get_config_store().await?;
-        let manager_thread: Arc<Mutex<Option<ManagerThread>>> = Arc::new(Mutex::new(None));
+        let manager_thread = Rc::new(OnceCell::new());
         let thread = manager_thread.clone();
         let mut is_registered = Some(false);
         log::info!("Setting up the manager2");
@@ -82,7 +81,7 @@ impl Handler {
             log::info!("Registered, starting the manager");
             is_registered = Some(true);
 
-            tokio::spawn(async move {
+            tokio::task::spawn_local(async move {
                 let manager = ManagerThread::new(
                     config_store.clone(),
                     "axolotl".to_string(),
@@ -94,10 +93,9 @@ impl Handler {
                 )
                 .await;
                 log::info!("Manager thread started, ready to receive messages from the client");
-                let mut m = thread.lock().await;
-                *m = manager;
-                // free the lock
-                drop(m);
+                if let Some(manager) = manager {
+                    let _ = thread.set(manager);
+                }
             });
         } else {
             log::info!("Not yet registered.");
@@ -123,17 +121,23 @@ impl Handler {
         mut self,
         mut connection: mpsc::Receiver<WebSocket>,
     ) -> Result<(), ApplicationError> {
-        // TODO: Do we want to allow a new incoming connection to replace the current one?
-        while let Some(websocket) = connection.recv().await {
-            match self.start_manager(websocket).await {
-                Ok(_) => log::info!("Manager started"),
-                Err(e) => {
-                    log::error!("Error starting the manager: {}", e);
+        // The local set allows us to use spawn_local for non-`Send` futures
+        let local = tokio::task::LocalSet::new();
+        local
+            .run_until(async move {
+                // TODO: Do we want to allow a new incoming connection to replace the current one?
+                while let Some(websocket) = connection.recv().await {
+                    match self.start_manager(websocket).await {
+                        Ok(_) => log::info!("Manager started"),
+                        Err(e) => {
+                            log::error!("Error starting the manager: {}", e);
+                        }
+                    }
+                    // TODO in fact, this point is reached after the manager finishes
+                    log::info!("Manager started");
                 }
-            }
-            // TODO in fact, this point is reached after the manager finishes
-            log::info!("Manager started");
-        }
+            })
+            .await;
 
         Ok(())
     }
@@ -228,7 +232,7 @@ impl Handler {
                 log::debug!("Registration confirmation sent and done");
             }
             log::debug!("Creating manager");
-            let manager = self.manager_thread.lock().await;
+            let manager = self.manager_thread.get();
             if manager.is_none() {
                 log::debug!("Manager is none, creating {:?}", self.receive_error);
                 // todo for errors
@@ -237,7 +241,6 @@ impl Handler {
                     continue;
                 }
             }
-            std::mem::drop(manager);
 
             log::info!("Manager created");
 
@@ -247,9 +250,7 @@ impl Handler {
                 let shared_sender_mutex = Arc::clone(&shared_sender);
                 let r = self.receive_content.clone();
 
-                thread::spawn(move || {
-                    block_on(Handler::handle_received_message(r, shared_sender_mutex))
-                });
+                tokio::task::spawn(Handler::handle_received_message(r, shared_sender_mutex));
                 self.handle_receiving_messages().await;
             }
         }
@@ -369,7 +370,7 @@ impl Handler {
                         Some(u)
                     }
                     None => {
-                        thread::sleep(time::Duration::from_secs(1));
+                        tokio::time::sleep(time::Duration::from_secs(1)).await;
                         continue;
                     }
                 };
@@ -486,7 +487,7 @@ impl Handler {
 
         // wait 3 seconds for the manager to be initialized
 
-        thread::sleep(time::Duration::from_secs(2));
+        tokio::time::sleep(time::Duration::from_secs(2)).await;
         let config_store = match Handler::get_config_store().await {
             Ok(c) => c,
             Err(e) => {
@@ -697,13 +698,11 @@ impl Handler {
                 "Got message from axolotl: {:?}, awaitng manager thread lock",
                 body
             );
-            let manager = self.manager_thread.lock().await;
-            log::debug!("Got manager thread lock");
-
-            if manager.is_none() {
+            let Some(manager) = self.manager_thread.get() else {
                 log::error!("Manager not initialized");
                 return;
-            }
+            };
+
             let message = match body {
                 Ok(msg) => msg,
                 Err(_) => {
@@ -716,7 +715,7 @@ impl Handler {
 
             log::debug!("Got websocket message from axolotl-web: {:?}", message);
             match self
-                .handle_websocket_message(message, sender, &manager.clone().unwrap())
+                .handle_websocket_message(message, sender, manager)
                 .await
             {
                 Ok(_) => log::info!("Message handled"),
@@ -767,8 +766,7 @@ impl Handler {
         &self,
         thread: &Thread,
     ) -> Result<Option<ThreadMetadata>, ApplicationError> {
-        let manager = self.manager_thread.lock().await;
-        let manager = manager.as_ref().unwrap();
+        let manager = self.manager_thread.get().unwrap();
         match manager.thread_metadata(thread).await {
             Ok(metadata) => Ok(metadata),
             Err(e) => Err(ApplicationError::from(e)),
@@ -785,8 +783,7 @@ impl Handler {
             muted: false,
         };
 
-        let manager = self.manager_thread.lock().await;
-        let manager = manager.as_ref().unwrap();
+        let manager = self.manager_thread.get().unwrap();
         match manager.save_thread_metadata(metadata).await {
             Ok(_) => Ok(()),
             Err(e) => Err(ApplicationError::from(e)),

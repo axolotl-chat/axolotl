@@ -106,10 +106,14 @@ impl TryFrom<ThreadMetadata> for AxolotlSession {
             Some(message) => message.timestamp,
             None => 0,
         };
-        let message: Option<String> = session.last_message.as_ref().map(|message| match &message.message {
-                Some(message) => message.to_string(),
-                None => String::new(),
-            });
+        let message: Option<String> =
+            session
+                .last_message
+                .as_ref()
+                .map(|message| match &message.message {
+                    Some(message) => message.to_string(),
+                    None => String::new(),
+                });
         let is_group: bool = match session.thread {
             Thread::Group(_group) => true,
             _ => false,
@@ -149,35 +153,15 @@ impl ManagerThread {
         error: mpsc::Sender<ApplicationError>,
     ) -> Option<Self> {
         let (sender, receiver) = mpsc::channel(MESSAGE_BOUND);
-        std::thread::spawn(move || {
-            let error_clone = error.clone();
-            let panic = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
-                tokio::runtime::Runtime::new()
-                    .expect("Failed to setup runtime")
-                    .block_on(async move {
-                        let setup =
-                            setup_manager(config_store.clone(), device_name, link_callback).await;
-                        if let Ok(mut manager) = setup {
-                            log::info!("Starting command loop");
-                            drop(error_callback);
-                            command_loop(&mut manager, receiver, content, error).await;
-                        } else {
-                            let e = setup.err().unwrap();
-                            log::info!("Got error: {}", e);
-                            error_callback.send(e).expect("Failed to send error")
-                        }
-                    });
-            }));
-            if let Err(_e) = panic {
-                log::info!("Manager-thread paniced");
-                tokio::runtime::Runtime::new()
-                    .expect("Failed to setup runtime")
-                    .block_on(async move {
-                        error_clone
-                            .send(ApplicationError::ManagerThreadPanic)
-                            .await
-                            .expect("Failed to send error");
-                    });
+        tokio::task::spawn_local(async move {
+            let setup = setup_manager(config_store.clone(), device_name, link_callback).await;
+            if let Ok(mut manager) = setup {
+                log::info!("Starting command loop");
+                command_loop(&mut manager, receiver, content, error).await;
+            } else {
+                let e = setup.err().unwrap();
+                log::info!("Got error: {}", e);
+                error_callback.send(e).expect("Failed to send error");
             }
         });
 
@@ -191,20 +175,19 @@ impl ManagerThread {
         }
         let contacts = receiver_contacts.await;
 
-        if contacts.is_err() {
-            return None;
+        match contacts {
+            Err(_) | Ok(Err(_)) => {
+                // TODO: Error handling
+                log::info!("Could not load contacts");
+                None
+            }
+            Ok(Ok(contacts)) => Some(Self {
+                command_sender: sender,
+                contacts: Arc::new(Mutex::new(contacts)),
+                sessions: Arc::new(Mutex::new(vec![])),
+                current_chat,
+            }),
         }
-
-        if let Err(_e) = &contacts.as_ref().unwrap() {
-            // TODO: Error handling
-            log::info!("Could not load contacts");
-        }
-        Some(Self {
-            command_sender: sender,
-            contacts: Arc::new(Mutex::new(contacts.unwrap().unwrap_or_default())),
-            sessions: Arc::new(Mutex::new(Vec::new())),
-            current_chat,
-        })
     }
 }
 
@@ -802,7 +785,7 @@ async fn handle_command(manager: &mut Manager<SledStore, Registered>, command: C
                 Ok(m) => Ok(m.filter_map(|r| r.ok()).collect()),
                 Err(e) => {
                     log::error!("Failed to get thread metadatas: {}", e);
-                    return ;
+                    return;
                 }
             })
             .expect("Callback sending failed"),
