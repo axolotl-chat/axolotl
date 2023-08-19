@@ -63,7 +63,7 @@ pub struct Handler {
 }
 
 impl Handler {
-    pub async fn new() -> Result<Self, ApplicationError> {
+    async fn new() -> Result<Self, ApplicationError> {
         log::info!("Setting up the handler");
         let (provisioning_link_tx, provisioning_link_rx) = oneshot::channel();
         let (error_tx, error_rx) = oneshot::channel();
@@ -117,27 +117,19 @@ impl Handler {
         })
     }
 
-    pub async fn run(
+    async fn run(
         mut self,
         mut connection: mpsc::Receiver<WebSocket>,
     ) -> Result<(), ApplicationError> {
-        // The local set allows us to use spawn_local for non-`Send` futures
-        let local = tokio::task::LocalSet::new();
-        local
-            .run_until(async move {
-                // TODO: Do we want to allow a new incoming connection to replace the current one?
-                while let Some(websocket) = connection.recv().await {
-                    match self.start_manager(websocket).await {
-                        Ok(_) => log::info!("Manager started"),
-                        Err(e) => {
-                            log::error!("Error starting the manager: {}", e);
-                        }
-                    }
-                    // TODO in fact, this point is reached after the manager finishes
-                    log::info!("Manager started");
+        // TODO: Do we want to allow a new incoming connection to replace the current one?
+        while let Some(websocket) = connection.recv().await {
+            match self.run_manager(websocket).await {
+                Ok(_) => log::info!("Manager finished"),
+                Err(e) => {
+                    log::error!("Error starting the manager: {}", e);
                 }
-            })
-            .await;
+            }
+        }
 
         Ok(())
     }
@@ -179,7 +171,7 @@ impl Handler {
         Ok(config_store)
     }
 
-    pub async fn start_manager(
+    pub async fn run_manager(
         &mut self,
         websocket: warp::ws::WebSocket,
     ) -> Result<(), ApplicationError> {
@@ -1507,6 +1499,20 @@ impl Handler {
         Ok(())
         //sender.send(Message::text("working")).await.unwrap();
     }
+}
+
+pub async fn create_and_run_backend(
+    connection: mpsc::Receiver<WebSocket>,
+) -> Result<(), ApplicationError> {
+    // The local set allows us to use spawn_local for non-`Send` futures
+    tokio::task::LocalSet::new()
+        .run_until(async move {
+            let backend = Handler::new().await?;
+            log::info!("Axolotl backend started");
+
+            backend.run(connection).await
+        })
+        .await
 }
 
 /// Save a file on the disk

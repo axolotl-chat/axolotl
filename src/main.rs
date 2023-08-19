@@ -1,4 +1,4 @@
-use axolotl::handlers::get_app_dir;
+use axolotl::handlers::{create_and_run_backend, get_app_dir};
 use std::process::exit;
 
 use axolotl::handlers::Handler;
@@ -41,13 +41,7 @@ async fn run_backend() {
         run_websocket(request_tx).await;
     });
 
-    let backend = Handler::new().await.unwrap_or_else(|e| {
-        log::error!("Error while starting the backend: {}", e);
-        exit(1);
-    });
-    log::info!("Axolotl backend started");
-
-    backend.run(request_rx).await.unwrap();
+    create_and_run_backend(request_rx).await.unwrap();
     server_task.await.unwrap();
 }
 
