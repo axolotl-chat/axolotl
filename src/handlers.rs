@@ -588,10 +588,15 @@ impl Handler {
             }
         };
         log::debug!("Creating manager for registration");
+        let signal_servers = if cfg!(feature = "staging-servers") {
+            presage::prelude::SignalServers::Staging
+        } else {
+            presage::prelude::SignalServers::Production
+        };
         let manager = match Manager::register(
             config_store,
             RegistrationOptions {
-                signal_servers: presage::prelude::SignalServers::Production,
+                signal_servers,
                 phone_number: p,
                 use_voice_call: false,
                 captcha: Some(c.as_str()),
