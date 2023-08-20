@@ -527,7 +527,7 @@ impl Handler {
         let (send_error, receive_error) = mpsc::channel(MESSAGE_BOUND);
         self.receive_error = receive_error;
         log::debug!("Creating runtime");
-        tokio::task::spawn(async move {
+        tokio::task::spawn_local(async move {
             log::debug!("Spawning manager thread");
             ManagerThread::new(
                 config_store.clone(),
