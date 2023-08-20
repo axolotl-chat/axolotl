@@ -92,7 +92,9 @@ impl Handler {
                     send_error,
                 )
                 .await;
-                log::info!("Manager thread started, ready to receive messages from the client");
+                log::info!(
+                    "Handler: ManagerThread started, ready to receive messages from the client."
+                );
                 if let Some(manager) = manager {
                     let _ = thread.set(manager);
                 }
@@ -258,6 +260,7 @@ impl Handler {
         r: Arc<Mutex<SplitStream<WebSocket>>>,
     ) -> Result<bool, ApplicationError> {
         let mut is_closed = false;
+        // todo: unblock the websocket connection for receiving the pin
         while let Some(message) = r.lock().await.next().await {
             match message {
                 Ok(message) => {
@@ -408,9 +411,9 @@ impl Handler {
         };
         if let Some(phone_number) = &self.phone_number {
             log::debug!("Got phone number: {phone_number}");
-            let (code_tx, code_rx) = mpsc::channel(MESSAGE_BOUND);
             self.get_phone_pin().await;
-            match self.get_verification_code(code_rx).await {
+
+            match self.get_verification_code(r).await {
                 Ok(_) => {
                     log::debug!("Success sending verification code")
                 }
@@ -419,52 +422,6 @@ impl Handler {
                     self.get_phone_number().await;
                     return Ok(false);
                 }
-            }
-            let code_message: Option<Result<Message, warp::Error>> = r.lock().await.next().await;
-            match code_message {
-                Some(Ok(code_message)) => {
-                    if code_message.is_close() {
-                        log::info!("Got close message, exiting");
-                        *is_closed = true;
-                        return Ok(false);
-                    } else if code_message.is_text() {
-                        let text = code_message.to_str().unwrap();
-                        if let Ok::<AxolotlRequest, SerdeError>(axolotl_request) =
-                            serde_json::from_str(text)
-                        {
-                            // Axolotl request
-                            let request_type: &str = axolotl_request.request.as_str();
-                            log::info!(
-                                "Axolotl registration request code message: {}",
-                                request_type
-                            );
-                            if request_type == "sendCode" {
-                                let code = axolotl_request.data;
-                                if let Some(code) = code {
-                                    log::info!("Got code: {}", code);
-                                    match code_tx.send(code.into_boxed_str()).await {
-                                        Ok(_) => (),
-                                        Err(e) => {
-                                            log::error!(
-                                                "Error sending code to registration manager: {}",
-                                                e
-                                            );
-                                            return Ok(false);
-                                        }
-                                    };
-                                } else {
-                                    log::error!("No valid code provided");
-                                    self.get_phone_pin().await;
-                                }
-                            }
-                        }
-                    }
-                }
-                Some(Err(e)) => {
-                    log::error!("Error getting message: {}", e);
-                    return Ok(false);
-                }
-                None => (),
             }
         } else {
             log::error!("No valid phone number provided");
@@ -539,9 +496,9 @@ impl Handler {
                 send_error,
             )
             .await;
-            log::info!("Manager thread started, ready to receive messages from the client2");
+            log::info!("provision linking: ManagerThread started, ready to receive messages from the client.");
         });
-        log::debug!("runtime created");
+        log::debug!("provision linking: runtime created");
 
         Ok(())
     }
@@ -564,10 +521,75 @@ impl Handler {
             }
         }
     }
+    async fn wait_for_code(
+        &self,
+        r: Arc<Mutex<SplitStream<WebSocket>>>,
+    ) -> Result<String, ApplicationError> {
+        log::debug!("Waiting for code");
+        loop {
+            // todo: we never get here, because the websocket is blocked
+            log::debug!("Awaiting for r lock");
+            let mut  rLock = r.lock().await;
+            log::debug!("Awaiting for next");
+
+            let code_message: Option<Result<Message, warp::Error>> = rLock.next().await;
+            log::debug!("Got next message {:?}", code_message);
+            match code_message {
+                Some(Ok(code_message)) => {
+                    if code_message.is_close() {
+                        log::info!("Got close message, exiting");
+                        return Err(ApplicationError::RegistrationError(
+                            "Error requesting pin: websocket was closed".to_string(),
+                        ));
+                    } else if code_message.is_text() {
+                        let text = code_message.to_str().unwrap();
+                        if let Ok::<AxolotlRequest, SerdeError>(axolotl_request) =
+                            serde_json::from_str(text)
+                        {
+                            // Axolotl request
+                            let request_type: &str = axolotl_request.request.as_str();
+                            log::info!(
+                                "Axolotl registration request code message: {}",
+                                request_type
+                            );
+                            if request_type == "sendCode" {
+                                let code = axolotl_request.data;
+                                if code.is_some() {
+                                    return Ok(code.unwrap());
+                                } else {
+                                    log::error!("No valid code provided");
+                                    self.get_phone_pin().await;
+                                    continue;
+                                }
+                            } else {
+                                continue;
+                            }
+                        } else {
+                            continue;
+                        }
+                    } else {
+                        continue;
+                    }
+                }
+                Some(Err(e)) => {
+                    log::error!("Error getting message: {}", e);
+                    return Err(ApplicationError::RegistrationError(
+                        "Error requesting pin".to_string(),
+                    ));
+                }
+                None => {
+                    log::error!("Error getting message: None");
+                    return Err(ApplicationError::RegistrationError(
+                        "Error requesting pin".to_string(),
+                    ));
+                }
+            };
+        }
+    }
 
     async fn get_verification_code(
         &mut self,
-        mut code_rx: tokio::sync::mpsc::Receiver<Box<str>>,
+        r: Arc<Mutex<SplitStream<WebSocket>>>,
     ) -> Result<(), ApplicationError> {
         log::debug!("Getting verification code");
         if self.phone_number.is_none() {
@@ -615,16 +637,9 @@ impl Handler {
                 ));
             }
         };
-        log::debug!("check code_rx for code {:?}", code_rx);
-        let code = match code_rx.recv().await {
-            Some(c) => c,
-            None => {
-                log::error!("No code provided");
-                return Err(ApplicationError::RegistrationError(
-                    "No code provided".to_string(),
-                ));
-            }
-        };
+        log::debug!("wait for getting a code from axolotl-web");
+        let code = self.wait_for_code(r).await?;
+
         match manager.confirm_verification_code(code).await {
             Ok(_) => (),
             Err(e) => {
