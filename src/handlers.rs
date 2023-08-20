@@ -1,4 +1,7 @@
+mod registration;
+
 use crate::error::ApplicationError;
+use crate::handlers::registration::Registration;
 use crate::manager_thread::ManagerThread;
 use crate::messages::send_message;
 use crate::requests::{
@@ -47,6 +50,8 @@ use presage_store_sled::SledStore;
 
 use tokio::sync::mpsc::{self, UnboundedReceiver};
 
+use self::registration::State;
+
 pub struct Handler {
     pub provisioning_link_rx: Option<Receiver<Url>>,
     pub provisioning_link: Option<Url>,
@@ -56,10 +61,9 @@ pub struct Handler {
     pub receiver: Option<Arc<Mutex<SplitStream<WebSocket>>>>,
     pub manager_thread: Rc<OnceCell<ManagerThread>>,
     pub receive_content: Arc<Mutex<Option<UnboundedReceiver<Content>>>>,
-    pub is_registered: Option<bool>,
     pub captcha: Option<String>,
     pub phone_number: Option<PhoneNumber>,
-    pub registration_manager: Option<Manager<SledStore, Confirmation>>,
+    registration: Registration,
 }
 
 impl Handler {
@@ -75,11 +79,9 @@ impl Handler {
         let config_store = Handler::get_config_store().await?;
         let manager_thread = Rc::new(OnceCell::new());
         let thread = manager_thread.clone();
-        let mut is_registered = Some(false);
         log::info!("Setting up the manager2");
         if config_store.is_registered() {
             log::info!("Registered, starting the manager");
-            is_registered = Some(true);
 
             tokio::task::spawn_local(async move {
                 let manager = ManagerThread::new(
@@ -112,10 +114,9 @@ impl Handler {
             receiver: None,
             manager_thread,
             receive_content: Arc::new(Mutex::new(Some(receive_content))),
-            is_registered,
             captcha: None,
             phone_number: None,
-            registration_manager: None,
+            registration: Registration::Unregistered,
         })
     }
 
@@ -192,27 +193,14 @@ impl Handler {
             }
             count += 1;
 
-            if self.is_registered.is_none() {
-                match Handler::check_registration().await {
-                    Ok(_) => {
-                        self.is_registered = Some(true);
-                    }
-                    Err(e) => {
-                        log::debug!("Error checking registration: {}", e);
-                        self.is_registered = Some(false);
-                    }
-                }
-            }
-            log::debug!("Is registered: {:?}", self.is_registered);
+            log::debug!("Is registered: {:?}", self.is_registered());
 
-            if let Some(false) = self.is_registered {
+            if !self.is_registered() {
                 log::info!("Starting registration process");
 
                 if self.start_registration().await.is_err() {
                     self.sender = None;
                 }
-
-                // check if client wants to register as primary or secondary device
 
                 let receiver = self.receiver.clone();
                 if let Some(r) = receiver {
@@ -239,7 +227,7 @@ impl Handler {
             log::info!("Manager created");
 
             // While messages come, handle them
-            if let Some(true) = self.is_registered {
+            if self.is_registered() {
                 self.send_registration_confirmation().await;
                 let shared_sender_mutex = Arc::clone(&shared_sender);
                 let r = self.receive_content.clone();
@@ -278,17 +266,20 @@ impl Handler {
                         .handle_registration_message(message, &mut is_closed, r.clone())
                         .await?
                     {
-                        break;
+                        return Ok(false);
                     }
                 }
                 Err(e) => {
                     log::error!("Error getting message: {}", e);
-                    break;
+                    self.registration = Registration::Unregistered;
+                    return Ok(false);
                 }
             }
         }
+
         if is_closed {
             log::info!("Got close message, exiting2");
+            self.registration = Registration::Unregistered;
             return Ok(false);
         }
 
@@ -311,45 +302,64 @@ impl Handler {
             // Axolotl request
             let request_type: &str = axolotl_request.request.as_str();
             log::info!("Axolotl registration request: {}", request_type);
-            match request_type {
-                "primaryDevice" => {
-                    self.get_phone_number().await;
-                }
-                "registerSecondaryDevice" => {
-                    self.handle_secondary_device_registration().await?;
-                }
+            let success = match request_type {
+                "primaryDevice" => self.start_primary_device_registration().await,
+                "registerSecondaryDevice" => self.handle_secondary_device_registration().await?,
                 "sendCaptchaToken" => {
-                    log::debug!("Got captcha token");
                     self.captcha = axolotl_request.data;
                     log::debug!("Got captcha token: {:?}", self.captcha);
-                    log::debug!("Getting phone number");
                     self.get_phone_number().await;
+                    true
                 }
                 "requestCode" => {
-                    if !self
-                        .handle_request_code_message(axolotl_request, is_closed, r)
+                    self.handle_request_code_message(axolotl_request.data)
                         .await?
-                    {
-                        return Ok(false);
-                    }
                 }
-                "ping" => {}
+                "sendCode" => self.handle_send_code_message(axolotl_request.data).await?,
+                "ping" => true,
                 unknown => {
                     log::error!("Unknown message type {unknown} with text: {text}");
-                    return Ok(false);
+                    false
                 }
-            }
+            };
+
+            return Ok(success);
         }
         log::info!("Got text message: {}", text);
 
         Ok(true)
     }
 
-    async fn handle_secondary_device_registration(&mut self) -> Result<(), ApplicationError> {
+    async fn start_primary_device_registration(&mut self) -> bool {
+        if !matches!(&self.registration, Registration::Unregistered) {
+            log::warn!(
+                "Ignoring request to start primary device registration, \
+                because: {}",
+                self.registration.explain_for_log()
+            );
+            false
+        } else {
+            self.registration = Registration::Chosen(registration::Type::Primary, State::Started);
+            self.get_phone_number().await;
+            true
+        }
+    }
+
+    async fn handle_secondary_device_registration(&mut self) -> Result<bool, ApplicationError> {
+        if !matches!(&self.registration, Registration::Unregistered) {
+            log::warn!(
+                "Ignoring request to start secondary device registration, \
+                because: {}",
+                self.registration.explain_for_log()
+            );
+            return Ok(false);
+        }
+        self.registration = Registration::Chosen(registration::Type::Secondary, State::Started);
+
         loop {
             log::debug!("Registering secondary device");
             self.create_provisioning_link().await?;
-            if let Some(true) = self.is_registered {
+            if self.is_registered() {
                 log::debug!("Device is already registered");
                 break;
             }
@@ -375,12 +385,13 @@ impl Handler {
                 log::debug!("Break out of loop, because error channel is closed");
                 match Handler::check_registration().await {
                     Ok(_) => {
-                        self.is_registered = Some(true);
-                        break;
+                        // TODO how to set to registered? Don't we need the manager?
+                        //self.is_registered = Some(true);
+                        //break;
+                        todo!();
                     }
                     Err(e) => {
                         log::debug!("Error checking registration: {}", e);
-                        self.is_registered = Some(false);
                     }
                 }
             }
@@ -391,16 +402,14 @@ impl Handler {
             log::error!("Got error after linking device2: {}", error_opt);
         }
 
-        Ok(())
+        Ok(true)
     }
 
     async fn handle_request_code_message(
         &mut self,
-        axolotl_request: AxolotlRequest,
-        is_closed: &mut bool,
-        r: Arc<Mutex<SplitStream<WebSocket>>>,
+        data: Option<String>,
     ) -> Result<bool, ApplicationError> {
-        self.phone_number = match axolotl_request.data {
+        self.phone_number = match data {
             Some(data) => match phonenumber::parse(None, data) {
                 Ok(phone_number) => Some(phone_number),
                 Err(e) => {
@@ -410,62 +419,54 @@ impl Handler {
             },
             None => None,
         };
-        if let Some(phone_number) = &self.phone_number {
-            log::debug!("Got phone number: {phone_number}");
-            self.get_phone_pin().await;
-            let manager = match self.request_verification_code().await {
-                Ok(m) => m,
-                Err(e) => {
-                    log::error!("Error getting verification code: {}", e);
-                    self.get_phone_number().await;
-                    return Ok(false);
-                }
-            };
 
-            while let Some(Ok(code_message)) = r.lock().await.next().await {
-                if code_message.is_close() {
-                    log::info!("Got close message, exiting");
-                    *is_closed = true;
-                    return Ok(false);
-                } else if code_message.is_text() {
-                    let text = code_message.to_str().unwrap();
-                    if let Ok::<AxolotlRequest, SerdeError>(axolotl_request) =
-                        serde_json::from_str(text)
-                    {
-                        // Axolotl request
-                        let request_type: &str = axolotl_request.request.as_str();
-                        if request_type == "sendCode" {
-                            let code = axolotl_request.data;
-                            if let Some(code) = code {
-                                log::info!("Going to send verification code: {code}");
-                                let result = self.send_verification_code(manager, &code).await;
-                                if let Err(e) = result {
-                                    log::error!(
-                                        "Error sending code to registration manager: {}",
-                                        e
-                                    );
-                                    return Ok(false);
-                                }
-                                return Ok(result.is_ok());
-                            } else {
-                                log::error!("No valid code provided");
-                                self.get_phone_pin().await;
-                            }
-                        } else {
-                            log::info!(
-                                "Ignoring request code message {} because we are in the middle of a registration",
-                                request_type
-                            );
-                        }
-                    }
-                }
-            }
-        } else {
+        let Some(phone_number) = &self.phone_number else {
             log::error!("No valid phone number provided");
             self.get_phone_number().await;
-        }
+            return Ok(true);
+        };
+
+        log::debug!("Got phone number: {phone_number}");
+        self.get_phone_pin().await;
+        if let Err(e) = self.request_verification_code().await {
+            log::error!("Error getting verification code: {}", e);
+            self.get_phone_number().await;
+            return Ok(false);
+        };
 
         Ok(true)
+    }
+
+    async fn handle_send_code_message(
+        &mut self,
+        data: Option<String>,
+    ) -> Result<bool, ApplicationError> {
+        let Some(code) = data else {
+            log::error!("No valid code provided");
+            self.get_phone_pin().await;
+            return Ok(true);
+        };
+
+        let Registration::Chosen(device, State::Confirming(_)) = &self.registration else {
+            return Err(ApplicationError::RegistrationError("Got unexpected registration confirmation code.".to_string()));
+        };
+
+        let mut new_state = Registration::Chosen(*device, State::Registered);
+        std::mem::swap(&mut self.registration, &mut new_state);
+
+        if let Registration::Chosen(_, State::Confirming(manager)) = new_state {
+            log::info!("Going to send verification code: {code}");
+            let result = self.send_verification_code(manager, &code).await;
+            if let Err(e) = result {
+                log::error!("Error sending code to registration manager: {}", e);
+                Ok(false)
+            } else {
+                log::info!("Registration confirmation code sent.");
+                Ok(true)
+            }
+        } else {
+            Ok(false)
+        }
     }
 
     async fn check_registration() -> Result<(), ApplicationError> {
@@ -559,9 +560,7 @@ impl Handler {
         }
     }
 
-    async fn request_verification_code(
-        &mut self,
-    ) -> Result<Manager<SledStore, Confirmation>, ApplicationError> {
+    async fn request_verification_code(&mut self) -> Result<(), ApplicationError> {
         log::debug!("Requesting verification code");
         if self.phone_number.is_none() {
             log::error!("No phone number provided");
@@ -614,7 +613,18 @@ impl Handler {
             }
         };
 
-        Ok(manager)
+        // TODO arbitrarily set to primary for testing
+        let new_state =
+            Registration::Chosen(registration::Type::Primary, State::Confirming(manager));
+        //let new_state = match self.registration {
+        //    Registration::Chosen(device, State::Started) => {
+        //        Registration::Chosen(device, State::Confirming(manager))
+        //    }
+        //    _ => todo!(), // TODO how to avoid this branch in the first place?
+        //};
+        self.registration = new_state;
+
+        Ok(())
     }
 
     async fn send_verification_code(
@@ -637,6 +647,7 @@ impl Handler {
     }
 
     async fn get_phone_number(&self) {
+        log::debug!("Getting phone number");
         let message = "{\"response_type\":\"phone_number\",\"data\":\"\"}".to_string();
         let mut ws_sender = self.sender.as_ref().unwrap().lock().await;
         match ws_sender.send(Message::text(message)).await {
@@ -1494,6 +1505,13 @@ impl Handler {
         }
         Ok(())
         //sender.send(Message::text("working")).await.unwrap();
+    }
+
+    fn is_registered(&self) -> bool {
+        matches!(
+            self.registration,
+            Registration::Chosen(_, State::Registered)
+        )
     }
 }
 
