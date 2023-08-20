@@ -131,7 +131,7 @@ mod tauri {
 "#;
 
     pub async fn start_tauri() {
-        let t = tauri::Builder::default().setup(|app| {
+        let t = tauri::Builder::default().any_thread().setup(|app| {
             tauri::WindowBuilder::new(app, "label", tauri::WindowUrl::App("index.html".into()))
                 .initialization_script(INIT_SCRIPT)
                 .title("Axolotl")
