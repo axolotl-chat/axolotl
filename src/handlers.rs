@@ -247,25 +247,20 @@ impl Handler {
         &mut self,
         r: Arc<Mutex<SplitStream<WebSocket>>>,
     ) -> Result<bool, ApplicationError> {
-        let mut is_closed = false;
-        // todo: unblock the websocket connection for receiving the pin
         while let Some(message) = r.lock().await.next().await {
             match message {
                 Ok(message) => {
                     if message.is_close() {
                         log::info!("Got close message, exiting");
-                        is_closed = true;
-                        break;
+                        self.registration = Registration::Unregistered;
+                        return Ok(false);
                     }
 
                     if !message.is_text() {
                         continue;
                     }
 
-                    if !self
-                        .handle_registration_message(message, &mut is_closed, r.clone())
-                        .await?
-                    {
+                    if !self.handle_registration_message(message).await? {
                         return Ok(false);
                     }
                 }
@@ -275,22 +270,18 @@ impl Handler {
                     return Ok(false);
                 }
             }
+
+            if self.is_registered() {
+                return Ok(true);
+            }
         }
 
-        if is_closed {
-            log::info!("Got close message, exiting2");
-            self.registration = Registration::Unregistered;
-            return Ok(false);
-        }
-
-        Ok(true)
+        Ok(false)
     }
 
     async fn handle_registration_message(
         &mut self,
         message: Message,
-        is_closed: &mut bool,
-        r: Arc<Mutex<SplitStream<WebSocket>>>,
     ) -> Result<bool, ApplicationError> {
         let text = message.to_str().map_err(|_| {
             ApplicationError::WebSocketHandleMessageError(
@@ -315,7 +306,17 @@ impl Handler {
                     self.handle_request_code_message(axolotl_request.data)
                         .await?
                 }
-                "sendCode" => self.handle_send_code_message(axolotl_request.data).await?,
+                "sendCode" => {
+                    if self.handle_send_code_message(axolotl_request.data).await? {
+                        self.send_registration_confirmation().await;
+                        // TODO don't hard code the type
+                        self.registration =
+                            Registration::Chosen(registration::Type::Primary, State::Registered);
+                        true
+                    } else {
+                        false
+                    }
+                }
                 "ping" => true,
                 unknown => {
                     log::error!("Unknown message type {unknown} with text: {text}");
