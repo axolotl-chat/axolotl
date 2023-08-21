@@ -198,12 +198,7 @@ impl Handler {
             if !self.is_registered() {
                 log::info!("Starting registration process");
 
-                if self.start_registration().await.is_err() {
-                    self.sender = None;
-                }
-
-                let receiver = self.receiver.clone();
-                if let Some(r) = receiver {
+                if let Some(r) = self.receiver.clone() {
                     if !self.register(r).await? {
                         break;
                     }
@@ -247,6 +242,10 @@ impl Handler {
         &mut self,
         r: Arc<Mutex<SplitStream<WebSocket>>>,
     ) -> Result<bool, ApplicationError> {
+        if self.start_registration().await.is_err() {
+            self.sender = None;
+        }
+
         while let Some(message) = r.lock().await.next().await {
             match message {
                 Ok(message) => {
