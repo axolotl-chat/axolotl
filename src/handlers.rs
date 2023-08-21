@@ -80,9 +80,9 @@ impl Handler {
         let manager_thread = Rc::new(OnceCell::new());
         let thread = manager_thread.clone();
         log::info!("Setting up the manager2");
-        if config_store.is_registered() {
+        let registration = if config_store.is_registered() {
             log::info!("Registered, starting the manager");
-
+            // TODO do not hard code
             tokio::task::spawn_local(async move {
                 let manager = ManagerThread::new(
                     config_store.clone(),
@@ -101,9 +101,12 @@ impl Handler {
                     let _ = thread.set(manager);
                 }
             });
+
+            Registration::Chosen(registration::Type::Primary, State::Registered)
         } else {
             log::info!("Not yet registered.");
-        }
+            Registration::Unregistered
+        };
 
         Ok(Self {
             provisioning_link_rx: Some(provisioning_link_rx),
@@ -116,7 +119,7 @@ impl Handler {
             receive_content: Arc::new(Mutex::new(Some(receive_content))),
             captcha: None,
             phone_number: None,
-            registration: Registration::Unregistered,
+            registration,
         })
     }
 
