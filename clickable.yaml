@@ -39,12 +39,15 @@ libraries:
   axolotlweb:
     image_setup:
       run:
-        - curl -fsSL https://deb.nodesource.com/setup_20.x  | bash -
-        - apt-get install -y nodejs
+        # Install instructions taken from https://github.com/nodesource/distributions#installation-instructions
+        - mkdir -p /etc/apt/keyrings
+        - curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+        - echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
+        - apt-get update && apt-get install -y nodejs
         - echo "NODE Version:" && node --version
         - echo "NPM Version:" && npm --version
 
     builder: custom
     src_dir: axolotl-web
     build:
-      - cd ../../../axolotl-web/ && npm ci && npm run build
+      - cd ${SRC_DIR} && npm ci && npm run build
