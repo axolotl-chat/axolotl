@@ -11,7 +11,6 @@ use crate::requests::UploadAttachmentUtRequest;
 use data_url::DataUrl;
 extern crate dirs;
 use futures::channel::oneshot::Receiver;
-use futures::executor::block_on;
 use futures::stream::{SplitSink, SplitStream};
 use futures::{SinkExt, StreamExt};
 use libsignal_service::prelude::{phonenumber, Uuid};
@@ -23,14 +22,14 @@ use presage::prelude::{ContentBody, DataMessage, GroupContextV2};
 use presage_store_sled::SledStoreError;
 use serde::{Serialize, Serializer};
 use serde_json::error::Error as SerdeError;
-use std::cell::Cell;
+use std::cell::{Cell, OnceCell};
 use std::fs::{self, File};
 use std::io::{Read, Write};
 use std::ops::Bound::Unbounded;
 use std::process::exit;
+use std::rc::Rc;
+use std::sync::Arc;
 use std::time::{self, UNIX_EPOCH};
-use std::{sync::Arc, thread};
-use tokio::runtime::Runtime;
 use tokio::sync::Mutex;
 use url::Url;
 use warp::filters::ws::Message;
@@ -49,22 +48,22 @@ use presage_store_sled::SledStore;
 use tokio::sync::mpsc::{self, UnboundedReceiver};
 
 pub struct Handler {
-    pub provisioning_link_rx: Option<Arc<Mutex<Receiver<Url>>>>,
+    pub provisioning_link_rx: Option<Receiver<Url>>,
     pub provisioning_link: Option<Url>,
-    pub error_rx: Option<Arc<Mutex<Receiver<presage::Error<SledStoreError>>>>>,
+    pub error_rx: Option<Receiver<presage::Error<SledStoreError>>>,
     pub receive_error: mpsc::Receiver<ApplicationError>,
     pub sender: Option<Arc<Mutex<SplitSink<WebSocket, Message>>>>,
     pub receiver: Option<Arc<Mutex<SplitStream<WebSocket>>>>,
-    pub manager_thread: Arc<Mutex<Option<ManagerThread>>>,
+    pub manager_thread: Rc<OnceCell<ManagerThread>>,
     pub receive_content: Arc<Mutex<Option<UnboundedReceiver<Content>>>>,
     pub is_registered: Option<bool>,
     pub captcha: Option<String>,
     pub phone_number: Option<PhoneNumber>,
-    pub registration_manager: Option<Arc<Mutex<Manager<SledStore, Confirmation>>>>,
+    pub registration_manager: Option<Manager<SledStore, Confirmation>>,
 }
 
 impl Handler {
-    pub async fn new() -> Result<Self, ApplicationError> {
+    async fn new() -> Result<Self, ApplicationError> {
         log::info!("Setting up the handler");
         let (provisioning_link_tx, provisioning_link_rx) = oneshot::channel();
         let (error_tx, error_rx) = oneshot::channel();
@@ -74,7 +73,7 @@ impl Handler {
         let current_chat: Option<Thread> = None;
         let current_chat_mutex = Arc::new(Mutex::new(current_chat));
         let config_store = Handler::get_config_store().await?;
-        let manager_thread: Arc<Mutex<Option<ManagerThread>>> = Arc::new(Mutex::new(None));
+        let manager_thread = Rc::new(OnceCell::new());
         let thread = manager_thread.clone();
         let mut is_registered = Some(false);
         log::info!("Setting up the manager2");
@@ -82,7 +81,7 @@ impl Handler {
             log::info!("Registered, starting the manager");
             is_registered = Some(true);
 
-            tokio::spawn(async move {
+            tokio::task::spawn_local(async move {
                 let manager = ManagerThread::new(
                     config_store.clone(),
                     "axolotl".to_string(),
@@ -93,20 +92,21 @@ impl Handler {
                     send_error,
                 )
                 .await;
-                log::info!("Manager thread started, ready to receive messages from the client");
-                let mut m = thread.lock().await;
-                *m = manager;
-                // free the lock
-                drop(m);
+                log::info!(
+                    "Handler: ManagerThread started, ready to receive messages from the client."
+                );
+                if let Some(manager) = manager {
+                    let _ = thread.set(manager);
+                }
             });
         } else {
             log::info!("Not yet registered.");
         }
 
         Ok(Self {
-            provisioning_link_rx: Some(Arc::new(Mutex::new(provisioning_link_rx))),
+            provisioning_link_rx: Some(provisioning_link_rx),
             provisioning_link: None,
-            error_rx: Some(Arc::new(Mutex::new(error_rx))),
+            error_rx: Some(error_rx),
             receive_error,
             sender: None,
             receiver: None,
@@ -118,6 +118,24 @@ impl Handler {
             registration_manager: None,
         })
     }
+
+    async fn run(
+        mut self,
+        mut connection: mpsc::Receiver<WebSocket>,
+    ) -> Result<(), ApplicationError> {
+        // TODO: Do we want to allow a new incoming connection to replace the current one?
+        while let Some(websocket) = connection.recv().await {
+            match self.run_manager(websocket).await {
+                Ok(_) => log::info!("Manager finished"),
+                Err(e) => {
+                    log::error!("Error starting the manager: {}", e);
+                }
+            }
+        }
+
+        Ok(())
+    }
+
     pub async fn get_config_store() -> Result<SledStore, ApplicationError> {
         let config_path = dirs::config_dir()
             .unwrap()
@@ -154,20 +172,8 @@ impl Handler {
         };
         Ok(config_store)
     }
-    /// Handles a client connection
-    pub async fn handle_ws_client(&mut self, websocket: warp::ws::WebSocket) {
-        // start manager only the first time, else replace the sender and receiver
-        log::debug!("Starting the manager and handling the client.");
-        match self.start_manager(websocket).await {
-            Ok(_) => log::info!("Manager started"),
-            Err(e) => {
-                log::error!("Error starting the manager: {}", e);
-            }
-        }
-        log::info!("Manager started");
-    }
 
-    pub async fn start_manager(
+    pub async fn run_manager(
         &mut self,
         websocket: warp::ws::WebSocket,
     ) -> Result<(), ApplicationError> {
@@ -220,7 +226,7 @@ impl Handler {
                 log::debug!("Registration confirmation sent and done");
             }
             log::debug!("Creating manager");
-            let manager = self.manager_thread.lock().await;
+            let manager = self.manager_thread.get();
             if manager.is_none() {
                 log::debug!("Manager is none, creating {:?}", self.receive_error);
                 // todo for errors
@@ -229,7 +235,6 @@ impl Handler {
                     continue;
                 }
             }
-            std::mem::drop(manager);
 
             log::info!("Manager created");
 
@@ -239,9 +244,7 @@ impl Handler {
                 let shared_sender_mutex = Arc::clone(&shared_sender);
                 let r = self.receive_content.clone();
 
-                thread::spawn(move || {
-                    block_on(Handler::handle_received_message(r, shared_sender_mutex))
-                });
+                tokio::task::spawn(Handler::handle_received_message(r, shared_sender_mutex));
                 self.handle_receiving_messages().await;
             }
         }
@@ -257,6 +260,7 @@ impl Handler {
         r: Arc<Mutex<SplitStream<WebSocket>>>,
     ) -> Result<bool, ApplicationError> {
         let mut is_closed = false;
+        // todo: unblock the websocket connection for receiving the pin
         while let Some(message) = r.lock().await.next().await {
             match message {
                 Ok(message) => {
@@ -354,7 +358,6 @@ impl Handler {
             self.send_provisioning_link().await;
             log::debug!("Provisioning link sent successfully to client");
             let error_reciever = self.error_rx.as_mut().unwrap();
-            let mut error_reciever = error_reciever.lock().await;
             while let Ok(e) = error_reciever.try_recv() {
                 match e {
                     Some(u) => {
@@ -362,7 +365,7 @@ impl Handler {
                         Some(u)
                     }
                     None => {
-                        thread::sleep(time::Duration::from_secs(1));
+                        tokio::time::sleep(time::Duration::from_secs(1)).await;
                         continue;
                     }
                 };
@@ -408,9 +411,9 @@ impl Handler {
         };
         if let Some(phone_number) = &self.phone_number {
             log::debug!("Got phone number: {phone_number}");
-            let (code_tx, code_rx) = mpsc::channel(MESSAGE_BOUND);
             self.get_phone_pin().await;
-            match self.get_verification_code(code_rx).await {
+
+            match self.get_verification_code(r).await {
                 Ok(_) => {
                     log::debug!("Success sending verification code")
                 }
@@ -419,52 +422,6 @@ impl Handler {
                     self.get_phone_number().await;
                     return Ok(false);
                 }
-            }
-            let code_message: Option<Result<Message, warp::Error>> = r.lock().await.next().await;
-            match code_message {
-                Some(Ok(code_message)) => {
-                    if code_message.is_close() {
-                        log::info!("Got close message, exiting");
-                        *is_closed = true;
-                        return Ok(false);
-                    } else if code_message.is_text() {
-                        let text = code_message.to_str().unwrap();
-                        if let Ok::<AxolotlRequest, SerdeError>(axolotl_request) =
-                            serde_json::from_str(text)
-                        {
-                            // Axolotl request
-                            let request_type: &str = axolotl_request.request.as_str();
-                            log::info!(
-                                "Axolotl registration request code message: {}",
-                                request_type
-                            );
-                            if request_type == "sendCode" {
-                                let code = axolotl_request.data;
-                                if let Some(code) = code {
-                                    log::info!("Got code: {}", code);
-                                    match code_tx.send(code.into_boxed_str()).await {
-                                        Ok(_) => (),
-                                        Err(e) => {
-                                            log::error!(
-                                                "Error sending code to registration manager: {}",
-                                                e
-                                            );
-                                            return Ok(false);
-                                        }
-                                    };
-                                } else {
-                                    log::error!("No valid code provided");
-                                    self.get_phone_pin().await;
-                                }
-                            }
-                        }
-                    }
-                }
-                Some(Err(e)) => {
-                    log::error!("Error getting message: {}", e);
-                    return Ok(false);
-                }
-                None => (),
             }
         } else {
             log::error!("No valid phone number provided");
@@ -479,7 +436,7 @@ impl Handler {
 
         // wait 3 seconds for the manager to be initialized
 
-        thread::sleep(time::Duration::from_secs(2));
+        tokio::time::sleep(time::Duration::from_secs(2)).await;
         let config_store = match Handler::get_config_store().await {
             Ok(c) => c,
             Err(e) => {
@@ -517,9 +474,9 @@ impl Handler {
         }
 
         let (provisioning_link_tx, provisioning_link_rx) = oneshot::channel();
-        self.provisioning_link_rx = Some(Arc::new(Mutex::new(provisioning_link_rx)));
+        self.provisioning_link_rx = Some(provisioning_link_rx);
         let (error_tx, error_rx) = oneshot::channel();
-        self.error_rx = Some(Arc::new(Mutex::new(error_rx)));
+        self.error_rx = Some(error_rx);
         let (send_content, receive_content) = mpsc::unbounded_channel();
         self.receive_content = Arc::new(Mutex::new(Some(receive_content)));
         let current_chat: Option<Thread> = None;
@@ -527,23 +484,21 @@ impl Handler {
         let (send_error, receive_error) = mpsc::channel(MESSAGE_BOUND);
         self.receive_error = receive_error;
         log::debug!("Creating runtime");
-        thread::spawn(|| {
-            Runtime::new().unwrap().spawn(async move {
-                log::debug!("Spawning manager thread");
-                ManagerThread::new(
-                    config_store.clone(),
-                    "axolotl".to_string(),
-                    provisioning_link_tx,
-                    error_tx,
-                    send_content,
-                    current_chat_mutex,
-                    send_error,
-                )
-                .await;
-                log::info!("Manager thread started, ready to receive messages from the client2");
-            });
+        tokio::task::spawn_local(async move {
+            log::debug!("Spawning manager thread");
+            ManagerThread::new(
+                config_store.clone(),
+                "axolotl".to_string(),
+                provisioning_link_tx,
+                error_tx,
+                send_content,
+                current_chat_mutex,
+                send_error,
+            )
+            .await;
+            log::info!("provision linking: ManagerThread started, ready to receive messages from the client.");
         });
-        log::debug!("runtime created");
+        log::debug!("provision linking: runtime created");
 
         Ok(())
     }
@@ -566,10 +521,75 @@ impl Handler {
             }
         }
     }
+    async fn wait_for_code(
+        &self,
+        r: Arc<Mutex<SplitStream<WebSocket>>>,
+    ) -> Result<String, ApplicationError> {
+        log::debug!("Waiting for code");
+        loop {
+            // todo: we never get here, because the websocket is blocked
+            log::debug!("Awaiting for r lock");
+            let mut  rLock = r.lock().await;
+            log::debug!("Awaiting for next");
+
+            let code_message: Option<Result<Message, warp::Error>> = rLock.next().await;
+            log::debug!("Got next message {:?}", code_message);
+            match code_message {
+                Some(Ok(code_message)) => {
+                    if code_message.is_close() {
+                        log::info!("Got close message, exiting");
+                        return Err(ApplicationError::RegistrationError(
+                            "Error requesting pin: websocket was closed".to_string(),
+                        ));
+                    } else if code_message.is_text() {
+                        let text = code_message.to_str().unwrap();
+                        if let Ok::<AxolotlRequest, SerdeError>(axolotl_request) =
+                            serde_json::from_str(text)
+                        {
+                            // Axolotl request
+                            let request_type: &str = axolotl_request.request.as_str();
+                            log::info!(
+                                "Axolotl registration request code message: {}",
+                                request_type
+                            );
+                            if request_type == "sendCode" {
+                                let code = axolotl_request.data;
+                                if code.is_some() {
+                                    return Ok(code.unwrap());
+                                } else {
+                                    log::error!("No valid code provided");
+                                    self.get_phone_pin().await;
+                                    continue;
+                                }
+                            } else {
+                                continue;
+                            }
+                        } else {
+                            continue;
+                        }
+                    } else {
+                        continue;
+                    }
+                }
+                Some(Err(e)) => {
+                    log::error!("Error getting message: {}", e);
+                    return Err(ApplicationError::RegistrationError(
+                        "Error requesting pin".to_string(),
+                    ));
+                }
+                None => {
+                    log::error!("Error getting message: None");
+                    return Err(ApplicationError::RegistrationError(
+                        "Error requesting pin".to_string(),
+                    ));
+                }
+            };
+        }
+    }
 
     async fn get_verification_code(
         &mut self,
-        mut code_rx: tokio::sync::mpsc::Receiver<Box<str>>,
+        r: Arc<Mutex<SplitStream<WebSocket>>>,
     ) -> Result<(), ApplicationError> {
         log::debug!("Getting verification code");
         if self.phone_number.is_none() {
@@ -586,85 +606,50 @@ impl Handler {
         }
         let p = self.phone_number.clone().unwrap();
         let c = self.captcha.clone().unwrap();
-        // create new error receiver
-        let (error_tx, error_rx) = oneshot::channel();
 
-        std::thread::spawn(move || {
-            let panic = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
-                tokio::runtime::Runtime::new()
-                    .expect("Failed to setup runtime")
-                    .block_on(async move {
-                        let config_store = match Handler::get_config_store().await {
-                            Ok(c) => c,
-                            Err(e) => {
-                                log::error!("Error getting config store: {}", e);
-                                return Err(ApplicationError::RegistrationError(
-                                    "Error getting config store".to_string(),
-                                ));
-                            }
-                        };
-                        log::debug!("Creating manager for registration");
-                        let manager = match Manager::register(
-                            config_store,
-                            RegistrationOptions {
-                                signal_servers: presage::prelude::SignalServers::Production,
-                                phone_number: p,
-                                use_voice_call: false,
-                                captcha: Some(c.as_str()),
-                                force: true,
-                            },
-                        )
-                        .await
-                        {
-                            Ok(m) => m,
-                            Err(e) => {
-                                log::error!("Error requesting pin: {}", e);
-                                // todo send error to client
-                                error_tx.send(Some(e)).unwrap();
-                                return Err(ApplicationError::RegistrationError(
-                                    "Error requesting pin".to_string(),
-                                ));
-                            }
-                        };
-                        log::debug!("check code_rx for code {:?}", code_rx);
-                        let code = match code_rx.recv().await {
-                            Some(c) => c,
-                            None => {
-                                log::error!("No code provided");
-                                error_tx.send(None).unwrap();
-                                return Err(ApplicationError::RegistrationError(
-                                    "No code provided".to_string(),
-                                ));
-                            }
-                        };
-                        match manager.confirm_verification_code(code).await {
-                            Ok(_) => (),
-                            Err(e) => {
-                                log::error!("Error confirming pin: {}", e);
-                                error_tx.send(Some(e)).unwrap();
-                                return Err(ApplicationError::RegistrationError(
-                                    "Error confirming pin".to_string(),
-                                ));
-                            }
-                        }
-                        drop(error_tx);
-                        Ok(())
-                    })
-                    .unwrap();
-            }));
-            if panic.is_err() {
-                log::error!("Error/panic getting verification code: {:?}", panic);
+        let config_store = match Handler::get_config_store().await {
+            Ok(c) => c,
+            Err(e) => {
+                log::error!("Error getting config store: {}", e);
+                return Err(ApplicationError::RegistrationError(
+                    "Error getting config store".to_string(),
+                ));
             }
-        });
-        log::debug!("Awaiting for error");
-        let error = error_rx.await.unwrap();
-        if let Some(error) = error {
-            log::debug!("Got error: {:?}", error);
-            self.send_error(ApplicationError::Presage(error)).await;
-            return Err(ApplicationError::RegistrationError(
-                "Error getting verification code".to_string(),
-            ));
+        };
+        log::debug!("Creating manager for registration");
+        let manager = match Manager::register(
+            config_store,
+            RegistrationOptions {
+                signal_servers: presage::prelude::SignalServers::Production,
+                phone_number: p,
+                use_voice_call: false,
+                captcha: Some(c.as_str()),
+                force: true,
+            },
+        )
+        .await
+        {
+            Ok(m) => m,
+            Err(e) => {
+                log::error!("Error requesting pin: {}", e);
+                return Err(ApplicationError::RegistrationError(
+                    "Error requesting pin".to_string(),
+                ));
+            }
+        };
+        log::debug!("wait for getting a code from axolotl-web");
+        let code = self.wait_for_code(r).await?;
+
+        match manager.confirm_verification_code(code).await {
+            Ok(_) => (),
+            Err(e) => {
+                log::error!("Error confirming pin: {}", e);
+                return Err(ApplicationError::RegistrationError(
+                    "Error confirming pin".to_string(),
+                ));
+            }
         }
+
         log::debug!("Getting verification code done");
 
         Ok(())
@@ -677,24 +662,6 @@ impl Handler {
             Ok(_) => (),
             Err(e) => {
                 log::error!("Error sending phone number request to client: {}", e);
-            }
-        }
-        std::mem::drop(ws_sender);
-    }
-
-    async fn send_error(&self, error: ApplicationError) {
-        let mut error_string = error.to_string();
-        error_string.pop();
-        let message = format!(
-            "{{\"response_type\":\"registration_error\",\"data\":\"{}\"}}",
-            error_string
-        );
-        log::debug!("Sending error to client: {}", message);
-        let mut ws_sender = self.sender.as_ref().unwrap().lock().await;
-        match ws_sender.send(Message::text(message)).await {
-            Ok(_) => (),
-            Err(e) => {
-                log::error!("Error sending error to client: {}", e);
             }
         }
         std::mem::drop(ws_sender);
@@ -738,13 +705,11 @@ impl Handler {
                 "Got message from axolotl: {:?}, awaitng manager thread lock",
                 body
             );
-            let manager = self.manager_thread.lock().await;
-            log::debug!("Got manager thread lock");
-
-            if manager.is_none() {
+            let Some(manager) = self.manager_thread.get() else {
                 log::error!("Manager not initialized");
                 return;
-            }
+            };
+
             let message = match body {
                 Ok(msg) => msg,
                 Err(_) => {
@@ -757,7 +722,7 @@ impl Handler {
 
             log::debug!("Got websocket message from axolotl-web: {:?}", message);
             match self
-                .handle_websocket_message(message, sender, &manager.clone().unwrap())
+                .handle_websocket_message(message, sender, manager)
                 .await
             {
                 Ok(_) => log::info!("Message handled"),
@@ -768,29 +733,16 @@ impl Handler {
 
     async fn handle_provisoning(&mut self) {
         log::info!("Awaiting for provisioning link");
-        if self.provisioning_link_rx.is_none() {
+        if let Some(rx) = self.provisioning_link_rx.take() {
+            self.provisioning_link = rx.await.ok();
+
+            if let Some(url) = &self.provisioning_link {
+                log::debug!("Got provisioning link: {:?}", url);
+            } else {
+                log::error!("Error getting provisioning link");
+            }
+        } else {
             log::error!("Provisioning link receiver not initialized");
-            return;
-        }
-        let mut p = self.provisioning_link_rx.as_ref().unwrap().lock().await;
-
-        while let Ok(mut url) = p.try_recv() {
-            url = match url {
-                Some(u) => Some(u),
-                None => {
-                    thread::sleep(time::Duration::from_secs(1));
-                    match p.try_recv() {
-                        Ok(u) => u,
-                        Err(_) => {
-                            log::error!("Error getting provisioning link");
-                            return;
-                        }
-                    }
-                }
-            };
-
-            log::debug!("Got provisioning link: {:?}", url);
-            self.provisioning_link = url;
         }
     }
 
@@ -821,8 +773,7 @@ impl Handler {
         &self,
         thread: &Thread,
     ) -> Result<Option<ThreadMetadata>, ApplicationError> {
-        let manager = self.manager_thread.lock().await;
-        let manager = manager.as_ref().unwrap();
+        let manager = self.manager_thread.get().unwrap();
         match manager.thread_metadata(thread).await {
             Ok(metadata) => Ok(metadata),
             Err(e) => Err(ApplicationError::from(e)),
@@ -839,8 +790,7 @@ impl Handler {
             muted: false,
         };
 
-        let manager = self.manager_thread.lock().await;
-        let manager = manager.as_ref().unwrap();
+        let manager = self.manager_thread.get().unwrap();
         match manager.save_thread_metadata(metadata).await {
             Ok(_) => Ok(()),
             Err(e) => Err(ApplicationError::from(e)),
@@ -1564,6 +1514,20 @@ impl Handler {
         Ok(())
         //sender.send(Message::text("working")).await.unwrap();
     }
+}
+
+pub async fn create_and_run_backend(
+    connection: mpsc::Receiver<WebSocket>,
+) -> Result<(), ApplicationError> {
+    // The local set allows us to use spawn_local for non-`Send` futures
+    tokio::task::LocalSet::new()
+        .run_until(async move {
+            let backend = Handler::new().await?;
+            log::info!("Axolotl backend started");
+
+            backend.run(connection).await
+        })
+        .await
 }
 
 /// Save a file on the disk

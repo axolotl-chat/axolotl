@@ -1,9 +1,9 @@
-use axolotl::handlers::get_app_dir;
-use std::{process::exit, sync::Arc};
+use axolotl::handlers::{create_and_run_backend, get_app_dir};
+use std::process::exit;
 
 use axolotl::handlers::Handler;
-use tokio::sync::Mutex;
-use warp::{Filter, Rejection, Reply};
+use tokio::{sync::mpsc, task::JoinHandle};
+use warp::{ws::WebSocket, Filter, Rejection, Reply};
 
 use clap::Parser;
 
@@ -30,21 +30,22 @@ async fn main() {
         .init();
     let args = Args::parse();
 
+    let ui_handle = start_ui(args.mode).await;
+    run_backend().await;
+    ui_handle.await.unwrap();
+}
+
+async fn run_backend() {
+    let (request_tx, request_rx) = mpsc::channel(1);
     let server_task = tokio::spawn(async {
-        let handler = Handler::new().await.unwrap_or_else(|e| {
-            log::error!("Error while starting the server: {}", e);
-            exit(1);
-        });
-        log::info!("Axolotl handler started");
-        start_websocket(Arc::new(Mutex::new(handler))).await;
+        run_websocket(request_tx).await;
     });
 
-    start_ui(args.mode).await;
-
+    create_and_run_backend(request_rx).await.unwrap();
     server_task.await.unwrap();
 }
 
-async fn start_websocket(handler: Arc<Mutex<Handler>>) {
+async fn run_websocket(handler: mpsc::Sender<WebSocket>) {
     log::info!("Starting the websocket server");
 
     let axolotl_ws_route = warp::path("ws")
@@ -67,31 +68,32 @@ async fn start_websocket(handler: Arc<Mutex<Handler>>) {
 
 pub async fn handle_ws_client(
     websocket: warp::ws::Ws,
-    handler: Arc<Mutex<Handler>>,
+    handler: mpsc::Sender<WebSocket>,
 ) -> Result<impl Reply, Rejection> {
     Ok(websocket.on_upgrade(move |websocket| async move {
         log::debug!("New websocket connection");
-        handler.lock().await.handle_ws_client(websocket).await;
-        log::debug!("websocket connection was closed");
+        let _ = handler.send(websocket).await;
     }))
 }
 
-async fn start_ui(mode: Mode) {
-    match mode {
-        #[cfg(feature = "tauri")]
-        Mode::Tauri => {
-            log::info!("Starting the tauri client");
-            tauri::start_tauri().await;
+async fn start_ui(mode: Mode) -> JoinHandle<()> {
+    tokio::spawn(async move {
+        match mode {
+            #[cfg(feature = "tauri")]
+            Mode::Tauri => {
+                log::info!("Starting the tauri client");
+                tauri::start_tauri().await;
+            }
+            #[cfg(feature = "ut")]
+            Mode::UbuntuTouch => {
+                log::info!("Starting the Ubuntu Touch client");
+                ut::start_ut().await;
+            }
+            Mode::Daemon => {
+                log::info!("Running headless");
+            }
         }
-        #[cfg(feature = "ut")]
-        Mode::UbuntuTouch => {
-            log::info!("Starting the Ubuntu Touch client");
-            ut::start_ut().await;
-        }
-        Mode::Daemon => {
-            log::info!("Running headless");
-        }
-    }
+    })
 }
 
 #[cfg(feature = "tauri")]
@@ -129,7 +131,7 @@ mod tauri {
 "#;
 
     pub async fn start_tauri() {
-        let t = tauri::Builder::default().setup(|app| {
+        let t = tauri::Builder::default().any_thread().setup(|app| {
             tauri::WindowBuilder::new(app, "label", tauri::WindowUrl::App("index.html".into()))
                 .initialization_script(INIT_SCRIPT)
                 .title("Axolotl")
@@ -154,16 +156,20 @@ mod ut {
             let route = warp::fs::dir("./axolotl-web/dist");
             warp::serve(route).run(([127, 0, 0, 1], 9081)).await;
         });
-        Command::new("qmlscene")
-            .arg("--scaling")
-            .arg("--webEngineArgs ")
-            .arg("--remote-debugging-port")
-            .arg("ut/MainUt.qml")
-            .stdout(Stdio::piped())
-            .spawn()
-            .expect("GUI failed to start")
-            .wait()
-            .unwrap();
+        tokio::task::spawn_blocking(|| {
+            Command::new("qmlscene")
+                .arg("--scaling")
+                .arg("--webEngineArgs")
+                .arg("--remote-debugging-port")
+                .arg("ut/MainUt.qml")
+                .stdout(Stdio::piped())
+                .spawn()
+                .expect("GUI failed to start")
+                .wait()
+                .unwrap()
+        })
+        .await
+        .unwrap();
 
         exit(0);
     }

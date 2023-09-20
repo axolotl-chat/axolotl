@@ -4,6 +4,7 @@ import { validateUUID } from "@/helpers/uuidCheck";
 import app from "../main";
 
 function socketSend(message) {
+  console.log("socketSend", message);
   app.config.globalProperties.$socket.send(JSON.stringify(message));
 }
 
@@ -808,12 +809,17 @@ export default createStore({
       }
     },
     sendCode(state, code) {
+      console.log("store: sendCode", code);
       if (this.state.socket.isConnected) {
         const message = {
           request: "sendCode",
           data: code,
         };
+        console.log("store: sendCode", message);
         socketSend(message);
+      } else {
+        console.error("socket not connected");
+        // reconnect socket
       }
     },
     setUsername(state, username) {
