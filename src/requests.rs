@@ -131,6 +131,9 @@ impl AxolotlMessage {
             ContentBody::ReceiptMessage(_) => "ReceiptMessage",
             ContentBody::TypingMessage(_) => "TypingMessage",
             ContentBody::NullMessage(_) => "NullMessage",
+            ContentBody::StoryMessage(_) => "StoryMessage",
+            ContentBody::PniSignatureMessage(_) => "PniSignatureMessage",
+            _ => "Unknown",
         }
         .to_string();
         let mut is_outgoing = match body {
@@ -219,6 +222,9 @@ impl AxolotlMessage {
             ContentBody::ReceiptMessage(_) => "ReceiptMessage",
             ContentBody::TypingMessage(_) => "TypingMessage",
             ContentBody::NullMessage(_) => "NullMessage",
+            ContentBody::StoryMessage(_) => "StoryMessage",
+            ContentBody::PniSignatureMessage(_) => "PniSignatureMessage",
+            _ => "Unknown",
         }
         .to_string();
         let mut is_outgoing = match body {

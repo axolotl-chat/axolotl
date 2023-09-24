@@ -1,7 +1,7 @@
 clickable_minimum_required: 7.12.3
 
 builder: rust
-rust_channel: 1.66.1
+rust_channel: 1.71.1
 env_vars:
   CC: ""
   CXX: ""
@@ -11,8 +11,6 @@ dependencies_host:
   
 dependencies_target:
   - libdbus-1-dev
-env_vars:
-  PKG_CONFIG_ALLOW_CROSS: "1"
 
 build_args: --features ut 
 kill: axolotl
@@ -36,8 +34,11 @@ libraries:
   axolotlweb:
     image_setup:
       run:
-        - curl -fsSL https://deb.nodesource.com/setup_20.x  | bash -
-        - apt-get install -y nodejs
+        # Install instructions taken from https://github.com/nodesource/distributions#installation-instructions
+        - mkdir -p /etc/apt/keyrings
+        - curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+        - echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
+        - apt-get update && apt-get install -y nodejs
         - echo "NODE Version:" && node --version
         - echo "NPM Version:" && npm --version
 

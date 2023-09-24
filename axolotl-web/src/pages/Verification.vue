@@ -50,9 +50,12 @@ export default {
       this.code = code
     },
     sendCode() {
+      console.log("send code", this.code)
       if (this.code.length === 6) {
         this.$store.dispatch("sendCode", this.code);
         this.inProgress = true;
+      } else {
+        console.error("code not 6 digits")
       }
     },
     sendPin() {

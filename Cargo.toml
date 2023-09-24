@@ -14,11 +14,12 @@ tauri-build = { version = "2.0.0-alpha.8    ", features = [], optional = true}
 
 [dependencies]
 tauri = { version = "2.0.0-alpha.11", features = [], optional = true }
-presage = { git = "https://github.com/nanu-c/presage", rev = "ee86c3526b2cfd1b26a5374f0547bc5933234aa" }
-presage-store-sled = { git = "https://github.com/nanu-c/presage", rev = "ee86c3526b2cfd1b26a5374f0547bc5933234aa" }
+presage = { git = "https://github.com/nanu-c/presage", rev = "8ec684d9f878b5f60d84fd885c9ca664f9985222" }
+presage-store-sled = { git = "https://github.com/nanu-c/presage", rev = "8ec684d9f878b5f60d84fd885c9ca664f9985222" }
 # presage = {path = "../presage/presage"}
 # presage-store-sled = { path = "../presage/presage-store-sled" }
-libsignal-service = { git = "https://github.com/whisperfish/libsignal-service-rs", rev = "8789920" }
+libsignal-service = { git = "https://github.com/whisperfish/libsignal-service-rs", rev = "8305357" }
+zeroize = { version = "1.6.0", default-features = false }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 tokio-stream = "0.1.12"
 hex = "0.4"
@@ -39,7 +40,7 @@ data-url = "0.2.0"
 dbus = { version = "0.9", optional = true}
 
 [patch.crates-io]
-"curve25519-dalek" = { git = 'https://github.com/signalapp/curve25519-dalek', branch = 'lizard2' }
+"curve25519-dalek" = { git = 'https://github.com/signalapp/curve25519-dalek', tag = 'signal-curve25519-4.0.0' }
 
 
 [features]
@@ -51,6 +52,8 @@ default = ["dep:notify-rust"]
 custom-protocol = ["tauri/custom-protocol"]
 tauri = ["dep:tauri", "dep:notify-rust", "custom-protocol"]
 ut = ["dep:dbus"]
+# Use this feature to debug registration issues on test servers
+staging-servers = []
 
 
 [[example]]
