@@ -82,7 +82,6 @@ impl Handler {
         log::info!("Setting up the manager2");
         let registration = if config_store.is_registered() {
             log::info!("Registered, starting the manager");
-            // TODO do not hard code
             tokio::task::spawn_local(async move {
                 let manager = ManagerThread::new(
                     config_store.clone(),
@@ -102,7 +101,7 @@ impl Handler {
                 }
             });
 
-            Registration::Chosen(registration::Type::Primary, State::Registered)
+            Registration::Chosen(State::Registered)
         } else {
             log::info!("Not yet registered.");
             Registration::Unregistered
@@ -311,9 +310,7 @@ impl Handler {
                 "sendCode" => {
                     if self.handle_send_code_message(axolotl_request.data).await? {
                         self.send_registration_confirmation().await;
-                        // TODO don't hard code the type
-                        self.registration =
-                            Registration::Chosen(registration::Type::Primary, State::Registered);
+                        self.registration = Registration::Chosen(State::Registered);
                         true
                     } else {
                         false
@@ -342,7 +339,7 @@ impl Handler {
             );
             false
         } else {
-            self.registration = Registration::Chosen(registration::Type::Primary, State::Started);
+            self.registration = Registration::Chosen(State::Started);
             self.get_phone_number().await;
             true
         }
@@ -357,7 +354,7 @@ impl Handler {
             );
             return Ok(false);
         }
-        self.registration = Registration::Chosen(registration::Type::Secondary, State::Started);
+        self.registration = Registration::Chosen(State::Started);
 
         loop {
             log::debug!("Registering secondary device");
@@ -376,11 +373,9 @@ impl Handler {
                 match e {
                     Some(u) => {
                         log::error!("Error registering secondary device: {}", u);
-                        Some(u)
                     }
                     None => {
                         tokio::time::sleep(time::Duration::from_secs(1)).await;
-                        continue;
                     }
                 };
             }
@@ -388,10 +383,8 @@ impl Handler {
                 log::debug!("Break out of loop, because error channel is closed");
                 match Handler::check_registration().await {
                     Ok(_) => {
-                        // TODO how to set to registered? Don't we need the manager?
-                        //self.is_registered = Some(true);
-                        //break;
-                        todo!();
+                        self.registration = Registration::Chosen(State::Registered);
+                        break;
                     }
                     Err(e) => {
                         log::debug!("Error checking registration: {}", e);
@@ -450,14 +443,16 @@ impl Handler {
             return Ok(true);
         };
 
-        let Registration::Chosen(device, State::Confirming(_)) = &self.registration else {
-            return Err(ApplicationError::RegistrationError("Got unexpected registration confirmation code.".to_string()));
+        let Registration::Chosen(State::Confirming(_)) = &self.registration else {
+            return Err(ApplicationError::RegistrationError(
+                "Got unexpected registration confirmation code.".to_string(),
+            ));
         };
 
-        let mut new_state = Registration::Chosen(*device, State::Registered);
+        let mut new_state = Registration::Chosen(State::Registered);
         std::mem::swap(&mut self.registration, &mut new_state);
 
-        if let Registration::Chosen(_, State::Confirming(manager)) = new_state {
+        if let Registration::Chosen(State::Confirming(manager)) = new_state {
             log::info!("Going to send verification code: {code}");
             let result = self.send_verification_code(manager, &code).await;
             if let Err(e) = result {
@@ -616,15 +611,7 @@ impl Handler {
             }
         };
 
-        // TODO arbitrarily set to primary for testing
-        let new_state =
-            Registration::Chosen(registration::Type::Primary, State::Confirming(manager));
-        //let new_state = match self.registration {
-        //    Registration::Chosen(device, State::Started) => {
-        //        Registration::Chosen(device, State::Confirming(manager))
-        //    }
-        //    _ => todo!(), // TODO how to avoid this branch in the first place?
-        //};
+        let new_state = Registration::Chosen(State::Confirming(manager));
         self.registration = new_state;
 
         Ok(())
@@ -1511,10 +1498,7 @@ impl Handler {
     }
 
     fn is_registered(&self) -> bool {
-        matches!(
-            self.registration,
-            Registration::Chosen(_, State::Registered)
-        )
+        matches!(self.registration, Registration::Chosen(State::Registered))
     }
 }
 
