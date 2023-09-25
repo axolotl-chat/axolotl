@@ -40,7 +40,7 @@
     "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.19.1",
+    "@babel/eslint-parser": "^7.22.15",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/compiler-sfc": "^3.2.41",
     "@vue/eslint-config-airbnb": "^7.0.0",
