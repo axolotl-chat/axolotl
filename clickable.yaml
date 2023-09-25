@@ -1,18 +1,15 @@
 clickable_minimum_required: 7.12.3
 
 builder: rust
-rust_channel: 1.71.1
-env_vars:
-  CC: ""
-  CXX: ""
+rust_channel: 1.72.1
+build_args: --features ut
+
 dependencies_host:
   - gettext
   - protobuf-compiler
-  
 dependencies_target:
   - libdbus-1-dev
 
-build_args: --features ut 
 kill: axolotl
 framework: ubuntu-sdk-20.04
 
@@ -48,4 +45,4 @@ libraries:
     build:
       - cd ${SRC_DIR} && npm ci && npm run build
       - mkdir -p ${INSTALL_DIR}/axolotl-web
-      - cp ${SRC_DIR}/dist ${INSTALL_DIR}/axolotl-web/ -R
+      - mv ${SRC_DIR}/dist ${INSTALL_DIR}/axolotl-web/
