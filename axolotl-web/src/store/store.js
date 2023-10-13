@@ -4,7 +4,7 @@ import { validateUUID } from "@/helpers/uuidCheck";
 import app from "../main";
 
 function socketSend(message) {
-  console.log("socketSend", message);
+  console.log("socketSend", JSON.stringify(message));
   app.config.globalProperties.$socket.send(JSON.stringify(message));
 }
 
@@ -192,7 +192,7 @@ export default createStore({
     SET_MESSAGE_RECEIVED(state, message) {
       if (
         state.currentChat !== null &&
-        JSON.stringify(state.currentChat.id) === JSON.stringify(message.thread_id)
+        JSON.stringify(state.currentChat.thread) === JSON.stringify(message.thread_id)
       ) {
         const tmpList = state.messageList;
         tmpList.push(message);
@@ -203,7 +203,7 @@ export default createStore({
       }
       console.log("SET_MESSAGE_RECEIVED", message);
       state.chatList.forEach((chat, i) => {
-        if (chat.id === message.thread_id) {
+        if (chat.thread === message.thread_id) {
           state.chatList[i].Messages = [message];
         }
       });
@@ -420,13 +420,15 @@ export default createStore({
             router.push("/onboarding");
           } else if (messageData.response_type === "profile") {
             this.commit("SET_PROFILE", JSON.parse(messageData.data));
+          } else if (messageData.response_type === "current_chat") {
+            this.commit("SET_CURRENT_CHAT", JSON.parse(messageData.data));
           } else if (messageData.response_type === "config") {
             this.commit("SET_CONFIG", JSON.parse(messageData.data));
           } else if (messageData.response_type === "message_received") {
             const messageReceived = JSON.parse(messageData.data);
             if (
               state.currentChat &&
-              JSON.stringify(state.currentChat?.id) === JSON.stringify(messageReceived.thread_id)
+              JSON.stringify(state.currentChat?.thread) === JSON.stringify(messageReceived.thread_id)
             ) {
               this.commit("SET_MESSAGE_RECEIVED", messageReceived);
             } else {
@@ -441,6 +443,7 @@ export default createStore({
             this.commit("SET_REGISTRATION_STATUS", "registered");
             router.push("/");
           }
+
           break;
         default:
           console.log("unkown message ", messageData, Object.keys(messageData)[0]);
@@ -494,7 +497,6 @@ export default createStore({
     },
     getChatList() {
       if (this.state.lastChatlistUpdate + 10000 < Date.now()) {
-        console.log("getChatList not skipped");
         if (this.state.socket.isConnected && this.state.registrationStatus === "registered") {
           const message = {
             request: "getChatList",
@@ -502,9 +504,6 @@ export default createStore({
           this.state.lastChatlistUpdate = Date.now();
           socketSend(message);
         }
-
-      } else {
-        console.log("getChatList skipped");
       }
     },
     delChat(id) {
@@ -679,6 +678,16 @@ export default createStore({
         socketSend(message);
       }
     },
+    getContactSync(state) {
+      if (this.state.socket.isConnected) {
+        state.importingContacts = false;
+        const message = {
+          request: "getContactSync",
+          data: "",
+        };
+        socketSend(message);
+      }
+    },
     addContact(state, contact) {
       state.rateLimitError = null;
       if (this.state.socket.isConnected && contact.name !== "" && contact.phone !== "") {
@@ -711,8 +720,10 @@ export default createStore({
     createChatForRecipient(state, data) {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "createChatForRecipient",
-          data: data.id,
+          request: "openChat",
+          data: {
+            "Contact":data.id,
+          }
         };
         socketSend(message);
       }

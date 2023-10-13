@@ -1,72 +1,42 @@
 <template>
   <component :is="$route.meta.layout || 'div'">
-    <div class="chat">
-      <div
-        id="messageList-container"
-        class="messageList-container"
-        @scroll="handleScroll($event)"
-      >
-        <div
-          v-if="messages && messages.length > 0"
-          id="messageList"
-          class="messageList row"
-        >
+    <div class="chat" v-if="currentChat">
+      <div id="messageList-container" class="messageList-container" @scroll="handleScroll($event)">
+        <div v-if="messages && messages.length > 0" id="messageList" class="messageList row">
           <div v-if="showFullscreenImgSrc !== ''" class="fullscreenImage">
-            <img
-              :src="
-                'http://localhost:9080/attachments/' + showFullscreenImgSrc
-              "
-              alt="Fullscreen image"
-            />
+            <img :src="'http://localhost:9080/attachments/' + showFullscreenImgSrc
+              " alt="Fullscreen image" />
             <button class="btn btn-secondary save" @click="saveImg($event)">
               <font-awesome-icon icon="arrow-down" />
             </button>
-            <button
-              class="btn btn-secondary close"
-              @click="showFullscreenImgSrc = ''"
-            >
+            <button class="btn btn-secondary close" @click="showFullscreenImgSrc = ''">
               <font-awesome-icon icon="times" />
             </button>
           </div>
           <div v-if="showFullscreenVideoSrc !== ''" class="fullscreenImage">
             <video controls>
-              <source
-                :src="
-                  'http://localhost:9080/attachments/' +
-                    showFullscreenVideoSrc
-                "
-              />
+              <source :src="'http://localhost:9080/attachments/' +
+                showFullscreenVideoSrc
+                " />
               <span v-translate>Your browser does not support the audio element.</span>
             </video>
-            <button
-              class="btn btn-secondary close"
-              @click="showFullscreenVideoSrc = ''"
-            >
+            <button class="btn btn-secondary close" @click="showFullscreenVideoSrc = ''">
               <font-awesome-icon icon="times" />
             </button>
             <button class="btn btn-secondary save" @click="saveVideo($event)">
               <font-awesome-icon icon="arrow-down" />
             </button>
           </div>
-          <message
-            v-for="message in messageList"
-            :key="message.ID"
-            :message="message"
-            :is-group="chat.is_group"
-            @show-fullscreen-img="showFullscreenImg($event)"
-            @show-fullscreen-video="showFullscreenVideo($event)"
-            @click="handleClick($event)"
-          />
+          <message v-for="message in messageList" :key="message.ID" :message="message" :is-group="isGroup"
+            @show-fullscreen-img="showFullscreenImg($event)" @show-fullscreen-video="showFullscreenVideo($event)"
+            @click="handleClick($event)" />
         </div>
         <div v-else class="no-entries">
           <span v-translate>No messages available.</span>
         </div>
         <div id="chat-bottom" />
       </div>
-      <div
-        v-if="chat?.is_group && currentGroup && currentGroup.JoinStatus == 1"
-        class="messageInputBoxDisabled w-100"
-      >
+      <div v-if="isGroup && currentGroup && currentGroup.JoinStatus == 1" class="messageInputBoxDisabled w-100">
         <p v-translate>
           Join this group? They won’t know you’ve seen their messages until you
           accept.
@@ -75,33 +45,21 @@
           Join
         </div>
       </div>
-      <div
-        v-else-if="chat?.is_group && currentGroup && currentGroup.JoinStatus == 2"
-        class="messageInputBoxDisabled w-100"
-      >
+      <div v-else-if="isGroup && currentGroup && currentGroup.JoinStatus == 2" class="messageInputBoxDisabled w-100">
         <p v-translate>You have been removed from this group.</p>
       </div>
       <div v-else class="bottom-wrapper">
         <div v-if="!voiceNote.recorded" class="messageInputBox">
           <div v-if="!voiceNote.recording" class="messageInput-container">
-            <textarea
-              id="messageInput"
-              v-model="messageInput"
-              type="textarea"
-              contenteditable="true"
-              data-long-press-delay="500"
-              @long-press="paste"
-            />
+            <textarea id="messageInput" v-model="messageInput" type="textarea" contenteditable="true"
+              data-long-press-delay="500" @long-press="paste" />
           </div>
-          <div v-if="messageInput !== '' " class="messageInput-btn-container">
+          <div v-if="messageInput !== ''" class="messageInput-btn-container">
             <button class="btn send" @click="sendMessage">
               <font-awesome-icon icon="paper-plane" />
             </button>
           </div>
-          <div
-            v-else-if="voiceNote.recording"
-            class="messageInput-btn-container d-flex justify-content-center w-100"
-          >
+          <div v-else-if="voiceNote.recording" class="messageInput-btn-container d-flex justify-content-center w-100">
             <div v-translate class="me-5">Recording...</div>
             <button class="btn send record-stop" @click="stopRecording">
               <font-awesome-icon icon="stop-circle" />
@@ -117,17 +75,11 @@
           </div>
         </div>
         <div v-else class="messageInputBox justify-content-center">
-          <div
-            class="messageInput-btn-container d-flex justify-content-center align-items-center"
-          >
+          <div class="messageInput-btn-container d-flex justify-content-center align-items-center">
             <div>
               <span>{{ Math.floor(voiceNote.duration) }}</span><span v-translate class="me-2">s</span>
             </div>
-            <button
-              v-if="!voiceNote.playing"
-              class="btn send play me-1"
-              @click="playAudio"
-            >
+            <button v-if="!voiceNote.playing" class="btn send play me-1" @click="playAudio">
               <font-awesome-icon icon="play" />
             </button>
             <button v-else class="btn send stop me-1" @click="stopPlayAudio">
@@ -141,27 +93,13 @@
             </button>
           </div>
         </div>
-        <audio
-          v-if="voiceNote.blobUrl != ''"
-          id="voiceNote"
-          controls
-          :src="voiceNote.blobUrl"
-        >
+        <audio v-if="voiceNote.blobUrl != ''" id="voiceNote" controls :src="voiceNote.blobUrl">
           Your browser does not support the
           <code>audio</code> element.
         </audio>
-        <attachment-bar
-          v-if="showAttachmentsBar"
-          @close="showAttachmentsBar = false"
-          @send="callContentHub($event)"
-        />
-        <input
-          id="attachment"
-          type="file"
-          @change="sendDesktopAttachment"
-          style="position: fixed; top: -100em"
-        />
-	<!--  TODO: Fix attachment sending
+        <attachment-bar v-if="showAttachmentsBar" @close="showAttachmentsBar = false" @send="callContentHub($event)" />
+        <input id="attachment" type="file" @change="sendDesktopAttachment" style="position: fixed; top: -100em" />
+        <!--  TODO: Fix attachment sending
         <audio
           id="voiceNote"
           :src="voiceNote.blobUrl"
@@ -214,29 +152,35 @@ export default {
     };
   },
   computed: {
-    chat() {
-      return this.$store.state.currentChat;
-    },
     messages() {
       return this.$store.state.messageList;
     },
     isGroup() {
       if (!this.$store.state.currentChat)return false;
-      return this.$store.state.currentChat?.GroupV2ID !== "" ||
-        this.$store.state.currentChat?.GroupV1ID !== "";
+      return this.$store.state.currentChat?.thread?.Group !=undefined;
     },
-    ...mapState(["contacts", "config", "messageList", "currentGroup"]),
+    ...mapState(["contacts", "config", "messageList", "currentGroup", "currentChat"]),
   },
   watch: {
     messageInput() {
       // Adapt height of the textarea when its content changed
       let textarea = document.getElementById("messageInput");
+      if (!textarea) return;
       if (this.messageInput === "") {
         textarea.style.height = "35px";
       } else {
         textarea.style.height = 0; // Set height to 0 to reset scrollHeight to its minimum
         textarea.style.height = textarea.scrollHeight + 5 + "px";
       }
+      localStorage.setItem(JSON.stringify(this.currentChat.thread),this.messageInput);
+    },
+    currentChat: {
+      handler() {
+        const savedInput = localStorage.getItem(JSON.stringify(this.currentChat.thread));
+        if(savedInput && savedInput !== null) this.messageInput = savedInput;
+        this.scrollDown();
+      },
+      deep: true,
     },
     messages: {
       // This will let Vue know to look inside the array
@@ -258,7 +202,6 @@ export default {
     const mi = document.getElementById("messageInput");
     if (mi) mi.focus();
     setTimeout(this.scrollDown, 600);
-    this.voiceNote.voiceNoteElem = document.getElementById("voiceNote");
   },
   methods: {
     getId: function () {
@@ -333,6 +276,7 @@ export default {
     },
     sendMessage() {
       if (this.messageInput !== "") {
+        console.log("send message")
         this.$store.dispatch("sendMessage", {
           to: this.chatId,
           message: this.messageInput,
@@ -341,6 +285,7 @@ export default {
           this.$store.dispatch("getMessageList", this.getId());
         }
         this.messageInput = "";
+        console.log(this.currentChat.thread)
       }
       this.scrollDown();
     },
@@ -472,10 +417,12 @@ export default {
 .header {
   text-align: left;
 }
+
 .messageList {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
 .messageList-container {
   overflow-x: hidden;
   overflow-y: scroll;
@@ -486,6 +433,7 @@ export default {
 .chat-list-container::-webkit-scrollbar {
   display: none;
 }
+
 /* .chat-list-container{
   padding-bottom:70px;
   overflow: hidden;
@@ -493,21 +441,25 @@ export default {
   -ms-overflow-style: none;
   scrollbar-width: none;
 } */
-.messageList > div:last-child {
+.messageList>div:last-child {
   padding-bottom: 20px;
 }
+
 .messageInputBox {
   display: flex;
   margin: 5px 0px;
 }
+
 .messageInput-container {
   flex-grow: 1;
 }
+
 .messageInput-btn-container {
   flex-grow: 0;
   flex-shrink: 1;
   margin-left: 15px;
 }
+
 #messageInput {
   resize: none;
   width: 100%;
@@ -515,14 +467,17 @@ export default {
   max-height: 150px;
   padding: 3px 10px;
   border-radius: 4px;
+
   ::-webkit-scrollbar {
     display: block;
   }
 }
+
 textarea:focus,
 input:focus {
   outline: none;
 }
+
 .send {
   background-color: #2090ea;
   color: #fff;
@@ -534,6 +489,7 @@ input:focus {
   justify-content: center;
   align-items: center;
 }
+
 .fullscreenImage {
   position: fixed;
   z-index: 100;
@@ -546,12 +502,14 @@ input:focus {
   justify-content: center;
   align-items: center;
 }
+
 .fullscreenImage img,
 .fullscreenImage video {
   max-height: 100%;
   max-width: 100%;
   height: unset;
 }
+
 .fullscreenImage .close {
   position: absolute;
   right: 10px;
@@ -560,6 +518,7 @@ input:focus {
   background-color: #ffffff;
   color: black;
 }
+
 .fullscreenImage .save {
   position: absolute;
   right: 50px;
@@ -568,9 +527,11 @@ input:focus {
   background-color: #ffffff;
   color: black;
 }
+
 .messageInputBoxDisabled {
   color: red;
 }
+
 #voiceNote {
   position: fixed;
   top: -100em;

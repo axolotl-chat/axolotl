@@ -59,7 +59,7 @@
       <div
         v-for="c in contacts"
         v-else
-        :key="c.address.uuid"
+        :key="c.uuid"
         :class="
           c === selectedContact ? 'selected btn col-12 chat' : 'btn col-12 chat'
         "
@@ -81,11 +81,11 @@
           </div>
           <div class="meta col-8" @click="contactClick(c)">
             <p class="name">{{ c.name }}</p>
-            <p class="number">{{ `+${ c.address.phonenumber?.code.value} ${ c.address.phonenumber?.national.value}` }}</p>
+            <p class="number" v-if="c.phonenumber">{{ `+${ c.phonenumber}` }}</p>
           </div>
-          <div class="col-1" @click="showContactAction(c)">
+          <!-- <div class="col-1" @click="showContactAction(c)">
             <font-awesome-icon icon="wrench" />
-          </div>
+          </div> -->
         </div>
       </div>
 
@@ -102,9 +102,9 @@
           @save="saveContact($event)"
         />
       </div>
-      <button class="btn add-contact" @click="openAddContactModal()">
+      <!-- <button class="btn add-contact" @click="openAddContactModal()">
         <font-awesome-icon icon="plus" />
-      </button>
+      </button> -->
     </div>
   </component>
 </template>
@@ -190,8 +190,11 @@ export default {
     },
     contactClick(contact) {
       if (!this.showActions) {
-        if (this.validateUUID(contact.uuid))
-          this.$store.dispatch("createChat", contact.uuid);
+        if (this.validateUUID(contact.uuid)){
+          this.$router.push(`/chat/${JSON.stringify({Contact:contact.uuid})}`);
+
+        }
+        
       } else {
         this.closeActionMode();
       }

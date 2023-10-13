@@ -7,17 +7,16 @@
         <div v-if="route() === 'chat'" class="message-list-container row chat-page">
           <div v-if="errorConnection !== null" class="connection-error" />
           <div class="col-10 chat-header">
-            <button class="btn" @click="back()">
+            <button class="btn" @click="$router.push('/')">
               <font-awesome-icon icon="arrow-left" />
             </button>
-            <div v-if="currentChat !== null && currentChat" class="row w-100">
+            <div v-if="currentChat !== null && currentChat && currentChat.thread" class="row w-100">
               <div class="col-2 badge-container">
-                <div v-if="!currentChat?.is_group" class="badge-name" @click="openProfileForRecipient(currentChat.id.Contact)">
-                  <img
-                    class="avatar-img"
-                    :src="'http://localhost:9080/avatars?session=' + currentChat.ID"
-                    @error="onImageError($event)"
-                  />
+                <div v-if="!isGroup" class="badge-name"
+                  @click="openProfileForRecipient(currentChat?.thread?.Contact)">
+                  <img class="avatar-img"
+                    :src="'http://localhost:9080/attachments/avatars/' + currentChat?.thread?.Contact"
+                    @error="onImageError($event)" />
                   {{ currentChat.title[0] }}
                 </div>
                 <div v-else class="group-badge">
@@ -27,13 +26,9 @@
               <div class="col-10 center">
                 <div class="row">
                   <div class="col-12">
-                    <div
-                      v-if="
-                        currentChat?.is_group &&
-                          currentChat.title === currentChat.Tel
-                      "
-                      class="header-text-chat"
-                    >
+                    <div v-if="isGroup &&
+                      currentChat.title === currentChat.Tel
+                      " class="header-text-chat">
                       <div v-if="currentChat.muted" class="mute-badge">
                         <font-awesome-icon class="mute" icon="volume-mute" />
                       </div>
@@ -43,46 +38,32 @@
                       <div v-if="currentChat.muted" class="mute-badge">
                         <font-awesome-icon class="mute" icon="volume-mute" />
                       </div>
-                      <div
-                        v-if="currentChat.title !== currentChat.Tel"
-                        class=""
-                      >
+                      <div v-if="currentChat.title !== currentChat.Tel"
+                        @click="openProfileForRecipient(currentChat.thread.Contact)">
                         {{ currentChat.title }}
                       </div>
                     </div>
                   </div>
                   <div class="col-12">
-                    <div
-                      v-if="
-                        currentChat?.is_group &&
-                          currentGroup !== null &&
-                          typeof currentGroup !== 'undefined'
-                      "
-                      class="number-text"
-                    >
+                    <div v-if="isGroup &&
+                      currentGroup !== null &&
+                      typeof currentGroup !== 'undefined'
+                      " class="number-text">
                       <div v-for="e in currentGroup.Members" :key="e">
                         {{ getNameForTel(e) }}
                       </div>
                     </div>
-                    <div
-                      v-if="
-                        currentChat?.is_group &&
-                          currentGroup !== null &&
-                          typeof currentGroup !== 'undefined'
-                      "
-                      class="number-text"
-                    >
+                    <div v-if="isGroup &&
+                      currentGroup !== null &&
+                      typeof currentGroup !== 'undefined'
+                      " class="number-text">
                       <div v-for="(n, i) in names" :key="i" class="name">
                         {{ n }}<span v-if="i < names.length - 1">,</span>
                       </div>
                     </div>
-                    <div
-                      v-if="
-                        !currentChat?.is_group &&
-                          currentChat.title === currentChat.Tel
-                      "
-                      class="number-text"
-                    >
+                    <div v-if="!isGroup &&
+                      currentChat.title === currentChat.Tel
+                      " class="number-text">
                       {{ currentChat.Tel }}
                     </div>
                   </div>
@@ -92,76 +73,39 @@
           </div>
           <div class="col-2 text-right">
             <div class="dropdown">
-              <button
-                id="dropdownMenuButton"
-                class="btn"
-                type="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-                @click="toggleSettings"
-              >
+              <button id="dropdownMenuButton" class="btn" type="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" @click="toggleSettings">
                 <font-awesome-icon icon="ellipsis-v" />
               </button>
-              <div
-                v-if="showSettingsMenu"
-                id="settings-dropdown"
-                class="dropdown-menu"
-                aria-labelledby="dropdownMenuButton"
-              >
-                <button
-                  v-if="
-                    currentChat !== null &&
-                      !currentChat?.is_group &&
-                      currentChat.title !== currentChat.Tel
-                  "
-                  class="dropdown-item"
-                  @click="callNumber(currentChat.Tel)"
-                >
+              <div v-if="showSettingsMenu" id="settings-dropdown" class="dropdown-menu"
+                aria-labelledby="dropdownMenuButton">
+                <button v-if="currentChat !== null &&
+                  !isGroup &&
+                  currentChat.title !== currentChat.Tel
+                  " class="dropdown-item" @click="callNumber(currentChat.Tel)">
                   {{ currentChat.Tel }}
                 </button>
-                <button
-                  v-if="currentChat !== null && !currentChat.muted"
-                  v-translate
-                  class="dropdown-item"
-                  @click="toggleNotifications"
-                >
+                <button v-if="currentChat !== null && !currentChat.muted" v-translate class="dropdown-item"
+                  @click="toggleNotifications">
                   Mute
                 </button>
-                <button
-                  v-else
-                  v-translate
-                  class="dropdown-item"
-                  @click="toggleNotifications"
-                >
+                <button v-else v-translate class="dropdown-item" @click="toggleNotifications">
                   Unmute
                 </button>
-                <button
-                  v-if="
-                    currentChat !== null &&
-                      !currentChat?.is_group &&
-                      currentChat.title === currentChat.Tel
-                  "
-                  v-translate
-                  class="dropdown-item"
-                  @click="addContactModal = true"
-                >
+                <button v-if="currentChat !== null &&
+                  !isGroup &&
+                  currentChat.title === currentChat.Tel
+                  " v-translate class="dropdown-item" @click="addContactModal = true">
                   Add contact
                 </button>
-                <button
-                  v-if="
-                    currentChat !== null &&
-                      !currentChat?.is_group &&
-                      currentChat.title !== currentChat.Tel
-                  "
-                  v-translate
-                  class="dropdown-item"
-                  @click="openEditContactModal()"
-                >
+                <button v-if="currentChat !== null &&
+                  !isGroup &&
+                  currentChat.title !== currentChat.Tel
+                  " v-translate class="dropdown-item" @click="openEditContactModal()">
                   Edit contact
                 </button>
                 <!-- <button
-                  v-if="currentChat !== null && !currentChat?.is_group"
+                  v-if="currentChat !== null && !isGroup"
                   v-translate
                   class="dropdown-item"
                   @click="verifyIdentity"
@@ -169,42 +113,30 @@
                   Show identity
                 </button>
                 <button
-                  v-if="currentChat !== null && !currentChat?.is_group"
+                  v-if="currentChat !== null && !isGroup"
                   v-translate
                   class="dropdown-item"
                   @click="resetEncryptionModal"
                 >
                   Reset encryption
                 </button> -->
-                <button
-                  v-if="currentChat != null && !currentChat?.is_group"
-                  v-translate
-                  class="dropdown-item"
-                  @click="delChatModal"
-                >
+                <button v-if="currentChat != null && !isGroup" v-translate class="dropdown-item"
+                  @click="delChatModal">
                   Delete chat
                 </button>
-                <router-link
+                <!-- <router-link
                   v-if="currentChat !== null && currentChat.Type === 1"
                   v-translate
                   :to="'/editGroup/' + currentChat.Tel"
                   class="dropdown-item"
                 >
                   Edit group
-                </router-link>
+                </router-link> -->
               </div>
-              <identity-modal
-                v-if="showIdentityModal"
-                @close="showIdentityModal = false"
-                @confirm="showIdentityModal = false"
-              />
-              <confirmation-modal
-                v-if="showConfirmationModal"
-                :title="cMTitle"
-                :text="cMText"
-                @close="showConfirmationModal = false"
-                @confirm="confirm"
-              />
+              <identity-modal v-if="showIdentityModal" @close="showIdentityModal = false"
+                @confirm="showIdentityModal = false" />
+              <confirmation-modal v-if="showConfirmationModal" :title="cMTitle" :text="cMText"
+                @close="showConfirmationModal = false" @confirm="confirm" />
             </div>
           </div>
         </div>
@@ -242,19 +174,19 @@
           <div class="header-text"><span v-translate>Settings</span></div>
         </div>
         <!-- new group page -->
-        <div v-else-if="route() === 'newGroup'" class="list-header-container">
+        <!-- <div v-else-if="route() === 'newGroup'" class="list-header-container">
           <router-link class="btn" :to="'/chatList'">
             <font-awesome-icon icon="arrow-left" />
           </router-link>
           <div class="header-text"><span v-translate>New group</span></div>
-        </div>
+        </div> -->
         <!-- edit group page -->
-        <div v-else-if="route() === 'editGroup'" class="list-header-container">
+        <!-- <div v-else-if="route() === 'editGroup'" class="list-header-container">
           <router-link class="btn" :to="'/chatList'">
             <font-awesome-icon icon="arrow-left" />
           </router-link>
           <div class="header-text"><span v-translate>Edit group</span></div>
-        </div>
+        </div> -->
         <!-- linking devices page -->
         <div v-else-if="route() === 'devices'">
           <button class="back btn" @click="back()">
@@ -270,40 +202,18 @@
           </div>
           <div class="col-10 text-right">
             <div class="input-container">
-              <input
-                v-if="toggleSearch"
-                v-model="contactsFilter"
-                type="text"
-                class="form-control"
-                @change="filterContacts()"
-                @keyup="filterContacts()"
-              />
+              <input v-if="toggleSearch" v-model="contactsFilter" type="text" class="form-control"
+                @change="filterContacts()" @keyup="filterContacts()" />
             </div>
-            <button
-              v-if="toggleSearch"
-              id="dropdownMenuButton"
-              class="btn"
-              type="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-              @click="showSearch()"
-            >
+            <button v-if="toggleSearch" id="dropdownMenuButton" class="btn" type="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false" @click="showSearch()">
               <font-awesome-icon icon="times" />
             </button>
-            <button
-              v-if="!toggleSearch"
-              id="dropdownMenuButton"
-              class="btn"
-              type="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-              @click="showSearch()"
-            >
+            <button v-if="!toggleSearch" id="dropdownMenuButton" class="btn" type="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false" @click="showSearch()">
               <font-awesome-icon icon="search" />
             </button>
-            <div class="dropdown">
+            <!-- <div class="dropdown">
               <button
                 id="dropdownMenuButton"
                 class="btn"
@@ -332,7 +242,7 @@
                   Import contacts
                 </button>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
         <div v-else>
@@ -342,23 +252,15 @@
       </div>
     </div>
     <div v-if="addContactModal" class="addContactModal">
-      <add-contact-modal
-        :number="currentChat.Tel"
-        :uuid="currentChat.UUID"
-        @close="addContactModal = false"
-        @add="addContact($event)"
-      />
+      <add-contact-modal :number="currentChat.Tel" :uuid="currentChat.UUID" @close="addContactModal = false"
+        @add="addContact($event)" />
     </div>
     <div v-if="showImportVcfModal" class="addContactModal">
       <import-vcf-modal @close="showImportVcfModal = false" />
     </div>
     <div v-if="editContactModal && editContactId !== -1" class="editContactModal">
-      <edit-contact-modal
-        :id="editContactId.toString()"
-        :contact="contacts[editContactId]"
-        @close="editContactModal = false"
-        @save="saveContact($event)"
-      />
+      <edit-contact-modal :id="editContactId.toString()" :contact="contacts[editContactId]"
+        @close="editContactModal = false" @save="saveContact($event)" />
     </div>
   </div>
 </template>
@@ -397,17 +299,21 @@ export default {
       editContactId: -1,
     };
   },
-  computed: mapState([
-    "messageList",
-    "currentChat",
-    "currentGroup",
-    "contacts",
-    "errorConnection",
-    "currentContact",
-    "sessionNames",
-    "gui",
-    "identity",
-  ]),
+  computed: {...mapState([
+      "messageList",
+      "currentChat",
+      "currentGroup",
+      "contacts",
+      "errorConnection",
+      "currentContact",
+      "sessionNames",
+      "gui",
+      "identity",
+    ]),
+    isGroup() {
+      return this.currentChat?.thread.Group !== undefined;
+    },
+},
   watch: {
     $route() {
       this.names = [];
@@ -425,13 +331,6 @@ export default {
     this.names = [];
   },
   methods: {
-    isGroupCheck(e) {
-      if (e.DirectMessageRecipientID === -1) {
-        return true;
-      } else {
-        return false;
-      }
-    },
     route() {
       return this.$route.name;
     },
@@ -475,7 +374,7 @@ export default {
     confirm() {
       if (this.cMType === "resetEncryption") this.$store.dispatch("resetEncryption");
       else if (this.cMType === "delChat")
-        this.$store.dispatch("delChat", this.currentChat.ID);
+        this.$store.dispatch("delChat", this.currentChat.thread);
       this.$router.push("/chatList");
       this.showConfirmationModal = false;
       this.showIdentityModal = false;
@@ -513,7 +412,7 @@ export default {
     },
     createGroup() {},
     openEditContactModal() {
-      const id = this.contacts.findIndex((c) => c.Tel === this.currentChat.Tel || c.UUID === this.sessionNames[this.currentChat.ID].Name);
+      const id = this.contacts.findIndex((c) => c.Tel === this.currentChat.Tel || c.UUID === this.sessionNames[this.currentChat.thread].Name);
       this.editContactId = id;
       if (id !== -1) {
         this.editContactModal = true;
@@ -588,9 +487,11 @@ export default {
 .btn {
   color: #fff;
 }
+
 #dropdownMenuButton {
   color: #fff;
 }
+
 .settings-container {
   align-self: flex-end;
   display: flex;

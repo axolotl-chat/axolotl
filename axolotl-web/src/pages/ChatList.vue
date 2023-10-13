@@ -173,7 +173,7 @@ export default {
     },
     enterChat(chat) {
       if (!this.editActive) {
-        this.$store.dispatch("setCurrentChat", chat);
+        // this.$store.dispatch("setCurrentChat", chat);
         router.push(`/chat/${JSON.stringify(chat.id)}`);
       } else {
         this.selectedChat.push(chat.Tel);
@@ -319,7 +319,7 @@ a:hover.chat-container {
   .unread-counter {
     text-align: right;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
   }
 
   .title {

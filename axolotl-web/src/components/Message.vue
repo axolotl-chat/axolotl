@@ -174,7 +174,7 @@ export default {
   computed: {
     ...mapState(["currentGroup", "config", "contacts"]),
     is_outgoing() {
-      if (this.message?.sender == this.config.uuid)
+      if (this.message?.sender == this.config.uuid || this.message?.sender == null)
         return true;
       else if (this.message && this.message.is_outgoing) {
         return true;

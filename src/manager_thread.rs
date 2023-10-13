@@ -87,6 +87,7 @@ pub struct ManagerThread {
     contacts: Arc<Mutex<Vec<Contact>>>,
     sessions: Arc<Mutex<Vec<AxolotlSession>>>,
     current_chat: Arc<Mutex<Option<Thread>>>,
+    uuid: Uuid,
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AxolotlSession {
@@ -135,6 +136,7 @@ impl Clone for ManagerThread {
             contacts: self.contacts.clone(),
             sessions: self.sessions.clone(),
             current_chat: self.current_chat.clone(),
+            uuid: self.uuid,
         }
     }
 }
@@ -148,6 +150,7 @@ impl ManagerThread {
         content: mpsc::UnboundedSender<Content>,
         current_chat: Arc<Mutex<Option<Thread>>>,
         error: mpsc::Sender<ApplicationError>,
+        uuid: Uuid,
     ) -> Option<Self> {
         let (sender, receiver) = mpsc::channel(MESSAGE_BOUND);
         tokio::task::spawn_local(async move {
@@ -183,12 +186,16 @@ impl ManagerThread {
                 contacts: Arc::new(Mutex::new(contacts)),
                 sessions: Arc::new(Mutex::new(vec![])),
                 current_chat,
+                uuid,
             }),
         }
     }
 }
 
 impl ManagerThread {
+    pub fn uuid(&self) -> Uuid {
+        self.uuid
+    }
     pub async fn sync_contacts(&mut self) -> Result<(), PresageError> {
         let (sender_contacts, receiver_contacts) = oneshot::channel();
         self.command_sender
@@ -204,6 +211,7 @@ impl ManagerThread {
         Ok(())
     }
     pub async fn request_contacts_sync(&self) -> Result<(), PresageError> {
+        log::info!("Requesting contacts sync");
         let (sender, receiver) = oneshot::channel();
         self.command_sender
             .send(Command::RequestContactsSync(sender))
@@ -219,7 +227,6 @@ impl ManagerThread {
     pub async fn get_contacts(&self) -> Result<impl Iterator<Item = Contact> + '_, PresageError> {
         let c = self.contacts.lock().await;
         // Very weird way to counteract "returning borrowed c".
-        log::info!("Contacts not implemented yet");
         Ok(c.iter()
             .map(almost_clone_contact)
             .collect::<Vec<_>>()
@@ -516,6 +523,7 @@ async fn command_loop(
                                                 }
                                             }
                                         }
+                                        
                                         if data.reaction.is_some(){
                                             notification.message = data.reaction.unwrap().emoji.unwrap();
                                             //TODO: handle reactions

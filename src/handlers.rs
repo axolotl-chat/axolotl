@@ -43,7 +43,7 @@ const MESSAGE_BOUND: usize = 10;
 
 use futures::channel::oneshot;
 
-use presage::{Confirmation, Manager, RegistrationOptions, Store};
+use presage::{Confirmation, Manager, RegistrationOptions, Store, ThreadMetadataMessageContent};
 use presage::{Thread, ThreadMetadata};
 use presage_store_sled::MigrationConflictStrategy;
 use presage_store_sled::SledStore;
@@ -82,6 +82,7 @@ impl Handler {
         log::info!("Setting up the manager2");
         let registration = if config_store.is_registered() {
             log::info!("Registered, starting the manager");
+            let registrationCredentials = config_store.load_state().unwrap().unwrap();
             tokio::task::spawn_local(async move {
                 let manager = ManagerThread::new(
                     config_store.clone(),
@@ -91,6 +92,7 @@ impl Handler {
                     send_content,
                     current_chat_mutex,
                     send_error,
+                    registrationCredentials.service_ids.aci,
                 )
                 .await;
                 log::info!(
@@ -228,8 +230,9 @@ impl Handler {
                 self.send_registration_confirmation().await;
                 let shared_sender_mutex = Arc::clone(&shared_sender);
                 let r = self.receive_content.clone();
-
+                log::debug!("Spawning receive message handler thread");
                 tokio::task::spawn(Handler::handle_received_message(r, shared_sender_mutex));
+                // listening for messages from axolotl web
                 self.handle_receiving_messages().await;
             }
         }
@@ -530,6 +533,7 @@ impl Handler {
                 send_content,
                 current_chat_mutex,
                 send_error,
+                Uuid::parse_str("00000000-0000-0000-0000-000000000000").unwrap(),
             )
             .await;
             log::info!("provision linking: ManagerThread started, ready to receive messages from the client.");
@@ -707,7 +711,7 @@ impl Handler {
                 .handle_websocket_message(message, sender, manager)
                 .await
             {
-                Ok(_) => log::info!("Message handled"),
+                Ok(_) => (),
                 Err(e) => log::error!("Error handling message: {}", e),
             };
         }
@@ -795,8 +799,11 @@ impl Handler {
         log::debug!("Got receive lock");
 
         loop {
+            log::debug!("Awaiting for received message");
             match receive.recv().await {
                 Some(content) => {
+                    let timestamp = content.metadata.timestamp;
+                    log::debug!("Got message from receiver: {:?}", timestamp);
                     let thread = Thread::try_from(&content).unwrap();
                     let mut axolotl_message = AxolotlMessage::from_message(content);
                     axolotl_message.thread_id = Some(thread);
@@ -809,8 +816,11 @@ impl Handler {
                     let response = serde_json::to_string(&response).unwrap();
 
                     let mut ws_sender = sender.lock().await;
+                    log::debug!("Sending message to client: {:?}", timestamp);
                     match ws_sender.send(Message::text(response)).await {
-                        Ok(_) => (),
+                        Ok(_) => {
+                            log::debug!("Message sent to client {:?}", timestamp)
+                        }
                         Err(e) => {
                             log::error!("Error sending message to client: {}", e);
                         }
@@ -868,6 +878,23 @@ impl Handler {
             data: String::from_utf8(out).unwrap(),
         };
         Ok(Some(response))
+    }
+
+    async fn handle_get_contact_sync(
+        &self,
+        mut manager: ManagerThread,
+    ) -> Result<Option<AxolotlResponse>, ApplicationError> {
+        log::info!("Getting contact sync");
+        let contacts = match manager.request_contacts_sync().await {
+            Ok(_) => (),
+            Err(e) => {
+                log::error!("Error syncing contacts: {}", e);
+            }
+        };
+        Ok(Some(AxolotlResponse {
+            response_type: "contact_sync".to_string(),
+            data: "[]".to_string(),
+        }))
     }
 
     async fn handle_chat_list(
@@ -1162,7 +1189,7 @@ impl Handler {
     }
 
     fn handle_ping(&self) -> Result<Option<AxolotlResponse>, ApplicationError> {
-        log::info!("Got ping");
+        log::debug!("Got ping");
         let response = AxolotlResponse {
             response_type: "pong".to_string(),
             data: "".to_string(),
@@ -1196,11 +1223,10 @@ impl Handler {
                 if profile.name == *"" {
                     //request contact sync
                     log::debug!("Updating contact from profile");
-                    manager
+                    profile = manager
                         .update_contact_from_profile(profile.uuid)
                         .await
                         .unwrap();
-                    profile = manager.get_contact_by_id(uuid).await.unwrap().unwrap();
                     log::debug!("Updated contact {:?}", profile);
                 }
                 let response = AxolotlResponse {
@@ -1229,6 +1255,7 @@ impl Handler {
                     .duration_since(UNIX_EPOCH)
                     .expect("Time went backwards")
                     .as_millis() as u64;
+                let text = send_message_request.text.clone();
                 let data_message = DataMessage {
                     body: Some(send_message_request.text),
                     timestamp: Some(timestamp),
@@ -1268,14 +1295,27 @@ impl Handler {
                     log::error!("Error while sending the message. {:?}", result.err());
                 }
                 let mut message = AxolotlMessage::from_data_message(data_message);
-                message.thread_id = Some(thread);
-                // message.sender = Some(manager.uuid());
+                message.thread_id = Some(thread.clone());
+                message.sender = Some(manager.uuid());
                 let response_data = SendMessageResponse { message, is_failed };
                 let response_data_json = serde_json::to_string(&response_data).unwrap();
                 let response = AxolotlResponse {
                     response_type: "message_sent".to_string(),
                     data: response_data_json,
                 };
+                let thread_metadata = manager.thread_metadata(&thread).await.unwrap();
+                if thread_metadata.is_none() {
+                    self.create_thread_metadata(&thread).await.unwrap();
+                } else {
+                    let mut thread_metadata = thread_metadata.unwrap();
+                    thread_metadata.last_message = Some(ThreadMetadataMessageContent {
+                        message: Some(text),
+                        timestamp: timestamp,
+                        sender: manager.uuid(),
+                    });
+                    thread_metadata.unread_messages_count = 0;
+                    manager.save_thread_metadata(thread_metadata).await.unwrap();
+                }
                 Ok(Some(response))
             }
             Err(e) => {
@@ -1295,13 +1335,39 @@ impl Handler {
             Ok(thread) => thread,
             Err(_) => return Err(ApplicationError::InvalidRequest),
         };
-        if let Thread::Contact(_contact) = thread {
-            // manager.update_contact_from_profile(contact).await.unwrap();
+        manager.open_chat(thread.clone()).await.unwrap();
+        let mut thread_metadata = manager.thread_metadata(&thread).await.unwrap();
+        match thread_metadata {
+            Some(_) => {}
+            None => {
+                self.create_thread_metadata(&thread).await.unwrap();
+                thread_metadata = manager.thread_metadata(&thread).await.unwrap();
+            }
         }
-        manager.open_chat(thread).await.unwrap();
+
+        let mut response_data = thread_metadata.unwrap();
+        match response_data.thread {
+            Thread::Contact(uuid) => {
+                if response_data.title.is_none() || response_data.title.clone().unwrap().len() == 36
+                {
+                    log::debug!("Updating contact from profile {:?}", uuid);
+                    match manager.update_contact_from_profile(uuid).await {
+                        Ok(_) => {
+                            response_data =
+                                manager.thread_metadata(&thread).await.unwrap().unwrap();
+                        }
+                        Err(e) => {
+                            log::error!("Error updating contact from profile: {}", e);
+                        }
+                    }
+                }
+            }
+            _ => {}
+        }
+
         let response = AxolotlResponse {
-            response_type: "ping".to_string(),
-            data: "".to_string(),
+            response_type: "current_chat".to_string(),
+            data: serde_json::to_string(&response_data).unwrap(),
         };
         Ok(Some(response))
     }
@@ -1316,7 +1382,7 @@ impl Handler {
 
     async fn handle_get_config(
         &self,
-        _manager: &ManagerThread,
+        manager: &ManagerThread,
     ) -> Result<Option<AxolotlResponse>, ApplicationError> {
         log::info!("Getting config");
         // let my_uuid = manager.uuid();
@@ -1349,7 +1415,7 @@ impl Handler {
         }
 
         let config = AxolotlConfig {
-            uuid: None,
+            uuid: Some(manager.uuid().to_string()),
             e164: None,
             platform: Some(platform),
             feature: Some(feature),
@@ -1442,6 +1508,7 @@ impl Handler {
                         .await
                 }
                 "ping" => self.handle_ping(),
+                "getContactSync" => self.handle_get_contact_sync(manager.clone()).await,
                 "sendMessage" => {
                     self.handle_send_message(manager, axolotl_request.data)
                         .await
@@ -1481,7 +1548,6 @@ impl Handler {
                             log::error!("Error while sending response. {:?}", e);
                         }
                     };
-
                     std::mem::drop(unlocked_sender);
                 }
                 Ok(None) => {} //drop the message
@@ -1489,9 +1555,11 @@ impl Handler {
                     log::error!("Error while handling request. {:?}", e);
                 }
             }
+            std::mem::drop(mutex_sender);
         } else {
             // Error or unhandled request
             log::error!("Unhandled request {}", msg);
+            std::mem::drop(mutex_sender);
         }
         Ok(())
         //sender.send(Message::text("working")).await.unwrap();

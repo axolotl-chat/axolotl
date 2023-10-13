@@ -10,10 +10,6 @@
         <div v-translate @click="editContact()">Edit Contact</div>
       </div>
     </template>
-    <div v-if="!profile?.name">
-        Couldn't find profile for {{ profileId }}
-        </div>  
-
     <div v-if="profile?.name" class="profile">
       <div class="profile-image">
         <img
@@ -25,7 +21,7 @@
         />
         <div v-else class="profile-name">
           <span>{{
-            profile?.name[0]
+            profile?profile.name[0]:"Unknown"
           }}</span>
         </div>
       </div>
@@ -87,9 +83,8 @@ export default {
       });
     },
     createChat() {
-      this.$store.dispatch("createChatForRecipient", {
-        id: this.profile.uuid,
-      });
+      this.$router.push("/chat/"+JSON.stringify({Contact:this.profileId}));
+        // id: this.profile.uuid,
     },
   },
 };
