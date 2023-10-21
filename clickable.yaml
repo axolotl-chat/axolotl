@@ -1,22 +1,15 @@
-clickable_minimum_required: 7.10.0
+clickable_minimum_required: 7.12.3
 
 builder: rust
-rust_channel: 1.71.1
-env_vars:
-  CC: ""
-  CXX: ""
-  PKG_CONFIG_ALLOW_CROSS: "1"
-prebuild: 
-  - mkdir -p ${BUILD_DIR}/axolotl-web 
-  - cp ${SRC_DIR}/axolotl-web/dist ${BUILD_DIR}/axolotl-web/ -R
+rust_channel: 1.72.1
+build_args: --features ut
+
 dependencies_host:
   - gettext
   - protobuf-compiler
-  
 dependencies_target:
   - libdbus-1-dev
 
-build_args: --features ut 
 kill: axolotl
 framework: ubuntu-sdk-20.04
 
@@ -31,7 +24,7 @@ install_root_data:
   - click/textsecure.desktop
   - click/textsecure.png
   - click/textsecure.url-dispatcher
-  - ${BUILD_DIR}/axolotl-web
+  - ${AXOLOTLWEB_LIB_INSTALL_DIR}/axolotl-web
   - guis/qml/ut
 
 libraries:
@@ -47,6 +40,9 @@ libraries:
         - echo "NPM Version:" && npm --version
 
     builder: custom
+    restrict_arch: all
     src_dir: axolotl-web
     build:
       - cd ${SRC_DIR} && npm ci && npm run build
+      - mkdir -p ${INSTALL_DIR}/axolotl-web
+      - mv ${SRC_DIR}/dist ${INSTALL_DIR}/axolotl-web/
