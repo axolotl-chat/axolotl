@@ -41,43 +41,24 @@ jobs:
           path: build/*/app/textsecure.nanuc_*.click
           retention-days: 1
 
-  package-flatpak-web:
-    name: Package as Flatpak web bundle
-    runs-on: ubuntu-latest
-    container:
-      image: bilelmoussaoui/flatpak-github-actions:freedesktop-22.08
-      options: --privileged
+  # package-flatpak-web:
+  #   name: Package as Flatpak web bundle
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: bilelmoussaoui/flatpak-github-actions:freedesktop-22.08
+  #     options: --privileged
 
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v3
+  #   steps:
+  #     - name: Check out code
+  #       uses: actions/checkout@v3
 
-      - name: Build Flatpak Web version
-        uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v5
-        with:
-          bundle: axolotl-web.flatpak
-          manifest-path: flatpak/web/org.nanuc.Axolotl.yml
-          cache-key: flatpak-builder-web-${{ github.sha }}
-          branch: ${{ github.ref_name }}
-
-  package-flatpak-qt:
-    name: Package as Flatpak QT bundle
-    runs-on: ubuntu-latest
-    container:
-      image: bilelmoussaoui/flatpak-github-actions:kde-5.15-22.08
-      options: --privileged
-
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v3
-
-      - name: Build Flatpak QT version
-        uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v5
-        with:
-          bundle: axolotl-qt.flatpak
-          manifest-path: flatpak/qt/org.nanuc.Axolotl.yml
-          cache-key: flatpak-builder-qt-${{ github.sha }}
-          branch: ${{ github.ref_name }}
+  #     - name: Build Flatpak Web version
+  #       uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v5
+  #       with:
+  #         bundle: axolotl-web.flatpak
+  #         manifest-path: flatpak/web/org.nanuc.Axolotl.yml
+  #         cache-key: flatpak-builder-web-${{ github.sha }}
+  #         branch: ${{ github.ref_name }}
 
   package-deb-arm64:
     name: Package as Debian arm64
