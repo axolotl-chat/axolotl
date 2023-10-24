@@ -117,38 +117,12 @@ jobs:
           path: target/release/bundle/appimage/*.AppImage
           retention-days: 1
 
-  build-axolotl-web-arm64:
-    name: Build axolotl-web arm64
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Set up Node     
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Check out code
-        uses: actions/checkout@v3
-
-      - name: Download dependencies
-        run: npm --prefix ./axolotl-web --target_arch=arm64 ci --loglevel verbose
-
-      - name: Build
-        run: npm --prefix ./axolotl-web --target_arch=arm64 run build
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-axolotl-web-arm64
-          path: axolotl-web/dist/
-          retention-days: 1
-
   build-axolotl-arm64:
     name: Build axolotl arm64
     runs-on: ubuntu-latest
 
     needs:
-      - build-axolotl-web-arm64
+      - build-axolotl-web
     steps:
       - name: Install tools
         run: |
@@ -189,11 +163,11 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
-      - name: Download build-axolotl-web-arm64 build artifacts
+      - name: Download build-axolotl-web build artifacts
         uses: actions/download-artifact@v3
         id: download-axolotl-web
         with:
-          name: build-axolotl-web-arm64
+          name: build-axolotl-web
           path: build-artifacts
 
       - name: Copy axolotl-web build artifacts
