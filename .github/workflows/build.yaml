@@ -167,7 +167,7 @@ jobs:
         uses: actions/download-artifact@v3
         id: download-axolotl-web
         with:
-          name: build-axolotl-web
+          name: axolotl-web
           path: build-artifacts
 
       - name: Copy axolotl-web build artifacts
