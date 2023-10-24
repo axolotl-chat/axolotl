@@ -55,19 +55,18 @@ jobs:
           draft: true
           prerelease: false
           files: |
-            **/*.AppImage
             **/*.click
             **/*.deb
 
-      - name: Add AppImage to release (x86_64)
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build-artifacts/Axolotl-AppImage/Axolotl-x86_64.AppImage
-          asset_name: Axolotl-${{ env.VERSION }}-x86_64.AppImage
-          asset_content_type: application/vnd.appimage
+      # - name: Add AppImage to release (x86_64)
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: ./build-artifacts/Axolotl-AppImage/Axolotl-x86_64.AppImage
+      #     asset_name: Axolotl-${{ env.VERSION }}-x86_64.AppImage
+      #     asset_content_type: application/vnd.appimage
 
       - name: Add click to release (amd64)
         uses: actions/upload-release-asset@v1
