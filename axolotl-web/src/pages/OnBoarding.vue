@@ -2,7 +2,7 @@
   <component :is="$route.meta.layout || 'div'">
     <div class="register">
       <div class="page1 info">
-        <img class="logo" src="/axolotl.png" alt="Axolotl logo">
+        <img class="logo" src="/axolotl.png" alt="Axolotl logo" />
         <h1 class="title">Axolotl Beta</h1>
         <h2 v-translate class="subtitle">A cross-platform Signal client</h2>
         <div v-if="registrationError" class="alert alert-danger" role="alert">
@@ -11,36 +11,27 @@
         <div class="description">
           <div class="bob">
             Hey! Mr. Tambourine Man, play a song for me,
-            <br>
+            <br />
             In the jingle jangle morning I'll come following you.
           </div>
-          <div v-translate class="bold mt-3">
-            Please be aware:
-          </div>
-          <div v-translate>
-            Registering your phone number with Axolotl will
-          </div>
-          <div v-translate>
-            de-register your existing Signal account and also
-          </div>
-          <div v-translate>
-            de-link your Signal Desktop.
-          </div>
-          <a href="https://axolotl.chat" class="mt-3" @click="openExtern($event, 'https://axolotl.chat')">
+          <div v-translate class="bold mt-3">Please be aware:</div>
+          <div v-translate>Registering your phone number with Axolotl will</div>
+          <div v-translate>de-register your existing Signal account and also</div>
+          <div v-translate>de-link your Signal Desktop.</div>
+          <a
+            href="https://axolotl.chat"
+            class="mt-3"
+            @click="openExtern($event, 'https://axolotl.chat')"
+          >
             https://axolotl.chat
           </a>
-          <br>
+          <br />
           <font-awesome-icon id="heart" icon="heart" />
         </div>
         <button v-translate class="btn btn-primary" @click="registerAsSecondaryDevice()">
-          Register as secondary
-          device
-          (like signal desktop)
+          Register as secondary device (like signal desktop)
         </button>
-        <button
-          v-translate class="btn btn-primary"
-          @click="register()"
-        >
+        <button v-translate class="btn btn-primary" @click="register()">
           Register with phone number
         </button>
       </div>
@@ -49,51 +40,49 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 
 export default {
-  name: "OnBoarding",
-  components: {
-  },
+  name: 'OnBoarding',
+  components: {},
   data() {
-    return {
-    };
+    return {}
   },
   computed: mapState([
-    "gui",
-    "rateLimitError",
-    "registrationStatus",
-    "captchaToken",
-    "captchaTokenSent",
-    "registrationError"
+    'gui',
+    'rateLimitError',
+    'registrationStatus',
+    'captchaToken',
+    'captchaTokenSent',
+    'registrationError',
   ]),
   mounted() {
-    const userLang = navigator.language || navigator.userLanguage;
-    this.$language.current = userLang;
+    const userLang = navigator.language || navigator.userLanguage
+    this.$language.current = userLang
     if (this.captchaToken !== null && !this.captchaTokenSent) {
-      this.$store.dispatch("sendCaptchaToken");
+      this.$store.dispatch('sendCaptchaToken')
     }
   },
   methods: {
     updatePhone(e) {
-      if (typeof e === "string")
-        this.phone = e;
+      if (typeof e === 'string') this.phone = e
     },
     openExtern(e, url) {
-      if (this.gui === "ut") {
-        e.preventDefault();
-        alert(url);
+      if (this.gui === 'ut') {
+        e.preventDefault()
+        // eslint-disable-next-line no-alert
+        alert(url)
       }
     },
     registerAsSecondaryDevice() {
-      this.$store.dispatch("registerSecondaryDevice");
+      this.$store.dispatch('registerSecondaryDevice')
       this.$router.push('/qr')
     },
     register() {
       window.location = 'https://signalcaptchas.org/registration/generate.html'
     },
   },
-};
+}
 </script>
 <style scoped>
 .info,
@@ -128,7 +117,7 @@ h2 {
 .btn {
   max-width: 300px;
   margin: 10px auto;
-  color: #FFF;
+  color: #fff;
 }
 
 .logo {

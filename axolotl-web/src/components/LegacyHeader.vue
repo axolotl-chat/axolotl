@@ -10,13 +10,24 @@
             <button class="btn" @click="$router.push('/')">
               <font-awesome-icon icon="arrow-left" />
             </button>
-            <div v-if="currentChat !== null && currentChat && currentChat.thread" class="row w-100">
+            <div
+              v-if="currentChat !== null && currentChat && currentChat.thread"
+              class="row w-100"
+            >
               <div class="col-2 badge-container">
-                <div v-if="!isGroup" class="badge-name"
-                  @click="openProfileForRecipient(currentChat?.thread?.Contact)">
-                  <img class="avatar-img"
-                    :src="'http://localhost:9080/attachments/avatars/' + currentChat?.thread?.Contact"
-                    @error="onImageError($event)" />
+                <div
+                  v-if="!isGroup"
+                  class="badge-name"
+                  @click="openProfileForRecipient(currentChat?.thread?.Contact)"
+                >
+                  <img
+                    class="avatar-img"
+                    :src="
+                      'http://localhost:9080/attachments/avatars/' +
+                        currentChat?.thread?.Contact
+                    "
+                    @error="onImageError($event)"
+                  />
                   {{ currentChat.title[0] }}
                 </div>
                 <div v-else class="group-badge">
@@ -26,9 +37,10 @@
               <div class="col-10 center">
                 <div class="row">
                   <div class="col-12">
-                    <div v-if="isGroup &&
-                      currentChat.title === currentChat.Tel
-                      " class="header-text-chat">
+                    <div
+                      v-if="isGroup && currentChat.title === currentChat.Tel"
+                      class="header-text-chat"
+                    >
                       <div v-if="currentChat.muted" class="mute-badge">
                         <font-awesome-icon class="mute" icon="volume-mute" />
                       </div>
@@ -38,32 +50,43 @@
                       <div v-if="currentChat.muted" class="mute-badge">
                         <font-awesome-icon class="mute" icon="volume-mute" />
                       </div>
-                      <div v-if="currentChat.title !== currentChat.Tel"
-                        @click="openProfileForRecipient(currentChat.thread.Contact)">
+                      <div
+                        v-if="currentChat.title !== currentChat.Tel"
+                        @click="openProfileForRecipient(currentChat.thread.Contact)"
+                      >
                         {{ currentChat.title }}
                       </div>
                     </div>
                   </div>
                   <div class="col-12">
-                    <div v-if="isGroup &&
-                      currentGroup !== null &&
-                      typeof currentGroup !== 'undefined'
-                      " class="number-text">
+                    <div
+                      v-if="
+                        isGroup &&
+                          currentGroup !== null &&
+                          typeof currentGroup !== 'undefined'
+                      "
+                      class="number-text"
+                    >
                       <div v-for="e in currentGroup.Members" :key="e">
                         {{ getNameForTel(e) }}
                       </div>
                     </div>
-                    <div v-if="isGroup &&
-                      currentGroup !== null &&
-                      typeof currentGroup !== 'undefined'
-                      " class="number-text">
+                    <div
+                      v-if="
+                        isGroup &&
+                          currentGroup !== null &&
+                          typeof currentGroup !== 'undefined'
+                      "
+                      class="number-text"
+                    >
                       <div v-for="(n, i) in names" :key="i" class="name">
                         {{ n }}<span v-if="i < names.length - 1">,</span>
                       </div>
                     </div>
-                    <div v-if="!isGroup &&
-                      currentChat.title === currentChat.Tel
-                      " class="number-text">
+                    <div
+                      v-if="!isGroup && currentChat.title === currentChat.Tel"
+                      class="number-text"
+                    >
                       {{ currentChat.Tel }}
                     </div>
                   </div>
@@ -73,35 +96,72 @@
           </div>
           <div class="col-2 text-right">
             <div class="dropdown">
-              <button id="dropdownMenuButton" class="btn" type="button" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false" @click="toggleSettings">
+              <button
+                id="dropdownMenuButton"
+                class="btn"
+                type="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                @click="toggleSettings"
+              >
                 <font-awesome-icon icon="ellipsis-v" />
               </button>
-              <div v-if="showSettingsMenu" id="settings-dropdown" class="dropdown-menu"
-                aria-labelledby="dropdownMenuButton">
-                <button v-if="currentChat !== null &&
-                  !isGroup &&
-                  currentChat.title !== currentChat.Tel
-                  " class="dropdown-item" @click="callNumber(currentChat.Tel)">
+              <div
+                v-if="showSettingsMenu"
+                id="settings-dropdown"
+                class="dropdown-menu"
+                aria-labelledby="dropdownMenuButton"
+              >
+                <button
+                  v-if="
+                    currentChat !== null &&
+                      !isGroup &&
+                      currentChat.title !== currentChat.Tel
+                  "
+                  class="dropdown-item"
+                  @click="callNumber(currentChat.Tel)"
+                >
                   {{ currentChat.Tel }}
                 </button>
-                <button v-if="currentChat !== null && !currentChat.muted" v-translate class="dropdown-item"
-                  @click="toggleNotifications">
+                <button
+                  v-if="currentChat !== null && !currentChat.muted"
+                  v-translate
+                  class="dropdown-item"
+                  @click="toggleNotifications"
+                >
                   Mute
                 </button>
-                <button v-else v-translate class="dropdown-item" @click="toggleNotifications">
+                <button
+                  v-else
+                  v-translate
+                  class="dropdown-item"
+                  @click="toggleNotifications"
+                >
                   Unmute
                 </button>
-                <button v-if="currentChat !== null &&
-                  !isGroup &&
-                  currentChat.title === currentChat.Tel
-                  " v-translate class="dropdown-item" @click="addContactModal = true">
+                <button
+                  v-if="
+                    currentChat !== null &&
+                      !isGroup &&
+                      currentChat.title === currentChat.Tel
+                  "
+                  v-translate
+                  class="dropdown-item"
+                  @click="addContactModal = true"
+                >
                   Add contact
                 </button>
-                <button v-if="currentChat !== null &&
-                  !isGroup &&
-                  currentChat.title !== currentChat.Tel
-                  " v-translate class="dropdown-item" @click="openEditContactModal()">
+                <button
+                  v-if="
+                    currentChat !== null &&
+                      !isGroup &&
+                      currentChat.title !== currentChat.Tel
+                  "
+                  v-translate
+                  class="dropdown-item"
+                  @click="openEditContactModal()"
+                >
                   Edit contact
                 </button>
                 <!-- <button
@@ -120,8 +180,12 @@
                 >
                   Reset encryption
                 </button> -->
-                <button v-if="currentChat != null && !isGroup" v-translate class="dropdown-item"
-                  @click="delChatModal">
+                <button
+                  v-if="currentChat !== null && !isGroup"
+                  v-translate
+                  class="dropdown-item"
+                  @click="delChatModal"
+                >
                   Delete chat
                 </button>
                 <!-- <router-link
@@ -133,10 +197,18 @@
                   Edit group
                 </router-link> -->
               </div>
-              <identity-modal v-if="showIdentityModal" @close="showIdentityModal = false"
-                @confirm="showIdentityModal = false" />
-              <confirmation-modal v-if="showConfirmationModal" :title="cMTitle" :text="cMText"
-                @close="showConfirmationModal = false" @confirm="confirm" />
+              <identity-modal
+                v-if="showIdentityModal"
+                @close="showIdentityModal = false"
+                @confirm="showIdentityModal = false"
+              />
+              <confirmation-modal
+                v-if="showConfirmationModal"
+                :title="cMTitle"
+                :text="cMText"
+                @close="showConfirmationModal = false"
+                @confirm="confirm"
+              />
             </div>
           </div>
         </div>
@@ -202,15 +274,37 @@
           </div>
           <div class="col-10 text-right">
             <div class="input-container">
-              <input v-if="toggleSearch" v-model="contactsFilter" type="text" class="form-control"
-                @change="filterContacts()" @keyup="filterContacts()" />
+              <input
+                v-if="toggleSearch"
+                v-model="contactsFilter"
+                type="text"
+                class="form-control"
+                @change="filterContacts()"
+                @keyup="filterContacts()"
+              />
             </div>
-            <button v-if="toggleSearch" id="dropdownMenuButton" class="btn" type="button" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false" @click="showSearch()">
+            <button
+              v-if="toggleSearch"
+              id="dropdownMenuButton"
+              class="btn"
+              type="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+              @click="showSearch()"
+            >
               <font-awesome-icon icon="times" />
             </button>
-            <button v-if="!toggleSearch" id="dropdownMenuButton" class="btn" type="button" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false" @click="showSearch()">
+            <button
+              v-if="!toggleSearch"
+              id="dropdownMenuButton"
+              class="btn"
+              type="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+              @click="showSearch()"
+            >
               <font-awesome-icon icon="search" />
             </button>
             <!-- <div class="dropdown">
@@ -252,29 +346,37 @@
       </div>
     </div>
     <div v-if="addContactModal" class="addContactModal">
-      <add-contact-modal :number="currentChat.Tel" :uuid="currentChat.UUID" @close="addContactModal = false"
-        @add="addContact($event)" />
+      <add-contact-modal
+        :number="currentChat.Tel"
+        :uuid="currentChat.UUID"
+        @close="addContactModal = false"
+        @add="addContact($event)"
+      />
     </div>
     <div v-if="showImportVcfModal" class="addContactModal">
       <import-vcf-modal @close="showImportVcfModal = false" />
     </div>
     <div v-if="editContactModal && editContactId !== -1" class="editContactModal">
-      <edit-contact-modal :id="editContactId.toString()" :contact="contacts[editContactId]"
-        @close="editContactModal = false" @save="saveContact($event)" />
+      <edit-contact-modal
+        :id="editContactId.toString()"
+        :contact="contacts[editContactId]"
+        @close="editContactModal = false"
+        @save="saveContact($event)"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import IdentityModal from "@/components/IdentityModal.vue";
-import ConfirmationModal from "@/components/ConfirmationModal.vue";
-import ImportVcfModal from "@/components/ImportVcfModal.vue";
-import AddContactModal from "@/components/AddContactModal.vue";
-import EditContactModal from "@/components/EditContactModal.vue";
+import IdentityModal from '@/components/IdentityModal.vue'
+import ConfirmationModal from '@/components/ConfirmationModal.vue'
+import ImportVcfModal from '@/components/ImportVcfModal.vue'
+import AddContactModal from '@/components/AddContactModal.vue'
+import EditContactModal from '@/components/EditContactModal.vue'
 
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 export default {
-  name: "HeaderComponent",
+  name: 'HeaderComponent',
   components: {
     ConfirmationModal,
     IdentityModal,
@@ -288,153 +390,158 @@ export default {
       showConfirmationModal: false,
       showIdentityModal: false,
       showImportVcfModal: false,
-      cMTitle: "",
-      cMText: "",
-      cMType: "",
+      cMTitle: '',
+      cMText: '',
+      cMType: '',
       names: [],
       toggleSearch: false,
-      contactsFilter: "",
+      contactsFilter: '',
       addContactModal: false,
       editContactModal: false,
       editContactId: -1,
-    };
+    }
   },
-  computed: {...mapState([
-      "messageList",
-      "currentChat",
-      "currentGroup",
-      "contacts",
-      "errorConnection",
-      "currentContact",
-      "sessionNames",
-      "gui",
-      "identity",
+  computed: {
+    ...mapState([
+      'messageList',
+      'currentChat',
+      'currentGroup',
+      'contacts',
+      'errorConnection',
+      'currentContact',
+      'sessionNames',
+      'gui',
+      'identity',
     ]),
     isGroup() {
-      return this.currentChat?.thread.Group !== undefined;
+      return this.currentChat?.thread.Group !== undefined
     },
-},
+  },
   watch: {
     $route() {
-      this.names = [];
-      this.showSettingsMenu = false;
+      this.names = []
+      this.showSettingsMenu = false
     },
     currentChat: {
       handler() {
-        this.names = [];
-        this.showSettingsMenu = false;
+        this.names = []
+        this.showSettingsMenu = false
       },
       deep: true,
     },
   },
   mounted() {
-    this.names = [];
+    this.names = []
   },
   methods: {
     route() {
-      return this.$route.name;
+      return this.$route.name
     },
     back() {
-      this.$router.go(-1);
-      this.showSettingsMenu = false;
-      this.contactsFilter = "";
-      this.toggleSearch = false;
-      this.names = [];
+      this.$router.go(-1)
+      this.showSettingsMenu = false
+      this.contactsFilter = ''
+      this.toggleSearch = false
+      this.names = []
     },
     toggleSettings() {
-      this.showSettingsMenu = !this.showSettingsMenu;
+      this.showSettingsMenu = !this.showSettingsMenu
     },
     toggleNotifications() {
-      this.showSettingsMenu = false;
-      this.$store.dispatch("toggleNotifications");
+      this.showSettingsMenu = false
+      this.$store.dispatch('toggleNotifications')
     },
     resetEncryptionModal() {
-      this.showSettingsMenu = false;
-      this.showConfirmationModal = true;
-      this.cMType = "resetEncryption";
-      this.cMTitle = this.$gettext("Reset secure session?");
+      this.showSettingsMenu = false
+      this.showConfirmationModal = true
+      this.cMType = 'resetEncryption'
+      this.cMTitle = this.$gettext('Reset secure session?')
       this.cMText = this.$gettext(
         "This may help if you're having encryption problems in this conversation. Your messages will be kept."
-      );
+      )
     },
     verifyIdentity() {
-      this.$store.dispatch("verifyIdentity");
-      this.showSettingsMenu = false;
-      this.showIdentityModal = true;
+      this.$store.dispatch('verifyIdentity')
+      this.showSettingsMenu = false
+      this.showIdentityModal = true
     },
     delChatModal() {
-      this.showSettingsMenu = false;
-      this.showConfirmationModal = true;
-      this.cMType = "delChat";
-      this.cMTitle = this.$gettext("Delete this chat?");
+      this.showSettingsMenu = false
+      this.showConfirmationModal = true
+      this.cMType = 'delChat'
+      this.cMTitle = this.$gettext('Delete this chat?')
       this.cMText = this.$gettext(
-        "This chat will be permanently deleted - but only from your device."
-      );
+        'This chat will be permanently deleted - but only from your device.'
+      )
     },
     confirm() {
-      if (this.cMType === "resetEncryption") this.$store.dispatch("resetEncryption");
-      else if (this.cMType === "delChat")
-        this.$store.dispatch("delChat", this.currentChat.thread);
-      this.$router.push("/chatList");
-      this.showConfirmationModal = false;
-      this.showIdentityModal = false;
+      if (this.cMType === 'resetEncryption') this.$store.dispatch('resetEncryption')
+      else if (this.cMType === 'delChat')
+        this.$store.dispatch('delChat', this.currentChat.thread)
+      this.$router.push('/chatList')
+      this.showConfirmationModal = false
+      this.showIdentityModal = false
     },
     showSearch() {
       if (this.toggleSearch) {
-        this.toggleSearch = false;
-        this.$store.dispatch("clearFilterContacts");
-      } else this.toggleSearch = true;
+        this.toggleSearch = false
+        this.$store.dispatch('clearFilterContacts')
+      } else this.toggleSearch = true
     },
     onImageError(event) {
-      event.target.style.display = "none";
+      event.target.style.display = 'none'
     },
     filterContacts() {
-      if (this.contactsFilter !== "")
-        this.$store.dispatch("filterContacts", this.contactsFilter);
-      else this.$store.dispatch("clearFilterContacts");
+      if (this.contactsFilter !== '')
+        this.$store.dispatch('filterContacts', this.contactsFilter)
+      else this.$store.dispatch('clearFilterContacts')
     },
     getNameForTel(tel) {
       this.contacts.forEach((c) => {
         if (c.Tel === tel) {
           if (this.names.length <= 3 && this.names.indexOf(c.Name) === -1)
-            this.names.push(c.Name);
-          return c;
-        } else return tel;
-      });
+            this.names.push(c.Name)
+          return c
+        } else return tel
+      })
     },
     callNumber(n) {
-      if (this.gui === "ut") {
-        window.prompt("call" + n);
-        this.showSettingsMenu = false;
+      if (this.gui === 'ut') {
+        window.prompt('call' + n)
+        this.showSettingsMenu = false
       } else {
-        this.showSettingsMenu = false;
+        this.showSettingsMenu = false
       }
     },
     createGroup() {},
     openEditContactModal() {
-      const id = this.contacts.findIndex((c) => c.Tel === this.currentChat.Tel || c.UUID === this.sessionNames[this.currentChat.thread].Name);
-      this.editContactId = id;
+      const id = this.contacts.findIndex(
+        (c) =>
+          c.Tel === this.currentChat.Tel ||
+          c.UUID === this.sessionNames[this.currentChat.thread].Name
+      )
+      this.editContactId = id
       if (id !== -1) {
-        this.editContactModal = true;
+        this.editContactModal = true
       }
     },
     addContact(data) {
-      this.$store.dispatch("addContact", data);
-      this.addContactModal = false;
+      this.$store.dispatch('addContact', data)
+      this.addContactModal = false
     },
     saveContact(data) {
-      this.editContactModal = false;
-      this.showActions = false;
-      this.editContactId = "";
-      this.$store.dispatch("editContact", data);
+      this.editContactModal = false
+      this.showActions = false
+      this.editContactId = ''
+      this.$store.dispatch('editContact', data)
     },
     openProfileForRecipient(recipient) {
       if (recipient !== -1) {
-        this.$router.push("/profile/" + recipient);
+        this.$router.push(`/profile/${recipient}`)
       }
     },
   },
-};
+}
 </script>
 
 <style scoped>

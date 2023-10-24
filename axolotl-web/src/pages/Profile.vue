@@ -20,27 +20,28 @@
           @error="onImageError($event)"
         />
         <div v-else class="profile-name">
-          <span>{{
-            profile?profile.name[0]:"Unknown"
-          }}</span>
+          <span>{{ profile ? profile.name[0] : 'Unknown' }}</span>
         </div>
       </div>
       <div class="infos">
-
         <div v-if="profile?.phone_number" class="number">
-          <a href="tel:{{ `+${profile?.phone_number.code.value}${profile?.phone_number.national.value}` }}">
-            {{ `+${profile?.phone_number.code.value}${profile?.phone_number.national.value}` }}</a>
+          <a
+            href="tel:{{ `+${profile?.phone_number.code.value}${profile?.phone_number.national.value}` }}"
+          >
+            {{
+              `+${profile?.phone_number.code.value}${profile?.phone_number.national.value}`
+            }}</a>
         </div>
-        <div v-if="profile?.username != ''" class="username">
+        <div v-if="profile?.username !== ''" class="username">
           {{ profile?.username }}
         </div>
-        <div v-if="profile?.uuid != ''" class="uuid">
-          {{ profile?.uuid}}
+        <div v-if="profile?.uuid !== ''" class="uuid">
+          {{ profile?.uuid }}
         </div>
-        <div v-if="profile?.about != ''" class="about">
+        <div v-if="profile?.about !== ''" class="about">
           {{ profile?.about }}
         </div>
-        <div v-if="profile?.aboutEmoji != ''" class="about-emoji">
+        <div v-if="profile?.aboutEmoji !== ''" class="about-emoji">
           {{ profile?.aboutEmoji }}
         </div>
         <div class="btn btn-primary create-chat mt-4" @click="createChat()">
@@ -53,12 +54,12 @@
 
 <script>
 export default {
-    name: "ProfilePage",
+  name: 'ProfilePage',
   props: {
-    profileId:{
+    profileId: {
       type: String,
       required: true,
-      default: ""
+      default: '',
     },
   },
   data: () => ({
@@ -66,28 +67,26 @@ export default {
   }),
   computed: {
     profile() {
-      return this.$store.state.profile;
+      return this.$store.state.profile
     },
-
   },
   mounted() {
-    this.$store.dispatch("getProfile", this.profileId);
+    this.$store.dispatch('getProfile', this.profileId)
   },
   methods: {
     onImageError(event) {
-      this.hasProfileImage = false;
+      this.hasProfileImage = false
     },
     editContact() {
       this.$router.push({
-        name: "editContact",
-      });
+        name: 'editContact',
+      })
     },
     createChat() {
-      this.$router.push("/chat/"+JSON.stringify({Contact:this.profileId}));
-        // id: this.profile.uuid,
+      this.$router.push(`/chat/${JSON.stringify({ Contact: this.profileId })}`)
     },
   },
-};
+}
 </script>
 
 <style scoped>
@@ -111,14 +110,14 @@ export default {
   height: 150px;
   border-radius: 50px;
   background-color: rgb(240, 240, 240);
-  
+
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.profile-name span{
+.profile-name span {
   font-size: 3.5rem;
-  color: #5fb5ea
+  color: #5fb5ea;
 }
 
 .profile-header {

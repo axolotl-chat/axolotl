@@ -4,7 +4,6 @@ import { validateUUID } from "@/helpers/uuidCheck";
 import app from "../main";
 
 function socketSend(message) {
-  console.log("socketSend", JSON.stringify(message));
   app.config.globalProperties.$socket.send(JSON.stringify(message));
 }
 
@@ -128,7 +127,6 @@ export default createStore({
     SET_CONFIG(state, config) {
       state.config = config;
     },
-    SEND_MESSAGE() {},
     CREATE_CHAT(state) {
       state.currentChat = null;
     },
@@ -196,12 +194,8 @@ export default createStore({
       ) {
         const tmpList = state.messageList;
         tmpList.push(message);
-        // tmpList.sort(function (a, b) {
-        //   return a.timestamp - b.timestamp
-        // })
         state.messageList = tmpList;
       }
-      console.log("SET_MESSAGE_RECEIVED", message);
       state.chatList.forEach((chat, i) => {
         if (chat.thread === message.thread_id) {
           state.chatList[i].Messages = [message];
@@ -254,15 +248,16 @@ export default createStore({
     },
     SET_CONTACTS_FILTER(state, filter) {
       filter = filter.toLowerCase();
-      const f = state.contacts.filter((c) => c.Name.toLowerCase().includes(filter));
+      const f = state.contacts.filter((contact) => contact.Name.toLowerCase().includes(filter));
       state.contactsFiltered = f;
       state.contactsFilterActive = true;
     },
     SET_CONTACTS_FOR_GROUP_FILTER(state, filter) {
       filter = filter.toLowerCase();
-      let f = state.contacts.filter((c) => {
-        if (!validateUUID(c.UUID)) return false;
-        if (c.Name.toLowerCase().includes(filter)) return true;
+      let f = state.contacts.filter((contact) => {
+        if (!validateUUID(contact.UUID)) return false;
+        if (contact.Name.toLowerCase().includes(filter)) return true;
+        return false;
       });
       if (state.currentGroup !== null)
         f = f.filter((c) => state.currentGroup.Members.indexOf(c.UUID) === -1);
@@ -323,7 +318,7 @@ export default createStore({
         this.commit("SET_ERROR", messageData.Error);
       }
       switch (Object.keys(messageData)[0]) {
-        case "ChatList":
+        case "ChatList":{
           const chats = messageData.ChatList;
           if (messageData.LastMessages) {
             const lastMessages = {};
@@ -353,6 +348,7 @@ export default createStore({
           }
           this.commit("SET_SESSIONNAMES", messageData.SessionNames);
           break;
+        }
         case "MessageList":
           this.commit("SET_MESSAGELIST", messageData.MessageList);
           break;
@@ -432,12 +428,10 @@ export default createStore({
             ) {
               this.commit("SET_MESSAGE_RECEIVED", messageReceived);
             } else {
-              console.log("getChatList");
               this.dispatch("getChatList");
             }
           } else if (messageData.response_type === "message_sent") {
             const messageSent = JSON.parse(messageData.data);
-            console.log("message_sent", messageSent);
             this.commit("SET_MESSAGE_RECEIVED", messageSent.message);
           } else if (messageData.response_type === "registration_done") {
             this.commit("SET_REGISTRATION_STATUS", "registered");
@@ -446,6 +440,7 @@ export default createStore({
 
           break;
         default:
+          // @ts-ignore
           console.log("unkown message ", messageData, Object.keys(messageData)[0]);
       }
       this.commit("SET_SOCKET_MESSAGE_DATA", message.data);
@@ -536,7 +531,7 @@ export default createStore({
         const message = {
           request: "getProfile",
           data: JSON.stringify({
-            id: id,
+            id,
           }),
         };
         socketSend(message);
@@ -820,13 +815,11 @@ export default createStore({
       }
     },
     sendCode(state, code) {
-      console.log("store: sendCode", code);
       if (this.state.socket.isConnected) {
         const message = {
           request: "sendCode",
           data: code,
         };
-        console.log("store: sendCode", message);
         socketSend(message);
       } else {
         console.error("socket not connected");
@@ -926,7 +919,7 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const message = {
           request: "joinGroup",
-          data: data,
+          data,
         };
         socketSend(message);
       }

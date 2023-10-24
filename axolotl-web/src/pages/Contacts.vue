@@ -81,7 +81,7 @@
           </div>
           <div class="meta col-8" @click="contactClick(c)">
             <p class="name">{{ c.name }}</p>
-            <p class="number" v-if="c.phonenumber">{{ `+${ c.phonenumber}` }}</p>
+            <p v-if="c.phonenumber" class="number">{{ `+${ c.phonenumber}` }}</p>
           </div>
           <!-- <div class="col-1" @click="showContactAction(c)">
             <font-awesome-icon icon="wrench" />

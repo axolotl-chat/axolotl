@@ -19,11 +19,13 @@
       </div>
       <div v-for="chat in chatList" :key="chat.id.Contact ? chat.id.Contact : chat.id.Group" class="row">
         <!-- chat entry -->
-        <div :id="chat.id.Contact ? chat.id.Contact : chat.id.Group" :class="editActive && selectedChat.indexOf(chat.id.Contact ? chat.id.Contact : chat.id.Group) >= 0
-          ? 'selected col-12 chat-container'
-          : 'col-12 chat-container '
+        <div
+          :id="chat.id.Contact ? chat.id.Contact : chat.id.Group" :class="editActive && selectedChat.indexOf(chat.id.Contact ? chat.id.Contact : chat.id.Group) >= 0
+            ? 'selected col-12 chat-container'
+            : 'col-12 chat-container '
           " data-long-press-delay="500" @click="enterChat(chat)"
-          @long-press="editChat(chat.id.Contact ? chat.id.Contact : chat.id.Group)">
+          @long-press="editChat(chat.id.Contact ? chat.id.Contact : chat.id.Group)"
+        >
           <div class="row chat-entry">
             <div class="avatar col-2">
               <div v-if="!isGroupCheck(chat)" class="badge-name">
@@ -45,9 +47,11 @@
                   <div class="name">
                     <font-awesome-icon v-if="chat.muted" class="mute" icon="volume-mute" />
                     <font-awesome-icon v-if="chat.is_group" class="is_group me-1" icon="user-friends" />
-                    <div v-if="chat.is_group &&
-                      chat.title === ''
-                      " class="title" v-translate>
+                    <div
+                      v-if="chat.is_group &&
+                        chat.title === ''
+                      " v-translate class="title"
+                    >
                       Unknown group
                     </div>
                     <div v-else class="title">
@@ -56,9 +60,11 @@
                   </div>
                 </div>
                 <div v-if="!editActive" class="col-3 date-c">
-                  <p v-if="chat.last_message !== '' &&
-                    chat.last_message_timestamp !== 0
-                    " class="time">
+                  <p
+                    v-if="chat.last_message !== '' &&
+                      chat.last_message_timestamp !== 0
+                    " class="time"
+                  >
                     {{ humanifyDate(chat.last_message_timestamp) }}
                   </p>
                 </div>
@@ -70,7 +76,6 @@
                   </p>
                 </div>
                 <div class="col-3 unread-counter">
-
                   <div v-if="Number(chat.unread_messages_count) > 0" class="counter badge badge-primary">
                     {{ chat.unread_messages_count }}
                   </div>
