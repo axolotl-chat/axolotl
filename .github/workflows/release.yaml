@@ -2,10 +2,6 @@ name: Axolotl release pipeline
 
 on:
   workflow_dispatch:
-  push:
-  # Pattern matched against refs/tags
-  tags:        
-    - '*'   
 
 jobs:
   build:
