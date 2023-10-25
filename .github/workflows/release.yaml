@@ -2,6 +2,10 @@ name: Axolotl release pipeline
 
 on:
   workflow_dispatch:
+  push:
+  # Pattern matched against refs/tags
+  tags:        
+    - '*'   
 
 jobs:
   build:
@@ -40,8 +44,8 @@ jobs:
       - name: Get click version
         id: get_click_version
         run: |
-          ls -lah /build-artifacts && find /build-artifacts
-          echo "::set-output name=version::$(ls ./build-artifacts/Axolotl-Clickable/x86_64-linux-gnu/app/*amd64.click | cut --delimiter="_" --fields=2)"
+          ls -lah ./build-artifacts && find ./build-artifacts
+          echo "::set-output name=version::$(ls ./build-artifacts/Axolotl-Clickable/aarch64-linux-gnu/app/*arm64.click | cut --delimiter="_" --fields=2)"
 
       - name: Set click version
         run: |
