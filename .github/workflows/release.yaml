@@ -58,19 +58,22 @@ jobs:
           files: |
             **/*.click
             **/*.deb
+            **/*.AppImage
 
-      # - name: Add AppImage to release (x86_64)
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: ./build-artifacts/Axolotl-AppImage/Axolotl-x86_64.AppImage
-      #     asset_name: Axolotl-${{ env.VERSION }}-x86_64.AppImage
-      #     asset_content_type: application/vnd.appimage
+      - name: Add AppImage to release (amd64)
+        uses: actions/upload-release-asset@v1
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build-artifacts/build-axolotl-linux-amd64-appimage
+          asset_name: Axolotl-${{ env.VERSION }}-amd64.AppImage
+          asset_content_type: application/vnd.appimage
 
       - name: Add click to release (amd64)
         uses: actions/upload-release-asset@v1
+        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -81,6 +84,7 @@ jobs:
 
       - name: Add click to release (arm64)
         uses: actions/upload-release-asset@v1
+        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -91,6 +95,7 @@ jobs:
 
       - name: Add click to release (armhf)
         uses: actions/upload-release-asset@v1
+        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -101,11 +106,12 @@ jobs:
 
       - name: Add Debian package to release (arm64)
         uses: actions/upload-release-asset@v1
+        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build-artifacts/Axolotl-Debian-arm64
+          asset_path: build-artifacts/Axolotl-Debian-arm64-package
           asset_name: axolotl_${{ env.RELEASE_VERSION }}-1_arm64.deb
           asset_content_type: application/deb
 
