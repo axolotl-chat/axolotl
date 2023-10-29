@@ -40,7 +40,8 @@ jobs:
       - name: Get click version
         id: get_click_version
         run: |
-          echo "::set-output name=version::$(ls ./build-artifacts/Axolotl-Clickable/*amd64.click | cut --delimiter="_" --fields=2)"
+          ls -lah ./build-artifacts && find ./build-artifacts
+          echo "::set-output name=version::$(ls ./build-artifacts/Axolotl-Clickable/aarch64-linux-gnu/app/*arm64.click | cut --delimiter="_" --fields=2)"
 
       - name: Set click version
         run: |
@@ -57,54 +58,4 @@ jobs:
           files: |
             **/*.click
             **/*.deb
-
-      # - name: Add AppImage to release (x86_64)
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: ./build-artifacts/Axolotl-AppImage/Axolotl-x86_64.AppImage
-      #     asset_name: Axolotl-${{ env.VERSION }}-x86_64.AppImage
-      #     asset_content_type: application/vnd.appimage
-
-      - name: Add click to release (amd64)
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build-artifacts/Axolotl-Clickable/textsecure.nanuc_${{ env.CLICKABLE_VERSION }}_amd64.click
-          asset_name: textsecure.nanuc_${{ env.VERSION }}_amd64.click
-          asset_content_type: application/vnd.debian.binary-package
-
-      - name: Add click to release (arm64)
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build-artifacts/Axolotl-Clickable/textsecure.nanuc_${{ env.CLICKABLE_VERSION }}_arm64.click
-          asset_name: textsecure.nanuc_${{ env.VERSION }}_arm64.click
-          asset_content_type: application/vnd.debian.binary-package
-
-      - name: Add click to release (armhf)
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build-artifacts/Axolotl-Clickable/textsecure.nanuc_${{ env.CLICKABLE_VERSION }}_armhf.click
-          asset_name: textsecure.nanuc_${{ env.VERSION }}_armhf.click
-          asset_content_type: application/vnd.debian.binary-package
-
-      - name: Add Debian package to release (arm64)
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build-artifacts/Axolotl-Debian-arm64
-          asset_name: axolotl_${{ env.RELEASE_VERSION }}-1_arm64.deb
-          asset_content_type: application/deb
-
+            **/*.AppImage
