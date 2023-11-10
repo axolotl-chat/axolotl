@@ -1,20 +1,20 @@
 {
-    "name": "textsecure.nanuc",
+    "name": "axolotl.nanuc",
     "version": "2.0.1",
     "description": "A Signal compatible messaging client for Ubuntu phones",
     "title": "Axolotl",
     "architecture": "@CLICK_ARCH@",
     "framework" : "ubuntu-sdk-20.04",
     "hooks": {
-        "textsecure": {
-            "apparmor": "textsecure.apparmor",
-            "desktop": "textsecure.desktop",
-            "urls": "textsecure.url-dispatcher",
-            "content-hub": "textsecure.content-hub"
+        "axolotl": {
+            "apparmor": "axolotl.apparmor",
+            "desktop": "axolotl.desktop",
+            "urls": "axolotl.url-dispatcher",
+            "content-hub": "axolotl.content-hub"
         },
         "push": {
-            "apparmor": "textsecure-push.apparmor",
-            "push-helper": "textsecure-push-helper.json"
+            "apparmor": "axolotl-push.apparmor",
+            "push-helper": "axolotl-push-helper.json"
         }
     },
     "icon": "qml/phoneui/images/logo.png",

@@ -73,7 +73,7 @@ pub async fn send_message(
     message.thread_id = Some(recipient);
     // message.sender = Some(manager.uuid());
     let response_data = SendMessageResponse { message, is_failed };
-    let response_data_json = serde_json::to_string(&response_data).unwrap();
+    let response_data_json = serde_json::to_string(&response_data)?;
     let response = AxolotlResponse {
         response_type: response_type.to_string(),
         data: response_data_json,
@@ -87,7 +87,13 @@ pub async fn send_message_to_group(
     attachments: Option<Vec<AttachmentPointer>>,
     config_store: SledStore,
 ) {
-    let mut manager = Manager::load_registered(config_store).await.unwrap();
+    let mut manager = match Manager::load_registered(config_store).await{
+        Ok(m) => m,
+        Err(e) => {
+            println!("Error while loading the manager: {:?}", e);
+            return;
+        }
+    };
     // Send message
     let timestamp = std::time::SystemTime::now()
         .duration_since(UNIX_EPOCH)

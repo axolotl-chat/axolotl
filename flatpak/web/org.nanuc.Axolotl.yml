@@ -25,8 +25,8 @@ finish-args:
   # Write access for the user download folder (to save media)
   - --filesystem=xdg-download:rw
   # File access for configs (read/write access, and create the directory if it doesn’t exist)
-  - --filesystem=~/.local/share/textsecure.nanuc:create
-  - --filesystem=~/.config/textsecure.nanuc:create
+  - --filesystem=~/.local/share/axolotl.nanuc:create
+  - --filesystem=~/.config/axolotl.nanuc:create
   # Read access for home folder (to upload media)
   - --filesystem=home:ro
   # Network access - to receive and send messages

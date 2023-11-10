@@ -32,7 +32,12 @@ async fn main() {
 
     let ui_handle = start_ui(args.mode).await;
     run_backend().await;
-    ui_handle.await.unwrap();
+    match ui_handle.await{
+        Ok(_) => {},
+        Err(e) => {
+            log::error!("Error while running the UI: {:?}", e);
+        }
+    };
 }
 
 async fn run_backend() {
@@ -41,8 +46,18 @@ async fn run_backend() {
         run_websocket(request_tx).await;
     });
 
-    create_and_run_backend(request_rx).await.unwrap();
-    server_task.await.unwrap();
+    match create_and_run_backend(request_rx).await{
+        Ok(_) => {},
+        Err(e) => {
+            log::error!("Error while running the backend: {:?}", e);
+        }
+    };
+    match server_task.await{
+        Ok(_) => {},
+        Err(e) => {
+            log::error!("Error while running the server: {:?}", e);
+        }
+    };
 }
 
 async fn run_websocket(handler: mpsc::Sender<WebSocket>) {

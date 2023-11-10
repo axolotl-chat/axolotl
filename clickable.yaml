@@ -16,14 +16,14 @@ framework: ubuntu-sdk-20.04
 install_root_data:
   - manifest.json
   - click/axolotl.png
-  - click/textsecure-helper
-  - click/textsecure-push-helper.json
-  - click/textsecure-push.apparmor
-  - click/textsecure.apparmor
-  - click/textsecure.content-hub
-  - click/textsecure.desktop
-  - click/textsecure.png
-  - click/textsecure.url-dispatcher
+  - click/axolotl-helper
+  - click/axolotl-push-helper.json
+  - click/axolotl-push.apparmor
+  - click/axolotl.apparmor
+  - click/axolotl.content-hub
+  - click/axolotl.desktop
+  - click/axolotl.png
+  - click/axolotl.url-dispatcher
   - ${AXOLOTLWEB_LIB_INSTALL_DIR}/axolotl-web
   - guis/qml/ut
 

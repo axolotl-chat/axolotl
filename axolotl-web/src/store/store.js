@@ -943,7 +943,7 @@ export default createStore({
         const message = {
           request: "sendVoiceNote",
           data: {
-            voiceNote: voiceNote.note,
+            attachment: voiceNote.note,
             to: voiceNote.to,
           },
         };

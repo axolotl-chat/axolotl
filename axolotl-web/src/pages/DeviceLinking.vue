@@ -1,7 +1,7 @@
 <template>
   <component :is="$route.meta.layout || 'div'">
     <div class="device-linking-page">
-      <div v-translate> Please scan the QR code with your primary signal device. </div>
+      <div v-translate>Please scan the QR code with your primary signal device.</div>
       <div class="d-flex justify-content-center align-items-center">
         <canvas id="qrcode" />
       </div>
@@ -10,39 +10,37 @@
 </template>
 
 <script>
-import QRCode from "qrcode";
-import { mapState } from "vuex";
+import QRCode from 'qrcode'
+import { mapState } from 'vuex'
 
 export default {
-  name: "DeviceLinking",
-  computed: mapState(["deviceLinkCode"]),
+  name: 'DeviceLinking',
+  computed: mapState(['deviceLinkCode']),
   watch: {
     deviceLinkCode() {
-      this.updateQrCode();
+      this.updateQrCode()
     },
   },
   mounted() {
-    this.updateQrCode();
+    this.updateQrCode()
   },
   methods: {
     updateQrCode() {
-      if(this.deviceLinkCode){
-        console.log("updateQrCode",this.deviceLinkCode)
+      if (this.deviceLinkCode) {
         QRCode.toCanvas(
-        document.getElementById("qrcode"),
+          document.getElementById('qrcode'),
           [
             {
               data: this.deviceLinkCode,
-              mode: "url",
+              mode: 'url',
             },
           ],
-          { errorCorrectionLevel: "L" }
-        );
+          { errorCorrectionLevel: 'L' }
+        )
       }
-
     },
   },
-};
+}
 </script>
 <style scoped>
 .device-linking-page {
@@ -50,4 +48,3 @@ export default {
   text-align: center;
 }
 </style>
-

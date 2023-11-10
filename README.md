@@ -4,8 +4,7 @@ Axolotl is a complete cross-platform [Signal](https://www.signal.org) client, co
 Unlike the desktop Signal client, **Axolotl is completely autonomous** and doesn't require you to have created an
 account with the official Signal application.
 
-It is built upon the go [textsecure package](https://github.com/nanu-c/textsecure/) and a Vue frontend that runs in an
-electron/qml WebEngineView container.
+It is built upon [presage](https://github.com/whisperfish/presage) and a VueJs frontend that runs in a [tauri](https://tauri.app/) or a qml WebEngineView container.
 
 <p align="center">
   <kbd>
@@ -16,7 +15,6 @@ electron/qml WebEngineView container.
 ## Features
 
  * Phone registration
- * Contact discovery
  * Direct messages
  * Group messages *mostly*
  * Photo, video, audio and contact attachments in both direct and group mode
@@ -25,11 +23,9 @@ electron/qml WebEngineView container.
  * Encrypted message store
  * Desktop client provisioning/syncing *partially*
 
-### Planned
+ ## Broken:
+ * Contact discovery
 
- * Push notifications
- * Most settings that are available in the Android app
- * Encrypted phone calls
 
 There are still bugs and UI/UX quirks.
 
@@ -39,7 +35,7 @@ Axolotl can be installed through different means.
 
 | Package | Maintainer | Comment  |
 | ------- | ---------- | -------- |
-| <a href='https://open-store.io/app/textsecure.nanuc'><img width='130' alt="Get it from the OpenStore" src="https://open-store.io/badges/en_US.png"></a> | nanu-c | For Ubuntu Touch |
+| <a href='https://open-store.io/app/axolotl.nanuc'><img width='130' alt="Get it from the OpenStore" src="https://open-store.io/badges/en_US.png"></a> | nanu-c | For Ubuntu Touch |
 | <a href='https://snapcraft.io/axolotl'><img width='130' alt="Get it from the Snap Store" src="https://snapcraft.io/static/images/badges/en/snap-store-black.svg"></a> | nanu-c | For Ubuntu desktop |
 | <a href='https://flathub.org/apps/details/org.nanuc.Axolotl'><img width='130' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/></a> | olof-nord | https://github.com/flathub/org.nanuc.Axolotl |
 | <a href='https://github.com/nanu-c/axolotl/releases'><img alt="mobian version" src="https://img.shields.io/badge/axolotl-deb-%23A80030"></a> | nuehm-arno | https://github.com/nanu-c/axolotl/releases <br>(Debian package in the Assets section)|

@@ -38,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Axolotl-Clickable
-          path: build/*/app/textsecure.nanuc_*.click
+          path: build/*/app/axolotl.nanuc_*.click
           retention-days: 1
 
   # package-flatpak-web:

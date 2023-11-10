@@ -7,7 +7,7 @@ fn main() {
         .into_os_string()
         .into_string()
         .unwrap();
-    let db_path = format!("{config_path}/textsecure.nanuc");
+    let db_path = format!("{config_path}/axolotl.nanuc");
 
     let thedb = sled::open(db_path).unwrap();
 

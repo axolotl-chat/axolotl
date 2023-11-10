@@ -8,7 +8,7 @@ module.exports = {
   },
   output: {
     path: "../po",
-    potPath: "./textsecure.nanuc.pot",
+    potPath: "./axolotl.nanuc.pot",
     jsonPath: "../axolotl-web/translations/translations.json",
     locales: [
       "ar", "be", "bg", "cs", "da", "de", "el", "es", "fa", "fi", "fr", "hr", "hu", "in",

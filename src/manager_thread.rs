@@ -159,7 +159,10 @@ impl ManagerThread {
                 log::info!("Starting command loop");
                 command_loop(&mut manager, receiver, content, error).await;
             } else {
-                let e = setup.err().unwrap();
+                let e = match setup.err(){
+                    Some(e) => e,
+                    None => PresageError::NotYetRegisteredError,
+                };
                 log::info!("Got error: {}", e);
                 error_callback.send(e).expect("Failed to send error");
             }
@@ -676,10 +679,10 @@ const DBUS_CLEAR_METHOD: &str = "ClearPersistent";
 const DBUS_LIST_METHOD: &str = "ListPersistent";
 
 #[cfg(feature = "ut")]
-const APP_ID: &str = "textsecure.nanuc";
+const APP_ID: &str = "axolotl.nanuc";
 
 #[cfg(feature = "ut")]
-const HOOK_NAME: &str = "textsecure";
+const HOOK_NAME: &str = "axolotl";
 
 #[cfg(feature = "ut")]
 fn postal<R: ReadAll, A: AppendAll>(method: &str, args: A) -> Result<R, dbus::Error> {

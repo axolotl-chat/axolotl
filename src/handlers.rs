@@ -82,7 +82,15 @@ impl Handler {
         log::info!("Setting up the manager2");
         let registration = if config_store.is_registered() {
             log::info!("Registered, starting the manager");
-            let registrationCredentials = config_store.load_state().unwrap().unwrap();
+            let registration_credentials = match config_store.load_state()? {
+                Some(credentials) => credentials,
+                None => {
+                    log::error!("No registration credentials found");
+                    return Err(ApplicationError::RegistrationError(
+                        "No registration credentials found".to_string(),
+                    ));
+                }
+            };
             tokio::task::spawn_local(async move {
                 let manager = ManagerThread::new(
                     config_store.clone(),
@@ -92,7 +100,7 @@ impl Handler {
                     send_content,
                     current_chat_mutex,
                     send_error,
-                    registrationCredentials.service_ids.aci,
+                    registration_credentials.service_ids.aci,
                 )
                 .await;
                 log::info!(
@@ -100,6 +108,8 @@ impl Handler {
                 );
                 if let Some(manager) = manager {
                     let _ = thread.set(manager);
+                } else {
+                    log::error!("Manager is none");
                 }
             });
 
@@ -142,14 +152,22 @@ impl Handler {
     }
 
     pub async fn get_config_store() -> Result<SledStore, ApplicationError> {
-        let config_path = dirs::config_dir()
-            .unwrap()
-            .into_os_string()
-            .into_string()
-            .unwrap();
+        let config_path = match dirs::config_dir(){
+            Some(path) => match path.into_os_string()
+            .into_string(){
+                Ok(path) => path,
+                Err(e) => {
+                    log::error!("Error getting config path: {:?}", e);
+                    exit(0);
+                }
+            },
+            None => {
+                log::error!("No config path found");
+                exit(0);
+        } };
         // todo: check if a tmp folder exists, if so, copy the content to the new folder and delete the tmp folder
 
-        let db_path = format!("{config_path}/textsecure.nanuc/sled");
+        let db_path = format!("{config_path}/axolotl.nanuc/sled");
         let config_store = match SledStore::open_with_passphrase(
             db_path,
             None::<&str>,
@@ -161,7 +179,7 @@ impl Handler {
                     "Failed to open the database: {}, retry with tmp database",
                     e
                 );
-                let db_path = format!("{config_path}/textsecure.nanuc/tmp");
+                let db_path = format!("{config_path}/axolotl.nanuc/tmp");
                 match SledStore::open_with_passphrase(
                     db_path,
                     None::<&str>,
@@ -371,7 +389,14 @@ impl Handler {
             log::debug!("Provisioning link handled successfully");
             self.send_provisioning_link().await;
             log::debug!("Provisioning link sent successfully to client");
-            let error_reciever = self.error_rx.as_mut().unwrap();
+            let error_reciever = match self.error_rx.as_mut(){
+                Some(r) => r,
+                None => {
+                    log::error!("Error receiver not initialized");
+                    return Ok(false);
+                }
+            
+            };
             while let Ok(e) = error_reciever.try_recv() {
                 match e {
                     Some(u) => {
@@ -551,9 +576,21 @@ impl Handler {
         }
         let qr_code = format!(
             "{{\"response_type\":\"qr_code\",\"data\":\"{}\"}}",
-            self.provisioning_link.as_ref().unwrap()
+            match self.provisioning_link.as_ref(){
+                Some(p) => p.as_str(),
+                None => {
+                    log::error!("Provisioning link not initialized");
+                    return;
+                }
+            }
         );
-        let mut ws_sender = self.sender.as_ref().unwrap().lock().await;
+        let mut ws_sender = match self.sender.as_ref(){
+            Some(s) => s,
+            None => {
+                log::error!("Sender not initialized");
+                return;
+            }
+        }.lock().await;
         match ws_sender.send(Message::text(qr_code)).await {
             Ok(_) => (),
             Err(e) => {
@@ -643,11 +680,17 @@ impl Handler {
     async fn get_phone_number(&self) {
         log::debug!("Getting phone number");
         let message = "{\"response_type\":\"phone_number\",\"data\":\"\"}".to_string();
-        let mut ws_sender = self.sender.as_ref().unwrap().lock().await;
+        let mut ws_sender = match self.sender.as_ref(){
+            Some(s) => s,
+            None => {
+                log::error!("get_phone_number: Sender not initialized");
+                return;
+            }
+        }.lock().await;
         match ws_sender.send(Message::text(message)).await {
             Ok(_) => (),
             Err(e) => {
-                log::error!("Error sending phone number request to client: {}", e);
+                log::error!("get_phone_number: Error sending phone number request to client: {}", e);
             }
         }
         std::mem::drop(ws_sender);
@@ -703,7 +746,13 @@ impl Handler {
                 }
             };
             log::debug!("Asking sender lock");
-            let sender = self.sender.clone().unwrap();
+            let sender = match self.sender.clone(){
+                Some(s) => s,
+                None => {
+                    log::error!("Sender not initialized");
+                    return;
+                }
+            };
             log::debug!("Got sender lock");
 
             log::debug!("Got websocket message from axolotl-web: {:?}", message);
@@ -759,7 +808,15 @@ impl Handler {
         &self,
         thread: &Thread,
     ) -> Result<Option<ThreadMetadata>, ApplicationError> {
-        let manager = self.manager_thread.get().unwrap();
+        let manager = match self.manager_thread.get(){
+            Some(m) => m,
+            None => {
+                log::error!("Manager not initialized");
+                return Err(ApplicationError::RegistrationError(
+                    "Manager not initialized".to_string(),
+                ));
+            }
+        };
         match manager.thread_metadata(thread).await {
             Ok(metadata) => Ok(metadata),
             Err(e) => Err(ApplicationError::from(e)),
@@ -1526,6 +1583,10 @@ impl Handler {
                 "leaveChat" => self.handle_close_chat(manager).await,
                 "getConfig" => self.handle_get_config(manager).await,
                 "unregister" => self.handle_unregister(manager).await,
+                "sendVoiceNote" => {
+                    self.handle_upload_attachment(manager, axolotl_request.data)
+                        .await
+                }
                 "changeNotificationsForThread" => {
                     self.handle_change_notifications_for_thread(manager, axolotl_request.data)
                         .await
@@ -1601,15 +1662,15 @@ pub fn save_attachment(file_content: &[u8], file_name: &str) {
     }
 }
 
-/// Returns the path <configPath>/textsecure.nanuc
-/// Example: ~/.config/textsecure.nanuc
+/// Returns the path <configPath>/axolotl.nanuc
+/// Example: ~/.config/axolotl.nanuc
 pub fn get_app_dir() -> String {
     let config_path = dirs::config_dir()
         .unwrap()
         .into_os_string()
         .into_string()
         .unwrap();
-    format!("{}/textsecure.nanuc", config_path)
+    format!("{}/axolotl.nanuc", config_path)
 }
 
 fn read_a_file(file_path: String) -> std::io::Result<Vec<u8>> {
