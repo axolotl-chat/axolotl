@@ -159,7 +159,7 @@ impl ManagerThread {
                 log::info!("Starting command loop");
                 command_loop(&mut manager, receiver, content, error).await;
             } else {
-                let e = match setup.err(){
+                let e = match setup.err() {
                     Some(e) => e,
                     None => PresageError::NotYetRegisteredError,
                 };
@@ -526,7 +526,7 @@ async fn command_loop(
                                                 }
                                             }
                                         }
-                                        
+
                                         if data.reaction.is_some(){
                                             notification.message = data.reaction.unwrap().emoji.unwrap();
                                             //TODO: handle reactions

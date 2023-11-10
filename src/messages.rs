@@ -87,7 +87,7 @@ pub async fn send_message_to_group(
     attachments: Option<Vec<AttachmentPointer>>,
     config_store: SledStore,
 ) {
-    let mut manager = match Manager::load_registered(config_store).await{
+    let mut manager = match Manager::load_registered(config_store).await {
         Ok(m) => m,
         Err(e) => {
             println!("Error while loading the manager: {:?}", e);

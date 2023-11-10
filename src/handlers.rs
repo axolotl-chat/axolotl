@@ -152,9 +152,8 @@ impl Handler {
     }
 
     pub async fn get_config_store() -> Result<SledStore, ApplicationError> {
-        let config_path = match dirs::config_dir(){
-            Some(path) => match path.into_os_string()
-            .into_string(){
+        let config_path = match dirs::config_dir() {
+            Some(path) => match path.into_os_string().into_string() {
                 Ok(path) => path,
                 Err(e) => {
                     log::error!("Error getting config path: {:?}", e);
@@ -164,7 +163,8 @@ impl Handler {
             None => {
                 log::error!("No config path found");
                 exit(0);
-        } };
+            }
+        };
         // todo: check if a tmp folder exists, if so, copy the content to the new folder and delete the tmp folder
 
         let db_path = format!("{config_path}/axolotl.nanuc/sled");
@@ -389,13 +389,12 @@ impl Handler {
             log::debug!("Provisioning link handled successfully");
             self.send_provisioning_link().await;
             log::debug!("Provisioning link sent successfully to client");
-            let error_reciever = match self.error_rx.as_mut(){
+            let error_reciever = match self.error_rx.as_mut() {
                 Some(r) => r,
                 None => {
                     log::error!("Error receiver not initialized");
                     return Ok(false);
                 }
-            
             };
             while let Ok(e) = error_reciever.try_recv() {
                 match e {
@@ -576,7 +575,7 @@ impl Handler {
         }
         let qr_code = format!(
             "{{\"response_type\":\"qr_code\",\"data\":\"{}\"}}",
-            match self.provisioning_link.as_ref(){
+            match self.provisioning_link.as_ref() {
                 Some(p) => p.as_str(),
                 None => {
                     log::error!("Provisioning link not initialized");
@@ -584,13 +583,15 @@ impl Handler {
                 }
             }
         );
-        let mut ws_sender = match self.sender.as_ref(){
+        let mut ws_sender = match self.sender.as_ref() {
             Some(s) => s,
             None => {
                 log::error!("Sender not initialized");
                 return;
             }
-        }.lock().await;
+        }
+        .lock()
+        .await;
         match ws_sender.send(Message::text(qr_code)).await {
             Ok(_) => (),
             Err(e) => {
@@ -680,17 +681,22 @@ impl Handler {
     async fn get_phone_number(&self) {
         log::debug!("Getting phone number");
         let message = "{\"response_type\":\"phone_number\",\"data\":\"\"}".to_string();
-        let mut ws_sender = match self.sender.as_ref(){
+        let mut ws_sender = match self.sender.as_ref() {
             Some(s) => s,
             None => {
                 log::error!("get_phone_number: Sender not initialized");
                 return;
             }
-        }.lock().await;
+        }
+        .lock()
+        .await;
         match ws_sender.send(Message::text(message)).await {
             Ok(_) => (),
             Err(e) => {
-                log::error!("get_phone_number: Error sending phone number request to client: {}", e);
+                log::error!(
+                    "get_phone_number: Error sending phone number request to client: {}",
+                    e
+                );
             }
         }
         std::mem::drop(ws_sender);
@@ -746,7 +752,7 @@ impl Handler {
                 }
             };
             log::debug!("Asking sender lock");
-            let sender = match self.sender.clone(){
+            let sender = match self.sender.clone() {
                 Some(s) => s,
                 None => {
                     log::error!("Sender not initialized");
@@ -808,7 +814,7 @@ impl Handler {
         &self,
         thread: &Thread,
     ) -> Result<Option<ThreadMetadata>, ApplicationError> {
-        let manager = match self.manager_thread.get(){
+        let manager = match self.manager_thread.get() {
             Some(m) => m,
             None => {
                 log::error!("Manager not initialized");
@@ -942,7 +948,7 @@ impl Handler {
         manager: ManagerThread,
     ) -> Result<Option<AxolotlResponse>, ApplicationError> {
         log::info!("Getting contact sync");
-        let contacts = match manager.request_contacts_sync().await {
+        match manager.request_contacts_sync().await {
             Ok(_) => (),
             Err(e) => {
                 log::error!("Error syncing contacts: {}", e);
@@ -1367,7 +1373,7 @@ impl Handler {
                     let mut thread_metadata = thread_metadata.unwrap();
                     thread_metadata.last_message = Some(ThreadMetadataMessageContent {
                         message: Some(text),
-                        timestamp: timestamp,
+                        timestamp,
                         sender: manager.uuid(),
                     });
                     thread_metadata.unread_messages_count = 0;
@@ -1443,7 +1449,8 @@ impl Handler {
     ) -> Result<Option<AxolotlResponse>, ApplicationError> {
         log::info!("Getting config");
         // let my_uuid = manager.uuid();
-        let platform = "linux".to_string();
+        let mut platform = "".to_string();
+        platform = "linux".to_string();
         #[cfg(target_os = "windows")]
         {
             platform = "windows".to_string();
@@ -1461,6 +1468,7 @@ impl Handler {
             platform = "ios".to_string();
         }
         let mut feature = "".to_string();
+        feature = "desktop".to_string();
 
         #[cfg(feature = "tauri")]
         {

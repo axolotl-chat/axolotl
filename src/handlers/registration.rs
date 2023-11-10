@@ -16,15 +16,11 @@ impl Registration {
     pub fn explain_for_log(&self) -> String {
         match self {
             Self::Unregistered => "No registration started yet.".to_string(),
-            Self::Chosen(State::Started) => {
-                format!("Registration started.")
-            }
+            Self::Chosen(State::Started) => "Registration started.".to_string(),
             Self::Chosen(State::Confirming(_)) => {
-                format!("Registration is waiting for confirmation.")
+                "Registration is waiting for confirmation.".to_string()
             }
-            Self::Chosen(State::Registered) => {
-                format!("Registered.")
-            }
+            Self::Chosen(State::Registered) => "Registered.".to_string(),
         }
     }
 }

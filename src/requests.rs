@@ -293,10 +293,7 @@ impl AxolotlMessage {
                             }
                         }
                         if m.body.is_some() {
-                            Some(format!(
-                                "Unsuported attachment. {}",
-                                m.body.unwrap()
-                            ))
+                            Some(format!("Unsuported attachment. {}", m.body.unwrap()))
                         } else {
                             Some("Unsuported attachment.".to_string())
                         }

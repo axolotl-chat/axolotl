@@ -1,6 +1,5 @@
 use axolotl::handlers::{create_and_run_backend, get_app_dir};
 
-use axolotl::handlers::Handler;
 use tokio::{sync::mpsc, task::JoinHandle};
 use warp::{ws::WebSocket, Filter, Rejection, Reply};
 
@@ -31,8 +30,8 @@ async fn main() {
 
     let ui_handle = start_ui(args.mode).await;
     run_backend().await;
-    match ui_handle.await{
-        Ok(_) => {},
+    match ui_handle.await {
+        Ok(_) => {}
         Err(e) => {
             log::error!("Error while running the UI: {:?}", e);
         }
@@ -45,14 +44,14 @@ async fn run_backend() {
         run_websocket(request_tx).await;
     });
 
-    match create_and_run_backend(request_rx).await{
-        Ok(_) => {},
+    match create_and_run_backend(request_rx).await {
+        Ok(_) => {}
         Err(e) => {
             log::error!("Error while running the backend: {:?}", e);
         }
     };
-    match server_task.await{
-        Ok(_) => {},
+    match server_task.await {
+        Ok(_) => {}
         Err(e) => {
             log::error!("Error while running the server: {:?}", e);
         }
