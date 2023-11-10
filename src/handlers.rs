@@ -939,7 +939,7 @@ impl Handler {
 
     async fn handle_get_contact_sync(
         &self,
-        mut manager: ManagerThread,
+        manager: ManagerThread,
     ) -> Result<Option<AxolotlResponse>, ApplicationError> {
         log::info!("Getting contact sync");
         let contacts = match manager.request_contacts_sync().await {

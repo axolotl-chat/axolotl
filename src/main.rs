@@ -1,5 +1,4 @@
 use axolotl::handlers::{create_and_run_backend, get_app_dir};
-use std::process::exit;
 
 use axolotl::handlers::Handler;
 use tokio::{sync::mpsc, task::JoinHandle};

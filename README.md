@@ -52,7 +52,7 @@ To find out how to build from source and install yourself, please see below.
 
 ### Manually
 
-Requires Rust, Cargo and node/npm.
+Requires Rust>=1.71, Cargo and node/npm.
 
 If running Ubuntu, these steps should get you started.
 

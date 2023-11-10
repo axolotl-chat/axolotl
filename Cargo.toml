@@ -5,20 +5,21 @@ edition = "2021"
 description = """\
 This is a cross-platform Signal client."""
 license = "GPL-3"
+rust = "1.71"
 
 [source.crates-io]
 registry = "git://github.com/rust-lang/crates.io-index.git"
 
 [build-dependencies]
-tauri-build = { version = "2.0.0-alpha.8    ", features = [], optional = true}
+tauri-build = { version = "2.0.0-alpha.11    ", features = [], optional = true}
 
 [dependencies]
-tauri = { version = "2.0.0-alpha.11", features = [], optional = true }
-presage = { git = "https://github.com/nanu-c/presage", rev = "b806e925da080e7a033632aef339a5beba1d9b0b" }
-presage-store-sled = { git = "https://github.com/nanu-c/presage", rev = "b806e925da080e7a033632aef339a5beba1d9b0b" }
+tauri = { version = "2.0.0-alpha.17", features = [], optional = true }
+presage = { git = "https://github.com/nanu-c/presage", rev = "430744e3f14c2877a769d2b1f9f5f3f0dc70540f" }
+presage-store-sled = { git = "https://github.com/nanu-c/presage", rev = "430744e3f14c2877a769d2b1f9f5f3f0dc70540f" }
 # presage = {path = "../presage/presage"}
 # presage-store-sled = { path = "../presage/presage-store-sled" }
-libsignal-service = { git = "https://github.com/whisperfish/libsignal-service-rs", rev = "8305357" }
+libsignal-service = { git = "https://github.com/whisperfish/libsignal-service-rs", rev = "a36d43d62" }
 zeroize = { version = "1.6.0", default-features = false }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 tokio-stream = "0.1.12"
