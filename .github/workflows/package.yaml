@@ -30,7 +30,7 @@ jobs:
         uses: ChristopherHX/conditional@b4a9649204f81002ec9a4ef7d4bf7d6b2ab7fa55
         with:
           step: |
-            uses: docker://clickable/ci-20.04-${{ matrix.arch }}:7.12.3
+            uses: docker://clickable/ci-20.04-${{ matrix.arch }}:8.0.1
             with:
               args: clickable build --verbose -a ${{ matrix.arch }} --all
 
