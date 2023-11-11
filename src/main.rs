@@ -160,9 +160,9 @@ mod tauri {
 #[cfg(feature = "ut")]
 mod ut {
     use super::*;
+    use std::process::exit;
     use std::process::Command;
     use std::process::Stdio;
-    use std::process::exit;
 
     pub async fn start_ut() {
         log::info!("Starting the ubuntu touch client");
