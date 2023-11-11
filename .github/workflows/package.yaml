@@ -32,7 +32,7 @@ jobs:
           step: |
             uses: docker://clickable/ci-20.04-${{ matrix.arch }}:8.0.1
             with:
-              args: clickable build --verbose -a ${{ matrix.arch }} --all
+              args: clickable build --verbose -a ${{ matrix.arch }}
 
       - name: Upload the built click artifact (${{ matrix.arch }})
         uses: actions/upload-artifact@v3
