@@ -25,7 +25,7 @@ require (
 	github.com/vincent-petithory/dataurl v1.0.0
 	github.com/z3ntu/go-dbus v0.0.0-20170220120108-c022b8b2e127
 	github.com/zserge/lorca v0.1.10
-	golang.org/x/crypto v0.0.0-20220817201139-bc19a97f63c8
+	golang.org/x/crypto v0.17.0
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
 	launchpad.net/gocheck v0.0.0-20140225173054-000000000087 // indirect
