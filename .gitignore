@@ -26,8 +26,9 @@ libzkgroup*.so
 *.log
 *.sql*
 *.gz
-
+rustc-ice*.txt
 # Added by cargo
 
 /target
 /bin
+.vscode/*

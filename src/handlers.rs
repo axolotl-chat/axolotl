@@ -16,13 +16,22 @@ extern crate dirs;
 use futures::channel::oneshot::Receiver;
 use futures::stream::{SplitSink, SplitStream};
 use futures::{SinkExt, StreamExt};
+use libsignal_service::prelude::phonenumber::PhoneNumber;
 use libsignal_service::prelude::{phonenumber, Uuid};
+use libsignal_service::zkgroup::profiles::ProfileKey;
+use presage::libsignal_service::configuration::SignalServers;
+use presage::libsignal_service::content::ContentBody;
+use presage::libsignal_service::models::Contact;
 use presage::libsignal_service::prelude::AttachmentIdentifier;
-use presage::prelude::proto::AttachmentPointer;
-use presage::prelude::AttachmentSpec;
-use presage::prelude::{Content, PhoneNumber};
-use presage::prelude::{ContentBody, DataMessage, GroupContextV2};
-use presage_store_sled::SledStoreError;
+use presage::libsignal_service::sender::AttachmentSpec;
+use presage::manager::Confirmation;
+use presage::manager::RegistrationOptions;
+use presage::prelude::AttachmentPointer;
+use presage::prelude::Content;
+use presage::proto::DataMessage;
+use presage::proto::GroupContextV2;
+use presage::store::StateStore;
+use presage_store_sled::{OnNewIdentity, SledStoreError};
 use serde::{Serialize, Serializer};
 use serde_json::error::Error as SerdeError;
 use std::cell::{Cell, OnceCell};
@@ -43,7 +52,7 @@ const MESSAGE_BOUND: usize = 10;
 
 use futures::channel::oneshot;
 
-use presage::{Confirmation, Manager, RegistrationOptions, Store, ThreadMetadataMessageContent};
+use presage::{Manager, ThreadMetadataMessageContent};
 use presage::{Thread, ThreadMetadata};
 use presage_store_sled::MigrationConflictStrategy;
 use presage_store_sled::SledStore;
@@ -82,7 +91,7 @@ impl Handler {
         log::info!("Setting up the manager2");
         let registration = if config_store.is_registered() {
             log::info!("Registered, starting the manager");
-            let registration_credentials = match config_store.load_state()? {
+            let registration_credentials = match config_store.load_registration_data()? {
                 Some(credentials) => credentials,
                 None => {
                     log::error!("No registration credentials found");
@@ -172,6 +181,7 @@ impl Handler {
             db_path,
             None::<&str>,
             MigrationConflictStrategy::BackupAndDrop,
+            OnNewIdentity::Trust,
         ) {
             Ok(store) => store,
             Err(e) => {
@@ -184,6 +194,7 @@ impl Handler {
                     db_path,
                     None::<&str>,
                     MigrationConflictStrategy::BackupAndDrop,
+                    OnNewIdentity::Trust,
                 ) {
                     Ok(store) => store,
                     Err(e) => {
@@ -211,6 +222,7 @@ impl Handler {
             if count == 5 || self.sender.is_none() {
                 log::error!("Too many errors, exiting or sender is none {:?}", count);
                 // Exit this loop
+                exit(0);
                 break;
             }
             count += 1;
@@ -236,23 +248,31 @@ impl Handler {
                 log::debug!("Manager is none, creating {:?}", self.receive_error);
                 // todo for errors
                 if let Some(error_opt) = self.receive_error.recv().await {
-                    log::error!("Got error after linking device: {}", error_opt);
-                    continue;
+                    log::error!(
+                        "Got error after starting manager command loop+: {}",
+                        error_opt
+                    );
+                    if error_opt
+                        .to_string()
+                        .contains("Temporary failure in name resolution")
+                    {
+                        // ignore the error and continue
+                        log::error!("No internet, ignoring");
+                    } else {
+                        continue;
+                    }
                 }
             }
 
             log::info!("Manager created");
 
             // While messages come, handle them
-            if self.is_registered() {
-                self.send_registration_confirmation().await;
-                let shared_sender_mutex = Arc::clone(&shared_sender);
-                let r = self.receive_content.clone();
-                log::debug!("Spawning receive message handler thread");
-                tokio::task::spawn(Handler::handle_received_message(r, shared_sender_mutex));
-                // listening for messages from axolotl web
-                self.handle_receiving_messages().await;
-            }
+            let shared_sender_mutex = Arc::clone(&shared_sender);
+            let r = self.receive_content.clone();
+            log::debug!("Spawning receive message handler thread");
+            tokio::task::spawn(Handler::handle_received_message(r, shared_sender_mutex));
+            // listening for messages from axolotl web
+            self.handle_receiving_messages().await;
         }
 
         log::debug!("Exiting loop");
@@ -628,9 +648,9 @@ impl Handler {
         };
         log::debug!("Creating manager for registration");
         let signal_servers = if cfg!(feature = "staging-servers") {
-            presage::prelude::SignalServers::Staging
+            SignalServers::Staging
         } else {
-            presage::prelude::SignalServers::Production
+            SignalServers::Production
         };
         let manager = match Manager::register(
             config_store,
@@ -828,9 +848,86 @@ impl Handler {
             Err(e) => Err(ApplicationError::from(e)),
         }
     }
+    // update_contact_name updates the name of a contact and also updates the thread metadata title
+    async fn update_contact_name(
+        &self,
+        contact: Contact,
+    ) -> Result<Option<Contact>, ApplicationError> {
+        let manager = match self.manager_thread.get() {
+            Some(m) => m,
+            None => {
+                log::error!("Manager not initialized");
+                return Err(ApplicationError::RegistrationError(
+                    "Manager not initialized".to_string(),
+                ));
+            }
+        };
+        let uuid = contact.uuid;
+        let profilek = contact.profile_key;
+
+        let profilek: [u8; 32] = match (profilek).try_into() {
+            Ok(profilek) => profilek,
+            Err(_) => {
+                log::error!("handle_get_message_list: Error converting profile key");
+                return Err(ApplicationError::InvalidRequest);
+            }
+        };
+        let profile_key: ProfileKey = ProfileKey::create(profilek);
+        let profile = match manager.retrieve_profile_by_uuid(uuid, profile_key).await {
+            Ok(p) => p,
+            Err(e) => {
+                log::error!("Error getting profile: {}", e);
+                return Err(ApplicationError::from(e));
+            }
+        };
+        let name = match profile.name {
+            Some(n) => n,
+            None => {
+                log::error!("No name found");
+                return Err(ApplicationError::RegistrationError(
+                    "No name found".to_string(),
+                ));
+            }
+        };
+        let mut contact = match manager.get_contact_by_id(uuid).await? {
+            Some(c) => c,
+            None => {
+                log::error!("No contact found");
+                return Err(ApplicationError::RegistrationError(
+                    "No contact found".to_string(),
+                ));
+            }
+        };
+        contact.name = name.to_string();
+        manager.save_contact(contact).await?;
+        let thread = Thread::Contact(uuid);
+        match manager.thread_metadata(&thread).await {
+            Ok(m) => match m {
+                Some(m) => {
+                    let mut metadata = m;
+                    metadata.title = Some(name.to_string());
+                    manager.save_thread_metadata(metadata).await?;
+                }
+                None => {
+                    log::error!("No metadata found");
+                }
+            },
+            Err(e) => {
+                log::error!("Error getting metadata: {}", e);
+            }
+        }
+
+        match manager.get_contact_by_id(uuid).await {
+            Ok(c) => Ok(c),
+            Err(e) => {
+                log::error!("Error getting contact: {}", e);
+                return Err(ApplicationError::from(e));
+            }
+        }
+    }
 
     async fn create_thread_metadata(&self, thread: &Thread) -> Result<(), ApplicationError> {
-        let metadata = ThreadMetadata {
+        let mut metadata = ThreadMetadata {
             thread: thread.clone(),
             unread_messages_count: 0,
             last_message: None,
@@ -839,6 +936,51 @@ impl Handler {
             muted: false,
         };
 
+        match thread {
+            Thread::Contact(uuid) => {
+                let manager = match self.manager_thread.get() {
+                    Some(m) => m,
+                    None => {
+                        log::error!("Manager not initialized");
+                        return Err(ApplicationError::RegistrationError(
+                            "Manager not initialized".to_string(),
+                        ));
+                    }
+                };
+                let contact = match manager.get_contact_by_id(*uuid).await {
+                    Ok(c) => match c {
+                        Some(c) => c,
+                        None => {
+                            log::error!("No contact found");
+                            return Err(ApplicationError::RegistrationError(
+                                "No contact found".to_string(),
+                            ));
+                        }
+                    },
+                    Err(e) => {
+                        log::error!("Error getting contact: {}", e);
+                        return Err(ApplicationError::from(e));
+                    }
+                };
+                if contact.name == "" {
+                    let contact = match self.update_contact_name(contact).await? {
+                        Some(c) => c,
+                        None => {
+                            log::error!("No contact found");
+                            return Err(ApplicationError::RegistrationError(
+                                "No contact found".to_string(),
+                            ));
+                        }
+                    };
+                    metadata.title = Some(contact.name)
+                } else {
+                    metadata.title = Some(contact.name);
+                }
+            }
+            Thread::Group(uuid) => {
+                metadata.title = Some("Unknown group".to_string());
+            }
+        }
         let manager = self.manager_thread.get().unwrap();
         match manager.save_thread_metadata(metadata).await {
             Ok(_) => Ok(()),
@@ -965,7 +1107,15 @@ impl Handler {
         manager: &ManagerThread,
     ) -> Result<Option<AxolotlResponse>, ApplicationError> {
         log::info!("Getting chat list");
-        let conversations = manager.get_conversations().await.unwrap();
+        let conversations = match manager.get_conversations().await {
+            Ok(c) => c,
+            Err(e) => {
+                log::error!("Error getting conversations: {}", e);
+                return Err(ApplicationError::from(e));
+            }
+        };
+        log::debug!("Got chat list");
+
         let mut out = Vec::new();
         self.write_as_json(&mut out, conversations)?;
         let response = AxolotlResponse {
@@ -1181,32 +1331,71 @@ impl Handler {
         if let Ok::<GetMessagesRequest, SerdeError>(messages_request) = serde_json::from_str(&data)
         {
             let thread: Thread = self.string_to_thread(&messages_request.id)?;
-            // match thread {
-            //     Thread::Contact(_) => {
-            //         manager.update_cotacts_from_profile().await.unwrap();
-            //     }
-            //     _ => {}
-            // }
-            let thread_metadata = manager.thread_metadata(&thread).await.unwrap();
+            let mut thread_metadata = manager.thread_metadata(&thread).await.unwrap();
             if thread_metadata.is_none() {
                 self.create_thread_metadata(&thread).await.unwrap();
+                match thread {
+                    Thread::Contact(uuid) => {
+                        let contact = match manager.get_contact_by_id(uuid).await.unwrap() {
+                            Some(c) => c,
+                            None => {
+                                log::error!("handle_get_message_list: Contact not found");
+                                return Err(ApplicationError::InvalidRequest);
+                            }
+                        };
+                        match self.update_contact_name(contact).await {
+                            Ok(_) => (),
+                            Err(e) => {
+                                log::error!(
+                                    "handle_get_message_list: Error updating contact name: {}",
+                                    e
+                                );
+                            }
+                        }
+                    }
+                    _ => (),
+                }
             } else {
                 let mut thread_metadata = thread_metadata.unwrap();
                 match thread_metadata.title.clone() {
                     Some(title) => {
                         // check if title is a valid uuid
-                        if let Ok(uuid) = Uuid::parse_str(&title) {
-                            match manager.update_contact_from_profile(uuid).await {
-                                Ok(_) => {
-                                    thread_metadata =
-                                        manager.thread_metadata(&thread).await.unwrap().unwrap();
-                                }
-                                Err(e) => {
-                                    log::error!("handle_get_message_list: Error updating contacts from profile: {}", e);
-                                }
-                            }
+                        match thread {
+                            Thread::Contact(uuid) => {
+                                if Uuid::parse_str(&title).is_ok() || title == "" {
+                                    let mut contact = match manager.get_contact_by_id(uuid).await.unwrap() {
+                                        Some(c) => c,
+                                        None => {
+                                            log::error!("handle_get_message_list: Contact not found");
+                                            return Err(ApplicationError::InvalidRequest);
+                                        }
+                                    };
+                                    contact = match self.update_contact_name(contact).await {
+                                        Ok(c) => c.unwrap(),
+                                        Err(e) => {
+                                            log::error!("Error updating contact name: {}", e);
+                                            return Err(ApplicationError::InvalidRequest);
+                                        }
+                                    };
+        
+                                    // retrieve updated thread metadata
+                                    thread_metadata = match manager.thread_metadata(&thread).await.unwrap()
+                                    {
+                                        Some(tm) => tm,
+                                        None => {
+                                            log::error!(
+                                                "handle_get_message_list: Thread metadata not found"
+                                            );
+                                            return Err(ApplicationError::InvalidRequest);
+                                        }
+                                    };
+                                }  
+                            },
+                            _ => ()
                         }
+
                     }
+
                     None => match manager.update_contacts_from_profile().await {
                         Ok(_) => (),
                         Err(e) => {
@@ -1274,8 +1463,8 @@ impl Handler {
                 };
                 let uuid = Uuid::parse_str(&profile_request.id).unwrap();
                 log::debug!("Getting profile for: {}", uuid.to_string());
-                let profile = manager.get_contact_by_id(uuid).await.unwrap();
-                let mut profile = match profile {
+                let contact = manager.get_contact_by_id(uuid).await.unwrap();
+                let mut profile = match contact {
                     Some(p) => p,
                     None => {
                         //request contact sync
@@ -1283,14 +1472,16 @@ impl Handler {
                         return Err(ApplicationError::InvalidRequest);
                     }
                 };
-                if profile.name == *"" {
+
+                if profile.name == "" {
                     //request contact sync
-                    log::debug!("Updating contact from profile");
-                    profile = manager
-                        .update_contact_from_profile(profile.uuid)
-                        .await
-                        .unwrap();
-                    log::debug!("Updated contact {:?}", profile);
+                    profile = match self.update_contact_name(profile).await {
+                        Ok(c) => c.unwrap(),
+                        Err(e) => {
+                            log::error!("Error updating contact name: {}", e);
+                            return Err(ApplicationError::InvalidRequest);
+                        }
+                    }
                 }
                 let response = AxolotlResponse {
                     response_type: "profile".to_string(),
@@ -1414,13 +1605,22 @@ impl Handler {
                 if response_data.title.is_none() || response_data.title.clone().unwrap().len() == 36
                 {
                     log::debug!("Updating contact from profile {:?}", uuid);
-                    match manager.update_contact_from_profile(uuid).await {
+                    let contact = match manager.get_contact_by_id(uuid).await.unwrap() {
+                        Some(c) => c,
+                        None => {
+                            log::error!("No contact found");
+                            return Err(ApplicationError::RegistrationError(
+                                "No contact found".to_string(),
+                            ));
+                        }
+                    };
+                    match self.update_contact_name(contact).await {
                         Ok(_) => {
                             response_data =
                                 manager.thread_metadata(&thread).await.unwrap().unwrap();
                         }
                         Err(e) => {
-                            log::error!("Error updating contact from profile: {}", e);
+                            log::error!("Error updating contact name: {}", e);
                         }
                     }
                 }

@@ -1,4 +1,5 @@
 use presage as p;
+use presage::prelude::ServiceError;
 use presage_store_sled::SledStoreError;
 
 const FAILED_TO_LOOK_UP_ADDRESS: &str = "failed to lookup address information";
@@ -83,8 +84,12 @@ impl std::fmt::Display for ApplicationError {
 // convert presage errors to application errors
 impl From<PresageError> for ApplicationError {
     fn from(e: PresageError) -> Self {
+        log::info!("{:?}", e.to_string());
+        if e.to_string().contains(FAILED_TO_LOOK_UP_ADDRESS) {
+            return ApplicationError::NoInternet;
+        }
         match e {
-            p::Error::ServiceError(p::prelude::content::ServiceError::Unauthorized) => {
+            p::Error::ServiceError(ServiceError::Unauthorized) => {
                 ApplicationError::UnauthorizedSignal
             }
             // p::Error::MessageSenderError(p::libsignal_service::sender::MessageSenderError {
@@ -94,7 +99,7 @@ impl From<PresageError> for ApplicationError {
                 p::libsignal_service::sender::MessageSenderError::ServiceError(
                     p::libsignal_service::content::ServiceError::SendError { reason: e },
                 ),
-            ) if e.contains(FAILED_TO_LOOK_UP_ADDRESS) => ApplicationError::NoInternet,
+            ) if e.to_string().contains(FAILED_TO_LOOK_UP_ADDRESS) => ApplicationError::NoInternet,
             p::Error::MessageSenderError(e) => ApplicationError::SendFailed(e),
             _ => ApplicationError::Presage(e),
         }

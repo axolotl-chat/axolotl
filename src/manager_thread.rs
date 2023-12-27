@@ -1,17 +1,23 @@
 use futures::{select, FutureExt, StreamExt};
+use presage::libsignal_service::configuration::SignalServers;
+use presage::libsignal_service::content::ContentBody;
+use presage::libsignal_service::models::Contact;
 use presage::libsignal_service::prelude::AttachmentIdentifier;
+use presage::libsignal_service::sender::AttachmentSpec;
 use presage::libsignal_service::{groups_v2::Group, sender::AttachmentUploadError};
+use presage::manager::{Registered, ReceivingMode};
+use presage::proto::DataMessage;
+use presage::store::{ContentsStore, StateStore, Store};
 use presage::{
-    prelude::{content::*, AttachmentSpec, Contact, ContentBody, DataMessage, ServiceAddress, *},
-    Error, Manager, Registered,
+    prelude::{ServiceAddress, *},
+    Error, Manager,
 };
 use presage::{GroupMasterKeyBytes, Thread, ThreadMetadata, ThreadMetadataMessageContent};
 use std::ops::Bound;
 use std::sync::Arc;
 use tokio::sync::Mutex;
 type PresageError = presage::Error<presage_store_sled::SledStoreError>;
-use presage::Store;
-use presage_store_sled::SledStore;
+use presage_store_sled::{SledStore, SledStoreError};
 
 use serde::{Deserialize, Serialize};
 use tokio::sync::{mpsc, oneshot};
@@ -32,10 +38,10 @@ const MESSAGE_BOUND: usize = 10;
 
 enum Command {
     RequestContactsSync(oneshot::Sender<Result<(), PresageError>>),
-    GetContacts(oneshot::Sender<Result<Vec<Contact>, PresageError>>),
+    GetContacts(oneshot::Sender<Result<Vec<Contact>, SledStoreError>>),
     GetGroup(
         GroupMasterKeyBytes,
-        oneshot::Sender<Result<Option<Group>, PresageError>>,
+        oneshot::Sender<Result<Option<Group>, SledStoreError>>,
     ),
     SendMessage(
         ServiceAddress,
@@ -64,16 +70,26 @@ enum Command {
         Thread,
         (Bound<u64>, Bound<u64>),
         oneshot::Sender<
-            Result<<presage_store_sled::SledStore as presage::Store>::MessagesIter, PresageError>,
+            Result<<presage_store_sled::SledStore as ContentsStore>::MessagesIter, SledStoreError>,
         >,
     ),
     ThreadMetadata(
         Thread,
-        oneshot::Sender<Result<Option<ThreadMetadata>, PresageError>>,
+        oneshot::Sender<Result<Option<ThreadMetadata>, SledStoreError>>,
     ),
-    SaveThreadMetadata(ThreadMetadata, oneshot::Sender<Result<(), PresageError>>),
+    SaveThreadMetadata(ThreadMetadata, oneshot::Sender<Result<(), SledStoreError>>),
     RequestContactsUpdateFromProfile(oneshot::Sender<Result<(), PresageError>>),
-    RequestContactUpdateFromProfile(Uuid, oneshot::Sender<Result<Contact, PresageError>>),
+    RequestContactUpdateFromProfile(
+        Uuid,
+        oneshot::Sender<Result<Option<Contact>, SledStoreError>>,
+    ),
+    RetrieveProfileKey(
+        Uuid,
+        ProfileKey,
+        oneshot::Sender<Result<presage::libsignal_service::Profile, PresageError>>,
+    ),
+    SaveContact(Contact, oneshot::Sender<Result<(), PresageError>>),
+
 }
 
 impl std::fmt::Debug for Command {
@@ -155,9 +171,11 @@ impl ManagerThread {
         let (sender, receiver) = mpsc::channel(MESSAGE_BOUND);
         tokio::task::spawn_local(async move {
             let setup = setup_manager(config_store.clone(), device_name, link_callback).await;
-            if let Ok(mut manager) = setup {
+            log::debug!("manager thread started, setup finished");
+            if let Ok(manager) = setup {
                 log::info!("Starting command loop");
-                command_loop(&mut manager, receiver, content, error).await;
+                command_loop(manager, receiver, content, error).await;
+                log::debug!("Finished starting command loop");
             } else {
                 let e = match setup.err() {
                     Some(e) => e,
@@ -167,6 +185,7 @@ impl ManagerThread {
                 error_callback.send(e).expect("Failed to send error");
             }
         });
+        log::debug!("manager thread started, get contact");
 
         let (sender_contacts, receiver_contacts) = oneshot::channel();
         if sender
@@ -182,15 +201,26 @@ impl ManagerThread {
             Err(_) | Ok(Err(_)) => {
                 // TODO: Error handling
                 log::info!("Could not load contacts");
-                None
+                // Still continou to avoid to much confusion
+                return Some(Self {
+                    command_sender: sender,
+                    contacts: Arc::new(Mutex::new(vec![])),
+                    sessions: Arc::new(Mutex::new(vec![])),
+                    current_chat,
+                    uuid,
+                });
             }
-            Ok(Ok(contacts)) => Some(Self {
-                command_sender: sender,
-                contacts: Arc::new(Mutex::new(contacts)),
-                sessions: Arc::new(Mutex::new(vec![])),
-                current_chat,
-                uuid,
-            }),
+            Ok(Ok(contacts)) => {
+                log::info!("Loaded {} contacts", contacts.len());
+                Some(Self {
+                    command_sender: sender,
+                    contacts: Arc::new(Mutex::new(contacts)),
+                    sessions: Arc::new(Mutex::new(vec![])),
+                    current_chat,
+                    uuid,
+                })
+            }
+
         }
     }
 }
@@ -237,18 +267,41 @@ impl ManagerThread {
     }
     pub async fn update_contacts_from_profile(&self) -> Result<(), PresageError> {
         log::debug!("Updating contacts from profile -> todo");
-        // let (sender, receiver) = oneshot::channel();
-        // self.command_sender
-        //     .send(Command::RequestContactsUpdateFromProfile(sender))
-        //     .await
-        //     .expect("Command sending failed");
-        // receiver.await.expect("Callback receiving failed")
-        Ok(())
+        let (sender, receiver) = oneshot::channel();
+        self.command_sender
+            .send(Command::RequestContactsUpdateFromProfile(sender))
+            .await
+            .expect("Command sending failed");
+        receiver.await.expect("Callback receiving failed")
     }
-    pub async fn update_contact_from_profile(&self, id: Uuid) -> Result<Contact, PresageError> {
+    pub async fn update_contact_from_profile(
+        &self,
+        id: Uuid,
+    ) -> Result<Option<Contact>, SledStoreError> {
         let (sender, receiver) = oneshot::channel();
         self.command_sender
             .send(Command::RequestContactUpdateFromProfile(id, sender))
+            .await
+            .expect("Command sending failed");
+        receiver.await.expect("Callback receiving failed")
+    }
+    pub async fn retrieve_profile_by_uuid(
+        &self,
+        uuid: Uuid,
+        profile_key: ProfileKey,
+    ) -> Result<presage::libsignal_service::Profile, PresageError> {
+        let (sender, receiver) = oneshot::channel();
+        self.command_sender
+            .send(Command::RetrieveProfileKey(uuid, profile_key, sender))
+            .await
+            .expect("Command sending failed");
+        receiver.await.expect("Callback receiving failed")
+    }
+
+    pub async fn save_contact(&self, contact: Contact) -> Result<(), PresageError> {
+        let (sender, receiver) = oneshot::channel();
+        self.command_sender
+            .send(Command::SaveContact(contact, sender))
             .await
             .expect("Command sending failed");
         receiver.await.expect("Callback receiving failed")
@@ -262,6 +315,7 @@ impl ManagerThread {
             .send(Command::GetConversations(sender))
             .await
             .expect("Command sending failed");
+        log::debug!("got conversations from presage, awaiting receiver");
         match receiver.await {
             Ok(Ok(sessions)) => {
                 log::info!("Got {} sessions", sessions.len());
@@ -284,7 +338,7 @@ impl ManagerThread {
     pub async fn thread_metadata(
         &self,
         thread: &Thread,
-    ) -> Result<Option<ThreadMetadata>, PresageError> {
+    ) -> Result<Option<ThreadMetadata>, SledStoreError> {
         let (sender, receiver) = oneshot::channel();
         self.command_sender
             .send(Command::ThreadMetadata(thread.clone(), sender))
@@ -292,7 +346,11 @@ impl ManagerThread {
             .expect("Command sending failed");
         receiver.await.expect("Callback receiving failed")
     }
-    pub async fn save_thread_metadata(&self, metadata: ThreadMetadata) -> Result<(), PresageError> {
+    pub async fn save_thread_metadata(
+        &self,
+        metadata: ThreadMetadata,
+    ) -> Result<(), SledStoreError> {
+        log::debug!("Saving thread metadata: for {:?}", metadata.title);
         let (sender, receiver) = oneshot::channel();
         self.command_sender
             .send(Command::SaveThreadMetadata(metadata, sender))
@@ -320,7 +378,7 @@ impl ManagerThread {
             .send(Command::GetGroup(group_master_key, sender))
             .await
             .expect("Command sending failed");
-        receiver.await.expect("Callback receiving failed")
+        Ok(receiver.await.expect("Callback receiving failed")?)
     }
 
     pub async fn send_message(
@@ -388,7 +446,8 @@ impl ManagerThread {
         &self,
         thread: Thread,
         range: (Bound<u64>, Bound<u64>),
-    ) -> Result<<presage_store_sled::SledStore as presage::Store>::MessagesIter, PresageError> {
+    ) -> Result<<presage_store_sled::SledStore as ContentsStore>::MessagesIter, SledStoreError>
+    {
         let (sender, receiver) = oneshot::channel();
         // TODO: self.current_chat = Some(thread.clone());
         self.command_sender
@@ -414,7 +473,7 @@ async fn setup_manager(
     config_store: SledStore,
     name: String,
     link_callback: futures::channel::oneshot::Sender<url::Url>,
-) -> Result<presage::Manager<SledStore, presage::Registered>, PresageError> {
+) -> Result<presage::Manager<SledStore, Registered>, PresageError> {
     log::info!("Loading the configuration store");
     // presage::Manager::load_registered(config_store.clone())
     if config_store.is_registered() {
@@ -429,7 +488,7 @@ async fn setup_manager(
         log::info!("The config store is not valid yet, not registered yet");
         match presage::Manager::link_secondary_device(
             config_store.clone(),
-            presage::prelude::SignalServers::Production,
+            SignalServers::Production,
             name,
             link_callback,
         )
@@ -452,21 +511,28 @@ pub struct Notification {
     sender: String,
     message: String,
     group: Option<String>,
+    #[cfg(feature = "ut")]
     thread: Thread,
 }
 
 async fn command_loop(
-    manager: &mut Manager<SledStore, Registered>,
+    mut manager: Manager<SledStore, Registered>,
     mut receiver: mpsc::Receiver<Command>,
     content: mpsc::UnboundedSender<Content>,
     error: mpsc::Sender<ApplicationError>,
 ) {
     'outer: loop {
-        let msgs = manager.receive_messages().await;
+        let msgs: Result<_, presage::Error<<SledStore as presage::store::Store>::Error>> =
+            manager.receive_messages(ReceivingMode::Forever).await;
+        log::debug!("start receiving messages from presage");
         match msgs {
             Ok(messages) => {
                 futures::pin_mut!(messages);
+                log::debug!("start receiving messages from presage2");
+
                 loop {
+                    log::debug!("start receiving messages from presage3");
+
                     select! {
                         msg = messages.next().fuse() => {
                             if let Some(msg) = msg {
@@ -476,8 +542,36 @@ async fn command_loop(
 
                                         let body = data.body.as_ref().unwrap_or(&String::from("")).to_string();
                                         let thread = Thread::try_from(&msg).unwrap();
-                                        let title = manager.get_title_for_thread(&thread).await.unwrap_or("".to_string());
-                                        let mut thread_metadata = manager.thread_metadata(&thread).await.unwrap().unwrap();
+                                        let title = manager.thread_title(&thread).await.unwrap_or("".to_string());
+                                        let mut thread_metadata = match manager.store().thread_metadata(thread.clone()){
+                                            Ok(Some(thread_metadata)) => thread_metadata,
+                                            Ok(None) => {
+                                                let metadata =ThreadMetadata {
+                                                    thread: thread.clone(),
+                                                    unread_messages_count: 0,
+                                                    last_message: None,
+                                                    title: None,
+                                                    archived: false,
+                                                    muted: false,
+                                                };
+                                                manager.store().clone().save_thread_metadata(metadata).unwrap();
+                                                match manager.store().thread_metadata(thread.clone()){
+                                                    Ok(Some(thread_metadata)) => thread_metadata,
+                                                    Ok(None) => {
+                                                        log::error!("Failed to get thread metadata");
+                                                        continue;
+                                                    },
+                                                    Err(e) => {
+                                                        log::error!("Failed to get thread metadata: {}", e);
+                                                        continue;
+                                                    }
+                                                }
+                                            },
+                                            Err(e) => {
+                                                log::error!("Failed to get thread metadata: {}", e);
+                                                continue;
+                                            }
+                                        };
                                         if !body.is_empty() || !data.attachments.is_empty() {
                                             thread_metadata.title = Some(title.clone());
                                             thread_metadata.unread_messages_count += 1;
@@ -490,7 +584,12 @@ async fn command_loop(
                                                 timestamp: msg.metadata.timestamp,
                                                 sender: msg.metadata.sender.uuid,
                                             });
-                                            let _ = manager.save_thread_metadata(thread_metadata.clone());
+                                            match manager.store().clone().save_thread_metadata(thread_metadata.clone()){
+                                                Ok(_) => {},
+                                                Err(e) => {
+                                                    log::error!("Failed to save thread metadata: {}", e);
+                                                }
+                                            }
 
                                         }
                                         let sender = msg.metadata.sender.uuid;
@@ -499,12 +598,13 @@ async fn command_loop(
                                             sender: title.clone(),
                                             message: body,
                                             group: None,
-                                            thread,
+                                            #[cfg(feature = "ut")]
+                                            thread: thread.clone()
                                         };
                                         if is_group {
                                             notification.group = Some(title);
                                             let contact_thread = Thread::Contact(sender);
-                                            let contact_title = manager.get_title_for_thread(&contact_thread).await.unwrap_or("".to_string());
+                                            let contact_title = manager.thread_title(&contact_thread).await.unwrap_or("".to_string());
                                             notification.sender = contact_title;
                                         }
                                         // download attachments
@@ -574,9 +674,39 @@ async fn command_loop(
                                                     let body = m.body.as_ref().unwrap_or(&String::from("")).to_string();
                                                     let thread = Thread::try_from(&msg).unwrap();
                                                     log::debug!("Received sync data message: {:?}", &thread);
-                                                    let title = manager.get_title_for_thread(&thread).await.unwrap_or("".to_string());
-                                                    let mut thread_metadata = manager.thread_metadata(&thread).await.unwrap().unwrap();
+                                                    let title = manager.thread_title(&thread).await.unwrap_or("".to_string());
+                                                    
+                                                    
                                                     if !body.is_empty() {
+                                                        let mut thread_metadata = match manager.store().thread_metadata(thread.clone()){
+                                                            Ok(Some(thread_metadata)) => thread_metadata,
+                                                            Ok(None) => {
+                                                                let metadata =ThreadMetadata {
+                                                                    thread: thread.clone(),
+                                                                    unread_messages_count: 0,
+                                                                    last_message: None,
+                                                                    title: None,
+                                                                    archived: false,
+                                                                    muted: false,
+                                                                };
+                                                                manager.store().clone().save_thread_metadata(metadata).unwrap();
+                                                                match manager.store().thread_metadata(thread){
+                                                                    Ok(Some(thread_metadata)) => thread_metadata,
+                                                                    Ok(None) => {
+                                                                        log::error!("Failed to get thread metadata");
+                                                                        continue;
+                                                                    },
+                                                                    Err(e) => {
+                                                                        log::error!("Failed to get thread metadata: {}", e);
+                                                                        continue;
+                                                                    }
+                                                                }
+                                                            },
+                                                            Err(e) => {
+                                                                log::error!("Failed to get thread metadata: {}", e);
+                                                                continue;
+                                                            }
+                                                        };
                                                         thread_metadata.title = Some(title.clone());
                                                         thread_metadata.unread_messages_count += 1;
                                                         thread_metadata.last_message = Some(ThreadMetadataMessageContent{
@@ -584,7 +714,7 @@ async fn command_loop(
                                                             timestamp: msg.metadata.timestamp,
                                                             sender: msg.metadata.sender.uuid,
                                                         });
-                                                        let _ = manager.save_thread_metadata(thread_metadata.clone());
+                                                        let _ = manager.store().clone().save_thread_metadata(thread_metadata.clone());
 
                                                     }
                                                 }
@@ -604,7 +734,7 @@ async fn command_loop(
                         },
                         cmd = receiver.recv().fuse() => {
                             if let Some(cmd) = cmd {
-                                handle_command(manager, cmd).await;
+                                handle_command(&mut manager, cmd).await;
                             }
                         },
                         // _ = crate::utils::await_suspend_wakeup_online().fuse() => {
@@ -621,10 +751,12 @@ async fn command_loop(
             Err(e) => {
                 log::info!("Got error receiving: {}, {:?}", e, e);
                 let e = e.into();
-                // Don't send no-internet errors, Flare is able to handle them automatically.
+                // Don't send no-internet errors, Axolotl is able to handle them automatically.
                 // TODO: Think about maybe handling if the application is not in the background?
                 if !matches!(e, ApplicationError::NoInternet) {
                     error.send(e).await.expect("Callback sending failed");
+                } else {
+                    log::info!("No internet, waiting for 15 seconds");
                 }
                 tokio::time::sleep(std::time::Duration::from_secs(15)).await;
             }
@@ -761,17 +893,20 @@ async fn notify_message(msg: &Notification) {
 async fn handle_command(manager: &mut Manager<SledStore, Registered>, command: Command) {
     match command {
         Command::RequestContactsSync(callback) => callback
-            .send(manager.request_contacts_sync().await)
+            .send(Ok(()))
             .expect("Callback sending failed"),
         Command::GetContacts(callback) => callback
             .send(
                 manager
+                    .store()
                     .contacts()
-                    .map(|c| c.filter_map(|o| o.ok()).collect()),
+                    .map(|c: presage_store_sled::SledContactsIter| {
+                        c.filter_map(|o| o.ok()).collect()
+                    }),
             )
             .expect("Callback sending failed"),
         Command::GetConversations(callback) => callback
-            .send(match manager.thread_metadatas().await {
+            .send(match manager.store().thread_metadatas() {
                 Ok(m) => Ok(m.filter_map(|r| r.ok()).collect()),
                 Err(e) => {
                     log::error!("Failed to get thread metadatas: {}", e);
@@ -780,7 +915,7 @@ async fn handle_command(manager: &mut Manager<SledStore, Registered>, command: C
             })
             .expect("Callback sending failed"),
         Command::GetGroup(master_key, callback) => callback
-            .send(manager.group(&master_key))
+            .send(manager.store().group(master_key))
             .map_err(|_| ())
             .expect("Callback sending failed"),
         Command::SendMessage(recipient_address, message, timestamp, callback) => callback
@@ -805,20 +940,33 @@ async fn handle_command(manager: &mut Manager<SledStore, Registered>, command: C
             .expect("Callback sending failed"),
 
         Command::GetMessages(thread, range, callback) => {
-            let _ = callback.send(manager.messages(&thread, range));
+            let _ = callback.send(manager.store().messages(&thread, range));
         }
         Command::ThreadMetadata(thread, callback) => callback
-            .send(manager.thread_metadata(&thread).await)
+            .send(manager.store().thread_metadata(thread))
             .expect("Callback sending failed"),
         Command::SaveThreadMetadata(metadata, callback) => callback
-            .send(manager.save_thread_metadata(metadata))
+            .send(manager.store().clone().save_thread_metadata(metadata))
             .expect("Callback sending failed"),
         Command::RequestContactsUpdateFromProfile(callback) => callback
-            .send(manager.request_contacts_update_from_profile().await)
+            .send(Ok(())
+            // todo: fix this
+            )
             .expect("Callback sending failed"),
         Command::RequestContactUpdateFromProfile(uuid, callback) => callback
-            .send(manager.request_contact_update_from_profile(uuid).await)
+            .send(manager.store().contact_by_id(&uuid))
+            // .send(manager.store().request_contact_update_from_profile(uuid).await)
             .expect("Callback sending failed"),
+        Command::RetrieveProfileKey(uuid, profile_key, callback) => callback
+            .send(manager.retrieve_profile_by_uuid(uuid, profile_key).await)
+            .expect("Callback sending failed"),
+        Command::SaveContact(contact, callback) => callback.send(
+            manager
+                .store()
+                .clone()
+                .save_contact(&contact)
+                .map_err(|e| e.into()),
+        ).expect("Callback sending failed")
     };
 }
 
@@ -838,3 +986,4 @@ fn almost_clone_contact(contact: &Contact) -> Contact {
         avatar: None,
     }
 }
+

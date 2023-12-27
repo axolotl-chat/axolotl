@@ -376,9 +376,9 @@ dependencies = [
 
 [[package]]
 name = "async-tungstenite"
-version = "0.21.0"
+version = "0.23.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b6d2c69d237cf761215175f390021344f5530101cca8164d69878b8a1779e80c"
+checksum = "a1e9efbe14612da0a19fb983059a0b621e9cf6225d7018ecab4f9988215540dc"
 dependencies = [
  "futures-io",
  "futures-util",
@@ -387,7 +387,7 @@ dependencies = [
  "rustls-native-certs",
  "tokio",
  "tokio-rustls",
- "tungstenite 0.19.0",
+ "tungstenite",
 ]
 
 [[package]]
@@ -438,7 +438,7 @@ checksum = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
 
 [[package]]
 name = "axolotl"
-version = "2.0.1"
+version = "2.0.2"
 dependencies = [
  "clap 4.4.8",
  "data-url",
@@ -447,7 +447,7 @@ dependencies = [
  "env_logger 0.10.1",
  "futures",
  "hex",
- "libsignal-service",
+ "libsignal-service 0.1.0 (git+https://github.com/whisperfish/libsignal-service-rs?rev=a36d43d62)",
  "log",
  "notify-rust",
  "presage",
@@ -2219,14 +2219,15 @@ dependencies = [
 
 [[package]]
 name = "hyper-rustls"
-version = "0.23.2"
+version = "0.24.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1788965e61b367cd03a62950836d5cd41560c3577d90e40e0819373194d1661c"
+checksum = "ec3efd23720e2049821a693cbc7e65ea87c72f1c58ff2f9522ff332b1491e590"
 dependencies = [
+ "futures-util",
  "http",
  "hyper",
  "log",
- "rustls 0.20.9",
+ "rustls",
  "rustls-native-certs",
  "tokio",
  "tokio-rustls",
@@ -2614,6 +2615,39 @@ dependencies = [
 [[package]]
 name = "libsignal-service"
 version = "0.1.0"
+source = "git+https://github.com/whisperfish/libsignal-service-rs?rev=0a7987e#0a7987e59bbb9fb110e899ac09e8efb6e28bc46d"
+dependencies = [
+ "aes 0.7.5",
+ "aes-gcm",
+ "async-trait",
+ "base64 0.13.1",
+ "bincode",
+ "block-modes",
+ "bytes",
+ "chrono",
+ "derivative",
+ "futures",
+ "hex",
+ "hkdf",
+ "hmac",
+ "libsignal-protocol",
+ "log",
+ "phonenumber",
+ "prost 0.10.4",
+ "prost-build 0.10.4",
+ "rand 0.8.5",
+ "serde",
+ "serde_json",
+ "sha2",
+ "thiserror",
+ "url",
+ "uuid",
+ "zkgroup",
+]
+
+[[package]]
+name = "libsignal-service"
+version = "0.1.0"
 source = "git+https://github.com/whisperfish/libsignal-service-rs?rev=a36d43d62#a36d43d62232a9848b6b0d78cf233603f06af71f"
 dependencies = [
  "aes 0.7.5",
@@ -2647,18 +2681,17 @@ dependencies = [
 [[package]]
 name = "libsignal-service-hyper"
 version = "0.1.0"
-source = "git+https://github.com/whisperfish/libsignal-service-rs?rev=a36d43d62#a36d43d62232a9848b6b0d78cf233603f06af71f"
+source = "git+https://github.com/whisperfish/libsignal-service-rs?rev=0a7987e#0a7987e59bbb9fb110e899ac09e8efb6e28bc46d"
 dependencies = [
  "async-trait",
  "async-tungstenite",
- "base64 0.13.1",
  "bytes",
  "futures",
  "headers",
  "hyper",
  "hyper-rustls",
  "hyper-timeout",
- "libsignal-service",
+ "libsignal-service 0.1.0 (git+https://github.com/whisperfish/libsignal-service-rs?rev=0a7987e)",
  "log",
  "mpart-async",
  "rustls-pemfile 0.3.0",
@@ -2920,7 +2953,7 @@ dependencies = [
  "log",
  "memchr",
  "mime",
- "spin 0.9.8",
+ "spin",
  "version_check",
 ]
 
@@ -3662,17 +3695,18 @@ checksum = "925383efa346730478fb4838dbe9137d2a47675ad789c546d150a6e1dd4ab31c"
 [[package]]
 name = "presage"
 version = "0.6.0-dev"
-source = "git+https://github.com/nanu-c/presage?rev=430744e3f14c2877a769d2b1f9f5f3f0dc70540f#430744e3f14c2877a769d2b1f9f5f3f0dc70540f"
+source = "git+https://github.com/nanu-c/presage?rev=fbb1ad6e7c5bfe5d57bd78111c6689583750a6cd#fbb1ad6e7c5bfe5d57bd78111c6689583750a6cd"
 dependencies = [
  "base64 0.21.5",
  "futures",
- "libsignal-service",
+ "libsignal-service 0.1.0 (git+https://github.com/whisperfish/libsignal-service-rs?rev=0a7987e)",
  "libsignal-service-hyper",
  "log",
  "parking_lot 0.11.2",
  "rand 0.8.5",
  "serde",
  "serde_json",
+ "sha2",
  "thiserror",
  "tokio",
  "url",
@@ -3681,7 +3715,7 @@ dependencies = [
 [[package]]
 name = "presage-store-cipher"
 version = "0.1.0"
-source = "git+https://github.com/nanu-c/presage?rev=430744e3f14c2877a769d2b1f9f5f3f0dc70540f#430744e3f14c2877a769d2b1f9f5f3f0dc70540f"
+source = "git+https://github.com/nanu-c/presage?rev=fbb1ad6e7c5bfe5d57bd78111c6689583750a6cd#fbb1ad6e7c5bfe5d57bd78111c6689583750a6cd"
 dependencies = [
  "blake3",
  "chacha20poly1305",
@@ -3698,7 +3732,7 @@ dependencies = [
 [[package]]
 name = "presage-store-sled"
 version = "0.6.0-dev"
-source = "git+https://github.com/nanu-c/presage?rev=430744e3f14c2877a769d2b1f9f5f3f0dc70540f#430744e3f14c2877a769d2b1f9f5f3f0dc70540f"
+source = "git+https://github.com/nanu-c/presage?rev=fbb1ad6e7c5bfe5d57bd78111c6689583750a6cd#fbb1ad6e7c5bfe5d57bd78111c6689583750a6cd"
 dependencies = [
  "async-trait",
  "base64 0.12.3",
@@ -4140,21 +4174,6 @@ dependencies = [
 
 [[package]]
 name = "ring"
-version = "0.16.20"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3053cf52e236a3ed746dfc745aa9cacf1b791d846bdaf412f60a8d7d6e17c8fc"
-dependencies = [
- "cc",
- "libc",
- "once_cell",
- "spin 0.5.2",
- "untrusted 0.7.1",
- "web-sys",
- "winapi",
-]
-
-[[package]]
-name = "ring"
 version = "0.17.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fb0205304757e5d899b9c2e448b867ffd03ae7f988002e47cd24954391394d0b"
@@ -4162,8 +4181,8 @@ dependencies = [
  "cc",
  "getrandom 0.2.11",
  "libc",
- "spin 0.9.8",
- "untrusted 0.9.0",
+ "spin",
+ "untrusted",
  "windows-sys 0.48.0",
 ]
 
@@ -4211,24 +4230,12 @@ dependencies = [
 
 [[package]]
 name = "rustls"
-version = "0.20.9"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1b80e3dec595989ea8510028f30c408a4630db12c9cbb8de34203b89d6577e99"
-dependencies = [
- "log",
- "ring 0.16.20",
- "sct",
- "webpki",
-]
-
-[[package]]
-name = "rustls"
 version = "0.21.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "446e14c5cda4f3f30fe71863c34ec70f5ac79d6087097ad0bb433e1be5edf04c"
 dependencies = [
  "log",
- "ring 0.17.5",
+ "ring",
  "rustls-webpki",
  "sct",
 ]
@@ -4269,8 +4276,8 @@ version = "0.101.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8b6275d1ee7a1cd780b64aca7726599a1dbc893b1e64144529e55c3c2f745765"
 dependencies = [
- "ring 0.17.5",
- "untrusted 0.9.0",
+ "ring",
+ "untrusted",
 ]
 
 [[package]]
@@ -4327,8 +4334,8 @@ version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "da046153aa2352493d6cb7da4b6e5c0c057d8a1d0a9aa8560baffdd945acd414"
 dependencies = [
- "ring 0.17.5",
- "untrusted 0.9.0",
+ "ring",
+ "untrusted",
 ]
 
 [[package]]
@@ -4665,12 +4672,6 @@ dependencies = [
  "libc",
  "system-deps",
 ]
-
-[[package]]
-name = "spin"
-version = "0.5.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6e63cff320ae2c57904679ba7cb63280a3dc4613885beafb148ee7bf9aa9042d"
 
 [[package]]
 name = "spin"
@@ -5282,13 +5283,12 @@ dependencies = [
 
 [[package]]
 name = "tokio-rustls"
-version = "0.23.4"
+version = "0.24.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c43ee83903113e03984cb9e5cebe6c04a5116269e900e3ddba8f068a62adda59"
+checksum = "c28327cf380ac148141087fbfb9de9d7bd4e84ab5d2c28fbc911d753de8a7081"
 dependencies = [
- "rustls 0.20.9",
+ "rustls",
  "tokio",
- "webpki",
 ]
 
 [[package]]
@@ -5311,7 +5311,7 @@ dependencies = [
  "futures-util",
  "log",
  "tokio",
- "tungstenite 0.20.1",
+ "tungstenite",
 ]
 
 [[package]]
@@ -5516,27 +5516,6 @@ checksum = "3528ecfd12c466c6f163363caf2d02a71161dd5e1cc6ae7b34207ea2d42d81ed"
 
 [[package]]
 name = "tungstenite"
-version = "0.19.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "15fba1a6d6bb030745759a9a2a588bfe8490fc8b4751a277db3a0be1c9ebbf67"
-dependencies = [
- "byteorder",
- "bytes",
- "data-encoding",
- "http",
- "httparse",
- "log",
- "rand 0.8.5",
- "rustls 0.21.8",
- "sha1",
- "thiserror",
- "url",
- "utf-8",
- "webpki",
-]
-
-[[package]]
-name = "tungstenite"
 version = "0.20.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9e3dac10fd62eaf6617d3a904ae222845979aec67c615d1c842b4002c7666fb9"
@@ -5548,6 +5527,7 @@ dependencies = [
  "httparse",
  "log",
  "rand 0.8.5",
+ "rustls",
  "sha1",
  "thiserror",
  "url",
@@ -5631,12 +5611,6 @@ dependencies = [
  "crypto-common",
  "subtle",
 ]
-
-[[package]]
-name = "untrusted"
-version = "0.7.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a156c684c91ea7d62626509bce3cb4e1d9ed5c4d978f7b4352658f96a4c26b4a"
 
 [[package]]
 name = "untrusted"
@@ -5921,16 +5895,6 @@ dependencies = [
  "pkg-config",
  "soup3-sys",
  "system-deps",
-]
-
-[[package]]
-name = "webpki"
-version = "0.22.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ed63aea5ce73d0ff405984102c42de94fc55a6b75765d621c65262469b3c9b53"
-dependencies = [
- "ring 0.17.5",
- "untrusted 0.9.0",
 ]
 
 [[package]]

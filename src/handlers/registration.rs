@@ -1,4 +1,4 @@
-use presage::{Confirmation, Manager};
+use presage::{Manager, manager::Confirmation};
 use presage_store_sled::SledStore;
 
 pub enum State {

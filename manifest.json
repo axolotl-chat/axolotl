@@ -1,6 +1,6 @@
 {
     "name": "axolotl.nanuc",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "description": "A Signal compatible messaging client for Ubuntu phones",
     "title": "Axolotl",
     "architecture": "@CLICK_ARCH@",
