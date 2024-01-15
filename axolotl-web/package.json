@@ -43,7 +43,7 @@
     "@babel/eslint-parser": "^7.19.1",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/compiler-sfc": "^3.2.41",
-    "@vue/eslint-config-airbnb": "^7.0.0",
+    "@vue/eslint-config-airbnb": "^8.0.0",
     "@vue/test-utils": "^2.0.2",
     "browserslist": "^4.21.3",
     "autoprefixer": "^10.4.13",
