@@ -47,7 +47,7 @@ build: build-axolotl-web build-axolotl
 
 install: install-axolotl install-axolotl-web
 	@sudo install -D -m 644 $(CURRENT_DIR)/scripts/axolotl.desktop $(DESTDIR)$(SHARE_PREFIX)/applications/axolotl.desktop
-	@sudo install -D -m 644 $(CURRENT_DIR)/snap/gui/axolotl.png $(DESTDIR)$(SHARE_PREFIX)/icons/hicolor/128x128/apps/axolotl.png
+	@sudo install -D -m 644 $(CURRENT_DIR)/data/icons/axolotl.png $(DESTDIR)$(SHARE_PREFIX)/icons/hicolor/128x128/apps/axolotl.png
 
 uninstall: uninstall-axolotl uninstall-axolotl-web 
 
@@ -225,7 +225,7 @@ prebuild-package-deb-arm64: package-clean-deb-arm64
 	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/applications
 	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin
 	@cp $(CURRENT_DIR)/README.md $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/README.Debian
-	@cp $(CURRENT_DIR)/deb/axolotl.png $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/icons/hicolor/128x128/apps/axolotl.png
+	@cp $(CURRENT_DIR)/data/icons/axolotl.png $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/icons/hicolor/128x128/apps/axolotl.png
 	@cp $(CURRENT_DIR)/deb/axolotl.desktop $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/applications/
 	@cp $(CURRENT_DIR)/deb/axolotl.install $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/
 	@cp $(CURRENT_DIR)/deb/control $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/control
@@ -251,7 +251,7 @@ install-deb-arm64: uninstall-deb-arm64
 # Copy binary and helpers
 	@sudo cp $(CURRENT_DIR)/target/release/build/axolotl $(DESTDIR)$(INSTALL_PREFIX)/
 	@sudo cp $(CURRENT_DIR)/deb/axolotl.desktop $(DESTDIR)$(SHARE_PREFIX)/applications/
-	@sudo cp $(CURRENT_DIR)/deb/axolotl.png $(DESTDIR)$(SHARE_PREFIX)/icons/hicolor/128x128/apps/
+	@sudo cp $(CURRENT_DIR)/data/icons/axolotl.png $(DESTDIR)$(SHARE_PREFIX)/icons/hicolor/128x128/apps/
 	@sudo update-icon-caches $(DESTDIR)$(SHARE_PREFIX)/icons/
 	@echo "Installation complete."
 
@@ -340,7 +340,7 @@ prebuild-package-deb-arm64-cc: package-clean-deb-arm64
 	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/applications
 	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin
 	@cp $(CURRENT_DIR)/README.md $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/README.Debian
-	@cp $(CURRENT_DIR)/deb/axolotl.png $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/icons/hicolor/128x128/apps/axolotl.png
+	@cp $(CURRENT_DIR)/data/icons/axolotl.png $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/icons/hicolor/128x128/apps/axolotl.png
 	@cp $(CURRENT_DIR)/deb/axolotl.desktop $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/applications/
 	@cp $(CURRENT_DIR)/deb/axolotl.install $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/
 	@cp $(CURRENT_DIR)/deb/control $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/control

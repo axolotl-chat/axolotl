@@ -75,7 +75,7 @@ priority = "optional"
 assets = [
     ["target/aarch64-unknown-linux-gnu/release/axolotl/axolotl", "usr/bin/", "755"],
     ["README.md", "usr/share/doc/axolotl/README", "644"],
-    ["deb/axolotl.png", "usr/share/icons/hicolor/128x128/apps/axolotl.png", "644"],
+    ["data/icons/axolotl.png", "usr/share/icons/hicolor/128x128/apps/axolotl.png", "644"],
     ["deb/axolotl.desktop", "usr/share/applications/", "644"],
 ]
 changelog = "deb/changelog"

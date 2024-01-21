@@ -30,7 +30,7 @@ pushd ../
 
   cp -f appimage/AppDir/AppRun build/AppDir/AppRun
   cp -f appimage/AppDir/axolotl.desktop build/AppDir/axolotl.desktop
-  cp -f appimage/AppDir/axolotl.png build/AppDir/axolotl.png
+  cp -f data/icons/axolotl.png build/AppDir/axolotl.png
 
   mkdir -p build/AppDir/usr/share/metainfo
   cp -f appimage/AppDir/axolotl.appdata.xml build/AppDir/usr/share/metainfo/axolotl.appdata.xml
