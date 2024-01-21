@@ -31,4 +31,5 @@ rustc-ice*.txt
 
 /target
 /bin
-.vscode/*
+.devcontainer/
+.vscode/
