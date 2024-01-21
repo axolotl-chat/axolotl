@@ -19,7 +19,7 @@ presage = { git = "https://github.com/nanu-c/presage", rev = "fbb1ad6e7c5bfe5d57
 presage-store-sled = { git = "https://github.com/nanu-c/presage", rev = "fbb1ad6e7c5bfe5d57bd78111c6689583750a6cd" }
 #presage = {path = "../presage/presage"}
 #presage-store-sled = { path = "../presage/presage-store-sled" }
-libsignal-service = { git = "https://github.com/whisperfish/libsignal-service-rs", rev = "a36d43d62" }
+libsignal-service = { git = "https://github.com/whisperfish/libsignal-service-rs", rev = "0a7987e" }
 zeroize = { version = "1.6.0", default-features = false }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 tokio-stream = "0.1.12"
