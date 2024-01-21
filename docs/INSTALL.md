@@ -133,15 +133,12 @@ To start the application, either search for "Axolotl" in your app drawer or star
 This requires `flatpak` and `flatpak-builder` to be installed locally.
 Installation instructions can be found [here](https://flatpak.org/setup/)
 
-### Web Version
-
 **Dependencies**
 
 The following Flatpak SDKs are required:
 ```
 flatpak install org.freedesktop.Platform//22.08
 flatpak install org.freedesktop.Sdk//22.08
-flatpak install org.freedesktop.Sdk.Extension.golang//22.08
 flatpak install org.freedesktop.Sdk.Extension.node18//22.08
 flatpak install org.freedesktop.Sdk.Extension.rust-stable//22.08
 flatpak install org.electronjs.Electron2.BaseApp//22.08
@@ -170,44 +167,6 @@ Note that this requires root.
 To start the application, either search for "Axolotl" in your app drawer or start it with the below command.
 
 `flatpak run org.nanuc.Axolotl`
-
-### QT Version
-
-**Dependencies**
-
-The following Flatpak SDKs are required:
-```
-flatpak install org.kde.Platform//5.15-22.08
-flatpak install org.kde.Sdk//5.15-22.08
-flatpak install org.freedesktop.Sdk.Extension.golang//22.08
-flatpak install org.freedesktop.Sdk.Extension.node18//22.08
-flatpak install org.freedesktop.Sdk.Extension.rust-stable//22.08
-flatpak install io.qt.qtwebengine.BaseApp//5.15-22.08
-```
-
-**Build and Install**
-
-Installation can be done user-level or system-wide.
-To list installed applications and/or runtimes, use `flatpak list`.
-
-The Flatpak [manifest](https://docs.flatpak.org/en/latest/manifests.html) used for the installation can be found
-in the /flatpak subdirectory.
-
-User-level:
-
-```flatpak-builder --user --install build ./flatpak/qt/org.nanuc.Axolotl.yml```
-
-System-wide:
-
-Note that this requires root.
-
-```sudo flatpak-builder --install build ./flatpak/qt/org.nanuc.Axolotl.yml```
-
-**Run**
-
-To start the application, either search for "Axolotl" in your app drawer or start it with the below command.
-
-`flatpak run org.nanuc.Axolotl -e=qt`
 
 ### Create a Flatpak bundle
 

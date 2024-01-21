@@ -1,7 +1,7 @@
 # This is the Makefile for axolotl.
 # For more info about the syntax, see https://makefiletutorial.com/
 
-.PHONY: build clean build-axolotl-web build-axolotl install install-axolotl install-axolotl-web uninstall build-translation run check check-axolotl check-axolotl-web build-dependencies build-dependencies-axolotl-web build-dependencies-axolotl update-version build-dependencies-flatpak build-dependencies-flatpak-web build-dependencies-flatpak-qt install-flatpak-web install-flatpak-qt build-snap install-snap check-platform-deb-arm64 dependencies-deb-arm64 build-deb-arm64 prebuild-package-deb-arm64 build-package-deb-arm64 install-deb-arm64 uninstall-deb-arm64 check-platform-deb-arm64-cc dependencies-deb-arm64-cc build-deb-arm64-cc prebuild-package-deb-arm64-cc build-package-deb-arm64-cc clean-deb-arm64 package-clean-deb-arm64 uninstall-deb-dependencies-cc
+.PHONY: build clean build-axolotl-web build-axolotl install install-axolotl install-axolotl-web uninstall build-translation run check check-axolotl check-axolotl-web build-dependencies build-dependencies-axolotl-web build-dependencies-axolotl update-version build-dependencies-flatpak install-flatpak build-snap install-snap check-platform-deb-arm64 dependencies-deb-arm64 build-deb-arm64 prebuild-package-deb-arm64 build-package-deb-arm64 install-deb-arm64 uninstall-deb-arm64 check-platform-deb-arm64-cc dependencies-deb-arm64-cc build-deb-arm64-cc prebuild-package-deb-arm64-cc build-package-deb-arm64-cc clean-deb-arm64 package-clean-deb-arm64 uninstall-deb-dependencies-cc
 
 NPM_VERSION := $(shell npm --version 2>/dev/null)
 NODE_VERSION := $(shell node --version 2>/dev/null)
@@ -109,7 +109,6 @@ ifeq ($(NEW_VERSION),)
 else
 	@echo "Replacing current version $(AXOLOTL_VERSION) with new version $(NEW_VERSION)"
 	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' manifest.json
-	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' app/config/config.go
 	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' snap/snapcraft.yaml
 	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' docs/INSTALL.md
 	@sed -i "32i $$APPDATA_TEXT" appimage/AppDir/axolotl.appdata.xml
@@ -131,37 +130,19 @@ install-axolotl-electron-bundle:
 
 ## Flatpak
 build-dependencies-flatpak:
-	$(FLATPAK) install org.freedesktop.Sdk.Extension.golang//22.08
+	$(FLATPAK) install org.gnome.Platform//45
+	$(FLATPAK) install org.gnome.Sdk//45
 	$(FLATPAK) install org.freedesktop.Sdk.Extension.node18//22.08
 	$(FLATPAK) install org.freedesktop.Sdk.Extension.rust-stable//22.08
 
-build-dependencies-flatpak-web: build-dependencies-flatpak
-	$(FLATPAK) install org.freedesktop.Platform//22.08
-	$(FLATPAK) install org.freedesktop.Sdk//22.08
-	$(FLATPAK) install org.electronjs.Electron2.BaseApp//22.08
+build-flatpak:
+	$(FLATPAK_BUILDER) flatpak/build --force-clean --ccache flatpak/org.nanuc.Axolotl.yml
 
-build-dependencies-flatpak-qt: build-dependencies-flatpak
-	$(FLATPAK) install org.kde.Platform//5.15-22.08
-	$(FLATPAK) install org.kde.Sdk//5.15-22.08
-	$(FLATPAK) install io.qt.qtwebengine.BaseApp//5.15-22.08
+install-flatpak:
+	$(FLATPAK_BUILDER) flatpak/build --force-clean --user --install flatpak/org.nanuc.Axolotl.yml
 
-build-flatpak-web:
-	$(FLATPAK_BUILDER) flatpak/build --verbose --force-clean --ccache flatpak/web/org.nanuc.Axolotl.yml
-
-build-flatpak-qt:
-	$(FLATPAK_BUILDER) flatpak/build --verbose --force-clean --ccache flatpak/qt/org.nanuc.Axolotl.yml
-
-install-flatpak-web:
-	$(FLATPAK_BUILDER) --user --install --force-clean flatpak/build flatpak/web/org.nanuc.Axolotl.yml
-
-install-flatpak-qt:
-	$(FLATPAK_BUILDER) --user --install --force-clean flatpak/build flatpak/qt/org.nanuc.Axolotl.yml
-
-debug-flatpak-web:
-	$(FLATPAK_BUILDER) --run --verbose flatpak/build flatpak/web/org.nanuc.Axolotl.yml sh
-
-debug-flatpak-qt:
-	$(FLATPAK_BUILDER) --run --verbose flatpak/build flatpak/qt/org.nanuc.Axolotl.yml sh
+debug-flatpak:
+	$(FLATPAK_BUILDER) flatpak/build --run --verbose flatpak/org.nanuc.Axolotl.yml sh
 
 uninstall-flatpak:
 	$(FLATPAK) uninstall org.nanuc.Axolotl

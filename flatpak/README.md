@@ -14,10 +14,6 @@ this dependency listing.
 
 ## axolotl-web
 
-To list all dependencies of the `axolotl` go application is completely doable with the
-[go-get](https://github.com/flatpak/flatpak-builder-tools/tree/master/go-get) Flatpak builder tool.
-The outcome is a list of 20-something dependencies, which are all listed with their fix versions under sources.
-
 The big issue is for the `axolotl-web` dependencies.
 
 Also, for this there is also a tool available,
