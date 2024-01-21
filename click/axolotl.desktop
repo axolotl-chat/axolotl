@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=Axolotl2.0.2
+Name=Axolotl
 Exec=env RUST_LOG=debug RUST_BACKTRACE=1 axolotl --mode ubuntu-touch %u 
 Icon=axolotl.png
 Terminal=false

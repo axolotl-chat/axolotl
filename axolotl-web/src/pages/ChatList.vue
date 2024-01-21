@@ -17,13 +17,22 @@
           <font-awesome-icon icon="times" />
         </button>
       </div>
-      <div v-for="chat in chatList" :key="chat.id.Contact ? chat.id.Contact : chat.id.Group" class="row">
+      <div
+        v-for="chat in chatList"
+        :key="chat.id.Contact ? chat.id.Contact : chat.id.Group"
+        class="row"
+      >
         <!-- chat entry -->
         <div
-          :id="chat.id.Contact ? chat.id.Contact : chat.id.Group" :class="editActive && selectedChat.indexOf(chat.id.Contact ? chat.id.Contact : chat.id.Group) >= 0
-            ? 'selected col-12 chat-container'
-            : 'col-12 chat-container '
-          " data-long-press-delay="500" @click="enterChat(chat)"
+          :id="chat.id.Contact ? chat.id.Contact : chat.id.Group"
+          :class="
+            editActive &&
+            selectedChat.indexOf(chat.id.Contact ? chat.id.Contact : chat.id.Group) >= 0
+              ? 'selected col-12 chat-container'
+              : 'col-12 chat-container '
+          "
+          data-long-press-delay="500"
+          @click="enterChat(chat)"
           @long-press="editChat(chat.id.Contact ? chat.id.Contact : chat.id.Group)"
         >
           <div class="row chat-entry">
@@ -35,7 +44,11 @@
                   alt="Avatar image"
                   @error="onImageError($event)"
                 /> -->
-                {{ `${chat.title[0] ? chat.title[0] : "?"}${chat.title[1] ? chat.title[1] : ""}` }}
+                {{
+                  `${chat?.title && chat?.title[0] ? chat.title[0] : '?'}${
+                    chat?.title && chat?.title[1] ? chat.title[1] : ''
+                  }`
+                }}
               </div>
               <div v-else class="badge-name">
                 <font-awesome-icon icon="user-friends" />
@@ -45,12 +58,20 @@
               <div class="row">
                 <div class="col-9">
                   <div class="name">
-                    <font-awesome-icon v-if="chat.muted" class="mute" icon="volume-mute" />
-                    <font-awesome-icon v-if="chat.is_group" class="is_group me-1" icon="user-friends" />
+                    <font-awesome-icon
+                      v-if="chat.muted"
+                      class="mute"
+                      icon="volume-mute"
+                    />
+                    <font-awesome-icon
+                      v-if="chat.is_group"
+                      class="is_group me-1"
+                      icon="user-friends"
+                    />
                     <div
-                      v-if="chat.is_group &&
-                        chat.title === ''
-                      " v-translate class="title"
+                      v-if="chat.is_group && chat.title === ''"
+                      v-translate
+                      class="title"
                     >
                       Unknown group
                     </div>
@@ -61,9 +82,8 @@
                 </div>
                 <div v-if="!editActive" class="col-3 date-c">
                   <p
-                    v-if="chat.last_message !== '' &&
-                      chat.last_message_timestamp !== 0
-                    " class="time"
+                    v-if="chat.last_message !== '' && chat.last_message_timestamp !== 0"
+                    class="time"
                   >
                     {{ humanifyDate(chat.last_message_timestamp) }}
                   </p>
@@ -76,7 +96,10 @@
                   </p>
                 </div>
                 <div class="col-3 unread-counter">
-                  <div v-if="Number(chat.unread_messages_count) > 0" class="counter badge badge-primary">
+                  <div
+                    v-if="Number(chat.unread_messages_count) > 0"
+                    class="counter badge badge-primary"
+                  >
                     {{ chat.unread_messages_count }}
                   </div>
                 </div>
@@ -97,95 +120,94 @@
 </template>
 
 <script>
-import moment from "moment";
-import { mapState } from "vuex";
-import { router } from "@/router/router";
+import moment from 'moment'
+import { mapState } from 'vuex'
+import { router } from '@/router/router'
 
 export default {
-  name: "ChatList",
+  name: 'ChatList',
 
   data() {
     return {
       editActive: false,
       editWasActive: false,
       selectedChat: [],
-    };
+    }
   },
   computed: {
-    ...mapState(["chatList", "lastMessages", "sessionNames"]),
+    ...mapState(['chatList', 'lastMessages', 'sessionNames']),
     chats() {
-      return this.chatList;
+      return this.chatList
     },
   },
   created() {},
   mounted() {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-    this.$language.current = navigator.language || navigator.userLanguage;
-    this.$store.dispatch("leaveChat");
-    this.$store.dispatch("clearMessageList");
-    this.$store.dispatch("clearFilterContacts");
-    this.$store.dispatch("getConfig");
-    if (this.$store.state.contacts.length === 0)
-    this.$store.dispatch("getContacts");
-    this.$store.dispatch("getChatList");
+    document.body.scrollTop = 0
+    document.documentElement.scrollTop = 0
+    this.$language.current = navigator.language || navigator.userLanguage
+    this.$store.dispatch('leaveChat')
+    this.$store.dispatch('clearMessageList')
+    this.$store.dispatch('clearFilterContacts')
+    this.$store.dispatch('getConfig')
+    if (this.$store.state.contacts.length === 0) this.$store.dispatch('getContacts')
+    this.$store.dispatch('getChatList')
   },
   methods: {
     humanifyDate(inputDate) {
-      moment.locale(this.$language.current);
-      const date = new moment(inputDate);
-      const min = moment().diff(date, "minutes");
+      moment.locale(this.$language.current)
+      const date = new moment(inputDate)
+      const min = moment().diff(date, 'minutes')
       if (min < 60) {
-        if (min === 0) return "now";
-        return moment().diff(date, "minutes") + " min";
+        if (min === 0) return 'now'
+        return moment().diff(date, 'minutes') + ' min'
       }
-      const hours = moment().diff(date, "hours");
-      if (hours < 24) return hours + " h";
-      return date.format("DD. MMM");
+      const hours = moment().diff(date, 'hours')
+      if (hours < 24) return hours + ' h'
+      return date.format('DD. MMM')
     },
     editChat(e) {
-      this.selectedChat.push(e);
-      this.editActive = true;
+      this.selectedChat.push(e)
+      this.editActive = true
     },
     editDeactivate(e) {
-      this.editActive = false;
-      e.preventDefault();
-      e.stopPropagation();
-      this.editWasActive = true;
-      this.selectedChat = [];
+      this.editActive = false
+      e.preventDefault()
+      e.stopPropagation()
+      this.editWasActive = true
+      this.selectedChat = []
     },
     delChat(e) {
-      this.editActive = false;
-      e.preventDefault();
-      e.stopPropagation();
+      this.editActive = false
+      e.preventDefault()
+      e.stopPropagation()
       if (this.selectedChat.length > 0) {
         this.selectedChat.forEach((c) => {
-          this.$store.dispatch("delChat", c);
-        });
+          this.$store.dispatch('delChat', c)
+        })
       }
-      this.editWasActive = true;
-      this.selectedChat = [];
+      this.editWasActive = true
+      this.selectedChat = []
     },
     onImageError(event) {
-      event.target.style.display = "none";
+      event.target.style.display = 'none'
     },
     isGroupCheck(e) {
       if (e.DirectMessageRecipientID === -1) {
-        return true;
+        return true
       } else {
-        return false;
+        return false
       }
     },
     enterChat(chat) {
       if (!this.editActive) {
         // this.$store.dispatch("setCurrentChat", chat);
-        router.push(`/chat/${JSON.stringify(chat.id)}`);
+        router.push(`/chat/${JSON.stringify(chat.id)}`)
       } else {
-        this.selectedChat.push(chat.Tel);
+        this.selectedChat.push(chat.Tel)
       }
     },
   },
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -217,10 +239,12 @@ export default {
 
 .badge-name {
   background: rgb(14, 123, 210);
-  background: linear-gradient(0deg,
-      rgba(14, 123, 210, 1) 8%,
-      rgba(32, 144, 234, 1) 42%,
-      rgba(107, 180, 238, 1) 100%);
+  background: linear-gradient(
+    0deg,
+    rgba(14, 123, 210, 1) 8%,
+    rgba(32, 144, 234, 1) 42%,
+    rgba(107, 180, 238, 1) 100%
+  );
   /* padding: 14px; */
   width: 44px;
   height: 44px;
@@ -291,7 +315,6 @@ a:hover.chat-container {
 }
 
 .chatList {
-
   .preview {
     overflow: hidden;
     height: 20px;

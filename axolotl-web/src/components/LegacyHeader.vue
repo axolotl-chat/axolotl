@@ -24,11 +24,12 @@
                     class="avatar-img"
                     :src="
                       'http://localhost:9080/attachments/avatars/' +
-                        currentChat?.thread?.Contact
+                      currentChat?.thread?.Contact
                     "
                     @error="onImageError($event)"
                   />
-                  {{ currentChat.title[0] }}
+                  {{ currentChat.title ? currentChat.title[0] : '?' }}
+                  {{ currentChat.title ? currentChat.title[1] : '' }}
                 </div>
                 <div v-else class="group-badge">
                   <font-awesome-icon icon="user-friends" />
@@ -62,8 +63,8 @@
                     <div
                       v-if="
                         isGroup &&
-                          currentGroup !== null &&
-                          typeof currentGroup !== 'undefined'
+                        currentGroup !== null &&
+                        typeof currentGroup !== 'undefined'
                       "
                       class="number-text"
                     >
@@ -74,8 +75,8 @@
                     <div
                       v-if="
                         isGroup &&
-                          currentGroup !== null &&
-                          typeof currentGroup !== 'undefined'
+                        currentGroup !== null &&
+                        typeof currentGroup !== 'undefined'
                       "
                       class="number-text"
                     >
@@ -116,8 +117,8 @@
                 <button
                   v-if="
                     currentChat !== null &&
-                      !isGroup &&
-                      currentChat.title !== currentChat.Tel
+                    !isGroup &&
+                    currentChat.title !== currentChat.Tel
                   "
                   class="dropdown-item"
                   @click="callNumber(currentChat.Tel)"
@@ -143,8 +144,8 @@
                 <button
                   v-if="
                     currentChat !== null &&
-                      !isGroup &&
-                      currentChat.title === currentChat.Tel
+                    !isGroup &&
+                    currentChat.title === currentChat.Tel
                   "
                   v-translate
                   class="dropdown-item"
@@ -155,8 +156,8 @@
                 <button
                   v-if="
                     currentChat !== null &&
-                      !isGroup &&
-                      currentChat.title !== currentChat.Tel
+                    !isGroup &&
+                    currentChat.title !== currentChat.Tel
                   "
                   v-translate
                   class="dropdown-item"

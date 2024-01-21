@@ -28,10 +28,20 @@
           <br />
           <font-awesome-icon id="heart" icon="heart" />
         </div>
-        <button v-translate class="btn btn-primary" @click="registerAsSecondaryDevice()">
+        <button
+          v-translate
+          class="btn btn-primary"
+          @click="registerAsSecondaryDevice()"
+          v-if="config1.secondaryRegistration"
+        >
           Register as secondary device (like signal desktop)
         </button>
-        <button v-translate class="btn btn-primary" @click="register()">
+        <button
+          v-translate
+          class="btn btn-primary"
+          @click="register()"
+          v-if="config1.primaryRegistration"
+        >
           Register with phone number
         </button>
       </div>
@@ -41,6 +51,8 @@
 
 <script>
 import { mapState } from 'vuex'
+import config from '@/config.js'
+import { ref } from 'vue'
 
 export default {
   name: 'OnBoarding',
@@ -56,6 +68,10 @@ export default {
     'captchaTokenSent',
     'registrationError',
   ]),
+  setup() {
+    const config1 = ref(config)
+    return { config1 }
+  },
   mounted() {
     const userLang = navigator.language || navigator.userLanguage
     this.$language.current = userLang

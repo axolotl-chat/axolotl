@@ -1,6 +1,6 @@
 {
   "name": "axolotl-web",
-  "version": "2.0.1",
+  "version": "2.0.3",
   "private": true,
   "description": "This is the frontend half of the axolotl project. Axolotl is a complete cross-platform Signal client.",
   "author": {
