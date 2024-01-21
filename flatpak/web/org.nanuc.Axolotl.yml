@@ -1,15 +1,14 @@
 app-id: org.nanuc.Axolotl
 branch: main
 runtime: org.freedesktop.Platform
-runtime-version: '22.08'
+runtime-version: "22.08"
 sdk: org.freedesktop.Sdk
 sdk-extensions:
-  - org.freedesktop.Sdk.Extension.golang
   - org.freedesktop.Sdk.Extension.node18
   - org.freedesktop.Sdk.Extension.rust-stable
 command: run.sh
 base: org.electronjs.Electron2.BaseApp
-base-version: '22.08'
+base-version: "22.08"
 separate-locales: false
 tags:
   - latest
@@ -46,7 +45,6 @@ finish-args:
   - --env=AXOLOTL_ELECTRON_BUNDLED="true"
 
 modules:
-
   - name: axolotl-electron-bundle
     buildsystem: simple
     build-options:

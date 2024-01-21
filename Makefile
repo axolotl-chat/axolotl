@@ -109,7 +109,6 @@ ifeq ($(NEW_VERSION),)
 else
 	@echo "Replacing current version $(AXOLOTL_VERSION) with new version $(NEW_VERSION)"
 	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' manifest.json
-	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' app/config/config.go
 	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' snap/snapcraft.yaml
 	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' docs/INSTALL.md
 	@sed -i "32i $$APPDATA_TEXT" appimage/AppDir/axolotl.appdata.xml
@@ -131,7 +130,6 @@ install-axolotl-electron-bundle:
 
 ## Flatpak
 build-dependencies-flatpak:
-	$(FLATPAK) install org.freedesktop.Sdk.Extension.golang//22.08
 	$(FLATPAK) install org.freedesktop.Sdk.Extension.node18//22.08
 	$(FLATPAK) install org.freedesktop.Sdk.Extension.rust-stable//22.08
 
