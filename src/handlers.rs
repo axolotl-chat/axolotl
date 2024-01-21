@@ -1363,13 +1363,16 @@ impl Handler {
                         match thread {
                             Thread::Contact(uuid) => {
                                 if Uuid::parse_str(&title).is_ok() || title == "" {
-                                    let mut contact = match manager.get_contact_by_id(uuid).await.unwrap() {
-                                        Some(c) => c,
-                                        None => {
-                                            log::error!("handle_get_message_list: Contact not found");
-                                            return Err(ApplicationError::InvalidRequest);
-                                        }
-                                    };
+                                    let mut contact =
+                                        match manager.get_contact_by_id(uuid).await.unwrap() {
+                                            Some(c) => c,
+                                            None => {
+                                                log::error!(
+                                                    "handle_get_message_list: Contact not found"
+                                                );
+                                                return Err(ApplicationError::InvalidRequest);
+                                            }
+                                        };
                                     contact = match self.update_contact_name(contact).await {
                                         Ok(c) => c.unwrap(),
                                         Err(e) => {
@@ -1377,23 +1380,22 @@ impl Handler {
                                             return Err(ApplicationError::InvalidRequest);
                                         }
                                     };
-        
+
                                     // retrieve updated thread metadata
-                                    thread_metadata = match manager.thread_metadata(&thread).await.unwrap()
-                                    {
-                                        Some(tm) => tm,
-                                        None => {
-                                            log::error!(
+                                    thread_metadata =
+                                        match manager.thread_metadata(&thread).await.unwrap() {
+                                            Some(tm) => tm,
+                                            None => {
+                                                log::error!(
                                                 "handle_get_message_list: Thread metadata not found"
                                             );
-                                            return Err(ApplicationError::InvalidRequest);
-                                        }
-                                    };
-                                }  
-                            },
-                            _ => ()
+                                                return Err(ApplicationError::InvalidRequest);
+                                            }
+                                        };
+                                }
+                            }
+                            _ => (),
                         }
-
                     }
 
                     None => match manager.update_contacts_from_profile().await {

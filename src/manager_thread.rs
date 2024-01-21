@@ -5,7 +5,7 @@ use presage::libsignal_service::models::Contact;
 use presage::libsignal_service::prelude::AttachmentIdentifier;
 use presage::libsignal_service::sender::AttachmentSpec;
 use presage::libsignal_service::{groups_v2::Group, sender::AttachmentUploadError};
-use presage::manager::{Registered, ReceivingMode};
+use presage::manager::{ReceivingMode, Registered};
 use presage::proto::DataMessage;
 use presage::store::{ContentsStore, StateStore, Store};
 use presage::{
@@ -89,7 +89,6 @@ enum Command {
         oneshot::Sender<Result<presage::libsignal_service::Profile, PresageError>>,
     ),
     SaveContact(Contact, oneshot::Sender<Result<(), PresageError>>),
-
 }
 
 impl std::fmt::Debug for Command {
@@ -220,7 +219,6 @@ impl ManagerThread {
                     uuid,
                 })
             }
-
         }
     }
 }
@@ -675,8 +673,8 @@ async fn command_loop(
                                                     let thread = Thread::try_from(&msg).unwrap();
                                                     log::debug!("Received sync data message: {:?}", &thread);
                                                     let title = manager.thread_title(&thread).await.unwrap_or("".to_string());
-                                                    
-                                                    
+
+
                                                     if !body.is_empty() {
                                                         let mut thread_metadata = match manager.store().thread_metadata(thread.clone()){
                                                             Ok(Some(thread_metadata)) => thread_metadata,
@@ -892,9 +890,9 @@ async fn notify_message(msg: &Notification) {
 
 async fn handle_command(manager: &mut Manager<SledStore, Registered>, command: Command) {
     match command {
-        Command::RequestContactsSync(callback) => callback
-            .send(Ok(()))
-            .expect("Callback sending failed"),
+        Command::RequestContactsSync(callback) => {
+            callback.send(Ok(())).expect("Callback sending failed")
+        }
         Command::GetContacts(callback) => callback
             .send(
                 manager
@@ -949,8 +947,8 @@ async fn handle_command(manager: &mut Manager<SledStore, Registered>, command: C
             .send(manager.store().clone().save_thread_metadata(metadata))
             .expect("Callback sending failed"),
         Command::RequestContactsUpdateFromProfile(callback) => callback
-            .send(Ok(())
-            // todo: fix this
+            .send(
+                Ok(()), // todo: fix this
             )
             .expect("Callback sending failed"),
         Command::RequestContactUpdateFromProfile(uuid, callback) => callback
@@ -960,13 +958,15 @@ async fn handle_command(manager: &mut Manager<SledStore, Registered>, command: C
         Command::RetrieveProfileKey(uuid, profile_key, callback) => callback
             .send(manager.retrieve_profile_by_uuid(uuid, profile_key).await)
             .expect("Callback sending failed"),
-        Command::SaveContact(contact, callback) => callback.send(
-            manager
-                .store()
-                .clone()
-                .save_contact(&contact)
-                .map_err(|e| e.into()),
-        ).expect("Callback sending failed")
+        Command::SaveContact(contact, callback) => callback
+            .send(
+                manager
+                    .store()
+                    .clone()
+                    .save_contact(&contact)
+                    .map_err(|e| e.into()),
+            )
+            .expect("Callback sending failed"),
     };
 }
 
@@ -986,4 +986,3 @@ fn almost_clone_contact(contact: &Contact) -> Contact {
         avatar: None,
     }
 }
-
