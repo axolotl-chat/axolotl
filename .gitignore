@@ -13,7 +13,6 @@ gopath/*
 main
 
 output
-bind*.go
 *.syso
 dist
 .flatpak-builder
@@ -31,4 +30,5 @@ rustc-ice*.txt
 
 /target
 /bin
-.vscode/*
+.devcontainer/
+.vscode/

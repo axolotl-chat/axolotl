@@ -447,7 +447,7 @@ dependencies = [
  "env_logger 0.10.1",
  "futures",
  "hex",
- "libsignal-service 0.1.0 (git+https://github.com/whisperfish/libsignal-service-rs?rev=a36d43d62)",
+ "libsignal-service 0.1.0 (git+https://github.com/whisperfish/libsignal-service-rs?rev=0a7987e)",
  "log",
  "notify-rust",
  "presage",
@@ -2616,39 +2616,6 @@ dependencies = [
 name = "libsignal-service"
 version = "0.1.0"
 source = "git+https://github.com/whisperfish/libsignal-service-rs?rev=0a7987e#0a7987e59bbb9fb110e899ac09e8efb6e28bc46d"
-dependencies = [
- "aes 0.7.5",
- "aes-gcm",
- "async-trait",
- "base64 0.13.1",
- "bincode",
- "block-modes",
- "bytes",
- "chrono",
- "derivative",
- "futures",
- "hex",
- "hkdf",
- "hmac",
- "libsignal-protocol",
- "log",
- "phonenumber",
- "prost 0.10.4",
- "prost-build 0.10.4",
- "rand 0.8.5",
- "serde",
- "serde_json",
- "sha2",
- "thiserror",
- "url",
- "uuid",
- "zkgroup",
-]
-
-[[package]]
-name = "libsignal-service"
-version = "0.1.0"
-source = "git+https://github.com/whisperfish/libsignal-service-rs?rev=a36d43d62#a36d43d62232a9848b6b0d78cf233603f06af71f"
 dependencies = [
  "aes 0.7.5",
  "aes-gcm",

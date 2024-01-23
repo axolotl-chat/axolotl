@@ -4,7 +4,7 @@ use crate::error::ApplicationError;
 use crate::manager_thread::ManagerThread;
 use crate::requests::{AxolotlMessage, AxolotlResponse, SendMessageResponse};
 use presage::prelude::*;
-use presage::proto::{GroupContextV2, DataMessage};
+use presage::proto::{DataMessage, GroupContextV2};
 use presage::{Manager, Thread};
 use presage_store_sled::SledStore;
 use std::time::UNIX_EPOCH;

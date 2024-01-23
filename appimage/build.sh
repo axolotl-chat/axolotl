@@ -12,13 +12,6 @@ do
   fi
 done
 
-echo "build axolotl"
-pushd ../
-  go clean
-  go mod download -x
-  go build -v
-popd
-
 echo "build axolotl-web"
 pushd ../axolotl-web
   npm ci
