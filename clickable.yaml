@@ -24,7 +24,7 @@ install_root_data:
   - click/axolotl.desktop
   - click/axolotl.png
   - click/axolotl.url-dispatcher
-  - ${AXOLOTLWEB_LIB_INSTALL_DIR}/axolotl-web
+  - ${AXOLOTLWEB_LIB_INSTALL_DIR}/../../../all/axolotlweb/install/axolotl-web
   - guis/qml/ut
 
 libraries:
