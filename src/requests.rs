@@ -1,8 +1,8 @@
 //! This module lists the request structures.
 
-use presage::libsignal_service::prelude::Uuid;
 use presage::libsignal_service::content::ContentBody;
 use presage::libsignal_service::prelude::AttachmentIdentifier;
+use presage::libsignal_service::prelude::Uuid;
 use presage::prelude::Content;
 use presage::proto::DataMessage;
 use presage::Thread;

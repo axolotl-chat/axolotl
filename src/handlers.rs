@@ -16,14 +16,14 @@ extern crate dirs;
 use futures::channel::oneshot::Receiver;
 use futures::stream::{SplitSink, SplitStream};
 use futures::{SinkExt, StreamExt};
-use presage::libsignal_service::prelude::phonenumber::PhoneNumber;
-use presage::libsignal_service::prelude::{phonenumber, Uuid};
-use presage::libsignal_service::zkgroup::profiles::ProfileKey;
 use presage::libsignal_service::configuration::SignalServers;
 use presage::libsignal_service::content::ContentBody;
 use presage::libsignal_service::models::Contact;
+use presage::libsignal_service::prelude::phonenumber::PhoneNumber;
 use presage::libsignal_service::prelude::AttachmentIdentifier;
+use presage::libsignal_service::prelude::{phonenumber, Uuid};
 use presage::libsignal_service::sender::AttachmentSpec;
+use presage::libsignal_service::zkgroup::profiles::ProfileKey;
 use presage::manager::Confirmation;
 use presage::manager::RegistrationOptions;
 use presage::prelude::AttachmentPointer;
@@ -1556,7 +1556,10 @@ impl Handler {
                 };
                 let is_failed = result.is_err();
                 if is_failed {
-                    log::error!("Error while sending the message. {:?}", result.err());
+                    log::error!(
+                        "handle_send_message: Error while sending the message. {:?}",
+                        result.err()
+                    );
                 }
                 let mut message = AxolotlMessage::from_data_message(data_message);
                 message.thread_id = Some(thread.clone());

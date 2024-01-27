@@ -67,7 +67,10 @@ pub async fn send_message(
     };
     let is_failed = result.is_err();
     if is_failed {
-        log::error!("Error while sending the message. {:?}", result.err());
+        log::error!(
+            "send_message: Error while sending the message. {:?}",
+            result.err()
+        );
     }
     let mut message = AxolotlMessage::from_data_message(data_message);
     message.thread_id = Some(recipient);
