@@ -31,5 +31,6 @@ Generate cargo dependencies via [flatpak-cargo-generator](https://github.com/fla
 
 ```sh
 sudo apt install python3-aiohttp python3-toml python3-yaml
+cd flatpak-builder-tools/cargo
 python3 ./flatpak-cargo-generator.py ../../Cargo.lock -o ../../flatpak/cargo-sources.json
 ```

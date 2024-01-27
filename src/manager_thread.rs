@@ -7,7 +7,7 @@ use presage::libsignal_service::sender::AttachmentSpec;
 use presage::libsignal_service::{groups_v2::Group, sender::AttachmentUploadError};
 use presage::manager::{ReceivingMode, Registered};
 use presage::proto::DataMessage;
-use presage::store::{ContentsStore, StateStore, Store};
+use presage::store::{ContentsStore, StateStore};
 use presage::{
     prelude::{ServiceAddress, *},
     Error, Manager,

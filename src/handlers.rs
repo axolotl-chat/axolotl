@@ -16,9 +16,9 @@ extern crate dirs;
 use futures::channel::oneshot::Receiver;
 use futures::stream::{SplitSink, SplitStream};
 use futures::{SinkExt, StreamExt};
-use libsignal_service::prelude::phonenumber::PhoneNumber;
-use libsignal_service::prelude::{phonenumber, Uuid};
-use libsignal_service::zkgroup::profiles::ProfileKey;
+use presage::libsignal_service::prelude::phonenumber::PhoneNumber;
+use presage::libsignal_service::prelude::{phonenumber, Uuid};
+use presage::libsignal_service::zkgroup::profiles::ProfileKey;
 use presage::libsignal_service::configuration::SignalServers;
 use presage::libsignal_service::content::ContentBody;
 use presage::libsignal_service::models::Contact;
@@ -85,7 +85,15 @@ impl Handler {
         let (send_error, receive_error) = mpsc::channel(MESSAGE_BOUND);
         let current_chat: Option<Thread> = None;
         let current_chat_mutex = Arc::new(Mutex::new(current_chat));
-        let config_store = Handler::get_config_store().await?;
+        let config_store = match Handler::get_config_store().await {
+            Ok(c) => c,
+            Err(e) => {
+                log::error!("Error getting config store: {}", e);
+                return Err(ApplicationError::RegistrationError(
+                    "Error getting config store".to_string(),
+                ));
+            }
+        };
         let manager_thread = Rc::new(OnceCell::new());
         let thread = manager_thread.clone();
         log::info!("Setting up the manager2");
