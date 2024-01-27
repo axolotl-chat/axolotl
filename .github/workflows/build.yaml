@@ -98,6 +98,9 @@ jobs:
       - name: Install tauri dependencies
         run: sudo apt-get update && sudo apt-get install -y --no-install-recommends cmake libgtk-3-dev libwebkit2gtk-4.1-dev librsvg2-dev libayatana-appindicator3-dev libssl-dev libjavascriptcoregtk-4.1-dev
 
+      - name: Install protoc
+        run: sudo apt-get install protobuf-compiler
+
       - name: Rust setup
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -187,6 +190,9 @@ jobs:
           echo "deb [arch=arm64] http://ports.ubuntu.com/ jammy-updates main multiverse universe" | sudo tee -a /etc/apt/sources.list
 
           sudo apt-get update && sudo apt-get install -y --no-install-recommends cmake libgtk-3-dev:arm64 libwebkit2gtk-4.1-dev:arm64 librsvg2-dev:arm64 libayatana-appindicator3-dev:arm64 libssl-dev:arm64 libjavascriptcoregtk-4.1-dev:arm64
+
+      - name: Install protoc
+        run: sudo apt-get install protobuf-compiler
 
       - name: Rust setup
         uses: dtolnay/rust-toolchain@stable
