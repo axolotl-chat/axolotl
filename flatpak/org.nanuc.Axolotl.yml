@@ -30,6 +30,29 @@ finish-args:
   - --talk-name=org.freedesktop.Notifications
 
 modules:
+  - name: protobuf
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+      - -Dprotobuf_ABSL_PROVIDER=package
+      - -Dprotobuf_BUILD_SHARED_LIBS=ON
+      - -Dprotobuf_BUILD_TESTS=OFF
+    cleanup:
+      - protoc
+      - /bin
+      - /doc
+      - /lib/plugins
+    sources:
+      - type: git
+        url: https://github.com/protocolbuffers/protobuf.git
+        tag: v25.2
+        commit: a9b006bddd52e289029f16aa77b77e8e0033d9ee
+        x-checker-data:
+          type: git
+          tag-pattern: ^v([\d.]+)$
+          # BUG https://github.com/flathub/flatpak-external-data-checker/issues/294
+          #version-scheme: semantic
+          
   - name: axolotl
     buildsystem: simple
     build-options:
