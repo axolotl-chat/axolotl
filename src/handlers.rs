@@ -929,7 +929,7 @@ impl Handler {
             Ok(c) => Ok(c),
             Err(e) => {
                 log::error!("Error getting contact: {}", e);
-                return Err(ApplicationError::from(e));
+                Err(ApplicationError::from(e))
             }
         }
     }
@@ -970,7 +970,7 @@ impl Handler {
                         return Err(ApplicationError::from(e));
                     }
                 };
-                if contact.name == "" {
+                if contact.name.is_empty() {
                     let contact = match self.update_contact_name(contact).await? {
                         Some(c) => c,
                         None => {
@@ -985,7 +985,7 @@ impl Handler {
                     metadata.title = Some(contact.name);
                 }
             }
-            Thread::Group(uuid) => {
+            Thread::Group(_uuid) => {
                 metadata.title = Some("Unknown group".to_string());
             }
         }
@@ -1119,7 +1119,7 @@ impl Handler {
             Ok(c) => c,
             Err(e) => {
                 log::error!("Error getting conversations: {}", e);
-                return Err(ApplicationError::from(e));
+                return Err(e);
             }
         };
         log::debug!("Got chat list");
@@ -1339,7 +1339,7 @@ impl Handler {
         if let Ok::<GetMessagesRequest, SerdeError>(messages_request) = serde_json::from_str(&data)
         {
             let thread: Thread = self.string_to_thread(&messages_request.id)?;
-            let mut thread_metadata = manager.thread_metadata(&thread).await.unwrap();
+            let thread_metadata = manager.thread_metadata(&thread).await.unwrap();
             if thread_metadata.is_none() {
                 self.create_thread_metadata(&thread).await.unwrap();
                 match thread {
@@ -1370,7 +1370,7 @@ impl Handler {
                         // check if title is a valid uuid
                         match thread {
                             Thread::Contact(uuid) => {
-                                if Uuid::parse_str(&title).is_ok() || title == "" {
+                                if Uuid::parse_str(&title).is_ok() || title.is_empty() {
                                     let mut contact =
                                         match manager.get_contact_by_id(uuid).await.unwrap() {
                                             Some(c) => c,
@@ -1483,7 +1483,7 @@ impl Handler {
                     }
                 };
 
-                if profile.name == "" {
+                if profile.name.is_empty() {
                     //request contact sync
                     profile = match self.update_contact_name(profile).await {
                         Ok(c) => c.unwrap(),

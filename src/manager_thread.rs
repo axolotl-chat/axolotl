@@ -201,13 +201,13 @@ impl ManagerThread {
                 // TODO: Error handling
                 log::info!("Could not load contacts");
                 // Still continou to avoid to much confusion
-                return Some(Self {
+                Some(Self {
                     command_sender: sender,
                     contacts: Arc::new(Mutex::new(vec![])),
                     sessions: Arc::new(Mutex::new(vec![])),
                     current_chat,
                     uuid,
-                });
+                })
             }
             Ok(Ok(contacts)) => {
                 log::info!("Loaded {} contacts", contacts.len());
