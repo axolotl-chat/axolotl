@@ -29,18 +29,18 @@
           <font-awesome-icon id="heart" icon="heart" />
         </div>
         <button
+          v-if="globalConfig?.secondaryRegistration"
           v-translate
           class="btn btn-primary"
           @click="registerAsSecondaryDevice()"
-          v-if="config1.secondaryRegistration"
         >
           Register as secondary device (like signal desktop)
         </button>
         <button
+          v-if="globalConfig.primaryRegistration"
           v-translate
           class="btn btn-primary"
           @click="register()"
-          v-if="config1.primaryRegistration"
         >
           Register with phone number
         </button>
@@ -57,6 +57,10 @@ import { ref } from 'vue'
 export default {
   name: 'OnBoarding',
   components: {},
+  setup() {
+    const globalConfig = ref(config)
+    return { globalConfig }
+  },
   data() {
     return {}
   },
@@ -68,10 +72,6 @@ export default {
     'captchaTokenSent',
     'registrationError',
   ]),
-  setup() {
-    const config1 = ref(config)
-    return { config1 }
-  },
   mounted() {
     const userLang = navigator.language || navigator.userLanguage
     this.$language.current = userLang

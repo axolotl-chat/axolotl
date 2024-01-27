@@ -1,7 +1,12 @@
 <template>
   <component :is="$route.meta.layout || 'div'">
     <template #menu>
-      <router-link v-translate class="dropdown-item" :to="'/contacts/'">
+      <router-link
+        v-if="globalConfig.Contacts"
+        v-translate
+        class="dropdown-item"
+        :to="'/contacts/'"
+      >
         Contacts
       </router-link>
       <router-link v-translate class="dropdown-item" :to="'/settings/'">
@@ -27,7 +32,7 @@
           :id="chat.id.Contact ? chat.id.Contact : chat.id.Group"
           :class="
             editActive &&
-            selectedChat.indexOf(chat.id.Contact ? chat.id.Contact : chat.id.Group) >= 0
+              selectedChat.indexOf(chat.id.Contact ? chat.id.Contact : chat.id.Group) >= 0
               ? 'selected col-12 chat-container'
               : 'col-12 chat-container '
           "
@@ -111,8 +116,7 @@
       <div v-if="chatList.length === 0" v-translate class="no-entries">
         No chats available
       </div>
-      <!-- {{chats}} -->
-      <router-link :to="'/contacts/'" class="btn start-chat">
+      <router-link v-if="config?.contacts" :to="'/contacts/'" class="btn start-chat">
         <font-awesome-icon icon="pencil-alt" />
       </router-link>
     </div>
@@ -123,10 +127,15 @@
 import moment from 'moment'
 import { mapState } from 'vuex'
 import { router } from '@/router/router'
+import config from '@/config.js'
+import { ref } from 'vue'
 
 export default {
   name: 'ChatList',
-
+  setup() {
+    const globalConfig = ref(config)
+    return { globalConfig }
+  },
   data() {
     return {
       editActive: false,

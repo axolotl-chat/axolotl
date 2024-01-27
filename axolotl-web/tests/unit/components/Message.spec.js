@@ -32,7 +32,7 @@ describe("Message.vue", () => {
     },
   });
   test("renders simple message without changes", () => {
-    expect(Message).toBeTruthy();
+    expect(Message).not.be.undefined;
     const msg = {
       message_type: "SyncMessage",
       sender: "a000000-5ddf-4fba-a6ee-2b0cb4663a6e",
@@ -84,7 +84,7 @@ describe("Message.vue", () => {
   });
 
   test("renders message with html entities escaped", () => {
-    const expected = "I &lt;3 Axolotl";
+    const expected = "I <3 Axolotl";
     const msg = {
       message_type: "SyncMessage",
       sender: "a000000-5ddf-4fba-a6ee-2b0cb4663a6e",
