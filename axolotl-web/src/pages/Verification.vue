@@ -7,13 +7,15 @@
         class="verify"
       >
         <p v-translate>or disable it on Android/IOs</p>
-        <input v-model="pin" type="text">
-        <button v-translate class="btn btn-primary" @click="sendPin()">
-          Send pin
-        </button>
+        <input v-model="pin" type="text" />
+        <button v-translate class="btn btn-primary" @click="sendPin()">Send pin</button>
       </div>
       <div v-if="!requestPin" class="verify">
-        <VerificationPinInput class="codeInput" :number-of-boxes="6" @input-value="updateCode($event)" />
+        <VerificationPinInput
+          class="codeInput"
+          :number-of-boxes="6"
+          @input-value="updateCode($event)"
+        />
         <button
           v-translate
           :disabled="inProgress"
@@ -23,10 +25,7 @@
           Send code
         </button>
       </div>
-      <div
-        v-if="inProgress && verificationError === null && !requestPin"
-        class="spinner"
-      >
+      <div v-if="inProgress && verificationError === null && !requestPin" class="spinner">
         <div class="spinner-border" role="status">
           <span v-translate class="sr-only">Loading...</span>
         </div>
@@ -39,41 +38,42 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import VerificationPinInput from "@/components/VerificationPinInput";
+import { mapState } from 'vuex'
+import VerificationPinInput from '@/components/VerificationPinInput'
 export default {
-  name: "VerificationPage",
+  name: 'VerificationPage',
   components: {
     VerificationPinInput,
   },
   data() {
     return {
-      code: "",
-      pin: "",
+      code: '',
+      pin: '',
       inProgress: false,
-    };
+    }
   },
-  computed: mapState(["verificationError", "requestPin", "registrationStatus"]),
-  mounted() {
-  },
+  computed: mapState(['verificationError', 'requestPin', 'registrationStatus']),
+  mounted() {},
   methods: {
-    updateCode(code){
+    updateCode(code) {
       this.code = code
     },
     sendCode() {
       if (this.code.length === 6) {
-        this.$store.dispatch("sendCode", this.code);
-        this.inProgress = true;
+        this.$store.dispatch('sendCode', this.code)
+        this.inProgress = true
+      } else {
+        console.error('code not 6 digits')
       }
     },
     sendPin() {
       if (this.code.length === 6) {
-        this.$store.dispatch("sendPin", this.pin);
-        this.inProgress = true;
+        this.$store.dispatch('sendPin', this.pin)
+        this.inProgress = true
       }
     },
   },
-};
+}
 </script>
 <style>
 .verify {
@@ -81,12 +81,15 @@ export default {
   flex-direction: column;
   padding-top: 30px;
 }
+
 .verify h3 {
   text-align: center;
 }
+
 .verify .codeInput {
   margin-top: 30px;
 }
+
 .verify .btn {
   max-width: 300px;
   margin: auto;
@@ -94,12 +97,10 @@ export default {
   margin-top: 50px;
 }
 
-.verify
-  .ofcold__security-code-wrapper
-  .ofcold__security-code-field
-  .form-control {
+.verify .ofcold__security-code-wrapper .ofcold__security-code-field .form-control {
   border: 2px solid #2090ea !important;
 }
+
 .verify .spinner {
   display: flex;
   justify-content: center;

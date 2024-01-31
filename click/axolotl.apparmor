@@ -1,0 +1,15 @@
+{
+    "policy_groups": [
+        "audio",
+        "camera",
+        "connectivity",
+        "content_exchange",
+        "content_exchange_source",
+        "networking",
+        "video",
+        "push-notification-client",
+        "webview",
+        "microphone"
+    ],
+    "policy_version": 20.04
+}

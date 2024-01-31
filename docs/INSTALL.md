@@ -3,13 +3,6 @@
 `axolotl` has a few different installation options in place.
 Below is a list describing the tooling and dependencies required to use them.
 
-**Note**: Be aware of the Crayfish Backend section if you are not using
-Clickable.
-
-## Checkout git submodules
-
-Axolotl uses [crayfish](https://github.com/nanu-c/crayfish) in combination with [textsecure](https://github.com/signal-golang/textsecure) as backend to decipher the signal messages. In order to checkout the code run `git submodule update`.
-
 ## Clickable
 
 **Tooling**
@@ -25,11 +18,7 @@ Installation instructions can be found [here](https://clickable-ut.dev/en/dev/in
 
     `clickable build --libs axolotlweb`
 
-2. To build crayfish execute:
-
-    `clickable build --libs crayfish`
-
-3. Finally the app is built by running:
+2. Finally the app is built by running:
 
     `clickable`
 
@@ -41,10 +30,7 @@ Clickable supports a few different parameters. Those can be set via command line
 
 For a full list of available clickable commands, see [here](https://clickable-ut.dev/en/latest/commands.html).
 
-## Crayfish backend
-
-Note: Clickable handles all aspects from this section for you. Just follow the
-instructions for all other build methods.
+## Native build
 
 ### Rust
 
@@ -52,17 +38,14 @@ Install Rust using [rustup](https://www.rust-lang.org/tools/install).
 
 ### Build Instructions
 
-Build the crayfish backend:
+Build axolotl
 
 ```bash
-cd crayfish
-cargo build --release
+make build
 ```
 
 Building should work using both `stable` and `nightly` toolchains.
 
-Find the crayfish binary in `crayfish/target/release/crayfish` and ship it
-such that it is found in `PATH` on runtime.
 
 ### Cross compile build
 
@@ -150,15 +133,12 @@ To start the application, either search for "Axolotl" in your app drawer or star
 This requires `flatpak` and `flatpak-builder` to be installed locally.
 Installation instructions can be found [here](https://flatpak.org/setup/)
 
-### Web Version
-
 **Dependencies**
 
 The following Flatpak SDKs are required:
 ```
 flatpak install org.freedesktop.Platform//22.08
 flatpak install org.freedesktop.Sdk//22.08
-flatpak install org.freedesktop.Sdk.Extension.golang//22.08
 flatpak install org.freedesktop.Sdk.Extension.node18//22.08
 flatpak install org.freedesktop.Sdk.Extension.rust-stable//22.08
 flatpak install org.electronjs.Electron2.BaseApp//22.08
@@ -187,44 +167,6 @@ Note that this requires root.
 To start the application, either search for "Axolotl" in your app drawer or start it with the below command.
 
 `flatpak run org.nanuc.Axolotl`
-
-### QT Version
-
-**Dependencies**
-
-The following Flatpak SDKs are required:
-```
-flatpak install org.kde.Platform//5.15-22.08
-flatpak install org.kde.Sdk//5.15-22.08
-flatpak install org.freedesktop.Sdk.Extension.golang//22.08
-flatpak install org.freedesktop.Sdk.Extension.node18//22.08
-flatpak install org.freedesktop.Sdk.Extension.rust-stable//22.08
-flatpak install io.qt.qtwebengine.BaseApp//5.15-22.08
-```
-
-**Build and Install**
-
-Installation can be done user-level or system-wide.
-To list installed applications and/or runtimes, use `flatpak list`.
-
-The Flatpak [manifest](https://docs.flatpak.org/en/latest/manifests.html) used for the installation can be found
-in the /flatpak subdirectory.
-
-User-level:
-
-```flatpak-builder --user --install build ./flatpak/qt/org.nanuc.Axolotl.yml```
-
-System-wide:
-
-Note that this requires root.
-
-```sudo flatpak-builder --install build ./flatpak/qt/org.nanuc.Axolotl.yml```
-
-**Run**
-
-To start the application, either search for "Axolotl" in your app drawer or start it with the below command.
-
-`flatpak run org.nanuc.Axolotl -e=qt`
 
 ### Create a Flatpak bundle
 

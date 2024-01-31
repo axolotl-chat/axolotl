@@ -25,7 +25,7 @@ export const router = new createRouter({
         layout: Legacy,
       },
       props: route => ({
-        chatId: Number(route.params.id),
+        chatId: route.params.id,
       }),
       component: () => import("@/pages/MessageList.vue")
     },
@@ -38,7 +38,7 @@ export const router = new createRouter({
         hasBackButton: true,
       },
       props: route => ({
-        profileId: Number(route.params.id),
+        profileId: route.params.id,
       }),
       component: () => import("@/pages/Profile.vue")
     },
@@ -56,7 +56,9 @@ export const router = new createRouter({
       path: "/register",
       name: "register",
       meta: {
-        layout: Legacy,
+        layout: Default,
+        textCenter: true,
+        hasBackButton: true,
       },
       component: () => import("@/pages/Register.vue")
     },
@@ -153,6 +155,26 @@ export const router = new createRouter({
       component: () => import("@/pages/EditGroup.vue")
     },
     {
+      path: "/qr",
+      name: "qr",
+      meta: {
+        layout: Default,
+        hasMenu: false,
+        hasBackButton: true,
+      },
+      component: () => import("@/pages/DeviceLinking.vue")
+    },
+    {
+      path: "/onboarding",
+      name: "onboarding",
+      meta: {
+        layout: Default,
+        hasMenu: false,
+        hasBackButton: true,
+      },
+      component: () => import("@/pages/OnBoarding.vue")
+    },
+    {
       path: "/debug",
       name: "debug",
       meta: {
@@ -190,11 +212,27 @@ router.beforeEach((to, from, next) => {
 });
 
 function proceed(to, next) {
-  const registrationPages = ['/register', '/verify', '/password', '/pin', '/setUsername'];
+  const registrationPages = ['/register', '/verify', '/password', '/pin', '/setUsername', '/qr', '/onboarding'];
   const registrationStatus = store.state.registrationStatus;
-
   //disable routes when registration is not finished yet
-  if ((registrationStatus === null || registrationStatus === "phoneNumber") && to.path !== '/register') {
+  if (registrationStatus === null && !registrationPages.includes(to.path)) {
+    return next('/onboarding');
+  } else if (registrationStatus === "not_registered") {
+    if (to.path === '/qr' || to.path === '/register' || to.path === '/onboarding') {
+      let loader = document.getElementById('initial-loader');
+      if (typeof loader !== "undefined" && loader !== null) {
+        loader.remove();
+      }
+      return next();
+    }
+    let loader = document.getElementById('initial-loader');
+
+    if (typeof loader !== "undefined" && loader !== null) {
+      loader.remove();
+    }
+    return next('/onboarding');
+  }
+  else if ((registrationStatus === null || registrationStatus === "phoneNumber") && to.path !== '/register') {
     return next('/register');
   } else if (registrationStatus === "verificationCode" && to.path !== '/verify') {
     return next('/verify');

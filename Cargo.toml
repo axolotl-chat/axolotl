@@ -1,0 +1,80 @@
+[package]
+name = "axolotl"
+version = "2.0.3"
+edition = "2021"
+description = """\
+This is a cross-platform Signal client."""
+license = "GPL-3"
+rust = "1.71"
+
+[source.crates-io]
+registry = "git://github.com/rust-lang/crates.io-index.git"
+
+[build-dependencies]
+tauri-build = { version = "2.0.0-alpha.14    ", features = [], optional = true}
+
+[dependencies]
+tauri = { version = "2.0.0-alpha.21", features = [], optional = true }
+presage = { git = "https://github.com/nanu-c/presage", rev = "259a8768d3bd9949e1212c3fb8029d4f7187d807" }
+presage-store-sled = { git = "https://github.com/nanu-c/presage", rev = "259a8768d3bd9949e1212c3fb8029d4f7187d807" }
+#presage = {path = "../presage/presage"}
+#presage-store-sled = { path = "../presage/presage-store-sled" }
+zeroize = { version = "1.6.0", default-features = false }
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+tokio-stream = "0.1"
+hex = "0.4"
+warp = "0.3"
+futures = { version = "0.3", default-features = false }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+log = "0.4.20"
+env_logger = "0.11.1"
+url = "2.3.1"
+sled = "0.34.7"
+clap = { version = "4.4.18", features = ["derive"] }
+dirs = "5.0.1"
+serve-directory = "0.1.0"
+notify-rust = { version = "4.10.0", optional = true}
+data-url = "0.3.1"
+
+dbus = { version = "0.9", optional = true}
+
+[patch.crates-io]
+"curve25519-dalek" = { git = 'https://github.com/signalapp/curve25519-dalek', tag = 'signal-curve25519-4.0.0' }
+
+
+[features]
+# by default Tauri runs in production mode
+# when `tauri dev` runs it is executed with `cargo run --no-default-features` if `devPath` is an URL
+# this feature is used for production builds where `devPath` points to the filesystem
+# DO NOT remove this
+default = ["dep:notify-rust"]
+custom-protocol = ["tauri/custom-protocol"]
+tauri = ["dep:tauri", "dep:notify-rust", "custom-protocol"]
+ut = ["dep:dbus"]
+# Use this feature to debug registration issues on test servers
+staging-servers = []
+
+
+[[example]]
+name = "dump_db"
+path = "examples/dump/dump_db.rs"
+
+
+[package.metadata.deb]
+maintainer = "Arno Nuehm <arno_nuehm@riseup.net>"
+copyright = "2024 Aaron <aaron@nanu-c.org>"
+license-file = ["deb/copyright", "0"]
+depends = "$auto"
+extended-description = """\
+Axolotl is built with Rust and has a Vue frontend that runs via tauri."""
+revision = "1"
+section = "net"
+priority = "optional"
+assets = [
+    ["target/aarch64-unknown-linux-gnu/release/axolotl/axolotl", "usr/bin/", "755"],
+    ["README.md", "usr/share/doc/axolotl/README", "644"],
+    ["deb/axolotl.png", "usr/share/icons/hicolor/128x128/apps/axolotl.png", "644"],
+    ["deb/axolotl.desktop", "usr/share/applications/", "644"],
+]
+changelog = "deb/changelog"

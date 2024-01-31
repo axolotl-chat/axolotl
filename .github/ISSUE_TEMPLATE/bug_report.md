@@ -29,5 +29,5 @@ Please provide the Version as written in `Settings->About Axolotl`
 What device or OS are you using?
 
 #### Link to Debug Log
-Please provide a link to debug from ~/.cache/upstart/application-click-textsecure.nanuc_textsecure*.log
+Please provide a link to debug from ~/.cache/upstart/application-click-axolotl.nanuc_axolotl*.log
 Be careful it contains sensible data

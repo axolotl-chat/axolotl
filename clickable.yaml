@@ -1,49 +1,48 @@
-clickable_minimum_required: 7.1.2
+clickable_minimum_required: 8.0.1
 
-builder: go
-prebuild: 
-  - mkdir -p ${BUILD_DIR}/axolotl-web 
-  - cp ${SRC_DIR}/axolotl-web/dist ${BUILD_DIR}/axolotl-web/ -R
-postbuild: ${SRC_DIR}/scripts/postbuild.sh ${INSTALL_DIR}
+builder: rust
+rust_channel: 1.72.1
+build_args: --features ut
+
 dependencies_host:
   - gettext
+  - protobuf-compiler
+dependencies_target:
+  - libdbus-1-dev
 
 kill: axolotl
+framework: ubuntu-sdk-20.04
 
-install_bin:
-  - ${CRAYFISH_LIB_INSTALL_DIR}/bin/crayfish
 install_root_data:
   - manifest.json
   - click/axolotl.png
-  - click/textsecure-helper
-  - click/textsecure-push-helper.json
-  - click/textsecure-push.apparmor
-  - click/textsecure.apparmor
-  - click/textsecure.content-hub
-  - click/textsecure.desktop
-  - click/textsecure.png
-  - click/textsecure.url-dispatcher
-  - ${BUILD_DIR}/axolotl-web
+  - click/axolotl-helper
+  - click/axolotl-push-helper.json
+  - click/axolotl-push.apparmor
+  - click/axolotl.apparmor
+  - click/axolotl.content-hub
+  - click/axolotl.desktop
+  - click/axolotl.png
+  - click/axolotl.url-dispatcher
+  - ${AXOLOTLWEB_LIB_INSTALL_DIR}/../../../all/axolotlweb/install/axolotl-web
   - guis/qml/ut
 
 libraries:
-  crayfish:
-    builder: rust
-    src_dir: crayfish
-    rust_channel: 1.63.0
-    env_vars:
-      CC: ""
-      CXX: ""
-
   axolotlweb:
     image_setup:
       run:
-        - curl -fsSL https://deb.nodesource.com/setup_16.x  | bash -
-        - apt-get install -y nodejs
+        # Install instructions taken from https://github.com/nodesource/distributions#installation-instructions
+        - mkdir -p /etc/apt/keyrings
+        - curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+        - echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
+        - apt-get update && apt-get install -y nodejs
         - echo "NODE Version:" && node --version
         - echo "NPM Version:" && npm --version
 
     builder: custom
+    restrict_arch: all
     src_dir: axolotl-web
     build:
-      - cd ../../../axolotl-web/ && npm ci && npm run build
+      - cd ${SRC_DIR} && npm ci && npm run build
+      - mkdir -p ${INSTALL_DIR}/axolotl-web
+      - mv ${SRC_DIR}/dist ${INSTALL_DIR}/axolotl-web/

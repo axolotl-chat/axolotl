@@ -7,77 +7,30 @@ do all need to be fulfilled.
 
 One of these requirements is that of "Stable releases, reproducible builds".
 
+## Dependencies
+
 To be published, all dependencies of the application needs to be listed in the Flatpak manifest.
 
 There is a set of [flatpak builder tools](https://github.com/flatpak/flatpak-builder-tools) provided as to assist with
 this dependency listing.
 
-## axolotl-web
+### axolotl-web
 
-To list all dependencies of the `axolotl` go application is completely doable with the
-[go-get](https://github.com/flatpak/flatpak-builder-tools/tree/master/go-get) Flatpak builder tool.
-The outcome is a list of 20-something dependencies, which are all listed with their fix versions under sources.
+Generate npm/yarn dependencies via [flatpak-node-generator](https://github.com/flatpak/flatpak-builder-tools/tree/master/node):
 
-The big issue is for the `axolotl-web` dependencies.
-
-Also, for this there is also a tool available,
-[flatpak-node-generator](https://github.com/flatpak/flatpak-builder-tools/tree/master/node).
-I have however never been able to successfully use it to parse the dependencies, and output it to the required list.
-
-I suspect this is due to the complexity of the relations between the dependencies in node_modules, as I have waited for
-several hours without any noticeable change.
-
-Either way, to work around this, the dependencies for a specific version are bundled together and put in this repository.
-
-### Create dependency archive
-
-First, make sure to pull all the git tags.
-
-```
-git fetch --all --tags
+```sh
+git clone git@github.com:flatpak/flatpak-builder-tools.git
+cd flatpak-builder-tools/node
+pipx install .
+flatpak-node-generator npm ../../axolotl-web/package-lock.json -o ../../flatpak/node-sources.json
 ```
 
-Then check out the published tag. In our case, `v1.0.1`
+### axolotl
 
+Generate cargo dependencies via [flatpak-cargo-generator](https://github.com/flatpak/flatpak-builder-tools/tree/master/cargo):
+
+```sh
+sudo apt install python3-aiohttp python3-toml python3-yaml
+cd flatpak-builder-tools/cargo
+python3 ./flatpak-cargo-generator.py ../../Cargo.lock -o ../../flatpak/cargo-sources.json
 ```
-git checkout tags/v1.0.1
-```
-
-Change to the axolotl-web directory, and make sure to use the npm version specified in the .nvmrc file.
-
-```
-cd axolotl-web/
-nvm use
-```
-
-Then, from the axolotl-web directory, install all npm dependencies listed in
-[package-lock.json](../axolotl-web/package-lock.json).
-Note that `python` is required (!) for the node-sass installation to complete.
-
-```
-npm ci
-```
-
-Lastly, create the archive we want, naming it after the tag we checked out before.
-
-```
-tar cfvJ ../flatpak/archives/axolotl-web-dependencies-x86_64-v1.0.1.tar.xz node_modules
-```
-
-To verify, the archive can be extracted by using `tar xvJf axolotl-web-dependencies-x86_64-v1.0.1.tar.xz`.
-
-## Flatpak details
-
-To enter a shell into a built flatpak, use `make debug-flatpak-web`.
-
-### Build directories
-
-* axolotl-electron-bundle: `/run/build/axolotl-electron-bundle`
-* crayfish: `/run/build/crayfish`
-* zkgroup: `/run/build/zkgroup`
-
-### Install directories
-
-* axolotl-electron-bundle: `/app/bin/axolotl-electron-bundle`
-* crayfish: `/app/bin/crayfish`
-* zkgroup: `/app/lib/zkgroup`

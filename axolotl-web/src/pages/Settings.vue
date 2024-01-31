@@ -3,19 +3,21 @@
     <div class="settings">
       <div class="profile">
         <div class="avatar" />
-        <div v-translate class="name">Registered number</div>
-        <div class="number">
-          {{ config.RegisteredNumber }}
+        <div v-if="config.e164">
+          <div v-translate class="name">Registered number</div>
+          <div class="number">
+            {{ config.e164 }}
+          </div>
         </div>
       </div>
-      <router-link v-translate class="btn btn-primary" :to="'/devices/'">
+      <!-- <router-link v-translate class="btn btn-primary" :to="'/devices/'">
         Linked devices
       </router-link>
       <router-link v-translate class="btn btn-primary" :to="'/setPassword/'">
         Set password
-      </router-link>
+      </router-link> -->
 
-      <div class="custom-control form-check custom-switch darkmode-switch g-2">
+      <!-- <div class="custom-control form-check custom-switch darkmode-switch g-2">
         <input
           id="darkmode-switch"
           v-model="darkMode"
@@ -26,8 +28,8 @@
         <label v-translate class="form-check-label" for="darkmode-switch">
           Dark mode
         </label>
-      </div>
-      <div class="row g-3 mt-1 align-items-center">
+      </div> -->
+      <!-- <div class="row g-3 mt-1 align-items-center">
         <div class="col-auto">
           <select
             v-model="loglevel"
@@ -45,7 +47,7 @@
         <div class="col-auto">
           <label v-translate for="loglevel" class="col-form-label"> Loglevel </label>
         </div>
-      </div>
+      </div> -->
       <confirmation-modal
         v-if="showConfirmationModal"
         title="Unregister"
@@ -73,10 +75,10 @@
 </template>
 
 <script>
-import ConfirmationModal from "@/components/ConfirmationModal.vue";
-import { mapState } from "vuex";
+import ConfirmationModal from '@/components/ConfirmationModal.vue'
+import { mapState } from 'vuex'
 export default {
-  name: "SettingsPage",
+  name: 'SettingsPage',
   components: {
     ConfirmationModal,
   },
@@ -84,45 +86,45 @@ export default {
     return {
       showConfirmationModal: false,
       darkMode: false,
-      loglevel: "info",
-    };
+      loglevel: 'info',
+    }
   },
-  computed: mapState(["config"]),
+  computed: mapState(['config']),
   mounted() {
-    this.$store.dispatch("getConfig");
-    this.darkMode = this.getCookie("darkMode") === "true";
-    this.loglevel = this.config.LogLevel;
+    this.$store.dispatch('getConfig')
+    this.darkMode = this.getCookie('darkMode') === 'true'
+    this.loglevel = this.config.LogLevel
   },
   methods: {
     unregister() {
-      this.$store.dispatch("unregister");
-      localStorage.removeItem("registrationStatus");
+      this.$store.dispatch('unregister')
+      localStorage.removeItem('registrationStatus')
     },
     toggleDarkMode() {
-      let c = this.getCookie("darkMode");
-      if (this.getCookie("darkMode") === "false") c = true;
-      else c = false;
-      this.$store.dispatch("setDarkMode", c);
+      let c = this.getCookie('darkMode')
+      if (this.getCookie('darkMode') === 'false') c = true
+      else c = false
+      this.$store.dispatch('setDarkMode', c)
     },
     setLogLevel(e) {
-      this.$store.dispatch("setLogLevel", e.target.value);
+      this.$store.dispatch('setLogLevel', e.target.value)
     },
     getCookie(cname) {
-      const name = cname + "=";
-      const ca = document.cookie.split(";");
+      const name = cname + '='
+      const ca = document.cookie.split(';')
       for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) === " ") {
-          c = c.substring(1);
+        let c = ca[i]
+        while (c.charAt(0) === ' ') {
+          c = c.substring(1)
         }
         if (c.indexOf(name) === 0) {
-          return c.substring(name.length, c.length);
+          return c.substring(name.length, c.length)
         }
       }
-      return false;
+      return false
     },
   },
-};
+}
 </script>
 <style scoped>
 .settings {

@@ -4,37 +4,21 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 v-translate class="modal-title">Send attachments</h5>
-          <button type="button" class="close" @click="close">
+          <button type="button" class="close btn" @click="close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <button
-            v-translate
-            class="btn btn-primary"
-            @click="$emit('send', 'photo')"
-          >
+          <button v-translate class="btn btn-primary" @click="$emit('send', 'photo')">
             Photo
           </button>
-          <button
-            v-translate
-            class="btn btn-primary"
-            @click="$emit('send', 'video')"
-          >
+          <button v-translate class="btn btn-primary" @click="$emit('send', 'video')">
             Video
           </button>
-          <button
-            v-translate
-            class="btn btn-primary"
-            @click="$emit('send', 'audio')"
-          >
+          <button v-translate class="btn btn-primary" @click="$emit('send', 'audio')">
             Audio
           </button>
-          <button
-            v-translate
-            class="btn btn-primary"
-            @click="$emit('send', 'document')"
-          >
+          <button v-translate class="btn btn-primary" @click="$emit('send', 'document')">
             Document
           </button>
         </div>
@@ -47,11 +31,6 @@
 export default {
   name: "AttachmentBarComponent",
   emits: ["send", "close"],
-  computed: {
-    gui() {
-      return this.$store.state.gui;
-    },
-  },
   methods: {
     close() {
       this.$emit("close");
@@ -59,34 +38,41 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 .modal {
   display: block;
   border: none;
-}
 
-.modal-content {
-  border-radius: 0px;
-}
+  .modal-content {
+    border-radius: 0px;
+    min-height: 50vh;
+  }
 
-.modal-header {
-  border-bottom: none;
-}
+  .modal-header {
+    border-bottom: none;
+  }
 
-.modal-title {
-  display: flex;
-}
+  .modal-title {
+    display: flex;
 
-.modal-title > div {
-  margin-left: 10px;
-}
-.modal-body {
-  color: red;
-  display: flex;
-  justify-content: space-between;
-}
+    &>div {
+      margin-left: 10px;
+    }
+  }
 
-.modal-footer {
-  border-top: 0px;
+  .modal-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+
+    .btn {
+      color: #fff;
+    }
+  }
+
+  .modal-footer {
+    border-top: 0px;
+  }
 }
 </style>

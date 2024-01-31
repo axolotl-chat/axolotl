@@ -7,18 +7,29 @@
         <div v-if="route() === 'chat'" class="message-list-container row chat-page">
           <div v-if="errorConnection !== null" class="connection-error" />
           <div class="col-10 chat-header">
-            <button class="btn" @click="back()">
+            <button class="btn" @click="$router.push('/')">
               <font-awesome-icon icon="arrow-left" />
             </button>
-            <div v-if="currentChat !== null && currentChat" class="row w-100">
+            <div
+              v-if="currentChat !== null && currentChat && currentChat.thread"
+              class="row w-100"
+            >
               <div class="col-2 badge-container">
-                <div v-if="!isGroup" class="badge-name" @click="openProfileForRecipient(currentChat.DirectMessageRecipientID)">
+                <div
+                  v-if="!isGroup"
+                  class="badge-name"
+                  @click="openProfileForRecipient(currentChat?.thread?.Contact)"
+                >
                   <img
                     class="avatar-img"
-                    :src="'http://localhost:9080/avatars?session=' + currentChat.ID"
+                    :src="
+                      'http://localhost:9080/attachments/avatars/' +
+                        currentChat?.thread?.Contact
+                    "
                     @error="onImageError($event)"
                   />
-                  {{ sessionNames[currentChat.ID].Name[0] }}
+                  {{ currentChat.title ? currentChat.title[0] : '?' }}
+                  {{ currentChat.title ? currentChat.title[1] : '' }}
                 </div>
                 <div v-else class="group-badge">
                   <font-awesome-icon icon="user-friends" />
@@ -28,26 +39,23 @@
                 <div class="row">
                   <div class="col-12">
                     <div
-                      v-if="
-                        isGroup &&
-                          sessionNames[currentChat.ID].Name === currentChat.Tel
-                      "
+                      v-if="isGroup && currentChat.title === currentChat.Tel"
                       class="header-text-chat"
                     >
-                      <div v-if="currentChat.IsMuted" class="mute-badge">
+                      <div v-if="currentChat.muted" class="mute-badge">
                         <font-awesome-icon class="mute" icon="volume-mute" />
                       </div>
                       <div v-translate>Unknown group</div>
                     </div>
                     <div v-else class="header-text-chat">
-                      <div v-if="currentChat.IsMuted" class="mute-badge">
+                      <div v-if="currentChat.muted" class="mute-badge">
                         <font-awesome-icon class="mute" icon="volume-mute" />
                       </div>
                       <div
-                        v-if="sessionNames[currentChat.ID].Name !== currentChat.Tel"
-                        class=""
+                        v-if="currentChat.title !== currentChat.Tel"
+                        @click="openProfileForRecipient(currentChat.thread.Contact)"
                       >
-                        {{ sessionNames[currentChat.ID].Name }}
+                        {{ currentChat.title }}
                       </div>
                     </div>
                   </div>
@@ -77,10 +85,7 @@
                       </div>
                     </div>
                     <div
-                      v-if="
-                        !isGroup &&
-                          sessionNames[currentChat.ID].Name === currentChat.Tel
-                      "
+                      v-if="!isGroup && currentChat.title === currentChat.Tel"
                       class="number-text"
                     >
                       {{ currentChat.Tel }}
@@ -113,7 +118,7 @@
                   v-if="
                     currentChat !== null &&
                       !isGroup &&
-                      sessionNames[currentChat.ID].Name !== currentChat.Tel
+                      currentChat.title !== currentChat.Tel
                   "
                   class="dropdown-item"
                   @click="callNumber(currentChat.Tel)"
@@ -121,7 +126,7 @@
                   {{ currentChat.Tel }}
                 </button>
                 <button
-                  v-if="currentChat !== null && currentChat.Notification"
+                  v-if="currentChat !== null && !currentChat.muted"
                   v-translate
                   class="dropdown-item"
                   @click="toggleNotifications"
@@ -140,7 +145,7 @@
                   v-if="
                     currentChat !== null &&
                       !isGroup &&
-                      sessionNames[currentChat.ID].Name === currentChat.Tel
+                      currentChat.title === currentChat.Tel
                   "
                   v-translate
                   class="dropdown-item"
@@ -152,7 +157,7 @@
                   v-if="
                     currentChat !== null &&
                       !isGroup &&
-                      sessionNames[currentChat.ID].Name !== currentChat.Tel
+                      currentChat.title !== currentChat.Tel
                   "
                   v-translate
                   class="dropdown-item"
@@ -160,7 +165,7 @@
                 >
                   Edit contact
                 </button>
-                <button
+                <!-- <button
                   v-if="currentChat !== null && !isGroup"
                   v-translate
                   class="dropdown-item"
@@ -175,23 +180,23 @@
                   @click="resetEncryptionModal"
                 >
                   Reset encryption
-                </button>
+                </button> -->
                 <button
-                  v-if="currentChat != null && !isGroup"
+                  v-if="currentChat !== null && !isGroup"
                   v-translate
                   class="dropdown-item"
                   @click="delChatModal"
                 >
                   Delete chat
                 </button>
-                <router-link
+                <!-- <router-link
                   v-if="currentChat !== null && currentChat.Type === 1"
                   v-translate
                   :to="'/editGroup/' + currentChat.Tel"
                   class="dropdown-item"
                 >
                   Edit group
-                </router-link>
+                </router-link> -->
               </div>
               <identity-modal
                 v-if="showIdentityModal"
@@ -242,19 +247,19 @@
           <div class="header-text"><span v-translate>Settings</span></div>
         </div>
         <!-- new group page -->
-        <div v-else-if="route() === 'newGroup'" class="list-header-container">
+        <!-- <div v-else-if="route() === 'newGroup'" class="list-header-container">
           <router-link class="btn" :to="'/chatList'">
             <font-awesome-icon icon="arrow-left" />
           </router-link>
           <div class="header-text"><span v-translate>New group</span></div>
-        </div>
+        </div> -->
         <!-- edit group page -->
-        <div v-else-if="route() === 'editGroup'" class="list-header-container">
+        <!-- <div v-else-if="route() === 'editGroup'" class="list-header-container">
           <router-link class="btn" :to="'/chatList'">
             <font-awesome-icon icon="arrow-left" />
           </router-link>
           <div class="header-text"><span v-translate>Edit group</span></div>
-        </div>
+        </div> -->
         <!-- linking devices page -->
         <div v-else-if="route() === 'devices'">
           <button class="back btn" @click="back()">
@@ -303,7 +308,7 @@
             >
               <font-awesome-icon icon="search" />
             </button>
-            <div class="dropdown">
+            <!-- <div class="dropdown">
               <button
                 id="dropdownMenuButton"
                 class="btn"
@@ -332,7 +337,7 @@
                   Import contacts
                 </button>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
         <div v-else>
@@ -364,15 +369,15 @@
 </template>
 
 <script>
-import IdentityModal from "@/components/IdentityModal.vue";
-import ConfirmationModal from "@/components/ConfirmationModal.vue";
-import ImportVcfModal from "@/components/ImportVcfModal.vue";
-import AddContactModal from "@/components/AddContactModal.vue";
-import EditContactModal from "@/components/EditContactModal.vue";
+import IdentityModal from '@/components/IdentityModal.vue'
+import ConfirmationModal from '@/components/ConfirmationModal.vue'
+import ImportVcfModal from '@/components/ImportVcfModal.vue'
+import AddContactModal from '@/components/AddContactModal.vue'
+import EditContactModal from '@/components/EditContactModal.vue'
 
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 export default {
-  name: "HeaderComponent",
+  name: 'HeaderComponent',
   components: {
     ConfirmationModal,
     IdentityModal,
@@ -386,158 +391,158 @@ export default {
       showConfirmationModal: false,
       showIdentityModal: false,
       showImportVcfModal: false,
-      cMTitle: "",
-      cMText: "",
-      cMType: "",
+      cMTitle: '',
+      cMText: '',
+      cMType: '',
       names: [],
       toggleSearch: false,
-      contactsFilter: "",
+      contactsFilter: '',
       addContactModal: false,
       editContactModal: false,
       editContactId: -1,
-      isGroup: false,
-    };
+    }
   },
-  computed: mapState([
-    "messageList",
-    "currentChat",
-    "currentGroup",
-    "contacts",
-    "errorConnection",
-    "currentContact",
-    "sessionNames",
-    "gui",
-    "identity",
-  ]),
+  computed: {
+    ...mapState([
+      'messageList',
+      'currentChat',
+      'currentGroup',
+      'contacts',
+      'errorConnection',
+      'currentContact',
+      'sessionNames',
+      'gui',
+      'identity',
+    ]),
+    isGroup() {
+      return this.currentChat?.thread.Group !== undefined
+    },
+  },
   watch: {
     $route() {
-      this.names = [];
-      this.showSettingsMenu = false;
+      this.names = []
+      this.showSettingsMenu = false
     },
     currentChat: {
       handler() {
-        this.names = [];
-        this.showSettingsMenu = false;
-        this.isGroup = this.isGroupCheck(this.currentChat)
+        this.names = []
+        this.showSettingsMenu = false
       },
       deep: true,
     },
   },
   mounted() {
-    this.names = [];
+    this.names = []
   },
   methods: {
-    isGroupCheck(e) {
-      if (e.DirectMessageRecipientID === -1) {
-        return true;
-      } else {
-        return false;
-      }
-    },
     route() {
-      return this.$route.name;
+      return this.$route.name
     },
     back() {
-      this.$router.go(-1);
-      this.showSettingsMenu = false;
-      this.contactsFilter = "";
-      this.toggleSearch = false;
-      this.names = [];
+      this.$router.go(-1)
+      this.showSettingsMenu = false
+      this.contactsFilter = ''
+      this.toggleSearch = false
+      this.names = []
     },
     toggleSettings() {
-      this.showSettingsMenu = !this.showSettingsMenu;
+      this.showSettingsMenu = !this.showSettingsMenu
     },
     toggleNotifications() {
-      this.showSettingsMenu = false;
-      this.$store.dispatch("toggleNotifications");
+      this.showSettingsMenu = false
+      this.$store.dispatch('toggleNotifications')
     },
     resetEncryptionModal() {
-      this.showSettingsMenu = false;
-      this.showConfirmationModal = true;
-      this.cMType = "resetEncryption";
-      this.cMTitle = this.$gettext("Reset secure session?");
+      this.showSettingsMenu = false
+      this.showConfirmationModal = true
+      this.cMType = 'resetEncryption'
+      this.cMTitle = this.$gettext('Reset secure session?')
       this.cMText = this.$gettext(
         "This may help if you're having encryption problems in this conversation. Your messages will be kept."
-      );
+      )
     },
     verifyIdentity() {
-      this.$store.dispatch("verifyIdentity");
-      this.showSettingsMenu = false;
-      this.showIdentityModal = true;
+      this.$store.dispatch('verifyIdentity')
+      this.showSettingsMenu = false
+      this.showIdentityModal = true
     },
     delChatModal() {
-      this.showSettingsMenu = false;
-      this.showConfirmationModal = true;
-      this.cMType = "delChat";
-      this.cMTitle = this.$gettext("Delete this chat?");
+      this.showSettingsMenu = false
+      this.showConfirmationModal = true
+      this.cMType = 'delChat'
+      this.cMTitle = this.$gettext('Delete this chat?')
       this.cMText = this.$gettext(
-        "This chat will be permanently deleted - but only from your device."
-      );
+        'This chat will be permanently deleted - but only from your device.'
+      )
     },
     confirm() {
-      if (this.cMType === "resetEncryption") this.$store.dispatch("resetEncryption");
-      else if (this.cMType === "delChat")
-        this.$store.dispatch("delChat", this.currentChat.ID);
-      this.$router.push("/chatList");
-      this.showConfirmationModal = false;
-      this.showIdentityModal = false;
+      if (this.cMType === 'resetEncryption') this.$store.dispatch('resetEncryption')
+      else if (this.cMType === 'delChat')
+        this.$store.dispatch('delChat', this.currentChat.thread)
+      this.$router.push('/chatList')
+      this.showConfirmationModal = false
+      this.showIdentityModal = false
     },
     showSearch() {
       if (this.toggleSearch) {
-        this.toggleSearch = false;
-        this.$store.dispatch("clearFilterContacts");
-      } else this.toggleSearch = true;
+        this.toggleSearch = false
+        this.$store.dispatch('clearFilterContacts')
+      } else this.toggleSearch = true
     },
     onImageError(event) {
-      event.target.style.display = "none";
+      event.target.style.display = 'none'
     },
     filterContacts() {
-      if (this.contactsFilter !== "")
-        this.$store.dispatch("filterContacts", this.contactsFilter);
-      else this.$store.dispatch("clearFilterContacts");
+      if (this.contactsFilter !== '')
+        this.$store.dispatch('filterContacts', this.contactsFilter)
+      else this.$store.dispatch('clearFilterContacts')
     },
     getNameForTel(tel) {
       this.contacts.forEach((c) => {
         if (c.Tel === tel) {
           if (this.names.length <= 3 && this.names.indexOf(c.Name) === -1)
-            this.names.push(c.Name);
-          return c;
-        } else return tel;
-      });
+            this.names.push(c.Name)
+          return c
+        } else return tel
+      })
     },
     callNumber(n) {
-      if (this.gui === "ut") {
-        window.prompt("call" + n);
-        this.showSettingsMenu = false;
+      if (this.gui === 'ut') {
+        window.prompt('call' + n)
+        this.showSettingsMenu = false
       } else {
-        this.showSettingsMenu = false;
+        this.showSettingsMenu = false
       }
     },
     createGroup() {},
     openEditContactModal() {
-      const id = this.contacts.findIndex((c) => c.Tel === this.currentChat.Tel || c.UUID === this.sessionNames[this.currentChat.ID].Name);
-      this.editContactId = id;
+      const id = this.contacts.findIndex(
+        (c) =>
+          c.Tel === this.currentChat.Tel ||
+          c.UUID === this.sessionNames[this.currentChat.thread].Name
+      )
+      this.editContactId = id
       if (id !== -1) {
-        this.editContactModal = true;
+        this.editContactModal = true
       }
     },
     addContact(data) {
-      this.$store.dispatch("addContact", data);
-      this.addContactModal = false;
+      this.$store.dispatch('addContact', data)
+      this.addContactModal = false
     },
     saveContact(data) {
-      this.editContactModal = false;
-      this.showActions = false;
-      this.editContactId = "";
-      this.$store.dispatch("editContact", data);
+      this.editContactModal = false
+      this.showActions = false
+      this.editContactId = ''
+      this.$store.dispatch('editContact', data)
     },
     openProfileForRecipient(recipient) {
       if (recipient !== -1) {
-        this.$updaterouter.push("/profile/" + recipient);
+        this.$router.push(`/profile/${recipient}`)
       }
     },
   },
-};
+}
 </script>
 
 <style scoped>
@@ -590,9 +595,11 @@ export default {
 .btn {
   color: #fff;
 }
+
 #dropdownMenuButton {
   color: #fff;
 }
+
 .settings-container {
   align-self: flex-end;
   display: flex;
@@ -631,7 +638,7 @@ export default {
 
 .header-text-chat {
   font-weight: bold;
-  font-size: 18px;
+  font-size: 15px;
   color: #ffffff;
   display: flex;
 }

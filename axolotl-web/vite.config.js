@@ -19,4 +19,7 @@ export default defineConfig({
     optimizeDeps: {
         include: ['mic-recorder-to-mp3']
     },
+    build:{
+        minify: false
+    }
 });

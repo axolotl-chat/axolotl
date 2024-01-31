@@ -22,7 +22,7 @@ UITK.Page {
   WebEngineView {
     id: _webView
     profile: webProfile
-    url: "http://localhost:9080/"
+    url: "http://localhost:9081/"
     settings.showScrollBars: false
     anchors {
       left: parent.left
@@ -37,36 +37,31 @@ UITK.Page {
     onLoadingChanged: {
       var msg = "[Axolotl Web View] [JS] url changed %1".arg(url)
       console.log(msg)
-      if (url == "https://signalcaptchas.org/registration/generate.html"){
+      if (url == "https://signalcaptchas.org/registration/generate"){
         console.log("[Axolotl Web View] [JS] run interceptor")
         var  interceptor = `
           // override the default onload function
-				
-          window.onload=function() {
-            var action = 'registration';
-            var isDone = false;
-            var sitekey = '6LfBXs0bAAAAAAjkDyyI1Lk5gBAUWfhI_bIyox5W';
-        
-            var widgetId = grecaptcha.enterprise.render('container', {
-            sitekey: sitekey,
-            size: 'checkbox',
-            callback: function (token) {
-              isDone = true;
-              document.body.removeAttribute('class');
-              window.location = ['http://localhost:9080/?token=signal-recaptcha-v2', sitekey, action, token].join(".");
-            },
-            });
-          }
-          // cleanup
-          var bodyTag = document.getElementsByTagName('body')[0];	
-          bodyTag.innerHTML ='<div id="container"></div>'
-          grecaptcha  = undefined
+          setTimeout(() => {
+               window.renderCallback = function (scheme, sitekey, action, token) {
+                var targetURL = "http://localhost:9081/?token=" + [scheme, sitekey, action, token].join(".");
+                var link = document.createElement("a");
+                link.href = targetURL;
+                link.innerText = "open axolotl";
+                
+                document.body.removeAttribute("class");
+                setTimeout(function () {
+                  document.getElementById("container").appendChild(link);
+                }, 2000);
+                window.location.href = targetURL;
+              };
+              document.getElementById("captcha").innerHTML = "hi from axolotl<br/>";
+              if(useHcaptcha)onloadHcaptcha();
+              else onload();
+          }, "1000");
 
-          // reload recaptcha
-          var script = document.createElement('script');
-          script.type = 'text/javascript';
-          script.src = 'https://www.google.com/recaptcha/enterprise.js?onload=onload&render=explicit';
-          bodyTag.appendChild(script);
+            document.addEventListener('DOMContentLoaded', function () {
+
+            });
         `
         _webView.runJavaScript(interceptor);
     

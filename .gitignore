@@ -1,4 +1,4 @@
-textsecure.nanuc_*click
+axolotl.nanuc_*click
 axolotl
 builddir/
 build/
@@ -13,7 +13,6 @@ gopath/*
 main
 
 output
-bind*.go
 *.syso
 dist
 .flatpak-builder
@@ -26,3 +25,10 @@ libzkgroup*.so
 *.log
 *.sql*
 *.gz
+rustc-ice*.txt
+# Added by cargo
+
+/target
+/bin
+.devcontainer/
+.vscode/

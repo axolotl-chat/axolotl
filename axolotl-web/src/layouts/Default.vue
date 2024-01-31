@@ -12,11 +12,14 @@
               <font-awesome-icon icon="arrow-left" />
             </button>
           </div>
-          <div class="col-8 header-center">
+          <div v-if="$route.meta.textCenter" class="col-8 header-center text-align-center">
+            <slot name="header" />
+          </div>
+          <div v-else class="col-8 header-center">
             <slot name="header" />
           </div>
           <div class="col-2 header-right justify-content-end d-flex">
-            <div class="dropdown">
+            <div v-if="$route.meta.hasMenu" class="dropdown">
               <button
                 id="dropdownMenuButton"
                 class="btn btn-primary"
@@ -79,5 +82,8 @@ export default {
 }
 main {
   padding-top: 50px;
+}
+.header-left .btn{
+  color: #fff;
 }
 </style>

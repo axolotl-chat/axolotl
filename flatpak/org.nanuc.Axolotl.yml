@@ -1,0 +1,98 @@
+app-id: org.nanuc.Axolotl
+runtime: org.gnome.Platform
+runtime-version: "45"
+sdk: org.gnome.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.node18
+  - org.freedesktop.Sdk.Extension.rust-stable
+finish-args:
+  # See https://docs.flatpak.org/en/latest/sandbox-permissions-reference.html
+  # Write access for the user download folder (to save media)
+  - --filesystem=xdg-download:rw
+  # TODO Can we use the Flatpak directories like XDG_CONFIG_DIR instead?
+  # File access for configs (read/write access, and create the directory if it doesn’t exist)
+  - --filesystem=~/.local/share/axolotl.nanuc:create
+  - --filesystem=~/.config/axolotl.nanuc:create
+  # Read access for home folder (to upload media)
+  - --filesystem=home:ro
+  # Network access - to receive and send messages
+  - --share=network
+  # X11 + XShm access
+  - --share=ipc
+  - --socket=fallback-x11
+  # Wayland access
+  - --socket=wayland
+  # Sound access
+  - --socket=pulseaudio
+  # OpenGL access
+  - --device=dri
+  # To send and receive notifications
+  - --talk-name=org.freedesktop.Notifications
+
+modules:
+  - name: protobuf
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+      - -Dprotobuf_ABSL_PROVIDER=package
+      - -Dprotobuf_BUILD_SHARED_LIBS=ON
+      - -Dprotobuf_BUILD_TESTS=OFF
+    cleanup:
+      - protoc
+      - /bin
+      - /doc
+      - /lib/plugins
+    sources:
+      - type: git
+        url: https://github.com/protocolbuffers/protobuf.git
+        tag: v25.2
+        commit: a9b006bddd52e289029f16aa77b77e8e0033d9ee
+        x-checker-data:
+          type: git
+          tag-pattern: ^v([\d.]+)$
+          # BUG https://github.com/flathub/flatpak-external-data-checker/issues/294
+          #version-scheme: semantic
+          
+  - name: axolotl
+    buildsystem: simple
+    build-options:
+      # Add the node bin directory.
+      append-path: '/usr/lib/sdk/node18/bin:/run/build/axolotl/flatpak-node/vite:/usr/lib/sdk/rust-stable/bin'
+      env:
+        # Set the cache directory, used to find Electron and some other helper
+        # tools.
+        # (The directory format is: /run/build/MODULE_NAME/flatpak-node/cache)
+        XDG_CACHE_HOME: /run/build/axolotl/flatpak-node/cache
+        # Set the npm cache directory, used by npm to find its package metadata.
+        npm_config_cache: /run/build/axolotl/flatpak-node/npm-cache
+        # Sets the directory where Node is located so that npm won't download the headers.
+        npm_config_nodedir: /usr/lib/sdk/node18
+        # Cargo config
+        CARGO_HOME: /run/build/axolotl/cargo
+    build-commands:
+      # Install the packages from our offline cache.
+      - npm --prefix=axolotl-web --offline install
+
+      # Build axolotl-web
+      - npm --prefix=axolotl-web --offline run build
+
+      # Build axolotl
+      - cargo --offline fetch --manifest-path Cargo.toml --verbose
+      - cargo --offline build --features tauri --release --verbose
+      - install -Dm755 ./target/release/axolotl -t /app/bin/
+
+      # Install metadata files
+      - install -Dm 644 flatpak/org.nanuc.Axolotl.png ${FLATPAK_DEST}/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png
+      - install -Dm 644 flatpak/org.nanuc.Axolotl.metainfo.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
+      - install -Dm 644 flatpak/org.nanuc.Axolotl.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
+    sources:
+      # NOTE Use Git sources for Flathub instead of local dir
+      # - type: git
+      #   url: https://github.com/nanu-c/axolotl.git
+      #   tag: 2.0.2
+      - type: dir
+        path: ..
+      # Generated via flatpak-node-generator
+      - node-sources.json
+      # Generated via flatpak-cargo-generator
+      - cargo-sources.json

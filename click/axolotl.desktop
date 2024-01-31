@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Axolotl
+Exec=env RUST_LOG=debug RUST_BACKTRACE=1 axolotl --mode ubuntu-touch %u 
+Icon=axolotl.png
+Terminal=false
+Type=Application
+X-Lomiri-Touch=true
+X-Lomiri-Default-Department-ID=communication
+X-Lomiri-Splash-Color=#2090ea
+X-KDE-FormFactor=desktop;tablet;handset;
+X-Purism-FormFactor=Workstation;Mobile; 
