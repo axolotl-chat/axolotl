@@ -11,7 +11,12 @@
           </button>
         </div>
         <div class="modal-body">
-          <span><strong v-translate>Contacts can be added through a vcf contacts file. If an contact has multiple numbers, all of them will be added as separate contacts.</strong></span>
+          <span
+            ><strong v-translate
+              >Contacts can be added through a vcf contacts file. If an contact has multiple
+              numbers, all of them will be added as separate contacts.</strong
+            ></span
+          >
         </div>
         <div class="modal-body">
           <input
@@ -23,12 +28,7 @@
           />
         </div>
         <div class="modal-footer">
-          <button
-            v-translate
-            type="button"
-            class="btn btn-primary"
-            @click="refreshContacts()"
-          >
+          <button v-translate type="button" class="btn btn-primary" @click="refreshContacts()">
             Import vcf
           </button>
         </div>
@@ -45,12 +45,12 @@ export default {
     number: {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
     uuid: {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
   },
   emits: ["close", "add"],
@@ -60,14 +60,12 @@ export default {
       name: "",
     };
   },
-  computed: mapState([
-    "gui",
-  ]),
+  computed: mapState(["gui"]),
   mounted() {
     if (this.number) {
       this.phone = this.number;
       this.name = "";
-    } 
+    }
   },
   methods: {
     readVcf(evt) {
@@ -91,9 +89,8 @@ export default {
       this.showSettingsMenu = false;
       if (this.gui === "ut") {
         const result = window.prompt("refreshContacts");
-        if (result !== "canceled")
-          this.$store.dispatch("refreshContacts", result);
-          this.$emit("close");
+        if (result !== "canceled") this.$store.dispatch("refreshContacts", result);
+        this.$emit("close");
       } else {
         this.showSettingsMenu = false;
         document.getElementById("addVcf").click();

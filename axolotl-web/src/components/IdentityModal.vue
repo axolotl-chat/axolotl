@@ -59,7 +59,7 @@ export default {
             mode: "byte",
           },
         ],
-        { errorCorrectionLevel: "L" }
+        { errorCorrectionLevel: "L" },
       );
     },
   },
@@ -88,7 +88,7 @@ export default {
   display: flex;
 }
 
-.modal-title>div {
+.modal-title > div {
   margin-left: 10px;
 }
 

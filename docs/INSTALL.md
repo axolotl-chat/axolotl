@@ -16,15 +16,15 @@ Installation instructions can be found [here](https://clickable-ut.dev/en/dev/in
 
 1. In order to build axolotl you need to get its nodejs dependencies once:
 
-    `clickable build --libs axolotlweb`
+   `clickable build --libs axolotlweb`
 
 2. Finally the app is built by running:
 
-    `clickable`
+   `clickable`
 
-    This will build the app, install it onto a device connected via usb and run the app on the device.
+   This will build the app, install it onto a device connected via usb and run the app on the device.
 
-    All steps can be done with individual clickable commands `clickable build`, `clickable install` and `clickable launch`. To build and run Axolotl on your pc run `clickable desktop`.
+   All steps can be done with individual clickable commands `clickable build`, `clickable install` and `clickable launch`. To build and run Axolotl on your pc run `clickable desktop`.
 
 Clickable supports a few different parameters. Those can be set via command line or in the `clickable.yaml` file. For example run `clickable launch logs` to start signal and get logging output.
 
@@ -45,7 +45,6 @@ make build
 ```
 
 Building should work using both `stable` and `nightly` toolchains.
-
 
 ### Cross compile build
 
@@ -136,6 +135,7 @@ Installation instructions can be found [here](https://flatpak.org/setup/)
 **Dependencies**
 
 The following Flatpak SDKs are required:
+
 ```
 flatpak install org.freedesktop.Platform//22.08
 flatpak install org.freedesktop.Sdk//22.08
@@ -154,13 +154,13 @@ in the /flatpak subdirectory.
 
 User-level:
 
-```flatpak-builder --user --install build ./flatpak/web/org.nanuc.Axolotl.yml```
+`flatpak-builder --user --install build ./flatpak/web/org.nanuc.Axolotl.yml`
 
 System-wide:
 
 Note that this requires root.
 
-```sudo flatpak-builder --install build ./flatpak/web/org.nanuc.Axolotl.yml```
+`sudo flatpak-builder --install build ./flatpak/web/org.nanuc.Axolotl.yml`
 
 **Run**
 
@@ -234,20 +234,25 @@ see [build.sh](../scripts/build.sh)
 **Build and Install**
 
 Building Axolotl on Mobian (or other Debian arm64 systems) can be done by installing the building and packaging dependencies via
+
 ```
 make dependencies-deb-arm64
 ```
+
 and getting the source afterwards via
 
 ```
 env GO111MODULE=off go get -d -u github.com/nanu-c/axolotl/
 ```
+
 Executing the following Makefile command in the source folder will finally build Axolotl.
+
 ```
 make build-deb-arm64
 ```
 
 Installation can be done afterwards via
+
 ```
 make install-deb-arm64
 ```
@@ -261,19 +266,24 @@ Packaging is still under improvement to comply with official Debian packaging ru
 **Debian cross-compiling and packaging**
 
 Axolotl can be cross-compiled and packaged for Mobian (Debian arm64 systems) on a Debian x86_64/amd64 system using
+
 ```
 make dependencies-deb-arm64-cc
 ```
+
 followed by
+
 ```
 make build-deb-arm64-cc
 ```
+
 and
+
 ```
 make prebuild-package-deb-arm64-cc build-package-deb-arm64-cc
 ```
-The resulting deb-file can be found in the source folder.
 
+The resulting deb-file can be found in the source folder.
 
 ## Fedora
 
@@ -288,7 +298,7 @@ I also had to install the breezy package to get the bzr command.
 
 **Tooling**
 
-This requires `make`, `go`, `nodejs`, `cargo`,  `rust` and `npm` to be installed locally.
+This requires `make`, `go`, `nodejs`, `cargo`, `rust` and `npm` to be installed locally.
 For the required versions, see [go.mod](../go.mod) and [package.json](../axolotl-web/package.json)
 
 **Build and Install**

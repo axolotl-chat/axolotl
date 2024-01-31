@@ -17,7 +17,7 @@
         @paste="onPaste"
         @focus="newColor(index)"
         @blur="defaultColor(index)"
-      >
+      />
     </div>
   </div>
 </template>
@@ -27,22 +27,22 @@ export default {
   props: {
     numberOfBoxes: {
       type: Number,
-      default: 6
+      default: 6,
     },
     position: {
       type: String,
-      default: "center"
+      default: "center",
     },
     color: {
       type: String,
-      default: ""
+      default: "",
     },
     clearInput: {
       type: Boolean,
       default: false,
     },
   },
-  emits:['input-value','enter','clearValue'],
+  emits: ["input-value", "enter", "clearValue"],
 
   data() {
     return {
@@ -171,8 +171,7 @@ export default {
         return;
       }
       event.preventDefault();
-      const code =
-        clipboardData.getData("Text") || clipboardData.getData("text/plain");
+      const code = clipboardData.getData("Text") || clipboardData.getData("text/plain");
       this.fillCode(code);
       this.emitInput();
     },
@@ -184,8 +183,7 @@ export default {
       this.arraySize = parts;
       const last = code.length - 1;
       setTimeout(() => {
-        this.arraySize[last] =
-          this.arraySize[last] && this.arraySize[last].slice(0, 1);
+        this.arraySize[last] = this.arraySize[last] && this.arraySize[last].slice(0, 1);
         this.$forceUpdate();
         this.$refs["otp" + (this.arraySize.length - 1)][0].focus();
       }, 0);

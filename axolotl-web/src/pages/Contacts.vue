@@ -18,24 +18,15 @@
           <font-awesome-icon icon="times" @click="closeActionMode()" />
         </button>
       </div>
-      <div v-if="contacts.length === 0" v-translate class="empty">
-        Contact list is empty...
-      </div>
+      <div v-if="contacts.length === 0" v-translate class="empty">Contact list is empty...</div>
       <div v-if="contactsFilterActive">
         <div
           v-for="c in contactsFiltered"
           :key="c.Tel"
-          :class="
-            c === selectedContact
-              ? 'selected btn col-12 chat'
-              : 'btn col-12 chat'
-          "
+          :class="c === selectedContact ? 'selected btn col-12 chat' : 'btn col-12 chat'"
         >
           <div class="row chat-entry">
-            <div
-              :class="'avatar col-3 ' + checkForUUIDClass(c)"
-              @click="contactClick(c)"
-            >
+            <div :class="'avatar col-3 ' + checkForUUIDClass(c)" @click="contactClick(c)">
               <div class="badge-name">
                 <img
                   class="avatar-img"
@@ -60,15 +51,10 @@
         v-for="c in contacts"
         v-else
         :key="c.uuid"
-        :class="
-          c === selectedContact ? 'selected btn col-12 chat' : 'btn col-12 chat'
-        "
+        :class="c === selectedContact ? 'selected btn col-12 chat' : 'btn col-12 chat'"
       >
         <div class="row chat-entry">
-          <div
-            :class="'avatar col-3 avatar ' + checkForUUIDClass(c)"
-            @click="contactClick(c)"
-          >
+          <div :class="'avatar col-3 avatar ' + checkForUUIDClass(c)" @click="contactClick(c)">
             <div class="badge-name">
               <img
                 class="avatar-img"
@@ -81,7 +67,7 @@
           </div>
           <div class="meta col-8" @click="contactClick(c)">
             <p class="name">{{ c.name }}</p>
-            <p v-if="c.phonenumber" class="number">{{ `+${ c.phonenumber}` }}</p>
+            <p v-if="c.phonenumber" class="number">{{ `+${c.phonenumber}` }}</p>
           </div>
           <!-- <div class="col-1" @click="showContactAction(c)">
             <font-awesome-icon icon="wrench" />
@@ -90,10 +76,7 @@
       </div>
 
       <div v-if="addContactModal" class="addContactModal">
-        <add-contact-modal
-          @close="closeAddContactModal()"
-          @add="addContact($event)"
-        />
+        <add-contact-modal @close="closeAddContactModal()" @add="addContact($event)" />
       </div>
       <div v-if="editContactModal" class="editContactModal">
         <edit-contact-modal
@@ -190,11 +173,9 @@ export default {
     },
     contactClick(contact) {
       if (!this.showActions) {
-        if (this.validateUUID(contact.uuid)){
-          this.$router.push(`/chat/${JSON.stringify({Contact:contact.uuid})}`);
-
+        if (this.validateUUID(contact.uuid)) {
+          this.$router.push(`/chat/${JSON.stringify({ Contact: contact.uuid })}`);
         }
-        
       } else {
         this.closeActionMode();
       }
@@ -272,7 +253,7 @@ export default {
     rgb(134, 134, 134) 100%
   );
 }
-  /*
+/*
 .avatar{
   border-radius: 50px;
 background-color: #2090ea;
@@ -284,16 +265,16 @@ display: flex;
 color: #FFF;
 margin:20px;
 } */
-.meta{
+.meta {
   text-align: left;
   display: flex;
   justify-content: center;
   flex-direction: column;
 }
-.meta p{
+.meta p {
   margin: 0;
 }
-.meta .name{
+.meta .name {
   font-size: 16px;
   font-weight: 600;
 }

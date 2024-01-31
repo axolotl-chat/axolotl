@@ -99,14 +99,14 @@ $link-color: $primary;
 }
 
 @font-face {
-  font-family: 'ubuntu';
-  src: url('fonts/ubuntu-r-webfont.woff2') format('woff2'),
-       url('fonts/ubuntu-r-webfont.woff') format('woff');
+  font-family: "ubuntu";
+  src:
+    url("fonts/ubuntu-r-webfont.woff2") format("woff2"),
+    url("fonts/ubuntu-r-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal;
-
 }
 
-body{
-  font-size:14px;
+body {
+  font-size: 14px;
 }

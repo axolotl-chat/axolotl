@@ -2,10 +2,7 @@
   <component :is="$route.meta.layout || 'div'">
     <div class="verify">
       <h3 v-translate>Enter your registration pin</h3>
-      <div
-        v-if="verificationError === 'RegistrationLockFailure' || requestPin"
-        class="verify"
-      >
+      <div v-if="verificationError === 'RegistrationLockFailure' || requestPin" class="verify">
         <p v-translate>or disable it on Android/IOs</p>
         <input v-model="pin" type="text" />
         <button v-translate class="btn btn-primary" @click="sendPin()">Send pin</button>
@@ -16,12 +13,7 @@
           :number-of-boxes="6"
           @input-value="updateCode($event)"
         />
-        <button
-          v-translate
-          :disabled="inProgress"
-          class="btn btn-primary"
-          @click="sendCode()"
-        >
+        <button v-translate :disabled="inProgress" class="btn btn-primary" @click="sendCode()">
           Send code
         </button>
       </div>
@@ -38,42 +30,42 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import VerificationPinInput from '@/components/VerificationPinInput'
+import { mapState } from "vuex";
+import VerificationPinInput from "@/components/VerificationPinInput";
 export default {
-  name: 'VerificationPage',
+  name: "VerificationPage",
   components: {
     VerificationPinInput,
   },
   data() {
     return {
-      code: '',
-      pin: '',
+      code: "",
+      pin: "",
       inProgress: false,
-    }
+    };
   },
-  computed: mapState(['verificationError', 'requestPin', 'registrationStatus']),
+  computed: mapState(["verificationError", "requestPin", "registrationStatus"]),
   mounted() {},
   methods: {
     updateCode(code) {
-      this.code = code
+      this.code = code;
     },
     sendCode() {
       if (this.code.length === 6) {
-        this.$store.dispatch('sendCode', this.code)
-        this.inProgress = true
+        this.$store.dispatch("sendCode", this.code);
+        this.inProgress = true;
       } else {
-        console.error('code not 6 digits')
+        console.error("code not 6 digits");
       }
     },
     sendPin() {
       if (this.code.length === 6) {
-        this.$store.dispatch('sendPin', this.pin)
-        this.inProgress = true
+        this.$store.dispatch("sendPin", this.pin);
+        this.inProgress = true;
       }
     },
   },
-}
+};
 </script>
 <style>
 .verify {

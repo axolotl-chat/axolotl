@@ -36,7 +36,7 @@ describe("Message.vue", () => {
     const msg = {
       message_type: "SyncMessage",
       sender: "a000000-5ddf-4fba-a6ee-2b0cb4663a6e",
-      message:"🦎🍉🍓",
+      message: "🦎🍉🍓",
       timestamp: 1686505391763,
       is_outgoing: true,
       thread_id: null,
@@ -54,7 +54,9 @@ describe("Message.vue", () => {
       },
     });
     // Todo: check if message is rendered
-    expect(wrapper.get('[data-test="message-text-content"]').wrapperElement.innerHTML).to.equal(msg.message)
+    expect(wrapper.get('[data-test="message-text-content"]').wrapperElement.innerHTML).to.equal(
+      msg.message,
+    );
   });
 
   test("renders message with link linkified", () => {
@@ -80,7 +82,9 @@ describe("Message.vue", () => {
     });
     // Todo: check if message is rendered
 
-    expect(wrapper.get('[data-test="message-text-content"]').wrapperElement.innerHTML).to.equal(expected)
+    expect(wrapper.get('[data-test="message-text-content"]').wrapperElement.innerHTML).to.equal(
+      expected,
+    );
   });
 
   test("renders message with html entities escaped", () => {
@@ -105,7 +109,9 @@ describe("Message.vue", () => {
       },
     });
 
-    expect(wrapper.get('[data-test="message-text-content"]').wrapperElement.textContent).to.equal(expected)
+    expect(wrapper.get('[data-test="message-text-content"]').wrapperElement.textContent).to.equal(
+      expected,
+    );
   });
 
   test("does not interpred injected html code", () => {

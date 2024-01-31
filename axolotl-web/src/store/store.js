@@ -290,7 +290,7 @@ export default createStore({
             JSON.stringify({
               request: message,
               code: 200,
-            })
+            }),
           );
         // this.dispatch("getChatList")
       }, state.socket.heartBeatInterval);
@@ -318,7 +318,7 @@ export default createStore({
         this.commit("SET_ERROR", messageData.Error);
       }
       switch (Object.keys(messageData)[0]) {
-        case "ChatList":{
+        case "ChatList": {
           const chats = messageData.ChatList;
           if (messageData.LastMessages) {
             const lastMessages = {};
@@ -424,7 +424,8 @@ export default createStore({
             const messageReceived = JSON.parse(messageData.data);
             if (
               state.currentChat &&
-              JSON.stringify(state.currentChat?.thread) === JSON.stringify(messageReceived.thread_id)
+              JSON.stringify(state.currentChat?.thread) ===
+                JSON.stringify(messageReceived.thread_id)
             ) {
               this.commit("SET_MESSAGE_RECEIVED", messageReceived);
             } else {
@@ -717,8 +718,8 @@ export default createStore({
         const message = {
           request: "openChat",
           data: {
-            "Contact":data.id,
-          }
+            Contact: data.id,
+          },
         };
         socketSend(message);
       }

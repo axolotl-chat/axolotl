@@ -4,11 +4,7 @@
       <div class="container">
         <div class="header-row row">
           <div class="col-2 header-left">
-            <button
-              v-if="$route.meta.hasBackButton"
-              class="btn"
-              @click="back()"
-            >
+            <button v-if="$route.meta.hasBackButton" class="btn" @click="back()">
               <font-awesome-icon icon="arrow-left" />
             </button>
           </div>
@@ -83,7 +79,7 @@ export default {
 main {
   padding-top: 50px;
 }
-.header-left .btn{
+.header-left .btn {
   color: #fff;
 }
 </style>

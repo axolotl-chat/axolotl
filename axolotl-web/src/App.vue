@@ -84,7 +84,6 @@ body,
 body {
   max-height: 100vh;
   overflow: hidden;
-
 }
 
 main {

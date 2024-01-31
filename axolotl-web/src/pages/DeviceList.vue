@@ -13,7 +13,7 @@
               </span>
             </div>
           </div>
-          <div v-if="i!== 0" class="col-2 actions">
+          <div v-if="i !== 0" class="col-2 actions">
             <button class="btn" @click="delDevice(device.id)">
               <font-awesome-icon icon="trash" />
             </button>
@@ -24,11 +24,7 @@
       <button class="btn start-chat" @click="linkDevice">
         <font-awesome-icon icon="plus" />
       </button>
-      <add-device-modal
-        v-if="showModal"
-        @close="showModal = false"
-        @add="addDevice($event)"
-      />
+      <add-device-modal v-if="showModal" @close="showModal = false" @add="addDevice($event)" />
     </div>
   </component>
 </template>

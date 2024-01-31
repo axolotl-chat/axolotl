@@ -12,12 +12,7 @@
         </div>
       </div>
       <div v-else class="registration">
-        <VueTelInput
-          id="phoneInput"
-          mode="international"
-          class="phoneInput"
-          @input="updatePhone"
-        />
+        <VueTelInput id="phoneInput" mode="international" class="phoneInput" @input="updatePhone" />
         <button v-translate class="btn btn-primary mt-3" @click="requestCode()">
           Request code
         </button>
@@ -47,7 +42,7 @@ export default {
     "registrationStatus",
     "captchaToken",
     "captchaTokenSent",
-    "registrationError"
+    "registrationError",
   ]),
   mounted() {
     const userLang = navigator.language || navigator.userLanguage;
@@ -61,8 +56,7 @@ export default {
       this.$store.dispatch("requestCode", this.phone.replace(/\s/g, ""));
     },
     updatePhone(e) {
-      if(typeof e === "string")
-      this.phone = e;
+      if (typeof e === "string") this.phone = e;
     },
     openExtern(e, url) {
       if (this.gui === "ut") {
@@ -102,7 +96,7 @@ h2 {
   max-width: 300px;
   margin: auto;
   margin-top: auto;
-  color: #FFF;
+  color: #fff;
 }
 .logo {
   margin: 20px auto;
