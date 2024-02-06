@@ -112,7 +112,7 @@ else
 	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' snap/snapcraft.yaml
 	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' docs/INSTALL.md
 	@sed -i "32i $$APPDATA_TEXT" appimage/AppDir/axolotl.appdata.xml
-	@sed -i "32i $$APPDATA_TEXT" flatpak/org.nanuc.Axolotl.appdata.xml
+	@sed -i "32i $$APPDATA_TEXT" flatpak/org.nanuc.Axolotl.metainfo.xml
 	@echo "Update complete"
 endif
 
@@ -219,12 +219,12 @@ build-package-deb-arm64:
 	@echo "Building Debian package..."
 # Edit changelog file
 	@sed -i '3d;4d' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
-  @awk -i inplace 'NR == 3 {print "  * See upstream changelog below."} {print}' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
-  @echo >> $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
-  @cat $(CURRENT_DIR)/docs/CHANGELOG.md >> $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+	@awk -i inplace 'NR == 3 {print "  * See upstream changelog below."} {print}' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+	@echo >> $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+	@cat $(CURRENT_DIR)/docs/CHANGELOG.md >> $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
 # Edit copyright file
 	@sed -i 's/<preferred name and address to reach the upstream project>/Aaron <aaron@nanu-c.org>/' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
-  @sed -i 's/<url:\/\/example.com>/https:\/\/github.com\/nanu-c\/axolotl/' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
+	@sed -i 's/<url:\/\/example.com>/https:\/\/github.com\/nanu-c\/axolotl/' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
 # Build Debian package
 	@cd $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION) && debuild -i -us -uc -b
 
@@ -334,12 +334,12 @@ build-package-deb-arm64-cc:
 	@echo "Building cross-compiled Debian package..."
 # Edit changelog file
 	@sed -i '3d;4d' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
-  @awk -i inplace 'NR == 3 {print "  * See upstream changelog below."} {print}' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
-  @echo >> $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
-  @cat $(CURRENT_DIR)/docs/CHANGELOG.md >> $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+	@awk -i inplace 'NR == 3 {print "  * See upstream changelog below."} {print}' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+	@echo >> $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
+	@cat $(CURRENT_DIR)/docs/CHANGELOG.md >> $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
 # Edit copyright file
 	@sed -i 's/<preferred name and address to reach the upstream project>/Aaron <aaron@nanu-c.org>/' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
-  @sed -i 's/<url:\/\/example.com>/https:\/\/github.com\/nanu-c\/axolotl/' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
+	@sed -i 's/<url:\/\/example.com>/https:\/\/github.com\/nanu-c\/axolotl/' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
 # Build Debian package
 	@cd $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION) && debuild -i -us -uc -b -aarm64
 
