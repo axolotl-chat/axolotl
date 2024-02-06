@@ -15,8 +15,8 @@ tauri-build = { version = "2.0.0-alpha.14    ", features = [], optional = true}
 
 [dependencies]
 tauri = { version = "2.0.0-alpha.21", features = [], optional = true }
-presage = { git = "https://github.com/nanu-c/presage", rev = "259a8768d3bd9949e1212c3fb8029d4f7187d807" }
-presage-store-sled = { git = "https://github.com/nanu-c/presage", rev = "259a8768d3bd9949e1212c3fb8029d4f7187d807" }
+presage = { git = "https://github.com/nanu-c/presage", rev = "350921c533224265a0ff026dfddc67419ca45b7a" }
+presage-store-sled = { git = "https://github.com/nanu-c/presage", rev = "350921c533224265a0ff026dfddc67419ca45b7a" }
 #presage = {path = "../presage/presage"}
 #presage-store-sled = { path = "../presage/presage-store-sled" }
 zeroize = { version = "1.6.0", default-features = false }
