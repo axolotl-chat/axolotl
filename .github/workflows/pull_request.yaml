@@ -10,7 +10,3 @@ concurrency:
 jobs:
   build:
     uses: ./.github/workflows/build.yaml
-
-  package:
-    needs: build
-    uses: ./.github/workflows/package.yaml

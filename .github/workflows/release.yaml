@@ -7,13 +7,9 @@ jobs:
   build:
     uses: ./.github/workflows/build.yaml
 
-  package:
-    needs: build
-    uses: ./.github/workflows/package.yaml
-
   release:
     name: Create release
-    needs: package
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
