@@ -14,14 +14,8 @@
     {
         "type": "git",
         "url": "https://github.com/whisperfish/libsignal-service-rs",
-        "commit": "0ad842f7646b21feca3c79d1e7f73d052529314d",
-        "dest": "flatpak-cargo/git/libsignal-service-rs-0ad842f"
-    },
-    {
-        "type": "git",
-        "url": "https://github.com/nanu-c/presage",
-        "commit": "259a8768d3bd9949e1212c3fb8029d4f7187d807",
-        "dest": "flatpak-cargo/git/presage-259a876"
+        "commit": "a2e7540a71866a62028ad0205574a5feb0e717ec",
+        "dest": "flatpak-cargo/git/libsignal-service-rs-a2e7540"
     },
     {
         "type": "archive",
@@ -3148,7 +3142,7 @@
     {
         "type": "shell",
         "commands": [
-            "cp -r --reflink=auto \"flatpak-cargo/git/libsignal-service-rs-0ad842f/libsignal-service\" \"cargo/vendor/libsignal-service\""
+            "cp -r --reflink=auto \"flatpak-cargo/git/libsignal-service-rs-a2e7540/libsignal-service\" \"cargo/vendor/libsignal-service\""
         ]
     },
     {
@@ -3166,7 +3160,7 @@
     {
         "type": "shell",
         "commands": [
-            "cp -r --reflink=auto \"flatpak-cargo/git/libsignal-service-rs-0ad842f/libsignal-service-hyper\" \"cargo/vendor/libsignal-service-hyper\""
+            "cp -r --reflink=auto \"flatpak-cargo/git/libsignal-service-rs-a2e7540/libsignal-service-hyper\" \"cargo/vendor/libsignal-service-hyper\""
         ]
     },
     {
@@ -4487,60 +4481,6 @@
         "dest-filename": ".cargo-checksum.json"
     },
     {
-        "type": "shell",
-        "commands": [
-            "cp -r --reflink=auto \"flatpak-cargo/git/presage-259a876/presage\" \"cargo/vendor/presage\""
-        ]
-    },
-    {
-        "type": "inline",
-        "contents": "[package]\nname = \"presage\"\nversion = \"0.6.0-dev\"\nauthors = [ \"Gabriel F\u00e9ron <g@leirbag.net>\",]\nedition = \"2021\"\n\n[dependencies]\nbase64 = \"0.21\"\nfutures = \"0.3\"\nlog = \"0.4.20\"\nrand = \"0.8\"\nserde_json = \"1.0\"\nthiserror = \"1.0\"\nurl = \"2.5\"\nsha2 = \"0.10.8\"\n\n[dev-dependencies]\nquickcheck = \"1.0.3\"\nquickcheck_async = \"0.1\"\n\n[dependencies.libsignal-service]\ngit = \"https://github.com/whisperfish/libsignal-service-rs\"\nrev = \"0ad842f7646b21feca3c79d1e7f73d052529314d\"\n\n[dependencies.libsignal-service-hyper]\ngit = \"https://github.com/whisperfish/libsignal-service-rs\"\nrev = \"0ad842f7646b21feca3c79d1e7f73d052529314d\"\n\n[dependencies.serde]\nversion = \"1.0\"\nfeatures = [ \"derive\",]\n\n[dependencies.tokio]\nversion = \"1.35\"\ndefault-features = false\nfeatures = [ \"sync\", \"time\",]\n\n[dev-dependencies.presage-store-sled]\npath = \"../presage-store-sled\"\n",
-        "dest": "cargo/vendor/presage",
-        "dest-filename": "Cargo.toml"
-    },
-    {
-        "type": "inline",
-        "contents": "{\"package\": null, \"files\": {}}",
-        "dest": "cargo/vendor/presage",
-        "dest-filename": ".cargo-checksum.json"
-    },
-    {
-        "type": "shell",
-        "commands": [
-            "cp -r --reflink=auto \"flatpak-cargo/git/presage-259a876/presage-store-cipher\" \"cargo/vendor/presage-store-cipher\""
-        ]
-    },
-    {
-        "type": "inline",
-        "contents": "[package]\nname = \"presage-store-cipher\"\nversion = \"0.1.0\"\nedition = \"2021\"\n\n[dependencies]\nblake3 = \"1.5.0\"\nhmac = \"0.12.1\"\npbkdf2 = \"0.12.2\"\nrand = \"0.8\"\nserde_json = \"1.0\"\nsha2 = \"0.10\"\nthiserror = \"1.0\"\n\n[dependencies.chacha20poly1305]\nversion = \"0.10.1\"\nfeatures = [ \"std\",]\n\n[dependencies.serde]\nversion = \"1.0\"\nfeatures = [ \"derive\",]\n\n[dependencies.zeroize]\nversion = \"1.7.0\"\nfeatures = [ \"derive\",]\n",
-        "dest": "cargo/vendor/presage-store-cipher",
-        "dest-filename": "Cargo.toml"
-    },
-    {
-        "type": "inline",
-        "contents": "{\"package\": null, \"files\": {}}",
-        "dest": "cargo/vendor/presage-store-cipher",
-        "dest-filename": ".cargo-checksum.json"
-    },
-    {
-        "type": "shell",
-        "commands": [
-            "cp -r --reflink=auto \"flatpak-cargo/git/presage-259a876/presage-store-sled\" \"cargo/vendor/presage-store-sled\""
-        ]
-    },
-    {
-        "type": "inline",
-        "contents": "[package]\nname = \"presage-store-sled\"\nversion = \"0.6.0-dev\"\nedition = \"2021\"\nauthors = [ \"Gabriel F\u00e9ron <g@leirbag.net>\",]\n\n[build-dependencies]\nprost-build = \"> 0.10, <= 0.12\"\n\n[dependencies]\nasync-trait = \"0.1\"\nbase64 = \"0.21\"\nfs_extra = \"1.3\"\nlog = \"0.4.20\"\nserde_json = \"1.0\"\nthiserror = \"1.0\"\nprost = \"> 0.10, <= 0.12\"\nsha2 = \"0.10\"\nquickcheck_macros = \"1.0.0\"\n\n[dev-dependencies]\nanyhow = \"1.0\"\nfutures = \"0.3\"\nquickcheck = \"1.0.3\"\nquickcheck_async = \"0.1\"\nrand = \"0.8\"\n\n[features]\ndefault = [ \"encryption\",]\nencryption = [ \"dep:presage-store-cipher\",]\n\n[dependencies.presage]\npath = \"../presage\"\n\n[dependencies.presage-store-cipher]\npath = \"../presage-store-cipher\"\noptional = true\n\n[dependencies.sled]\nversion = \"0.34\"\n\n[dependencies.serde]\nversion = \"1.0\"\nfeatures = [ \"derive\",]\n\n[dev-dependencies.tokio]\nversion = \"1.35\"\ndefault-features = false\nfeatures = [ \"time\",]\n",
-        "dest": "cargo/vendor/presage-store-sled",
-        "dest-filename": "Cargo.toml"
-    },
-    {
-        "type": "inline",
-        "contents": "{\"package\": null, \"files\": {}}",
-        "dest": "cargo/vendor/presage-store-sled",
-        "dest-filename": ".cargo-checksum.json"
-    },
-    {
         "type": "archive",
         "archive-type": "tar-gzip",
         "url": "https://static.crates.io/crates/prettyplease/prettyplease-0.2.15.crate",
@@ -4621,14 +4561,14 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/proc-macro2/proc-macro2-1.0.69.crate",
-        "sha256": "134c189feb4956b20f6f547d2cf727d4c0fe06722b20a0eec87ed445a97f92da",
-        "dest": "cargo/vendor/proc-macro2-1.0.69"
+        "url": "https://static.crates.io/crates/proc-macro2/proc-macro2-1.0.78.crate",
+        "sha256": "e2422ad645d89c99f8f3e6b88a9fdeca7fabeac836b1002371c4367c8f984aae",
+        "dest": "cargo/vendor/proc-macro2-1.0.78"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"134c189feb4956b20f6f547d2cf727d4c0fe06722b20a0eec87ed445a97f92da\", \"files\": {}}",
-        "dest": "cargo/vendor/proc-macro2-1.0.69",
+        "contents": "{\"package\": \"e2422ad645d89c99f8f3e6b88a9fdeca7fabeac836b1002371c4367c8f984aae\", \"files\": {}}",
+        "dest": "cargo/vendor/proc-macro2-1.0.78",
         "dest-filename": ".cargo-checksum.json"
     },
     {
@@ -4790,14 +4730,14 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/quote/quote-1.0.33.crate",
-        "sha256": "5267fca4496028628a95160fc423a33e8b2e6af8a5302579e322e4b520293cae",
-        "dest": "cargo/vendor/quote-1.0.33"
+        "url": "https://static.crates.io/crates/quote/quote-1.0.35.crate",
+        "sha256": "291ec9ab5efd934aaf503a6466c5d5251535d108ee747472c3977cc5acc868ef",
+        "dest": "cargo/vendor/quote-1.0.35"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"5267fca4496028628a95160fc423a33e8b2e6af8a5302579e322e4b520293cae\", \"files\": {}}",
-        "dest": "cargo/vendor/quote-1.0.33",
+        "contents": "{\"package\": \"291ec9ab5efd934aaf503a6466c5d5251535d108ee747472c3977cc5acc868ef\", \"files\": {}}",
+        "dest": "cargo/vendor/quote-1.0.35",
         "dest-filename": ".cargo-checksum.json"
     },
     {
@@ -5336,27 +5276,27 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/serde/serde-1.0.192.crate",
-        "sha256": "bca2a08484b285dcb282d0f67b26cadc0df8b19f8c12502c13d966bf9482f001",
-        "dest": "cargo/vendor/serde-1.0.192"
+        "url": "https://static.crates.io/crates/serde/serde-1.0.196.crate",
+        "sha256": "870026e60fa08c69f064aa766c10f10b1d62db9ccd4d0abb206472bee0ce3b32",
+        "dest": "cargo/vendor/serde-1.0.196"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"bca2a08484b285dcb282d0f67b26cadc0df8b19f8c12502c13d966bf9482f001\", \"files\": {}}",
-        "dest": "cargo/vendor/serde-1.0.192",
+        "contents": "{\"package\": \"870026e60fa08c69f064aa766c10f10b1d62db9ccd4d0abb206472bee0ce3b32\", \"files\": {}}",
+        "dest": "cargo/vendor/serde-1.0.196",
         "dest-filename": ".cargo-checksum.json"
     },
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/serde_derive/serde_derive-1.0.192.crate",
-        "sha256": "d6c7207fbec9faa48073f3e3074cbe553af6ea512d7c21ba46e434e70ea9fbc1",
-        "dest": "cargo/vendor/serde_derive-1.0.192"
+        "url": "https://static.crates.io/crates/serde_derive/serde_derive-1.0.196.crate",
+        "sha256": "33c85360c95e7d137454dc81d9a4ed2b8efd8fbe19cee57357b32b9771fccb67",
+        "dest": "cargo/vendor/serde_derive-1.0.196"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"d6c7207fbec9faa48073f3e3074cbe553af6ea512d7c21ba46e434e70ea9fbc1\", \"files\": {}}",
-        "dest": "cargo/vendor/serde_derive-1.0.192",
+        "contents": "{\"package\": \"33c85360c95e7d137454dc81d9a4ed2b8efd8fbe19cee57357b32b9771fccb67\", \"files\": {}}",
+        "dest": "cargo/vendor/serde_derive-1.0.196",
         "dest-filename": ".cargo-checksum.json"
     },
     {
@@ -5874,14 +5814,14 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/syn/syn-2.0.39.crate",
-        "sha256": "23e78b90f2fcf45d3e842032ce32e3f2d1545ba6636271dcbf24fa306d87be7a",
-        "dest": "cargo/vendor/syn-2.0.39"
+        "url": "https://static.crates.io/crates/syn/syn-2.0.48.crate",
+        "sha256": "0f3531638e407dfc0814761abb7c00a5b54992b849452a0646b7f65c9f770f3f",
+        "dest": "cargo/vendor/syn-2.0.48"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"23e78b90f2fcf45d3e842032ce32e3f2d1545ba6636271dcbf24fa306d87be7a\", \"files\": {}}",
-        "dest": "cargo/vendor/syn-2.0.39",
+        "contents": "{\"package\": \"0f3531638e407dfc0814761abb7c00a5b54992b849452a0646b7f65c9f770f3f\", \"files\": {}}",
+        "dest": "cargo/vendor/syn-2.0.48",
         "dest-filename": ".cargo-checksum.json"
     },
     {
@@ -7872,7 +7812,7 @@
     },
     {
         "type": "inline",
-        "contents": "[source.vendored-sources]\ndirectory = \"cargo/vendor\"\n\n[source.crates-io]\nreplace-with = \"vendored-sources\"\n\n[source.\"https://github.com/signalapp/curve25519-dalek\"]\ngit = \"https://github.com/signalapp/curve25519-dalek\"\nreplace-with = \"vendored-sources\"\ntag = \"signal-curve25519-4.0.0\"\n\n[source.\"https://github.com/signalapp/libsignal\"]\ngit = \"https://github.com/signalapp/libsignal\"\nreplace-with = \"vendored-sources\"\ntag = \"v0.32.0\"\n\n[source.\"https://github.com/whisperfish/libsignal-service-rs\"]\ngit = \"https://github.com/whisperfish/libsignal-service-rs\"\nreplace-with = \"vendored-sources\"\nrev = \"0ad842f7646b21feca3c79d1e7f73d052529314d\"\n\n[source.\"https://github.com/nanu-c/presage\"]\ngit = \"https://github.com/nanu-c/presage\"\nreplace-with = \"vendored-sources\"\nrev = \"259a8768d3bd9949e1212c3fb8029d4f7187d807\"\n",
+        "contents": "[source.vendored-sources]\ndirectory = \"cargo/vendor\"\n\n[source.crates-io]\nreplace-with = \"vendored-sources\"\n\n[source.\"https://github.com/signalapp/curve25519-dalek\"]\ngit = \"https://github.com/signalapp/curve25519-dalek\"\nreplace-with = \"vendored-sources\"\ntag = \"signal-curve25519-4.0.0\"\n\n[source.\"https://github.com/signalapp/libsignal\"]\ngit = \"https://github.com/signalapp/libsignal\"\nreplace-with = \"vendored-sources\"\ntag = \"v0.32.0\"\n\n[source.\"https://github.com/whisperfish/libsignal-service-rs\"]\ngit = \"https://github.com/whisperfish/libsignal-service-rs\"\nreplace-with = \"vendored-sources\"\nrev = \"a2e7540a71866a62028ad0205574a5feb0e717ec\"\n",
         "dest": "cargo",
         "dest-filename": "config"
     }
