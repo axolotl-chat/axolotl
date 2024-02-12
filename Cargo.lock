@@ -3545,6 +3545,7 @@ checksum = "925383efa346730478fb4838dbe9137d2a47675ad789c546d150a6e1dd4ab31c"
 [[package]]
 name = "presage"
 version = "0.6.0-dev"
+source = "git+https://github.com/nanu-c/presage?rev=350921c533224265a0ff026dfddc67419ca45b7a#350921c533224265a0ff026dfddc67419ca45b7a"
 dependencies = [
  "base64",
  "futures",
@@ -3563,6 +3564,7 @@ dependencies = [
 [[package]]
 name = "presage-store-cipher"
 version = "0.1.0"
+source = "git+https://github.com/nanu-c/presage?rev=350921c533224265a0ff026dfddc67419ca45b7a#350921c533224265a0ff026dfddc67419ca45b7a"
 dependencies = [
  "blake3",
  "chacha20poly1305",
@@ -3579,6 +3581,7 @@ dependencies = [
 [[package]]
 name = "presage-store-sled"
 version = "0.6.0-dev"
+source = "git+https://github.com/nanu-c/presage?rev=350921c533224265a0ff026dfddc67419ca45b7a#350921c533224265a0ff026dfddc67419ca45b7a"
 dependencies = [
  "async-trait",
  "base64",
@@ -4265,9 +4268,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.108"
+version = "1.0.113"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3d1c7e3eac408d115102c4c24ad393e0821bb3a5df4d506a80f85f7a742a526b"
+checksum = "69801b70b1c3dac963ecb03a364ba0ceda9cf60c71cfe475e99864759c8b8a79"
 dependencies = [
  "itoa 1.0.9",
  "ryu",
