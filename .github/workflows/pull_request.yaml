@@ -1,0 +1,16 @@
+name: Axolotl pipeline
+
+on:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yaml
+
+  package:
+    needs: build
+    uses: ./.github/workflows/package.yaml
