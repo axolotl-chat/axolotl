@@ -19,6 +19,7 @@ this dependency listing.
 Generate npm/yarn dependencies via [flatpak-node-generator](https://github.com/flatpak/flatpak-builder-tools/tree/master/node):
 
 ```sh
+sudo apt install pipx python3
 git clone git@github.com:flatpak/flatpak-builder-tools.git
 cd flatpak-builder-tools/node
 pipx install .
@@ -30,7 +31,8 @@ flatpak-node-generator npm ../../axolotl-web/package-lock.json -o ../../flatpak/
 Generate cargo dependencies via [flatpak-cargo-generator](https://github.com/flatpak/flatpak-builder-tools/tree/master/cargo):
 
 ```sh
-sudo apt install python3-aiohttp python3-toml python3-yaml
+sudo apt install python3 python3-aiohttp python3-toml python3-yaml
+git clone git@github.com:flatpak/flatpak-builder-tools.git
 cd flatpak-builder-tools/cargo
 python3 ./flatpak-cargo-generator.py ../../Cargo.lock -o ../../flatpak/cargo-sources.json
 ```

@@ -3545,6 +3545,7 @@ checksum = "925383efa346730478fb4838dbe9137d2a47675ad789c546d150a6e1dd4ab31c"
 [[package]]
 name = "presage"
 version = "0.6.0-dev"
+source = "git+https://github.com/nanu-c/presage?rev=350921c533224265a0ff026dfddc67419ca45b7a#350921c533224265a0ff026dfddc67419ca45b7a"
 dependencies = [
  "base64",
  "futures",
@@ -3563,6 +3564,7 @@ dependencies = [
 [[package]]
 name = "presage-store-cipher"
 version = "0.1.0"
+source = "git+https://github.com/nanu-c/presage?rev=350921c533224265a0ff026dfddc67419ca45b7a#350921c533224265a0ff026dfddc67419ca45b7a"
 dependencies = [
  "blake3",
  "chacha20poly1305",
@@ -3579,6 +3581,7 @@ dependencies = [
 [[package]]
 name = "presage-store-sled"
 version = "0.6.0-dev"
+source = "git+https://github.com/nanu-c/presage?rev=350921c533224265a0ff026dfddc67419ca45b7a#350921c533224265a0ff026dfddc67419ca45b7a"
 dependencies = [
  "async-trait",
  "base64",

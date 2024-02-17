@@ -34,7 +34,6 @@ modules:
     buildsystem: cmake-ninja
     config-opts:
       - -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-      - -Dprotobuf_ABSL_PROVIDER=package
       - -Dprotobuf_BUILD_SHARED_LIBS=ON
       - -Dprotobuf_BUILD_TESTS=OFF
     cleanup:
