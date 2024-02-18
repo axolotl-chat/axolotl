@@ -392,5 +392,7 @@ jobs:
           manifest-path: flatpak/org.nanuc.Axolotl.yml
           branch: ${{ github.head_ref || github.ref_name }}
           arch: ${{ matrix.variant.arch }}
+          # Disable cache until bug is resolved: https://github.com/flatpak/flatpak-github-actions/pull/183
+          restore-cache: false
           build-bundle: true
           upload-artifact: true
