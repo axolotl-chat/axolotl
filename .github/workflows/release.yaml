@@ -1,58 +1,33 @@
 name: Axolotl release pipeline
 
 on:
-  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   build:
     uses: ./.github/workflows/build.yaml
 
-  package:
-    needs: build
-    uses: ./.github/workflows/package.yaml
-
   release:
     name: Create release
-    needs: package
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out code
-        uses: actions/checkout@v3
-
-      - name: Get git tag version
-        id: get_version
-        uses: battila7/get-version-action@v2
-
-      - name: Set git tag version
-        run: |
-          echo "VERSION=${{ steps.get_version.outputs.version }}" >> $GITHUB_ENV
-
-      - name: Set package version Debian arm64
-        run: |
-          echo "RELEASE_VERSION=$(echo ${{ env.VERSION }} | sed 's/v//')" >> $GITHUB_ENV
-
       - name: Download build artifacts
         uses: actions/download-artifact@v3
         with:
           path: build-artifacts
-
-      - name: Get click version
-        id: get_click_version
-        run: |
-          ls -lah ./build-artifacts && find ./build-artifacts
-          echo "::set-output name=version::$(ls ./build-artifacts/Axolotl-Clickable/aarch64-linux-gnu/app/*arm64.click | cut --delimiter="_" --fields=2)"
-
-      - name: Set click version
-        run: |
-          echo "CLICKABLE_VERSION=${{ steps.get_click_version.outputs.version }}" >> $GITHUB_ENV
-
+      - name: Get git tag version
+        id: get_version
+        uses: battila7/get-version-action@v2
       - name: Create draft GitHub release page
         id: create_release
         uses: marvinpinto/action-automatic-releases@v1.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          title: ${{ env.VERSION }}
+          title: ${{ steps.get_version.outputs.version }}
           draft: true
           prerelease: false
           files: |
