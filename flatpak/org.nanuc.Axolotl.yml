@@ -59,16 +59,14 @@ modules:
         # Cargo offline mode
         CARGO_NET_OFFLINE: "true"
     build-commands:
-      # Install the packages from the offline cache
-      - yarn --cwd=axolotl-web install
-
       # Build axolotl-web
-      - yarn --cwd=axolotl-web run build
+      - make build-dependencies-axolotl-web
+      - make build-axolotl-web
 
       # Build axolotl
-      - cargo --offline fetch --verbose
-      - cargo --offline build --features tauri --release --verbose
-      - install -Dm755 ./target/release/axolotl -t /app/bin/
+      - cargo fetch --verbose
+      - cargo build --features tauri --release --verbose
+      - install -Dm 755 target/release/axolotl -t ${FLATPAK_DEST}/bin/
 
       # Install metadata files
       - install -Dm 644 flatpak/org.nanuc.Axolotl.png ${FLATPAK_DEST}/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png
