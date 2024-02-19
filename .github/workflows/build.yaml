@@ -134,7 +134,7 @@ jobs:
         run: cargo install tauri-cli
 
       - name: Install dependencies
-        run: yarn --cwd ./axolotl-web ci --loglevel verbose
+        run: yarn --cwd ./axolotl-web install
 
       - name: Build deb package
         run: cargo tauri build -b deb --features tauri
