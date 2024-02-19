@@ -20,4 +20,4 @@ for example a phone.
 That way the Signal registration on your phone is used.
 
 * `cd axolotl-web`
-* `VITE_WS_ADDRESS=10.0.0.2 npm run serve` (replace 10.0.0.2 with the IP of your phone)
+* `VITE_WS_ADDRESS=10.0.0.2 yarn run serve` (replace 10.0.0.2 with the IP of your phone)
