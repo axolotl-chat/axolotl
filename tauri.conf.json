@@ -1,7 +1,7 @@
 {
   "build": {
-    "beforeBuildCommand": "npm run build",
-    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "yarn run build",
+    "beforeDevCommand": "yarn run dev",
     "devPath": "http://localhost:5173/",
     "distDir": "./axolotl-web/dist"
   },

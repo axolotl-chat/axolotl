@@ -3,7 +3,7 @@
 # https://sipb.mit.edu/doc/safe-shell/
 set -eu -o pipefail
 
-for build_dependency in go npm appimagetool
+for build_dependency in go yarn appimagetool
 do
   if [ ! -f "$(command -v "${build_dependency}")" ]; then
     echo "${dependency} is required!"
@@ -14,8 +14,8 @@ done
 
 echo "build axolotl-web"
 pushd ../axolotl-web
-  npm ci
-  npm run build
+  yarn install
+  yarn run build
 popd
 
 echo "packaging it all up"

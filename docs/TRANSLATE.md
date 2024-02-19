@@ -14,11 +14,11 @@ sudo apt-get install gettext
 Set up development environment as described under [README.md](README.md).
 
 Change into the `axolotl-web` subfolder and run:
-`npm run translate`
+`yarn run translate`
 
 This command combines the following three single steps into one. Each of them can of course be run separately.
-* `npm run translate-extract` extracting the language strings. This updates only the pot file.
-* `npm run translate-update` for updating all the translation files.
-* `npm run translate-compile` for updating the json file used by axolotl-web. Without that you don't see any results.
+* `yarn run translate-extract` extracting the language strings. This updates only the pot file.
+* `yarn run translate-update` for updating all the translation files.
+* `yarn run translate-compile` for updating the json file used by axolotl-web. Without that you don't see any results.
 
 Then open Axolotl and have a look at your strings by either installing your package (click, snap, flatpak or appImage) or as described in [README.md](README.md) under "Run development".

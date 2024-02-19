@@ -23,7 +23,7 @@ sudo apt install pipx python3
 git clone git@github.com:flatpak/flatpak-builder-tools.git
 cd flatpak-builder-tools/node
 pipx install .
-flatpak-node-generator npm ../../axolotl-web/package-lock.json -o ../../flatpak/node-sources.json
+flatpak-node-generator yarn ../../axolotl-web/yarn.lock -o ../../flatpak/node-sources.json
 ```
 
 ### axolotl
