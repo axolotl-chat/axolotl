@@ -187,7 +187,7 @@ endif
 build-deb-arm64: clean-deb-arm64
 	@echo "Building Axolotl for arm64/aarch64 on Debian - Please use 'testing' release!)."
 	@echo "Installing dependencies (yarn)..."
-	@cd $(CURRENT_DIR)/axolotl-web && yarn install
+	@cd $(CURRENT_DIR)/axolotl-web && yarn install --frozen-lockfile
 	@echo "Building (yarn)..."
 	@cd $(CURRENT_DIR)/axolotl-web && yarn run build
 	@echo "Building (rust)..."
@@ -294,7 +294,7 @@ endif
 build-deb-arm64-cc: clean-deb-arm64
 	@echo "Cross-compiling Axolotl for arm64/aarch64 on Debian 'testing'."
 	@echo "Installing dependencies (yarn)..."
-	@cd $(CURRENT_DIR)/axolotl-web && npm_config_target_arch=arm64 yarn install
+	@cd $(CURRENT_DIR)/axolotl-web && npm_config_target_arch=arm64 yarn install --frozen-lockfile
 	@echo "Building (yarn)..."
 	@cd $(CURRENT_DIR)/axolotl-web && npm_config_target_arch=arm64 yarn run build
 	@echo "Building (rust)..."

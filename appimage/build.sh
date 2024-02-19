@@ -14,7 +14,7 @@ done
 
 echo "build axolotl-web"
 pushd ../axolotl-web
-  yarn install
+  yarn install --frozen-lockfile
   yarn run build
 popd
 

@@ -50,7 +50,7 @@ parts:
       export PATH=$SNAPCRAFT_PART_SRC/../install/bin/:$PATH
       npm config set unsafe-perm true
       npm install -g yarn
-      yarn install
+      yarn install --frozen-lockfile
       yarn run build
       cp -r dist ../install/bin/axolotl-web
     stage:

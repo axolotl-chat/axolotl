@@ -43,6 +43,6 @@ libraries:
     restrict_arch: all
     src_dir: axolotl-web
     build:
-      - cd ${SRC_DIR} && yarn install && yarn run build
+      - cd ${SRC_DIR} && yarn install --frozen-lockfile && yarn run build
       - mkdir -p ${INSTALL_DIR}/axolotl-web
       - mv ${SRC_DIR}/dist ${INSTALL_DIR}/axolotl-web/
