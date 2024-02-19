@@ -58,7 +58,7 @@ modules:
         # tools.
         # (The directory format is: /run/build/MODULE_NAME/flatpak-node/cache)
         XDG_CACHE_HOME: /run/build/axolotl/flatpak-node/cache
-        # Set the npm cache directory, used by npm to find its package metadata.
+        # Set the yarn cache directory, used by yarn to find its package metadata.
         YARN_CACHE_FOLDER: /run/build/axolotl/flatpak-node/npm-cache
         # Sets the directory where Node is located so that yarn won't download the headers.
         npm_config_nodedir: /usr/lib/sdk/node18

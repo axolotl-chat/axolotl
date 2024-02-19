@@ -15,7 +15,7 @@
     "test": "vitest run",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
     "depcheck": "depcheck",
-    "translate": "npm run translate-extract && npm run translate-compile",
+    "translate": "yarn run translate-extract && yarn run translate-compile",
     "translate-compile": "vue-gettext-compile",
     "translate-extract": "vue-gettext-extract"
   },
