@@ -73,14 +73,14 @@ uninstall-axolotl:
 
 # axolotl-web
 build-dependencies-axolotl-web:
-	$(YARN) install --prefix axolotl-web
+	$(YARN) install --cwd axolotl-web
 
 build-axolotl-web:
 	@echo "Building axolotl-web..."
-	$(YARN) run build --prefix axolotl-web
+	$(YARN) run build --cwd axolotl-web
 
 check-axolotl-web:
-	$(YARN) run test --prefix axolotl-web
+	$(YARN) run test --cwd axolotl-web
 
 install-axolotl-web:
 	@echo "Installing axolotl-web..."
@@ -93,7 +93,7 @@ uninstall-axolotl-web:
 
 ## utilities
 build-translation:
-	$(YARN) run translate --prefix axolotl-web
+	$(YARN) run translate --cwd axolotl-web
 
 run:
 	@echo "Found go with version $(GO_VERSION)"
