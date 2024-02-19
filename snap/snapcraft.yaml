@@ -36,10 +36,10 @@ parts:
     source: ./axolotl-web
     npm-node-version: 18.12.0
     build-environment:
-     - npm_config_unsafe_perm: "true"
-     - SUDO_UID: "0"
-     - SUDO_GID: "0"
-     - SUDO_USER: root
+      - npm_config_unsafe_perm: "true"
+      - SUDO_UID: "0"
+      - SUDO_GID: "0"
+      - SUDO_USER: root
     organize:
       ../build/dist: "bin/axolotl-web"
     override-build: |
@@ -55,7 +55,6 @@ parts:
       cp -r dist ../install/bin/axolotl-web
     stage:
       - bin/axolotl-web
-
 
 plugs:
   browser-sandbox:
