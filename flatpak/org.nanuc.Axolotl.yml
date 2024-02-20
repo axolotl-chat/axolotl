@@ -58,8 +58,6 @@ modules:
         # tools.
         # (The directory format is: /run/build/MODULE_NAME/flatpak-node/cache)
         XDG_CACHE_HOME: /run/build/axolotl/flatpak-node/cache
-        # Set the npm cache directory, used by npm to find its package metadata.
-        npm_config_cache: /run/build/axolotl/flatpak-node/npm-cache
         # Sets the directory where Node is located so that yarn won't download the headers.
         npm_config_nodedir: /usr/lib/sdk/node18
         # Cargo config
@@ -67,6 +65,8 @@ modules:
         # Cargo offline mode
         CARGO_NET_OFFLINE: "true"
     build-commands:
+      # Have Yarn use the offline mirror.
+      - HOME=$PWD yarn config --offline set yarn-offline-mirror $FLATPAK_BUILDER_BUILDDIR/flatpak-node/yarn-mirror
       # Install the packages from our offline cache.
       - yarn --cwd=axolotl-web --offline install
 
