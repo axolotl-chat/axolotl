@@ -56,6 +56,11 @@ modules:
       env:
         # Set the cache directory
         XDG_CACHE_HOME: /run/build/axolotl/flatpak-node/cache
+        # Set the npm cache directory, used by npm to find its package metadata.
+        npm_config_cache: /run/build/axolotl/flatpak-node/npm-cache
+        # Sets the directory where Node is located so that npm won't download the headers.
+        npm_config_nodedir: /usr/lib/sdk/node18
+        # Set yarn home
         HOME: /run/build/axolotl
         # Cargo config
         CARGO_HOME: /run/build/axolotl/cargo
