@@ -91,3 +91,9 @@ modules:
       - node-sources.json
       # Generated via flatpak-cargo-generator
       - cargo-sources.json
+      - type: inline
+        contents: |
+          yarn-offline-mirror /run/build/axolotl/flatpak-node/yarn-mirror
+          --install.offline true
+          --run.offline true
+        dest-filename: .yarnrc
