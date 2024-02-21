@@ -66,10 +66,10 @@ modules:
         CARGO_NET_OFFLINE: "true"
     build-commands:
       # Install the packages from the offline cache
-      - yarn --cwd=axolotl-web --offline --verbose install
+      - yarn --cwd=axolotl-web install
 
       # Build axolotl-web
-      - yarn --cwd=axolotl-web --offline --verbose run build
+      - yarn --cwd=axolotl-web run build
 
       # Build axolotl
       - cargo --offline fetch --verbose
