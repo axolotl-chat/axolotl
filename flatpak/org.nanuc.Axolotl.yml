@@ -52,15 +52,18 @@ modules:
     buildsystem: simple
     build-options:
       # Add the node bin directory.
-      append-path: "/usr/lib/sdk/node18/bin:/usr/lib/sdk/rust-stable/bin"
+      append-path: /usr/lib/sdk/node18/bin:/usr/lib/sdk/rust-stable/bin
       env:
+        # Set the cache directory
+        XDG_CACHE_HOME: /run/build/axolotl/flatpak-node/cache
+        HOME: /run/build/axolotl
         # Cargo config
         CARGO_HOME: /run/build/axolotl/cargo
         # Cargo offline mode
         CARGO_NET_OFFLINE: "true"
     build-commands:
       # Have Yarn use the offline mirror.
-      - HOME=$PWD yarn config --offline set yarn-offline-mirror ${FLATPAK_BUILDER_BUILDDIR}/flatpak-node/yarn-mirror
+      - yarn config --offline set yarn-offline-mirror ${FLATPAK_BUILDER_BUILDDIR}/flatpak-node/yarn-mirror
       # Install the packages from our offline cache.
       - yarn --cwd=axolotl-web --offline --verbose install
 
