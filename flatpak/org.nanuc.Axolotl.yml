@@ -67,9 +67,7 @@ modules:
         # Cargo offline mode
         CARGO_NET_OFFLINE: "true"
     build-commands:
-      # Have Yarn use the offline mirror.
-      - yarn config --offline set yarn-offline-mirror ${FLATPAK_BUILDER_BUILDDIR}/flatpak-node/yarn-mirror
-      # Install the packages from our offline cache.
+      # Install the packages from the offline cache
       - yarn --cwd=axolotl-web --offline --verbose install
 
       # Build axolotl-web
@@ -91,6 +89,7 @@ modules:
       - node-sources.json
       # Generated via flatpak-cargo-generator
       - cargo-sources.json
+      # Configure yarn to use the offline mirror
       - type: inline
         contents: |
           yarn-offline-mirror /run/build/axolotl/flatpak-node/yarn-mirror
