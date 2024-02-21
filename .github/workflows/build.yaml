@@ -382,7 +382,7 @@ jobs:
     container:
       # BUG https://github.com/flatpak/flatpak-github-actions/pull/179
       # image: bilelmoussaoui/flatpak-github-actions:gnome-45
-      image: ghcr.io/darkdragon-001/flatpak-github-actions:gnome-45
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-45
       options: --privileged
     steps:
       - uses: actions/checkout@v4
