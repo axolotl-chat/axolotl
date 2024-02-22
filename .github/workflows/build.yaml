@@ -380,19 +380,15 @@ jobs:
       fail-fast: false
     runs-on: ${{ matrix.variant.runner }}
     container:
-      # BUG https://github.com/flatpak/flatpak-github-actions/pull/179
-      # image: bilelmoussaoui/flatpak-github-actions:gnome-45
       image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-45
       options: --privileged
     steps:
       - uses: actions/checkout@v4
-      - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+      - uses: flathub-infra/flatpak-github-actions/flatpak-builder@master
         with:
           bundle: axolotl.flatpak
           manifest-path: flatpak/org.nanuc.Axolotl.yml
           branch: ${{ github.head_ref || github.ref_name }}
           arch: ${{ matrix.variant.arch }}
-          # Disable cache until bug is resolved: https://github.com/flatpak/flatpak-github-actions/pull/183
-          restore-cache: false
           build-bundle: true
           upload-artifact: true
