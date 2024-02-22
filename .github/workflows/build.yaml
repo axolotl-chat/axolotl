@@ -366,35 +366,29 @@ jobs:
           retention-days: 1
 
   # See https://github.com/flatpak/flatpak-github-actionsfor examples
+  # It also contains instructions on how to compile for other architectures via QEMU
   flatpak:
     name: Flatpak
-    runs-on: ubuntu-latest
-    container:
-      image: bilelmoussaoui/flatpak-github-actions:gnome-45
-      options: --privileged
     strategy:
       matrix:
-        arch: [x86_64, aarch64]
+        variant:
+          - arch: x86_64
+            runner: ubuntu-latest
+          - arch: aarch64
+            runner: ARM64
       # Don't fail the whole workflow if one architecture fails
       fail-fast: false
+    runs-on: ${{ matrix.variant.runner }}
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-45
+      options: --privileged
     steps:
       - uses: actions/checkout@v4
-      # Docker is required by the docker/setup-qemu-action which enables emulation
-      - name: Install deps
-        if: ${{ matrix.arch != 'x86_64' }}
-        run: |
-          dnf -y install docker
-      - name: Set up QEMU
-        if: ${{ matrix.arch != 'x86_64' }}
-        id: qemu
-        uses: docker/setup-qemu-action@v2
-        with:
-          platforms: arm64
-      - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+      - uses: flathub-infra/flatpak-github-actions/flatpak-builder@master
         with:
           bundle: axolotl.flatpak
           manifest-path: flatpak/org.nanuc.Axolotl.yml
           branch: ${{ github.head_ref || github.ref_name }}
-          arch: ${{ matrix.arch }}
+          arch: ${{ matrix.variant.arch }}
           build-bundle: true
           upload-artifact: true
