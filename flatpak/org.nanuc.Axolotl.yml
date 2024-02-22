@@ -54,10 +54,6 @@ modules:
       # Add the node bin directory.
       append-path: /usr/lib/sdk/node18/bin:/usr/lib/sdk/rust-stable/bin
       env:
-        # Set the cache directory
-        XDG_CACHE_HOME: /run/build/axolotl/flatpak-node/cache
-        # Set the npm cache directory, used by npm to find its package metadata.
-        npm_config_cache: /run/build/axolotl/flatpak-node/npm-cache
         # Sets the directory where Node is located so that npm won't download the headers.
         npm_config_nodedir: /usr/lib/sdk/node18
         # Cargo config
