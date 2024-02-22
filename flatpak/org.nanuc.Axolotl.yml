@@ -54,8 +54,6 @@ modules:
       # Add the node bin directory.
       append-path: /usr/lib/sdk/node18/bin:/usr/lib/sdk/rust-stable/bin
       env:
-        # Sets the directory where Node is located so that npm won't download the headers.
-        npm_config_nodedir: /usr/lib/sdk/node18
         # Cargo config
         CARGO_HOME: /run/build/axolotl/cargo
         # Cargo offline mode
