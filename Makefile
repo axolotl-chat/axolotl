@@ -3,7 +3,7 @@
 
 .PHONY: build clean build-axolotl-web build-axolotl install install-axolotl install-axolotl-web uninstall build-translation run check check-axolotl check-axolotl-web build-dependencies build-dependencies-axolotl-web build-dependencies-axolotl update-version build-dependencies-flatpak install-flatpak build-snap install-snap check-platform-deb-arm64 dependencies-deb-arm64 build-deb-arm64 prebuild-package-deb-arm64 build-package-deb-arm64 install-deb-arm64 uninstall-deb-arm64 check-platform-deb-arm64-cc dependencies-deb-arm64-cc build-deb-arm64-cc prebuild-package-deb-arm64-cc build-package-deb-arm64-cc clean-deb-arm64 package-clean-deb-arm64 uninstall-deb-dependencies-cc
 
-NPM_VERSION := $(shell npm --version 2>/dev/null)
+YARN_VERSION := $(shell yarn --version 2>/dev/null)
 NODE_VERSION := $(shell node --version 2>/dev/null)
 CARGO_VERSION := $(shell cargo --version 2>/dev/null)
 GIT_VERSION := $(shell git --version 2>/dev/null)
@@ -21,7 +21,7 @@ define APPDATA_TEXT=
 endef
 export APPDATA_TEXT
 
-NPM := $(shell which npm 2>/dev/null)
+YARN := $(shell which yarn 2>/dev/null)
 GIT := $(shell which git 2>/dev/null)
 CARGO := $(shell which cargo 2>/dev/null)
 FLATPAK := $(shell which flatpak 2>/dev/null)
@@ -49,7 +49,7 @@ install: install-axolotl install-axolotl-web
 	@sudo install -D -m 644 $(CURRENT_DIR)/scripts/axolotl.desktop $(DESTDIR)$(SHARE_PREFIX)/applications/axolotl.desktop
 	@sudo install -D -m 644 $(CURRENT_DIR)/snap/gui/axolotl.png $(DESTDIR)$(SHARE_PREFIX)/icons/hicolor/128x128/apps/axolotl.png
 
-uninstall: uninstall-axolotl uninstall-axolotl-web 
+uninstall: uninstall-axolotl uninstall-axolotl-web
 
 check: check-axolotl check-axolotl-web
 
@@ -73,14 +73,14 @@ uninstall-axolotl:
 
 # axolotl-web
 build-dependencies-axolotl-web:
-	$(NPM) install --prefix axolotl-web
+	$(YARN) install --cwd axolotl-web
 
 build-axolotl-web:
 	@echo "Building axolotl-web..."
-	$(NPM) run build --prefix axolotl-web
+	$(YARN) run build --cwd axolotl-web
 
 check-axolotl-web:
-	$(NPM) run test --prefix axolotl-web
+	$(YARN) run test --cwd axolotl-web
 
 install-axolotl-web:
 	@echo "Installing axolotl-web..."
@@ -93,7 +93,7 @@ uninstall-axolotl-web:
 
 ## utilities
 build-translation:
-	$(NPM) run translate --prefix axolotl-web
+	$(YARN) run translate --cwd axolotl-web
 
 run:
 	@echo "Found go with version $(GO_VERSION)"
@@ -176,7 +176,7 @@ endif
 dependencies-deb-arm64: check-platform-deb-arm64
 	@echo "Installing dependencies for building Axolotl on Debian 'testing' (bookworm)..."
 	@sudo $(APT) update
-	@sudo $(APT) install --assume-yes curl wget nodejs npm debmake
+	@sudo $(APT) install --assume-yes curl wget nodejs yarn debmake
 	@sudo $(APT) install --assume-yes --no-install-recommends libgtk-3-dev libjavascriptcoregtk-4.1-dev libsoup-3.0-dev libwebkit2gtk-4.1-dev protobuf-compiler
 ifneq ($(RUST),${HOME}/.cargo/bin/rustup)
 	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
@@ -186,10 +186,10 @@ endif
 
 build-deb-arm64: clean-deb-arm64
 	@echo "Building Axolotl for arm64/aarch64 on Debian - Please use 'testing' release!)."
-	@echo "Installing dependencies (npm)..."
-	@cd $(CURRENT_DIR)/axolotl-web && npm ci
-	@echo "Building (npm)..."
-	@cd $(CURRENT_DIR)/axolotl-web && npm run build
+	@echo "Installing dependencies (yarn)..."
+	@cd $(CURRENT_DIR)/axolotl-web && yarn install --frozen-lockfile
+	@echo "Building (yarn)..."
+	@cd $(CURRENT_DIR)/axolotl-web && yarn run build
 	@echo "Building (rust)..."
 	$(CARGO_PREFIX)/cargo build --features tauri --release
 	@echo "Building complete."
@@ -271,7 +271,7 @@ ifneq ($(DEBIAN_VERSION),bookworm)
 endif
 	@sudo $(APT) update
 	@sudo dpkg --add-architecture arm64
-	@sudo $(APT) install --assume-yes curl wget nodejs npm gcc-aarch64-linux-gnu linux-libc-dev-arm64-cross debmake
+	@sudo $(APT) install --assume-yes curl wget nodejs yarn gcc-aarch64-linux-gnu linux-libc-dev-arm64-cross debmake
 	@sudo $(APT) install --assume-yes --no-install-recommends libglib2.0-dev:arm64 libgtk-3-dev:arm64 libjavascriptcoregtk-4.1-dev:arm64 protobuf-compiler:arm64 libwebkit2gtk-4.1-dev:arm64 librsvg2-dev:arm64 libayatana-appindicator3-dev:arm64 libssl-dev:arm64 libjavascriptcoregtk-4.1-dev:arm64 g++ g++-aarch64-linux-gnu
 ifneq ($(RUST),${HOME}/.cargo/bin/rustup)
 	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
@@ -293,10 +293,10 @@ endif
 
 build-deb-arm64-cc: clean-deb-arm64
 	@echo "Cross-compiling Axolotl for arm64/aarch64 on Debian 'testing'."
-	@echo "Installing dependencies (npm)..."
-	@cd $(CURRENT_DIR)/axolotl-web && npm --target_arch=arm64 ci
-	@echo "Building (npm)..."
-	@cd $(CURRENT_DIR)/axolotl-web && npm --target_arch=arm64 run build
+	@echo "Installing dependencies (yarn)..."
+	@cd $(CURRENT_DIR)/axolotl-web && npm_config_target_arch=arm64 yarn install --frozen-lockfile
+	@echo "Building (yarn)..."
+	@cd $(CURRENT_DIR)/axolotl-web && npm_config_target_arch=arm64 yarn run build
 	@echo "Building (rust)..."
 	@sudo systemctl start docker
 	@HOST_CC=gcc
@@ -350,12 +350,12 @@ package-clean-deb-arm64:
 	@rm --recursive --force $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/
 
 uninstall-deb-dependencies:
-	@sudo apt purge curl wget git golang nodejs npm debmake
+	@sudo apt purge curl wget git golang nodejs yarn debmake
 	@sudo apt autoremove && sudo apt autoclean
 	@rustup self uninstall
 
 uninstall-deb-dependencies-cc:
-	@sudo apt purge curl wget git golang nodejs npm gcc-aarch64-linux-gnu debmake linux-libc-dev-arm64-cross docker-ce docker-ce-cli containerd.io libglib2.0-dev:arm64 libgtk-3-dev:arm64 libjavascriptcoregtk-4.1-dev:arm64 protobuf-compiler:arm64 libwebkit2gtk-4.1-dev:arm64 librsvg2-dev:arm64 libayatana-appindicator3-dev:arm64 libssl-dev:arm64 libjavascriptcoregtk-4.1-dev:arm64 g++ g++-aarch64-linux-gnu
+	@sudo apt purge curl wget git golang nodejs yarn gcc-aarch64-linux-gnu debmake linux-libc-dev-arm64-cross docker-ce docker-ce-cli containerd.io libglib2.0-dev:arm64 libgtk-3-dev:arm64 libjavascriptcoregtk-4.1-dev:arm64 protobuf-compiler:arm64 libwebkit2gtk-4.1-dev:arm64 librsvg2-dev:arm64 libayatana-appindicator3-dev:arm64 libssl-dev:arm64 libjavascriptcoregtk-4.1-dev:arm64 g++ g++-aarch64-linux-gnu
 	@sudo apt autoremove && sudo apt autoclean
 	@rustup self uninstall
 	@sudo rm /etc/apt/sources.list.d/docker.list

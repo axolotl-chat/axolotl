@@ -36,10 +36,10 @@ parts:
     source: ./axolotl-web
     npm-node-version: 18.12.0
     build-environment:
-     - npm_config_unsafe_perm: "true"
-     - SUDO_UID: "0"
-     - SUDO_GID: "0"
-     - SUDO_USER: root
+      - npm_config_unsafe_perm: "true"
+      - SUDO_UID: "0"
+      - SUDO_GID: "0"
+      - SUDO_USER: root
     organize:
       ../build/dist: "bin/axolotl-web"
     override-build: |
@@ -49,12 +49,12 @@ parts:
       if echo $(dpkg --print-architecture)|grep -q 'armhf'; then curl -s https://nodejs.org/dist/v16.13.1/node-v16.13.1-linux-armv7l.tar.gz | tar xzf - -C $SNAPCRAFT_PART_SRC/../install --strip-components=1 ; fi
       export PATH=$SNAPCRAFT_PART_SRC/../install/bin/:$PATH
       npm config set unsafe-perm true
-      npm ci
-      npm run build
+      npm install -g yarn
+      yarn install --frozen-lockfile
+      yarn run build
       cp -r dist ../install/bin/axolotl-web
     stage:
       - bin/axolotl-web
-
 
 plugs:
   browser-sandbox:
