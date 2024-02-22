@@ -384,11 +384,14 @@ jobs:
       options: --privileged
     steps:
       - uses: actions/checkout@v4
+      - id: flatpak-branch
+        # Flatpak branch musn't contain "/" but dependabot branches do
+        run: echo "branch=$(echo ${{ github.head_ref || github.ref_name }} | sed 's$/$_$')" >> $GITHUB_OUTPUT
       - uses: flathub-infra/flatpak-github-actions/flatpak-builder@master
         with:
           bundle: axolotl.flatpak
           manifest-path: flatpak/org.nanuc.Axolotl.yml
-          branch: ${{ github.head_ref || github.ref_name }}
+          branch: ${{ steps.flatpak-branch.outputs.branch }}
           arch: ${{ matrix.variant.arch }}
           build-bundle: true
           upload-artifact: true
