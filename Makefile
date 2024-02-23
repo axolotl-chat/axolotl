@@ -95,10 +95,6 @@ uninstall-axolotl-web:
 build-translation:
 	$(YARN) --cwd axolotl-web run translate
 
-run:
-	@echo "Found go with version $(GO_VERSION)"
-	LD_LIBRARY_PATH=$(PWD) $(GO) run .
-
 clean:
 	rm -f $(CURRENT_DIR)/axolotl
 	rm -rf $(CURRENT_DIR)/axolotl-web/dist
@@ -115,18 +111,6 @@ else
 	@sed -i "32i $$APPDATA_TEXT" flatpak/org.nanuc.Axolotl.metainfo.xml
 	@echo "Update complete"
 endif
-
-## Electron bundler
-build-dependencies-axolotl-electron-bundle:
-	$(GO) install github.com/asticode/go-astilectron-bundler/astilectron-bundler@latest
-
-build-axolotl-electron-bundle:
-	@echo "Building axolotl electron bundle..."
-	$(ASTILECTRON_BUILDER)
-
-install-axolotl-electron-bundle:
-	@echo "Installing axolotl electron bundle..."
-	@install -D -m 755 $(CURRENT_DIR)/output/$(GOOS)-$(GOARCH)/axolotl-electron-bundle $(DESTDIR)$(INSTALL_PREFIX)/
 
 ## Flatpak
 build-dependencies-flatpak:
