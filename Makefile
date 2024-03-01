@@ -126,7 +126,10 @@ install-flatpak:
 	$(FLATPAK_BUILDER) flatpak/build --force-clean --user --install flatpak/org.nanuc.Axolotl.yml
 
 debug-flatpak:
-	$(FLATPAK_BUILDER) flatpak/build --run --verbose flatpak/org.nanuc.Axolotl.yml sh
+	$(FLATPAK_BUILDER) --run --verbose flatpak/build flatpak/org.nanuc.Axolotl.yml sh
+
+debug-installed-flatpak:
+	$(FLATPAK) run --command=sh --devel org.nanuc.Axolotl
 
 uninstall-flatpak:
 	$(FLATPAK) uninstall org.nanuc.Axolotl
