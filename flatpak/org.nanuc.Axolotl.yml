@@ -5,7 +5,7 @@ sdk: org.gnome.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.node18
   - org.freedesktop.Sdk.Extension.rust-stable
-command: axolotl
+command: run.sh
 finish-args:
   # See https://docs.flatpak.org/en/latest/sandbox-permissions-reference.html
   # Write access for the user download folder (to save media)
@@ -44,7 +44,7 @@ modules:
       - /lib/plugins
     sources:
       - type: git
-        url: https://github.com/protocolbuffers/protobuf.git
+        url: https://github.com/protocolbuffers/protobuf
         tag: v25.2
         commit: a9b006bddd52e289029f16aa77b77e8e0033d9ee
 
@@ -75,8 +75,9 @@ modules:
       - install -Dm 644 flatpak/org.nanuc.Axolotl.metainfo.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
       - install -Dm 644 flatpak/org.nanuc.Axolotl.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
     sources:
-      - type: dir
-        path: ..
+      - type: git
+        url: https://github.com/nanu-c/axolotl
+        branch: main
       # Generated via flatpak-node-generator
       - node-sources.json
       # Generated via flatpak-cargo-generator
@@ -88,3 +89,13 @@ modules:
           --install.offline true
           --run.offline true
         dest-filename: .yarnrc
+
+  - name: run
+    buildsystem: simple
+    build-commands:
+      - install -Dm 755 run.sh ${FLATPAK_DEST}/bin/run.sh
+    sources:
+      - type: script
+        dest-filename: run.sh
+        commands:
+          - axolotl --mode tauri
