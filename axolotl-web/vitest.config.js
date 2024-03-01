@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
-const path = require("path");
+import path from 'path';
 
 export default defineConfig({
   plugins: [
