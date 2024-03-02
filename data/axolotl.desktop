@@ -1,14 +1,14 @@
-# https://docs.flatpak.org/en/latest/freedesktop-quick-reference.html#desktop-files
-
 [Desktop Entry]
 Name=Axolotl
-Exec=axolotl --mode tauri
+GenericName=Signal Chat Client
+Comment=A signal client
 Type=Application
-Comment=A signal client, flatpak version
+Exec=axolotl --mode tauri
 Terminal=false
 Categories=Network;InstantMessaging;Chat;
-Icon=org.nanuc.Axolotl
+Icon=@icon@
+StartupNotify=true
+StartupWMClass=axolotl
 X-KDE-FormFactor=desktop;tablet;handset;
 X-Purism-FormFactor=Workstation;Mobile;
-StartupNotify=true
 X-Gnome-UsesNotifications=true

@@ -1,7 +1,7 @@
 {
   "build": {
-    "beforeBuildCommand": "yarn run build",
-    "beforeDevCommand": "yarn run dev",
+    "beforeBuildCommand": "yarn --cwd axolotl-web run build",
+    "beforeDevCommand": "yarn --cwd axolotl-web run dev",
     "devPath": "http://localhost:5173/",
     "distDir": "./axolotl-web/dist"
   },
@@ -18,15 +18,16 @@
       "category": "SocialNetworking",
       "copyright": "",
       "deb": {
-        "depends": []
+        "depends": [],
+        "files": {
+          "/usr/share/doc/axolotl/README.md": "README.md"
+        }
       },
       "externalBin": [],
       "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
+        "data/icons/icon.png",
+        "data/icons/icon.icns",
+        "data/icons/icon.ico"
       ],
       "identifier": "nanu-c.axolotl",
       "longDescription": "",

@@ -3,7 +3,6 @@ axolotl
 builddir/
 build/
 target/
-gopath/*
 .clickable/*
 *po~
 *~~
@@ -26,9 +25,5 @@ libzkgroup*.so
 *.sql*
 *.gz
 rustc-ice*.txt
-# Added by cargo
-
-/target
-/bin
 .devcontainer/
 .vscode/

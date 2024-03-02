@@ -3,10 +3,10 @@
 <!-- https://docs.flatpak.org/en/latest/freedesktop-quick-reference.html#appdata-files -->
 
 <component type="desktop-application">
-    <id>org.nanuc.Axolotl</id>
+    <id>@app-id@</id>
     <name>Axolotl</name>
     <summary>Axolotl is a crossplattform Signal client</summary>
-    <launchable type="desktop-id">org.nanuc.Axolotl.desktop</launchable>
+    <launchable type="desktop-id">@app-id@.desktop</launchable>
     <project_license>GPL-3.0</project_license>
     <metadata_license>CC0-1.0</metadata_license>
     <developer_name>nanu-c</developer_name>
