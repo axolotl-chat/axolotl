@@ -1,4 +1,4 @@
-name: Axolotl pipeline
+name: Axolotl main pipeline
 
 on:
   push:

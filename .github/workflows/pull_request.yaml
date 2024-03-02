@@ -1,4 +1,4 @@
-name: Axolotl pipeline
+name: Axolotl pull request pipeline
 
 on:
   pull_request:
