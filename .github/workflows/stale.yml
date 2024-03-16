@@ -16,8 +16,8 @@ jobs:
           days-before-stale: 30
           # We don't want any Issues to be marked as stale for now.
           days-before-issue-stale: -1
-          exempt-issue-labels: no stalebot
-          exempt-pr-labels: no stalebot
+          exempt-issue-labels: dependencies,no stalebot
+          exempt-pr-labels: dependencies,no stalebot
           operations-per-run: 500
           stale-issue-label: stale
           stale-pr-label: stale
