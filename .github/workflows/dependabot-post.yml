@@ -1,7 +1,7 @@
 name: Dependabot post-run
 
 on:
-  pull_request:
+  push:
     branches:
       - dependabot/npm_and_yarn/**
       - dependabot/cargo/**
