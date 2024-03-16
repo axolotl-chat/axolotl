@@ -31,23 +31,6 @@ finish-args:
   - --talk-name=org.freedesktop.Notifications
 
 modules:
-  - name: protobuf
-    buildsystem: cmake-ninja
-    config-opts:
-      - -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-      - -Dprotobuf_BUILD_SHARED_LIBS=ON
-      - -Dprotobuf_BUILD_TESTS=OFF
-    cleanup:
-      - protoc
-      - /bin
-      - /doc
-      - /lib/plugins
-    sources:
-      - type: git
-        url: https://github.com/protocolbuffers/protobuf.git
-        tag: v25.2
-        commit: a9b006bddd52e289029f16aa77b77e8e0033d9ee
-
   - name: axolotl
     buildsystem: simple
     build-options:
@@ -59,21 +42,8 @@ modules:
         # Cargo offline mode
         CARGO_NET_OFFLINE: "true"
     build-commands:
-      # Install the packages from the offline cache
-      - yarn --cwd=axolotl-web install
-
-      # Build axolotl-web
-      - yarn --cwd=axolotl-web run build
-
-      # Build axolotl
-      - cargo --offline fetch --verbose
-      - cargo --offline build --features tauri --release --verbose
-      - install -Dm755 ./target/release/axolotl -t /app/bin/
-
-      # Install metadata files
-      - install -Dm 644 flatpak/org.nanuc.Axolotl.png ${FLATPAK_DEST}/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png
-      - install -Dm 644 flatpak/org.nanuc.Axolotl.metainfo.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
-      - install -Dm 644 flatpak/org.nanuc.Axolotl.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
+      - make build-axolotl-web
+      - make APP_ID=${FLATPAK_ID} DESTDIR=${FLATPAK_DEST} PREFIX="" install
     sources:
       - type: dir
         path: ..
@@ -88,3 +58,38 @@ modules:
           --install.offline true
           --run.offline true
         dest-filename: .yarnrc
+    modules:
+      - name: abseil
+        buildsystem: cmake-ninja
+        config-opts:
+          - -DABSL_PROPAGATE_CXX_STD=ON
+          - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+        cleanup:
+          - /include
+          - /lib/*.a
+          - /lib/cmake
+          - /lib/pkgconfig
+        sources:
+          - type: archive
+            url: https://github.com/abseil/abseil-cpp/releases/download/20240116.0/abseil-cpp-20240116.0.tar.gz
+            sha256: 338420448b140f0dfd1a1ea3c3ce71b3bc172071f24f4d9a57d59b45037da440
+      - name: protobuf
+        buildsystem: cmake-ninja
+        config-opts:
+          - -Dprotobuf_ABSL_PROVIDER=package
+          - -Dprotobuf_BUILD_TESTS=OFF
+          - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+        cleanup:
+          - protoc
+          - /bin
+          - /doc
+          - /lib/*.a
+          - /lib/*.la
+          - /lib/libprotoc*
+          - /lib/libprotobuf-lite*
+          - /lib/plugins
+          - /lib/pkgconfig
+        sources:
+          - type: archive
+            url: https://github.com/protocolbuffers/protobuf/releases/download/v25.3/protobuf-25.3.tar.gz
+            sha256: d19643d265b978383352b3143f04c0641eea75a75235c111cc01a1350173180e

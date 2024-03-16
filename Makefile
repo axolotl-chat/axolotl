@@ -1,19 +1,14 @@
 # This is the Makefile for axolotl.
 # For more info about the syntax, see https://makefiletutorial.com/
 
-.PHONY: build clean build-axolotl-web build-axolotl install install-axolotl install-axolotl-web uninstall build-translation run check check-axolotl check-axolotl-web build-dependencies build-dependencies-axolotl-web build-dependencies-axolotl update-version build-dependencies-flatpak install-flatpak build-snap install-snap check-platform-deb-arm64 dependencies-deb-arm64 build-deb-arm64 prebuild-package-deb-arm64 build-package-deb-arm64 install-deb-arm64 uninstall-deb-arm64 check-platform-deb-arm64-cc dependencies-deb-arm64-cc build-deb-arm64-cc prebuild-package-deb-arm64-cc build-package-deb-arm64-cc clean-deb-arm64 package-clean-deb-arm64 uninstall-deb-dependencies-cc
+.PHONY: build build-axolotl-web build-axolotl install install-axolotl uninstall uninstall-axolotl clean clean-axolotl-web clean-axolotl check check-axolotl-web check-axolotl build-translation download-dependencies download-dependencies-axolotl-web download-dependencies-axolotl update-version download-dependencies-flatpak install-flatpak build-snap install-snap
 
-YARN_VERSION := $(shell yarn --version 2>/dev/null)
-NODE_VERSION := $(shell node --version 2>/dev/null)
-CARGO_VERSION := $(shell cargo --version 2>/dev/null)
-GIT_VERSION := $(shell git --version 2>/dev/null)
 AXOLOTL_GIT_VERSION := $(shell git tag | tail --lines=1)
 AXOLOTL_VERSION := $(subst v,,$(AXOLOTL_GIT_VERSION))
-UNAME_S := $(shell uname -s)
-HARDWARE_PLATFORM := $(shell uname --machine)
+ARCH := $(shell uname --machine)
 CURRENT_DIR := $(shell pwd)
-DEBIAN_VERSION := $(shell lsb_release -cs)
 
+APP_ID := axolotl
 define APPDATA_TEXT=
 \\t\t<release version="$(NEW_VERSION)" date="$(shell date --rfc-3339='date')">\n\
 \t\t\t\t<url>https://github.com/nanu-c/axolotl/releases/tag/v$(NEW_VERSION)</url>\n\
@@ -22,82 +17,71 @@ endef
 export APPDATA_TEXT
 
 YARN := $(shell which yarn 2>/dev/null)
-GIT := $(shell which git 2>/dev/null)
 CARGO := $(shell which cargo 2>/dev/null)
 FLATPAK := $(shell which flatpak 2>/dev/null)
 FLATPAK_BUILDER := $(shell which flatpak-builder 2>/dev/null)
 SNAPCRAFT := $(shell which snapcraft 2>/dev/null)
 SNAP := $(shell which snap 2>/dev/null)
-APT := $(shell which apt 2>/dev/null)
-WGET := $(shell which wget 2>/dev/null)
-RUST := $(shell which rustup 2>/dev/null)
-CROSS := $(shell which cross 2>/dev/null)
-DOCKER := $(shell which docker 2>/dev/null)
-ASTILECTRON_BUILDER := $(shell which astilectron-bundler 2>/dev/null)
 
-DESTDIR := /
-INSTALL_PREFIX := usr/bin
-LIBRARY_PREFIX := usr/lib
-SHARE_PREFIX := usr/share
+# See common variable names: https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html
+PREFIX := "/usr"
+BINDIR := $(PREFIX)/bin
+LIBDIR := $(PREFIX)/lib
+DATADIR := $(PREFIX)/share
 CARGO_PREFIX := ${HOME}/.cargo/bin
 
-all: clean build
+all: build
 
 build: build-axolotl-web build-axolotl
 
-install: install-axolotl install-axolotl-web
-	@sudo install -D -m 644 $(CURRENT_DIR)/scripts/axolotl.desktop $(DESTDIR)$(SHARE_PREFIX)/applications/axolotl.desktop
-	@sudo install -D -m 644 $(CURRENT_DIR)/snap/gui/axolotl.png $(DESTDIR)$(SHARE_PREFIX)/icons/hicolor/128x128/apps/axolotl.png
+install: install-axolotl install-metadata
 
-uninstall: uninstall-axolotl uninstall-axolotl-web
+uninstall: uninstall-axolotl
 
-check: check-axolotl check-axolotl-web
+clean: clean-axolotl-web clean-axolotl
 
-build-dependencies: build-dependencies-axolotl-web
+check: check-axolotl-web check-axolotl
+
+download-dependencies: download-dependencies-axolotl-web download-dependencies-axolotl
 
 # axolotl
-build-axolotl:
+download-dependencies-axolotl: Cargo.toml Cargo.lock
+	$(CARGO) fetch --verbose
+
+build-axolotl: download-dependencies-axolotl
 	@echo "Building axolotl..."
-	$(CARGO) build --features tauri
+	$(CARGO) build --features tauri --release --verbose
 
-check-axolotl:
-	$(GO) test -race ./...
-
-install-axolotl:
+install-axolotl: build-axolotl
 	@echo "Installing axolotl..."
-	@install -D -m 755 $(CURRENT_DIR)/axolotl $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl
+	@install -D -m 755 $(CURRENT_DIR)/target/release/axolotl $(DESTDIR)$(BINDIR)/axolotl/axolotl
 
 uninstall-axolotl:
 	@echo "Uninstalling axolotl..."
-	@rm -rf $(DESTDIR)$(INSTALL_PREFIX)/axolotl
+	@rm -rf $(DESTDIR)$(BINDIR)/axolotl
+
+clean-axolotl:
+	rm -f $(CURRENT_DIR)/target
 
 # axolotl-web
-build-dependencies-axolotl-web:
-	$(YARN) --cwd axolotl-web install
+download-dependencies-axolotl-web: axolotl-web/package.json axolotl-web/yarn.lock
+	$(YARN) --cwd axolotl-web install --frozen-lockfile
 
-build-axolotl-web:
+build-axolotl-web: download-dependencies-axolotl-web
 	@echo "Building axolotl-web..."
 	$(YARN) --cwd axolotl-web run build
 
 check-axolotl-web:
+	$(YARN) --cwd axolotl-web run depcheck
+	$(YARN) --cwd axolotl-web run lint
 	$(YARN) --cwd axolotl-web run test
 
-install-axolotl-web:
-	@echo "Installing axolotl-web..."
-	@mkdir -p $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/
-	@cp -r $(CURRENT_DIR)/axolotl-web/dist $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web/dist
+clean-axolotl-web:
+	rm -rf $(CURRENT_DIR)/axolotl-web/dist
 
-uninstall-axolotl-web:
-	@echo "Uninstalling axolotl-web..."
-	@rm -rf $(DESTDIR)$(INSTALL_PREFIX)/axolotl/axolotl-web
-
-## utilities
+# utilities
 build-translation:
 	$(YARN) --cwd axolotl-web run translate
-
-clean:
-	rm -f $(CURRENT_DIR)/axolotl
-	rm -rf $(CURRENT_DIR)/axolotl-web/dist
 
 update-version:
 ifeq ($(NEW_VERSION),)
@@ -107,13 +91,19 @@ else
 	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' manifest.json
 	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' snap/snapcraft.yaml
 	@sed -i 's/$(AXOLOTL_VERSION)/$(NEW_VERSION)/' docs/INSTALL.md
-	@sed -i "32i $$APPDATA_TEXT" appimage/AppDir/axolotl.appdata.xml
-	@sed -i "32i $$APPDATA_TEXT" flatpak/org.nanuc.Axolotl.metainfo.xml
+	@sed -i "32i $$APPDATA_TEXT" data/axolotl.metainfo.xml
 	@echo "Update complete"
 endif
 
-## Flatpak
-build-dependencies-flatpak:
+install-metadata:
+	@install -D -m 644 data/icons/icon.png $(DESTDIR)$(DATADIR)/icons/hicolor/128x128/apps/$(APP_ID).png
+	@install -D -m 644 data/axolotl.metainfo.xml $(DESTDIR)$(DATADIR)/metainfo/$(APP_ID).metainfo.xml
+	@sed -i 's/@app-id@/$(APP_ID)/' $(DESTDIR)$(DATADIR)/metainfo/$(APP_ID).metainfo.xml
+	@install -D -m 644 data/axolotl.desktop $(DESTDIR)$(DATADIR)/applications/$(APP_ID).desktop
+	@sed -i 's/@icon@/$(APP_ID).png/' $(DESTDIR)$(DATADIR)/applications/$(APP_ID).desktop
+
+# Flatpak
+download-dependencies-flatpak:
 	$(FLATPAK) install org.gnome.Platform//45
 	$(FLATPAK) install org.gnome.Sdk//45
 	$(FLATPAK) install org.freedesktop.Sdk.Extension.node18//22.08
@@ -131,215 +121,12 @@ debug-flatpak:
 uninstall-flatpak:
 	$(FLATPAK) uninstall org.nanuc.Axolotl
 
-## Snap
+clean-flatpak:
+	rm -rf flatpak/.flatpak-builder flatpak/build
+
+# Snap
 build-snap:
 	@sudo $(SNAPCRAFT)
 
 install-snap:
 	@sudo $(SNAP) install axolotl_$(AXOLOTL_VERSION)_amd64.snap --dangerous
-
-## Debian arm64 building/cross-compiling and packaging on Debian 'testing'
-## Please install the packages git and build-essential before getting the source via
-## 'git clone --depth=1 https://github.com/nanu-c/axolotl/'
-## and run 'make dependencies-deb-arm64(-cc)' once.
-
-check-platform-deb-arm64:
-ifneq ($(UNAME_S),Linux)
-	@echo "Platform unsupported - only available for Linux" && exit 1
-endif
-ifneq ($(HARDWARE_PLATFORM),aarch64)
-	@echo "Machine unsupported - only available for arm64/aarch64" && exit 1
-endif
-ifneq ($(APT),/usr/bin/apt)
-	@echo "OS unsupported - apt not found" && exit 1
-endif
-ifneq ($(DEBIAN_VERSION),bookworm)
-	@echo "Debian version not support - 'testing' is needed" && exit 1
-endif
-
-dependencies-deb-arm64: check-platform-deb-arm64
-	@echo "Installing dependencies for building Axolotl on Debian 'testing' (bookworm)..."
-	@sudo $(APT) update
-	@sudo $(APT) install --assume-yes curl wget nodejs yarn debmake
-	@sudo $(APT) install --assume-yes --no-install-recommends libgtk-3-dev libjavascriptcoregtk-4.1-dev libsoup-3.0-dev libwebkit2gtk-4.1-dev protobuf-compiler
-ifneq ($(RUST),${HOME}/.cargo/bin/rustup)
-	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-endif
-	@$(CARGO_PREFIX)/rustup update
-	@echo "Dependencies installed."
-
-build-deb-arm64: clean-deb-arm64
-	@echo "Building Axolotl for arm64/aarch64 on Debian - Please use 'testing' release!)."
-	@echo "Installing dependencies (yarn)..."
-	@cd $(CURRENT_DIR)/axolotl-web && yarn install --frozen-lockfile
-	@echo "Building (yarn)..."
-	@cd $(CURRENT_DIR)/axolotl-web && yarn run build
-	@echo "Building (rust)..."
-	$(CARGO_PREFIX)/cargo build --features tauri --release
-	@echo "Building complete."
-
-prebuild-package-deb-arm64: package-clean-deb-arm64
-	@echo "Prebuilding Debian package..."
-# Get the source tarball
-	@$(WGET) https://github.com/nanu-c/axolotl/archive/v$(AXOLOTL_VERSION).tar.gz --output-document=$(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION).tar.gz
-# Prepare packaging folder
-	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/axolotl
-	@cp $(CURRENT_DIR)/deb/LICENSE $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/LICENSE
-# Run debmake
-	@cd $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION) && debmake --yes --email arno_nuehm@riseup.net --fullname "Arno Nuehm" --monoarch
-# Create target folders and copy additional files into package folder
-	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/icons/hicolor/128x128/apps
-	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/applications
-	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin
-	@cp $(CURRENT_DIR)/README.md $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/README.Debian
-	@cp $(CURRENT_DIR)/deb/axolotl.png $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/icons/hicolor/128x128/apps/axolotl.png
-	@cp $(CURRENT_DIR)/deb/axolotl.desktop $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/applications/
-	@cp $(CURRENT_DIR)/deb/axolotl.install $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/
-	@cp $(CURRENT_DIR)/deb/control $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/control
-	@cp $(CURRENT_DIR)/target/release/axolotl $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin/
-	@echo "Prebuilding Debian package complete."
-
-build-package-deb-arm64:
-	@echo "Building Debian package..."
-# Edit changelog file
-	@sed -i '3d;4d' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
-	@awk -i inplace 'NR == 3 {print "  * See upstream changelog below."} {print}' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
-	@echo >> $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
-	@cat $(CURRENT_DIR)/docs/CHANGELOG.md >> $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
-# Edit copyright file
-	@sed -i 's/<preferred name and address to reach the upstream project>/Aaron <aaron@nanu-c.org>/' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
-	@sed -i 's/<url:\/\/example.com>/https:\/\/github.com\/nanu-c\/axolotl/' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
-# Build Debian package
-	@cd $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION) && debuild -i -us -uc -b
-
-install-deb-arm64: uninstall-deb-arm64
-# Use for testing purposes only
-	@echo "Installing Axolotl..."
-# Copy binary and helpers
-	@sudo cp $(CURRENT_DIR)/target/release/build/axolotl $(DESTDIR)$(INSTALL_PREFIX)/
-	@sudo cp $(CURRENT_DIR)/deb/axolotl.desktop $(DESTDIR)$(SHARE_PREFIX)/applications/
-	@sudo cp $(CURRENT_DIR)/deb/axolotl.png $(DESTDIR)$(SHARE_PREFIX)/icons/hicolor/128x128/apps/
-	@sudo update-icon-caches $(DESTDIR)$(SHARE_PREFIX)/icons/
-	@echo "Installation complete."
-
-uninstall-deb-arm64:
-	@sudo rm --force $(DESTDIR)$(INSTALL_PREFIX)/axolotl
-	@sudo rm --force $(DESTDIR)$(SHARE_PREFIX)/applications/axolotl.desktop
-	@sudo rm --force $(DESTDIR)$(SHARE_PREFIX)/icons/hicolor/128x128/apps/axolotl.png
-	@sudo update-icon-caches $(DESTDIR)$(SHARE_PREFIX)/icons/
-	@echo "Removing complete."
-
-## Cross-compiling via Makefile is not working properly at the moment!
-check-platform-deb-arm64-cc:
-ifneq ($(UNAME_S),Linux)
-	@echo "Platform unsupported - only available for Linux" && exit 1
-endif
-ifneq ($(HARDWARE_PLATFORM),x86_64)
-	@echo "Machine unsupported - x86_64 should be used" && exit 1
-endif
-ifneq ($(APT),/usr/bin/apt)
-	@echo "OS unsupported - apt not found" && exit 1
-endif
-ifneq ($(DEBIAN_VERSION),bookworm)
-	@echo "Debian version not support - 'testing' is needed" && exit 1
-endif
-
-dependencies-deb-arm64-cc: check-platform-deb-arm64-cc
-	@echo "Installing dependencies for cross-compiling Axolotl... Be aware: This means Debian 'testing' (bookworm)!"
-ifneq ($(DEBIAN_VERSION),bookworm)
-	@echo "deb http://deb.debian.org/debian testing main contrib non-free" | sudo tee -a /etc/apt/sources.list
-	@echo "deb-src http://deb.debian.org/debian testing main contrib non-free" | sudo tee -a /etc/apt/sources.list
-	@sudo $(APT) update
-	@sudo $(APT) --assume-yes upgrade
-	@sudo $(APT) --assume-yes full-upgrade
-endif
-	@sudo $(APT) update
-	@sudo dpkg --add-architecture arm64
-	@sudo $(APT) install --assume-yes curl wget nodejs yarn gcc-aarch64-linux-gnu linux-libc-dev-arm64-cross debmake
-	@sudo $(APT) install --assume-yes --no-install-recommends libglib2.0-dev:arm64 libgtk-3-dev:arm64 libjavascriptcoregtk-4.1-dev:arm64 protobuf-compiler:arm64 libwebkit2gtk-4.1-dev:arm64 librsvg2-dev:arm64 libayatana-appindicator3-dev:arm64 libssl-dev:arm64 libjavascriptcoregtk-4.1-dev:arm64 g++ g++-aarch64-linux-gnu
-ifneq ($(RUST),${HOME}/.cargo/bin/rustup)
-	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-endif
-	@$(CARGO_PREFIX)/rustup update
-ifneq ($(CROSS),${HOME}/.cargo/bin/cross)
-	@$(CARGO_PREFIX)/cargo install cross
-endif
-ifneq ($(DOCKER),/usr/bin/docker)
-	@curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-	@echo "deb [arch=$(shell dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(DEBIAN_VERSION) stable" | sudo tee -a /etc/apt/sources.list.d/docker.list > /dev/null
-	@sudo $(APT) update
-	@sudo $(APT) install --assume-yes docker-ce docker-ce-cli containerd.io
-	@sudo usermod -aG docker ${USER}
-	@echo "Dependencies installed."
-	@newgrp docker # This ends the current bash an starts a new one with docker added to groups.
-endif
-	@echo "Dependencies installed."
-
-build-deb-arm64-cc: clean-deb-arm64
-	@echo "Cross-compiling Axolotl for arm64/aarch64 on Debian 'testing'."
-	@echo "Installing dependencies (yarn)..."
-	@cd $(CURRENT_DIR)/axolotl-web && npm_config_target_arch=arm64 yarn install --frozen-lockfile
-	@echo "Building (yarn)..."
-	@cd $(CURRENT_DIR)/axolotl-web && npm_config_target_arch=arm64 yarn run build
-	@echo "Building (rust)..."
-	@sudo systemctl start docker
-	@HOST_CC=gcc
-	@CC_aarch64_unknown_linux_gnu=aarch64-linux-gnu-gcc
-	@CXX_aarch64_unknown_linux_gnu=aarch64-linux-gnu-g++
-	@CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc
-	@PKG_CONFIG_ALLOW_CROSS=1
-	@PKG_CONFIG_PATH=/usr/lib/aarch64-linux-gnu/pkgconfig
-	@PKG_CONFIG_SYSROOT_DIR=/
-	@$(CARGO_PREFIX)/cross build --features tauri --release --target aarch64-unknown-linux-gnu
-	@echo "Cross-compiling complete."
-
-prebuild-package-deb-arm64-cc: package-clean-deb-arm64
-	@echo "Prebuilding cross-compiled Debian package..."
-# Get the source tarball
-	@$(WGET) https://github.com/nanu-c/axolotl/archive/v$(AXOLOTL_VERSION).tar.gz --output-document=$(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION).tar.gz
-# Prepare packaging folder
-	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/
-	@cp $(CURRENT_DIR)/deb/LICENSE $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/LICENSE
-# Run debmake
-	@cd $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION) && debmake --yes --email arno_nuehm@riseup.net --fullname "Arno Nuehm" --monoarch
-# Create target folders and copy additional files into package folder
-	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/icons/hicolor/128x128/apps
-	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/applications
-	@mkdir --parents $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin
-	@cp $(CURRENT_DIR)/README.md $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/README.Debian
-	@cp $(CURRENT_DIR)/deb/axolotl.png $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/icons/hicolor/128x128/apps/axolotl.png
-	@cp $(CURRENT_DIR)/deb/axolotl.desktop $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/share/applications/
-	@cp $(CURRENT_DIR)/deb/axolotl.install $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/
-	@cp $(CURRENT_DIR)/deb/control $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/control
-	@cp $(CURRENT_DIR)/target/aarch64-unknown-linux-gnu/release/axolotl $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/usr/bin/
-	@echo "Prebuilding cross-compiled Debian package complete."
-
-build-package-deb-arm64-cc:
-	@echo "Building cross-compiled Debian package..."
-# Edit changelog file
-	@sed -i '3d;4d' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
-	@awk -i inplace 'NR == 3 {print "  * See upstream changelog below."} {print}' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
-	@echo >> $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
-	@cat $(CURRENT_DIR)/docs/CHANGELOG.md >> $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/changelog
-# Edit copyright file
-	@sed -i 's/<preferred name and address to reach the upstream project>/Aaron <aaron@nanu-c.org>/' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
-	@sed -i 's/<url:\/\/example.com>/https:\/\/github.com\/nanu-c\/axolotl/' $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/debian/copyright
-# Build Debian package
-	@cd $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION) && debuild -i -us -uc -b -aarm64
-
-clean-deb-arm64:
-	@rm --recursive --force $(CURRENT_DIR)/build/
-
-package-clean-deb-arm64:
-	@rm --recursive --force $(CURRENT_DIR)/axolotl-$(AXOLOTL_VERSION)/
-
-uninstall-deb-dependencies:
-	@sudo apt purge curl wget git golang nodejs yarn debmake
-	@sudo apt autoremove && sudo apt autoclean
-	@rustup self uninstall
-
-uninstall-deb-dependencies-cc:
-	@sudo apt purge curl wget git golang nodejs yarn gcc-aarch64-linux-gnu debmake linux-libc-dev-arm64-cross docker-ce docker-ce-cli containerd.io libglib2.0-dev:arm64 libgtk-3-dev:arm64 libjavascriptcoregtk-4.1-dev:arm64 protobuf-compiler:arm64 libwebkit2gtk-4.1-dev:arm64 librsvg2-dev:arm64 libayatana-appindicator3-dev:arm64 libssl-dev:arm64 libjavascriptcoregtk-4.1-dev:arm64 g++ g++-aarch64-linux-gnu
-	@sudo apt autoremove && sudo apt autoclean
-	@rustup self uninstall
-	@sudo rm /etc/apt/sources.list.d/docker.list

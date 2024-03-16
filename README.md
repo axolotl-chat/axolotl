@@ -38,7 +38,7 @@ Axolotl can be installed through different means.
 | <a href='https://open-store.io/app/axolotl.nanuc'><img width='130' alt="Get it from the OpenStore" src="https://open-store.io/badges/en_US.png"></a> | nanu-c | For Ubuntu Touch |
 | <a href='https://snapcraft.io/axolotl'><img width='130' alt="Get it from the Snap Store" src="https://snapcraft.io/static/images/badges/en/snap-store-black.svg"></a> | nanu-c | For Ubuntu desktop |
 | <a href='https://flathub.org/apps/details/org.nanuc.Axolotl'><img width='130' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/></a> | olof-nord | https://github.com/flathub/org.nanuc.Axolotl |
-| <a href='https://github.com/nanu-c/axolotl/releases'><img alt="mobian version" src="https://img.shields.io/badge/axolotl-deb-%23A80030"></a> | nuehm-arno | https://github.com/nanu-c/axolotl/releases <br>(Debian package in the Assets section)|
+| <a href='https://github.com/nanu-c/axolotl/releases'><img alt="mobian version" src="https://img.shields.io/badge/axolotl-deb-%23A80030"></a> | nanu-c | https://github.com/nanu-c/axolotl/releases <br>(Debian package in the Assets section)|
 
 ## Building
 
@@ -48,49 +48,15 @@ To find out how to build from source and install yourself, please see below.
 * with Snap: see [here](docs/INSTALL.md#snap).
 * with Flatpak: see [here](docs/INSTALL.md#flatpak).
 * with AppImage: see [here](docs/INSTALL.md#appimage).
-* for Mobian: see [here](docs/INSTALL.md#mobian-or-debian-arm64-systems).
-
-### Manually
-
-Requires Rust>=1.71, Cargo and node/npm.
-
-If running Ubuntu, these steps should get you started.
-
-*Note: Make sure to install the latest **node lts** version from [https://nodejs.org/](https://nodejs.org/).*
-
-
-```shell
-make build-dependencies
-```
-
-Now we are good to go. To start, simply use the following:
-
-```shell
-make run
-```
-
-When setting up for the first time and maybe occasionally later you need to update the browser list with your installed browsers.
-
-- change into the `axolotl-web` subfolder
-- run the following command: `npx browserslist@latest --update-db`
+* for Debian: see [here](docs/INSTALL.md#debian).
+* manually: see [here](docs/INSTALL.md#bare).
 
 ## Run flags
 
-* `-axolotlWebDir` Specify the directory to use for axolotl-web. Defaults to "./axolotl-web/dist".
-* `-e` for either
-    `lorca`-> native chromium (has to be installed),
-    `ut` -> runs in the ut enviroment,
-    `me` -> qmlscene,
-    `server` -> just run the webserver. Defaults to run with `electron`.
-* `-eDebug` show developer console in electron mode
-* `-version` Print version info
-* `-host` Set the host to run the webserver from. Defaults to localhost.
-* `-port` Set the port to run the webserver from. Defaults to 9080.
-
-## Environment variables
-
-* `AXOLOTL_WEB_DIR` Specify the directory to use for axolotl-web. This is used by `axolotl` during startup.
-* `AXOLOTL_GUI_DIR` Specifies the directory used for GUI specifications. This is used by `axolotl` only when in `qt` mode.
+- `--mode`
+  - `tauri`: Default GUI
+  - `ubuntu-touch`: Ubuntu Touch GUI
+  - `daemon`: Headless
 
 ## Contributing
 
@@ -119,7 +85,3 @@ examples:
 - `<div v-translate>Yes, I am translatable!</div>` instead of `<div>No, I am not translatable!</div>`
 - `<div><translate>This is a free and open source Signal client written in golang and vuejs.</translate></div>`
 - in \<script\> part: `this.cMTitle = this.$gettext("I am a translatable title!");`
-
-## Migrating from `janimo/axolotl`
-
-For information how to migrate from `janimo/axolotl`, please see [MIGRATE.md](docs/MIGRATE.md).
