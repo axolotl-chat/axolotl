@@ -29,7 +29,7 @@ jobs:
         run: make build-axolotl-web
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: axolotl-web
           path: axolotl-web/dist/
@@ -119,7 +119,7 @@ jobs:
         run: make build-axolotl
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-axolotl-linux-amd64
           path: target/release/axolotl
@@ -141,7 +141,7 @@ jobs:
         run: cargo tauri build --ci --features tauri --bundles deb
 
       - name: Upload deb package
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-axolotl-linux-amd64-deb
           path: target/release/bundle/deb/*.deb
@@ -151,7 +151,7 @@ jobs:
         run: cargo tauri build --ci --features tauri --bundles appimage
 
       - name: Upload appimage package
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-axolotl-linux-amd64-appimage
           path: target/release/bundle/appimage/*.AppImage
@@ -221,7 +221,7 @@ jobs:
         run: cargo build --target aarch64-unknown-linux-gnu --release --features tauri
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-axolotl-linux-amd64
           path: target/aarch64-unknown-linux-gnu/release/axolotl
@@ -243,7 +243,7 @@ jobs:
         run: cargo tauri build --ci --target aarch64-unknown-linux-gnu --features tauri --bundles deb
 
       - name: Upload deb package
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-axolotl-linux-amd64-deb
           path: target/aarch64-unknown-linux-gnu/release/bundle/deb/*.deb
@@ -288,7 +288,7 @@ jobs:
               args: clickable build --verbose -a ${{ matrix.arch }}
 
       - name: Upload the built click artifact (${{ matrix.arch }})
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Axolotl-Clickable
           path: build/*/app/axolotl.nanuc_*.click
