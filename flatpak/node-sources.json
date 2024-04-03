@@ -3513,13 +3513,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.npmjs.org/vite/-/vite-5.0.12.tgz",
-        "sha512": "e21b271241b7ab43784f37f5fade8d74df5d83f2f704cfaaf125a06d23e726fae01f6920772cdf549c1b47589cebdff8b8c249ff776a0d9644e7f5b0a96f14d7",
-        "dest-filename": "vite-5.0.12.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
         "url": "https://registry.npmjs.org/vitest/-/vitest-1.2.2.tgz",
         "sha512": "7793aebeb9e6b37183f544882b7e8a1bc399e5b12f2849084c5b671afe7a1c569295b22d26e62bee1bf62e49fdd37f80bd10204a2c626a6a335157ce4547a48f",
         "dest-filename": "vitest-1.2.2.tgz",
@@ -4041,6 +4034,13 @@
         "url": "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.3.tgz#cac6407785d03675a2a5e1a5305c697b347d90d6",
         "sha512": "e71a037d7f9f2fb7da0139da82658fa5b16dc21fd1efb5a630caaa1c64bae42defbc1d181eb805f81d58999df8e35b4c8f99fade4d36d765cda09c339617df43",
         "dest-filename": "fsevents-2.3.3.tgz",
+        "dest": "flatpak-node/yarn-mirror"
+    },
+    {
+        "type": "file",
+        "url": "https://registry.yarnpkg.com/vite/-/vite-5.0.13.tgz#605865b0e482506163e3f04f91665238f3be8cf1",
+        "sha512": "ffda2f86fd8cd9d193b80f9d63ddc1f6dadfc96303450c368dd54184734feb0af4a05df8c06da2fcde79f34d62648a605299c70e6e05fc569b1902f273e78e82",
+        "dest-filename": "vite-5.0.13.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
