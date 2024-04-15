@@ -1385,13 +1385,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.npmjs.org/eslint-plugin-vue/-/eslint-plugin-vue-9.20.1.tgz",
-        "sha512": "1b20acf0ade5904be8c82d5557dec62613f54afaac2828961879db9f481551889485a1f6fa707e0efd6e7a4bf54c714c3db05f631ba4af341d96dc3de7493e2d",
-        "dest-filename": "eslint-plugin-vue-9.20.1.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
         "url": "https://registry.npmjs.org/eslint-plugin-vuejs-accessibility/-/eslint-plugin-vuejs-accessibility-2.2.1.tgz",
         "sha512": "f90a536046f851c543e7e4487cab376153e81f599f523de769d4e2c66a4fc3dfa4629e80140899dc243f1cc89ec400201460602f7369e7f9f06ea71f42899d11",
         "dest-filename": "eslint-plugin-vuejs-accessibility-2.2.1.tgz",
@@ -2820,13 +2813,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.npmjs.org/postcss-selector-parser/-/postcss-selector-parser-6.0.13.tgz",
-        "sha512": "11a5751a5e2650457875d8439efff1b63eecc70af0c5d7ad1dd5941a74f854941ffb8774e6fea51d866bf0de7bde4e59d01562b2cec10e17d6b4a4b7fac7c0a9",
-        "dest-filename": "postcss-selector-parser-6.0.13.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
         "url": "https://registry.npmjs.org/postcss/-/postcss-8.4.33.tgz",
         "sha512": "2a4a5b861763c36a90b363b60c65fef26e4e56a11c6c1f47441bee60cf6982b8c4154837d00f4b9973654c0523e12f6482d1b2acc6d3cd58c7ec4face517b6ca",
         "dest-filename": "postcss-8.4.33.tgz",
@@ -3103,20 +3089,6 @@
         "url": "https://registry.npmjs.org/semver/-/semver-6.3.1.tgz",
         "sha512": "051ed5bc30951cefaadb10445ac9314ba0c9135a919dbec3c7352ba206fbd425a849f89c07162c88019df8a9749a6abf329ac6f7202b464cab4314cee978cccc",
         "dest-filename": "semver-6.3.1.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.npmjs.org/semver/-/semver-7.5.1.tgz",
-        "sha512": "5afb2ce62be5f133116575c44acb41038b91e625e010dfd50b9fec39cb977552f371d933e0759eb48a117c6e606f95fe8a3fc6f6bc3d6281a7dd0a10f0e092a7",
-        "dest-filename": "semver-7.5.1.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.npmjs.org/semver/-/semver-7.5.4.tgz",
-        "sha512": "d5b09211257a3effa2db51efa71a770f1fa9483f2520fb7cb958d1af1014b7f9dbb3061cfad2ba6366ed8942e3778f9f9ead793d7fa7a900c2ece7eded693070",
-        "dest-filename": "semver-7.5.4.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
@@ -4038,9 +4010,30 @@
     },
     {
         "type": "file",
+        "url": "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-9.25.0.tgz#615cb7bb6d0e2140d21840b9aa51dce69e803e7a",
+        "sha512": "b435a5c75e1b55ee81b3e367877206ac3fa16f5d647f69ee91f9ba8cbb262488668914354946a4b2fc18f54e4cbcf074a5cae0d102b4c5aa5091f213b3744a38",
+        "dest-filename": "eslint-plugin-vue-9.25.0.tgz",
+        "dest": "flatpak-node/yarn-mirror"
+    },
+    {
+        "type": "file",
         "url": "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.3.tgz#cac6407785d03675a2a5e1a5305c697b347d90d6",
         "sha512": "e71a037d7f9f2fb7da0139da82658fa5b16dc21fd1efb5a630caaa1c64bae42defbc1d181eb805f81d58999df8e35b4c8f99fade4d36d765cda09c339617df43",
         "dest-filename": "fsevents-2.3.3.tgz",
+        "dest": "flatpak-node/yarn-mirror"
+    },
+    {
+        "type": "file",
+        "url": "https://registry.yarnpkg.com/postcss-selector-parser/-/postcss-selector-parser-6.0.16.tgz#3b88b9f5c5abd989ef4e2fc9ec8eedd34b20fb04",
+        "sha512": "03445526b5fe21491565b5b70a5ae8456bab7ab70586279ebc7077f2caf6fa5f5e50294caa899edcb9849a7865372fb932bd8460de81d8a6b0f7061d77e5478b",
+        "dest-filename": "postcss-selector-parser-6.0.16.tgz",
+        "dest": "flatpak-node/yarn-mirror"
+    },
+    {
+        "type": "file",
+        "url": "https://registry.yarnpkg.com/semver/-/semver-7.6.0.tgz#1a46a4db4bffcccd97b743b5005c8325f23d4e2d",
+        "sha512": "127c1786b9705cc93d80abb9fdf971e6cbff6a7e7b024469946de14caebc5bb1510cdfa4f8e5818fae4cefbd7d3a403cd972c1c6b717d0a4878fe5f908e84e56",
+        "dest-filename": "semver-7.6.0.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
