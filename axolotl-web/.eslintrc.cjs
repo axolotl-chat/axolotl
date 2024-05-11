@@ -5,7 +5,10 @@ module.exports = {
     es2021: true,
   },
 
-  extends: ["plugin:vue/vue3-recommended"],
+  extends: [
+    "plugin:vue/vue3-recommended",
+    "plugin:prettier/recommended"
+  ],
 
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "error" : "off",

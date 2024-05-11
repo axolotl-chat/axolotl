@@ -2,11 +2,13 @@
   <component :is="$route.meta.layout || 'div'">
     <template #header>
       <div v-if="profile.Recipient" class="profile-edit-header">
-        <span>{{
-          profile.Recipient.ProfileGivenName !== ""
-            ? profile.Recipient.ProfileGivenName
-            : profile.Recipient.Username
-        }}</span>
+        <span>
+          {{
+            profile.Recipient.ProfileGivenName !== ''
+              ? profile.Recipient.ProfileGivenName
+              : profile.Recipient.Username
+          }}
+        </span>
       </div>
     </template>
     <div v-translate class="mt-4">Update name for contact</div>
@@ -25,7 +27,7 @@
 export default {
   data() {
     return {
-      name: "",
+      name: '',
     };
   },
   computed: {
@@ -47,7 +49,7 @@ export default {
       }
     },
     save() {
-      this.$store.dispatch("updateProfileName", {
+      this.$store.dispatch('updateProfileName', {
         id: this.profile.Recipient.Id,
         name: this.name,
       });

@@ -1,7 +1,7 @@
-import { createStore } from "vuex";
-import { router } from "../router/router";
-import { validateUUID } from "@/helpers/uuidCheck";
-import app from "../main";
+import { createStore } from 'vuex';
+import { router } from '../router/router';
+import { validateUUID } from '@/helpers/uuidCheck';
+import app from '../main';
 
 function socketSend(message) {
   app.config.globalProperties.$socket.send(JSON.stringify(message));
@@ -14,7 +14,7 @@ export default createStore({
     sessionNames: {},
     messageList: [],
     profile: null,
-    request: "",
+    request: '',
     contacts: [],
     contactsFiltered: [],
     contactsFilterActive: false,
@@ -47,7 +47,7 @@ export default createStore({
     lastChatlistUpdate: 0,
     socket: {
       isConnected: false,
-      message: "",
+      message: '',
       reconnectError: false,
       heartBeatInterval: 50000,
       heartBeatTimer: 0,
@@ -63,17 +63,17 @@ export default createStore({
 
   mutations: {
     SET_ERROR(state, error) {
-      if (error === "") {
+      if (error === '') {
         state.loginError = null;
         // state.rateLimitError = null;
         state.errorConnection = null;
-      } else if (error === "wrong password") {
+      } else if (error === 'wrong password') {
         state.loginError = error;
-      } else if (error.includes("Rate")) {
+      } else if (error.includes('Rate')) {
         state.rateLimitError = `${error}. Try again later!`;
-      } else if (error.includes("no such host") || error.includes("timeout")) {
+      } else if (error.includes('no such host') || error.includes('timeout')) {
         state.errorConnection = error;
-      } else if (error.includes("Your registration is faulty")) {
+      } else if (error.includes('Your registration is faulty')) {
         state.error = error;
       } else if (error.includes(400)) {
         //when pin is missing
@@ -81,8 +81,8 @@ export default createStore({
       } else if (error.includes(404)) {
         //when code was wrong
         if (state.verificationInProgress) state.verificationError = 404;
-      } else if (error.includes("RegistrationLockFailure")) {
-        state.verificationError = "RegistrationLockFailure";
+      } else if (error.includes('RegistrationLockFailure')) {
+        state.verificationError = 'RegistrationLockFailure';
       }
     },
     SET_CHATLIST(state, chatList) {
@@ -114,7 +114,7 @@ export default createStore({
     },
     UPDATE_CURRENT_CHAT(state, data) {
       state.currentChat = data.CurrentChat;
-      if (typeof state.messageList === "undefined") {
+      if (typeof state.messageList === 'undefined') {
         state.messageList = [];
       }
       const prepare = state.messageList.map((e) => e.ID);
@@ -148,34 +148,34 @@ export default createStore({
     SET_REQUEST(state, request) {
       const type = request.Type;
       state.request = request;
-      if (type === "getPhoneNumber") {
-        this.commit("SET_REGISTRATION_STATUS", "phoneNumber");
-      } else if (type === "getVerificationCode") {
-        this.commit("SET_REGISTRATION_STATUS", "verificationCode");
+      if (type === 'getPhoneNumber') {
+        this.commit('SET_REGISTRATION_STATUS', 'phoneNumber');
+      } else if (type === 'getVerificationCode') {
+        this.commit('SET_REGISTRATION_STATUS', 'verificationCode');
         state.verificationInProgress = true;
-        router.push("/verify");
-      } else if (type === "getPin") {
-        this.commit("SET_REGISTRATION_STATUS", "pin");
-        router.push("/pin");
+        router.push('/verify');
+      } else if (type === 'getPin') {
+        this.commit('SET_REGISTRATION_STATUS', 'pin');
+        router.push('/pin');
         state.requestPin = true;
-      } else if (type === "getCaptchaToken") {
-        window.location = "https://signalcaptchas.org/registration/generate.html";
-      } else if (type === "getEncryptionPw") {
-        this.commit("SET_REGISTRATION_STATUS", "password");
-        router.push("/password");
-      } else if (type === "registrationDone") {
-        this.commit("SET_REGISTRATION_STATUS", "registered");
-        router.push("/");
-      } else if (type === "requestEnterChat") {
+      } else if (type === 'getCaptchaToken') {
+        window.location = 'https://signalcaptchas.org/registration/generate.html';
+      } else if (type === 'getEncryptionPw') {
+        this.commit('SET_REGISTRATION_STATUS', 'password');
+        router.push('/password');
+      } else if (type === 'registrationDone') {
+        this.commit('SET_REGISTRATION_STATUS', 'registered');
+        router.push('/');
+      } else if (type === 'requestEnterChat') {
         router.push(`/chat/${request.Chat}`);
-        this.dispatch("getChatList");
-      } else if (type === "config") {
-        this.commit("SET_CONFIG", request);
-      } else if (type === "getUsername") {
-        this.commit("SET_REGISTRATION_STATUS", "getUsername");
-        router.push("/setUsername");
-      } else if (type === "Error") {
-        this.commit("SET_ERROR", request.Error);
+        this.dispatch('getChatList');
+      } else if (type === 'config') {
+        this.commit('SET_CONFIG', request);
+      } else if (type === 'getUsername') {
+        this.commit('SET_REGISTRATION_STATUS', 'getUsername');
+        router.push('/setUsername');
+      } else if (type === 'Error') {
+        this.commit('SET_ERROR', request.Error);
       }
     },
     SET_MESSAGELIST(state, messageList) {
@@ -272,7 +272,7 @@ export default createStore({
       state.currentGroup = null;
       state.currentContact = null;
       state.currentChat = null;
-      this.commit("CLEAR_MESSAGELIST");
+      this.commit('CLEAR_MESSAGELIST');
     },
     SET_CAPTCHA_TOKEN(state, token) {
       state.captchaToken = token;
@@ -284,13 +284,13 @@ export default createStore({
       app.config.globalProperties.$socket = event.currentTarget;
       state.socket.isConnected = true;
       state.socket.heartBeatTimer = setInterval(() => {
-        const message = "ping";
+        const message = 'ping';
         state.socket.isConnected &&
           app.config.globalProperties.$socket.send(
             JSON.stringify({
               request: message,
               code: 200,
-            })
+            }),
           );
         // this.dispatch("getChatList")
       }, state.socket.heartBeatInterval);
@@ -315,10 +315,10 @@ export default createStore({
       const messageData = JSON.parse(message.data);
 
       if (messageData.Error) {
-        this.commit("SET_ERROR", messageData.Error);
+        this.commit('SET_ERROR', messageData.Error);
       }
       switch (Object.keys(messageData)[0]) {
-        case "ChatList":{
+        case 'ChatList': {
           const chats = messageData.ChatList;
           if (messageData.LastMessages) {
             const lastMessages = {};
@@ -327,8 +327,8 @@ export default createStore({
             }
             chats.sort((a, b) => {
               if (
-                typeof lastMessages[a.ID] === "undefined" ||
-                typeof lastMessages[b.ID] === "undefined"
+                typeof lastMessages[a.ID] === 'undefined' ||
+                typeof lastMessages[b.ID] === 'undefined'
               ) {
                 return 0;
               }
@@ -340,110 +340,111 @@ export default createStore({
               }
               return 0;
             });
-            this.commit("SET_CHATLIST", chats);
-            this.commit("SET_LASTMESSAGES", lastMessages);
+            this.commit('SET_CHATLIST', chats);
+            this.commit('SET_LASTMESSAGES', lastMessages);
           } else {
-            this.commit("SET_CHATLIST", chats);
-            this.commit("SET_LASTMESSAGES", messageData.LastMessages);
+            this.commit('SET_CHATLIST', chats);
+            this.commit('SET_LASTMESSAGES', messageData.LastMessages);
           }
-          this.commit("SET_SESSIONNAMES", messageData.SessionNames);
+          this.commit('SET_SESSIONNAMES', messageData.SessionNames);
           break;
         }
-        case "MessageList":
-          this.commit("SET_MESSAGELIST", messageData.MessageList);
+        case 'MessageList':
+          this.commit('SET_MESSAGELIST', messageData.MessageList);
           break;
-        case "ContactList":
-          this.commit("SET_CONTACTS", messageData.ContactList);
+        case 'ContactList':
+          this.commit('SET_CONTACTS', messageData.ContactList);
           break;
-        case "MoreMessageList":
-          this.commit("SET_MORE_MESSAGELIST", messageData.MoreMessageList);
+        case 'MoreMessageList':
+          this.commit('SET_MORE_MESSAGELIST', messageData.MoreMessageList);
           break;
-        case "DeviceList":
-          this.commit("SET_DEVICELIST", messageData.DeviceList);
+        case 'DeviceList':
+          this.commit('SET_DEVICELIST', messageData.DeviceList);
           break;
-        case "MessageReceived":
-          this.commit("SET_MESSAGE_RECEIVED", messageData.MessageReceived);
+        case 'MessageReceived':
+          this.commit('SET_MESSAGE_RECEIVED', messageData.MessageReceived);
           break;
-        case "UpdateMessage":
-          this.commit("SET_MESSAGE_UPDATE", messageData.UpdateMessage);
+        case 'UpdateMessage':
+          this.commit('SET_MESSAGE_UPDATE', messageData.UpdateMessage);
           break;
-        case "Gui":
-          this.commit("SET_CONFIG_GUI", messageData.Gui);
+        case 'Gui':
+          this.commit('SET_CONFIG_GUI', messageData.Gui);
           break;
-        case "DarkMode":
-          this.commit("SET_CONFIG_DARK_MODE", messageData.DarkMode);
+        case 'DarkMode':
+          this.commit('SET_CONFIG_DARK_MODE', messageData.DarkMode);
           break;
-        case "CurrentChat":
-          this.commit("SET_CURRENT_CHAT", messageData.CurrentChat);
+        case 'CurrentChat':
+          this.commit('SET_CURRENT_CHAT', messageData.CurrentChat);
           break;
-        case "Type":
-          this.commit("SET_REQUEST", messageData);
+        case 'Type':
+          this.commit('SET_REQUEST', messageData);
           break;
-        case "FingerprintNumbers":
-          this.commit("SET_FINGERPRINT", messageData);
+        case 'FingerprintNumbers':
+          this.commit('SET_FINGERPRINT', messageData);
           break;
-        case "Error":
-          this.commit("SET_ERROR", messageData.Errorx);
+        case 'Error':
+          this.commit('SET_ERROR', messageData.Errorx);
           break;
-        case "OpenChat":
-          this.commit("OPEN_CHAT", messageData.OpenChat);
+        case 'OpenChat':
+          this.commit('OPEN_CHAT', messageData.OpenChat);
           break;
-        case "UpdateCurrentChat":
-          this.commit("UPDATE_CURRENT_CHAT", messageData.UpdateCurrentChat);
+        case 'UpdateCurrentChat':
+          this.commit('UPDATE_CURRENT_CHAT', messageData.UpdateCurrentChat);
           break;
-        case "ProfileMessage":
-          this.commit("SET_PROFILE", messageData.ProfileMessage);
+        case 'ProfileMessage':
+          this.commit('SET_PROFILE', messageData.ProfileMessage);
           break;
-        case "response_type":
-          if (messageData.response_type === "contact_list") {
-            this.commit("SET_CONTACTS", JSON.parse(messageData.data));
-          } else if (messageData.response_type === "chat_list") {
-            this.commit("SET_CHATLIST", JSON.parse(messageData.data));
-          } else if (messageData.response_type === "message_list") {
-            this.commit("SET_MESSAGELIST", JSON.parse(messageData.data));
-          } else if (messageData.response_type === "qr_code") {
-            this.commit("SET_DEVICE_LINK_CODE", messageData.data);
-          } else if (messageData.response_type === "phone_number") {
-            this.commit("SET_REGISTRATION_STATUS", "phone_number");
-            router.push("/register");
-          } else if (messageData.response_type === "registration_error") {
-            this.commit("SET_REGISTRATION_ERROR", messageData.data);
-          } else if (messageData.response_type === "pin") {
-            this.commit("SET_REGISTRATION_STATUS", "pin");
-            router.push("/pin");
-          } else if (messageData.response_type === "registration_start") {
-            this.commit("SET_REGISTRATION_STATUS", "not_registered");
-            router.push("/onboarding");
-          } else if (messageData.response_type === "profile") {
-            this.commit("SET_PROFILE", JSON.parse(messageData.data));
-          } else if (messageData.response_type === "current_chat") {
-            this.commit("SET_CURRENT_CHAT", JSON.parse(messageData.data));
-          } else if (messageData.response_type === "config") {
-            this.commit("SET_CONFIG", JSON.parse(messageData.data));
-          } else if (messageData.response_type === "message_received") {
+        case 'response_type':
+          if (messageData.response_type === 'contact_list') {
+            this.commit('SET_CONTACTS', JSON.parse(messageData.data));
+          } else if (messageData.response_type === 'chat_list') {
+            this.commit('SET_CHATLIST', JSON.parse(messageData.data));
+          } else if (messageData.response_type === 'message_list') {
+            this.commit('SET_MESSAGELIST', JSON.parse(messageData.data));
+          } else if (messageData.response_type === 'qr_code') {
+            this.commit('SET_DEVICE_LINK_CODE', messageData.data);
+          } else if (messageData.response_type === 'phone_number') {
+            this.commit('SET_REGISTRATION_STATUS', 'phone_number');
+            router.push('/register');
+          } else if (messageData.response_type === 'registration_error') {
+            this.commit('SET_REGISTRATION_ERROR', messageData.data);
+          } else if (messageData.response_type === 'pin') {
+            this.commit('SET_REGISTRATION_STATUS', 'pin');
+            router.push('/pin');
+          } else if (messageData.response_type === 'registration_start') {
+            this.commit('SET_REGISTRATION_STATUS', 'not_registered');
+            router.push('/onboarding');
+          } else if (messageData.response_type === 'profile') {
+            this.commit('SET_PROFILE', JSON.parse(messageData.data));
+          } else if (messageData.response_type === 'current_chat') {
+            this.commit('SET_CURRENT_CHAT', JSON.parse(messageData.data));
+          } else if (messageData.response_type === 'config') {
+            this.commit('SET_CONFIG', JSON.parse(messageData.data));
+          } else if (messageData.response_type === 'message_received') {
             const messageReceived = JSON.parse(messageData.data);
             if (
               state.currentChat &&
-              JSON.stringify(state.currentChat?.thread) === JSON.stringify(messageReceived.thread_id)
+              JSON.stringify(state.currentChat?.thread) ===
+                JSON.stringify(messageReceived.thread_id)
             ) {
-              this.commit("SET_MESSAGE_RECEIVED", messageReceived);
+              this.commit('SET_MESSAGE_RECEIVED', messageReceived);
             } else {
-              this.dispatch("getChatList");
+              this.dispatch('getChatList');
             }
-          } else if (messageData.response_type === "message_sent") {
+          } else if (messageData.response_type === 'message_sent') {
             const messageSent = JSON.parse(messageData.data);
-            this.commit("SET_MESSAGE_RECEIVED", messageSent.message);
-          } else if (messageData.response_type === "registration_done") {
-            this.commit("SET_REGISTRATION_STATUS", "registered");
-            router.push("/");
+            this.commit('SET_MESSAGE_RECEIVED', messageSent.message);
+          } else if (messageData.response_type === 'registration_done') {
+            this.commit('SET_REGISTRATION_STATUS', 'registered');
+            router.push('/');
           }
 
           break;
         default:
           // @ts-ignore
-          console.log("unkown message ", messageData, Object.keys(messageData)[0]);
+          console.log('unkown message ', messageData, Object.keys(messageData)[0]);
       }
-      this.commit("SET_SOCKET_MESSAGE_DATA", message.data);
+      this.commit('SET_SOCKET_MESSAGE_DATA', message.data);
     },
     SET_SOCKET_MESSAGE_DATA(state, data) {
       state.socket.message = data;
@@ -452,13 +453,13 @@ export default createStore({
       state.gui = gui;
     },
     SET_CONFIG_DARK_MODE(state, darkMode) {
-      if (window.getCookie("darkMode") !== String(darkMode)) {
+      if (window.getCookie('darkMode') !== String(darkMode)) {
         const d = new Date();
         d.setTime(d.getTime() + 300 * 24 * 60 * 60 * 1000);
         const expires = `expires=${d.toUTCString()}`;
         document.cookie = `darkMode=${darkMode};${expires};path=/`;
         state.darkMode = darkMode;
-        window.location.replace("/");
+        window.location.replace('/');
       }
     },
   },
@@ -467,7 +468,7 @@ export default createStore({
     addDevice(state, url) {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "addDevice",
+          request: 'addDevice',
           data: url,
         };
         socketSend(message);
@@ -476,7 +477,7 @@ export default createStore({
     delDevice(state, id) {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "delDevice",
+          request: 'delDevice',
           data: id,
         };
         socketSend(message);
@@ -485,16 +486,16 @@ export default createStore({
     getDevices() {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "getDevices",
+          request: 'getDevices',
         };
         socketSend(message);
       }
     },
     getChatList() {
       if (this.state.lastChatlistUpdate + 10000 < Date.now()) {
-        if (this.state.socket.isConnected && this.state.registrationStatus === "registered") {
+        if (this.state.socket.isConnected && this.state.registrationStatus === 'registered') {
           const message = {
-            request: "getChatList",
+            request: 'getChatList',
           };
           this.state.lastChatlistUpdate = Date.now();
           socketSend(message);
@@ -504,21 +505,21 @@ export default createStore({
     delChat(id) {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "delChat",
+          request: 'delChat',
           data: this.state.currentChat.id,
         };
         socketSend(message);
       }
     },
     getMessageList(state, chatId) {
-      this.commit("CLEAR_MESSAGELIST");
+      this.commit('CLEAR_MESSAGELIST');
       if (this.state.socket.isConnected) {
         const data = {
           id: chatId,
         };
         if (chatId) {
           const message = {
-            request: "getMessageList",
+            request: 'getMessageList',
             data: JSON.stringify(data),
           };
           socketSend(message);
@@ -526,10 +527,10 @@ export default createStore({
       }
     },
     getProfile(state, id) {
-      this.commit("CLEAR_PROFILE");
+      this.commit('CLEAR_PROFILE');
       if (this.state.socket.isConnected) {
         const message = {
-          request: "getProfile",
+          request: 'getProfile',
           data: JSON.stringify({
             id,
           }),
@@ -540,7 +541,7 @@ export default createStore({
     createRecipient(state, recipient) {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "createRecipient",
+          request: 'createRecipient',
           recipient,
         };
         socketSend(message);
@@ -549,7 +550,7 @@ export default createStore({
     createRecipientAndAddToGroup(state, data) {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "createRecipientAndAddToGroup",
+          request: 'createRecipientAndAddToGroup',
           data: {
             recipient: data.id,
             group: data.group,
@@ -561,40 +562,40 @@ export default createStore({
     openChat({ dispatch }, chatId) {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "openChat",
+          request: 'openChat',
           data: chatId,
         };
         socketSend(message);
-        dispatch("getMessageList", chatId);
+        dispatch('getMessageList', chatId);
       }
     },
     getMoreMessages() {
       if (
         this.state.socket.isConnected &&
-        typeof this.state.messageList !== "undefined" &&
+        typeof this.state.messageList !== 'undefined' &&
         this.state.messageList !== null &&
         this.state.messageList.length > 0 &&
         this.state.messageList[0].SentAt > 0
       ) {
         const firstMessage = this.state.messageList[0];
         const message = {
-          request: "getMoreMessages",
+          request: 'getMoreMessages',
           data: firstMessage.SentAt,
         };
         socketSend(message);
       }
     },
     clearMessageList() {
-      this.commit("CLEAR_MESSAGELIST");
+      this.commit('CLEAR_MESSAGELIST');
     },
     setCurrentChat(state, chat) {
-      this.commit("SET_CURRENT_CHAT", chat);
+      this.commit('SET_CURRENT_CHAT', chat);
     },
     leaveChat() {
-      this.commit("LEAVE_CHAT");
+      this.commit('LEAVE_CHAT');
       if (this.state.socket.isConnected) {
         const message = {
-          request: "leaveChat",
+          request: 'leaveChat',
         };
         socketSend(message);
       }
@@ -602,12 +603,12 @@ export default createStore({
     createChat(state, uuid) {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "createChat",
+          request: 'createChat',
           data: uuid,
         };
         socketSend(message);
       }
-      this.commit("CREATE_CHAT", uuid);
+      this.commit('CREATE_CHAT', uuid);
     },
     sendMessage(state, messageContainer) {
       if (this.state.socket.isConnected) {
@@ -616,7 +617,7 @@ export default createStore({
           text: messageContainer.message,
         };
         const message = {
-          request: "sendMessage",
+          request: 'sendMessage',
           data: JSON.stringify(data),
         };
         socketSend(message);
@@ -630,7 +631,7 @@ export default createStore({
           archived: false,
         };
         const message = {
-          request: "changeNotificationsForThread",
+          request: 'changeNotificationsForThread',
           data: JSON.stringify(data),
         };
         socketSend(message);
@@ -639,7 +640,7 @@ export default createStore({
     resetEncryption() {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "resetEncryption",
+          request: 'resetEncryption',
           data: this.state.currentChat.id,
         };
         socketSend(message);
@@ -648,8 +649,8 @@ export default createStore({
     registerSecondaryDevice() {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "registerSecondaryDevice",
-          data: "",
+          request: 'registerSecondaryDevice',
+          data: '',
         };
         socketSend(message);
       }
@@ -657,7 +658,7 @@ export default createStore({
     verifyIdentity() {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "verifyIdentity",
+          request: 'verifyIdentity',
           data: this.state.currentChat.id,
         };
         socketSend(message);
@@ -667,8 +668,8 @@ export default createStore({
       if (this.state.socket.isConnected) {
         state.importingContacts = false;
         const message = {
-          request: "getContacts",
-          data: "",
+          request: 'getContacts',
+          data: '',
         };
         socketSend(message);
       }
@@ -677,20 +678,20 @@ export default createStore({
       if (this.state.socket.isConnected) {
         state.importingContacts = false;
         const message = {
-          request: "getContactSync",
-          data: "",
+          request: 'getContactSync',
+          data: '',
         };
         socketSend(message);
       }
     },
     addContact(state, contact) {
       state.rateLimitError = null;
-      if (this.state.socket.isConnected && contact.name !== "" && contact.phone !== "") {
+      if (this.state.socket.isConnected && contact.name !== '' && contact.phone !== '') {
         if (this.state.currentChat !== null && this.state.currentChat.Tel === contact.phone) {
-          this.commit("SET_CURRENT_CHAT_NAME", contact.name);
+          this.commit('SET_CURRENT_CHAT_NAME', contact.name);
         }
         const message = {
-          request: "addContact",
+          request: 'addContact',
           data: {
             name: contact.name,
             phone: contact.phone,
@@ -703,7 +704,7 @@ export default createStore({
     updateProfileName(state, data) {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "updateProfileName",
+          request: 'updateProfileName',
           data: {
             name: data.name,
             id: data.id,
@@ -715,29 +716,29 @@ export default createStore({
     createChatForRecipient(state, data) {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "openChat",
+          request: 'openChat',
           data: {
-            "Contact":data.id,
-          }
+            Contact: data.id,
+          },
         };
         socketSend(message);
       }
     },
     filterContacts(state, filter) {
-      this.commit("SET_CONTACTS_FILTER", filter);
+      this.commit('SET_CONTACTS_FILTER', filter);
     },
     filterContactsForGroup(state, filter) {
-      this.commit("SET_CONTACTS_FOR_GROUP_FILTER", filter);
+      this.commit('SET_CONTACTS_FOR_GROUP_FILTER', filter);
     },
     clearFilterContacts() {
-      this.commit("SET_CLEAR_CONTACTS_FILTER");
+      this.commit('SET_CLEAR_CONTACTS_FILTER');
     },
     uploadVcf(state, vcf) {
       state.rateLimitError = null;
       state.importingContacts = true;
       if (this.state.socket.isConnected) {
         const message = {
-          request: "uploadVcf",
+          request: 'uploadVcf',
           data: vcf,
         };
         socketSend(message);
@@ -750,7 +751,7 @@ export default createStore({
           recipient: attachment.to,
         };
         const message = {
-          request: "uploadAttachment",
+          request: 'uploadAttachment',
           data: JSON.stringify(data),
         };
         socketSend(message);
@@ -760,7 +761,7 @@ export default createStore({
       state.importingContacts = true;
       if (this.state.socket.isConnected) {
         const message = {
-          request: "refreshContacts",
+          request: 'refreshContacts',
           data: chUrl,
         };
         socketSend(message);
@@ -770,7 +771,7 @@ export default createStore({
       state.rateLimitError = null;
       if (this.state.socket.isConnected) {
         const message = {
-          request: "delContact",
+          request: 'delContact',
           data: id,
         };
         socketSend(message);
@@ -779,7 +780,7 @@ export default createStore({
     deleteSelfDestructingMessage(state, m) {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "delMessage",
+          request: 'delMessage',
           data: m.id,
         };
         socketSend(message);
@@ -789,10 +790,10 @@ export default createStore({
       state.rateLimitError = null;
       if (this.state.socket.isConnected) {
         if (this.state.currentChat !== null && this.state.currentChat.Tel === data.contact.Tel) {
-          this.commit("SET_CURRENT_CHAT_NAME", data.contact.Name);
+          this.commit('SET_CURRENT_CHAT_NAME', data.contact.Name);
         }
         const message = {
-          request: "editContact",
+          request: 'editContact',
           data: {
             phone: data.contact.Tel,
             name: data.contact.Name,
@@ -808,7 +809,7 @@ export default createStore({
       this.state.verificationError = null;
       if (this.state.socket.isConnected) {
         const message = {
-          request: "requestCode",
+          request: 'requestCode',
           data: tel,
         };
         socketSend(message);
@@ -817,19 +818,19 @@ export default createStore({
     sendCode(state, code) {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "sendCode",
+          request: 'sendCode',
           data: code,
         };
         socketSend(message);
       } else {
-        console.error("socket not connected");
+        console.error('socket not connected');
         // reconnect socket
       }
     },
     setUsername(state, username) {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "sendUsername",
+          request: 'sendUsername',
           data: username,
         };
         socketSend(message);
@@ -838,7 +839,7 @@ export default createStore({
     sendPin(state, pin) {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "sendPin",
+          request: 'sendPin',
           data: pin,
         };
         socketSend(message);
@@ -847,7 +848,7 @@ export default createStore({
     sendPassword(state, password) {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "sendPassword",
+          request: 'sendPassword',
           data: password,
         };
         socketSend(message);
@@ -856,20 +857,20 @@ export default createStore({
     setPassword(state, password) {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "setPassword",
+          request: 'setPassword',
           data: {
             pw: password.pw,
             currentPw: password.cPw,
           },
         };
         socketSend(message);
-        router.push("/chatList");
+        router.push('/chatList');
       }
     },
     getRegistrationStatus() {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "getRegistrationStatus",
+          request: 'getRegistrationStatus',
         };
         socketSend(message);
       }
@@ -877,7 +878,7 @@ export default createStore({
     unregister() {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "unregister",
+          request: 'unregister',
         };
         socketSend(message);
       }
@@ -885,7 +886,7 @@ export default createStore({
     getConfig() {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "getConfig",
+          request: 'getConfig',
         };
         socketSend(message);
       }
@@ -893,7 +894,7 @@ export default createStore({
     createNewGroup(state, data) {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "createGroup",
+          request: 'createGroup',
           data: {
             name: data.name,
             members: data.members,
@@ -905,7 +906,7 @@ export default createStore({
     updateGroup(state, data) {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "updateGroup",
+          request: 'updateGroup',
           data: {
             name: data.name,
             id: data.id,
@@ -918,7 +919,7 @@ export default createStore({
     joinGroup(state, data) {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "joinGroup",
+          request: 'joinGroup',
           data,
         };
         socketSend(message);
@@ -928,11 +929,11 @@ export default createStore({
       if (this.state.socket.isConnected) {
         const mapped_data = {
           mimetype: data.type,
-          path: data.path.replace("file://", ""),
+          path: data.path.replace('file://', ''),
           recipient: data.to,
         };
         const message = {
-          request: "sendAttachment",
+          request: 'sendAttachment',
           data: JSON.stringify(mapped_data),
         };
         socketSend(message);
@@ -941,7 +942,7 @@ export default createStore({
     sendVoiceNote(state, voiceNote) {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "sendVoiceNote",
+          request: 'sendVoiceNote',
           data: {
             attachment: voiceNote.note,
             to: voiceNote.to,
@@ -953,7 +954,7 @@ export default createStore({
     setDarkMode(state, darkMode) {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "setDarkMode",
+          request: 'setDarkMode',
           data: darkMode,
         };
         socketSend(message);
@@ -963,24 +964,24 @@ export default createStore({
     sendCaptchaToken() {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "sendCaptchaToken",
+          request: 'sendCaptchaToken',
           data: this.state.captchaToken,
         };
         socketSend(message);
-        this.commit("SET_CAPTCHA_TOKEN_SENT");
+        this.commit('SET_CAPTCHA_TOKEN_SENT');
       }
     },
     setLogLevel(state, level) {
       if (this.state.socket.isConnected) {
         const message = {
-          request: "setLogLevel",
+          request: 'setLogLevel',
           level,
         };
         socketSend(message);
       }
     },
     setCaptchaToken(state, token) {
-      this.commit("SET_CAPTCHA_TOKEN", token);
+      this.commit('SET_CAPTCHA_TOKEN', token);
     },
   },
 });

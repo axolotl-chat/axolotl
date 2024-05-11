@@ -11,7 +11,12 @@
           </button>
         </div>
         <div class="modal-body">
-          <span><strong v-translate>Contacts can be added through a vcf contacts file. If an contact has multiple numbers, all of them will be added as separate contacts.</strong></span>
+          <span>
+            <strong v-translate>
+              Contacts can be added through a vcf contacts file. If an contact has multiple numbers,
+              all of them will be added as separate contacts.
+            </strong>
+          </span>
         </div>
         <div class="modal-body">
           <input
@@ -23,12 +28,7 @@
           />
         </div>
         <div class="modal-footer">
-          <button
-            v-translate
-            type="button"
-            class="btn btn-primary"
-            @click="refreshContacts()"
-          >
+          <button v-translate type="button" class="btn btn-primary" @click="refreshContacts()">
             Import vcf
           </button>
         </div>
@@ -38,36 +38,34 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 export default {
-  name: "ImportVcfModal",
+  name: 'ImportVcfModal',
   props: {
     number: {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
     uuid: {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
   },
-  emits: ["close", "add"],
+  emits: ['close', 'add'],
   data() {
     return {
-      phone: "",
-      name: "",
+      phone: '',
+      name: '',
     };
   },
-  computed: mapState([
-    "gui",
-  ]),
+  computed: mapState(['gui']),
   mounted() {
     if (this.number) {
       this.phone = this.number;
-      this.name = "";
-    } 
+      this.name = '';
+    }
   },
   methods: {
     readVcf(evt) {
@@ -77,26 +75,25 @@ export default {
         const that = this;
         r.onload = function (e) {
           const vcf = e.target.result;
-          that.$store.dispatch("uploadVcf", vcf);
+          that.$store.dispatch('uploadVcf', vcf);
         };
         r.readAsText(f);
-        this.$emit("close");
+        this.$emit('close');
       } else {
-        alert("Failed to load file");
+        alert('Failed to load file');
       }
     },
     refreshContacts() {
       this.$store.state.importingContacts = true;
       // console.log("Import contacts for gui " + this.gui)
       this.showSettingsMenu = false;
-      if (this.gui === "ut") {
-        const result = window.prompt("refreshContacts");
-        if (result !== "canceled")
-          this.$store.dispatch("refreshContacts", result);
-          this.$emit("close");
+      if (this.gui === 'ut') {
+        const result = window.prompt('refreshContacts');
+        if (result !== 'canceled') this.$store.dispatch('refreshContacts', result);
+        this.$emit('close');
       } else {
         this.showSettingsMenu = false;
-        document.getElementById("addVcf").click();
+        document.getElementById('addVcf').click();
       }
     },
   },

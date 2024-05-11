@@ -11,14 +11,16 @@
             class="form-control"
             placeholder="Enter group name"
             @change="setGroupName"
-          >
+          />
         </div>
         <p v-translate>Note, you can't add yourself to a group.</p>
         <button class="btn add-group-members" @click="addMembersModal = true">
-          <font-awesome-icon v-translate icon="plus" /> Members
+          <font-awesome-icon v-translate icon="plus" />
+          Members
         </button>
         <button class="btn create-group" @click="updateGroup">
-          <font-awesome-icon v-translate icon="check" /> Update group
+          <font-awesome-icon v-translate icon="check" />
+          Update group
         </button>
         <add-group-members-modal
           v-if="addMembersModal"
@@ -58,11 +60,11 @@
 </template>
 
 <script>
-import AddGroupMembersModal from "@/components/AddGroupMembersModal.vue";
-import { mapState } from "vuex";
+import AddGroupMembersModal from '@/components/AddGroupMembersModal.vue';
+import { mapState } from 'vuex';
 
 export default {
-  name: "EditGroup",
+  name: 'EditGroup',
   components: {
     AddGroupMembersModal,
   },
@@ -74,10 +76,10 @@ export default {
       creatingGroup: false,
     };
   },
-  computed: mapState(["config", "currentGroup", "contacts"]),
+  computed: mapState(['config', 'currentGroup', 'contacts']),
   mounted() {
-    this.$store.dispatch("getConfig");
-    this.$store.dispatch("getContacts");
+    this.$store.dispatch('getConfig');
+    this.$store.dispatch('getContacts');
   },
   methods: {
     setGroupName() {},
@@ -85,10 +87,7 @@ export default {
       const found = this.newGroupMembers.find(function (element) {
         return element.Tel === groupMember.Tel;
       });
-      if (
-        typeof found === "undefined" &&
-        groupMember.Tel !== this.config.RegisteredNumber
-      )
+      if (typeof found === 'undefined' && groupMember.Tel !== this.config.RegisteredNumber)
         this.newGroupMembers.push(groupMember);
     },
     removeMember(i) {
@@ -108,7 +107,7 @@ export default {
           if (m.Tel !== this.config.RegisteredNumber) members.push(m.Tel);
         });
         if (members.length > 0)
-          this.$store.dispatch("updateGroup", {
+          this.$store.dispatch('updateGroup', {
             name: this.currentGroup.Name,
             members: members,
             id: this.currentGroup.Hexid,

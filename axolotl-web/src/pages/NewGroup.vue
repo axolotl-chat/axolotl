@@ -11,14 +11,16 @@
             class="form-control"
             placeholder="Enter group name"
             @change="setGroupName"
-          >
+          />
         </div>
         <p v-translate>Note, you can't add yourself to a group.</p>
         <button class="btn add-group-members" @click="addMembersModal = true">
-          <font-awesome-icon icon="plus" /> <span v-translate>Members</span>
+          <font-awesome-icon icon="plus" />
+          <span v-translate>Members</span>
         </button>
         <button class="btn create-group" @click="createGroup">
-          <font-awesome-icon icon="check" /> <span v-translate>Create group</span>
+          <font-awesome-icon icon="check" />
+          <span v-translate>Create group</span>
         </button>
         <add-group-members-modal
           v-if="addMembersModal"
@@ -48,11 +50,11 @@
 </template>
 
 <script>
-import AddGroupMembersModal from "@/components/AddGroupMembersModal.vue";
-import { mapState } from "vuex";
+import AddGroupMembersModal from '@/components/AddGroupMembersModal.vue';
+import { mapState } from 'vuex';
 
 export default {
-  name: "NewGroup",
+  name: 'NewGroup',
   components: {
     AddGroupMembersModal,
   },
@@ -64,10 +66,10 @@ export default {
       creatingGroup: false,
     };
   },
-  computed: mapState(["config"]),
+  computed: mapState(['config']),
   mounted() {
-    this.$store.dispatch("getConfig");
-    this.$store.dispatch("getContacts");
+    this.$store.dispatch('getConfig');
+    this.$store.dispatch('getContacts');
   },
   methods: {
     setGroupName() {},
@@ -75,10 +77,7 @@ export default {
       const found = this.newGroupMembers.find(function (element) {
         return element.Tel === groupMember.Tel;
       });
-      if (
-        typeof found === "undefined" &&
-        groupMember.Tel !== this.config.RegisteredNumber
-      )
+      if (typeof found === 'undefined' && groupMember.Tel !== this.config.RegisteredNumber)
         this.newGroupMembers.push(groupMember);
     },
     removeMember(i) {
@@ -94,7 +93,7 @@ export default {
           if (m.Tel !== this.config.RegisteredNumber) members.push(m.Tel);
         });
         if (members.length > 0)
-          this.$store.dispatch("createNewGroup", {
+          this.$store.dispatch('createNewGroup', {
             name: this.newGroupName,
             members: members,
           });

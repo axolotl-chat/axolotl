@@ -17,39 +17,39 @@
         @paste="onPaste"
         @focus="newColor(index)"
         @blur="defaultColor(index)"
-      >
+      />
     </div>
   </div>
 </template>
 <script>
 export default {
-  name: "VerificationPinInputComponent",
+  name: 'VerificationPinInputComponent',
   props: {
     numberOfBoxes: {
       type: Number,
-      default: 6
+      default: 6,
     },
     position: {
       type: String,
-      default: "center"
+      default: 'center',
     },
     color: {
       type: String,
-      default: ""
+      default: '',
     },
     clearInput: {
       type: Boolean,
       default: false,
     },
   },
-  emits:['input-value','enter','clearValue'],
+  emits: ['input-value', 'enter', 'clearValue'],
 
   data() {
     return {
       arraySize: null,
       boxLength: null,
       direction: null,
-      boxColor: "#2090ea",
+      boxColor: '#2090ea',
       clearFlag: false,
     };
   },
@@ -57,88 +57,88 @@ export default {
   mounted() {
     this.handleBoxes();
 
-    if (typeof this.color !== "undefined" && this.color) {
+    if (typeof this.color !== 'undefined' && this.color) {
       this.boxColor = this.color;
     }
     this.clearFlag = this.clearInput;
     if (this.clearFlag) {
-      this.$emit("clearValue", "");
+      this.$emit('clearValue', '');
     }
     this.handleAlignment();
   },
   methods: {
     handleBoxes() {
-      if (typeof this.numberOfBoxes === "undefined" && !this.numberOfBoxes) {
+      if (typeof this.numberOfBoxes === 'undefined' && !this.numberOfBoxes) {
         this.boxLength = 6;
-        this.arraySize = Array(this.boxLength).fill("");
-      } else if (typeof this.numberOfBoxes === "number") {
+        this.arraySize = Array(this.boxLength).fill('');
+      } else if (typeof this.numberOfBoxes === 'number') {
         this.boxLength = this.numberOfBoxes;
-        this.arraySize = Array(this.boxLength).fill("");
+        this.arraySize = Array(this.boxLength).fill('');
       } else {
         this.boxLength = 6;
-        this.arraySize = Array(this.boxLength).fill("");
+        this.arraySize = Array(this.boxLength).fill('');
       }
     },
     handleAlignment() {
       switch (this.position) {
-        case "left":
-          this.direction = "flex-start";
+        case 'left':
+          this.direction = 'flex-start';
           break;
-        case "right":
-          this.direction = "flex-end";
+        case 'right':
+          this.direction = 'flex-end';
           break;
-        case "center":
-          this.direction = "center";
+        case 'center':
+          this.direction = 'center';
           break;
         default:
-          this.direction = "center";
+          this.direction = 'center';
       }
     },
     newColor(index) {
-      const i = "otp" + index;
+      const i = 'otp' + index;
       this.$refs[i][0].style.boxShadow = ` 0 0 5px  ${this.boxColor} inset`;
       this.$refs[i][0].style.border = `1px solid ${this.boxColor}`;
     },
     defaultColor(index) {
-      const i = "otp" + index;
-      this.$refs[i][0].style.boxShadow = " 0 0 5px #ccc inset";
-      this.$refs[i][0].style.border = "solid 1px #ccc";
+      const i = 'otp' + index;
+      this.$refs[i][0].style.boxShadow = ' 0 0 5px #ccc inset';
+      this.$refs[i][0].style.border = 'solid 1px #ccc';
     },
     focusElement(index) {
-      const i = "otp" + index;
+      const i = 'otp' + index;
       this.$refs[i][0].focus();
     },
     handleEnterKey(event) {
-      if (event.key === "Enter") {
-        this.$emit("enter");
+      if (event.key === 'Enter') {
+        this.$emit('enter');
         event.stopPropagation();
       }
     },
     sanitizeKeyData(key) {
-      return key === "Unidentified" ? undefined : key;
+      return key === 'Unidentified' ? undefined : key;
     },
     emitInput() {
-      const result = this.arraySize.join("").slice(0, this.numberOfBoxes);
-      this.$emit("input-value", result);
+      const result = this.arraySize.join('').slice(0, this.numberOfBoxes);
+      this.$emit('input-value', result);
     },
     handleKeyDown(event, index) {
       const key = this.sanitizeKeyData(event.key);
       if (!key) {
         return;
       }
-      if (key === "Backspace") {
+      if (key === 'Backspace') {
         if (this.arraySize[index]) {
-          return (this.arraySize[index] = "");
+          return (this.arraySize[index] = '');
         }
 
         if (index > 0) {
           this.focusElement(index - 1);
         }
-      } else if (!event.shiftKey && (key === "ArrowRight" || key === "Right")) {
+      } else if (!event.shiftKey && (key === 'ArrowRight' || key === 'Right')) {
         if (index < this.arraySize.length - 1) {
           this.focusElement(index + 1);
         }
-      } else if (!event.shiftKey && (key === "ArrowLeft" || key === "Left")) {
+      } else if (!event.shiftKey && (key === 'ArrowLeft' || key === 'Left')) {
         if (index > 0) {
           this.focusElement(index - 1);
         }
@@ -171,23 +171,21 @@ export default {
         return;
       }
       event.preventDefault();
-      const code =
-        clipboardData.getData("Text") || clipboardData.getData("text/plain");
+      const code = clipboardData.getData('Text') || clipboardData.getData('text/plain');
       this.fillCode(code);
       this.emitInput();
     },
     fillCode(code) {
       code = code.trim();
       code = code.slice(0, this.boxLength);
-      const parts = code.split("");
+      const parts = code.split('');
       parts.length = this.boxLength;
       this.arraySize = parts;
       const last = code.length - 1;
       setTimeout(() => {
-        this.arraySize[last] =
-          this.arraySize[last] && this.arraySize[last].slice(0, 1);
+        this.arraySize[last] = this.arraySize[last] && this.arraySize[last].slice(0, 1);
         this.$forceUpdate();
-        this.$refs["otp" + (this.arraySize.length - 1)][0].focus();
+        this.$refs['otp' + (this.arraySize.length - 1)][0].focus();
       }, 0);
     },
   },
@@ -230,7 +228,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type="tel"] {
+input[type='tel'] {
   -moz-appearance: textfield;
 }
 </style>

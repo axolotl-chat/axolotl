@@ -56,18 +56,16 @@
         @confirm="unregister"
       />
       <div class="about w-100">
-        <router-link v-translate class="btn btn-primary" :to="'/about'">
-          About Axolotl
-        </router-link>
+        <router-link v-translate class="btn btn-primary" :to="'/about'">About Axolotl</router-link>
       </div>
       <button v-translate class="btn btn-danger" @click="showConfirmationModal = true">
         Unregister
       </button>
       <div class="warning-box">
         <span v-translate>
-          Due to technical limitations, Axolotl doesn't support push notifications. Keep
-          the app open to be notified in real time. In Ubuntu Touch, use UT Tweak Tool to
-          set Axolotl on "Prevent app suspension".
+          Due to technical limitations, Axolotl doesn't support push notifications. Keep the app
+          open to be notified in real time. In Ubuntu Touch, use UT Tweak Tool to set Axolotl on
+          "Prevent app suspension".
         </span>
       </div>
     </div>
@@ -75,8 +73,8 @@
 </template>
 
 <script>
-import ConfirmationModal from '@/components/ConfirmationModal.vue'
-import { mapState } from 'vuex'
+import ConfirmationModal from '@/components/ConfirmationModal.vue';
+import { mapState } from 'vuex';
 export default {
   name: 'SettingsPage',
   components: {
@@ -87,44 +85,44 @@ export default {
       showConfirmationModal: false,
       darkMode: false,
       loglevel: 'info',
-    }
+    };
   },
   computed: mapState(['config']),
   mounted() {
-    this.$store.dispatch('getConfig')
-    this.darkMode = this.getCookie('darkMode') === 'true'
-    this.loglevel = this.config.LogLevel
+    this.$store.dispatch('getConfig');
+    this.darkMode = this.getCookie('darkMode') === 'true';
+    this.loglevel = this.config.LogLevel;
   },
   methods: {
     unregister() {
-      this.$store.dispatch('unregister')
-      localStorage.removeItem('registrationStatus')
+      this.$store.dispatch('unregister');
+      localStorage.removeItem('registrationStatus');
     },
     toggleDarkMode() {
-      let c = this.getCookie('darkMode')
-      if (this.getCookie('darkMode') === 'false') c = true
-      else c = false
-      this.$store.dispatch('setDarkMode', c)
+      let c = this.getCookie('darkMode');
+      if (this.getCookie('darkMode') === 'false') c = true;
+      else c = false;
+      this.$store.dispatch('setDarkMode', c);
     },
     setLogLevel(e) {
-      this.$store.dispatch('setLogLevel', e.target.value)
+      this.$store.dispatch('setLogLevel', e.target.value);
     },
     getCookie(cname) {
-      const name = cname + '='
-      const ca = document.cookie.split(';')
+      const name = cname + '=';
+      const ca = document.cookie.split(';');
       for (let i = 0; i < ca.length; i++) {
-        let c = ca[i]
+        let c = ca[i];
         while (c.charAt(0) === ' ') {
-          c = c.substring(1)
+          c = c.substring(1);
         }
         if (c.indexOf(name) === 0) {
-          return c.substring(name.length, c.length)
+          return c.substring(name.length, c.length);
         }
       }
-      return false
+      return false;
     },
   },
-}
+};
 </script>
 <style scoped>
 .settings {

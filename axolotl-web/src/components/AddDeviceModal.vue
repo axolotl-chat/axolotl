@@ -16,21 +16,11 @@
           </ul>
           <div class="form-group">
             <label v-translate for="inputQRCode">QR code</label>
-            <input
-              id="inputQRCode"
-              v-model="qrCode"
-              type="text"
-              class="form-control"
-            >
+            <input id="inputQRCode" v-model="qrCode" type="text" class="form-control" />
           </div>
         </div>
         <div class="modal-footer">
-          <button
-            v-translate
-            type="button"
-            class="btn btn-primary"
-            @click="$emit('add', qrCode)"
-          >
+          <button v-translate type="button" class="btn btn-primary" @click="$emit('add', qrCode)">
             Add
           </button>
         </div>
@@ -41,11 +31,11 @@
 
 <script>
 export default {
-  name: "AddDeviceModal",
-  emits: ["close", "add"],
+  name: 'AddDeviceModal',
+  emits: ['close', 'add'],
   data() {
     return {
-      qrCode: "",
+      qrCode: '',
     };
   },
 };

@@ -12,12 +12,7 @@
         </div>
       </div>
       <div v-else class="registration">
-        <VueTelInput
-          id="phoneInput"
-          mode="international"
-          class="phoneInput"
-          @input="updatePhone"
-        />
+        <VueTelInput id="phoneInput" mode="international" class="phoneInput" @input="updatePhone" />
         <button v-translate class="btn btn-primary mt-3" @click="requestCode()">
           Request code
         </button>
@@ -27,45 +22,44 @@
 </template>
 
 <script>
-import { VueTelInput } from "vue3-tel-input";
-import "vue3-tel-input/dist/vue3-tel-input.css";
-import { mapState } from "vuex";
+import { VueTelInput } from 'vue3-tel-input';
+import 'vue3-tel-input/dist/vue3-tel-input.css';
+import { mapState } from 'vuex';
 
 export default {
-  name: "RegisterPage",
+  name: 'RegisterPage',
   components: {
     VueTelInput,
   },
   data() {
     return {
-      phone: "",
+      phone: '',
     };
   },
   computed: mapState([
-    "gui",
-    "rateLimitError",
-    "registrationStatus",
-    "captchaToken",
-    "captchaTokenSent",
-    "registrationError"
+    'gui',
+    'rateLimitError',
+    'registrationStatus',
+    'captchaToken',
+    'captchaTokenSent',
+    'registrationError',
   ]),
   mounted() {
     const userLang = navigator.language || navigator.userLanguage;
     this.$language.current = userLang;
     if (this.captchaToken !== null && !this.captchaTokenSent) {
-      this.$store.dispatch("sendCaptchaToken");
+      this.$store.dispatch('sendCaptchaToken');
     }
   },
   methods: {
     requestCode() {
-      this.$store.dispatch("requestCode", this.phone.replace(/\s/g, ""));
+      this.$store.dispatch('requestCode', this.phone.replace(/\s/g, ''));
     },
     updatePhone(e) {
-      if(typeof e === "string")
-      this.phone = e;
+      if (typeof e === 'string') this.phone = e;
     },
     openExtern(e, url) {
-      if (this.gui === "ut") {
+      if (this.gui === 'ut') {
         e.preventDefault();
         alert(url);
       }
@@ -102,7 +96,7 @@ h2 {
   max-width: 300px;
   margin: auto;
   margin-top: auto;
-  color: #FFF;
+  color: #fff;
 }
 .logo {
   margin: 20px auto;

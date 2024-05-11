@@ -6,7 +6,7 @@
           (message.message_type === 'SyncMessage' &&
             message.message &&
             message.message !== 'SyncMessage'))) ||
-        message.attachments.length > 0
+      message.attachments.length > 0
     "
     :key="message.ID"
     :class="{
@@ -23,9 +23,7 @@
           message.Flags !== 13 &&
           message.Flags !== 14) ||
         message.StatusMessage ||
-        (message.Attachment &&
-          message.Attachment.includes('null') &&
-          message.Message === ''),
+        (message.Attachment && message.Attachment.includes('null') && message.Message === ''),
       hidden: message.Flags === 18,
       error: message.timestamp === 0 || message.SendingError,
       'group-message': isGroup,
@@ -78,34 +76,24 @@
             <div v-else-if="m.ctype === 'audio'" class="attachment-audio">
               <div class="audio-player-container d-flex">
                 <button id="play-icon">
-                  <font-awesome-icon
-                    v-if="!isPlaying"
-                    class="play"
-                    icon="play"
-                    @click="play"
-                  />
-                  <font-awesome-icon
-                    v-if="isPlaying"
-                    class="pause"
-                    icon="pause"
-                    @click="pause"
-                  />
+                  <font-awesome-icon v-if="!isPlaying" class="play" icon="play" @click="play" />
+                  <font-awesome-icon v-if="isPlaying" class="pause" icon="pause" @click="pause" />
                 </button>
-                <span v-if="!isPlaying" id="duration" class="time">{{
-                  humanifyTimePeriod(duration)
-                }}</span>
-                <span v-if="isPlaying" id="currentTime" class="time">{{ humanifyTimePeriod(currentTime) }} /
-                  {{ humanifyTimePeriod(duration) }}</span>
+                <span v-if="!isPlaying" id="duration" class="time">
+                  {{ humanifyTimePeriod(duration) }}
+                </span>
+                <span v-if="isPlaying" id="currentTime" class="time">
+                  {{ humanifyTimePeriod(currentTime) }} / {{ humanifyTimePeriod(duration) }}
+                </span>
               </div>
             </div>
-            <div
-              v-else-if="m.filename !== '' && m.ctype === 'file'"
-              class="attachment-file"
-            >
+            <div v-else-if="m.filename !== '' && m.ctype === 'file'" class="attachment-file">
               <a
                 :href="'http://localhost:9080/attachments/' + m.filename"
                 @click="shareAttachment(m.filename, $event)"
-              >{{ m.fileName }}</a>
+              >
+                {{ m.fileName }}
+              </a>
             </div>
             <div
               v-else-if="m.ctype === 'video'"
@@ -143,21 +131,15 @@
           v-if="message.attachments.length === 0 && !message.message && !isGroup"
           class="status-message"
         >
-          <span v-translate>Set timer for self-destructing messages </span>
+          <span v-translate>Set timer for self-destructing messages</span>
           <div>{{ humanifyTimePeriod(message.ExpireTimer) }}</div>
         </div>
-        <div v-if="message.Flags === 10" v-translate>
-          Unsupported message type: sticker
-        </div>
+        <div v-if="message.Flags === 10" v-translate>Unsupported message type: sticker</div>
       </div>
       <div v-if="message.timestamp !== 0" class="meta">
         <div class="time">
-          <span @click="showDate = !showDate">{{
-            humanifyDateFromNow(message.timestamp)
-          }}</span>
-          <span v-if="showDate" class="fullDate">{{
-            humanifyDate(message.timestamp)
-          }}</span>
+          <span @click="showDate = !showDate">{{ humanifyDateFromNow(message.timestamp) }}</span>
+          <span v-if="showDate" class="fullDate">{{ humanifyDate(message.timestamp) }}</span>
         </div>
         <div v-if="message.ExpireTimer > 0">
           <div class="circle-wrap">
@@ -189,10 +171,10 @@
 </template>
 
 <script>
-import moment from 'moment'
-import { mapState } from 'vuex'
-import { router } from '@/router/router'
-let decoder
+import moment from 'moment';
+import { mapState } from 'vuex';
+import { router } from '@/router/router';
+let decoder;
 
 export default {
   name: 'MessageComponent',
@@ -216,33 +198,32 @@ export default {
       isPlaying: false,
       id: -1,
       senderName: '',
-    }
+    };
   },
   computed: {
     ...mapState(['currentGroup', 'config', 'contacts']),
     is_outgoing() {
-      if (this.message?.sender === this.config.uuid || this.message?.sender === null)
-        return true
+      if (this.message?.sender === this.config.uuid || this.message?.sender === null) return true;
       else if (this.message?.is_outgoing) {
-        return true
+        return true;
       } else {
-        return false
+        return false;
       }
     },
     isSenderNameDisplayed() {
-      return !this.is_outgoing && this.isGroup
+      return !this.is_outgoing && this.isGroup;
     },
     name() {
       if (this.senderName === '') {
-        const uuid = this.message.sender
+        const uuid = this.message.sender;
         const contact = this.contacts.find((element) => {
-          return element.uuid === uuid
-        })
+          return element.uuid === uuid;
+        });
         if (typeof contact !== 'undefined') {
-          return contact.name
+          return contact.name;
         }
       }
-      return this.senderName
+      return this.senderName;
     },
   },
   mounted() {
@@ -251,141 +232,141 @@ export default {
       this.message.Attachment !== '' &&
       this.message.Attachment !== null
     ) {
-      const attachment = JSON.parse(this.message.Attachment)
+      const attachment = JSON.parse(this.message.Attachment);
       if (attachment && attachment.length > 0 && attachment[0].CType === 3) {
-        this.audio = new Audio(`http://localhost:9080/attachments/${attachment[0].File}`)
-        var that = this
+        this.audio = new Audio(`http://localhost:9080/attachments/${attachment[0].File}`);
+        var that = this;
         this.audio.onloadedmetadata = function () {
-          that.duration = that.audio.duration.toFixed(2)
-        }
+          that.duration = that.audio.duration.toFixed(2);
+        };
         this.audio.onended = function () {
-          that.audio.currentTime = 0
-          that.isPlaying = false
-        }
+          that.audio.currentTime = 0;
+          that.isPlaying = false;
+        };
         this.audio.ontimeupdate = function () {
-          that.currentTime = that.audio.currentTime.toFixed(2)
-        }
+          that.currentTime = that.audio.currentTime.toFixed(2);
+        };
       }
     }
   },
   methods: {
     sanitize(msg) {
-      decoder = decoder || document.createElement('div')
-      decoder.textContent = msg
-      let result = decoder.innerHTML
-      decoder.textContent = result //escapes twice in order to negate v-html's unescaping
-      result = decoder.innerHTML
-      return result
+      decoder = decoder || document.createElement('div');
+      decoder.textContent = msg;
+      let result = decoder.innerHTML;
+      decoder.textContent = result; //escapes twice in order to negate v-html's unescaping
+      result = decoder.innerHTML;
+      return result;
     },
     onImageError(event) {
-      event.target.style.display = 'none'
+      event.target.style.display = 'none';
     },
     openProfileForRecipient(recipient) {
       if (recipient !== -1) {
-        router.push(`/profile/${recipient}`)
+        router.push(`/profile/${recipient}`);
       } else {
         this.$store.dispatch('createRecipientAndAddToGroup', {
           id: this.message.SourceUUID,
           group: this.currentGroup.HexId,
-        })
+        });
       }
     },
     getName() {
-      if (!this.isGroup) return ''
+      if (!this.isGroup) return '';
       if (this.contacts !== null) {
-        const uuid = this.message.sender
+        const uuid = this.message.sender;
         const contact = this.contacts.find((element) => {
-          return element.uuid === uuid
-        })
+          return element.uuid === uuid;
+        });
         if (typeof contact !== 'undefined') {
-          this.name = contact.name
-          return this.name
+          this.name = contact.name;
+          return this.name;
         }
       }
       if (this.currentGroup !== null && this.currentGroup.Members !== null) {
         const contact = this.currentGroup.Members.find(function (element) {
-          return element.UUID === uuid
-        })
+          return element.UUID === uuid;
+        });
         if (typeof contact !== 'undefined') {
-          this.id = contact.Id
-          if (contact.ProfileGivenName !== '') this.name = contact.ProfileGivenName
-          else this.name = contact.Username
-          return this.name
+          this.id = contact.Id;
+          if (contact.ProfileGivenName !== '') this.name = contact.ProfileGivenName;
+          else this.name = contact.Username;
+          return this.name;
         }
       }
-      this.name = this.message.sender
-      return this.message.sender
+      this.name = this.message.sender;
+      return this.message.sender;
     },
     isAttachmentArray(input) {
       try {
-        return JSON.parse(input)
+        return JSON.parse(input);
       } catch (e) {
-        return false
+        return false;
       }
       // JSON.parse(input)
     },
     shareAttachment(file, e) {
       if (typeof this.config.Gui !== 'undefined' && this.config.Gui === 'ut') {
-        e.preventDefault()
-        alert('[oD]' + file)
+        e.preventDefault();
+        alert('[oD]' + file);
         // this.showAttachmentsBar=true
       }
     },
     timerPercentage(m) {
-      const received = moment(m.ReceivedAt)
-      const duration = moment.duration(received.diff(moment.now()))
-      const percentage = 1 - (m.ExpireTimer + duration.asSeconds()) / m.ExpireTimer
+      const received = moment(m.ReceivedAt);
+      const duration = moment.duration(received.diff(moment.now()));
+      const percentage = 1 - (m.ExpireTimer + duration.asSeconds()) / m.ExpireTimer;
       if (percentage < 1) {
-        const fullCircle = 179
-        return fullCircle * percentage
-      } else return 0
+        const fullCircle = 179;
+        return fullCircle * percentage;
+      } else return 0;
     },
     verifySelfDestruction(m) {
       if (m.ExpireTimer !== 0) {
         if (m.ReceivedAt !== 0) {
           // hide destructed messages but not timer settings
-          const received = moment(m.ReceivedAt)
-          const duration = moment.duration(received.diff(moment.now()))
+          const received = moment(m.ReceivedAt);
+          const duration = moment.duration(received.diff(moment.now()));
           if (duration.asSeconds() + m.ExpireTimer < 0) {
-            this.$store.dispatch('deleteSelfDestructingMessage', m)
-            return false
+            this.$store.dispatch('deleteSelfDestructingMessage', m);
+            return false;
           }
         } else if (m.SentAt !== 0) {
-          const rS = moment(m.SentAt)
-          const durationS = moment.duration(rS.diff(moment.now()))
+          const rS = moment(m.SentAt);
+          const durationS = moment.duration(rS.diff(moment.now()));
           if (durationS.asSeconds() + m.ExpireTimer < 0 && m.Message !== '') {
-            this.$store.dispatch('deleteSelfDestructingMessage', m)
-            return false
+            this.$store.dispatch('deleteSelfDestructingMessage', m);
+            return false;
           }
         }
       }
-      return true
+      return true;
     },
     humanifyDate(inputDate) {
-      return new moment(inputDate).format('lll')
+      return new moment(inputDate).format('lll');
     },
     humanifyDateFromNow(inputDate) {
-      return new moment(inputDate).fromNow()
+      return new moment(inputDate).fromNow();
     },
     humanifyTimePeriod(time) {
-      if (time < 60) return time + ' s'
-      else if (time < 60 * 60) return time / 60 + ' m'
-      else if (time < 60 * 60 * 24) return time / 60 / 60 + ' h'
-      else if (time > 60 * 60 * 24) return time / 60 / 60 / 24 + ' d'
-      return time
+      if (time < 60) return time + ' s';
+      else if (time < 60 * 60) return time / 60 + ' m';
+      else if (time < 60 * 60 * 24) return time / 60 / 60 + ' h';
+      else if (time > 60 * 60 * 24) return time / 60 / 60 / 24 + ' d';
+      return time;
     },
     play() {
-      this.audio.play()
-      this.isPlaying = true
+      this.audio.play();
+      this.isPlaying = true;
     },
     pause() {
       if (this.audio && this.audio.currentTime > 0) {
-        this.audio.pause()
-        this.isPlaying = false
+        this.audio.pause();
+        this.isPlaying = false;
       }
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>

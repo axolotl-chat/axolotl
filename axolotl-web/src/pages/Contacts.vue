@@ -18,24 +18,15 @@
           <font-awesome-icon icon="times" @click="closeActionMode()" />
         </button>
       </div>
-      <div v-if="contacts.length === 0" v-translate class="empty">
-        Contact list is empty...
-      </div>
+      <div v-if="contacts.length === 0" v-translate class="empty">Contact list is empty...</div>
       <div v-if="contactsFilterActive">
         <div
           v-for="c in contactsFiltered"
           :key="c.Tel"
-          :class="
-            c === selectedContact
-              ? 'selected btn col-12 chat'
-              : 'btn col-12 chat'
-          "
+          :class="c === selectedContact ? 'selected btn col-12 chat' : 'btn col-12 chat'"
         >
           <div class="row chat-entry">
-            <div
-              :class="'avatar col-3 ' + checkForUUIDClass(c)"
-              @click="contactClick(c)"
-            >
+            <div :class="'avatar col-3 ' + checkForUUIDClass(c)" @click="contactClick(c)">
               <div class="badge-name">
                 <img
                   class="avatar-img"
@@ -60,15 +51,10 @@
         v-for="c in contacts"
         v-else
         :key="c.uuid"
-        :class="
-          c === selectedContact ? 'selected btn col-12 chat' : 'btn col-12 chat'
-        "
+        :class="c === selectedContact ? 'selected btn col-12 chat' : 'btn col-12 chat'"
       >
         <div class="row chat-entry">
-          <div
-            :class="'avatar col-3 avatar ' + checkForUUIDClass(c)"
-            @click="contactClick(c)"
-          >
+          <div :class="'avatar col-3 avatar ' + checkForUUIDClass(c)" @click="contactClick(c)">
             <div class="badge-name">
               <img
                 class="avatar-img"
@@ -81,7 +67,7 @@
           </div>
           <div class="meta col-8" @click="contactClick(c)">
             <p class="name">{{ c.name }}</p>
-            <p v-if="c.phonenumber" class="number">{{ `+${ c.phonenumber}` }}</p>
+            <p v-if="c.phonenumber" class="number">{{ `+${c.phonenumber}` }}</p>
           </div>
           <!-- <div class="col-1" @click="showContactAction(c)">
             <font-awesome-icon icon="wrench" />
@@ -90,10 +76,7 @@
       </div>
 
       <div v-if="addContactModal" class="addContactModal">
-        <add-contact-modal
-          @close="closeAddContactModal()"
-          @add="addContact($event)"
-        />
+        <add-contact-modal @close="closeAddContactModal()" @add="addContact($event)" />
       </div>
       <div v-if="editContactModal" class="editContactModal">
         <edit-contact-modal
@@ -110,12 +93,12 @@
 </template>
 
 <script>
-import AddContactModal from "@/components/AddContactModal.vue";
-import EditContactModal from "@/components/EditContactModal.vue";
-import { validateUUID } from "@/helpers/uuidCheck";
+import AddContactModal from '@/components/AddContactModal.vue';
+import EditContactModal from '@/components/EditContactModal.vue';
+import { validateUUID } from '@/helpers/uuidCheck';
 
 export default {
-  name: "ContactsPage",
+  name: 'ContactsPage',
   components: {
     AddContactModal,
     EditContactModal,
@@ -147,7 +130,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch("getContacts");
+    this.$store.dispatch('getContacts');
   },
   methods: {
     validateUUID,
@@ -158,7 +141,7 @@ export default {
       this.addContactModal = false;
     },
     addContact(data) {
-      this.$store.dispatch("addContact", data);
+      this.$store.dispatch('addContact', data);
       this.addContactModal = false;
     },
     showContactAction(contact) {
@@ -170,11 +153,11 @@ export default {
       this.selectedContact = null;
     },
     delContact() {
-      this.$store.dispatch("delContact", this.selectedContact.Tel);
+      this.$store.dispatch('delContact', this.selectedContact.Tel);
       this.closeActionMode();
     },
     onImageError(event) {
-      event.target.style.display = "none";
+      event.target.style.display = 'none';
     },
     openEditContactModal() {
       this.editContactModal = true;
@@ -185,23 +168,21 @@ export default {
       this.closeActionMode();
     },
     saveContact(data) {
-      this.$store.dispatch("editContact", data);
+      this.$store.dispatch('editContact', data);
       this.closeEditContactModal();
     },
     contactClick(contact) {
       if (!this.showActions) {
-        if (this.validateUUID(contact.uuid)){
-          this.$router.push(`/chat/${JSON.stringify({Contact:contact.uuid})}`);
-
+        if (this.validateUUID(contact.uuid)) {
+          this.$router.push(`/chat/${JSON.stringify({ Contact: contact.uuid })}`);
         }
-        
       } else {
         this.closeActionMode();
       }
     },
     checkForUUIDClass(contact) {
       var isValid = this.validateUUID(contact.uuid);
-      return isValid ? "" : "not-registered";
+      return isValid ? '' : 'not-registered';
     },
   },
 };
@@ -272,7 +253,7 @@ export default {
     rgb(134, 134, 134) 100%
   );
 }
-  /*
+/*
 .avatar{
   border-radius: 50px;
 background-color: #2090ea;
@@ -284,16 +265,16 @@ display: flex;
 color: #FFF;
 margin:20px;
 } */
-.meta{
+.meta {
   text-align: left;
   display: flex;
   justify-content: center;
   flex-direction: column;
 }
-.meta p{
+.meta p {
   margin: 0;
 }
-.meta .name{
+.meta .name {
   font-size: 16px;
   font-weight: 600;
 }

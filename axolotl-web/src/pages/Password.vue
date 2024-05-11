@@ -1,19 +1,15 @@
 <template>
   <component :is="$route.meta.layout || 'div'">
     <div class="password">
-      <div v-if="error" v-translate class="alert alert-danger">
-        Password is wrong
-      </div>
+      <div v-if="error" v-translate class="alert alert-danger">Password is wrong</div>
       <input
         id="passwordInput"
         v-model="pw"
         type="password"
         class="codeInput form-control"
         @keydown="checkEnter($event)"
-      >
-      <button v-translate class="btn btn-primary" @click="sendPassword">
-        Decrypt
-      </button>
+      />
+      <button v-translate class="btn btn-primary" @click="sendPassword">Decrypt</button>
       <button v-if="error" v-translate class="btn btn-danger" @click="unregister">
         Unregister
       </button>
@@ -22,34 +18,34 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 
 export default {
-  name: "PasswordPage",
+  name: 'PasswordPage',
   data() {
     return {
-      pw: "",
+      pw: '',
     };
   },
   computed: {
-    ...mapState(["registrationStatus"]),
+    ...mapState(['registrationStatus']),
     error() {
       return this.$store.state.loginError;
     },
   },
   mounted() {
-    document.getElementById("passwordInput").focus();
+    document.getElementById('passwordInput').focus();
   },
   methods: {
     sendPassword() {
-      this.$store.dispatch("sendPassword", this.pw);
+      this.$store.dispatch('sendPassword', this.pw);
       this.pw = null;
     },
     checkEnter(e) {
       if (e.keyCode === 13) this.sendPassword();
     },
     unregister() {
-      this.$store.dispatch("unregister");
+      this.$store.dispatch('unregister');
     },
   },
 };

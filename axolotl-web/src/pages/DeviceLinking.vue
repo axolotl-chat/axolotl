@@ -10,19 +10,19 @@
 </template>
 
 <script>
-import QRCode from 'qrcode'
-import { mapState } from 'vuex'
+import QRCode from 'qrcode';
+import { mapState } from 'vuex';
 
 export default {
   name: 'DeviceLinking',
   computed: mapState(['deviceLinkCode']),
   watch: {
     deviceLinkCode() {
-      this.updateQrCode()
+      this.updateQrCode();
     },
   },
   mounted() {
-    this.updateQrCode()
+    this.updateQrCode();
   },
   methods: {
     updateQrCode() {
@@ -35,12 +35,12 @@ export default {
               mode: 'url',
             },
           ],
-          { errorCorrectionLevel: 'L' }
-        )
+          { errorCorrectionLevel: 'L' },
+        );
       }
     },
   },
-}
+};
 </script>
 <style scoped>
 .device-linking-page {

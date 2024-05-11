@@ -50,19 +50,19 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import config from '@/config.js'
-import { ref } from 'vue'
+import { mapState } from 'vuex';
+import config from '@/config.js';
+import { ref } from 'vue';
 
 export default {
   name: 'OnBoarding',
   components: {},
   setup() {
-    const globalConfig = ref(config)
-    return { globalConfig }
+    const globalConfig = ref(config);
+    return { globalConfig };
   },
   data() {
-    return {}
+    return {};
   },
   computed: mapState([
     'gui',
@@ -73,32 +73,32 @@ export default {
     'registrationError',
   ]),
   mounted() {
-    const userLang = navigator.language || navigator.userLanguage
-    this.$language.current = userLang
+    const userLang = navigator.language || navigator.userLanguage;
+    this.$language.current = userLang;
     if (this.captchaToken !== null && !this.captchaTokenSent) {
-      this.$store.dispatch('sendCaptchaToken')
+      this.$store.dispatch('sendCaptchaToken');
     }
   },
   methods: {
     updatePhone(e) {
-      if (typeof e === 'string') this.phone = e
+      if (typeof e === 'string') this.phone = e;
     },
     openExtern(e, url) {
       if (this.gui === 'ut') {
-        e.preventDefault()
+        e.preventDefault();
         // eslint-disable-next-line no-alert
-        alert(url)
+        alert(url);
       }
     },
     registerAsSecondaryDevice() {
-      this.$store.dispatch('registerSecondaryDevice')
-      this.$router.push('/qr')
+      this.$store.dispatch('registerSecondaryDevice');
+      this.$router.push('/qr');
     },
     register() {
-      window.location = 'https://signalcaptchas.org/registration/generate.html'
+      window.location = 'https://signalcaptchas.org/registration/generate.html';
     },
   },
-}
+};
 </script>
 <style scoped>
 .info,

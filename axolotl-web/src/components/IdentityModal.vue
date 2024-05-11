@@ -33,18 +33,18 @@
 </template>
 
 <script lang="ts">
-import QRCode from "qrcode";
-import { mapState } from "vuex";
+import QRCode from 'qrcode';
+import { mapState } from 'vuex';
 export default {
-  name: "IdentityModal",
-  emits: ["close", "confirm"],
+  name: 'IdentityModal',
+  emits: ['close', 'confirm'],
   data() {
     return {
       errorMessage: null,
     };
   },
   computed: {
-    ...mapState(["fingerprint", "sessionNames"]),
+    ...mapState(['fingerprint', 'sessionNames']),
     currentChat() {
       return this.$store.state.currentChat;
     },
@@ -52,14 +52,14 @@ export default {
   watch: {
     fingerprint() {
       QRCode.toCanvas(
-        document.getElementById("qrcode"),
+        document.getElementById('qrcode'),
         [
           {
             data: this.fingerprint.qrCode,
-            mode: "byte",
+            mode: 'byte',
           },
         ],
-        { errorCorrectionLevel: "L" }
+        { errorCorrectionLevel: 'L' },
       );
     },
   },
@@ -88,7 +88,7 @@ export default {
   display: flex;
 }
 
-.modal-title>div {
+.modal-title > div {
   margin-left: 10px;
 }
 

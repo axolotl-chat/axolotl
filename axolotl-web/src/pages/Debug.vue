@@ -23,25 +23,25 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 export default {
-  name: "DebugPage",
+  name: 'DebugPage',
   computed: {
     localRegistrationStatus() {
-      return localStorage.getItem("registrationStatus");
+      return localStorage.getItem('registrationStatus');
     },
-    ...mapState(["registrationStatus"]),
+    ...mapState(['registrationStatus']),
   },
   mounted() {
     // To be sure that this page isn't hidden by the loader
-    let loader = document.getElementById("initial-loader");
+    let loader = document.getElementById('initial-loader');
     if (loader !== undefined) {
       loader.remove();
     }
   },
   methods: {
     clearRegistrationFromLocalStorage() {
-      localStorage.removeItem("registrationStatus");
+      localStorage.removeItem('registrationStatus');
     },
     clearLocalStorage() {
       localStorage.clear();

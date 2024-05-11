@@ -20,7 +20,7 @@
               type="text"
               class="form-control"
               placeholder="Enter name"
-            >
+            />
           </div>
           <div class="form-group">
             <label v-translate for="nameInput">Phone</label>
@@ -30,7 +30,7 @@
               type="text"
               class="form-control"
               placeholder="+44..."
-            >
+            />
           </div>
         </div>
         <div class="modal-footer">
@@ -50,22 +50,22 @@
 
 <script>
 export default {
-  name: "EditContactModal",
+  name: 'EditContactModal',
   props: {
     contact: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     id: {
       type: String,
-      default: ""
+      default: '',
     },
   },
-  emits: ["close", "save"],
+  emits: ['close', 'save'],
   data() {
     return {
-      phone: "",
-      name: "",
+      phone: '',
+      name: '',
     };
   },
 };

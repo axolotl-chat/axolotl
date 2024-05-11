@@ -9,15 +9,9 @@
           </button>
         </div>
         <div class="modal-body">
-          <button v-translate class="btn btn-primary" @click="$emit('send', 'photo')">
-            Photo
-          </button>
-          <button v-translate class="btn btn-primary" @click="$emit('send', 'video')">
-            Video
-          </button>
-          <button v-translate class="btn btn-primary" @click="$emit('send', 'audio')">
-            Audio
-          </button>
+          <button v-translate class="btn btn-primary" @click="$emit('send', 'photo')">Photo</button>
+          <button v-translate class="btn btn-primary" @click="$emit('send', 'video')">Video</button>
+          <button v-translate class="btn btn-primary" @click="$emit('send', 'audio')">Audio</button>
           <button v-translate class="btn btn-primary" @click="$emit('send', 'document')">
             Document
           </button>
@@ -29,11 +23,11 @@
 
 <script>
 export default {
-  name: "AttachmentBarComponent",
-  emits: ["send", "close"],
+  name: 'AttachmentBarComponent',
+  emits: ['send', 'close'],
   methods: {
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
   },
 };
@@ -55,7 +49,7 @@ export default {
   .modal-title {
     display: flex;
 
-    &>div {
+    & > div {
       margin-left: 10px;
     }
   }

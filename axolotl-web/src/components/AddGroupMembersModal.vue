@@ -5,11 +5,7 @@
         <div class="modal-header">
           <h5 v-translate class="modal-title">Add members</h5>
           <div v-if="!searchActive" class="actions">
-            <button
-              type="button"
-              class="btn search"
-              @click="searchActive = true"
-            >
+            <button type="button" class="btn search" @click="searchActive = true">
               <font-awesome-icon icon="search" />
             </button>
             <button type="button" class="btn" @click="$emit('close')">
@@ -24,7 +20,7 @@
                 class="form-control"
                 @change="filterContacts()"
                 @keyup="filterContacts()"
-              >
+              />
             </div>
             <button type="button" class="btn" @click="searchActive = false">
               <font-awesome-icon icon="times" />
@@ -34,11 +30,7 @@
         <div class="modal-body">
           <div class="contact-list">
             <div v-if="contacts.length > 0 && contactsFilter === ''">
-              <div
-                v-for="contact in contacts"
-                :key="contact.UUID"
-                class="btn col-12 chat"
-              >
+              <div v-for="contact in contacts" :key="contact.UUID" class="btn col-12 chat">
                 <div class="row chat-entry">
                   <div class="avatar col-3" @click="contactClick(contact)">
                     <div v-if="contact.Name" class="badge-name">
@@ -82,53 +74,47 @@
 </template>
 
 <script>
-import { validateUUID } from "@/helpers/uuidCheck";
+import { validateUUID } from '@/helpers/uuidCheck';
 
 export default {
-  name: "AddGroupMembersModal",
+  name: 'AddGroupMembersModal',
   props: {
     alreadyAdded: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
   },
-  emits: ["add", "close"],
+  emits: ['add', 'close'],
   data() {
     return {
       contacts: [],
       searchActive: false,
-      contactsFilter: "",
+      contactsFilter: '',
     };
   },
   computed: {
     contactsFiltered() {
-      return this.filterForOnlyContactsWithUUID(
-        this.$store.state.contactsFiltered
-      );
+      return this.filterForOnlyContactsWithUUID(this.$store.state.contactsFiltered);
     },
   },
   watch: {
     alreadyAdded() {
-      this.contacts = this.filterForOnlyContactsWithUUID(
-        this.$store.state.contacts
-      );
+      this.contacts = this.filterForOnlyContactsWithUUID(this.$store.state.contacts);
     },
   },
   mounted() {
-    this.contacts = this.filterForOnlyContactsWithUUID(
-      this.$store.state.contacts
-    );
+    this.contacts = this.filterForOnlyContactsWithUUID(this.$store.state.contacts);
   },
   methods: {
     validateUUID,
     contactClick(contact) {
-      this.$store.dispatch("addNewGroupMember", contact);
+      this.$store.dispatch('addNewGroupMember', contact);
     },
     filterContacts() {
-      if (this.contactsFilter !== "") {
-        this.$store.dispatch("filterContactsForGroup", this.contactsFilter);
+      if (this.contactsFilter !== '') {
+        this.$store.dispatch('filterContactsForGroup', this.contactsFilter);
       } else {
-        this.$store.dispatch("clearFilterContacts");
+        this.$store.dispatch('clearFilterContacts');
       }
     },
     filterForOnlyContactsWithUUID(contacts) {
@@ -141,7 +127,7 @@ export default {
         const found = this.alreadyAdded.find((element) => {
           return element.Tel === c.Tel;
         });
-        return typeof found === "undefined";
+        return typeof found === 'undefined';
       });
     },
   },

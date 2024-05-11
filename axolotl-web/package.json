@@ -67,6 +67,10 @@
     "last 2 versions",
     "chrome 69"
   ],
+  "prettier":{
+    "singleQuote": true,
+    "htmlWhitespaceSensitivity": "ignore"
+  },
   "//": [
     "the support for chrome version 69 ensures support",
     "for the chromium version used by QtWebEngine 5.12."

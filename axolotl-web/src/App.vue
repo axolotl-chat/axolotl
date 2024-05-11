@@ -7,11 +7,11 @@
 
 <script>
 window.getCookie = function (cname) {
-  const name = cname + "=";
-  const ca = document.cookie.split(";");
+  const name = cname + '=';
+  const ca = document.cookie.split(';');
   for (let i = 0; i < ca.length; i++) {
     let c = ca[i];
-    while (c.charAt(0) === " ") {
+    while (c.charAt(0) === ' ') {
       c = c.substring(1);
     }
     if (c.indexOf(name) === 0) {
@@ -20,16 +20,16 @@ window.getCookie = function (cname) {
   }
   return false;
 };
-if (window.getCookie("darkMode") === "true") {
-  import("./assets/dark.scss");
+if (window.getCookie('darkMode') === 'true') {
+  import('./assets/dark.scss');
 } else {
-  import("./assets/light.scss");
+  import('./assets/light.scss');
 }
-import { router } from "./router/router";
-import ErrorModal from "@/components/ErrorModal.vue";
+import { router } from './router/router';
+import ErrorModal from '@/components/ErrorModal.vue';
 
 export default {
-  name: "AxolotlWeb",
+  name: 'AxolotlWeb',
   components: {
     ErrorModal,
   },
@@ -48,7 +48,7 @@ export default {
   watch: {
     nbTappedForDebug() {
       if (this.nbTappedForDebug >= 9) {
-        router.push("/debug");
+        router.push('/debug');
       }
     },
   },
@@ -76,7 +76,7 @@ export default {
 html,
 body,
 #app {
-  font-family: "ubuntu";
+  font-family: 'ubuntu';
   display: flex;
   flex-direction: column;
 }
@@ -84,7 +84,6 @@ body,
 body {
   max-height: 100vh;
   overflow: hidden;
-
 }
 
 main {

@@ -1,16 +1,8 @@
 <template>
   <component :is="$route.meta.layout || 'div'">
     <div v-if="currentChat" class="chat">
-      <div
-        id="messageList-container"
-        class="messageList-container"
-        @scroll="handleScroll($event)"
-      >
-        <div
-          v-if="messages && messages.length > 0"
-          id="messageList"
-          class="messageList row"
-        >
+      <div id="messageList-container" class="messageList-container" @scroll="handleScroll($event)">
+        <div v-if="messages && messages.length > 0" id="messageList" class="messageList row">
           <div v-if="showFullscreenImgSrc !== ''" class="fullscreenImage">
             <img
               :src="'http://localhost:9080/attachments/' + showFullscreenImgSrc"
@@ -25,9 +17,7 @@
           </div>
           <div v-if="showFullscreenVideoSrc !== ''" class="fullscreenImage">
             <video controls>
-              <source
-                :src="'http://localhost:9080/attachments/' + showFullscreenVideoSrc"
-              />
+              <source :src="'http://localhost:9080/attachments/' + showFullscreenVideoSrc" />
               <span v-translate>Your browser does not support the audio element.</span>
             </video>
             <button class="btn btn-secondary close" @click="showFullscreenVideoSrc = ''">
@@ -103,17 +93,12 @@
           </div>
         </div>
         <div v-else class="messageInputBox justify-content-center">
-          <div
-            class="messageInput-btn-container d-flex justify-content-center align-items-center"
-          >
+          <div class="messageInput-btn-container d-flex justify-content-center align-items-center">
             <div>
-              <span>{{ Math.floor(voiceNote.duration) }}</span><span v-translate class="me-2">s</span>
+              <span>{{ Math.floor(voiceNote.duration) }}</span>
+              <span v-translate class="me-2">s</span>
             </div>
-            <button
-              v-if="!voiceNote.playing"
-              class="btn send play me-1"
-              @click="playAudio"
-            >
+            <button v-if="!voiceNote.playing" class="btn send play me-1" @click="playAudio">
               <font-awesome-icon icon="play" />
             </button>
             <button v-else class="btn send stop me-1" @click="stopPlayAudio">
@@ -127,14 +112,10 @@
             </button>
           </div>
         </div>
-        <audio
-          v-if="voiceNote.blobUrl !== ''"
-          id="voiceNote"
-          controls
-          :src="voiceNote.blobUrl"
-        >
+        <audio v-if="voiceNote.blobUrl !== ''" id="voiceNote" controls :src="voiceNote.blobUrl">
           Your browser does not support the
-          <code>audio</code> element.
+          <code>audio</code>
+          element.
         </audio>
         <attachment-bar
           v-if="showAttachmentsBar"
@@ -160,12 +141,12 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import Message from '@/components/Message'
-import AttachmentBar from '@/components/AttachmentBar'
-import DefaultLayout from '@/layouts/Default'
-import { saveAs } from 'file-saver'
-import MicRecorder from '@jmd01/mic-recorder-to-mp3'
+import { mapState } from 'vuex';
+import Message from '@/components/Message';
+import AttachmentBar from '@/components/AttachmentBar';
+import DefaultLayout from '@/layouts/Default';
+import { saveAs } from 'file-saver';
+import MicRecorder from '@jmd01/mic-recorder-to-mp3';
 export default {
   name: 'MessageList',
   components: {
@@ -197,36 +178,36 @@ export default {
         duration: 0,
         firstScroll: true,
       },
-    }
+    };
   },
   computed: {
     messages() {
-      return this.$store.state.messageList
+      return this.$store.state.messageList;
     },
     isGroup() {
-      if (!this.$store.state.currentChat) return false
-      return this.$store.state.currentChat?.thread?.Group !== undefined
+      if (!this.$store.state.currentChat) return false;
+      return this.$store.state.currentChat?.thread?.Group !== undefined;
     },
     ...mapState(['contacts', 'config', 'messageList', 'currentGroup', 'currentChat']),
   },
   watch: {
     messageInput() {
       // Adapt height of the textarea when its content changed
-      let textarea = document.getElementById('messageInput')
-      if (!textarea) return
+      let textarea = document.getElementById('messageInput');
+      if (!textarea) return;
       if (this.messageInput === '') {
-        textarea.style.height = '35px'
+        textarea.style.height = '35px';
       } else {
-        textarea.style.height = 0 // Set height to 0 to reset scrollHeight to its minimum
-        textarea.style.height = textarea.scrollHeight + 5 + 'px'
+        textarea.style.height = 0; // Set height to 0 to reset scrollHeight to its minimum
+        textarea.style.height = textarea.scrollHeight + 5 + 'px';
       }
-      localStorage.setItem(JSON.stringify(this.currentChat.thread), this.messageInput)
+      localStorage.setItem(JSON.stringify(this.currentChat.thread), this.messageInput);
     },
     currentChat: {
       handler() {
-        const savedInput = localStorage.getItem(JSON.stringify(this.currentChat.thread))
-        if (savedInput && savedInput !== null) this.messageInput = savedInput
-        this.scrollDown()
+        const savedInput = localStorage.getItem(JSON.stringify(this.currentChat.thread));
+        if (savedInput && savedInput !== null) this.messageInput = savedInput;
+        this.scrollDown();
       },
       deep: true,
     },
@@ -234,37 +215,37 @@ export default {
       // This will let Vue know to look inside the array
       deep: true,
       handler() {
-        if (!this.$data.scrollLocked) setTimeout(this.scrollDown, 600)
+        if (!this.$data.scrollLocked) setTimeout(this.scrollDown, 600);
         if (!this.$data.firstScroll) {
-          setTimeout((this.$data.scrollLocked = false), 1000)
-        } else this.$data.scrollLocked = false
+          setTimeout((this.$data.scrollLocked = false), 1000);
+        } else this.$data.scrollLocked = false;
 
-        this.$data.firstScroll = false
+        this.$data.firstScroll = false;
         // this.scrollDown();
       },
     },
   },
   mounted() {
-    this.$store.dispatch('openChat', this.getId())
-    const mi = document.getElementById('messageInput')
-    if (mi) mi.focus()
-    setTimeout(this.scrollDown, 600)
+    this.$store.dispatch('openChat', this.getId());
+    const mi = document.getElementById('messageInput');
+    if (mi) mi.focus();
+    setTimeout(this.scrollDown, 600);
   },
   methods: {
     getId: function () {
-      return this.chatId
+      return this.chatId;
     },
     callContentHub(type) {
       if (typeof this.config.feature !== 'undefined' && this.config.feature === 'ut') {
-        const result = window.prompt(type)
-        this.showSettingsMenu = false
+        const result = window.prompt(type);
+        this.showSettingsMenu = false;
         if (result !== 'canceld')
           this.$store.dispatch('sendAttachment', {
             type: type,
             path: result,
             to: this.chatId,
             message: this.messageInput,
-          })
+          });
       } else {
         // this.showSettingsMenu = false;
         // document.getElementById("addVcf").click()
@@ -272,62 +253,62 @@ export default {
     },
     loadAttachmentDialog() {
       if (typeof this.config.feature !== 'undefined' && this.config.feature === 'ut') {
-        this.showAttachmentsBar = true
+        this.showAttachmentsBar = true;
       } else {
-        document.getElementById('attachment').click()
+        document.getElementById('attachment').click();
       }
     },
     sendDesktopAttachment(evt) {
-      const file = evt.target.files[0]
+      const file = evt.target.files[0];
       if (file) {
-        const reader = new FileReader()
-        const that = this
+        const reader = new FileReader();
+        const that = this;
         reader.onload = function (e) {
-          const attachment = e.target.result
+          const attachment = e.target.result;
           that.$store.dispatch('uploadAttachment', {
             attachment: attachment,
             to: that.chatId,
             message: this.messageInput,
-          })
-        }
-        reader.readAsDataURL(file)
+          });
+        };
+        reader.readAsDataURL(file);
       } else {
-        alert('Failed to load file')
+        alert('Failed to load file');
       }
     },
     showFullscreenImg(img) {
-      this.showFullscreenImgSrc = img
+      this.showFullscreenImgSrc = img;
     },
     showFullscreenVideo(video) {
-      this.showFullscreenVideoSrc = video
+      this.showFullscreenVideoSrc = video;
     },
     saveImg(e) {
       if (typeof this.config.feature !== 'undefined' && this.config.feature === 'ut') {
-        e.preventDefault()
-        alert('[oP]' + this.showFullscreenImgSrc)
-      } else saveAs(`http://localhost:9080/attachments/${this.showFullscreenImgSrc}`)
+        e.preventDefault();
+        alert('[oP]' + this.showFullscreenImgSrc);
+      } else saveAs(`http://localhost:9080/attachments/${this.showFullscreenImgSrc}`);
     },
     saveVideo(e) {
       if (typeof this.config.feature !== 'undefined' && this.config.feature === 'ut') {
-        e.preventDefault()
-        alert('[oV]' + this.showFullscreenVideoSrc)
-      } else saveAs(`http://localhost:9080/attachments/${this.showFullscreenVideoSrc}`)
+        e.preventDefault();
+        alert('[oV]' + this.showFullscreenVideoSrc);
+      } else saveAs(`http://localhost:9080/attachments/${this.showFullscreenVideoSrc}`);
     },
     sendMessage() {
       if (this.messageInput !== '') {
         this.$store.dispatch('sendMessage', {
           to: this.chatId,
           message: this.messageInput,
-        })
+        });
         if (this.$store.state.messageList === null) {
-          this.$store.dispatch('getMessageList', this.getId())
+          this.$store.dispatch('getMessageList', this.getId());
         }
-        this.messageInput = ''
+        this.messageInput = '';
       }
-      this.scrollDown()
+      this.scrollDown();
     },
     joinGroupAccept() {
-      this.$store.dispatch('joinGroup', this.chat.UUID)
+      this.$store.dispatch('joinGroup', this.chat.UUID);
     },
     handleScroll(event) {
       if (
@@ -336,31 +317,27 @@ export default {
         this.$store.state.messageList &&
         this.$store.state.messageList.length > 19
       ) {
-        this.$data.scrollLocked = true
-        this.$store.dispatch('getMoreMessages')
+        this.$data.scrollLocked = true;
+        this.$store.dispatch('getMoreMessages');
       }
     },
     back() {
-      this.$router.go(-1)
+      this.$router.go(-1);
     },
     paste() {
       if (typeof this.config.feature !== 'undefined' && this.config.feature === 'ut') {
         // Don't follow the link
-        const result = window.prompt('paste')
-        this.messageInput = this.messageInput + result
+        const result = window.prompt('paste');
+        this.messageInput = this.messageInput + result;
       }
     },
     scrollDown() {
-      if (
-        this.messages &&
-        this.messages.length !== 0 &&
-        document.getElementById('chat-bottom')
-      )
-        document.getElementById('chat-bottom').scrollIntoView()
+      if (this.messages && this.messages.length !== 0 && document.getElementById('chat-bottom'))
+        document.getElementById('chat-bottom').scrollIntoView();
     },
     recordAudio() {
-      var that = this
-      this.voiceNote.playing = false
+      var that = this;
+      this.voiceNote.playing = false;
       navigator.mediaDevices
         .getUserMedia({
           video: false,
@@ -369,82 +346,82 @@ export default {
         .then(async function () {
           that.voiceNote.recorder = new MicRecorder({
             bitRate: 128,
-          })
+          });
           that.voiceNote.recorder
             .start()
             .then(() => {
               // something else
-              that.voiceNote.recording = true
+              that.voiceNote.recording = true;
             })
             .catch((e) => {
               //skipqc: JS-0002
               /* eslint-disable no-console */
-              console.error(e)
-            })
-        })
+              console.error(e);
+            });
+        });
     },
     deleteAudio() {
-      this.stopPlayAudio()
-      this.voiceNote.playing = false
-      this.voiceNote.recorded = false
-      this.voiceNote.recorder = null
+      this.stopPlayAudio();
+      this.voiceNote.playing = false;
+      this.voiceNote.recorded = false;
+      this.voiceNote.recorder = null;
     },
     playAudio() {
-      this.voiceNote.playing = true
-      this.voiceNote.voiceNoteElem.play()
+      this.voiceNote.playing = true;
+      this.voiceNote.voiceNoteElem.play();
     },
     stopPlayAudio() {
-      this.voiceNote.playing = false
-      this.voiceNote.voiceNoteElem.pause()
+      this.voiceNote.playing = false;
+      this.voiceNote.voiceNoteElem.pause();
     },
     stopRecording() {
-      this.voiceNote.recording = false
-      this.voiceNote.recorded = true
-      this.voiceNote.recorder.stop()
+      this.voiceNote.recording = false;
+      this.voiceNote.recorded = true;
+      this.voiceNote.recorder.stop();
       this.voiceNote.recorder.getMp3().then(([, blob]) => {
-        this.voiceNote.blobUrl = URL.createObjectURL(blob)
-        this.voiceNote.blobObj = blob
-        let that = this
+        this.voiceNote.blobUrl = URL.createObjectURL(blob);
+        this.voiceNote.blobObj = blob;
+        let that = this;
         setTimeout(function () {
-          that.voiceNote.voiceNoteElem = document.getElementById('voiceNote')
-          that.voiceNote.duration = that.voiceNote.voiceNoteElem.duration
-        }, 200)
-      })
+          that.voiceNote.voiceNoteElem = document.getElementById('voiceNote');
+          that.voiceNote.duration = that.voiceNote.voiceNoteElem.duration;
+        }, 200);
+      });
     },
     sendVoiceNote() {
-      this.voiceNote.recorded = false
-      let reader = new FileReader()
-      this.voiceNote.voiceNoteElem.pause()
-      this.voiceNote.playing = false
+      this.voiceNote.recorded = false;
+      let reader = new FileReader();
+      this.voiceNote.voiceNoteElem.pause();
+      this.voiceNote.playing = false;
       /* eslint-disable no-unused-vars */
       this.voiceNote.recorder.getMp3().then(() => {
         const file = new File([this.voiceNote.blobObj], 'voice.mp3', {
           type: 'audio/mpeg',
           lastModified: Date.now(),
-        })
-        reader.readAsDataURL(file) // converts the blob to base64 and calls onload
-        var that = this
+        });
+        reader.readAsDataURL(file); // converts the blob to base64 and calls onload
+        var that = this;
         reader.onload = function () {
-          var result = reader.result
+          var result = reader.result;
           const message = {
             note: result,
             to: that.chatId,
-          }
-          that.$store.dispatch('sendVoiceNote', message)
-        }
-      })
+          };
+          that.$store.dispatch('sendVoiceNote', message);
+        };
+      });
     },
     handleClick(event) {
       // If the clicked element doesn't have the right selector, bail
-      if (!event.target.matches('.linkified')) return
+      if (!event.target.matches('.linkified')) return;
       if (typeof this.config.feature !== 'undefined' && this.config.feature === 'ut') {
         // Don't follow the link
-        event.preventDefault()
-        alert(event.target.href)
+        event.preventDefault();
+        alert(event.target.href);
       }
     },
   },
-}
+};
 </script>
 
 <style scoped>
@@ -467,7 +444,9 @@ export default {
 .messageList-container {
   overflow-x: hidden;
   overflow-y: scroll;
-  transition: width 0.5s, height 0.5s;
+  transition:
+    width 0.5s,
+    height 0.5s;
   padding-top: 5px;
 }
 

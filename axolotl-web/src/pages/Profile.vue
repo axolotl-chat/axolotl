@@ -28,9 +28,8 @@
           <a
             href="tel:{{ `+${profile?.phone_number.code.value}${profile?.phone_number.national.value}` }}"
           >
-            {{
-              `+${profile?.phone_number.code.value}${profile?.phone_number.national.value}`
-            }}</a>
+            {{ `+${profile?.phone_number.code.value}${profile?.phone_number.national.value}` }}
+          </a>
         </div>
         <div v-if="profile?.username !== ''" class="username">
           {{ profile?.username }}
@@ -67,26 +66,26 @@ export default {
   }),
   computed: {
     profile() {
-      return this.$store.state.profile
+      return this.$store.state.profile;
     },
   },
   mounted() {
-    this.$store.dispatch('getProfile', this.profileId)
+    this.$store.dispatch('getProfile', this.profileId);
   },
   methods: {
     onImageError(event) {
-      this.hasProfileImage = false
+      this.hasProfileImage = false;
     },
     editContact() {
       this.$router.push({
         name: 'editContact',
-      })
+      });
     },
     createChat() {
-      this.$router.push(`/chat/${JSON.stringify({ Contact: this.profileId })}`)
+      this.$router.push(`/chat/${JSON.stringify({ Contact: this.profileId })}`);
     },
   },
-}
+};
 </script>
 
 <style scoped>

@@ -11,12 +11,7 @@
         <div class="modal-body">
           {{ text }}
           <div class="modal-footer">
-            <button
-              v-translate
-              type="button"
-              class="btn btn-primary"
-              @click="$emit('confirm')"
-            >
+            <button v-translate type="button" class="btn btn-primary" @click="$emit('confirm')">
               Confirm
             </button>
           </div>
@@ -28,18 +23,18 @@
 
 <script>
 export default {
-  name: "ConfirmationModal",
+  name: 'ConfirmationModal',
   props: {
     title: {
       type: String,
-      default: ""
+      default: '',
     },
     text: {
       type: String,
-      default: ""
+      default: '',
     },
   },
-  emits: ["close", "confirm"],
+  emits: ['close', 'confirm'],
 };
 </script>
 <style scoped>

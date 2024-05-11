@@ -13,17 +13,17 @@
           </button>
         </div>
         <div class="modal-body">
-          <span><strong v-translate>After adding a contact, it takes a few seconds for checking if the contact is registered with signal.</strong></span>
+          <span>
+            <strong v-translate>
+              After adding a contact, it takes a few seconds for checking if the contact is
+              registered with signal.
+            </strong>
+          </span>
         </div>
         <div class="modal-body">
           <div class="form-group">
             <label v-translate for="nameInput">Name</label>
-            <input
-              id="nameInput"
-              v-model="name"
-              type="text"
-              class="form-control"
-            >
+            <input id="nameInput" v-model="name" type="text" class="form-control" />
           </div>
           <div class="form-group">
             <label v-translate for="phoneInput">Phone</label>
@@ -33,7 +33,7 @@
               type="text"
               class="form-control"
               placeholder="+44..."
-            >
+            />
           </div>
         </div>
         <div class="modal-footer">
@@ -41,7 +41,7 @@
             v-translate
             type="button"
             class="btn btn-primary"
-            @click="$emit('add', { name: name, phone: phone, uuid:uuid })"
+            @click="$emit('add', { name: name, phone: phone, uuid: uuid })"
           >
             Add
           </button>
@@ -53,31 +53,31 @@
 
 <script>
 export default {
-  name: "AddContactModal",
+  name: 'AddContactModal',
   props: {
     number: {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
     uuid: {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
   },
-  emits: ["close", "add"],
+  emits: ['close', 'add'],
   data() {
     return {
-      phone: "",
-      name: "",
+      phone: '',
+      name: '',
     };
   },
   mounted() {
     if (this.number) {
       this.phone = this.number;
-      this.name = "";
-    } 
+      this.name = '';
+    }
   },
 };
 </script>

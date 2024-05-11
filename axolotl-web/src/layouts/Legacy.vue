@@ -12,9 +12,9 @@
   </div>
 </template>
 <script>
-import LegacyHeader from "@/components/LegacyHeader.vue";
+import LegacyHeader from '@/components/LegacyHeader.vue';
 export default {
-  name: "LegacyLayout",
+  name: 'LegacyLayout',
   components: {
     LegacyHeader,
   },
