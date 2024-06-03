@@ -2848,13 +2848,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.npmjs.org/prettier/-/prettier-3.2.4.tgz",
-        "sha512": "156bb5a0b1ca0abb693b5ca953a27449b2b677d0a4c32b2ae9b1e3fee6823f6e83c6b3e9a6908b411195baa031493be1174d0072f0d1c98acb356ee870184515",
-        "dest-filename": "prettier-3.2.4.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
         "url": "https://registry.npmjs.org/pretty-format/-/pretty-format-29.7.0.tgz",
         "sha512": "3dd970fe83f137e69776633d474d09542f56545a022d3289bc354b82627ea807df04cc6c57ce65fcbbbbb0dc78cd2ccfca82f67ae226b84c0784e5dd12034565",
         "dest-filename": "pretty-format-29.7.0.tgz",
@@ -4041,6 +4034,13 @@
         "url": "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.3.tgz#cac6407785d03675a2a5e1a5305c697b347d90d6",
         "sha512": "e71a037d7f9f2fb7da0139da82658fa5b16dc21fd1efb5a630caaa1c64bae42defbc1d181eb805f81d58999df8e35b4c8f99fade4d36d765cda09c339617df43",
         "dest-filename": "fsevents-2.3.3.tgz",
+        "dest": "flatpak-node/yarn-mirror"
+    },
+    {
+        "type": "file",
+        "url": "https://registry.yarnpkg.com/prettier/-/prettier-3.3.0.tgz#d173ea0524a691d4c0b1181752f2b46724328cdf",
+        "sha512": "27da1d2b1111842435d0e0b6c9bf77e7cddfe949d8bad39e895e62d331034bb5064dd52dd2efb2f1eaf19779412afc28fc91f2ca811d5e3c29e1d91ef68c99fe",
+        "dest-filename": "prettier-3.3.0.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
