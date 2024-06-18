@@ -3702,13 +3702,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.npmjs.org/ws/-/ws-8.16.0.tgz",
-        "sha512": "1d2d1cfff4cfec89daf3b4df88f533d6b4333211eb97f486da0baa45c4ce214603daaf2e85474d1d960951a43c69318fcc287e73aa1ac0c296df99c5975771c9",
-        "dest-filename": "ws-8.16.0.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
         "url": "https://registry.npmjs.org/xml-name-validator/-/xml-name-validator-4.0.0.tgz",
         "sha512": "2023f67be8ec1ef023d84da5207c5ae6d8d7465283268e0876f3ef0976d740677349f992a4d57220a32fa191e30d8f433f4cd5d7b888f39a3dd2f4455cd71c47",
         "dest-filename": "xml-name-validator-4.0.0.tgz",
@@ -4041,6 +4034,13 @@
         "url": "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.3.tgz#cac6407785d03675a2a5e1a5305c697b347d90d6",
         "sha512": "e71a037d7f9f2fb7da0139da82658fa5b16dc21fd1efb5a630caaa1c64bae42defbc1d181eb805f81d58999df8e35b4c8f99fade4d36d765cda09c339617df43",
         "dest-filename": "fsevents-2.3.3.tgz",
+        "dest": "flatpak-node/yarn-mirror"
+    },
+    {
+        "type": "file",
+        "url": "https://registry.yarnpkg.com/ws/-/ws-8.17.1.tgz#9293da530bb548febc95371d90f9c878727d919b",
+        "sha512": "e97405bd74e46df50e64e28a20b146d4f0cad8d0d0b386b3290976e93d184b90b1a962e05da8db3d9fa1e2065e909c91a8553ca6f9db01b6ecff74e044fcbe19",
+        "dest-filename": "ws-8.17.1.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
