@@ -2,6 +2,7 @@ name: Axolotl build pipeline
 
 on:
   workflow_call:
+  workflow_dispatch:
 
 env:
   NODE_VERSION: "18.x"
