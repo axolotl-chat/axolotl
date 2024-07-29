@@ -23,6 +23,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
+        # Using an SSH deploy key to allow running workflows triggered by push event
+        # https://github.com/stefanzweifel/git-auto-commit-action?tab=readme-ov-file#commits-made-by-this-action-do-not-trigger-new-workflow-runs
+        ssh-key: '${{ secrets.DEPENDABOT_SSH_KEY }}'
         # Fetch whole history as we want to commit and push
         fetch-depth: 0
     
