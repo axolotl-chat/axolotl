@@ -222,7 +222,7 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: build-axolotl-linux-amd64
+          name: build-axolotl-linux-arm64
           path: target/aarch64-unknown-linux-gnu/release/axolotl
           retention-days: 1
 
@@ -243,7 +243,7 @@ jobs:
       - name: Upload deb package
         uses: actions/upload-artifact@v4
         with:
-          name: build-axolotl-linux-amd64-deb
+          name: build-axolotl-linux-arm64-deb
           path: target/aarch64-unknown-linux-gnu/release/bundle/deb/*.deb
           retention-days: 1
 
@@ -288,7 +288,7 @@ jobs:
       - name: Upload the built click artifact (${{ matrix.arch }})
         uses: actions/upload-artifact@v4
         with:
-          name: Axolotl-Clickable
+          name: build-axolotl-linux-${{ matrix.arch }}-click
           path: build/*/app/axolotl.nanuc_*.click
           retention-days: 1
 
