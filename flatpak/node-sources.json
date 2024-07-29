@@ -391,13 +391,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.npmjs.org/@vitejs/plugin-vue/-/plugin-vue-5.0.3.tgz",
-        "sha512": "6fc4b97554b8d2b807743af0f83422ff138cf5e77e912459cdf9b54fbe1b32604309df173bcecd2a5158227cc2b70bed5b05d9be8d50c44d8e4aca530135ab6c",
-        "dest-filename": "@vitejs-plugin-vue-5.0.3.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
         "url": "https://registry.npmjs.org/@vitest/expect/-/expect-1.2.2.tgz",
         "sha512": "de3a5c74f003ecbc07514893da96538f653cd88d93720836a153ef2b1867ea60c8d8e9fab5fbcf4138c0238eb6f065060d9ac29b86676bd8901e6e5c11ec4e02",
         "dest-filename": "@vitest-expect-1.2.2.tgz",
@@ -3950,6 +3943,13 @@
         "url": "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.9.6.tgz#2c1fb69e02a3f1506f52698cfdc3a8b6386df9a6",
         "sha512": "8eaccd2e1343bc864eaedebd09ee148c64695c90738540736b03309da0c0c321eb8a48b75e8965b1ec315b33b3cfee323850e4b891ed4ec645c0cc616095a62d",
         "dest-filename": "@rollup-rollup-win32-x64-msvc-4.9.6.tgz",
+        "dest": "flatpak-node/yarn-mirror"
+    },
+    {
+        "type": "file",
+        "url": "https://registry.yarnpkg.com/@vitejs/plugin-vue/-/plugin-vue-5.1.1.tgz#bb9ddb0af012450edef4f5d65d5b3a3c7630864f",
+        "sha512": "b037245f1947a4cb234506c01fd59a9da9e0adfadb96c39dde93627de3ecf853878c98358df5aae4bfcfd0fb01467744b779e67549e6be278ff142c3797e40bc",
+        "dest-filename": "@vitejs-plugin-vue-5.1.1.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
