@@ -2050,13 +2050,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/globals/-/globals-15.8.0.tgz#e64bb47b619dd8cbf32b3c1a0a61714e33cbbb41",
-        "sha512": "559009e1c7b01d31310560c747aca9b5d201971f5849266ec288e3f4db79981457433aca6a40ec54a43527adec9252efcc0266d17e7e4693b88b763685c3a717",
-        "dest-filename": "globals-15.8.0.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/globalthis/-/globalthis-1.0.4.tgz#7430ed3a975d97bfb59bcce41f5cabbafa651236",
         "sha512": "0e92ca6cd5385b2969c49ca442e8df09cc185a257f2619b9d06a28d30ad520b02fe633abf5df87f944773e14820f6ac2084220d2e73e1be9ae053c03e782610d",
         "dest-filename": "globalthis-1.0.4.tgz",

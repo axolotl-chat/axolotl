@@ -19,7 +19,7 @@ presage = { git = "https://github.com/nanu-c/presage", rev = "350921c533224265a0
 presage-store-sled = { git = "https://github.com/nanu-c/presage", rev = "350921c533224265a0ff026dfddc67419ca45b7a" }
 #presage = {path = "../presage/presage"}
 #presage-store-sled = { path = "../presage/presage-store-sled" }
-zeroize = { version = "1.6.0", default-features = false }
+zeroize = { version = "1.8.1", default-features = false }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 tokio-stream = "0.1"
 hex = "0.4"

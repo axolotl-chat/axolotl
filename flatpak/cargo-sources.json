@@ -7733,14 +7733,14 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/zeroize/zeroize-1.7.0.crate",
-        "sha256": "525b4ec142c6b68a2d10f01f7bbf6755599ca3f81ea53b8431b7dd348f5fdb2d",
-        "dest": "cargo/vendor/zeroize-1.7.0"
+        "url": "https://static.crates.io/crates/zeroize/zeroize-1.8.1.crate",
+        "sha256": "ced3678a2879b30306d323f4542626697a464a97c0a07c9aebf7ebca65cd4dde",
+        "dest": "cargo/vendor/zeroize-1.8.1"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"525b4ec142c6b68a2d10f01f7bbf6755599ca3f81ea53b8431b7dd348f5fdb2d\", \"files\": {}}",
-        "dest": "cargo/vendor/zeroize-1.7.0",
+        "contents": "{\"package\": \"ced3678a2879b30306d323f4542626697a464a97c0a07c9aebf7ebca65cd4dde\", \"files\": {}}",
+        "dest": "cargo/vendor/zeroize-1.8.1",
         "dest-filename": ".cargo-checksum.json"
     },
     {
