@@ -1,4 +1,4 @@
-clickable_minimum_required: 8.0.1
+clickable_minimum_required: 8.2.0
 
 builder: rust
 rust_channel: 1.72.1
