@@ -5115,14 +5115,14 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/rustls/rustls-0.22.2.crate",
-        "sha256": "e87c9956bd9807afa1f77e0f7594af32566e830e088a5576d27c5b6f30f49d41",
-        "dest": "cargo/vendor/rustls-0.22.2"
+        "url": "https://static.crates.io/crates/rustls/rustls-0.22.4.crate",
+        "sha256": "bf4ef73721ac7bcd79b2b315da7779d8fc09718c6b3d2d1b2d94850eb8c18432",
+        "dest": "cargo/vendor/rustls-0.22.4"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"e87c9956bd9807afa1f77e0f7594af32566e830e088a5576d27c5b6f30f49d41\", \"files\": {}}",
-        "dest": "cargo/vendor/rustls-0.22.2",
+        "contents": "{\"package\": \"bf4ef73721ac7bcd79b2b315da7779d8fc09718c6b3d2d1b2d94850eb8c18432\", \"files\": {}}",
+        "dest": "cargo/vendor/rustls-0.22.4",
         "dest-filename": ".cargo-checksum.json"
     },
     {
