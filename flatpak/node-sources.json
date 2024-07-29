@@ -3940,9 +3940,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@fortawesome/vue-fontawesome/-/vue-fontawesome-3.0.6.tgz#c5e627475c10869a091280610c96411d18206f3a",
-        "sha512": "6a4acbee54eba323693e4a07b6f2b6529b0ccc9afa8d7747690d1875cc2a0ec07c8ddc25a4d1d96228e939477d289b0046bf9507759763813239b7a9a89e32b5",
-        "dest-filename": "@fortawesome-vue-fontawesome-3.0.6.tgz",
+        "url": "https://registry.yarnpkg.com/@fortawesome/vue-fontawesome/-/vue-fontawesome-3.0.8.tgz#1e8032df151173d8174ac9f5a28da3c0f5a495e4",
+        "sha512": "cb21c7023e06f294080df688b0cbd0a7028c6e8219b5c1d352f3ea5e3387ca5761d4ed6f65f1f85b4dd50cfbf946f23d3fa0cb4f32509665608fdc027fb73617",
+        "dest-filename": "@fortawesome-vue-fontawesome-3.0.8.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
