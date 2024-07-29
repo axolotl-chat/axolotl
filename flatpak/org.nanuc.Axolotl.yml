@@ -71,8 +71,8 @@ modules:
           - /lib/pkgconfig
         sources:
           - type: archive
-            url: https://github.com/abseil/abseil-cpp/releases/download/20240116.0/abseil-cpp-20240116.0.tar.gz
-            sha256: 338420448b140f0dfd1a1ea3c3ce71b3bc172071f24f4d9a57d59b45037da440
+            url: https://github.com/abseil/abseil-cpp/releases/download/20240116.2/abseil-cpp-20240116.2.tar.gz
+            sha256: 733726b8c3a6d39a4120d7e45ea8b41a434cdacde401cba500f14236c49b39dc
       - name: protobuf
         buildsystem: cmake-ninja
         config-opts:
@@ -91,5 +91,5 @@ modules:
           - /lib/pkgconfig
         sources:
           - type: archive
-            url: https://github.com/protocolbuffers/protobuf/releases/download/v25.3/protobuf-25.3.tar.gz
-            sha256: d19643d265b978383352b3143f04c0641eea75a75235c111cc01a1350173180e
+            url: https://github.com/protocolbuffers/protobuf/releases/download/v27.2/protobuf-27.2.tar.gz
+            sha256: e4ff2aeb767da6f4f52485c2e72468960ddfe5262483879ef6ad552e52757a77
