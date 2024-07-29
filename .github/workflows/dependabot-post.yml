@@ -16,7 +16,7 @@ jobs:
     # Avoid infinit loops of this workflow pushing and triggering another workflow
     # We do want to run the other workflows to build and test but do not want to run this one again.
     # https://github.com/stefanzweifel/git-auto-commit-action?tab=readme-ov-file#prevent-infinite-loop-when-using-a-personal-access-token
-    if: github.actor == 'dependabot'
+    if: github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
     permissions:
       contents: write
