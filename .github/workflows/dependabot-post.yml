@@ -19,40 +19,40 @@ jobs:
     if: github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-      with:
-        # Using an SSH deploy key to allow running workflows triggered by push event
-        # https://github.com/stefanzweifel/git-auto-commit-action?tab=readme-ov-file#commits-made-by-this-action-do-not-trigger-new-workflow-runs
-        ssh-key: '${{ secrets.DEPENDABOT_SSH_KEY }}'
-        # Fetch whole history as we want to commit and push
-        fetch-depth: 0
-    
-    - name: Clone flatpak-builder-tools
-      uses: actions/checkout@v4
-      with:
-        repository: flatpak/flatpak-builder-tools
-        path: flatpak-builder-tools
-      
-    - name: Install flatpak-builder-tools dependencies
-      run: |
-        sudo apt install -y pipx python3 python3-aiohttp python3-toml python3-yaml
+      - uses: actions/checkout@v4
+        with:
+          # Using an SSH deploy key to allow running workflows triggered by push event
+          # https://github.com/stefanzweifel/git-auto-commit-action?tab=readme-ov-file#commits-made-by-this-action-do-not-trigger-new-workflow-runs
+          ssh-key: "${{ secrets.DEPENDABOT_SSH_KEY }}"
+          # Fetch whole history as we want to commit and push
+          fetch-depth: 0
 
-    - name: Update NodeJS sources
-      working-directory: flatpak-builder-tools/node
-      run: |
-        pipx install .
-        flatpak-node-generator yarn ${{ github.workspace }}/axolotl-web/yarn.lock -o ${{ github.workspace }}/flatpak/node-sources.json
+      - name: Clone flatpak-builder-tools
+        uses: actions/checkout@v4
+        with:
+          repository: flatpak/flatpak-builder-tools
+          path: flatpak-builder-tools
 
-    - name: Update Cargo sources
-      working-directory: flatpak-builder-tools/cargo
-      run: python3 flatpak-cargo-generator.py ${{ github.workspace }}/Cargo.lock -o ${{ github.workspace }}/flatpak/cargo-sources.json
-  
-    - uses: stefanzweifel/git-auto-commit-action@v5
-      with:
-        # Ignore other changes like the cloned flatpak-builder-tools repo
-        file_pattern: 'flatpak/*-sources.json'
-        # Do not block dependabot from updating this PR: https://github.com/dependabot/dependabot-core/issues/1758
-        commit_message: '[dependabot skip] Update Flatpak sources'
-        commit_author: 'dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>'
-        # Do not overwrite in case our version is outdated
-        push_options: '--force-with-lease'
+      - name: Install flatpak-builder-tools dependencies
+        run: |
+          sudo apt install -y pipx python3 python3-aiohttp python3-toml python3-yaml
+
+      - name: Update NodeJS sources
+        working-directory: flatpak-builder-tools/node
+        run: |
+          pipx install .
+          flatpak-node-generator yarn ${{ github.workspace }}/axolotl-web/yarn.lock -o ${{ github.workspace }}/flatpak/node-sources.json
+
+      - name: Update Cargo sources
+        working-directory: flatpak-builder-tools/cargo
+        run: python3 flatpak-cargo-generator.py ${{ github.workspace }}/Cargo.lock -o ${{ github.workspace }}/flatpak/cargo-sources.json
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          # Ignore other changes like the cloned flatpak-builder-tools repo
+          file_pattern: "flatpak/*-sources.json"
+          # Do not block dependabot from updating this PR: https://github.com/dependabot/dependabot-core/issues/1758
+          commit_message: "[dependabot skip] Update Flatpak sources"
+          commit_author: "dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+          # Do not overwrite in case our version is outdated
+          push_options: "--force-with-lease"
