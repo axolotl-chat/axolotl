@@ -797,13 +797,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.npmjs.org/braces/-/braces-3.0.2.tgz",
-        "sha512": "6fcba6f8bd51cccdd60d2cef866ea0233d727d36c1b7a61395c10a02fb26a82659170e3acfadba9558fd8f5c843d6df71f91fe94142964c3f593c97eefc1dad0",
-        "dest-filename": "braces-3.0.2.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
         "url": "https://registry.npmjs.org/browserslist/-/browserslist-4.22.3.tgz",
         "sha512": "500a79e727f036fd2495635aa63b3f92d1e882ec6e40d1a73b3c5899f9d7212fbc02c443664483c60ed1d405f718ace7d3bf12048e5dcf0ce3fd8c743abd1edc",
         "dest-filename": "browserslist-4.22.3.tgz",
@@ -1549,13 +1542,6 @@
         "url": "https://registry.npmjs.org/file-saver/-/file-saver-2.0.5.tgz",
         "sha512": "3fd6e6c99de1fcf446f8dce06beadb748e0e129343cc0572cbbe2e54ef404e0ccb2ba56d02c6326c5ffe4ce0afadcd0c3bbf7777afb8da52f2653c3bfc0ad5cc",
         "dest-filename": "file-saver-2.0.5.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.npmjs.org/fill-range/-/fill-range-7.0.1.tgz",
-        "sha512": "a8ea3d17e74c5260b62dc6f805b56f9ca2714cf8c29be451a5ee200ee1abce42fb984565fdd8d84aed8e750d8f6b7d36378a2a91283d8abea368b589d94495a5",
-        "dest-filename": "fill-range-7.0.1.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
@@ -4034,6 +4020,20 @@
         "url": "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.9.6.tgz#2c1fb69e02a3f1506f52698cfdc3a8b6386df9a6",
         "sha512": "8eaccd2e1343bc864eaedebd09ee148c64695c90738540736b03309da0c0c321eb8a48b75e8965b1ec315b33b3cfee323850e4b891ed4ec645c0cc616095a62d",
         "dest-filename": "@rollup-rollup-win32-x64-msvc-4.9.6.tgz",
+        "dest": "flatpak-node/yarn-mirror"
+    },
+    {
+        "type": "file",
+        "url": "https://registry.yarnpkg.com/braces/-/braces-3.0.3.tgz#490332f40919452272d55a8480adc0c441358789",
+        "sha512": "c906d780efce499543d88b222e5ae8fbb1dfe90d7c109aca484b1da0ccca78f29772dde0bc3f282dc390748cc6ba9af9163f840def203bf9717350737cca71bc",
+        "dest-filename": "braces-3.0.3.tgz",
+        "dest": "flatpak-node/yarn-mirror"
+    },
+    {
+        "type": "file",
+        "url": "https://registry.yarnpkg.com/fill-range/-/fill-range-7.1.1.tgz#44265d3cac07e3ea7dc247516380643754a05292",
+        "sha512": "62c1a97b75872caf19622e2d583836272dde6d1cf6ad7a300f19e57786e4401d3471cff5670f405a70b48bdced0c98ad8afb50bda23d29a2f22ab73e8415b4ca",
+        "dest-filename": "fill-range-7.1.1.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
