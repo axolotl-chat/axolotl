@@ -2813,13 +2813,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.npmjs.org/prettier/-/prettier-3.2.4.tgz",
-        "sha512": "156bb5a0b1ca0abb693b5ca953a27449b2b677d0a4c32b2ae9b1e3fee6823f6e83c6b3e9a6908b411195baa031493be1174d0072f0d1c98acb356ee870184515",
-        "dest-filename": "prettier-3.2.4.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
         "url": "https://registry.npmjs.org/pretty-format/-/pretty-format-29.7.0.tgz",
         "sha512": "3dd970fe83f137e69776633d474d09542f56545a022d3289bc354b82627ea807df04cc6c57ce65fcbbbbb0dc78cd2ccfca82f67ae226b84c0784e5dd12034565",
         "dest-filename": "pretty-format-29.7.0.tgz",
@@ -4006,6 +3999,13 @@
         "url": "https://registry.yarnpkg.com/postcss-selector-parser/-/postcss-selector-parser-6.1.1.tgz#5be94b277b8955904476a2400260002ce6c56e38",
         "sha512": "6f8765c3ff55f00ef5acb203b12c1599a93dcf60ee05407b080d7fc1275e94d133aac8e848f7800d358d3b4f65a47e3d0e2cb7fc9219d9b48f075748dcb2421e",
         "dest-filename": "postcss-selector-parser-6.1.1.tgz",
+        "dest": "flatpak-node/yarn-mirror"
+    },
+    {
+        "type": "file",
+        "url": "https://registry.yarnpkg.com/prettier/-/prettier-3.3.3.tgz#30c54fe0be0d8d12e6ae61dbb10109ea00d53105",
+        "sha512": "8b6b43340d0ee48acc3bbe7b95fadd41909cda33cd0d59ed5749bffb8c218837d669329f30d811ed0cf4340786cff9d1a85e26e7fe822f36cfe3f9621edd7613",
+        "dest-filename": "prettier-3.3.3.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
