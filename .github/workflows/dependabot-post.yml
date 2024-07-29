@@ -13,15 +13,19 @@ concurrency:
 jobs:
   flatpak-sources-update:
     name: Update Flatpak sources
+    # Avoid infinit loops of this workflow pushing and triggering another workflow
+    # We do want to run the other workflows to build and test but do not want to run this one again.
+    # https://github.com/stefanzweifel/git-auto-commit-action?tab=readme-ov-file#prevent-infinite-loop-when-using-a-personal-access-token
+    if: github.actor == 'dependabot'
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
     - uses: actions/checkout@v4
       with:
-        # Check out correct branch also for PRs from forks
-        ref: ${{ github.event.pull_request.head.ref }}
-        repository: ${{ github.event.pull_request.head.repo.full_name }}
+        # Using an SSH deploy key to allow running workflows triggered by push event
+        # https://github.com/stefanzweifel/git-auto-commit-action?tab=readme-ov-file#commits-made-by-this-action-do-not-trigger-new-workflow-runs
+        ssh-key: '${{ secrets.DEPENDABOT_SSH_KEY }}'
         # Fetch whole history as we want to commit and push
         fetch-depth: 0
     
