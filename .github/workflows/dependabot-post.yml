@@ -19,9 +19,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        # Check out correct branch also for PRs from forks
-        ref: ${{ github.event.pull_request.head.ref }}
-        repository: ${{ github.event.pull_request.head.repo.full_name }}
         # Fetch whole history as we want to commit and push
         fetch-depth: 0
     
