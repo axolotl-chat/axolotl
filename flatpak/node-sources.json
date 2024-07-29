@@ -1378,13 +1378,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.npmjs.org/eslint-plugin-vue/-/eslint-plugin-vue-9.20.1.tgz",
-        "sha512": "1b20acf0ade5904be8c82d5557dec62613f54afaac2828961879db9f481551889485a1f6fa707e0efd6e7a4bf54c714c3db05f631ba4af341d96dc3de7493e2d",
-        "dest-filename": "eslint-plugin-vue-9.20.1.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
         "url": "https://registry.npmjs.org/eslint-plugin-vuejs-accessibility/-/eslint-plugin-vuejs-accessibility-2.2.1.tgz",
         "sha512": "f90a536046f851c543e7e4487cab376153e81f599f523de769d4e2c66a4fc3dfa4629e80140899dc243f1cc89ec400201460602f7369e7f9f06ea71f42899d11",
         "dest-filename": "eslint-plugin-vuejs-accessibility-2.2.1.tgz",
@@ -2358,13 +2351,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.npmjs.org/lru-cache/-/lru-cache-6.0.0.tgz",
-        "sha512": "268e9d274e029928eece7c09492de951e5a677f1f47df4e59175e0c198be7aad540a6a90c0287e78bb183980b063df758b615a878875044302c78a938466ec88",
-        "dest-filename": "lru-cache-6.0.0.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
         "url": "https://registry.npmjs.org/magic-string/-/magic-string-0.30.5.tgz",
         "sha512": "ef19697c169068ffd3e9587c30efc4a97496e449fa20d1c4bc45d08ae7dfec692ed0f5a3537b9feb0fe3f68ecef92a41e5f38092b2391dea0d8308c43b4a45b0",
         "dest-filename": "magic-string-0.30.5.tgz",
@@ -2806,13 +2792,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.npmjs.org/postcss-selector-parser/-/postcss-selector-parser-6.0.13.tgz",
-        "sha512": "11a5751a5e2650457875d8439efff1b63eecc70af0c5d7ad1dd5941a74f854941ffb8774e6fea51d866bf0de7bde4e59d01562b2cec10e17d6b4a4b7fac7c0a9",
-        "dest-filename": "postcss-selector-parser-6.0.13.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
         "url": "https://registry.npmjs.org/postcss/-/postcss-8.4.33.tgz",
         "sha512": "2a4a5b861763c36a90b363b60c65fef26e4e56a11c6c1f47441bee60cf6982b8c4154837d00f4b9973654c0523e12f6482d1b2acc6d3cd58c7ec4face517b6ca",
         "dest-filename": "postcss-8.4.33.tgz",
@@ -3089,20 +3068,6 @@
         "url": "https://registry.npmjs.org/semver/-/semver-6.3.1.tgz",
         "sha512": "051ed5bc30951cefaadb10445ac9314ba0c9135a919dbec3c7352ba206fbd425a849f89c07162c88019df8a9749a6abf329ac6f7202b464cab4314cee978cccc",
         "dest-filename": "semver-6.3.1.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.npmjs.org/semver/-/semver-7.5.1.tgz",
-        "sha512": "5afb2ce62be5f133116575c44acb41038b91e625e010dfd50b9fec39cb977552f371d933e0759eb48a117c6e606f95fe8a3fc6f6bc3d6281a7dd0a10f0e092a7",
-        "dest-filename": "semver-7.5.1.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.npmjs.org/semver/-/semver-7.5.4.tgz",
-        "sha512": "d5b09211257a3effa2db51efa71a770f1fa9483f2520fb7cb958d1af1014b7f9dbb3061cfad2ba6366ed8942e3778f9f9ead793d7fa7a900c2ece7eded693070",
-        "dest-filename": "semver-7.5.4.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
@@ -3520,13 +3485,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.npmjs.org/vue-eslint-parser/-/vue-eslint-parser-9.4.2.tgz",
-        "sha512": "472f6888698200af751eb28cb42aca156992156bd89291a0942785008a8376bf7375798c32924e994252ed65ac5bb7d7f3587a9b01e65190904351343e44b061",
-        "dest-filename": "vue-eslint-parser-9.4.2.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
         "url": "https://registry.npmjs.org/vue-native-websocket-vue3/-/vue-native-websocket-vue3-3.1.7.tgz",
         "sha512": "7fb726244fa8914ac61aed64479658e591b33430895b492d52ca37432b67aed74ce22f1cca22431e3525f213c18b04ea56ebb069d737951b0f1add01adcad179",
         "dest-filename": "vue-native-websocket-vue3-3.1.7.tgz",
@@ -3726,13 +3684,6 @@
         "url": "https://registry.npmjs.org/y18n/-/y18n-5.0.8.tgz",
         "sha512": "d297c5cde81e0d62472480264cb44fd83c078dd179b3b8e8f6dbb3b5d43102120d09dbd2fb79c620da8f774d00a61a8947fd0b8403544baffeed209bf7c60e7c",
         "dest-filename": "y18n-5.0.8.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.npmjs.org/yallist/-/yallist-4.0.0.tgz",
-        "sha512": "df074689d672ab93c1d3ce172c44b94e9392440df08d7025216321ba6da445cbffe354a7d9e990d1dc9c416e2e6572de8f02af83a12cbdb76554bf8560472dec",
-        "dest-filename": "yallist-4.0.0.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
@@ -4031,6 +3982,13 @@
     },
     {
         "type": "file",
+        "url": "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-9.27.0.tgz#c22dae704a03d9ecefa81364ff89f60ce0481f94",
+        "sha512": "e43c37cb1132b814974f34f9fc67b55f99089114d0de7bc19ff5703f022736264148938efed8a658c51a7e538d9c507353a36107af25c6709d6bb50b57937b2c",
+        "dest-filename": "eslint-plugin-vue-9.27.0.tgz",
+        "dest": "flatpak-node/yarn-mirror"
+    },
+    {
+        "type": "file",
         "url": "https://registry.yarnpkg.com/fill-range/-/fill-range-7.1.1.tgz#44265d3cac07e3ea7dc247516380643754a05292",
         "sha512": "62c1a97b75872caf19622e2d583836272dde6d1cf6ad7a300f19e57786e4401d3471cff5670f405a70b48bdced0c98ad8afb50bda23d29a2f22ab73e8415b4ca",
         "dest-filename": "fill-range-7.1.1.tgz",
@@ -4041,6 +3999,27 @@
         "url": "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.3.tgz#cac6407785d03675a2a5e1a5305c697b347d90d6",
         "sha512": "e71a037d7f9f2fb7da0139da82658fa5b16dc21fd1efb5a630caaa1c64bae42defbc1d181eb805f81d58999df8e35b4c8f99fade4d36d765cda09c339617df43",
         "dest-filename": "fsevents-2.3.3.tgz",
+        "dest": "flatpak-node/yarn-mirror"
+    },
+    {
+        "type": "file",
+        "url": "https://registry.yarnpkg.com/postcss-selector-parser/-/postcss-selector-parser-6.1.1.tgz#5be94b277b8955904476a2400260002ce6c56e38",
+        "sha512": "6f8765c3ff55f00ef5acb203b12c1599a93dcf60ee05407b080d7fc1275e94d133aac8e848f7800d358d3b4f65a47e3d0e2cb7fc9219d9b48f075748dcb2421e",
+        "dest-filename": "postcss-selector-parser-6.1.1.tgz",
+        "dest": "flatpak-node/yarn-mirror"
+    },
+    {
+        "type": "file",
+        "url": "https://registry.yarnpkg.com/semver/-/semver-7.6.3.tgz#980f7b5550bc175fb4dc09403085627f9eb33143",
+        "sha512": "a157a43f570ab48f824c3bc759815470cb6c2bfd34c260047f2a8a7cd740466f2ed7035585281a5fb03c77852e225508e5ef38884c0e86ced93d8466cd4f54e8",
+        "dest-filename": "semver-7.6.3.tgz",
+        "dest": "flatpak-node/yarn-mirror"
+    },
+    {
+        "type": "file",
+        "url": "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-9.4.3.tgz#9b04b22c71401f1e8bca9be7c3e3416a4bde76a8",
+        "sha512": "dab6112d6948a5a88df316cf883c976574602c63ad5b111157b343e5f140bf9aa8d43d8df45bbd30d6a304d73aa35de567edb80c05829100af8f89258267084e",
+        "dest-filename": "vue-eslint-parser-9.4.3.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
