@@ -314,7 +314,7 @@ jobs:
       - uses: actions/checkout@v4
       - id: flatpak-branch
         # Flatpak branch musn't contain "/" but dependabot branches do
-        run: echo "branch=$(echo ${{ github.head_ref || github.ref_name }} | sed 's$/$_$')" >> $GITHUB_OUTPUT
+        run: echo "branch=$(echo ${{ github.head_ref || github.ref_name }} | sed 's$/$_$g')" >> $GITHUB_OUTPUT
       - uses: flathub-infra/flatpak-github-actions/flatpak-builder@master
         with:
           bundle: axolotl.flatpak
