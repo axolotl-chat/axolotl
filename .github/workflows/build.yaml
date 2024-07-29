@@ -134,8 +134,7 @@ jobs:
         run: yarn --cwd ./axolotl-web install --frozen-lockfile
 
       - name: Install tauri-cli
-        # BUG https://github.com/tauri-apps/tauri/issues/9050
-        run: cargo install tauri-cli --locked
+        run: cargo install tauri-cli
 
       - name: Build deb package
         run: cargo tauri build --ci --features tauri --bundles deb
@@ -169,7 +168,7 @@ jobs:
 
       - name: Install protoc
         run: sudo apt-get install protobuf-compiler
-  
+
       - name: Install tauri arm64 dependencies
         run: |
           sudo dpkg --add-architecture arm64
@@ -201,7 +200,7 @@ jobs:
 
       - name: Rust cache
         uses: swatinem/rust-cache@v2
-  
+
       - name: Check out code
         uses: actions/checkout@v3
 
@@ -236,8 +235,7 @@ jobs:
         run: yarn --cwd ./axolotl-web install --frozen-lockfile
 
       - name: Install tauri-cli
-        # BUG https://github.com/tauri-apps/tauri/issues/9050
-        run: cargo install tauri-cli --locked
+        run: cargo install tauri-cli
 
       - name: Build deb package
         run: cargo tauri build --ci --target aarch64-unknown-linux-gnu --features tauri --bundles deb
