@@ -53,6 +53,6 @@ jobs:
           file_pattern: "flatpak/*-sources.json"
           # Do not block dependabot from updating this PR: https://github.com/dependabot/dependabot-core/issues/1758
           commit_message: "[dependabot skip] Update Flatpak sources"
-          commit_author: "dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+          commit_author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
           # Do not overwrite in case our version is outdated
           push_options: "--force-with-lease"
