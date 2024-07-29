@@ -27,11 +27,10 @@ jobs:
           # Fetch whole history as we want to commit and push
           fetch-depth: 0
 
-      - name: Clone flatpak-builder-tools
-        uses: actions/checkout@v4
-        with:
-          repository: flatpak/flatpak-builder-tools
-          path: flatpak-builder-tools
+      - name: Download flatpak-builder-tools
+        run: |
+          curl -L https://github.com/flatpak/flatpak-builder-tools/archive/refs/heads/master.tar.gz | tar xz
+          mv flatpak-builder-tools-master flatpak-builder-tools
 
       - name: Install flatpak-builder-tools dependencies
         run: |
