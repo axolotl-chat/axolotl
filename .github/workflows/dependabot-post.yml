@@ -23,6 +23,8 @@ jobs:
         with:
           # Using an SSH deploy key to allow running workflows triggered by push event
           # https://github.com/stefanzweifel/git-auto-commit-action?tab=readme-ov-file#commits-made-by-this-action-do-not-trigger-new-workflow-runs
+          # NOTE for actions triggered by dependabot, only the dependabot secrets are available
+          # https://docs.github.com/en/code-security/dependabot/working-with-dependabot/automating-dependabot-with-github-actions#responding-to-events
           ssh-key: "${{ secrets.DEPENDABOT_SSH_KEY }}"
           # Fetch whole history as we want to commit and push
           fetch-depth: 0
