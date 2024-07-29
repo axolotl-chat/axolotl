@@ -11,7 +11,7 @@ rust = "1.71"
 registry = "git://github.com/rust-lang/crates.io-index.git"
 
 [build-dependencies]
-tauri-build = { version = "2.0.0-alpha.14", features = [], optional = true }
+tauri-build = { version = "2.0.0-beta.19", features = [], optional = true }
 
 [dependencies]
 tauri = { version = "2.0.0-alpha.21", features = [], optional = true }
