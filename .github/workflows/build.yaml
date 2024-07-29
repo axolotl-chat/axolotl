@@ -169,7 +169,7 @@ jobs:
 
       - name: Install protoc
         run: sudo apt-get install protobuf-compiler
-  
+
       - name: Install tauri arm64 dependencies
         run: |
           sudo dpkg --add-architecture arm64
@@ -201,7 +201,7 @@ jobs:
 
       - name: Rust cache
         uses: swatinem/rust-cache@v2
-  
+
       - name: Check out code
         uses: actions/checkout@v3
 
@@ -309,7 +309,7 @@ jobs:
       fail-fast: false
     runs-on: ${{ matrix.variant.runner }}
     container:
-      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-45
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-46
       options: --privileged
     steps:
       - uses: actions/checkout@v4
