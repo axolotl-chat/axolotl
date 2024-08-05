@@ -1,7 +1,7 @@
-clickable_minimum_required: 8.0.1
+clickable_minimum_required: 8.2.0
 
 builder: rust
-rust_channel: 1.72.1
+rust_channel: stable
 build_args: --features ut
 
 dependencies_host:
