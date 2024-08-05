@@ -134,8 +134,11 @@ jobs:
       - name: Install dependencies
         run: yarn --cwd ./axolotl-web install --frozen-lockfile
 
-      - name: Install tauri-cli
-        run: cargo install tauri-cli --version "^2.0.0-rc"
+      - name: Install and cache tauri-cli
+        uses: baptiste0928/cargo-install@v3
+        with:
+          crate: tauri-cli
+          version: '^2.0.0-rc'
 
       - name: Build deb package
         run: cargo tauri build --ci --features tauri --bundles deb
@@ -235,8 +238,11 @@ jobs:
       - name: Install dependencies
         run: yarn --cwd ./axolotl-web install --frozen-lockfile
 
-      - name: Install tauri-cli
-        run: cargo install tauri-cli --version "^2.0.0-rc"
+      - name: Install and cache tauri-cli
+        uses: baptiste0928/cargo-install@v3
+        with:
+          crate: tauri-cli
+          version: '^2.0.0-rc'
 
       - name: Build deb package
         run: cargo tauri build --ci --target aarch64-unknown-linux-gnu --features tauri --bundles deb
