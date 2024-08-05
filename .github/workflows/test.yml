@@ -33,22 +33,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Rust toolchain
-        uses: actions-rs/toolchain@v1
+      - name: Rust setup
+        uses: dtolnay/rust-toolchain@stable
         with:
-          profile: minimal
           toolchain: stable
           components: rustfmt
 
       - name: Check code format
-        uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: -- --check
+        uses: actions-rust-lang/rustfmt@v1
 
   clippy:
     name: clippy
     runs-on: ubuntu-latest
+    permissions:
+      checks: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -56,17 +54,13 @@ jobs:
       - name: install protoc
         run: sudo apt-get install protobuf-compiler
 
-      - name: Setup Rust toolchain
-        uses: actions-rs/toolchain@v1
+      - name: Rust setup
+        uses: dtolnay/rust-toolchain@stable
         with:
-          profile: minimal
           toolchain: stable
           components: clippy
 
-      - name: Setup CI cache
-        uses: Swatinem/rust-cache@v2
-
       - name: Run clippy lints
-        uses: actions-rs/cargo@v1
+        uses: auguwu/clippy-action@1.4.0
         with:
-          command: clippy
+          token: ${{secrets.GITHUB_TOKEN}}
