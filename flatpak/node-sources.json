@@ -3884,9 +3884,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/vue-router/-/vue-router-4.4.0.tgz#128e3fc0c84421035a9bd26027245e6bd68f69ab",
-        "sha512": "1c1fadda9eb5d5a219ada57668f4913577f467fa0b645ae5ca0266fac65b749696ea5705a840d0c27cd40579fe0c0a70fbf4330d4fc8f53796c7d8b31234e6b0",
-        "dest-filename": "vue-router-4.4.0.tgz",
+        "url": "https://registry.yarnpkg.com/vue-router/-/vue-router-4.4.2.tgz#bc7bf27f108fc15e5cc2a30b314a662275e2b2bb",
+        "sha512": "d6a3726e49f62fb42c2f3697b3c9ef9509912a9f1717c0c2c59cacfc9af526941c1ec294c532b34f10950351bb35f05fc1120180224fa2e8ce1b9947082354c7",
+        "dest-filename": "vue-router-4.4.2.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
