@@ -1,0 +1,72 @@
+name: Axolotl test pipeline
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: "18.x"
+
+jobs:
+  test-axolotl-web:
+    name: Test axolotl-web
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Download dependencies
+        run: make download-dependencies-axolotl-web
+
+      - name: Test
+        run: make check-axolotl-web
+
+  rustfmt:
+    name: rustfmt
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          components: rustfmt
+
+      - name: Check code format
+        uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: -- --check
+
+  clippy:
+    name: clippy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: install protoc
+        run: sudo apt-get install protobuf-compiler
+
+      - name: Setup Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          components: clippy
+
+      - name: Setup CI cache
+        uses: Swatinem/rust-cache@v2
+
+      - name: Run clippy lints
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
