@@ -1,59 +1,60 @@
 {
+  "app": {
+    "security": {
+      "csp": null
+    },
+    "windows": []
+  },
   "build": {
     "beforeBuildCommand": "yarn --cwd axolotl-web run build",
     "beforeDevCommand": "yarn --cwd axolotl-web run dev",
-    "devPath": "http://localhost:5173/",
-    "distDir": "./axolotl-web/dist"
+    "devUrl": "http://localhost:5173/",
+    "frontendDist": "./axolotl-web/dist"
   },
-  "package": {
-    "productName": "Axolotl",
-    "version": "2.0.1"
-  },
-  "tauri": {
-    "bundle": {
-      "active": true,
+  "bundle": {
+    "active": true,
+    "category": "SocialNetworking",
+    "copyright": "",
+    "externalBin": [],
+    "icon": [
+      "data/icons/icon.png",
+      "data/icons/icon.icns",
+      "data/icons/icon.ico"
+    ],
+    "licenseFile": "LICENSE",
+    "linux": {
       "appimage": {
         "bundleMediaFramework": true
       },
-      "category": "SocialNetworking",
-      "copyright": "",
       "deb": {
         "depends": [],
         "files": {
           "/usr/share/doc/axolotl/README.md": "README.md"
         }
-      },
-      "externalBin": [],
-      "icon": [
-        "data/icons/icon.png",
-        "data/icons/icon.icns",
-        "data/icons/icon.ico"
-      ],
-      "identifier": "nanu-c.axolotl",
-      "longDescription": "",
-      "macOS": {
-        "entitlements": null,
-        "exceptionDomain": "",
-        "frameworks": [],
-        "providerShortName": null,
-        "signingIdentity": null
-      },
-      "publisher": "Aaron Kimmig",
-      "resources": [],
-      "shortDescription": "",
-      "targets": [
-        "deb",
-        "appimage"
-      ],
-      "windows": {
-        "certificateThumbprint": null,
-        "digestAlgorithm": "sha256",
-        "timestampUrl": ""
       }
     },
-    "security": {
-      "csp": null
+    "longDescription": "",
+    "macOS": {
+      "entitlements": null,
+      "exceptionDomain": "",
+      "frameworks": [],
+      "providerShortName": null,
+      "signingIdentity": null
     },
-    "windows": []
-  }
+    "publisher": "Aaron Kimmig",
+    "resources": [],
+    "shortDescription": "",
+    "targets": [
+      "deb",
+      "appimage"
+    ],
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": ""
+    }
+  },
+  "identifier": "nanu-c.axolotl",
+  "productName": "Axolotl",
+  "version": "2.0.1"
 }

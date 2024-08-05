@@ -145,11 +145,15 @@ mod tauri {
 
     pub async fn start_tauri() {
         let t = tauri::Builder::default().any_thread().setup(|app| {
-            tauri::WindowBuilder::new(app, "label", tauri::WindowUrl::App("index.html".into()))
-                .initialization_script(INIT_SCRIPT)
-                .title("Axolotl")
-                .build()
-                .unwrap();
+            tauri::WebviewWindowBuilder::new(
+                app,
+                "label",
+                tauri::WebviewUrl::App("index.html".into()),
+            )
+            .initialization_script(INIT_SCRIPT)
+            .title("Axolotl")
+            .build()
+            .unwrap();
             Ok(())
         });
         t.run(tauri::generate_context!())
