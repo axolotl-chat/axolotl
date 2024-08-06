@@ -27,7 +27,9 @@
         "bundleMediaFramework": true
       },
       "deb": {
-        "depends": [],
+        "depends": [
+          "libwebkit2gtk-4.1-0"
+        ],
         "files": {
           "/usr/share/doc/axolotl/README.md": "README.md"
         }
