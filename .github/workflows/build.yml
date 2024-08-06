@@ -23,9 +23,6 @@ jobs:
       - name: Download dependencies
         run: make download-dependencies-axolotl-web
 
-      - name: Test
-        run: make check-axolotl-web
-
       - name: Build
         run: make build-axolotl-web
 
@@ -35,51 +32,6 @@ jobs:
           name: axolotl-web
           path: axolotl-web/dist/
           retention-days: 1
-
-  rustfmt:
-    name: rustfmt
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Rust toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          components: rustfmt
-
-      - name: Check code format
-        uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: -- --check
-
-  clippy:
-    name: clippy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: install protoc
-        run: sudo apt-get install protobuf-compiler
-
-      - name: Setup Rust toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          components: clippy
-
-      - name: Setup CI cache
-        uses: Swatinem/rust-cache@v2
-
-      - name: Run clippy lints
-        uses: actions-rs/cargo@v1
-        with:
-          command: clippy
 
   build-axolotl:
     name: Build axolotl
@@ -94,12 +46,10 @@ jobs:
         run: sudo apt-get install protobuf-compiler
 
       - name: Rust setup
-        uses: dtolnay/rust-toolchain@stable
+        uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           toolchain: stable
-
-      - name: Rust cache
-        uses: swatinem/rust-cache@v2
+          rustflags: ''
 
       - name: Check out code
         uses: actions/checkout@v4
@@ -185,10 +135,11 @@ jobs:
           sudo apt-get update && sudo apt-get install -y --no-install-recommends libgtk-3-dev:arm64 libwebkit2gtk-4.1-dev:arm64 librsvg2-dev:arm64 libayatana-appindicator3-dev:arm64 libssl-dev:arm64 libjavascriptcoregtk-4.1-dev:arm64
 
       - name: Rust setup
-        uses: dtolnay/rust-toolchain@stable
+        uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           toolchain: stable
-          targets: aarch64-unknown-linux-gnu
+          target: aarch64-unknown-linux-gnu
+          rustflags: ''
 
       - name: Setup C compiler, linker and pkgconfig
         run: |
@@ -201,9 +152,6 @@ jobs:
           echo "PKG_CONFIG_ALLOW_CROSS=1" >> $GITHUB_ENV
           echo "PKG_CONFIG_PATH=/usr/lib/aarch64-linux-gnu/pkgconfig" >> $GITHUB_ENV
           echo "PKG_CONFIG_SYSROOT_DIR=/" >> $GITHUB_ENV
-
-      - name: Rust cache
-        uses: swatinem/rust-cache@v2
 
       - name: Check out code
         uses: actions/checkout@v4
