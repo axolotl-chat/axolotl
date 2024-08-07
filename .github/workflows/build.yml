@@ -110,6 +110,25 @@ jobs:
           path: target/release/bundle/appimage/*.AppImage
           retention-days: 1
 
+  smoketest:
+    name: Smoke test
+    runs-on: ubuntu-latest
+    needs:
+      - build-axolotl
+    steps:
+      - name: Install tauri dependencies
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends libwebkit2gtk-4.1-0
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        id: download-axolotl-linux-amd64
+        with:
+          name: build-axolotl-linux-amd64
+      - name: Run axolotl binary
+        run: |
+          AXOLOTL="${{steps.download-axolotl-linux-amd64.outputs.download-path}}/axolotl"
+          chmod +x ${AXOLOTL}
+          ${AXOLOTL} --help
+
   build-axolotl-arm64:
     name: Build axolotl arm64
     runs-on: ubuntu-latest
