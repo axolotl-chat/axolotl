@@ -231,7 +231,6 @@ impl Handler {
                 log::error!("Too many errors, exiting or sender is none {:?}", count);
                 // Exit this loop
                 exit(0);
-                break;
             }
             count += 1;
 
@@ -838,24 +837,6 @@ impl Handler {
         Ok(())
     }
 
-    async fn thread_metadata(
-        &self,
-        thread: &Thread,
-    ) -> Result<Option<ThreadMetadata>, ApplicationError> {
-        let manager = match self.manager_thread.get() {
-            Some(m) => m,
-            None => {
-                log::error!("Manager not initialized");
-                return Err(ApplicationError::RegistrationError(
-                    "Manager not initialized".to_string(),
-                ));
-            }
-        };
-        match manager.thread_metadata(thread).await {
-            Ok(metadata) => Ok(metadata),
-            Err(e) => Err(ApplicationError::from(e)),
-        }
-    }
     // update_contact_name updates the name of a contact and also updates the thread metadata title
     async fn update_contact_name(
         &self,
@@ -1342,67 +1323,58 @@ impl Handler {
             let thread_metadata = manager.thread_metadata(&thread).await.unwrap();
             if thread_metadata.is_none() {
                 self.create_thread_metadata(&thread).await.unwrap();
-                match thread {
-                    Thread::Contact(uuid) => {
-                        let contact = match manager.get_contact_by_id(uuid).await.unwrap() {
-                            Some(c) => c,
-                            None => {
-                                log::error!("handle_get_message_list: Contact not found");
-                                return Err(ApplicationError::InvalidRequest);
-                            }
-                        };
-                        match self.update_contact_name(contact).await {
-                            Ok(_) => (),
-                            Err(e) => {
-                                log::error!(
-                                    "handle_get_message_list: Error updating contact name: {}",
-                                    e
-                                );
-                            }
+                if let Thread::Contact(uuid) = thread {
+                    let contact = match manager.get_contact_by_id(uuid).await.unwrap() {
+                        Some(c) => c,
+                        None => {
+                            log::error!("handle_get_message_list: Contact not found");
+                            return Err(ApplicationError::InvalidRequest);
+                        }
+                    };
+                    match self.update_contact_name(contact).await {
+                        Ok(_) => (),
+                        Err(e) => {
+                            log::error!(
+                                "handle_get_message_list: Error updating contact name: {}",
+                                e
+                            );
                         }
                     }
-                    _ => (),
                 }
             } else {
                 let mut thread_metadata = thread_metadata.unwrap();
                 match thread_metadata.title.clone() {
                     Some(title) => {
                         // check if title is a valid uuid
-                        match thread {
-                            Thread::Contact(uuid) => {
-                                if Uuid::parse_str(&title).is_ok() || title.is_empty() {
-                                    let mut contact =
-                                        match manager.get_contact_by_id(uuid).await.unwrap() {
-                                            Some(c) => c,
-                                            None => {
-                                                log::error!(
-                                                    "handle_get_message_list: Contact not found"
-                                                );
-                                                return Err(ApplicationError::InvalidRequest);
-                                            }
-                                        };
-                                    contact = match self.update_contact_name(contact).await {
-                                        Ok(c) => c.unwrap(),
-                                        Err(e) => {
-                                            log::error!("Error updating contact name: {}", e);
+                        if let Thread::Contact(uuid) = thread {
+                            if Uuid::parse_str(&title).is_ok() || title.is_empty() {
+                                let contact = match manager.get_contact_by_id(uuid).await.unwrap() {
+                                    Some(c) => c,
+                                    None => {
+                                        log::error!("handle_get_message_list: Contact not found");
+                                        return Err(ApplicationError::InvalidRequest);
+                                    }
+                                };
+                                _ = match self.update_contact_name(contact).await {
+                                    Ok(c) => c.unwrap(),
+                                    Err(e) => {
+                                        log::error!("Error updating contact name: {}", e);
+                                        return Err(ApplicationError::InvalidRequest);
+                                    }
+                                };
+
+                                // retrieve updated thread metadata
+                                thread_metadata =
+                                    match manager.thread_metadata(&thread).await.unwrap() {
+                                        Some(tm) => tm,
+                                        None => {
+                                            log::error!(
+                                            "handle_get_message_list: Thread metadata not found"
+                                        );
                                             return Err(ApplicationError::InvalidRequest);
                                         }
                                     };
-
-                                    // retrieve updated thread metadata
-                                    thread_metadata =
-                                        match manager.thread_metadata(&thread).await.unwrap() {
-                                            Some(tm) => tm,
-                                            None => {
-                                                log::error!(
-                                                "handle_get_message_list: Thread metadata not found"
-                                            );
-                                                return Err(ApplicationError::InvalidRequest);
-                                            }
-                                        };
-                                }
                             }
-                            _ => (),
                         }
                     }
 
@@ -1613,32 +1585,27 @@ impl Handler {
         }
 
         let mut response_data = thread_metadata.unwrap();
-        match response_data.thread {
-            Thread::Contact(uuid) => {
-                if response_data.title.is_none() || response_data.title.clone().unwrap().len() == 36
-                {
-                    log::debug!("Updating contact from profile {:?}", uuid);
-                    let contact = match manager.get_contact_by_id(uuid).await.unwrap() {
-                        Some(c) => c,
-                        None => {
-                            log::error!("No contact found");
-                            return Err(ApplicationError::RegistrationError(
-                                "No contact found".to_string(),
-                            ));
-                        }
-                    };
-                    match self.update_contact_name(contact).await {
-                        Ok(_) => {
-                            response_data =
-                                manager.thread_metadata(&thread).await.unwrap().unwrap();
-                        }
-                        Err(e) => {
-                            log::error!("Error updating contact name: {}", e);
-                        }
+        if let Thread::Contact(uuid) = response_data.thread {
+            if response_data.title.is_none() || response_data.title.clone().unwrap().len() == 36 {
+                log::debug!("Updating contact from profile {:?}", uuid);
+                let contact = match manager.get_contact_by_id(uuid).await.unwrap() {
+                    Some(c) => c,
+                    None => {
+                        log::error!("No contact found");
+                        return Err(ApplicationError::RegistrationError(
+                            "No contact found".to_string(),
+                        ));
+                    }
+                };
+                match self.update_contact_name(contact).await {
+                    Ok(_) => {
+                        response_data = manager.thread_metadata(&thread).await.unwrap().unwrap();
+                    }
+                    Err(e) => {
+                        log::error!("Error updating contact name: {}", e);
                     }
                 }
             }
-            _ => {}
         }
 
         let response = AxolotlResponse {
@@ -1662,8 +1629,8 @@ impl Handler {
     ) -> Result<Option<AxolotlResponse>, ApplicationError> {
         log::info!("Getting config");
         // let my_uuid = manager.uuid();
-        let mut platform = "".to_string();
-        platform = "linux".to_string();
+        #[allow(unused_mut, unused_assignments)]
+        let mut platform = "linux".to_string();
         #[cfg(target_os = "windows")]
         {
             platform = "windows".to_string();
@@ -1680,9 +1647,9 @@ impl Handler {
         {
             platform = "ios".to_string();
         }
-        let mut feature = "".to_string();
-        feature = "desktop".to_string();
 
+        #[allow(unused_mut, unused_assignments)]
+        let mut feature = "desktop".to_string();
         #[cfg(feature = "tauri")]
         {
             feature = "tauri".to_string();
@@ -1762,17 +1729,7 @@ impl Handler {
         } else {
             "Invalid message"
         };
-        struct Wrapper<T>(Cell<Option<T>>);
 
-        impl<I, P> Serialize for Wrapper<I>
-        where
-            I: IntoIterator<Item = P>,
-            P: Serialize,
-        {
-            fn serialize<S: Serializer>(&self, s: S) -> Result<S::Ok, S::Error> {
-                s.collect_seq(self.0.take().unwrap())
-            }
-        }
         // Check the type of request
         if let Ok::<AxolotlRequest, SerdeError>(axolotl_request) = serde_json::from_str(msg) {
             // Axolotl request

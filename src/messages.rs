@@ -5,6 +5,7 @@ use crate::manager_thread::ManagerThread;
 use crate::requests::{AxolotlMessage, AxolotlResponse, SendMessageResponse};
 use presage::prelude::*;
 use presage::proto::{DataMessage, GroupContextV2};
+use presage::store::ContentsStore;
 use presage::{Manager, Thread};
 use presage_store_sled::SledStore;
 use std::time::UNIX_EPOCH;
@@ -123,7 +124,7 @@ pub async fn send_message_to_group(
         ..Default::default()
     };
 
-    match manager.group(&master_key) {
+    match manager.store().group(master_key) {
         Ok(group) => match group {
             Some(_) => {
                 manager
