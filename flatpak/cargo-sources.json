@@ -5505,14 +5505,14 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/serde/serde-1.0.204.crate",
-        "sha256": "bc76f558e0cbb2a839d37354c575f1dc3fdc6546b5be373ba43d95f231bf7c12",
-        "dest": "cargo/vendor/serde-1.0.204"
+        "url": "https://static.crates.io/crates/serde/serde-1.0.206.crate",
+        "sha256": "5b3e4cd94123dd520a128bcd11e34d9e9e423e7e3e50425cb1b4b1e3549d0284",
+        "dest": "cargo/vendor/serde-1.0.206"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"bc76f558e0cbb2a839d37354c575f1dc3fdc6546b5be373ba43d95f231bf7c12\", \"files\": {}}",
-        "dest": "cargo/vendor/serde-1.0.204",
+        "contents": "{\"package\": \"5b3e4cd94123dd520a128bcd11e34d9e9e423e7e3e50425cb1b4b1e3549d0284\", \"files\": {}}",
+        "dest": "cargo/vendor/serde-1.0.206",
         "dest-filename": ".cargo-checksum.json"
     },
     {
@@ -5531,14 +5531,14 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/serde_derive/serde_derive-1.0.204.crate",
-        "sha256": "e0cd7e117be63d3c3678776753929474f3b04a43a080c744d6b0ae2a8c28e222",
-        "dest": "cargo/vendor/serde_derive-1.0.204"
+        "url": "https://static.crates.io/crates/serde_derive/serde_derive-1.0.206.crate",
+        "sha256": "fabfb6138d2383ea8208cf98ccf69cdfb1aff4088460681d84189aa259762f97",
+        "dest": "cargo/vendor/serde_derive-1.0.206"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"e0cd7e117be63d3c3678776753929474f3b04a43a080c744d6b0ae2a8c28e222\", \"files\": {}}",
-        "dest": "cargo/vendor/serde_derive-1.0.204",
+        "contents": "{\"package\": \"fabfb6138d2383ea8208cf98ccf69cdfb1aff4088460681d84189aa259762f97\", \"files\": {}}",
+        "dest": "cargo/vendor/serde_derive-1.0.206",
         "dest-filename": ".cargo-checksum.json"
     },
     {
