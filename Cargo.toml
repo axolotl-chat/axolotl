@@ -33,7 +33,6 @@ url = "2.5.2"
 sled = "0.34.7"
 clap = { version = "4.5.15", features = ["derive"] }
 dirs = "5.0.1"
-serve-directory = "0.1.0"
 notify-rust = { version = "4.11.1", optional = true }
 data-url = "0.3.1"
 
