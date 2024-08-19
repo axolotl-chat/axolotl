@@ -962,14 +962,14 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/clap/clap-4.5.15.crate",
-        "sha256": "11d8838454fda655dafd3accb2b6e2bea645b9e4078abe84a22ceb947235c5cc",
-        "dest": "cargo/vendor/clap-4.5.15"
+        "url": "https://static.crates.io/crates/clap/clap-4.5.16.crate",
+        "sha256": "ed6719fffa43d0d87e5fd8caeab59be1554fb028cd30edc88fc4369b17971019",
+        "dest": "cargo/vendor/clap-4.5.16"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"11d8838454fda655dafd3accb2b6e2bea645b9e4078abe84a22ceb947235c5cc\", \"files\": {}}",
-        "dest": "cargo/vendor/clap-4.5.15",
+        "contents": "{\"package\": \"ed6719fffa43d0d87e5fd8caeab59be1554fb028cd30edc88fc4369b17971019\", \"files\": {}}",
+        "dest": "cargo/vendor/clap-4.5.16",
         "dest-filename": ".cargo-checksum.json"
     },
     {
