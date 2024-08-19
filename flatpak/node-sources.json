@@ -3149,9 +3149,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/postcss/-/postcss-8.4.40.tgz#eb81f2a4dd7668ed869a6db25999e02e9ad909d8",
-        "sha512": "605da42885330287cf3297c7ea13a2d9c1a7bff1eb5257ee72ca5cee90f2befee419da97adf8fc48297fb7ca3090480a12ebbc65c46348ec45c552eac02859d9",
-        "dest-filename": "postcss-8.4.40.tgz",
+        "url": "https://registry.yarnpkg.com/postcss/-/postcss-8.4.41.tgz#d6104d3ba272d882fe18fc07d15dc2da62fa2681",
+        "sha512": "4deb147e543458a66a02f839d8f58bea41e02ca3fac41ea179339da183345add941f2c4d6b82b6e446593202a7b37047d512d56d909110fa4b634ae19cda0755",
+        "dest-filename": "postcss-8.4.41.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
@@ -3849,9 +3849,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/vite/-/vite-5.3.5.tgz#b847f846fb2b6cb6f6f4ed50a830186138cb83d8",
-        "sha512": "31d8e094a47a0105d06fd246892ed1736c02eae323726ec6a3f34734eeb71308895dfba4f4f82a88ffe7e480c90b388c91fc3d9f851ba7b96db4dc33fbc65528",
-        "dest-filename": "vite-5.3.5.tgz",
+        "url": "https://registry.yarnpkg.com/vite/-/vite-5.4.1.tgz#2aa72370de824d23f53658affd807e4c9905b058",
+        "sha512": "d6813acae357b2c8eb65d6e523d01f05b1c20b8d679f2a15a04671427203eb2bd0640141cf1c64aa814bb4750c918ba72fc87038b123813bb1a64471bdb6b790",
+        "dest-filename": "vite-5.4.1.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
