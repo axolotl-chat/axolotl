@@ -2701,9 +2701,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/micromatch/-/micromatch-4.0.7.tgz#33e8190d9fe474a9895525f5618eee136d46c2e5",
-        "sha512": "2cf3ffdcaa2bcc2c01c5f794b9999a47a6c6da475e1d26ded0fdad63714b454e2f62b8d8cf9848e106705749e3531de37ae29eebb62e910d4b48f641283a8efd",
-        "dest-filename": "micromatch-4.0.7.tgz",
+        "url": "https://registry.yarnpkg.com/micromatch/-/micromatch-4.0.8.tgz#d66fa18f3a47076789320b9b1af32bd86d9fa202",
+        "sha512": "3d7c1f06162ed210423f0f039f413e58361beda7f77522d558a8b71c6bfce08745e13c85a02d32b3115dd06a31c3b9d2bf84ff3f3109431b18b0488508aa3604",
+        "dest-filename": "micromatch-4.0.8.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
