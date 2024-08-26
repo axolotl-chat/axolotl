@@ -2505,9 +2505,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/jsdom/-/jsdom-24.1.1.tgz#f41df8f4f3b2fbfa7e1bdc5df62c9804fd14a9d0",
-        "sha512": "e4ed70595f7d261ab80d5eeb08b22867f50887241e0d1ef01d5c9900702c85baef66c2ecf97cf3ee0b709e52532438e57a24ca879e05e1d5eb5fbd2f2504f225",
-        "dest-filename": "jsdom-24.1.1.tgz",
+        "url": "https://registry.yarnpkg.com/jsdom/-/jsdom-25.0.0.tgz#d1612b4ddab85af56821b2f731e15faae135f4e1",
+        "sha512": "3a1a05553e7d4fb684abbe53570f71c447e45e069ca6a02141a6203fdcbf7c3a96402301fdbd47eba45f98f9bf31a79a00853d9c3c0c3954e53cde75f9aa3a09",
+        "dest-filename": "jsdom-25.0.0.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
