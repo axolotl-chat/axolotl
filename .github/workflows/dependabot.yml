@@ -54,6 +54,18 @@ jobs:
           # Do not overwrite in case our version is outdated
           push_options: "--force-with-lease"
 
+  auto-approve:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Auto approve Dependabot PRs
+        run: gh pr review --approve "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
   auto-merge:
     if: github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
