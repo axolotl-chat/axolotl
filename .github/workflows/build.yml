@@ -49,7 +49,6 @@ jobs:
         uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           toolchain: stable
-          rustflags: ''
 
       - name: Check out code
         uses: actions/checkout@v4
@@ -158,7 +157,6 @@ jobs:
         with:
           toolchain: stable
           target: aarch64-unknown-linux-gnu
-          rustflags: ''
 
       - name: Setup C compiler, linker and pkgconfig
         run: |
@@ -252,7 +250,7 @@ jobs:
 
       - name: Build click (${{ matrix.arch }})
         # workaround https://github.com/actions/runner/issues/1479#issuecomment-969306629
-        uses: ChristopherHX/conditional@b4a9649204f81002ec9a4ef7d4bf7d6b2ab7fa55
+        uses: ChristopherHX/conditional@01004426dfbc58dc9bfe0713f146f1429eb5025e # main
         with:
           step: |
             uses: docker://clickable/ci-20.04-${{ matrix.arch }}:8.2.0
