@@ -573,6 +573,13 @@
     },
     {
         "type": "file",
+        "url": "https://registry.yarnpkg.com/@rtsao/scc/-/scc-1.1.0.tgz#927dd2fae9bc3361403ac2c7a00c32ddce9ad7e8",
+        "sha512": "cede8e76a683a0e9c9d5962c0981adf58996cc35e5e2f41d293c897afeb680585118a771ee6713e7857d2888e0f9ddb08bd117b0fbc03ca7bb8bb5a37d5581f2",
+        "dest-filename": "@rtsao-scc-1.1.0.tgz",
+        "dest": "flatpak-node/yarn-mirror"
+    },
+    {
+        "type": "file",
         "url": "https://registry.yarnpkg.com/@types/estree/-/estree-1.0.5.tgz#a6ce3e556e00fd9895dd872dd172ad0d4bd687f4",
         "sha512": "fe4611c460cb5b31ce07babec2d49442516bb5c75471ca5fcbe5fef62301a472bc40b2e1c76c083d8b92e4362d47d59afd895901b228bf2eea55d07502ae8bcb",
         "dest-filename": "@types-estree-1.0.5.tgz",
@@ -1602,16 +1609,16 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/eslint-module-utils/-/eslint-module-utils-2.8.1.tgz#52f2404300c3bd33deece9d7372fb337cc1d7c34",
-        "sha512": "ad70d747787b72ceddcbd44da549507fcd275f7d575891321aad6d44ca3ee86b0ee559937b8513c2d9a89c00f866402cadf3150c0db0946277efdd18b3e0f8f5",
-        "dest-filename": "eslint-module-utils-2.8.1.tgz",
+        "url": "https://registry.yarnpkg.com/eslint-module-utils/-/eslint-module-utils-2.9.0.tgz#95d4ac038a68cd3f63482659dffe0883900eb342",
+        "sha512": "31c55b626c00dcd10ac11418e60e1a58c75c644e7167157c8bc97b0aa252ada99eb8649026d49668bfcbc5313348a29a09c3a19690d1f1711f61758fadda3f65",
+        "dest-filename": "eslint-module-utils-2.9.0.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.29.1.tgz#d45b37b5ef5901d639c15270d74d46d161150643",
-        "sha512": "05b3c2d1cb84c73862328e057f50535701e98e3bf6f02e51f9bb53386682442ed4133f34d6ea7425a77091e4a4e5479de931b7e2e69ccee56e1faab2cb9614c7",
-        "dest-filename": "eslint-plugin-import-2.29.1.tgz",
+        "url": "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.30.0.tgz#21ceea0fc462657195989dd780e50c92fe95f449",
+        "sha512": "fe61cd13d8c83497e20f610a920d412b23f2524e337674f9e1881b3a07e349a9164f9a325ffa902d535391e8727e970cc595cccb5cf2a27676bfb8594d7e3763",
+        "dest-filename": "eslint-plugin-import-2.30.0.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
@@ -2267,9 +2274,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/is-core-module/-/is-core-module-2.15.0.tgz#71c72ec5442ace7e76b306e9d48db361f22699ea",
-        "sha512": "0ddf8b6f6ff3be4f522b2d53182b75c05245a3f31604f317e71eca72f2da8d64c6ba899ccdd417eb53ef639c8ae925400b0a687b15a8f3521f172a0a6364274c",
-        "dest-filename": "is-core-module-2.15.0.tgz",
+        "url": "https://registry.yarnpkg.com/is-core-module/-/is-core-module-2.15.1.tgz#a7363a25bee942fefab0de13bf6aa372c82dcc37",
+        "sha512": "cf4bed5d2c2e71426d00d41695d85bb5bb7b0672f4bf18858c87432c06adc210d8b72d9b69deacfab8a30fa462e18b9826e6cbcc824b522742874f5ed5d8c455",
+        "dest-filename": "is-core-module-2.15.1.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
