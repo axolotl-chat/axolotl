@@ -6095,14 +6095,14 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/tauri-build/tauri-build-2.0.0-rc.7.crate",
-        "sha256": "7d5ad5fcfaf02cf79aa6727f6c5df38567d8dce172b00b62690c6bc46c08b7ce",
-        "dest": "cargo/vendor/tauri-build-2.0.0-rc.7"
+        "url": "https://static.crates.io/crates/tauri-build/tauri-build-2.0.0-rc.8.crate",
+        "sha256": "4acec578ff9de14da177722c8fb5e3d6c88af296696190c70b83bec91437248a",
+        "dest": "cargo/vendor/tauri-build-2.0.0-rc.8"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"7d5ad5fcfaf02cf79aa6727f6c5df38567d8dce172b00b62690c6bc46c08b7ce\", \"files\": {}}",
-        "dest": "cargo/vendor/tauri-build-2.0.0-rc.7",
+        "contents": "{\"package\": \"4acec578ff9de14da177722c8fb5e3d6c88af296696190c70b83bec91437248a\", \"files\": {}}",
+        "dest": "cargo/vendor/tauri-build-2.0.0-rc.8",
         "dest-filename": ".cargo-checksum.json"
     },
     {
@@ -6160,14 +6160,14 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/tauri-utils/tauri-utils-2.0.0-rc.7.crate",
-        "sha256": "d53d9fe87e985b273696ae22ce2b9f099a8f1b44bc8fb127467bda5fcb3e4371",
-        "dest": "cargo/vendor/tauri-utils-2.0.0-rc.7"
+        "url": "https://static.crates.io/crates/tauri-utils/tauri-utils-2.0.0-rc.8.crate",
+        "sha256": "201498c8281ab2597e344b4a4c923e8d491782305979d71e7cdf8fb79aab5948",
+        "dest": "cargo/vendor/tauri-utils-2.0.0-rc.8"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"d53d9fe87e985b273696ae22ce2b9f099a8f1b44bc8fb127467bda5fcb3e4371\", \"files\": {}}",
-        "dest": "cargo/vendor/tauri-utils-2.0.0-rc.7",
+        "contents": "{\"package\": \"201498c8281ab2597e344b4a4c923e8d491782305979d71e7cdf8fb79aab5948\", \"files\": {}}",
+        "dest": "cargo/vendor/tauri-utils-2.0.0-rc.8",
         "dest-filename": ".cargo-checksum.json"
     },
     {
