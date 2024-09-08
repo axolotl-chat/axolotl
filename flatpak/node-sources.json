@@ -692,23 +692,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@vue/compiler-core/-/compiler-core-3.5.2.tgz#56aa06f3f0efc08579739aa04685dc34ee49b003",
-        "sha512": "d5a3fb14bd8692a7dcb241d61a0de57d6429267ae67b029cfab349fe1abd58d680c38044c89e506cd0a19ea99bc3eb49e34f73772d575a651e5d732b08a25c41",
-        "dest-filename": "@vue-compiler-core-3.5.2.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/@vue/compiler-core/-/compiler-core-3.5.3.tgz#93476cc858c8a4e5e9670c9a9185661026136dee",
         "sha512": "69d01fcbd6e83e43f6df7353caf2db184a95b887cafd1d19b01b08396e0164d7dbe01469456e350e8d6efa8cc9a6c6fe99da32f343b6d08cc0b076a28516f9a8",
         "dest-filename": "@vue-compiler-core-3.5.3.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/@vue/compiler-dom/-/compiler-dom-3.5.2.tgz#9b4423ec215e016429b7739b21b8727a846481fe",
-        "sha512": "418e03a53f19214caefd9039804ae94840e87063446c79a9919202fdde636e9feb505d22389362800cb71c208a7343cc3210e5adccac3b7b9f43a01be0ca4471",
-        "dest-filename": "@vue-compiler-dom-3.5.2.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
@@ -720,23 +706,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@vue/compiler-sfc/-/compiler-sfc-3.5.2.tgz#731d32c981f76b0edc7ed6314149e11ef12a197b",
-        "sha512": "bc4ac4b726d2536f742db316f8285896523db4d2447535b5a14fbc719588359ca395679349af58a83978fe96494a7a33388f8799c682d55cf67852a65cd49764",
-        "dest-filename": "@vue-compiler-sfc-3.5.2.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/@vue/compiler-sfc/-/compiler-sfc-3.5.3.tgz#d44c1cafe94d26f74fa4864cabc948c3908a27de",
         "sha512": "3f7b804cb9f2dad7f2bcc074e0e4057bb49cced7a7a3b48b171c2b380fddc34d690564070791cbd796bc3e8b28357d9a1bf100306aa75d3bbed4b9e6cc58694d",
         "dest-filename": "@vue-compiler-sfc-3.5.3.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/@vue/compiler-ssr/-/compiler-ssr-3.5.2.tgz#1d66e7f79c83865526767091a99d26b53bb7741f",
-        "sha512": "bccb40e2d40afc0337500609b26a2e433429806fa1f532a20f9055f99b7e67200c762731cd210414659ffc2ca44670e9aa3f5f31f2073e139ecc954dc625ded8",
-        "dest-filename": "@vue-compiler-ssr-3.5.2.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
@@ -762,37 +734,30 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@vue/reactivity/-/reactivity-3.5.2.tgz#f582729ca5258e7a7e23716bbf4b0dde3ae3995d",
-        "sha512": "949c162f96cd86dfb6bc8c14ffe96719d1fe14a171cf3eb3f169282098adc8f2e26ac594f870d4bc4b02ee09b7245c1b4dfeca93e36bf6424c68fcb41d7c30c5",
-        "dest-filename": "@vue-reactivity-3.5.2.tgz",
+        "url": "https://registry.yarnpkg.com/@vue/reactivity/-/reactivity-3.5.3.tgz#0bdc6031d5be973ee0f807f82259d5579fb46fb6",
+        "sha512": "db0eb55274564cfefeae3d47fe3e851fbd3a81104774556922a12448303222969f057607f31b7882db6cb5b6c259d5373a571258ef3fde66ca97ff77fc748ca7",
+        "dest-filename": "@vue-reactivity-3.5.3.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@vue/runtime-core/-/runtime-core-3.5.2.tgz#2aac957cbf4655a70fab593f69b03b0759d82f90",
-        "sha512": "a14fa2f6c26318431f12196b27b499bfb09d4888143720479d61dad12a94d91178f15dff0136a3ce95aad7f0e48952759adc7e71014030ab3cb3fddc0776252d",
-        "dest-filename": "@vue-runtime-core-3.5.2.tgz",
+        "url": "https://registry.yarnpkg.com/@vue/runtime-core/-/runtime-core-3.5.3.tgz#8126927e4b0cf87a8a7d32822abe8170b8c99edf",
+        "sha512": "e5bd80430e4e665982cd2b1205662864eb32ef937851d3167a74df0dd2396c0cd79ee551ee247c43800ecd09b6386a00e35c63939dd540aaea4213b3da4b566b",
+        "dest-filename": "@vue-runtime-core-3.5.3.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@vue/runtime-dom/-/runtime-dom-3.5.2.tgz#bc079a97aeb36b6cc3a266bad283243dd51310a4",
-        "sha512": "daabf2b27fa847442714a69667143dd225695802bf58fa5898e0c70afdb82035e3b01add1db8cb063f6ce9805d3da32e421b342cdb2686c819619064b332e0ea",
-        "dest-filename": "@vue-runtime-dom-3.5.2.tgz",
+        "url": "https://registry.yarnpkg.com/@vue/runtime-dom/-/runtime-dom-3.5.3.tgz#f07ba3faecfd39feb54c4d13d8cc4416ca28f111",
+        "sha512": "c0f4750c419cdd79d0ef21db9a44eddc6a18d1c12754642701145d0240f367c31b50a12cdba828802428e803afbe06a17e321c9ef589ce4640ad0d5f9968dc4a",
+        "dest-filename": "@vue-runtime-dom-3.5.3.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@vue/server-renderer/-/server-renderer-3.5.2.tgz#f86474d941de46ee3ae4578a7f12a94d01a07711",
-        "sha512": "dcf3a160203c29f6e6b83b9488d6cc5e7a5d87da701384af02aa3b56f0028e494b91fdc068c918dd3bd5ec03de11afd641eceb9cbf84e17d804a926c29e4b871",
-        "dest-filename": "@vue-server-renderer-3.5.2.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/@vue/shared/-/shared-3.5.2.tgz#c4e3c3a0b6df91753689a635cb4729f889acdff0",
-        "sha512": "09ef3d58d141cdc0dc6bf020153c605f8fcae2203217ba05229f19e5a05b14135bb69c2742bfb9a593a81e77719e313687e605722a55333b3d50bd755c1e9dc0",
-        "dest-filename": "@vue-shared-3.5.2.tgz",
+        "url": "https://registry.yarnpkg.com/@vue/server-renderer/-/server-renderer-3.5.3.tgz#1cbf7bb83cf1a6c7cdcea4ae3afca65c3cf6cf29",
+        "sha512": "dbcbe8966699546d8f18edd5dfe8013caa121ef2e513c1467c6fc62972a48e37f12ee8ffe7407fd0e4066a433f83a7a141ea82ad960ce1e1c2e0ab38f1e8a0d5",
+        "dest-filename": "@vue-server-renderer-3.5.3.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
@@ -3933,9 +3898,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/vue/-/vue-3.5.2.tgz#6a76c4611a3850724229e831b036c1a6da9f0f84",
-        "sha512": "c35601e250300bd0721fa027158d09bd917ecbbd14b2e97d8c37ca20ab4ce7103deeafc93d2e51ee6aaad1f840e83d8f43160f65d81be63cc528bc8e81ae699f",
-        "dest-filename": "vue-3.5.2.tgz",
+        "url": "https://registry.yarnpkg.com/vue/-/vue-3.5.3.tgz#1f621023b123341ab5f427e2a6d7320d0e47d72b",
+        "sha512": "c6f45b7741e9b8ba2f61b3875d11e5481b12be65096e8d29cdb90a4c0a569d019fdff72ee59dfd990780e5c65d2d1548a0d7f7cc8e8c4a83a01d44f98b68cef9",
+        "dest-filename": "vue-3.5.3.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
