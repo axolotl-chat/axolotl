@@ -727,9 +727,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.6.3.tgz#b23a588154cba8986bba82b6e1d0248bde3fd1a0",
-        "sha512": "d0c88cb0599afc7a80ea0dca2ca9fe006a4bd6480a8455accc2f54dbd35fa562b92c4edb8de5f1c92589ace27bee1073f9306b050ee8e1026a6cf6ea6ecf2b27",
-        "dest-filename": "@vue-devtools-api-6.6.3.tgz",
+        "url": "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.6.4.tgz#cbe97fe0162b365edc1dba80e173f90492535343",
+        "sha512": "b068533ccb97a99d6b54e937d91ca5ced5a47d74d186e4bbbe000abf4ce3aa4f206ec1e427bc5f15ffa36f24b1b7bb5639b109c3229a1cc8a457f5860e2426f2",
+        "dest-filename": "@vue-devtools-api-6.6.4.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
@@ -3835,9 +3835,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/vue-router/-/vue-router-4.4.3.tgz#58a39dc804632bfb6d26f052aa8f6718bd130299",
-        "sha512": "b2feb098d2b1da3ddaa894033312c5cecfeefe68c0f59e4b0a0cba044d1fef2156323acf2e74bfb0f367f00458fc55f0e9bc95d7c105bad9f99533baf94b15e4",
-        "dest-filename": "vue-router-4.4.3.tgz",
+        "url": "https://registry.yarnpkg.com/vue-router/-/vue-router-4.4.5.tgz#bdf535e4cf32414ebdea6b4b403593efdb541388",
+        "sha512": "e1f299ca04bc707d720b2b9a6c05c6500b328b56f6fe8fce2a0bbf4546fece72183b13d1c5d932b49131fb4c06729044d695fabd4821e63c1638a446bee03fed",
+        "dest-filename": "vue-router-4.4.5.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
