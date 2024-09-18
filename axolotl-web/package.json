@@ -60,7 +60,7 @@
     "jsdom": "^25.0.0",
     "prettier": "^3.3.3",
     "sass": "^1.79.1",
-    "vite": "^5.4.5",
+    "vite": "^5.4.6",
     "vitest": "^2.1.1"
   },
   "browserslist": [
