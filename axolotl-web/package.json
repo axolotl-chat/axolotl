@@ -45,7 +45,7 @@
   "devDependencies": {
     "@eslint/compat": "^1.1.1",
     "@vitejs/plugin-vue": "^5.1.4",
-    "@vue/compiler-sfc": "^3.5.6",
+    "@vue/compiler-sfc": "^3.5.8",
     "@vue/eslint-config-airbnb": "^8.0.0",
     "@vue/test-utils": "^2.4.6",
     "browserslist": "^4.23.3",
