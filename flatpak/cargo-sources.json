@@ -3730,14 +3730,14 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/notify-rust/notify-rust-4.11.1.crate",
-        "sha256": "26a1d03b6305ecefdd9c6c60150179bb8d9f0cd4e64bbcad1e41419e7bf5e414",
-        "dest": "cargo/vendor/notify-rust-4.11.1"
+        "url": "https://static.crates.io/crates/notify-rust/notify-rust-4.11.3.crate",
+        "sha256": "5134a72dc570b178bff81b01e81ab14a6fcc015391ed4b3b14853090658cd3a3",
+        "dest": "cargo/vendor/notify-rust-4.11.3"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"26a1d03b6305ecefdd9c6c60150179bb8d9f0cd4e64bbcad1e41419e7bf5e414\", \"files\": {}}",
-        "dest": "cargo/vendor/notify-rust-4.11.1",
+        "contents": "{\"package\": \"5134a72dc570b178bff81b01e81ab14a6fcc015391ed4b3b14853090658cd3a3\", \"files\": {}}",
+        "dest": "cargo/vendor/notify-rust-4.11.3",
         "dest-filename": ".cargo-checksum.json"
     },
     {
