@@ -300,6 +300,13 @@
     },
     {
         "type": "file",
+        "url": "https://registry.yarnpkg.com/@eslint/core/-/core-0.6.0.tgz#9930b5ba24c406d67a1760e94cdbac616a6eb674",
+        "sha512": "f08d90f32900e09d31d28edc83aec53d59de85ca964c17a1bbf96663e6e894f1471a3878f58cc604c5d3be9a958046c176f3424b18fa8858222321f37f4de5ce",
+        "dest-filename": "@eslint-core-0.6.0.tgz",
+        "dest": "flatpak-node/yarn-mirror"
+    },
+    {
+        "type": "file",
         "url": "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-3.1.0.tgz#dbd3482bfd91efa663cbe7aa1f506839868207b6",
         "sha512": "e017e3d7975525da32dd17d99a6a3ce912b5170ce7e92b2db2f2bd252f816952aa0ba410410c977a435a0be83e2ca360910fb6561180ce6ea13b8d0084c477cd",
         "dest-filename": "@eslint-eslintrc-3.1.0.tgz",
@@ -307,9 +314,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@eslint/js/-/js-9.10.0.tgz#eaa3cb0baec497970bb29e43a153d0d5650143c6",
-        "sha512": "7ee5ed6e23f9196227f05cfe2d6a0e3157ff2719be69a8d9624862e82b849b84b1ca614cf9e516cdb3bda974fe2f488290be7e28660c0921b1a3af3a1f5f52d6",
-        "dest-filename": "@eslint-js-9.10.0.tgz",
+        "url": "https://registry.yarnpkg.com/@eslint/js/-/js-9.11.1.tgz#8bcb37436f9854b3d9a561440daf916acd940986",
+        "sha512": "feabbe4d6cfc5b03d673bfc770824a8be73e30e9b8e867556929534d071aa9a2f9dfe1aca00e8cc56a793ed4f1e3ca9b48fef294cd4a9fb9e1be4ba07c9bd148",
+        "dest-filename": "@eslint-js-9.11.1.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
@@ -321,9 +328,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@eslint/plugin-kit/-/plugin-kit-0.1.0.tgz#809b95a0227ee79c3195adfb562eb94352e77974",
-        "sha512": "6aeb405d3db4de2c61a9e8bdc6dfaa9183af63c97a2c0148753d945dcfd13cd79455fa91175055f7819327254f14a4fc9c533a3325498632e3f44f095af7f9cd",
-        "dest-filename": "@eslint-plugin-kit-0.1.0.tgz",
+        "url": "https://registry.yarnpkg.com/@eslint/plugin-kit/-/plugin-kit-0.2.0.tgz#8712dccae365d24e9eeecb7b346f85e750ba343d",
+        "sha512": "bc7f4f88830cc2f842c77d407f71e21b3b153542c36f25641d7c257a69ff0744c58ffd34868df2e7979f5eb5194df422a71a070b9bb8c6aeb36e5c30d739b522",
+        "dest-filename": "@eslint-plugin-kit-0.2.0.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
@@ -594,9 +601,23 @@
     },
     {
         "type": "file",
+        "url": "https://registry.yarnpkg.com/@types/estree/-/estree-1.0.6.tgz#628effeeae2064a1b4e79f78e81d87b7e5fc7b50",
+        "sha512": "0189dbd67432638f6d7be551015826cdf7208d84bdd666393f44ca50308b10cfa036703edd3eab5884d744b602a5a869a9241b379704fa01e99cfc978c75b173",
+        "dest-filename": "@types-estree-1.0.6.tgz",
+        "dest": "flatpak-node/yarn-mirror"
+    },
+    {
+        "type": "file",
         "url": "https://registry.yarnpkg.com/@types/glob/-/glob-7.2.0.tgz#bc1b5bf3aa92f25bd5dd39f35c57361bdce5b2eb",
         "sha512": "654c5bcca97421f2482d34bab7b8a9e5f41033f2774c962e6c39b79cc6e0b9b34d612eb6797794a682d40bcffb7c93621581d3ac63d09fb86ca435332075f750",
         "dest-filename": "@types-glob-7.2.0.tgz",
+        "dest": "flatpak-node/yarn-mirror"
+    },
+    {
+        "type": "file",
+        "url": "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.15.tgz#596a1747233694d50f6ad8a7869fcb6f56cf5841",
+        "sha512": "e7e7cff0ff0c14d0be0326420f1ac1da991914f1b3a90594ce949ebae54bbe6f1531ca2b3586af06aa057312bc6d0cf842c6e7e2850411e9b8c032df732b061c",
+        "dest-filename": "@types-json-schema-7.0.15.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
@@ -1693,9 +1714,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/eslint/-/eslint-9.10.0.tgz#0bd74d7fe4db77565d0e7f57c7df6d2b04756806",
-        "sha512": "6380f4220b4165f39c39400841349704aa0d19f6344441aa1c91baf90f35bcd8a9a56e5894a8c7163e2ca0cc5a98a2b53571d45ae0594cb754dca9be2ffa5c1f",
-        "dest-filename": "eslint-9.10.0.tgz",
+        "url": "https://registry.yarnpkg.com/eslint/-/eslint-9.11.1.tgz#701e5fc528990153f9cef696d8427003b5206567",
+        "sha512": "3286e160a22800ed6cd5ee1552b831d65d5293624147f1aa8e3830f3e99f8282c4db1c2c1eeaf881d7d3c724e04a1ae1bdd5454da25280c890065d63bff016c6",
+        "dest-filename": "eslint-9.11.1.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
