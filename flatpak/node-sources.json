@@ -1105,9 +1105,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/browserslist/-/browserslist-4.23.3.tgz#debb029d3c93ebc97ffbc8d9cbb03403e227c800",
-        "sha512": "6edc021495632386160cd7dabbc46167e07543f54ba14213ae6dd194feb2d6d60658839af889ee6224465d4057a3c9c0d6a2a61ccc8b07f895420e534f8785a0",
-        "dest-filename": "browserslist-4.23.3.tgz",
+        "url": "https://registry.yarnpkg.com/browserslist/-/browserslist-4.24.0.tgz#a1325fe4bc80b64fda169629fc01b3d6cecd38d4",
+        "sha512": "4666fadac4756698ea976e5e49a9c5184840c5c1707c0d4ad06b9070ba1a24101c10d7a0ad0badde161d857145d686d07e20f2a885bf70b3391d227ff64f3ce0",
+        "dest-filename": "browserslist-4.24.0.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
@@ -1154,9 +1154,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001649.tgz#3ec700309ca0da2b0d3d5fb03c411b191761c992",
-        "sha512": "7c97a0a99674657f07396afaadc69f1abef6fb172024a23da167c35b90eb0fb13152d8190bb6bb47b658999aa9961ed70e8705746788167eeba00c6139e62b3d",
-        "dest-filename": "caniuse-lite-1.0.30001649.tgz",
+        "url": "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001664.tgz#d588d75c9682d3301956b05a3749652a80677df4",
+        "sha512": "02613b93875788d2908a9827edadb1839e7c211a8f3778cc418feb3ac6f10e1addd2dc828706c84c17e2c2d9eacfc6e2d8ce662166f101806f93b5bb401512da",
+        "dest-filename": "caniuse-lite-1.0.30001664.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
@@ -1497,9 +1497,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.4.tgz#cd477c830dd6fca41fbd5465c1ff6ce08ac22343",
-        "sha512": "a2bcc0f3556a2f220650403bed89150350fe37e9cd7e5da2b095638e63b2ae5c6ea28675f729dbf9d3a56834ea77f89d2914bd943092066b7333e9320ac32790",
-        "dest-filename": "electron-to-chromium-1.5.4.tgz",
+        "url": "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.29.tgz#aa592a3caa95d07cc26a66563accf99fa573a1ee",
+        "sha512": "3c5f27d8094884229743e813a62262d1585c1c36faf64617e0cb428a2bdcb5cd900f75ee359fd720e95b1b3b7b5808e311ebf44ed687e82bb76ab644c66e433b",
+        "dest-filename": "electron-to-chromium-1.5.29.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
