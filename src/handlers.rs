@@ -23,14 +23,16 @@ use presage::libsignal_service::prelude::phonenumber::PhoneNumber;
 use presage::libsignal_service::prelude::AttachmentIdentifier;
 use presage::libsignal_service::prelude::{phonenumber, Uuid};
 use presage::libsignal_service::sender::AttachmentSpec;
+use presage::libsignal_service::ServiceAddress;
 use presage::libsignal_service::zkgroup::profiles::ProfileKey;
 use presage::manager::Confirmation;
 use presage::manager::RegistrationOptions;
-use presage::prelude::AttachmentPointer;
-use presage::prelude::Content;
 use presage::proto::DataMessage;
 use presage::proto::GroupContextV2;
+use presage::libsignal_service::content::Content;
+use presage::proto::AttachmentPointer;
 use presage::store::StateStore;
+use presage::store::Thread;
 use presage_store_sled::{OnNewIdentity, SledStoreError};
 use serde::{Serialize, Serializer};
 use serde_json::error::Error as SerdeError;
@@ -53,7 +55,7 @@ const MESSAGE_BOUND: usize = 10;
 use futures::channel::oneshot;
 
 use presage::{Manager, ThreadMetadataMessageContent};
-use presage::{Thread, ThreadMetadata};
+use presage::ThreadMetadata;
 use presage_store_sled::MigrationConflictStrategy;
 use presage_store_sled::SledStore;
 
@@ -1502,7 +1504,7 @@ impl Handler {
                     Thread::Contact(contact) => {
                         let message = ContentBody::DataMessage(data_message.clone());
                         manager
-                            .send_message(contact, message.clone(), timestamp)
+                            .send_message(ServiceAddress::new_aci(contact), message.clone(), timestamp)
                             .await
                     }
                     Thread::Group(group) => {
