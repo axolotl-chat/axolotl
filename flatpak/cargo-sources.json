@@ -6095,14 +6095,14 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/tauri-build/tauri-build-2.0.0-rc.12.crate",
-        "sha256": "6ff5713e81e02e0b99f5219b275abbd7d2c0cc0f30180e25b1b650e08feeac63",
-        "dest": "cargo/vendor/tauri-build-2.0.0-rc.12"
+        "url": "https://static.crates.io/crates/tauri-build/tauri-build-2.0.0-rc.13.crate",
+        "sha256": "e5bc30f14b3c1548d75dfdf3e40bffe20a53bc4e3381e9bacc21dc765d701d0a",
+        "dest": "cargo/vendor/tauri-build-2.0.0-rc.13"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"6ff5713e81e02e0b99f5219b275abbd7d2c0cc0f30180e25b1b650e08feeac63\", \"files\": {}}",
-        "dest": "cargo/vendor/tauri-build-2.0.0-rc.12",
+        "contents": "{\"package\": \"e5bc30f14b3c1548d75dfdf3e40bffe20a53bc4e3381e9bacc21dc765d701d0a\", \"files\": {}}",
+        "dest": "cargo/vendor/tauri-build-2.0.0-rc.13",
         "dest-filename": ".cargo-checksum.json"
     },
     {
@@ -6160,14 +6160,14 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/tauri-utils/tauri-utils-2.0.0-rc.12.crate",
-        "sha256": "31fe4c9148e1b35225e1c00753f24b517ce00041d02eb4b4d6fd10613a47736c",
-        "dest": "cargo/vendor/tauri-utils-2.0.0-rc.12"
+        "url": "https://static.crates.io/crates/tauri-utils/tauri-utils-2.0.0-rc.13.crate",
+        "sha256": "a271545e4c25b36b922d98cf7e0c1755f64e92355705f656893e352aef0331e3",
+        "dest": "cargo/vendor/tauri-utils-2.0.0-rc.13"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"31fe4c9148e1b35225e1c00753f24b517ce00041d02eb4b4d6fd10613a47736c\", \"files\": {}}",
-        "dest": "cargo/vendor/tauri-utils-2.0.0-rc.12",
+        "contents": "{\"package\": \"a271545e4c25b36b922d98cf7e0c1755f64e92355705f656893e352aef0331e3\", \"files\": {}}",
+        "dest": "cargo/vendor/tauri-utils-2.0.0-rc.13",
         "dest-filename": ".cargo-checksum.json"
     },
     {
