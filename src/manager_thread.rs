@@ -1,18 +1,22 @@
 use futures::{select, FutureExt, StreamExt};
-use presage::libsignal_service::configuration::SignalServers;
-use presage::libsignal_service::content::ContentBody;
-use presage::libsignal_service::models::Contact;
-use presage::libsignal_service::prelude::AttachmentIdentifier;
-use presage::libsignal_service::sender::AttachmentSpec;
-use presage::libsignal_service::{groups_v2::Group, sender::AttachmentUploadError};
-use presage::manager::{ReceivingMode, Registered};
-use presage::proto::DataMessage;
-use presage::store::{ContentsStore, StateStore};
-use presage::{
-    prelude::{ServiceAddress, *},
-    Error, Manager,
+
+use presage::libsignal_service::{
+    configuration::SignalServers, content::ContentBody, groups_v2::Group, models::Contact,
+    prelude::AttachmentIdentifier, prelude::Uuid, sender::AttachmentSpec,
+    sender::AttachmentUploadError, zkgroup::profiles::ProfileKey, zkgroup::GroupMasterKeyBytes,
+    ServiceAddress,
 };
-use presage::{GroupMasterKeyBytes, Thread, ThreadMetadata, ThreadMetadataMessageContent};
+use presage::manager::{ReceivingMode, Registered};
+use presage::libsignal_service::content::Content;
+
+use presage::proto::DataMessage;
+
+use presage::proto::AttachmentPointer;
+use presage::store::Thread;
+
+use presage::store::{ContentsStore, StateStore};
+use presage::{Error, Manager};
+use presage::{ThreadMetadata, ThreadMetadataMessageContent};
 use std::ops::Bound;
 use std::sync::Arc;
 use tokio::sync::Mutex;
@@ -898,9 +902,13 @@ async fn handle_command(manager: &mut Manager<SledStore, Registered>, command: C
                 manager
                     .store()
                     .contacts()
-                    .map(|c: presage_store_sled::SledContactsIter| {
-                        c.filter_map(|o| o.ok()).collect()
-                    }),
+                    .map(|i| {
+                        i.filter_map(|c| {
+                            c.ok()
+                                .filter(|c| !c.archived)
+                        })
+                        .collect()
+                    })
             )
             .expect("Callback sending failed"),
         Command::GetConversations(callback) => callback
@@ -979,10 +987,10 @@ fn almost_clone_contact(contact: &Contact) -> Contact {
         verified: contact.verified.clone(),
         profile_key: contact.profile_key.clone(),
         phone_number: contact.phone_number.clone(),
-        blocked: contact.blocked,
         expire_timer: contact.expire_timer,
         inbox_position: contact.inbox_position,
         archived: contact.archived,
         avatar: None,
+        expire_timer_version: contact.expire_timer_version,
     }
 }

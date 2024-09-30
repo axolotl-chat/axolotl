@@ -12,8 +12,8 @@ tauri-build = { version = "2.0.0-rc.11", features = [], optional = true }
 
 [dependencies]
 tauri = { version = "2.0.0-rc.16", features = [], optional = true }
-presage = { git = "https://github.com/nanu-c/presage", rev = "350921c533224265a0ff026dfddc67419ca45b7a" }
-presage-store-sled = { git = "https://github.com/nanu-c/presage", rev = "350921c533224265a0ff026dfddc67419ca45b7a" }
+presage = { git = "https://github.com/nanu-c/presage", rev = "927f0a6f35db1138ac3f23344fe051cc9d9ab846" }
+presage-store-sled = { git = "https://github.com/nanu-c/presage", rev = "927f0a6f35db1138ac3f23344fe051cc9d9ab846" }
 #presage = {path = "../presage/presage"}
 #presage-store-sled = { path = "../presage/presage-store-sled" }
 zeroize = { version = "1.8.1", default-features = false }
@@ -36,7 +36,8 @@ data-url = "0.3.1"
 dbus = { version = "0.9", optional = true }
 
 [patch.crates-io]
-"curve25519-dalek" = { git = 'https://github.com/signalapp/curve25519-dalek', tag = 'signal-curve25519-4.0.0' }
+"curve25519-dalek" = { git = 'https://github.com/signalapp/curve25519-dalek', tag = 'signal-curve25519-4.1.3' }
+#![feature(stdarch_x86_avx512)]
 
 
 [features]
@@ -50,6 +51,9 @@ tauri = ["dep:tauri", "dep:notify-rust", "custom-protocol"]
 ut = ["dep:dbus"]
 # Use this feature to debug registration issues on test servers
 staging-servers = []
+tauri-build = ["dep:tauri-build"]
+
+
 
 
 [[example]]

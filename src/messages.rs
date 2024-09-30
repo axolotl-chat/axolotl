@@ -3,11 +3,14 @@
 use crate::error::ApplicationError;
 use crate::manager_thread::ManagerThread;
 use crate::requests::{AxolotlMessage, AxolotlResponse, SendMessageResponse};
-use presage::prelude::*;
 use presage::proto::{DataMessage, GroupContextV2};
 use presage::store::ContentsStore;
-use presage::{Manager, Thread};
+use presage::{Manager, store::Thread};
 use presage_store_sled::SledStore;
+use presage::proto::AttachmentPointer;
+use presage::libsignal_service::ServiceAddress;
+
+
 use std::time::UNIX_EPOCH;
 
 /**
@@ -56,7 +59,7 @@ pub async fn send_message(
         Thread::Contact(uuid) => {
             log::debug!("Sending a message to a contact.");
             manager
-                .send_message(uuid, data_message.clone(), timestamp)
+                .send_message(ServiceAddress::new_aci(uuid), data_message.clone(), timestamp)
                 .await
         }
         Thread::Group(uuid) => {

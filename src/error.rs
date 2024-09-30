@@ -1,5 +1,7 @@
 use presage as p;
-use presage::prelude::ServiceError;
+use presage::libsignal_service as lss;
+use lss::push_service::ServiceError;
+
 use presage_store_sled::SledStoreError;
 
 const FAILED_TO_LOOK_UP_ADDRESS: &str = "failed to lookup address information";
@@ -12,7 +14,7 @@ pub enum ApplicationError {
     Presage(presage::Error<presage_store_sled::SledStoreError>),
     SledStore(presage_store_sled::SledStoreError),
     UnauthorizedSignal,
-    SendFailed(presage::libsignal_service::sender::MessageSenderError),
+    SendFailed(Box<p::libsignal_service::sender::MessageSenderError>),
     ReceiveFailed(String),
     WebSocketError,
     WebSocketHandleMessageError(String),
@@ -95,11 +97,12 @@ impl From<PresageError> for ApplicationError {
             // p::Error::MessageSenderError(p::libsignal_service::sender::MessageSenderError {
             //     recipient: _,
             // }) => ApplicationError::NoInternet,
-            p::Error::MessageSenderError(
-                p::libsignal_service::sender::MessageSenderError::ServiceError(
-                    p::libsignal_service::content::ServiceError::SendError { reason: e },
-                ),
-            ) if e.to_string().contains(FAILED_TO_LOOK_UP_ADDRESS) => ApplicationError::NoInternet,
+            p::Error::MessageSenderError(e) => match *e {
+                lss::sender::MessageSenderError::ServiceError(ServiceError::SendError {
+                    reason: e,
+                }) if e.contains(FAILED_TO_LOOK_UP_ADDRESS) => ApplicationError::NoInternet,
+                _ => ApplicationError::SendFailed(e),
+            },
             p::Error::MessageSenderError(e) => ApplicationError::SendFailed(e),
             _ => ApplicationError::Presage(e),
         }

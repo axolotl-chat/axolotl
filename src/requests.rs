@@ -3,9 +3,10 @@
 use presage::libsignal_service::content::ContentBody;
 use presage::libsignal_service::prelude::AttachmentIdentifier;
 use presage::libsignal_service::prelude::Uuid;
-use presage::prelude::Content;
+use presage::libsignal_service::content::Content;
+
 use presage::proto::DataMessage;
-use presage::Thread;
+use presage::store::Thread;
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Debug)]
