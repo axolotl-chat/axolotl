@@ -3359,9 +3359,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/sass/-/sass-1.80.2.tgz#9d13d85a4f81bb17e09d1dc3e1c0944f7fd7315e",
-        "sha512": "f705d8f1c1819549a85284febf03993850a24be9da896563aa5ade37d6abf4fb9d5db1b094c4c5c024792bd901e1d16e989ea26fdf3067200e6c92ac59fd6700",
-        "dest-filename": "sass-1.80.2.tgz",
+        "url": "https://registry.yarnpkg.com/sass/-/sass-1.80.3.tgz#3f63dd527647d2b3de35f36acb971bda80517423",
+        "sha512": "a6d0d6c9598331589e969cffa16cb760fde77ececba494c720965ba0c56cf06102f5e526b594d984c1e54d6f7cc18e1a128ac37e3377f3e5abfd78ec90559c7c",
+        "dest-filename": "sass-1.80.3.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
