@@ -35,7 +35,7 @@
     "moment": "^2.30.1",
     "qrcode": "1.5.4",
     "vue": "^3.5.12",
-    "vue-native-websocket-vue3": "^3.1.7",
+    "vue-native-websocket-vue3": "^3.1.8",
     "vue-router": "^4.4.5",
     "vue3-gettext": "^3.0.0-beta.5",
     "vue3-tel-input": "^1.0.4",

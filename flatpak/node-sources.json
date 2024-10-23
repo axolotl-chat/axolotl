@@ -3863,9 +3863,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/vue-native-websocket-vue3/-/vue-native-websocket-vue3-3.1.7.tgz#3e4ffefaade024ac34b0ae5c4e307078522d640f",
-        "sha512": "7fb726244fa8914ac61aed64479658e591b33430895b492d52ca37432b67aed74ce22f1cca22431e3525f213c18b04ea56ebb069d737951b0f1add01adcad179",
-        "dest-filename": "vue-native-websocket-vue3-3.1.7.tgz",
+        "url": "https://registry.yarnpkg.com/vue-native-websocket-vue3/-/vue-native-websocket-vue3-3.1.8.tgz#ab10975efaa4538e61d8b08114fafe87c4700fae",
+        "sha512": "0a4e60fffce7745bc55a575d85678a4db6dee306db6417a030c7f8f572eb85cdfe84795f04b9f6c430bbc2c11bd2e30509f8971a2404ab37e5f1843ca8141e21",
+        "dest-filename": "vue-native-websocket-vue3-3.1.8.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
