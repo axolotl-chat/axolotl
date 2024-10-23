@@ -1210,9 +1210,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/chai/-/chai-5.1.1.tgz#f035d9792a22b481ead1c65908d14bb62ec1c82c",
-        "sha512": "a53d5980ff2b3cda9482279568463eaf242be90e075cd83c122f549cb52b8cde0803b76f402e4907efe4c5570f3431f205c73fdba0973e46cdceadeac2b38428",
-        "dest-filename": "chai-5.1.1.tgz",
+        "url": "https://registry.yarnpkg.com/chai/-/chai-5.1.2.tgz#3afbc340b994ae3610ca519a6c70ace77ad4378d",
+        "sha512": "686b667f6e035ba30b1c71b9802c78cda237b81ab7291b71795b340e3147e99d2b0cd6ecbd3c4501216f763efda718f167cff9bb73c888ddc8c042109228ae3f",
+        "dest-filename": "chai-5.1.2.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
