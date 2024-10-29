@@ -3966,10 +3966,10 @@ vue-eslint-parser@^9.0.1, vue-eslint-parser@^9.3.2, vue-eslint-parser@^9.4.3:
     lodash "^4.17.21"
     semver "^7.3.6"
 
-vue-native-websocket-vue3@^3.1.7:
-  version "3.1.7"
-  resolved "https://registry.yarnpkg.com/vue-native-websocket-vue3/-/vue-native-websocket-vue3-3.1.7.tgz#3e4ffefaade024ac34b0ae5c4e307078522d640f"
-  integrity sha512-f7cmJE+okUrGGu1kR5ZY5ZGzNDCJW0ktUso3QytnrtdM4i8cyiJDHjUl8hPBiwTqVuuwadc3lRsPGt0BrcrReQ==
+vue-native-websocket-vue3@^3.1.8:
+  version "3.1.8"
+  resolved "https://registry.yarnpkg.com/vue-native-websocket-vue3/-/vue-native-websocket-vue3-3.1.8.tgz#ab10975efaa4538e61d8b08114fafe87c4700fae"
+  integrity sha512-Ck5g//zndFvFWlddhWeKTbbe4wbbZBegMMf49XLrhc3+hHlfBLn2xDC7wsEb0uMFCfiXGiQEqzfl8YQ8qBQeIQ==
   dependencies:
     file-entry-cache "^6.0.1"
 
