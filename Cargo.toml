@@ -26,7 +26,7 @@ serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 log = "0.4.22"
 env_logger = "0.11.5"
-url = "2.5.2"
+url = "2.5.3"
 sled = "0.34.7"
 clap = { version = "4.5.20", features = ["derive"] }
 dirs = "5.0.1"
