@@ -6511,14 +6511,14 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/tokio/tokio-1.41.0.crate",
-        "sha256": "145f3413504347a2be84393cc8a7d2fb4d863b375909ea59f2158261aa258bbb",
-        "dest": "cargo/vendor/tokio-1.41.0"
+        "url": "https://static.crates.io/crates/tokio/tokio-1.41.1.crate",
+        "sha256": "22cfb5bee7a6a52939ca9224d6ac897bb669134078daa8735560897f69de4d33",
+        "dest": "cargo/vendor/tokio-1.41.1"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"145f3413504347a2be84393cc8a7d2fb4d863b375909ea59f2158261aa258bbb\", \"files\": {}}",
-        "dest": "cargo/vendor/tokio-1.41.0",
+        "contents": "{\"package\": \"22cfb5bee7a6a52939ca9224d6ac897bb669134078daa8735560897f69de4d33\", \"files\": {}}",
+        "dest": "cargo/vendor/tokio-1.41.1",
         "dest-filename": ".cargo-checksum.json"
     },
     {
