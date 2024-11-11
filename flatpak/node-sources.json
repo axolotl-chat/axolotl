@@ -755,9 +755,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@vitejs/plugin-vue/-/plugin-vue-5.1.4.tgz#72b8b705cfce36b00b59af196195146e356500c4",
-        "sha512": "3765d22369f7b10aa9e70ed8fc037f2f65c38c12111aa5e4a3e783a78dacc9d61205e26e4a6e5ad6c2dff336a49a8f2eeed03c366060a032c0d4778e1128e9f4",
-        "dest-filename": "@vitejs-plugin-vue-5.1.4.tgz",
+        "url": "https://registry.yarnpkg.com/@vitejs/plugin-vue/-/plugin-vue-5.1.5.tgz#ef1d7e19f8cecb0d1301c987dc0bdf8b778e3c82",
+        "sha512": "7659e26fbdc6d39083040511fd8a6e65c410e3b7e98e28679cda2e000a8deb6cfea2a4ac589fa4879d86473231a648051b7ab5d5e5caec38bb44c9a80b021264",
+        "dest-filename": "@vitejs-plugin-vue-5.1.5.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
