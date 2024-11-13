@@ -2274,9 +2274,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/immutable/-/immutable-4.3.7.tgz#c70145fc90d89fb02021e65c84eb0226e4e5a381",
-        "sha512": "d61a9c973c18c2344314b8dc17138ce40624906d2ba453e9af544b3cc12e19cce84bb600f202e1cbc4965d844003f5f07c41e97e8ddcc392468a84b7d9f9cc47",
-        "dest-filename": "immutable-4.3.7.tgz",
+        "url": "https://registry.yarnpkg.com/immutable/-/immutable-5.0.2.tgz#bb8a987349a73efbe6b3b292a9cbaf1b530d296b",
+        "sha512": "d4d53b856643915ee12783c9f5dbabf604cd43878f34f37893dff4621c23cf29138bffb7439a45f77614e50a158fc06e3a784b81a63c82cd14da98f891261573",
+        "dest-filename": "immutable-5.0.2.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
@@ -3394,9 +3394,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/sass/-/sass-1.80.6.tgz#5d0aa55763984effe41e40019c9571ab73e6851f",
-        "sha512": "71c660747362045d4d1c1b16bda72f4f9ae3bb7cb577f12efbc131e9cdb59c7a7695918b044b6ec1ce35e507e22353c96b54e90a8de25f0c124634699f60a48e",
-        "dest-filename": "sass-1.80.6.tgz",
+        "url": "https://registry.yarnpkg.com/sass/-/sass-1.80.7.tgz#7569334c39220f8ca62fcea38dce60f809ba345c",
+        "sha512": "3155af374bb999ecadad28ec53b016b1b8685e2d6c739f330035c59657d9cdbb014f51878e36abe89c0120d60f46b931ff3aa743abaa6d0b87804f793be0be79",
+        "dest-filename": "sass-1.80.7.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
