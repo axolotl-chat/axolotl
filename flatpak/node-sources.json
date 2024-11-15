@@ -328,9 +328,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@eslint/plugin-kit/-/plugin-kit-0.2.0.tgz#8712dccae365d24e9eeecb7b346f85e750ba343d",
-        "sha512": "bc7f4f88830cc2f842c77d407f71e21b3b153542c36f25641d7c257a69ff0744c58ffd34868df2e7979f5eb5194df422a71a070b9bb8c6aeb36e5c30d739b522",
-        "dest-filename": "@eslint-plugin-kit-0.2.0.tgz",
+        "url": "https://registry.yarnpkg.com/@eslint/plugin-kit/-/plugin-kit-0.2.3.tgz#812980a6a41ecf3a8341719f92a6d1e784a2e0e8",
+        "sha512": "d9bfe0e61466a5b6f5a381a74d96b1f4df66d055f3cfd395e36673238ac30cc0ee1d4aa2800890084582841582638ced0065518e8593d7dbf4c8c99ce7f2f990",
+        "dest-filename": "@eslint-plugin-kit-0.2.3.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
