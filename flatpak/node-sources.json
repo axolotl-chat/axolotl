@@ -1364,9 +1364,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-7.0.3.tgz#f73a85b9d5d41d045551c177e2882d4ac85728a6",
-        "sha512": "8910cf24a50f544343edd1cf3bcae46ce9cfa720f281c0c5b568e9796342832f163f6ad77315cbf13b2445e425e8eac1d86efe509ada82cd6ad7916e75cec6eb",
-        "dest-filename": "cross-spawn-7.0.3.tgz",
+        "url": "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-7.0.5.tgz#910aac880ff5243da96b728bc6521a5f6c2f2f82",
+        "sha512": "65526b28a62e9d4dfcffbeadd1130eba51ce9d471b53d19ba56280399d26863afb097e8556b1fee05ac06a948e7a4ae0150ddfffc830304b887edd1a2aae87ba",
+        "dest-filename": "cross-spawn-7.0.5.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
