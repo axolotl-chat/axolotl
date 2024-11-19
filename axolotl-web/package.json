@@ -23,7 +23,7 @@
   "main": "src/main.js",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.0",
-    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.7.0",
     "@fortawesome/vue-fontawesome": "^3.0.8",
     "@jmd01/mic-recorder-to-mp3": "^2.2.3",
     "@popperjs/core": "^2.11.8",
