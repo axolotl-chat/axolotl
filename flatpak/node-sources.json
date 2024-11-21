@@ -342,9 +342,16 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-6.7.0.tgz#98fd5570e6f08ccd764a08198259bf6f75a02e5d",
-        "sha512": "bfa6198d23eec6b882ee56310b32856e067589a7fad00557d82b1f65749cd14f7e9aa55df15195b4c12a0eacf91b10e935443c6cc0df5be82ca553181a546950",
-        "dest-filename": "@fortawesome-fontawesome-svg-core-6.7.0.tgz",
+        "url": "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-6.7.1.tgz#6201640f39fdcf8e41cd9d1a92b2da3a96817fa4",
+        "sha512": "81b0f3dd3c11ac83d3de2d1c0dfba386c8675cef73d37213d542912158bf5448e9347b520483f6a395d29be7bcd7a173cc2144cc0c4fc34f59d779f6d0f69025",
+        "dest-filename": "@fortawesome-fontawesome-common-types-6.7.1.tgz",
+        "dest": "flatpak-node/yarn-mirror"
+    },
+    {
+        "type": "file",
+        "url": "https://registry.yarnpkg.com/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-6.7.1.tgz#1f8ebb6f35cf02f89c110198514e848de17ac99e",
+        "sha512": "f1d0481db7ec2a50a4da31d0f4fa11060d99fb84f0c84def6480929e80e59ec1c0e9288c953c1f996eb25f4947b1199626e82479bf76b00d2165d917261bb3fa",
+        "dest-filename": "@fortawesome-fontawesome-svg-core-6.7.1.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
