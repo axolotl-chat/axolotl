@@ -6979,14 +6979,14 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/url/url-2.5.3.crate",
-        "sha256": "8d157f1b96d14500ffdc1f10ba712e780825526c03d9a49b4d0324b0d9113ada",
-        "dest": "cargo/vendor/url-2.5.3"
+        "url": "https://static.crates.io/crates/url/url-2.5.4.crate",
+        "sha256": "32f8b686cadd1473f4bd0117a5d28d36b1ade384ea9b5069a1c40aefed7fda60",
+        "dest": "cargo/vendor/url-2.5.4"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"8d157f1b96d14500ffdc1f10ba712e780825526c03d9a49b4d0324b0d9113ada\", \"files\": {}}",
-        "dest": "cargo/vendor/url-2.5.3",
+        "contents": "{\"package\": \"32f8b686cadd1473f4bd0117a5d28d36b1ade384ea9b5069a1c40aefed7fda60\", \"files\": {}}",
+        "dest": "cargo/vendor/url-2.5.4",
         "dest-filename": ".cargo-checksum.json"
     },
     {
