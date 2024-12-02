@@ -1791,9 +1791,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-9.31.0.tgz#5da53c2826f8efd8a62835aad596826053b1085e",
-        "sha512": "6983140a08af873d68e2d2e44478f9a2af588183cce3f10973433b4c02912c2500e4e63144b021604543da72ed4f02f28b110523efd05d2bca53d11264582a8d",
-        "dest-filename": "eslint-plugin-vue-9.31.0.tgz",
+        "url": "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-9.32.0.tgz#2b558e827886b567dfaa156cc1cad0f596461fab",
+        "sha512": "6ff634e476269c1ff7db0a95723c631d9ccda70c63d689c13afa96f3d5be57e5cd1b5751b9a15b35ddef4fd08b6ebd8b5e3128abedef9fc0da9d67fb5d4db652",
+        "dest-filename": "eslint-plugin-vue-9.32.0.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
