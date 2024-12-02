@@ -314,9 +314,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@eslint/js/-/js-9.15.0.tgz#df0e24fe869143b59731942128c19938fdbadfb5",
-        "sha512": "b4c4eaad8f84cdb5e62894794e823c971bbb8da37911d9ab045269424e499929722ecc7aa38b76eebf3cdcae71b0bb82602a5f281086b30312597b0cfa307b96",
-        "dest-filename": "@eslint-js-9.15.0.tgz",
+        "url": "https://registry.yarnpkg.com/@eslint/js/-/js-9.16.0.tgz#3df2b2dd3b9163056616886c86e4082f45dbf3f4",
+        "sha512": "b70d87c73424adb7aebf28f5b46d98aaafb41fdc06a08d88324e043ac41e5febe677be45b490337fe81303af5617e6da50a458437c7691b2c4d3c8ece4eb1356",
+        "dest-filename": "@eslint-js-9.16.0.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
@@ -1833,9 +1833,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/eslint/-/eslint-9.15.0.tgz#77c684a4e980e82135ebff8ee8f0a9106ce6b8a6",
-        "sha512": "ec2ad6c9298889b0a04f53acdbc95453aba906c859f86c726cb3ab991ce2d3c912f0c06e3bc400ee95c4818818e56f2f2b77bbe31bf49698e8f436da194f5193",
-        "dest-filename": "eslint-9.15.0.tgz",
+        "url": "https://registry.yarnpkg.com/eslint/-/eslint-9.16.0.tgz#66832e66258922ac0a626f803a9273e37747f2a6",
+        "sha512": "c21a7c992408e02f155ddf9f2e048cd2587752599c16d5705108f228215fb29fb622d00862196afe1a866a11aa1c4e9cbfdba7338d5596a2a4d95b4a611d9368",
+        "dest-filename": "eslint-9.16.0.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
