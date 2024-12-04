@@ -2722,9 +2722,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/linkifyjs/-/linkifyjs-4.1.4.tgz#2766605a20078d50c90f35af22275a42dfb7dfc4",
-        "sha512": "d3f371907369889d24f55ad80a4027f4eb54d5ebbcc44af5b420a90ed4ac5519bf485d3101a9361b3bf74229927e0520a8b0420e57e131bbbbdd7bda1075133d",
-        "dest-filename": "linkifyjs-4.1.4.tgz",
+        "url": "https://registry.yarnpkg.com/linkifyjs/-/linkifyjs-4.2.0.tgz#9dd30222b9cbabec9c950e725ec00031c7fa3f08",
+        "sha512": "a428f73eb4320136a84d8287ae0591177489c2c9bad6e75587ebee96cfd197a4a9b620e1804ef389422e74079d458f5011fca798ceff4662c47cf532c351cf0b",
+        "dest-filename": "linkifyjs-4.2.0.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
