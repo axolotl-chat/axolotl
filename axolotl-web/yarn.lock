@@ -2788,10 +2788,10 @@ linkify-html@^4.1.4:
   resolved "https://registry.yarnpkg.com/linkify-html/-/linkify-html-4.1.4.tgz#83f05253a2c5ddcbc20fa4aa1ea4e60d055a64f8"
   integrity sha512-6HA+YB++HrtPrSi+3gVEc0xdEGmqwLGErV0yagQta2bxfDOppjBHgadddpHWPR76LgB/Tiax22VfJtTqxkoijA==
 
-linkifyjs@^4.1.4:
-  version "4.1.4"
-  resolved "https://registry.yarnpkg.com/linkifyjs/-/linkifyjs-4.1.4.tgz#2766605a20078d50c90f35af22275a42dfb7dfc4"
-  integrity sha512-0/NxkHNpiJ0k9VrYCkAn9OtU1eu8xEr1tCCpDtSsVRm/SF0xAak2Gzv3QimSfgUgqLBCDlfhMbu73XvaEHUTPQ==
+linkifyjs@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/linkifyjs/-/linkifyjs-4.2.0.tgz#9dd30222b9cbabec9c950e725ec00031c7fa3f08"
+  integrity sha512-pCj3PrQyATaoTYKHrgWRF3SJwsm61udVh+vuls/Rl6SptiDhgE7ziUIudAedRY9QEfynmM7/RmLEfPUyw1HPCw==
 
 locate-path@^5.0.0:
   version "5.0.0"
