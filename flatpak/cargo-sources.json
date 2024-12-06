@@ -6563,14 +6563,14 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/tokio-stream/tokio-stream-0.1.16.crate",
-        "sha256": "4f4e6ce100d0eb49a2734f8c0812bcd324cf357d21810932c5df6b96ef2b86f1",
-        "dest": "cargo/vendor/tokio-stream-0.1.16"
+        "url": "https://static.crates.io/crates/tokio-stream/tokio-stream-0.1.17.crate",
+        "sha256": "eca58d7bba4a75707817a2c44174253f9236b2d5fbd055602e9d5c07c139a047",
+        "dest": "cargo/vendor/tokio-stream-0.1.17"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"4f4e6ce100d0eb49a2734f8c0812bcd324cf357d21810932c5df6b96ef2b86f1\", \"files\": {}}",
-        "dest": "cargo/vendor/tokio-stream-0.1.16",
+        "contents": "{\"package\": \"eca58d7bba4a75707817a2c44174253f9236b2d5fbd055602e9d5c07c139a047\", \"files\": {}}",
+        "dest": "cargo/vendor/tokio-stream-0.1.17",
         "dest-filename": ".cargo-checksum.json"
     },
     {
