@@ -767,14 +767,14 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/cargo_metadata/cargo_metadata-0.18.1.crate",
-        "sha256": "2d886547e41f740c616ae73108f6eb70afe6d940c7bc697cb30f13daec073037",
-        "dest": "cargo/vendor/cargo_metadata-0.18.1"
+        "url": "https://static.crates.io/crates/cargo_metadata/cargo_metadata-0.19.1.crate",
+        "sha256": "8769706aad5d996120af43197bf46ef6ad0fda35216b4505f926a365a232d924",
+        "dest": "cargo/vendor/cargo_metadata-0.19.1"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"2d886547e41f740c616ae73108f6eb70afe6d940c7bc697cb30f13daec073037\", \"files\": {}}",
-        "dest": "cargo/vendor/cargo_metadata-0.18.1",
+        "contents": "{\"package\": \"8769706aad5d996120af43197bf46ef6ad0fda35216b4505f926a365a232d924\", \"files\": {}}",
+        "dest": "cargo/vendor/cargo_metadata-0.19.1",
         "dest-filename": ".cargo-checksum.json"
     },
     {
@@ -6264,14 +6264,14 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/tauri-build/tauri-build-2.0.3.crate",
-        "sha256": "7bd2a4bcfaf5fb9f4be72520eefcb61ae565038f8ccba2a497d8c28f463b8c01",
-        "dest": "cargo/vendor/tauri-build-2.0.3"
+        "url": "https://static.crates.io/crates/tauri-build/tauri-build-2.0.4.crate",
+        "sha256": "b274ec7239ada504deb615f1c8abd7ba99631e879709e6f10e5d17217058d976",
+        "dest": "cargo/vendor/tauri-build-2.0.4"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"7bd2a4bcfaf5fb9f4be72520eefcb61ae565038f8ccba2a497d8c28f463b8c01\", \"files\": {}}",
-        "dest": "cargo/vendor/tauri-build-2.0.3",
+        "contents": "{\"package\": \"b274ec7239ada504deb615f1c8abd7ba99631e879709e6f10e5d17217058d976\", \"files\": {}}",
+        "dest": "cargo/vendor/tauri-build-2.0.4",
         "dest-filename": ".cargo-checksum.json"
     },
     {
@@ -6329,14 +6329,14 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/tauri-utils/tauri-utils-2.1.0.crate",
-        "sha256": "9271a88f99b4adea0dc71d0baca4505475a0bbd139fb135f62958721aaa8fe54",
-        "dest": "cargo/vendor/tauri-utils-2.1.0"
+        "url": "https://static.crates.io/crates/tauri-utils/tauri-utils-2.1.1.crate",
+        "sha256": "96fb10e7cc97456b2d5b9c03e335b5de5da982039a303a20d10006885e4523a0",
+        "dest": "cargo/vendor/tauri-utils-2.1.1"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"9271a88f99b4adea0dc71d0baca4505475a0bbd139fb135f62958721aaa8fe54\", \"files\": {}}",
-        "dest": "cargo/vendor/tauri-utils-2.1.0",
+        "contents": "{\"package\": \"96fb10e7cc97456b2d5b9c03e335b5de5da982039a303a20d10006885e4523a0\", \"files\": {}}",
+        "dest": "cargo/vendor/tauri-utils-2.1.1",
         "dest-filename": ".cargo-checksum.json"
     },
     {
