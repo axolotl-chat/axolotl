@@ -141,15 +141,28 @@ jobs:
       - name: Install protoc
         run: sudo apt-get install protobuf-compiler
 
+      - name: Read host info
+        run: |
+          source /etc/os-release
+          echo "Running on ${NAME} ${VERSION}"
+          echo "HOST_CODENAME=${VERSION_CODENAME}" >> $GITHUB_ENV
+
+          source <(dpkg-architecture --list)
+          echo "HOST_ARCH=${DEB_HOST_ARCH}" >> $GITHUB_ENV
+
       - name: Install tauri arm64 dependencies
         run: |
-          sudo dpkg --add-architecture arm64
-          sudo sed -i '/^deb \[/! s/^deb /deb [arch=amd64] /' /etc/apt/sources.list
-          echo "deb [arch=arm64] http://ports.ubuntu.com/ jammy main multiverse universe" | sudo tee -a /etc/apt/sources.list
-          echo "deb [arch=arm64] http://ports.ubuntu.com/ jammy-security main multiverse universe" | sudo tee -a /etc/apt/sources.list
-          echo "deb [arch=arm64] http://ports.ubuntu.com/ jammy-backports main multiverse universe" | sudo tee -a /etc/apt/sources.list
-          echo "deb [arch=arm64] http://ports.ubuntu.com/ jammy-updates main multiverse universe" | sudo tee -a /etc/apt/sources.list
+          # Restrict host sources to host architecture
+          sudo sed -i "/^Signed-By:/a Architectures: ${HOST_ARCH}" /etc/apt/sources.list.d/ubuntu.sources
 
+          # Add arm64 archives
+          sudo dpkg --add-architecture arm64
+          echo "deb [arch=arm64] http://ports.ubuntu.com/ ${HOST_CODENAME} main multiverse universe" | sudo tee -a /etc/apt/sources.list.d/ubuntu-arm64.list
+          echo "deb [arch=arm64] http://ports.ubuntu.com/ ${HOST_CODENAME}-security main multiverse universe" | sudo tee -a /etc/apt/sources.list.d/ubuntu-arm64.list
+          echo "deb [arch=arm64] http://ports.ubuntu.com/ ${HOST_CODENAME}-backports main multiverse universe" | sudo tee -a /etc/apt/sources.list.d/ubuntu-arm64.list
+          echo "deb [arch=arm64] http://ports.ubuntu.com/ ${HOST_CODENAME}-updates main multiverse universe" | sudo tee -a /etc/apt/sources.list.d/ubuntu-arm64.list
+
+          # Install packages
           sudo apt-get update && sudo apt-get install -y --no-install-recommends libgtk-3-dev:arm64 libwebkit2gtk-4.1-dev:arm64 librsvg2-dev:arm64 libayatana-appindicator3-dev:arm64 libssl-dev:arm64 libjavascriptcoregtk-4.1-dev:arm64
 
       - name: Rust setup
