@@ -1778,14 +1778,14 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/env_logger/env_logger-0.11.5.crate",
-        "sha256": "e13fa619b91fb2381732789fc5de83b45675e882f66623b7d8cb4f643017018d",
-        "dest": "cargo/vendor/env_logger-0.11.5"
+        "url": "https://static.crates.io/crates/env_logger/env_logger-0.11.6.crate",
+        "sha256": "dcaee3d8e3cfc3fd92428d477bc97fc29ec8716d180c0d74c643bb26166660e0",
+        "dest": "cargo/vendor/env_logger-0.11.6"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"e13fa619b91fb2381732789fc5de83b45675e882f66623b7d8cb4f643017018d\", \"files\": {}}",
-        "dest": "cargo/vendor/env_logger-0.11.5",
+        "contents": "{\"package\": \"dcaee3d8e3cfc3fd92428d477bc97fc29ec8716d180c0d74c643bb26166660e0\", \"files\": {}}",
+        "dest": "cargo/vendor/env_logger-0.11.6",
         "dest-filename": ".cargo-checksum.json"
     },
     {
