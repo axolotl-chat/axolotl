@@ -274,7 +274,8 @@ jobs:
           - arch: x86_64
             runner: ubuntu-latest
           - arch: aarch64
-            runner: ARM64
+            # TODO use ubuntu-latest-arm tag once available
+            runner: ubuntu-24.04-arm
       # Don't fail the whole workflow if one architecture fails
       fail-fast: false
     runs-on: ${{ matrix.variant.runner }}
