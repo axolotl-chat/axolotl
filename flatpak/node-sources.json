@@ -762,51 +762,51 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@vitest/expect/-/expect-2.1.8.tgz#13fad0e8d5a0bf0feb675dcf1d1f1a36a1773bc1",
-        "sha512": "f32b59fdf147ab68383c9540b435f9ee66b27a62a00d1e97dce6b6168ae8f84ca088e247517842a810002906186a366916821fbc1085d63e91e88611488505bb",
-        "dest-filename": "@vitest-expect-2.1.8.tgz",
+        "url": "https://registry.yarnpkg.com/@vitest/expect/-/expect-2.1.9.tgz#b566ea20d58ea6578d8dc37040d6c1a47ebe5ff8",
+        "sha512": "50908891305e9c778a4f54d394a3095b2d656997b0b11233622821c98889299adeaad7714a8b3f4b5b7e92d44c416bb608aa9a6abae47accc9c757200b9b4667",
+        "dest-filename": "@vitest-expect-2.1.9.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@vitest/mocker/-/mocker-2.1.8.tgz#51dec42ac244e949d20009249e033e274e323f73",
-        "sha512": "ee0b89ff8ec8eaea9fb6da77de6828ea06b91abd559cbe7cadca982b24a1a112bd79bbbc4f946ce87377b3534006205e55375636bc1431c1c7e78b97641378cc",
-        "dest-filename": "@vitest-mocker-2.1.8.tgz",
+        "url": "https://registry.yarnpkg.com/@vitest/mocker/-/mocker-2.1.9.tgz#36243b27351ca8f4d0bbc4ef91594ffd2dc25ef5",
+        "sha512": "b552fab8982851d8ba89ca7199dae7e58368de0dc3c6ff881c906bd065c7684753730dc5f9c3ca9ec5c58658ba9cef9fffa48328f1c42b550dfa4f9342fd0486",
+        "dest-filename": "@vitest-mocker-2.1.9.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@vitest/pretty-format/-/pretty-format-2.1.8.tgz#88f47726e5d0cf4ba873d50c135b02e4395e2bca",
-        "sha512": "f4789267dce9a8d2ca95b2034563a7016aa0700ef1bbef18c5749e921af462469becf018164864c28a9502b3ceb4984f998784d981e0299963dc23f7eb3d8025",
-        "dest-filename": "@vitest-pretty-format-2.1.8.tgz",
+        "url": "https://registry.yarnpkg.com/@vitest/pretty-format/-/pretty-format-2.1.9.tgz#434ff2f7611689f9ce70cd7d567eceb883653fdf",
+        "sha512": "2a144874657653d1ce533c5f887998f081474ddaad3a12330a977c591749884ec3fc751c6550f41204025639be43d8245175a006f3264ed660206e3cc2aeec39",
+        "dest-filename": "@vitest-pretty-format-2.1.9.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@vitest/runner/-/runner-2.1.8.tgz#b0e2dd29ca49c25e9323ea2a45a5125d8729759f",
-        "sha512": "d7bb9bf2f42cb519d1948539939d1b1be40e30b1d18583c09dae6dc3cb586e3fa3ce372ca67c27c2d3ed88e964b8a0b8fa2c433d3b8b662aa25964363d25c756",
-        "dest-filename": "@vitest-runner-2.1.8.tgz",
+        "url": "https://registry.yarnpkg.com/@vitest/runner/-/runner-2.1.9.tgz#cc18148d2d797fd1fd5908d1f1851d01459be2f6",
+        "sha512": "657492a93148af376e0faddbb487c4c8e98d701990be0395b0f34f7b48d8b444a25e485df2ed9eac32e7331986ac30b01c208713b871c110c24f7a6dd1eb13e2",
+        "dest-filename": "@vitest-runner-2.1.9.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@vitest/snapshot/-/snapshot-2.1.8.tgz#d5dc204f4b95dc8b5e468b455dfc99000047d2de",
-        "sha512": "db44fbc5115b9a791f726815133fb3dc053fddbd1c13364eb7fce69ef64472d83ae3f4196d20c91159bd7cb9e79528bbe0a89b991b0ef7f41a6e2fadd2f0913e",
-        "dest-filename": "@vitest-snapshot-2.1.8.tgz",
+        "url": "https://registry.yarnpkg.com/@vitest/snapshot/-/snapshot-2.1.9.tgz#24260b93f798afb102e2dcbd7e61c6dfa118df91",
+        "sha512": "a013bcdab123b312cd2629dc5612e16b1c59744b55d0414730ae4a9b1e6c27a1fd2f5f377471028e279f380767aa92204f9799c13d383e88205275bcf2f38135",
+        "dest-filename": "@vitest-snapshot-2.1.9.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@vitest/spy/-/spy-2.1.8.tgz#bc41af3e1e6a41ae3b67e51f09724136b88fa447",
-        "sha512": "e6cc237f6abde605de60f7afb56d012e4e87f3e6cf94c6f8570ffd126e211710dc68ec52f9ed0b397e32a8dc681f3311d9a904076c5fa67594ce46689268160e",
-        "dest-filename": "@vitest-spy-2.1.8.tgz",
+        "url": "https://registry.yarnpkg.com/@vitest/spy/-/spy-2.1.9.tgz#cb28538c5039d09818b8bfa8edb4043c94727c60",
+        "sha512": "135077e45c335d74ecf451cd2ba6c3b33b3b9adc9d362e4c21f516a5c789f176df6f580132c7009f02db12ef81e3879de96dd78cbf7f7a12cf1d1d5f91fd4a2d",
+        "dest-filename": "@vitest-spy-2.1.9.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@vitest/utils/-/utils-2.1.8.tgz#f8ef85525f3362ebd37fd25d268745108d6ae388",
-        "sha512": "7704a8ba2e9d8ddc1b7c598881b2235f66612281bb131ffec69c728848081b38e5898f311a4729213293969e81e0c82d1a41768a5be6f7b70f33de9765a02070",
-        "dest-filename": "@vitest-utils-2.1.8.tgz",
+        "url": "https://registry.yarnpkg.com/@vitest/utils/-/utils-2.1.9.tgz#4f2486de8a54acf7ecbf2c5c24ad7994a680a6c1",
+        "sha512": "bf4a6c68c4a4349dc0d8d32b5041c547326d0cf167fbf5566795b1226076d53f5f8ee7094664bbc424b7a691270116fdcb5d4e033683f8fd8fb3e6fe0465f989",
+        "dest-filename": "@vitest-utils-2.1.9.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
@@ -3863,9 +3863,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/vite-node/-/vite-node-2.1.8.tgz#9495ca17652f6f7f95ca7c4b568a235e0c8dbac5",
-        "sha512": "b8f0304abe7b9188c052ec7ef04da3d2ad05c699fc33d568c9f1a2448f0a7e4b73f4d7183027a7c18e519d9c67175593bb74c68988a98ab23369c2cbdd554616",
-        "dest-filename": "vite-node-2.1.8.tgz",
+        "url": "https://registry.yarnpkg.com/vite-node/-/vite-node-2.1.9.tgz#549710f76a643f1c39ef34bdb5493a944e4f895f",
+        "sha512": "00cf5a43f20fad6ffa10d2d08370066382b53764c665d4797b882efcc9a6476c51dcb975f9d89bfa7a2893dda0e135773d75727b2c5d5b0b5a0808942f484cc4",
+        "dest-filename": "vite-node-2.1.9.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
@@ -3877,9 +3877,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/vitest/-/vitest-2.1.8.tgz#2e6a00bc24833574d535c96d6602fb64163092fa",
-        "sha512": "d6f04a4d9b241f0fdaa2c5ea41495559694653148947c62d8b264324015e5b690f01e5fa4b74a8a25d268eca4efa45cbbb15569440c3a300407aa78041e7ea2d",
-        "dest-filename": "vitest-2.1.8.tgz",
+        "url": "https://registry.yarnpkg.com/vitest/-/vitest-2.1.9.tgz#7d01ffd07a553a51c87170b5e80fea3da7fb41e7",
+        "sha512": "31298f33d44462a0c6048f38dfd980e265a1579b0a9839412962186c0de545bd8f4c70021349a02b003cc90db1abdbf10d3ba4e223eb102040116d9aa055d8d1",
+        "dest-filename": "vitest-2.1.9.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
