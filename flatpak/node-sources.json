@@ -3245,13 +3245,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.7.tgz#d0c301a691bc8d54efa0a2226ccf3fe2fd656bd8",
-        "sha512": "792469a6370f21ab5120c0b553a52780ff1715ccfc31058641db75313050ecd6809af5c37ef3716ef595df1db2e8274451c8824ac0c70d065b858681f10128da",
-        "dest-filename": "nanoid-3.3.7.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.8.tgz#b1be3030bee36aaff18bacb375e5cce521684baf",
         "sha512": "58d2dfe5277ca19c4e9be4f3a6971893c8153a03fe979f31372e7c0f49db5273b1396456be570257891417b96d988e8fb2b2e5fc180a1324b89aab060a114dd3",
         "dest-filename": "nanoid-3.3.8.tgz",
