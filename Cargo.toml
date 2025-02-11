@@ -29,7 +29,7 @@ env_logger = "0.11.6"
 url = "2.5.4"
 sled = "0.34.7"
 clap = { version = "4.5.23", features = ["derive"] }
-dirs = "5.0.1"
+dirs = "6.0.0"
 notify-rust = { version = "4.11.3", optional = true }
 data-url = "0.3.1"
 
