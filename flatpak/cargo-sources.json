@@ -936,40 +936,40 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/clap/clap-4.5.23.crate",
-        "sha256": "3135e7ec2ef7b10c6ed8950f0f792ed96ee093fa088608f1c76e569722700c84",
-        "dest": "cargo/vendor/clap-4.5.23"
+        "url": "https://static.crates.io/crates/clap/clap-4.5.28.crate",
+        "sha256": "3e77c3243bd94243c03672cb5154667347c457ca271254724f9f393aee1c05ff",
+        "dest": "cargo/vendor/clap-4.5.28"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"3135e7ec2ef7b10c6ed8950f0f792ed96ee093fa088608f1c76e569722700c84\", \"files\": {}}",
-        "dest": "cargo/vendor/clap-4.5.23",
+        "contents": "{\"package\": \"3e77c3243bd94243c03672cb5154667347c457ca271254724f9f393aee1c05ff\", \"files\": {}}",
+        "dest": "cargo/vendor/clap-4.5.28",
         "dest-filename": ".cargo-checksum.json"
     },
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/clap_builder/clap_builder-4.5.23.crate",
-        "sha256": "30582fc632330df2bd26877bde0c1f4470d57c582bbc070376afcd04d8cb4838",
-        "dest": "cargo/vendor/clap_builder-4.5.23"
+        "url": "https://static.crates.io/crates/clap_builder/clap_builder-4.5.27.crate",
+        "sha256": "1b26884eb4b57140e4d2d93652abfa49498b938b3c9179f9fc487b0acc3edad7",
+        "dest": "cargo/vendor/clap_builder-4.5.27"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"30582fc632330df2bd26877bde0c1f4470d57c582bbc070376afcd04d8cb4838\", \"files\": {}}",
-        "dest": "cargo/vendor/clap_builder-4.5.23",
+        "contents": "{\"package\": \"1b26884eb4b57140e4d2d93652abfa49498b938b3c9179f9fc487b0acc3edad7\", \"files\": {}}",
+        "dest": "cargo/vendor/clap_builder-4.5.27",
         "dest-filename": ".cargo-checksum.json"
     },
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/clap_derive/clap_derive-4.5.18.crate",
-        "sha256": "4ac6a0c7b1a9e9a5186361f67dfa1b88213572f427fb9ab038efb2bd8c582dab",
-        "dest": "cargo/vendor/clap_derive-4.5.18"
+        "url": "https://static.crates.io/crates/clap_derive/clap_derive-4.5.28.crate",
+        "sha256": "bf4ced95c6f4a675af3da73304b9ac4ed991640c36374e4b46795c49e17cf1ed",
+        "dest": "cargo/vendor/clap_derive-4.5.28"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"4ac6a0c7b1a9e9a5186361f67dfa1b88213572f427fb9ab038efb2bd8c582dab\", \"files\": {}}",
-        "dest": "cargo/vendor/clap_derive-4.5.18",
+        "contents": "{\"package\": \"bf4ced95c6f4a675af3da73304b9ac4ed991640c36374e4b46795c49e17cf1ed\", \"files\": {}}",
+        "dest": "cargo/vendor/clap_derive-4.5.28",
         "dest-filename": ".cargo-checksum.json"
     },
     {
