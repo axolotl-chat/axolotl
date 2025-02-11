@@ -564,6 +564,13 @@
     },
     {
         "type": "file",
+        "url": "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-6.7.2.tgz#7123d74b0c1e726794aed1184795dbce12186470",
+        "sha512": "66cf98787502e5f92decc83597a5d39e27a2de4e1bc06ff2a3788552d65677fa4cc7d8377ddbe448af44d05382fbefa98573a46bbf2e25c61bf09685916e765e",
+        "dest-filename": "@fortawesome-fontawesome-common-types-6.7.2.tgz",
+        "dest": "flatpak-node/yarn-mirror"
+    },
+    {
+        "type": "file",
         "url": "https://registry.yarnpkg.com/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-6.7.1.tgz#1f8ebb6f35cf02f89c110198514e848de17ac99e",
         "sha512": "f1d0481db7ec2a50a4da31d0f4fa11060d99fb84f0c84def6480929e80e59ec1c0e9288c953c1f996eb25f4947b1199626e82479bf76b00d2165d917261bb3fa",
         "dest-filename": "@fortawesome-fontawesome-svg-core-6.7.1.tgz",
@@ -571,9 +578,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-6.7.1.tgz#c1f9a6c25562a12c283e87e284f9d82a5b0dbcc0",
-        "sha512": "05329cd1bd26823599d940ca5609b0684d2ab74719b3a213703823aed8b97ff922eda179cecf8df7557a862b46a374c8b4216d9ca83a71454675398114808546",
-        "dest-filename": "@fortawesome-free-solid-svg-icons-6.7.1.tgz",
+        "url": "https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-6.7.2.tgz#fe25883b5eb8464a82918599950d283c465b57f6",
+        "sha512": "1ac06b9cecd4f2e8f42c40837c3e73a26649223acf84895653cd801f06b6b38d05287fa473141a06f068dd9e13c726472325fc5d30f1b32037dff571f5e16e40",
+        "dest-filename": "@fortawesome-free-solid-svg-icons-6.7.2.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
