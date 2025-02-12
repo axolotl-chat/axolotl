@@ -2202,9 +2202,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/eslint/-/eslint-9.20.0.tgz#6244c46c1640cd5e577a31ebc460fca87838c0b7",
-        "sha512": "68be05f35ebb1e0e08bec5bcf5e8e7a53c31f81fd4411cc93c681b20e97ee17a9f7d6b1a85556c2c45a866f9eb56ec295a69d177b5de5e6408d7394a7050ed78",
-        "dest-filename": "eslint-9.20.0.tgz",
+        "url": "https://registry.yarnpkg.com/eslint/-/eslint-9.20.1.tgz#923924c078f5226832449bac86662dd7e53c91d6",
+        "sha512": "9b598cdf7a3a741523c65daa6fac2fea718dc0202c9ecd5e2ad690e25fcd3c7793be18943dbb5d7ccca4b713780777e01c882c621d554f757db716e5a501eafa",
+        "dest-filename": "eslint-9.20.1.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
