@@ -221,6 +221,14 @@ jobs:
         uses: baptiste0928/cargo-install@v3
         with:
           crate: tauri-cli
+          # Specifically choose host arch
+          # as actions-rust-lang/setup-rust-toolchain flag "override" defaults to true and sets the installed toolchain as the default
+          args: --target x86_64-unknown-linux-gnu
+        env:
+          # Reset pkgconfig env configured previously to compile for host
+          PKG_CONFIG_ALLOW_CROSS: "0"
+          PKG_CONFIG_PATH: "/usr/lib/pkgconfig"
+          PKG_CONFIG_SYSROOT_DIR: "/"
 
       - name: Build deb package
         run: cargo tauri build --ci --target aarch64-unknown-linux-gnu --features tauri --bundles deb
