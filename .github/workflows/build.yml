@@ -87,7 +87,6 @@ jobs:
         uses: baptiste0928/cargo-install@v3
         with:
           crate: tauri-cli
-          version: '^2.0.0-rc'
 
       - name: Build deb package
         run: cargo tauri build --ci --features tauri --bundles deb
