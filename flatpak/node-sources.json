@@ -1628,9 +1628,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/chai/-/chai-5.1.2.tgz#3afbc340b994ae3610ca519a6c70ace77ad4378d",
-        "sha512": "686b667f6e035ba30b1c71b9802c78cda237b81ab7291b71795b340e3147e99d2b0cd6ecbd3c4501216f763efda718f167cff9bb73c888ddc8c042109228ae3f",
-        "dest-filename": "chai-5.1.2.tgz",
+        "url": "https://registry.yarnpkg.com/chai/-/chai-5.2.0.tgz#1358ee106763624114addf84ab02697e411c9c05",
+        "sha512": "982b979dc2979398822e17e1c137348b3a3482d126a73e42b46db2f0688e20d0653154babfc4cc45ce5368b58a4baebdda6f7e75555fce0795c51e54c561d363",
+        "dest-filename": "chai-5.2.0.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
@@ -2496,13 +2496,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/get-func-name/-/get-func-name-2.0.2.tgz#0d7cf20cd13fda808669ffa88f4ffc7a3943fc41",
-        "sha512": "f2f5cebee135ebb0ad21cdcec88b5ca3b37f76946d05b60eb0fb170b3ed7fcf3279468d88d21ae64980cd58ee699ec3b04a7fd06abcb5f6b67395cb504152cc5",
-        "dest-filename": "get-func-name-2.0.2.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/get-intrinsic/-/get-intrinsic-1.2.4.tgz#e385f5a4b5227d449c3eabbad05494ef0abbeadd",
         "sha512": "e6e621b091fc549053bfba2c960e01ce7258843a1123ac1a602c4c9827674eb702ac703f7c214aa13173d8928a1341dd0c5505effa10ba1cee99724aee968145",
         "dest-filename": "get-intrinsic-1.2.4.tgz",
@@ -3178,13 +3171,6 @@
         "url": "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf",
         "sha512": "972bb13c6aff59f86b95e9b608bfd472751cd7372a280226043cee918ed8e45ff242235d928ebe7d12debe5c351e03324b0edfeb5d54218e34f04b71452a0add",
         "dest-filename": "loose-envify-1.4.0.tgz",
-        "dest": "flatpak-node/yarn-mirror"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/loupe/-/loupe-3.1.1.tgz#71d038d59007d890e3247c5db97c1ec5a92edc54",
-        "sha512": "79d36effc0f930a55f1951518457fc680c624cce96ba67f3e57b1a6ad4b1943df0e11d5dfd610a513c9d09d3c66e5f4aed01bf09adc69c3576b08288a5745073",
-        "dest-filename": "loupe-3.1.1.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
