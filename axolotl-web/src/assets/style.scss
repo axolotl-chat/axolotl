@@ -1,4 +1,35 @@
-$sent-message-link-visited: darken($sent-message-link, 10%);
+// Start of default variables
+$body-bg: "" !default;
+$body-color: "" !default;
+$chat-entry-border-color: "" !default;
+$delivered-url: "" !default;
+$hover-bg: "" !default;
+$incoming-message-bg: "" !default;
+$input-bg: "" !default;
+$input-border-color: "" !default;
+$input-border-width: "" !default;
+$input-box-shadow: "" !default;
+$input-color: "" !default;
+$input-focus-bg: "" !default;
+$input-focus-border-color: "" !default;
+$input-focus-box-shadow: "" !default;
+$input-placeholder-color: "" !default;
+$input-plaintext-color: "" !default;
+$message-color: "" !default;
+$message-input-border: "" !default;
+$message-metadata-color: "" !default;
+$outgoing-message-bg: "" !default;
+$primary: "" !default;
+$read-url: "" !default;
+$sending-url: "" !default;
+$sent-message-bg: "" !default;
+$sent-message-link-visited: "" !default;
+$sent-message-link: "" !default;
+$sent-url: "" !default;
+// End of default variables
+
+@use "sass:color";
+$sent-message-link-visited: color.adjust($sent-message-link, $lightness: -10%);
 $default-radius: 5px;
 
 // Start bootstrap override
@@ -17,7 +48,7 @@ $close-color: $body-color;
 $link-color: $primary;
 // End of bootstrap override
 
-@import "node_modules/bootstrap/scss/bootstrap";
+@use "bootstrap/scss/bootstrap";
 
 // All variables are now loaded, we can use them
 .row.chat-entry {

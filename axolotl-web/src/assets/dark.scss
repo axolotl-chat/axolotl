@@ -32,4 +32,31 @@ $sent-url: "check-circle-outline_dark.svg";
 $delivered-url: "double-check_dark.svg";
 $read-url: "double-check-filled_dark.svg";
 
-@import './style.scss';
+@forward 'style.scss' with (
+  $primary: $primary,
+  $hover-bg: $hover-bg,
+  $body-bg: $body-bg,
+  $body-color: $body-color,
+  $input-bg: $input-bg,
+  $input-border-color: $input-border-color,
+  $input-color: $input-color,
+  $input-plaintext-color: $input-plaintext-color,
+  $input-placeholder-color: $input-placeholder-color,
+  $input-focus-bg: $input-focus-bg,
+  $input-focus-border-color: $input-focus-border-color,
+  $input-border-width: $input-border-width,
+  $input-box-shadow: $input-box-shadow,
+  $input-focus-box-shadow: $input-focus-box-shadow,
+  $chat-entry-border-color: $chat-entry-border-color,
+  $message-color: $message-color,
+  $message-metadata-color: $message-metadata-color,
+  $incoming-message-bg: $incoming-message-bg,
+  $outgoing-message-bg: $outgoing-message-bg,
+  $sent-message-link: $sent-message-link,
+  $sent-message-link-visited: $sent-message-link-visited,
+  $message-input-border: $message-input-border,
+  $sending-url: $sending-url,
+  $sent-url: $sent-url,
+  $delivered-url: $delivered-url,
+  $read-url: $read-url,
+);
