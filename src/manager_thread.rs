@@ -97,6 +97,17 @@ impl std::fmt::Debug for Command {
     }
 }
 
+pub struct ManagerThreadOptions {
+    pub config_store: presage_store_sled::SledStore,
+    pub device_name: String,
+    pub link_callback: futures::channel::oneshot::Sender<url::Url>,
+    pub error_callback: futures::channel::oneshot::Sender<PresageError>,
+    pub content: mpsc::UnboundedSender<Content>,
+    pub current_chat: Arc<Mutex<Option<Thread>>>,
+    pub error: mpsc::Sender<ApplicationError>,
+    pub uuid: Uuid,
+}
+
 pub struct ManagerThread {
     command_sender: mpsc::Sender<Command>,
     contacts: Arc<Mutex<Vec<Contact>>>,
@@ -157,23 +168,19 @@ impl Clone for ManagerThread {
 }
 
 impl ManagerThread {
-    pub async fn new(
-        config_store: presage_store_sled::SledStore,
-        device_name: String,
-        link_callback: futures::channel::oneshot::Sender<url::Url>,
-        error_callback: futures::channel::oneshot::Sender<PresageError>,
-        content: mpsc::UnboundedSender<Content>,
-        current_chat: Arc<Mutex<Option<Thread>>>,
-        error: mpsc::Sender<ApplicationError>,
-        uuid: Uuid,
-    ) -> Option<Self> {
+    pub async fn new(options: ManagerThreadOptions) -> Option<Self> {
         let (sender, receiver) = mpsc::channel(MESSAGE_BOUND);
         tokio::task::spawn_local(async move {
-            let setup = setup_manager(config_store.clone(), device_name, link_callback).await;
+            let setup = setup_manager(
+                options.config_store.clone(),
+                options.device_name,
+                options.link_callback,
+            )
+            .await;
             log::debug!("manager thread started, setup finished");
             if let Ok(manager) = setup {
                 log::info!("Starting command loop");
-                command_loop(manager, receiver, content, error).await;
+                command_loop(manager, receiver, options.content, options.error).await;
                 log::debug!("Finished starting command loop");
             } else {
                 let e = match setup.err() {
@@ -181,7 +188,10 @@ impl ManagerThread {
                     None => PresageError::NotYetRegisteredError,
                 };
                 log::info!("Got error: {}", e);
-                error_callback.send(e).expect("Failed to send error");
+                options
+                    .error_callback
+                    .send(e)
+                    .expect("Failed to send error");
             }
         });
         log::debug!("manager thread started, get contact");
@@ -205,8 +215,8 @@ impl ManagerThread {
                     command_sender: sender,
                     contacts: Arc::new(Mutex::new(vec![])),
                     sessions: Arc::new(Mutex::new(vec![])),
-                    current_chat,
-                    uuid,
+                    current_chat: options.current_chat,
+                    uuid: options.uuid,
                 })
             }
             Ok(Ok(contacts)) => {
@@ -215,8 +225,8 @@ impl ManagerThread {
                     command_sender: sender,
                     contacts: Arc::new(Mutex::new(contacts)),
                     sessions: Arc::new(Mutex::new(vec![])),
-                    current_chat,
-                    uuid,
+                    current_chat: options.current_chat,
+                    uuid: options.uuid,
                 })
             }
         }
