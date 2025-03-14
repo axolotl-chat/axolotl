@@ -3905,9 +3905,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/vite/-/vite-6.2.1.tgz#ae865d4bb93a11844be1bc647c8b2dd1856ea180",
-        "sha512": "9f61a7a836fa5cf865b7d07ca2564fae0303fdeb3f35dd51742845e82043fdf1d6ea9532513b76b105b67cf457e46883f5711aebef00e80e1fdaf4faa52b04ed",
-        "dest-filename": "vite-6.2.1.tgz",
+        "url": "https://registry.yarnpkg.com/vite/-/vite-6.2.2.tgz#8098b12a6bfd95abe39399aa7d5faa56545d7a1a",
+        "sha512": "c96ecf78c33e2e40f373b0a026e44b316d89cf417130eb1527c2efde0a605bd58b71bf5c4d6fb5db5504af586f99f47bc3749e811e48b6f632cd5cf5bf134981",
+        "dest-filename": "vite-6.2.2.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
