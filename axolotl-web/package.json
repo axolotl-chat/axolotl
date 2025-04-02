@@ -43,7 +43,7 @@
     "webrtc-adapter": "^9.0.1"
   },
   "devDependencies": {
-    "@eslint/compat": "^1.2.7",
+    "@eslint/compat": "^1.2.8",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vue/compiler-sfc": "^3.5.13",
     "@vue/eslint-config-airbnb": "^8.0.0",
