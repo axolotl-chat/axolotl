@@ -1826,9 +1826,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/eslint-plugin-prettier/-/eslint-plugin-prettier-5.2.5.tgz#0ff00b16f4c80ccdafd6a24a263effba1700087e",
-        "sha512": "20a28ff11f3ba49c8c97b5966a62e03e4968075e9d6a03c875dd858c10dbc9160f2a8f77c12fcd6c238f87a807fa278d2c2f9766b849b7f9168f43d2fc315d9a",
-        "dest-filename": "eslint-plugin-prettier-5.2.5.tgz",
+        "url": "https://registry.yarnpkg.com/eslint-plugin-prettier/-/eslint-plugin-prettier-5.2.6.tgz#be39e3bb23bb3eeb7e7df0927cdb46e4d7945096",
+        "sha512": "99471fed01b64e393b1f4e79264d251818db8039dfaefaa385787db76c4b3120a3655730f516f557ab153573b4b61de381e3bbce59563d33518a5dc95bde139d",
+        "dest-filename": "eslint-plugin-prettier-5.2.6.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
@@ -3709,9 +3709,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/synckit/-/synckit-0.10.3.tgz#940aea2c7b6d141a4f74dbdebc81e0958c331a4b",
-        "sha512": "475babbeeca24da59f782820a84be90c9c0094355db13f4d33e20ffff4e4db1eea1c2912bc193f7f0160c3f4cb007cd996b0279daccc711c34643f0795815311",
-        "dest-filename": "synckit-0.10.3.tgz",
+        "url": "https://registry.yarnpkg.com/synckit/-/synckit-0.11.1.tgz#8ea44544e9d9c0540963c6bddb8f14616fef5425",
+        "sha512": "7d666a34164d345a7fee64d4cb57d2b327612ac00a27ebbdd0d93b90e2b919cabdbce6daa8b04b8d6143064c9553d56f73a63bd556ce7af32e1a1aafd366d3f9",
+        "dest-filename": "synckit-0.11.1.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
