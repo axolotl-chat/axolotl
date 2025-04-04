@@ -27,7 +27,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.8",
     "@jmd01/mic-recorder-to-mp3": "^2.2.3",
     "@popperjs/core": "^2.11.8",
-    "bootstrap": "^5.3.3",
+    "bootstrap": "^5.3.4",
     "core-js": "^3.41.0",
     "file-saver": "^2.0.5",
     "linkify-html": "^4.2.0",
