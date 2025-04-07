@@ -1079,10 +1079,10 @@ boolbase@^1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==
 
-bootstrap@^5.3.4:
-  version "5.3.4"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-5.3.4.tgz#d4d9b670a0322ca60ba57ebcbd67778b61c2642c"
-  integrity sha512-q2oK3ZPDTa5I44FTyY3H76+SDTJREvOBxtX1HNLHcxMni50jMvUtOh+dgFdgpsAHtJ9bfNAWr6d6VezJHJ/7tg==
+bootstrap@^5.3.5:
+  version "5.3.5"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-5.3.5.tgz#be42cfe0d580e97ee1abb7d38ce94f5c393c9bb6"
+  integrity sha512-ct1CHKtiobRimyGzmsSldEtM03E8fcEX4Tb3dGXz1V8faRwM50+vfHwTzOxB3IlKO7m+9vTH3s/3C6T2EAPeTA==
 
 brace-expansion@^1.1.7:
   version "1.1.11"
