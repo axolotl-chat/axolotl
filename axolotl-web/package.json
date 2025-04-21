@@ -40,7 +40,7 @@
     "vue3-gettext": "^4.0.0-alpha.8",
     "vue3-tel-input": "^1.0.4",
     "vuex": "^4.1.0",
-    "webrtc-adapter": "^9.0.1"
+    "webrtc-adapter": "^9.0.3"
   },
   "devDependencies": {
     "@eslint/compat": "^1.2.8",

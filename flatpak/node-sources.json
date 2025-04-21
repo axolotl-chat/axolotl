@@ -3961,9 +3961,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-9.0.1.tgz#d4efa22ca9604cb2c8cdb9e492815ba37acfa0b2",
-        "sha512": "d4040ef9de0495f5525f2ccd55339ec20193fed0289b0c33b57ffa7b7b68b6fcb2cd73ef5c822e5148c09b26466ca04a6d93976aeb89a28666de0e88b85ba235",
-        "dest-filename": "webrtc-adapter-9.0.1.tgz",
+        "url": "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-9.0.3.tgz#b446ed7cd72129d00c652dd7b9a5716d9ffdd87d",
+        "sha512": "e5f00b05cae8225df539e5c075dd58527b71899975787959656ccd837538167f89f7f7062f7793f34625aec586be3da88eecf5ad9af63979200b3231019eef45",
+        "dest-filename": "webrtc-adapter-9.0.3.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
