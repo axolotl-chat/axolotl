@@ -3933,9 +3933,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/vue-router/-/vue-router-4.5.0.tgz#58fc5fe374e10b6018f910328f756c3dae081f14",
-        "sha512": "1c3ba4f8fb87e66a277cdb98f9cb78f6636690244ae3124057d4ece33f5415ce2bcdd0e7c502f208c18673ca4a8598474d5cdf6a7a4dc01fe5c2a7af701c08e3",
-        "dest-filename": "vue-router-4.5.0.tgz",
+        "url": "https://registry.yarnpkg.com/vue-router/-/vue-router-4.5.1.tgz#47bffe2d3a5479d2886a9a244547a853aa0abf69",
+        "sha512": "a20005dcff7b34f9bc7c9b04e1bcbd770498b43c17218d67158f53e83c909c61ddd44d836bde30f492289697b8d8b246225d03c0e1c18bc4dc44f94f1b06d3b7",
+        "dest-filename": "vue-router-4.5.1.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
