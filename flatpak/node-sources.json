@@ -342,9 +342,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@eslint/compat/-/compat-1.2.8.tgz#6baa38061ca8850199bf5a322afab34537ba3621",
-        "sha512": "2ea0981dd58bfd0a8a209b99fee70c02ff1de25b8a1ace2808f829b7c996ced400b4fac77d7290fd701473c96308701f2429fa4af9294dc1ade53b21f2c6a8c0",
-        "dest-filename": "@eslint-compat-1.2.8.tgz",
+        "url": "https://registry.yarnpkg.com/@eslint/compat/-/compat-1.2.9.tgz#1a234508c30660fdf10dd7bed2d37cc86c8d8f53",
+        "sha512": "802752639e27ee4f9dae209a77230dbfc2523f360b78354cfe291946dbed44e06945d152912f16f40f3632ab1a63b959bb02f4c226a9803d0d4f5c53d21c89b0",
+        "dest-filename": "@eslint-compat-1.2.9.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
