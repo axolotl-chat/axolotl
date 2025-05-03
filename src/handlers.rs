@@ -2,7 +2,7 @@ mod registration;
 
 use crate::error::ApplicationError;
 use crate::handlers::registration::Registration;
-use crate::manager_thread::ManagerThread;
+use crate::manager_thread::{ManagerThread, ManagerThreadOptions};
 use crate::messages::send_message;
 use crate::requests::{
     AxolotlConfig, AxolotlMessage, AxolotlRequest, AxolotlResponse,
@@ -109,16 +109,16 @@ impl Handler {
                 }
             };
             tokio::task::spawn_local(async move {
-                let manager = ManagerThread::new(
-                    config_store.clone(),
-                    "axolotl".to_string(),
-                    provisioning_link_tx,
-                    error_tx,
-                    send_content,
-                    current_chat_mutex,
-                    send_error,
-                    registration_credentials.service_ids.aci,
-                )
+                let manager = ManagerThread::new(ManagerThreadOptions {
+                    config_store: config_store.clone(),
+                    device_name: "axolotl".to_string(),
+                    link_callback: provisioning_link_tx,
+                    error_callback: error_tx,
+                    content: send_content,
+                    current_chat: current_chat_mutex,
+                    error: send_error,
+                    uuid: registration_credentials.service_ids.aci,
+                })
                 .await;
                 log::info!(
                     "Handler: ManagerThread started, ready to receive messages from the client."
@@ -576,16 +576,16 @@ impl Handler {
         log::debug!("Creating runtime");
         tokio::task::spawn_local(async move {
             log::debug!("Spawning manager thread");
-            ManagerThread::new(
-                config_store.clone(),
-                "axolotl".to_string(),
-                provisioning_link_tx,
-                error_tx,
-                send_content,
-                current_chat_mutex,
-                send_error,
-                Uuid::parse_str("00000000-0000-0000-0000-000000000000").unwrap(),
-            )
+            ManagerThread::new(ManagerThreadOptions {
+                config_store: config_store.clone(),
+                device_name: "axolotl".to_string(),
+                link_callback: provisioning_link_tx,
+                error_callback: error_tx,
+                content: send_content,
+                current_chat: current_chat_mutex,
+                error: send_error,
+                uuid: Uuid::parse_str("00000000-0000-0000-0000-000000000000").unwrap(),
+            })
             .await;
             log::info!("provision linking: ManagerThread started, ready to receive messages from the client.");
         });
@@ -1724,11 +1724,7 @@ impl Handler {
         manager: &ManagerThread,
     ) -> Result<(), ApplicationError> {
         // Skip any non-Text messages...
-        let msg = if let Ok(s) = message.to_str() {
-            s
-        } else {
-            "Invalid message"
-        };
+        let msg = message.to_str().unwrap_or("Invalid message");
 
         // Check the type of request
         if let Ok::<AxolotlRequest, SerdeError>(axolotl_request) = serde_json::from_str(msg) {
