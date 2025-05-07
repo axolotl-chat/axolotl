@@ -30,7 +30,7 @@
     "bootstrap": "^5.3.6",
     "core-js": "^3.42.0",
     "file-saver": "^2.0.5",
-    "linkify-html": "^4.2.0",
+    "linkify-html": "^4.3.0",
     "linkifyjs": "^4.2.0",
     "moment": "^2.30.1",
     "qrcode": "1.5.4",
