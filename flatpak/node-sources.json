@@ -2995,9 +2995,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/linkify-html/-/linkify-html-4.3.0.tgz#734ad5d883428b3004826d539bd3bd42bc39975e",
-        "sha512": "4662f76a784085f6512d83ca57b2abb69da8a316155cf38d1e9c086996e76b5584fb43610dc84ffa5bfb0ea49f35226208742e616459f2da1372e37229f7912c",
-        "dest-filename": "linkify-html-4.3.0.tgz",
+        "url": "https://registry.yarnpkg.com/linkify-html/-/linkify-html-4.3.1.tgz#6226a2205d96eb6a3b0c59571a2b02936c6386f3",
+        "sha512": "e99372b9cc3b7c7f4d72ed7bb3e86f1c5076b14e9f2d6a30a87e8caa45f1b552f690a9219eb868fc33021377d6a2f9b354f8164851af83accb916f955ab56be3",
+        "dest-filename": "linkify-html-4.3.1.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
