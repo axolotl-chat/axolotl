@@ -832,9 +832,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@vitejs/plugin-vue/-/plugin-vue-5.2.3.tgz#71a8fc82d4d2e425af304c35bf389506f674d89b",
-        "sha512": "21848b1108f82e0659ba8569752502c37748ca74d64203e56913fa880bcc95ee0ccb41dd630af9839c1001fc0e787401998c0492a17bd274694a296be8fa140e",
-        "dest-filename": "@vitejs-plugin-vue-5.2.3.tgz",
+        "url": "https://registry.yarnpkg.com/@vitejs/plugin-vue/-/plugin-vue-5.2.4.tgz#9e8a512eb174bfc2a333ba959bbf9de428d89ad8",
+        "sha512": "ed8c7f49748e710ab91e2895de8adebc75059fea66301e1c81b1240d882791459bd167de43fc1adb216fe83e480a2090395a6303bbd80d7ac2ec018ef328c31c",
+        "dest-filename": "@vitejs-plugin-vue-5.2.4.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
