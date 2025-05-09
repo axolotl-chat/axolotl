@@ -1896,9 +1896,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-10.1.3.tgz#b53b626e5fae39aa2a442a929488c35acec53c96",
-        "sha512": "bc3a3877dc9013e712dad7484f8274d87ff5eaf791be41e088b0d1a5e8fe58bebba027db39bf7b8ad6579fcc0c3c9fc6b22101563ae3b3ffc054dc360a9d4470",
-        "dest-filename": "eslint-config-prettier-10.1.3.tgz",
+        "url": "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-10.1.5.tgz#00c18d7225043b6fbce6a665697377998d453782",
+        "sha512": "cdcd54982a4d96d995637e2fb8b455eb5af52b6eec5ae5f7f44faec949d8f314b605ec7cf1557d72e806f9465b452446b46c856e88fe0fc24e0f299ed6994ca7",
+        "dest-filename": "eslint-config-prettier-10.1.5.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
