@@ -1434,9 +1434,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/core-js/-/core-js-3.42.0.tgz#edbe91f78ac8cfb6df8d997e74d368a68082fe37",
-        "sha512": "4b3e0f3f8640f91ab8208db5aa436a3840d30eb0af700348777c69220077e0d0e459cdd476e5a3d9da84b4df72648abc0e4dc7c8f237df1f6caaa5390bcb2bd2",
-        "dest-filename": "core-js-3.42.0.tgz",
+        "url": "https://registry.yarnpkg.com/core-js/-/core-js-3.43.0.tgz#f7258b156523208167df35dea0cfd6b6ecd4ee88",
+        "sha512": "37ac046d34d9498398dab6009fce42baf5969022ba43078c9fbff836bdf0fa00c1781864ff1e0425e63a14fa384330e8259c554eff14ec232f81693aa4e1c7a8",
+        "dest-filename": "core-js-3.43.0.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
