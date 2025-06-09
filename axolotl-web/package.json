@@ -28,7 +28,7 @@
     "@jmd01/mic-recorder-to-mp3": "^2.2.3",
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.6",
-    "core-js": "^3.42.0",
+    "core-js": "^3.43.0",
     "file-saver": "^2.0.5",
     "linkify-html": "^4.3.0",
     "linkifyjs": "^4.3.1",
