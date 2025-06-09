@@ -61,7 +61,7 @@
     "prettier": "^3.5.3",
     "sass": "^1.89.1",
     "vite": "^6.3.5",
-    "vitest": "^3.2.2"
+    "vitest": "^3.2.3"
   },
   "browserslist": [
     "> 1%",
