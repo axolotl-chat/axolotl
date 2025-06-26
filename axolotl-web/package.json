@@ -48,7 +48,7 @@
     "@vue/compiler-sfc": "^3.5.15",
     "@vue/eslint-config-airbnb": "^8.0.0",
     "@vue/test-utils": "^2.4.6",
-    "browserslist": "^4.25.0",
+    "browserslist": "^4.25.1",
     "chai": "^5.2.0",
     "depcheck": "^1.4.7",
     "eslint": "^9.29.0",
