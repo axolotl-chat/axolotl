@@ -664,6 +664,13 @@
     },
     {
         "type": "file",
+        "url": "https://registry.yarnpkg.com/@rolldown/pluginutils/-/pluginutils-1.0.0-beta.19.tgz#fc3b95145a8e7a3bf92754269d8e4f40eea8a244",
+        "sha512": "dc52f79a731b3eed26b8638268a0218451189aabfd7937cf48944998036b0b0b602bc56ec69b190c62be9b42d8006a323bcfb48f9b917b83dec8f0cad7203f84",
+        "dest-filename": "@rolldown-pluginutils-1.0.0-beta.19.tgz",
+        "dest": "flatpak-node/yarn-mirror"
+    },
+    {
+        "type": "file",
         "url": "https://registry.yarnpkg.com/@rollup/rollup-android-arm-eabi/-/rollup-android-arm-eabi-4.40.1.tgz#e1562d360bca73c7bef6feef86098de3a2f1d442",
         "sha512": "931cf461e782ad1507cf7cf2aaf77b9fe4d54653724e27c1b269e634fb64de1414454c86f5e001faeb33e830306a032eb23c7fcdbdc08ef0d4be11460c07b11b",
         "dest-filename": "@rollup-rollup-android-arm-eabi-4.40.1.tgz",
@@ -860,9 +867,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/@vitejs/plugin-vue/-/plugin-vue-5.2.4.tgz#9e8a512eb174bfc2a333ba959bbf9de428d89ad8",
-        "sha512": "ed8c7f49748e710ab91e2895de8adebc75059fea66301e1c81b1240d882791459bd167de43fc1adb216fe83e480a2090395a6303bbd80d7ac2ec018ef328c31c",
-        "dest-filename": "@vitejs-plugin-vue-5.2.4.tgz",
+        "url": "https://registry.yarnpkg.com/@vitejs/plugin-vue/-/plugin-vue-6.0.0.tgz#3f8c3cdeb709d9646770eebead1babe6409bf059",
+        "sha512": "88096213bd96b1d863cd33a9d83b6f29386ad55042e11121c1171a03eccf000a61e88f8e421517bfe5eed8a4bb125c58b5bed973fdd1df41f0bf50f1128ecd5d",
+        "dest-filename": "@vitejs-plugin-vue-6.0.0.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
