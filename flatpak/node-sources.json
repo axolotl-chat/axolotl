@@ -3618,9 +3618,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/prettier/-/prettier-3.5.3.tgz#4fc2ce0d657e7a02e602549f053b239cb7dfe1b5",
-        "sha512": "410b5ac67a0325e0240ef0ca5822e2c085e44e0461c180c440282153d67aab4de2c9e93faf1461ff6942dc707b3fcb164f6c42ff2e490dcb4f2c1206cc729b87",
-        "dest-filename": "prettier-3.5.3.tgz",
+        "url": "https://registry.yarnpkg.com/prettier/-/prettier-3.6.1.tgz#cc3bce21c09a477b1e987b76ce9663925d86ae44",
+        "sha512": "e7119645af744a9dbec75750b4da48a5e390a530c1b3d7190e603faacdaf0cd3768b5f0f75aa6a63b0a605ec8b94cb86a9725120e3da09a5594cb350456507fc",
+        "dest-filename": "prettier-3.6.1.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
