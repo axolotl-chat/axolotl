@@ -24,9 +24,9 @@ fn dump_registration(thedb: sled::Db) {
         if let Ok(kv) = kvr {
             let key = std::str::from_utf8(&kv.0);
             let value = std::str::from_utf8(&kv.1);
-            println!("{:?} : {:?}\n", key, value);
+            println!("{key:?} : {value:?}\n");
         } else {
-            println!("{:?}\n", kvr);
+            println!("{kvr:?}\n");
         }
     }
 }
@@ -36,9 +36,9 @@ fn dump_sessions(thedb: sled::Db) {
         if let Ok(kv) = kvr {
             let key = std::str::from_utf8(&kv.0);
             let value = std::str::from_utf8(&kv.1);
-            println!("{:?} : {:?}\n", key, value);
+            println!("{key:?} : {value:?}\n");
         } else {
-            println!("{:?}\n", kvr);
+            println!("{kvr:?}\n");
         }
     }
 }
@@ -49,9 +49,9 @@ fn dump_groups(thedb: sled::Db) {
         if let Ok(kv) = kvr {
             let key = std::str::from_utf8(&kv.0);
             let value = std::str::from_utf8(&kv.1);
-            println!("{:?} : {:?}\n", key, value);
+            println!("{key:?} : {value:?}\n");
         } else {
-            println!("{:?}\n", kvr);
+            println!("{kvr:?}\n");
         }
     }
 }
@@ -62,9 +62,9 @@ fn dump_contacts(thedb: sled::Db) {
         if let Ok(kv) = kvr {
             let key = std::str::from_utf8(&kv.0);
             let value = std::str::from_utf8(&kv.1);
-            println!("{:?} : {:?}\n", key, value);
+            println!("{key:?} : {value:?}\n");
         } else {
-            println!("{:?}\n", kvr);
+            println!("{kvr:?}\n");
         }
     }
 }
