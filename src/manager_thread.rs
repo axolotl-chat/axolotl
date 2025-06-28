@@ -187,7 +187,7 @@ impl ManagerThread {
                     Some(e) => e,
                     None => PresageError::NotYetRegisteredError,
                 };
-                log::info!("Got error: {}", e);
+                log::info!("Got error: {e}");
                 options
                     .error_callback
                     .send(e)
@@ -337,7 +337,7 @@ impl ManagerThread {
                 Ok(axolotl_sessions.into_iter())
             }
             Ok(Err(e)) => {
-                log::error!("Loading coversations failed: {}", e);
+                log::error!("Loading coversations failed: {e}");
                 Err(ApplicationError::ManagerThreadPanic)
             }
             Err(_) => Err(ApplicationError::ManagerThreadPanic),
@@ -508,7 +508,7 @@ async fn setup_manager(
                 Ok(manager)
             }
             Err(e) => {
-                log::error!("Failed to register: {}", e);
+                log::error!("Failed to register: {e}");
                 Err(Error::NotYetRegisteredError)
             }
         }
@@ -570,13 +570,13 @@ async fn command_loop(
                                                         continue;
                                                     },
                                                     Err(e) => {
-                                                        log::error!("Failed to get thread metadata: {}", e);
+                                                        log::error!("Failed to get thread metadata: {e}");
                                                         continue;
                                                     }
                                                 }
                                             },
                                             Err(e) => {
-                                                log::error!("Failed to get thread metadata: {}", e);
+                                                log::error!("Failed to get thread metadata: {e}");
                                                 continue;
                                             }
                                         };
@@ -595,7 +595,7 @@ async fn command_loop(
                                             match manager.store().clone().save_thread_metadata(thread_metadata.clone()){
                                                 Ok(_) => {},
                                                 Err(e) => {
-                                                    log::error!("Failed to save thread metadata: {}", e);
+                                                    log::error!("Failed to save thread metadata: {e}");
                                                 }
                                             }
 
@@ -629,7 +629,7 @@ async fn command_loop(
                                                         handlers::save_attachment(&attachment, &identifier);
                                                     },
                                                     Err(e) => {
-                                                        log::error!("Failed to download attachment: {}", e);
+                                                        log::error!("Failed to download attachment: {e}");
                                                     }
                                                 }
                                             }
@@ -673,7 +673,7 @@ async fn command_loop(
                                                                handlers::save_attachment(&attachment, &cdnid.to_string());
                                                            },
                                                            Err(e) => {
-                                                               log::error!("Failed to download attachment: {}", e);
+                                                               log::error!("Failed to download attachment: {e}");
                                                            }
                                                        }
                                                    }
@@ -705,13 +705,13 @@ async fn command_loop(
                                                                         continue;
                                                                     },
                                                                     Err(e) => {
-                                                                        log::error!("Failed to get thread metadata: {}", e);
+                                                                        log::error!("Failed to get thread metadata: {e}");
                                                                         continue;
                                                                     }
                                                                 }
                                                             },
                                                             Err(e) => {
-                                                                log::error!("Failed to get thread metadata: {}", e);
+                                                                log::error!("Failed to get thread metadata: {e}");
                                                                 continue;
                                                             }
                                                         };
@@ -757,7 +757,7 @@ async fn command_loop(
                 }
             }
             Err(e) => {
-                log::info!("Got error receiving: {}, {:?}", e, e);
+                log::info!("Got error receiving: {e}, {e:?}");
                 let e = e.into();
                 // Don't send no-internet errors, Axolotl is able to handle them automatically.
                 // TODO: Think about maybe handling if the application is not in the background?
@@ -917,7 +917,7 @@ async fn handle_command(manager: &mut Manager<SledStore, Registered>, command: C
             .send(match manager.store().thread_metadatas() {
                 Ok(m) => Ok(m.filter_map(|r| r.ok()).collect()),
                 Err(e) => {
-                    log::error!("Failed to get thread metadatas: {}", e);
+                    log::error!("Failed to get thread metadatas: {e}");
                     return;
                 }
             })

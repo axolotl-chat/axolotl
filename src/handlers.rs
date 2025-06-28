@@ -88,7 +88,7 @@ impl Handler {
         let config_store = match Handler::get_config_store().await {
             Ok(c) => c,
             Err(e) => {
-                log::error!("Error getting config store: {}", e);
+                log::error!("Error getting config store: {e}");
                 return Err(ApplicationError::RegistrationError(
                     "Error getting config store".to_string(),
                 ));
@@ -160,7 +160,7 @@ impl Handler {
             match self.run_manager(websocket).await {
                 Ok(_) => log::info!("Manager finished"),
                 Err(e) => {
-                    log::error!("Error starting the manager: {}", e);
+                    log::error!("Error starting the manager: {e}");
                 }
             }
         }
@@ -173,7 +173,7 @@ impl Handler {
             Some(path) => match path.into_os_string().into_string() {
                 Ok(path) => path,
                 Err(e) => {
-                    log::error!("Error getting config path: {:?}", e);
+                    log::error!("Error getting config path: {e:?}");
                     exit(0);
                 }
             },
@@ -193,10 +193,7 @@ impl Handler {
         ) {
             Ok(store) => store,
             Err(e) => {
-                log::info!(
-                    "Failed to open the database: {}, retry with tmp database",
-                    e
-                );
+                log::info!("Failed to open the database: {e}, retry with tmp database");
                 let db_path = format!("{config_path}/axolotl.nanuc/tmp");
                 match SledStore::open_with_passphrase(
                     db_path,
@@ -206,7 +203,7 @@ impl Handler {
                 ) {
                     Ok(store) => store,
                     Err(e) => {
-                        log::info!("Failed to open the database: {}", e);
+                        log::info!("Failed to open the database: {e}");
                         exit(0);
                     }
                 }
@@ -226,9 +223,9 @@ impl Handler {
         self.sender = Some(shared_sender.clone());
         self.receiver = Some(Arc::new(Mutex::new(receiver)));
         loop {
-            log::debug!("Starting the manager loop: {:?}", count);
+            log::debug!("Starting the manager loop: {count:?}");
             if count == 5 || self.sender.is_none() {
-                log::error!("Too many errors, exiting or sender is none {:?}", count);
+                log::error!("Too many errors, exiting or sender is none {count:?}");
                 // Exit this loop
                 exit(0);
             }
@@ -255,10 +252,7 @@ impl Handler {
                 log::debug!("Manager is none, creating {:?}", self.receive_error);
                 // todo for errors
                 if let Some(error_opt) = self.receive_error.recv().await {
-                    log::error!(
-                        "Got error after starting manager command loop+: {}",
-                        error_opt
-                    );
+                    log::error!("Got error after starting manager command loop+: {error_opt}");
                     if error_opt
                         .to_string()
                         .contains("Temporary failure in name resolution")
@@ -314,7 +308,7 @@ impl Handler {
                     }
                 }
                 Err(e) => {
-                    log::error!("Error getting message: {}", e);
+                    log::error!("Error getting message: {e}");
                     self.registration = Registration::Unregistered;
                     return Ok(false);
                 }
@@ -341,7 +335,7 @@ impl Handler {
         if let Ok::<AxolotlRequest, SerdeError>(axolotl_request) = serde_json::from_str(text) {
             // Axolotl request
             let request_type: &str = axolotl_request.request.as_str();
-            log::info!("Axolotl registration request: {}", request_type);
+            log::info!("Axolotl registration request: {request_type}");
             let success = match request_type {
                 "primaryDevice" => self.start_primary_device_registration().await,
                 "registerSecondaryDevice" => self.handle_secondary_device_registration().await?,
@@ -373,7 +367,7 @@ impl Handler {
 
             return Ok(success);
         }
-        log::info!("Got text message: {}", text);
+        log::info!("Got text message: {text}");
 
         Ok(true)
     }
@@ -426,7 +420,7 @@ impl Handler {
             while let Ok(e) = error_reciever.try_recv() {
                 match e {
                     Some(u) => {
-                        log::error!("Error registering secondary device: {}", u);
+                        log::error!("Error registering secondary device: {u}");
                     }
                     None => {
                         tokio::time::sleep(time::Duration::from_secs(1)).await;
@@ -441,7 +435,7 @@ impl Handler {
                         break;
                     }
                     Err(e) => {
-                        log::debug!("Error checking registration: {}", e);
+                        log::debug!("Error checking registration: {e}");
                     }
                 }
             }
@@ -449,7 +443,7 @@ impl Handler {
         self.send_registration_confirmation().await;
         log::debug!("Registration confirmation sent and done, now sleeping");
         if let Some(error_opt) = self.receive_error.recv().await {
-            log::error!("Got error after linking device2: {}", error_opt);
+            log::error!("Got error after linking device2: {error_opt}");
         }
 
         Ok(true)
@@ -463,7 +457,7 @@ impl Handler {
             Some(data) => match phonenumber::parse(None, data) {
                 Ok(phone_number) => Some(phone_number),
                 Err(e) => {
-                    log::error!("Error parsing phone number: {}", e);
+                    log::error!("Error parsing phone number: {e}");
                     None
                 }
             },
@@ -479,7 +473,7 @@ impl Handler {
         log::debug!("Got phone number: {phone_number}");
         self.get_phone_pin().await;
         if let Err(e) = self.request_verification_code().await {
-            log::error!("Error getting verification code: {}", e);
+            log::error!("Error getting verification code: {e}");
             self.get_phone_number().await;
             return Ok(false);
         };
@@ -510,7 +504,7 @@ impl Handler {
             log::info!("Going to send verification code: {code}");
             let result = self.send_verification_code(manager, &code).await;
             if let Err(e) = result {
-                log::error!("Error sending code to registration manager: {}", e);
+                log::error!("Error sending code to registration manager: {e}");
                 Ok(false)
             } else {
                 log::info!("Registration confirmation code sent.");
@@ -530,7 +524,7 @@ impl Handler {
         let config_store = match Handler::get_config_store().await {
             Ok(c) => c,
             Err(e) => {
-                log::error!("Error getting config store: {}", e);
+                log::error!("Error getting config store: {e}");
                 return Err(ApplicationError::RegistrationError(
                     "Error getting config store".to_string(),
                 ));
@@ -552,7 +546,7 @@ impl Handler {
         let config_store = match Handler::get_config_store().await {
             Ok(c) => c,
             Err(e) => {
-                log::error!("Error getting config store: {}", e);
+                log::error!("Error getting config store: {e}");
                 return Err(ApplicationError::RegistrationError(
                     "Error getting config store".to_string(),
                 ));
@@ -622,7 +616,7 @@ impl Handler {
         match ws_sender.send(Message::text(qr_code)).await {
             Ok(_) => (),
             Err(e) => {
-                log::error!("Error sending provisioning link to client: {}", e);
+                log::error!("Error sending provisioning link to client: {e}");
             }
         }
     }
@@ -647,7 +641,7 @@ impl Handler {
         let config_store = match Handler::get_config_store().await {
             Ok(c) => c,
             Err(e) => {
-                log::error!("Error getting config store: {}", e);
+                log::error!("Error getting config store: {e}");
                 return Err(ApplicationError::RegistrationError(
                     "Error getting config store".to_string(),
                 ));
@@ -673,7 +667,7 @@ impl Handler {
         {
             Ok(m) => m,
             Err(e) => {
-                log::error!("Error requesting pin: {}", e);
+                log::error!("Error requesting pin: {e}");
                 return Err(ApplicationError::RegistrationError(
                     "Error requesting pin".to_string(),
                 ));
@@ -697,7 +691,7 @@ impl Handler {
                 Ok(())
             }
             Err(e) => {
-                log::error!("Error confirming pin: {}", e);
+                log::error!("Error confirming pin: {e}");
                 Err(ApplicationError::RegistrationError(
                     "Error confirming pin".to_string(),
                 ))
@@ -720,10 +714,7 @@ impl Handler {
         match ws_sender.send(Message::text(message)).await {
             Ok(_) => (),
             Err(e) => {
-                log::error!(
-                    "get_phone_number: Error sending phone number request to client: {}",
-                    e
-                );
+                log::error!("get_phone_number: Error sending phone number request to client: {e}");
             }
         }
         std::mem::drop(ws_sender);
@@ -735,7 +726,7 @@ impl Handler {
         match ws_sender.send(Message::text(message)).await {
             Ok(_) => (),
             Err(e) => {
-                log::error!("Error sending pin request to client: {}", e);
+                log::error!("Error sending pin request to client: {e}");
             }
         }
         std::mem::drop(ws_sender);
@@ -747,7 +738,7 @@ impl Handler {
         match ws_sender.send(Message::text(qr_code)).await {
             Ok(_) => (),
             Err(e) => {
-                log::error!("Error sending registration status done to client: {}", e);
+                log::error!("Error sending registration status done to client: {e}");
             }
         }
         std::mem::drop(ws_sender);
@@ -763,10 +754,7 @@ impl Handler {
         self.send_registration_confirmation().await;
 
         while let Some(body) = receiver.next().await {
-            log::debug!(
-                "Got message from axolotl: {:?}, awaitng manager thread lock",
-                body
-            );
+            log::debug!("Got message from axolotl: {body:?}, awaitng manager thread lock");
             let Some(manager) = self.manager_thread.get() else {
                 log::error!("Manager not initialized");
                 return;
@@ -788,13 +776,13 @@ impl Handler {
             };
             log::debug!("Got sender lock");
 
-            log::debug!("Got websocket message from axolotl-web: {:?}", message);
+            log::debug!("Got websocket message from axolotl-web: {message:?}");
             match self
                 .handle_websocket_message(message, sender, manager)
                 .await
             {
                 Ok(_) => (),
-                Err(e) => log::error!("Error handling message: {}", e),
+                Err(e) => log::error!("Error handling message: {e}"),
             };
         }
     }
@@ -805,7 +793,7 @@ impl Handler {
             self.provisioning_link = rx.await.ok();
 
             if let Some(url) = &self.provisioning_link {
-                log::debug!("Got provisioning link: {:?}", url);
+                log::debug!("Got provisioning link: {url:?}");
             } else {
                 log::error!("Error getting provisioning link");
             }
@@ -831,7 +819,7 @@ impl Handler {
         {
             Ok(_) => log::info!("Sent registration start message to client"),
             Err(e) => {
-                log::error!("Error sending registration start message: {}", e)
+                log::error!("Error sending registration start message: {e}")
             }
         };
         Ok(())
@@ -865,7 +853,7 @@ impl Handler {
         let profile = match manager.retrieve_profile_by_uuid(uuid, profile_key).await {
             Ok(p) => p,
             Err(e) => {
-                log::error!("Error getting profile: {}", e);
+                log::error!("Error getting profile: {e}");
                 return Err(ApplicationError::from(e));
             }
         };
@@ -902,14 +890,14 @@ impl Handler {
                 }
             },
             Err(e) => {
-                log::error!("Error getting metadata: {}", e);
+                log::error!("Error getting metadata: {e}");
             }
         }
 
         match manager.get_contact_by_id(uuid).await {
             Ok(c) => Ok(c),
             Err(e) => {
-                log::error!("Error getting contact: {}", e);
+                log::error!("Error getting contact: {e}");
                 Err(ApplicationError::from(e))
             }
         }
@@ -947,7 +935,7 @@ impl Handler {
                         }
                     },
                     Err(e) => {
-                        log::error!("Error getting contact: {}", e);
+                        log::error!("Error getting contact: {e}");
                         return Err(ApplicationError::from(e));
                     }
                 };
@@ -997,7 +985,7 @@ impl Handler {
             match receive.recv().await {
                 Some(content) => {
                     let timestamp = content.metadata.timestamp;
-                    log::debug!("Got message from receiver: {:?}", timestamp);
+                    log::debug!("Got message from receiver: {timestamp:?}");
                     let thread = Thread::try_from(&content).unwrap();
                     let mut axolotl_message = AxolotlMessage::from_message(content);
                     axolotl_message.thread_id = Some(thread);
@@ -1010,13 +998,13 @@ impl Handler {
                     let response = serde_json::to_string(&response).unwrap();
 
                     let mut ws_sender = sender.lock().await;
-                    log::debug!("Sending message to client: {:?}", timestamp);
+                    log::debug!("Sending message to client: {timestamp:?}");
                     match ws_sender.send(Message::text(response)).await {
                         Ok(_) => {
-                            log::debug!("Message sent to client {:?}", timestamp)
+                            log::debug!("Message sent to client {timestamp:?}")
                         }
                         Err(e) => {
-                            log::error!("Error sending message to client: {}", e);
+                            log::error!("Error sending message to client: {e}");
                         }
                     }
                     std::mem::drop(ws_sender);
@@ -1058,10 +1046,7 @@ impl Handler {
         match manager.update_contacts_from_profile().await {
             Ok(_) => (),
             Err(e) => {
-                log::error!(
-                    "handle_get_contacts: Error updating contacts from profile: {}",
-                    e
-                );
+                log::error!("handle_get_contacts: Error updating contacts from profile: {e}");
             }
         }
         let contacts = manager.get_contacts().await.unwrap();
@@ -1082,7 +1067,7 @@ impl Handler {
         match manager.request_contacts_sync().await {
             Ok(_) => (),
             Err(e) => {
-                log::error!("Error syncing contacts: {}", e);
+                log::error!("Error syncing contacts: {e}");
             }
         };
         Ok(Some(AxolotlResponse {
@@ -1099,7 +1084,7 @@ impl Handler {
         let conversations = match manager.get_conversations().await {
             Ok(c) => c,
             Err(e) => {
-                log::error!("Error getting conversations: {}", e);
+                log::error!("Error getting conversations: {e}");
                 return Err(e);
             }
         };
@@ -1119,7 +1104,7 @@ impl Handler {
             .to_string()
             .replace(&['{', '}', '\"', '[', ']', ' '][..], "");
         let thread = thread.split(':').collect::<Vec<&str>>();
-        log::debug!("Thread: {:?}", thread);
+        log::debug!("Thread: {thread:?}");
         let thread = match thread[0] {
             "Contact" => Thread::Contact(Uuid::parse_str(thread[1]).unwrap()),
             "Group" => {
@@ -1155,7 +1140,7 @@ impl Handler {
                 {
                     Ok(d) => d,
                     Err(e) => {
-                        log::error!("Error while reading data URL. {:?}", e);
+                        log::error!("Error while reading data URL. {e:?}");
                         return Err(ApplicationError::InvalidRequest);
                     }
                 };
@@ -1214,7 +1199,7 @@ impl Handler {
                         }
                     }
                     Err(e) => {
-                        log::error!("Error while uploading attachment. {:?}", e);
+                        log::error!("Error while uploading attachment. {e:?}");
                         return Ok(Some(AxolotlResponse {
                             response_type: "attachment_not_sent".to_string(),
                             data: "{\"success: false\"}".to_string(),
@@ -1224,7 +1209,7 @@ impl Handler {
                 Ok(None)
             }
             Err(e) => {
-                log::error!("Error while parsing the attachment request. {:?}", e);
+                log::error!("Error while parsing the attachment request. {e:?}");
                 Err(ApplicationError::InvalidRequest)
             }
         }
@@ -1294,7 +1279,7 @@ impl Handler {
                         }
                     }
                     Err(e) => {
-                        log::error!("Error while uploading attachment. {:?}", e);
+                        log::error!("Error while uploading attachment. {e:?}");
                         return Ok(Some(AxolotlResponse {
                             response_type: "attachment_not_sent".to_string(),
                             data: "{\"success: false\"}".to_string(),
@@ -1304,7 +1289,7 @@ impl Handler {
                 Ok(None)
             }
             Err(e) => {
-                log::error!("Error while parsing the attachment request. {:?}", e);
+                log::error!("Error while parsing the attachment request. {e:?}");
                 Err(ApplicationError::InvalidRequest)
             }
         }
@@ -1335,8 +1320,7 @@ impl Handler {
                         Ok(_) => (),
                         Err(e) => {
                             log::error!(
-                                "handle_get_message_list: Error updating contact name: {}",
-                                e
+                                "handle_get_message_list: Error updating contact name: {e}"
                             );
                         }
                     }
@@ -1358,7 +1342,7 @@ impl Handler {
                                 _ = match self.update_contact_name(contact).await {
                                     Ok(c) => c.unwrap(),
                                     Err(e) => {
-                                        log::error!("Error updating contact name: {}", e);
+                                        log::error!("Error updating contact name: {e}");
                                         return Err(ApplicationError::InvalidRequest);
                                     }
                                 };
@@ -1381,7 +1365,7 @@ impl Handler {
                     None => match manager.update_contacts_from_profile().await {
                         Ok(_) => (),
                         Err(e) => {
-                            log::error!("handle_get_message_list_2: Error updating contacts from profile: {}", e);
+                            log::error!("handle_get_message_list_2: Error updating contacts from profile: {e}");
                         }
                     },
                 }
@@ -1402,7 +1386,7 @@ impl Handler {
                 match message {
                     Ok(m) => axolotl_messages.push(AxolotlMessage::from_message(m)),
                     Err(e) => {
-                        log::error!("Error getting message: {}", e);
+                        log::error!("Error getting message: {e}");
                         log::debug!("ignoring error");
                         // Err(ApplicationError::InvalidRequest)?;
                     }
@@ -1417,7 +1401,7 @@ impl Handler {
             };
             Ok(Some(response))
         } else {
-            log::debug!("Invalid request: {}", data);
+            log::debug!("Invalid request: {data}");
             Err(ApplicationError::InvalidRequest)
         }
     }
@@ -1444,7 +1428,7 @@ impl Handler {
                     Err(_) => return Err(ApplicationError::InvalidRequest),
                 };
                 let uuid = Uuid::parse_str(&profile_request.id).unwrap();
-                log::debug!("Getting profile for: {}", uuid.to_string());
+                log::debug!("Getting profile for: {uuid}");
                 let contact = manager.get_contact_by_id(uuid).await.unwrap();
                 let mut profile = match contact {
                     Some(p) => p,
@@ -1460,7 +1444,7 @@ impl Handler {
                     profile = match self.update_contact_name(profile).await {
                         Ok(c) => c.unwrap(),
                         Err(e) => {
-                            log::error!("Error updating contact name: {}", e);
+                            log::error!("Error updating contact name: {e}");
                             return Err(ApplicationError::InvalidRequest);
                         }
                     }
@@ -1558,7 +1542,7 @@ impl Handler {
                 Ok(Some(response))
             }
             Err(e) => {
-                log::error!("Error while parsing the request. {:?}", e);
+                log::error!("Error while parsing the request. {e:?}");
                 Err(ApplicationError::InvalidRequest)
             }
         }
@@ -1587,7 +1571,7 @@ impl Handler {
         let mut response_data = thread_metadata.unwrap();
         if let Thread::Contact(uuid) = response_data.thread {
             if response_data.title.is_none() || response_data.title.clone().unwrap().len() == 36 {
-                log::debug!("Updating contact from profile {:?}", uuid);
+                log::debug!("Updating contact from profile {uuid:?}");
                 let contact = match manager.get_contact_by_id(uuid).await.unwrap() {
                     Some(c) => c,
                     None => {
@@ -1602,7 +1586,7 @@ impl Handler {
                         response_data = manager.thread_metadata(&thread).await.unwrap().unwrap();
                     }
                     Err(e) => {
-                        log::error!("Error updating contact name: {}", e);
+                        log::error!("Error updating contact name: {e}");
                     }
                 }
             }
@@ -1712,7 +1696,7 @@ impl Handler {
             };
             Ok(Some(response))
         } else {
-            log::debug!("Invalid request: {}", data);
+            log::debug!("Invalid request: {data}");
             Err(ApplicationError::InvalidRequest)
         }
     }
@@ -1780,20 +1764,20 @@ impl Handler {
                     {
                         Ok(_) => {}
                         Err(e) => {
-                            log::error!("Error while sending response. {:?}", e);
+                            log::error!("Error while sending response. {e:?}");
                         }
                     };
                     std::mem::drop(unlocked_sender);
                 }
                 Ok(None) => {} //drop the message
                 Err(e) => {
-                    log::error!("Error while handling request. {:?}", e);
+                    log::error!("Error while handling request. {e:?}");
                 }
             }
             std::mem::drop(mutex_sender);
         } else {
             // Error or unhandled request
-            log::error!("Unhandled request {}", msg);
+            log::error!("Unhandled request {msg}");
             std::mem::drop(mutex_sender);
         }
         Ok(())
@@ -1832,7 +1816,7 @@ pub fn save_attachment(file_content: &[u8], file_name: &str) {
 
     let file_written = file.write_all(file_content);
     if let Err(e) = file_written {
-        log::error!("Error while saving attachment. {:?}", e)
+        log::error!("Error while saving attachment. {e:?}")
     }
 }
 
@@ -1844,7 +1828,7 @@ pub fn get_app_dir() -> String {
         .into_os_string()
         .into_string()
         .unwrap();
-    format!("{}/axolotl.nanuc", config_path)
+    format!("{config_path}/axolotl.nanuc")
 }
 
 fn read_a_file(file_path: String) -> std::io::Result<Vec<u8>> {

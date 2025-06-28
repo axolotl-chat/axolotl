@@ -94,7 +94,7 @@ pub async fn send_message_to_group(
     let mut manager = match Manager::load_registered(config_store).await {
         Ok(m) => m,
         Err(e) => {
-            println!("Error while loading the manager: {:?}", e);
+            println!("Error while loading the manager: {e:?}");
             return;
         }
     };
@@ -137,7 +137,7 @@ pub async fn send_message_to_group(
             }
         },
         Err(e) => {
-            println!("Group not found: {:?}", e);
+            println!("Group not found: {e:?}");
         }
     }
 }
