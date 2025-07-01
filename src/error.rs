@@ -47,8 +47,7 @@ impl std::fmt::Display for ApplicationError {
             ),
             ApplicationError::Presage(e) => writeln!(
                 f,
-                "presage error: : {}",
-                e
+                "presage error: : {e}"
             ),
             ApplicationError::WebSocketError => writeln!(
                 f,
@@ -56,13 +55,11 @@ impl std::fmt::Display for ApplicationError {
             ),
             ApplicationError::WebSocketHandleMessageError(e) => writeln!(
                 f,
-                "Couldn't handle websocket message.: {}",
-                e
+                "Couldn't handle websocket message.: {e}"
             ),
             ApplicationError::RegistrationError(e) => writeln!(
                 f,
-                "Registration failed.: {}",
-                e
+                "Registration failed.: {e}"
             ),
             ApplicationError::InvalidRequest=> writeln!(
                 f,
@@ -131,19 +128,19 @@ impl ApplicationError {
             ApplicationError::UnauthorizedSignal => {
                 "Please delete the database and relink the device.".to_string()
             }
-            ApplicationError::SendFailed(e) => format!("{:#?}", e),
-            ApplicationError::ReceiveFailed(e) => format!("{:#?}", e),
-            ApplicationError::Presage(e) => format!("{:#?}", e),
+            ApplicationError::SendFailed(e) => format!("{e:#?}"),
+            ApplicationError::ReceiveFailed(e) => format!("{e:#?}"),
+            ApplicationError::Presage(e) => format!("{e:#?}"),
             ApplicationError::ManagerThreadPanic => {
                 "Please restart the application with logging and report this issue.".to_string()
             }
             ApplicationError::WebSocketError => {
                 "Please restart the application with logging and report this issue.".to_string()
             }
-            ApplicationError::WebSocketHandleMessageError(e) => format!("{:#?}", e),
-            ApplicationError::RegistrationError(e) => format!("{:#?}", e),
+            ApplicationError::WebSocketHandleMessageError(e) => format!("{e:#?}"),
+            ApplicationError::RegistrationError(e) => format!("{e:#?}"),
             ApplicationError::InvalidRequest => "Invalid request.".to_string(),
-            ApplicationError::SledStore(e) => format!("{:#?}", e),
+            ApplicationError::SledStore(e) => format!("{e:#?}"),
             ApplicationError::RegistrationSuccesful => "Registration succesful.".to_string(),
         }
     }

@@ -97,6 +97,17 @@ impl std::fmt::Debug for Command {
     }
 }
 
+pub struct ManagerThreadOptions {
+    pub config_store: presage_store_sled::SledStore,
+    pub device_name: String,
+    pub link_callback: futures::channel::oneshot::Sender<url::Url>,
+    pub error_callback: futures::channel::oneshot::Sender<PresageError>,
+    pub content: mpsc::UnboundedSender<Content>,
+    pub current_chat: Arc<Mutex<Option<Thread>>>,
+    pub error: mpsc::Sender<ApplicationError>,
+    pub uuid: Uuid,
+}
+
 pub struct ManagerThread {
     command_sender: mpsc::Sender<Command>,
     contacts: Arc<Mutex<Vec<Contact>>>,
@@ -157,31 +168,30 @@ impl Clone for ManagerThread {
 }
 
 impl ManagerThread {
-    pub async fn new(
-        config_store: presage_store_sled::SledStore,
-        device_name: String,
-        link_callback: futures::channel::oneshot::Sender<url::Url>,
-        error_callback: futures::channel::oneshot::Sender<PresageError>,
-        content: mpsc::UnboundedSender<Content>,
-        current_chat: Arc<Mutex<Option<Thread>>>,
-        error: mpsc::Sender<ApplicationError>,
-        uuid: Uuid,
-    ) -> Option<Self> {
+    pub async fn new(options: ManagerThreadOptions) -> Option<Self> {
         let (sender, receiver) = mpsc::channel(MESSAGE_BOUND);
         tokio::task::spawn_local(async move {
-            let setup = setup_manager(config_store.clone(), device_name, link_callback).await;
+            let setup = setup_manager(
+                options.config_store.clone(),
+                options.device_name,
+                options.link_callback,
+            )
+            .await;
             log::debug!("manager thread started, setup finished");
             if let Ok(manager) = setup {
                 log::info!("Starting command loop");
-                command_loop(manager, receiver, content, error).await;
+                command_loop(manager, receiver, options.content, options.error).await;
                 log::debug!("Finished starting command loop");
             } else {
                 let e = match setup.err() {
                     Some(e) => e,
                     None => PresageError::NotYetRegisteredError,
                 };
-                log::info!("Got error: {}", e);
-                error_callback.send(e).expect("Failed to send error");
+                log::info!("Got error: {e}");
+                options
+                    .error_callback
+                    .send(e)
+                    .expect("Failed to send error");
             }
         });
         log::debug!("manager thread started, get contact");
@@ -205,8 +215,8 @@ impl ManagerThread {
                     command_sender: sender,
                     contacts: Arc::new(Mutex::new(vec![])),
                     sessions: Arc::new(Mutex::new(vec![])),
-                    current_chat,
-                    uuid,
+                    current_chat: options.current_chat,
+                    uuid: options.uuid,
                 })
             }
             Ok(Ok(contacts)) => {
@@ -215,8 +225,8 @@ impl ManagerThread {
                     command_sender: sender,
                     contacts: Arc::new(Mutex::new(contacts)),
                     sessions: Arc::new(Mutex::new(vec![])),
-                    current_chat,
-                    uuid,
+                    current_chat: options.current_chat,
+                    uuid: options.uuid,
                 })
             }
         }
@@ -327,7 +337,7 @@ impl ManagerThread {
                 Ok(axolotl_sessions.into_iter())
             }
             Ok(Err(e)) => {
-                log::error!("Loading coversations failed: {}", e);
+                log::error!("Loading coversations failed: {e}");
                 Err(ApplicationError::ManagerThreadPanic)
             }
             Err(_) => Err(ApplicationError::ManagerThreadPanic),
@@ -498,7 +508,7 @@ async fn setup_manager(
                 Ok(manager)
             }
             Err(e) => {
-                log::error!("Failed to register: {}", e);
+                log::error!("Failed to register: {e}");
                 Err(Error::NotYetRegisteredError)
             }
         }
@@ -560,13 +570,13 @@ async fn command_loop(
                                                         continue;
                                                     },
                                                     Err(e) => {
-                                                        log::error!("Failed to get thread metadata: {}", e);
+                                                        log::error!("Failed to get thread metadata: {e}");
                                                         continue;
                                                     }
                                                 }
                                             },
                                             Err(e) => {
-                                                log::error!("Failed to get thread metadata: {}", e);
+                                                log::error!("Failed to get thread metadata: {e}");
                                                 continue;
                                             }
                                         };
@@ -585,7 +595,7 @@ async fn command_loop(
                                             match manager.store().clone().save_thread_metadata(thread_metadata.clone()){
                                                 Ok(_) => {},
                                                 Err(e) => {
-                                                    log::error!("Failed to save thread metadata: {}", e);
+                                                    log::error!("Failed to save thread metadata: {e}");
                                                 }
                                             }
 
@@ -619,7 +629,7 @@ async fn command_loop(
                                                         handlers::save_attachment(&attachment, &identifier);
                                                     },
                                                     Err(e) => {
-                                                        log::error!("Failed to download attachment: {}", e);
+                                                        log::error!("Failed to download attachment: {e}");
                                                     }
                                                 }
                                             }
@@ -663,7 +673,7 @@ async fn command_loop(
                                                                handlers::save_attachment(&attachment, &cdnid.to_string());
                                                            },
                                                            Err(e) => {
-                                                               log::error!("Failed to download attachment: {}", e);
+                                                               log::error!("Failed to download attachment: {e}");
                                                            }
                                                        }
                                                    }
@@ -695,13 +705,13 @@ async fn command_loop(
                                                                         continue;
                                                                     },
                                                                     Err(e) => {
-                                                                        log::error!("Failed to get thread metadata: {}", e);
+                                                                        log::error!("Failed to get thread metadata: {e}");
                                                                         continue;
                                                                     }
                                                                 }
                                                             },
                                                             Err(e) => {
-                                                                log::error!("Failed to get thread metadata: {}", e);
+                                                                log::error!("Failed to get thread metadata: {e}");
                                                                 continue;
                                                             }
                                                         };
@@ -747,7 +757,7 @@ async fn command_loop(
                 }
             }
             Err(e) => {
-                log::info!("Got error receiving: {}, {:?}", e, e);
+                log::info!("Got error receiving: {e}, {e:?}");
                 let e = e.into();
                 // Don't send no-internet errors, Axolotl is able to handle them automatically.
                 // TODO: Think about maybe handling if the application is not in the background?
@@ -907,7 +917,7 @@ async fn handle_command(manager: &mut Manager<SledStore, Registered>, command: C
             .send(match manager.store().thread_metadatas() {
                 Ok(m) => Ok(m.filter_map(|r| r.ok()).collect()),
                 Err(e) => {
-                    log::error!("Failed to get thread metadatas: {}", e);
+                    log::error!("Failed to get thread metadatas: {e}");
                     return;
                 }
             })
