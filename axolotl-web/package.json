@@ -76,7 +76,7 @@
     "url": "https://github.com/nanu-c/axolotl/issues"
   },
   "engines": {
-    "node": ">= 20.0.0"
+    "node": ">= 22.0.0"
   },
   "homepage": "https://axolotl.chat",
   "keywords": [
