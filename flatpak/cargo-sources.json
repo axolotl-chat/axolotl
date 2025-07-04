@@ -3130,6 +3130,19 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
+        "url": "https://static.crates.io/crates/io-uring/io-uring-0.7.8.crate",
+        "sha256": "b86e202f00093dcba4275d4636b93ef9dd75d025ae560d2521b45ea28ab49013",
+        "dest": "cargo/vendor/io-uring-0.7.8"
+    },
+    {
+        "type": "inline",
+        "contents": "{\"package\": \"b86e202f00093dcba4275d4636b93ef9dd75d025ae560d2521b45ea28ab49013\", \"files\": {}}",
+        "dest": "cargo/vendor/io-uring-0.7.8",
+        "dest-filename": ".cargo-checksum.json"
+    },
+    {
+        "type": "archive",
+        "archive-type": "tar-gzip",
         "url": "https://static.crates.io/crates/ipnet/ipnet-2.9.0.crate",
         "sha256": "8f518f335dce6725a761382244631d86cf0ccb2863413590b31338feb467f9c3",
         "dest": "cargo/vendor/ipnet-2.9.0"
@@ -6563,14 +6576,14 @@
     {
         "type": "archive",
         "archive-type": "tar-gzip",
-        "url": "https://static.crates.io/crates/tokio/tokio-1.45.1.crate",
-        "sha256": "75ef51a33ef1da925cea3e4eb122833cb377c61439ca401b770f54902b806779",
-        "dest": "cargo/vendor/tokio-1.45.1"
+        "url": "https://static.crates.io/crates/tokio/tokio-1.46.0.crate",
+        "sha256": "1140bb80481756a8cbe10541f37433b459c5aa1e727b4c020fbfebdc25bf3ec4",
+        "dest": "cargo/vendor/tokio-1.46.0"
     },
     {
         "type": "inline",
-        "contents": "{\"package\": \"75ef51a33ef1da925cea3e4eb122833cb377c61439ca401b770f54902b806779\", \"files\": {}}",
-        "dest": "cargo/vendor/tokio-1.45.1",
+        "contents": "{\"package\": \"1140bb80481756a8cbe10541f37433b459c5aa1e727b4c020fbfebdc25bf3ec4\", \"files\": {}}",
+        "dest": "cargo/vendor/tokio-1.46.0",
         "dest-filename": ".cargo-checksum.json"
     },
     {
